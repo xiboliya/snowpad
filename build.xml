@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project name="SnowPad" default="build" basedir=".">
+  <description>The ant project to build SnowPad.</description>
+  <property name="srcDir" location="src" description="源文件的存放目录" />
+  <property name="antDir" location="ant" description="编译后所有文件存放的根目录" />
+  <property name="binDir" location="${antDir}/bin" description="编译后class文件的存放目录" />
+  <property name="jarDir" location="${antDir}/jar" description="打包后jar包的存放目录" />
+  <property name="jarFile" location="${jarDir}/SnowPad.jar"
+    description="打包后jar包存放的完整路径" />
+  <property name="docDir" location="${antDir}/doc" description="帮助文档的存放目录" />
+  <property name="package" value="com.xiboliya.snowpad"
+    description="包名" />
+  <property name="mainClass" value="SnowPad" description="主类名" />
+  <property name="resourceFrom" location="res" description="资源文件的源目录" />
+  <property name="resourceTo" location="${binDir}/res" description="资源文件的目标目录" />
+  <target name="init" description="初始化">
+    <delete dir="${binDir}" />
+    <delete dir="${jarDir}" />
+    <mkdir dir="${binDir}" />
+    <mkdir dir="${jarDir}" />
+    <copy todir="${resourceTo}" description="复制资源文件">
+      <fileset dir="${resourceFrom}" />
+    </copy>
+  </target>
+  <target name="compile" depends="init" description="编译代码">
+    <javac srcdir="${srcDir}" destdir="${binDir}" includeAntRuntime="false" encoding="GB18030">
+      <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+  </target>
+  <target name="makeJar" depends="init,compile" description="生成jar包">
+    <jar destfile="${jarFile}" basedir="${binDir}">
+      <manifest>
+        <attribute name="Main-Class" value="${package}.${mainClass}" />
+      </manifest>
+    </jar>
+  </target>
+  <target name="build" depends="init,compile,makeJar" description="编译并打包">
+    <echo message="Ant is building the project." />
+  </target>
+  <target name="doc" description="生成api帮助文档">
+    <javadoc destdir="${docDir}" access="private" encoding="GB18030"
+      description="将所有的包括private在内的属性、方法，都输出到api帮助文档">
+      <fileset dir="${srcDir}">
+        <include name="*.java" />
+      </fileset>
+    </javadoc>
+  </target>
+  <target name="clean" description="清空编译生成的所有文件">
+    <delete dir="${antDir}" />
+  </target>
+</project>

@@ -1,0 +1,3113 @@
+package com.xiboliya.snowpad;
+
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.undo.UndoManager;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Hashtable;
+import java.util.LinkedList;
+
+/**
+ * 冰雪记事本 打造一个与Windows的“记事本”功能相同的java版本。
+ * 当然这只是最低要求，最终目标是实现一个可以同时在Windows和Linux下运行的增强型记事本。
+ * 百度空间：http://hi.baidu.com/xiboliya
+ * 
+ * @author chen
+ * 
+ */
+public class SnowPadFrame extends JFrame implements ActionListener,
+    CaretListener, UndoableEditListener, WindowFocusListener {
+  private static final long serialVersionUID = 1L; // 序列化运行时使用的一个版本号，以与当前可序列化类相关联
+  private JTextArea txaMain = new JTextArea(); // 用于编辑的文本域
+  private JMenuBar menuBar = new JMenuBar();
+  private JMenu menuFile = new JMenu("文件(F)");
+  private JMenuItem itemNew = new JMenuItem("新建(N)", 'N');
+  private JMenuItem itemOpen = new JMenuItem("打开(O)...", 'O');
+  private JMenuItem itemOpenByEncoding = new JMenuItem("以指定编码打开(E)...", 'E');
+  private JMenuItem itemReOpen = new JMenuItem("重新载入文件(L)", 'L');
+  private JMenuItem itemReName = new JMenuItem("重命名(R)...", 'R');
+  private JMenuItem itemSave = new JMenuItem("保存(S)", 'S');
+  private JMenuItem itemSaveAs = new JMenuItem("另存为(A)...", 'A');
+  private JMenuItem itemDelFile = new JMenuItem("删除当前文件(D)", 'D');
+  private JMenu menuFileHistory = new JMenu("最近编辑");
+  private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表");
+  private JMenuItem itemExit = new JMenuItem("退出(X)", 'X');
+  private JMenu menuEdit = new JMenu("编辑(E)");
+  private JMenuItem itemUnDo = new JMenuItem("撤销(U)", 'U');
+  private JMenuItem itemReDo = new JMenuItem("重做(Y)", 'Y');
+  private JMenuItem itemCut = new JMenuItem("剪切(T)", 'T');
+  private JMenuItem itemCopy = new JMenuItem("复制(C)", 'C');
+  private JMenuItem itemPaste = new JMenuItem("粘贴(P)", 'P');
+  private JMenuItem itemDel = new JMenuItem("删除(L)", 'L');
+  private JMenu menuCase = new JMenu("切换大小写");
+  private JMenuItem itemCaseUp = new JMenuItem("切换为大写");
+  private JMenuItem itemCaseLow = new JMenuItem("切换为小写");
+  private JMenu menuToClip = new JMenu("复制到剪贴板");
+  private JMenuItem itemToClipFileName = new JMenuItem("当前文件名");
+  private JMenuItem itemToClipFilePath = new JMenuItem("当前文件路径");
+  private JMenuItem itemToClipDirPath = new JMenuItem("当前目录路径");
+  private JMenuItem itemToClipCurLine = new JMenuItem("当前行");
+  private JMenuItem itemToClipAllText = new JMenuItem("所有文本");
+  private JMenu menuLine = new JMenu("操作行");
+  private JMenuItem itemLineCopy = new JMenuItem("复写当前行");
+  private JMenuItem itemLineDel = new JMenuItem("删除当前行");
+  private JMenuItem itemLineDelToStart = new JMenuItem("删除至行首");
+  private JMenuItem itemLineDelToEnd = new JMenuItem("删除至行尾");
+  private JMenuItem itemLineToUp = new JMenuItem("上移当前行");
+  private JMenuItem itemLineToDown = new JMenuItem("下移当前行");
+  private JMenu menuSort = new JMenu("排序");
+  private JMenuItem itemSortUp = new JMenuItem("升序");
+  private JMenuItem itemSortDown = new JMenuItem("降序");
+  private JMenuItem itemSelCopy = new JMenuItem("复写当前选择(W)", 'W');
+  private JMenu menuTrim = new JMenu("清除空白");
+  private JMenuItem itemTrimStart = new JMenuItem("行首");
+  private JMenuItem itemTrimEnd = new JMenuItem("行尾");
+  private JMenuItem itemTrimAll = new JMenuItem("行首+行尾");
+  private JMenuItem itemTrimSelected = new JMenuItem("选区内");
+  private JMenu menuDelNullLine = new JMenu("删除空行");
+  private JMenuItem itemDelNullLineAll = new JMenuItem("全文范围");
+  private JMenuItem itemDelNullLineSelected = new JMenuItem("选区范围");
+  private JMenuItem itemSelAll = new JMenuItem("全选(A)", 'A');
+  private JMenu menuInsert = new JMenu("插入(I)");
+  private JMenuItem itemInsertDateTime = new JMenuItem("时间/日期(D)...", 'D');
+  private JMenuItem itemInsertChar = new JMenuItem("特殊字符(S)...", 'S');
+  private JMenu menuSearch = new JMenu("搜索(S)");
+  private JMenuItem itemFind = new JMenuItem("查找(F)...", 'F');
+  private JMenuItem itemFindNext = new JMenuItem("查找下一个(N)", 'N');
+  private JMenuItem itemFindPrevious = new JMenuItem("查找上一个(P)", 'P');
+  private JMenu menuQuickFind = new JMenu("快速查找");
+  private JMenuItem itemQuickFindDown = new JMenuItem("快速向下查找");
+  private JMenuItem itemQuickFindUp = new JMenuItem("快速向上查找");
+  private JMenuItem itemReplace = new JMenuItem("替换(R)...", 'R');
+  private JMenuItem itemGoto = new JMenuItem("转到(G)...", 'G');
+  private JMenu menuStyle = new JMenu("格式(O)");
+  private JMenu menuLineWrapSet = new JMenu("换行设置(L)");
+  private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
+  private JMenu menuLineWrapStyle = new JMenu("换行方式(S)");
+  private JRadioButtonMenuItem itemLineWrapByWord = new JRadioButtonMenuItem(
+      "单词边界换行(W)");
+  private JRadioButtonMenuItem itemLineWrapByChar = new JRadioButtonMenuItem(
+      "字符边界换行(C)");
+  private JMenuItem itemFont = new JMenuItem("字体(F)...", 'F');
+  private JCheckBoxMenuItem itemTextDrag = new JCheckBoxMenuItem("文本拖拽(D)");
+  private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
+  private JMenu menuLineStyle = new JMenu("换行符格式(S)");
+  private JRadioButtonMenuItem itemLineStyleWin = new JRadioButtonMenuItem(
+      LineSeparator.WINDOWS.getName() + "格式");
+  private JRadioButtonMenuItem itemLineStyleUnix = new JRadioButtonMenuItem(
+      LineSeparator.UNIX.getName() + "格式");
+  private JRadioButtonMenuItem itemLineStyleMac = new JRadioButtonMenuItem(
+      LineSeparator.MACINTOSH.getName() + "格式");
+  private JMenu menuCharset = new JMenu("字符编码格式(C)");
+  private JRadioButtonMenuItem itemCharsetBASE = new JRadioButtonMenuItem(
+      "默认格式(" + CharEncoding.BASE.toString() + ")");
+  private JRadioButtonMenuItem itemCharsetANSI = new JRadioButtonMenuItem(
+      "ANSI格式");
+  private JRadioButtonMenuItem itemCharsetUTF8 = new JRadioButtonMenuItem(
+      "UTF-8格式");
+  private JRadioButtonMenuItem itemCharsetUTF8_NO_BOM = new JRadioButtonMenuItem(
+      "UTF-8 No BOM格式");
+  private JRadioButtonMenuItem itemCharsetULE = new JRadioButtonMenuItem(
+      "Unicode Little Endian格式");
+  private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem(
+      "Unicode Big Endian格式");
+  private JMenu menuView = new JMenu("查看(V)");
+  private JCheckBoxMenuItem itemStateBar = new JCheckBoxMenuItem("状态栏(S)");
+  private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("前端显示(A)");
+  private JCheckBoxMenuItem itemResizable = new JCheckBoxMenuItem("锁定窗口(R)");
+  private JMenu menuFontSize = new JMenu("字体缩放(F)");
+  private JMenuItem itemFontSizePlus = new JMenuItem("放大(B)", 'B');
+  private JMenuItem itemFontSizeMinus = new JMenuItem("缩小(S)", 'S');
+  private JMenuItem itemFontSizeReset = new JMenuItem("恢复初始(D)", 'D');
+  private JMenu menuColor = new JMenu("颜色设置(C)");
+  private JMenuItem itemColorFont = new JMenuItem("字体颜色(F)...", 'F');
+  private JMenuItem itemColorBack = new JMenuItem("背景颜色(B)...", 'B');
+  private JMenuItem itemColorCaret = new JMenuItem("光标颜色(C)...", 'C');
+  private JMenuItem itemColorSelFont = new JMenuItem("选区字体颜色(T)...", 'T');
+  private JMenuItem itemColorSelBack = new JMenuItem("选区背景颜色(K)...", 'K');
+  private JMenuItem itemColorAnti = new JMenuItem("全部反色(A)", 'A');
+  private JMenuItem itemColorComplementary = new JMenuItem("全部补色(R)", 'R');
+  private JMenu menuColorStyle = new JMenu("配色方案(Y)");
+  private JMenuItem itemColorStyle1 = new JMenuItem("配色方案(1)", '1');
+  private JMenuItem itemColorStyle2 = new JMenuItem("配色方案(2)", '2');
+  private JMenuItem itemColorStyle3 = new JMenuItem("配色方案(3)", '3');
+  private JMenuItem itemColorStyle4 = new JMenuItem("配色方案(4)", '4');
+  private JMenuItem itemColorStyle5 = new JMenuItem("配色方案(5)", '5');
+  private JMenuItem itemColorStyleDefault = new JMenuItem("恢复默认配色(0)", '0');
+  private JMenu menuHighlight = new JMenu("高亮显示(H)");
+  private JMenuItem itemHighlight1 = new JMenuItem("格式(1)", '1');
+  private JMenuItem itemHighlight2 = new JMenuItem("格式(2)", '2');
+  private JMenuItem itemHighlight3 = new JMenuItem("格式(3)", '3');
+  private JMenuItem itemHighlight4 = new JMenuItem("格式(4)", '4');
+  private JMenuItem itemHighlight5 = new JMenuItem("格式(5)", '5');
+  private JMenu menuRmHighlight = new JMenu("清除高亮(M)");
+  private JMenuItem itemRmHighlight1 = new JMenuItem("格式(1)", '1');
+  private JMenuItem itemRmHighlight2 = new JMenuItem("格式(2)", '2');
+  private JMenuItem itemRmHighlight3 = new JMenuItem("格式(3)", '3');
+  private JMenuItem itemRmHighlight4 = new JMenuItem("格式(4)", '4');
+  private JMenuItem itemRmHighlight5 = new JMenuItem("格式(5)", '5');
+  private JMenuItem itemRmHighlightAll = new JMenuItem("所有格式(0)", '0');
+  private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
+  private JMenu menuHelp = new JMenu("帮助(H)");
+  private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
+  private JMenuItem itemAbout = new JMenuItem("关于记事本(A)", 'A');
+  private JScrollPane srp = new JScrollPane(this.txaMain);
+  private JPopupMenu popMenu = new JPopupMenu();
+  private JMenuItem itemPopUnDo = new JMenuItem("撤销(U)", 'U');
+  private JMenuItem itemPopReDo = new JMenuItem("重做(Y)", 'Y');
+  private JMenuItem itemPopCut = new JMenuItem("剪切(T)", 'T');
+  private JMenuItem itemPopCopy = new JMenuItem("复制(C)", 'C');
+  private JMenuItem itemPopPaste = new JMenuItem("粘贴(P)", 'P');
+  private JMenuItem itemPopDel = new JMenuItem("删除(D)", 'D');
+  private JMenuItem itemPopSelAll = new JMenuItem("全选(A)", 'A');
+  private JMenu menuPopHighlight = new JMenu("高亮显示(H)");
+  private JMenuItem itemPopHighlight1 = new JMenuItem("格式(1)", '1');
+  private JMenuItem itemPopHighlight2 = new JMenuItem("格式(2)", '2');
+  private JMenuItem itemPopHighlight3 = new JMenuItem("格式(3)", '3');
+  private JMenuItem itemPopHighlight4 = new JMenuItem("格式(4)", '4');
+  private JMenuItem itemPopHighlight5 = new JMenuItem("格式(5)", '5');
+  private JMenu menuPopRmHighlight = new JMenu("清除高亮(M)");
+  private JMenuItem itemPopRmHighlight1 = new JMenuItem("格式(1)", '1');
+  private JMenuItem itemPopRmHighlight2 = new JMenuItem("格式(2)", '2');
+  private JMenuItem itemPopRmHighlight3 = new JMenuItem("格式(3)", '3');
+  private JMenuItem itemPopRmHighlight4 = new JMenuItem("格式(4)", '4');
+  private JMenuItem itemPopRmHighlight5 = new JMenuItem("格式(5)", '5');
+  private JMenuItem itemPopRmHighlightAll = new JMenuItem("所有格式(0)", '0');
+
+  private JFileChooser fcrOpen = new OpenFileChooser(); // "打开"文件选择器
+  private JFileChooser fcrSave = new SaveFileChooser(); // "保存"文件选择器
+  private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // 标题栏字符串
+  private StatePanel pnlState = new StatePanel(4); // 状态栏面板
+  private boolean isNew = true; // 文件是否已保存，如果未保存则为true
+  private boolean isTextChanged = false; // 文本内容是否已修改，如果已修改则为true
+  private boolean isStyleChanged = false; // 文本格式是否已修改，如果已修改则为true
+  private boolean fileExistsLabel = false; // 当文件删除或移动后，用于标识是否已弹出过提示框
+  private LineSeparator lineSeparator = LineSeparator.DEFAULT; // 当前的换行符格式
+  private CharEncoding encoding = CharEncoding.BASE; // 当前的字符编码
+  private UndoManager undoManager = new UndoManager(); // 撤销管理器
+  private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
+  private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
+  private FontChooser fontChooser = null; // 字体对话框
+  private FindReplaceDialog findReplaceDialog = null; // 查找、替换对话框
+  private GotoDialog gotoDialog = null; // 转到对话框
+  private AboutDialog aboutDialog = null; // 关于对话框
+  private TabSetDialog tabSetDialog = null; // Tab字符设置对话框
+  private InsertCharDialog insertCharDialog = null; // 插入字符对话框
+  private InsertDateDialog insertDateDialog = null; // 插入时间/日期对话框
+  private FileEncodingDialog fileEncodingDialog = null; // 文件编码格式对话框
+  private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
+  private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // 用于存放换行方式的按钮组
+  private ButtonGroup bgpLineStyle = new ButtonGroup(); // 用于存放换行符格式的按钮组
+  private ButtonGroup bgpCharset = new ButtonGroup(); // 用于存放字符编码格式的按钮组
+  private KeyAdapter autoIndentKeyAdapter = null; // 用于自动缩进的键盘适配器
+  private KeyAdapter tabReplaceKeyAdapter = null; // 用于设置以空格代替Tab键的键盘适配器
+  private boolean isReplaceBySpace = true; // 以空格代替Tab键
+  private File file = null; // 当前编辑的文件
+  private ImageIcon icon = null; // 本程序图标
+  private final Color colorFont = this.txaMain.getForeground(); // 文本域默认字体颜色
+  private final Color colorBack = this.txaMain.getBackground(); // 文本域默认背景颜色
+  private final Color colorCaret = this.txaMain.getCaretColor(); // 文本域默认光标颜色
+  private final Color colorSelFont = this.txaMain.getSelectedTextColor(); // 文本域默认选区字体颜色
+  private final Color colorSelBack = this.txaMain.getSelectionColor(); // 文本域默认选区背景颜色
+  private Highlighter highlighter = this.txaMain.getHighlighter(); // 文本域的高亮显示对象
+  private LinkedList<PartnerBean> highlighterList = new LinkedList<PartnerBean>(); // 存放文本域中所有高亮对象的链表
+
+  /**
+   * 构造方法 用于初始化界面和设置
+   */
+  public SnowPadFrame() {
+    this.setTitle(this.stbTitle.toString());
+    this.setSize(600, 500);
+    this.setLocationRelativeTo(null); // 使窗口居中显示
+    this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // 设置默认关闭操作为空，以便添加窗口监听事件
+    this.init();
+    this.setIcon();
+    this.setVisible(true);
+  }
+
+  /**
+   * 带参数的构造方法，用于在程序启动的同时打开文件
+   * 
+   * @param strFile
+   *          表示文件路径的字符串。可以是绝对路径，如：E:\file\test.txt。也可以是相对路径，如：../test.txt。
+   */
+  public SnowPadFrame(String strFile) {
+    this();
+    if (strFile != null && !strFile.isEmpty()) {
+      File file = new File(strFile);
+      if (file.exists()) {
+        this.toOpenFile(file, true);
+        this.setAfterOpenFile();
+        this.setFileNameAndPath(file);
+      }
+    }
+  }
+
+  /**
+   * 设置自定义的窗口图标
+   */
+  private void setIcon() {
+    try {
+      this.icon = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif"));
+      this.setIconImage(icon.getImage());
+    } catch (Exception x) {
+      x.printStackTrace();
+    }
+  }
+
+  /**
+   * 初始化界面和添加监听器
+   */
+  private void init() {
+    this.addMenuItem();
+    this.addTextArea();
+    this.addStatePanel();
+    this.addPopMenu();
+    this.setMenuMnemonic();
+    this.setMenuDefault();
+    this.setMenuDefaultInit();
+    this.addListeners();
+    this.addFileFilter();
+    this.undoManager.setLimit(-1); // 设置此撤销管理器保持的最大编辑数，小于0的值表示编辑数不受限制，默认值为100。
+  }
+
+  /**
+   * 添加各组件的事件监听器
+   */
+  private void addListeners() {
+    this.txaMain.addCaretListener(this);
+    this.txaMain.getDocument().addUndoableEditListener(this);
+    this.itemAbout.addActionListener(this);
+    this.itemCopy.addActionListener(this);
+    this.itemCut.addActionListener(this);
+    this.itemInsertChar.addActionListener(this);
+    this.itemInsertDateTime.addActionListener(this);
+    this.itemDel.addActionListener(this);
+    this.itemCaseUp.addActionListener(this);
+    this.itemCaseLow.addActionListener(this);
+    this.itemQuickFindDown.addActionListener(this);
+    this.itemQuickFindUp.addActionListener(this);
+    this.itemExit.addActionListener(this);
+    this.itemFind.addActionListener(this);
+    this.itemFindNext.addActionListener(this);
+    this.itemFindPrevious.addActionListener(this);
+    this.itemFont.addActionListener(this);
+    this.itemGoto.addActionListener(this);
+    this.itemToClipFileName.addActionListener(this);
+    this.itemToClipFilePath.addActionListener(this);
+    this.itemToClipDirPath.addActionListener(this);
+    this.itemToClipCurLine.addActionListener(this);
+    this.itemToClipAllText.addActionListener(this);
+    this.itemLineCopy.addActionListener(this);
+    this.itemLineDel.addActionListener(this);
+    this.itemLineDelToStart.addActionListener(this);
+    this.itemLineDelToEnd.addActionListener(this);
+    this.itemLineToUp.addActionListener(this);
+    this.itemLineToDown.addActionListener(this);
+    this.itemSortUp.addActionListener(this);
+    this.itemSortDown.addActionListener(this);
+    this.itemSelCopy.addActionListener(this);
+    this.itemTrimStart.addActionListener(this);
+    this.itemTrimEnd.addActionListener(this);
+    this.itemTrimAll.addActionListener(this);
+    this.itemTrimSelected.addActionListener(this);
+    this.itemDelNullLineAll.addActionListener(this);
+    this.itemDelNullLineSelected.addActionListener(this);
+    this.itemHelp.addActionListener(this);
+    this.itemLineWrap.addActionListener(this);
+    this.itemLineWrapByWord.addActionListener(this);
+    this.itemLineWrapByChar.addActionListener(this);
+    this.itemLineStyleWin.addActionListener(this);
+    this.itemLineStyleUnix.addActionListener(this);
+    this.itemLineStyleMac.addActionListener(this);
+    this.itemCharsetBASE.addActionListener(this);
+    this.itemCharsetANSI.addActionListener(this);
+    this.itemCharsetUTF8.addActionListener(this);
+    this.itemCharsetUTF8_NO_BOM.addActionListener(this);
+    this.itemCharsetULE.addActionListener(this);
+    this.itemCharsetUBE.addActionListener(this);
+    this.itemTextDrag.addActionListener(this);
+    this.itemAutoIndent.addActionListener(this);
+    this.itemAlwaysOnTop.addActionListener(this);
+    this.itemResizable.addActionListener(this);
+    this.itemFontSizePlus.addActionListener(this);
+    this.itemFontSizeMinus.addActionListener(this);
+    this.itemFontSizeReset.addActionListener(this);
+    this.itemColorFont.addActionListener(this);
+    this.itemColorBack.addActionListener(this);
+    this.itemColorCaret.addActionListener(this);
+    this.itemColorSelFont.addActionListener(this);
+    this.itemColorSelBack.addActionListener(this);
+    this.itemColorAnti.addActionListener(this);
+    this.itemColorComplementary.addActionListener(this);
+    this.itemColorStyle1.addActionListener(this);
+    this.itemColorStyle2.addActionListener(this);
+    this.itemColorStyle3.addActionListener(this);
+    this.itemColorStyle4.addActionListener(this);
+    this.itemColorStyle5.addActionListener(this);
+    this.itemColorStyleDefault.addActionListener(this);
+    this.itemHighlight1.addActionListener(this);
+    this.itemHighlight2.addActionListener(this);
+    this.itemHighlight3.addActionListener(this);
+    this.itemHighlight4.addActionListener(this);
+    this.itemHighlight5.addActionListener(this);
+    this.itemRmHighlight1.addActionListener(this);
+    this.itemRmHighlight2.addActionListener(this);
+    this.itemRmHighlight3.addActionListener(this);
+    this.itemRmHighlight4.addActionListener(this);
+    this.itemRmHighlight5.addActionListener(this);
+    this.itemRmHighlightAll.addActionListener(this);
+    this.itemTabSet.addActionListener(this);
+    this.itemNew.addActionListener(this);
+    this.itemOpen.addActionListener(this);
+    this.itemOpenByEncoding.addActionListener(this);
+    this.itemReOpen.addActionListener(this);
+    this.itemReName.addActionListener(this);
+    this.itemPaste.addActionListener(this);
+    this.itemPopCopy.addActionListener(this);
+    this.itemPopCut.addActionListener(this);
+    this.itemPopDel.addActionListener(this);
+    this.itemPopPaste.addActionListener(this);
+    this.itemPopSelAll.addActionListener(this);
+    this.itemPopUnDo.addActionListener(this);
+    this.itemPopReDo.addActionListener(this);
+    this.itemPopHighlight1.addActionListener(this);
+    this.itemPopHighlight2.addActionListener(this);
+    this.itemPopHighlight3.addActionListener(this);
+    this.itemPopHighlight4.addActionListener(this);
+    this.itemPopHighlight5.addActionListener(this);
+    this.itemPopRmHighlight1.addActionListener(this);
+    this.itemPopRmHighlight2.addActionListener(this);
+    this.itemPopRmHighlight3.addActionListener(this);
+    this.itemPopRmHighlight4.addActionListener(this);
+    this.itemPopRmHighlight5.addActionListener(this);
+    this.itemPopRmHighlightAll.addActionListener(this);
+    this.itemReplace.addActionListener(this);
+    this.itemSave.addActionListener(this);
+    this.itemSaveAs.addActionListener(this);
+    this.itemDelFile.addActionListener(this);
+    this.itemClearFileHistory.addActionListener(this);
+    this.itemSelAll.addActionListener(this);
+    this.itemStateBar.addActionListener(this);
+    this.itemReDo.addActionListener(this);
+    this.itemUnDo.addActionListener(this);
+    // 为窗口添加事件监听器
+    this.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        exit();
+      }
+    });
+    // 为窗口添加焦点监听器
+    this.addWindowFocusListener(this);
+    // 为文本域添加鼠标事件监听器
+    this.txaMain.addMouseListener(new MouseAdapter() {
+      public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
+          popMenu.show(txaMain, e.getX(), e.getY());
+        }
+      }
+    });
+    // 屏蔽JTextArea组件的默认热键：Ctrl+C、Ctrl+H、Ctrl+V、Ctrl+X
+    InputMap inputMap = this.txaMain.getInputMap();
+    inputMap.put(
+        KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK),
+        "CTRL_C");
+    inputMap.put(
+        KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK),
+        "CTRL_H");
+    inputMap.put(
+        KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK),
+        "CTRL_V");
+    inputMap.put(
+        KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK),
+        "CTRL_X");
+    // 初始化用于自动缩进的键盘适配器
+    this.autoIndentKeyAdapter = new KeyAdapter() {
+      public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+          toAutoIndent();
+        }
+      }
+    };
+    // 初始化用于设置以空格代替Tab键的键盘适配器
+    this.tabReplaceKeyAdapter = new KeyAdapter() {
+      public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_TAB) {
+          toTabReplace();
+        }
+      }
+    };
+  }
+
+  /**
+   * 主面板上添加文本域
+   */
+  private void addTextArea() {
+    this.getContentPane().add(this.srp, BorderLayout.CENTER); // 为使文本域有滚动条，必须在主面板上添加
+    this.txaMain.setTabSize(Util.DEFAULT_TABSIZE); // 为了美观，适当调整"Tab"字符占用的空格（默认占用8个空格）
+    this.txaMain.setFont(Util.TEXT_FONT);
+  }
+
+  /**
+   * 主面板上添加状态栏
+   */
+  private void addStatePanel() {
+    String strStateChars = Util.STATE_CHARS + "0";
+    String strStateLines = Util.STATE_LINES + "1";
+    String strStateCurLn = Util.STATE_CUR_LINE + "1";
+    String strStateCurCol = Util.STATE_CUR_COLUMN + "1";
+    String strStateCurSel = Util.STATE_CUR_SELECT + "0";
+    String strStateLineStyle = Util.STATE_LINE_STYLE;
+    String strStateEncoding = Util.STATE_ENCODING;
+    this.pnlState.setStringByIndex(0, strStateChars + ", " + strStateLines,
+        StatePanelAlignment.X_CENTER);
+    this.pnlState.setStringByIndex(1, strStateCurLn + ", " + strStateCurCol
+        + ", " + strStateCurSel);
+    this.pnlState.setStringByIndex(2, strStateLineStyle);
+    this.pnlState.setStringByIndex(3, strStateEncoding);
+    this.getContentPane().add(this.pnlState, BorderLayout.SOUTH);
+  }
+
+  /**
+   * 主面板上添加菜单栏
+   */
+  private void addMenuItem() {
+    this.setJMenuBar(this.menuBar);
+    this.menuBar.add(this.menuFile);
+    this.menuFile.add(this.itemNew);
+    this.menuFile.add(this.itemOpen);
+    this.menuFile.add(this.itemOpenByEncoding);
+    this.menuFile.add(this.itemReOpen);
+    this.menuFile.add(this.itemReName);
+    this.menuFile.add(this.itemSave);
+    this.menuFile.add(this.itemSaveAs);
+    this.menuFile.addSeparator();
+    this.menuFile.add(this.itemDelFile);
+    this.menuFile.add(this.menuFileHistory);
+    this.menuFile.add(this.itemClearFileHistory);
+    this.menuFile.addSeparator();
+    this.menuFile.add(this.itemExit);
+    this.menuBar.add(this.menuEdit);
+    this.menuEdit.add(this.itemUnDo);
+    this.menuEdit.add(this.itemReDo);
+    this.menuEdit.addSeparator();
+    this.menuEdit.add(this.itemCut);
+    this.menuEdit.add(this.itemCopy);
+    this.menuEdit.add(this.itemPaste);
+    this.menuEdit.add(this.itemSelAll);
+    this.menuEdit.add(this.itemDel);
+    this.menuEdit.addSeparator();
+    this.menuEdit.add(this.menuCase);
+    this.menuCase.add(this.itemCaseUp);
+    this.menuCase.add(this.itemCaseLow);
+    this.menuEdit.add(this.menuToClip);
+    this.menuToClip.add(this.itemToClipFileName);
+    this.menuToClip.add(this.itemToClipFilePath);
+    this.menuToClip.add(this.itemToClipDirPath);
+    this.menuToClip.addSeparator();
+    this.menuToClip.add(this.itemToClipCurLine);
+    this.menuToClip.add(this.itemToClipAllText);
+    this.menuEdit.add(this.menuLine);
+    this.menuLine.add(this.itemLineCopy);
+    this.menuLine.add(this.itemLineDel);
+    this.menuLine.addSeparator();
+    this.menuLine.add(this.itemLineDelToStart);
+    this.menuLine.add(this.itemLineDelToEnd);
+    this.menuLine.addSeparator();
+    this.menuLine.add(this.itemLineToUp);
+    this.menuLine.add(this.itemLineToDown);
+    this.menuEdit.add(this.menuSort);
+    this.menuSort.add(this.itemSortUp);
+    this.menuSort.add(this.itemSortDown);
+    this.menuEdit.add(this.itemSelCopy);
+    this.menuEdit.add(this.menuTrim);
+    this.menuTrim.add(this.itemTrimStart);
+    this.menuTrim.add(this.itemTrimEnd);
+    this.menuTrim.add(this.itemTrimAll);
+    this.menuTrim.addSeparator();
+    this.menuTrim.add(this.itemTrimSelected);
+    this.menuEdit.add(this.menuDelNullLine);
+    this.menuDelNullLine.add(this.itemDelNullLineAll);
+    this.menuDelNullLine.add(this.itemDelNullLineSelected);
+    this.menuEdit.addSeparator();
+    this.menuEdit.add(this.menuInsert);
+    this.menuInsert.add(this.itemInsertChar);
+    this.menuInsert.add(this.itemInsertDateTime);
+    this.menuBar.add(this.menuSearch);
+    this.menuSearch.add(this.itemFind);
+    this.menuSearch.add(this.itemFindNext);
+    this.menuSearch.add(this.itemFindPrevious);
+    this.menuSearch.add(this.menuQuickFind);
+    this.menuQuickFind.add(this.itemQuickFindDown);
+    this.menuQuickFind.add(this.itemQuickFindUp);
+    this.menuSearch.add(this.itemReplace);
+    this.menuSearch.add(this.itemGoto);
+    this.menuBar.add(this.menuStyle);
+    this.menuStyle.add(this.menuLineWrapSet);
+    this.menuLineWrapSet.add(this.itemLineWrap);
+    this.menuLineWrapSet.add(this.menuLineWrapStyle);
+    this.menuLineWrapStyle.add(this.itemLineWrapByWord);
+    this.menuLineWrapStyle.add(this.itemLineWrapByChar);
+    this.menuStyle.add(this.menuLineStyle);
+    this.menuLineStyle.add(this.itemLineStyleWin);
+    this.menuLineStyle.add(this.itemLineStyleUnix);
+    this.menuLineStyle.add(this.itemLineStyleMac);
+    this.menuStyle.add(this.menuCharset);
+    this.menuCharset.add(this.itemCharsetBASE);
+    this.menuCharset.addSeparator();
+    this.menuCharset.add(this.itemCharsetANSI);
+    this.menuCharset.add(this.itemCharsetUTF8);
+    this.menuCharset.add(this.itemCharsetUTF8_NO_BOM);
+    this.menuCharset.add(this.itemCharsetULE);
+    this.menuCharset.add(this.itemCharsetUBE);
+    this.menuStyle.add(this.itemFont);
+    this.menuStyle.add(this.itemTextDrag);
+    this.menuStyle.add(this.itemAutoIndent);
+    this.menuBar.add(this.menuView);
+    this.menuView.add(this.itemStateBar);
+    this.menuView.add(this.itemAlwaysOnTop);
+    this.menuView.add(this.itemResizable);
+    this.menuView.addSeparator();
+    this.menuView.add(this.menuFontSize);
+    this.menuFontSize.add(this.itemFontSizePlus);
+    this.menuFontSize.add(this.itemFontSizeMinus);
+    this.menuFontSize.add(this.itemFontSizeReset);
+    this.menuView.add(this.menuColor);
+    this.menuColor.add(this.itemColorFont);
+    this.menuColor.add(this.itemColorBack);
+    this.menuColor.add(this.itemColorCaret);
+    this.menuColor.add(this.itemColorSelFont);
+    this.menuColor.add(this.itemColorSelBack);
+    this.menuColor.addSeparator();
+    this.menuColor.add(this.itemColorAnti);
+    this.menuColor.add(this.itemColorComplementary);
+    this.menuView.add(this.menuColorStyle);
+    this.menuColorStyle.add(this.itemColorStyle1);
+    this.menuColorStyle.add(this.itemColorStyle2);
+    this.menuColorStyle.add(this.itemColorStyle3);
+    this.menuColorStyle.add(this.itemColorStyle4);
+    this.menuColorStyle.add(this.itemColorStyle5);
+    this.menuColorStyle.addSeparator();
+    this.menuColorStyle.add(this.itemColorStyleDefault);
+    this.menuView.add(this.menuHighlight);
+    this.menuHighlight.add(this.itemHighlight1);
+    this.menuHighlight.add(this.itemHighlight2);
+    this.menuHighlight.add(this.itemHighlight3);
+    this.menuHighlight.add(this.itemHighlight4);
+    this.menuHighlight.add(this.itemHighlight5);
+    this.menuView.add(this.menuRmHighlight);
+    this.menuRmHighlight.add(this.itemRmHighlight1);
+    this.menuRmHighlight.add(this.itemRmHighlight2);
+    this.menuRmHighlight.add(this.itemRmHighlight3);
+    this.menuRmHighlight.add(this.itemRmHighlight4);
+    this.menuRmHighlight.add(this.itemRmHighlight5);
+    this.menuRmHighlight.addSeparator();
+    this.menuRmHighlight.add(this.itemRmHighlightAll);
+    this.menuView.add(this.itemTabSet);
+    this.menuBar.add(this.menuHelp);
+    this.menuHelp.add(this.itemHelp);
+    this.menuHelp.addSeparator();
+    this.menuHelp.add(this.itemAbout);
+    this.bgpLineWrapStyle.add(this.itemLineWrapByWord);
+    this.bgpLineWrapStyle.add(this.itemLineWrapByChar);
+    this.bgpLineStyle.add(this.itemLineStyleWin);
+    this.bgpLineStyle.add(this.itemLineStyleUnix);
+    this.bgpLineStyle.add(this.itemLineStyleMac);
+    this.bgpCharset.add(this.itemCharsetBASE);
+    this.bgpCharset.add(this.itemCharsetANSI);
+    this.bgpCharset.add(this.itemCharsetUTF8);
+    this.bgpCharset.add(this.itemCharsetUTF8_NO_BOM);
+    this.bgpCharset.add(this.itemCharsetULE);
+    this.bgpCharset.add(this.itemCharsetUBE);
+  }
+
+  /**
+   * 初始化快捷菜单
+   */
+  private void addPopMenu() {
+    this.popMenu.add(this.itemPopUnDo);
+    this.popMenu.add(this.itemPopReDo);
+    this.popMenu.addSeparator();
+    this.popMenu.add(this.itemPopCut);
+    this.popMenu.add(this.itemPopCopy);
+    this.popMenu.add(this.itemPopPaste);
+    this.popMenu.add(this.itemPopDel);
+    this.popMenu.add(this.itemPopSelAll);
+    this.popMenu.addSeparator();
+    this.popMenu.add(this.menuPopHighlight);
+    this.menuPopHighlight.add(itemPopHighlight1);
+    this.menuPopHighlight.add(itemPopHighlight2);
+    this.menuPopHighlight.add(itemPopHighlight3);
+    this.menuPopHighlight.add(itemPopHighlight4);
+    this.menuPopHighlight.add(itemPopHighlight5);
+    this.popMenu.add(this.menuPopRmHighlight);
+    this.menuPopRmHighlight.add(itemPopRmHighlight1);
+    this.menuPopRmHighlight.add(itemPopRmHighlight2);
+    this.menuPopRmHighlight.add(itemPopRmHighlight3);
+    this.menuPopRmHighlight.add(itemPopRmHighlight4);
+    this.menuPopRmHighlight.add(itemPopRmHighlight5);
+    this.menuPopRmHighlight.addSeparator();
+    this.menuPopRmHighlight.add(itemPopRmHighlightAll);
+    Dimension popSize = this.popMenu.getPreferredSize();
+    popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
+    this.popMenu.setPopupSize(popSize);
+  }
+
+  /**
+   * 设置各菜单项的初始状态，即是否可用
+   */
+  private void setMenuDefault() {
+    this.menuSort.setEnabled(false);
+    this.itemReOpen.setEnabled(false);
+    this.itemReName.setEnabled(false);
+    this.itemDelFile.setEnabled(false);
+    this.itemUnDo.setEnabled(false);
+    this.itemReDo.setEnabled(false);
+    this.itemCut.setEnabled(false);
+    this.itemCopy.setEnabled(false);
+    this.itemDel.setEnabled(false);
+    this.menuCase.setEnabled(false);
+    this.itemFind.setEnabled(false);
+    this.itemFindNext.setEnabled(false);
+    this.itemFindPrevious.setEnabled(false);
+    this.menuQuickFind.setEnabled(false);
+    this.itemSelCopy.setEnabled(false);
+    this.itemReplace.setEnabled(false);
+    this.itemGoto.setEnabled(false);
+    this.itemToClipFileName.setEnabled(false);
+    this.itemToClipFilePath.setEnabled(false);
+    this.itemToClipDirPath.setEnabled(false);
+    this.itemTrimSelected.setEnabled(false);
+    this.itemDelNullLineSelected.setEnabled(false);
+    this.itemPopCopy.setEnabled(false);
+    this.itemPopCut.setEnabled(false);
+    this.itemPopDel.setEnabled(false);
+    this.itemPopUnDo.setEnabled(false);
+    this.itemPopReDo.setEnabled(false);
+    this.setFileHistoryMenuEnabled();
+  }
+
+  /**
+   * 界面初始化时，设置有关菜单的初始状态与功能
+   */
+  private void setMenuDefaultInit() {
+    this.itemLineWrap.setSelected(true);
+    this.itemLineWrapByWord.setSelected(true);
+    this.itemTextDrag.setSelected(false);
+    this.itemAutoIndent.setSelected(false);
+    this.itemStateBar.setSelected(true);
+    this.itemAlwaysOnTop.setSelected(false);
+    this.itemResizable.setSelected(false);
+    this.setLineWarp();
+    this.setLineWrapStyle(true);
+    this.setTextDrag();
+    this.setStateBar();
+    this.setAlwaysOnTop();
+    this.setResizable();
+    this.setLineStyleString(LineSeparator.DEFAULT, true);
+    this.setCharEncoding(CharEncoding.BASE, true);
+  }
+
+  /**
+   * 为文件选择器添加文件过滤器
+   */
+  private void addFileFilter() {
+    BaseFileFilter txtFileFilter = new BaseFileFilter(Util.TXT_EXT, "文本文档(*"
+        + Util.TXT_EXT + ")");
+    this.fcrOpen.addChoosableFileFilter(txtFileFilter);
+    this.fcrSave.addChoosableFileFilter(txtFileFilter);
+  }
+
+  /**
+   * 设置"最近编辑"菜单是否可用
+   */
+  private void setFileHistoryMenuEnabled() {
+    if (this.menuFileHistory.getItemCount() == 0) {
+      this.menuFileHistory.setEnabled(false);
+      this.itemClearFileHistory.setEnabled(false);
+    } else {
+      this.menuFileHistory.setEnabled(true);
+      this.itemClearFileHistory.setEnabled(true);
+    }
+  }
+
+  /**
+   * 根据文本域中的字符是否为空，设置相关菜单的状态
+   * 
+   * @param isExist
+   *          文本域中是否有字符
+   */
+  private void setMenuStateByTextArea(boolean isExist) {
+    this.menuSort.setEnabled(isExist);
+    this.itemFind.setEnabled(isExist);
+    this.itemFindNext.setEnabled(isExist);
+    this.itemFindPrevious.setEnabled(isExist);
+    this.itemReplace.setEnabled(isExist);
+    this.itemGoto.setEnabled(isExist);
+  }
+
+  /**
+   * 根据文本域中选择的字符串是否为空，设置相关菜单的状态
+   * 
+   * @param isNull
+   *          选择是否为空
+   */
+  private void setMenuStateBySelectedText(boolean isNull) {
+    this.itemCopy.setEnabled(isNull);
+    this.itemCut.setEnabled(isNull);
+    this.itemDel.setEnabled(isNull);
+    this.menuCase.setEnabled(isNull);
+    this.menuQuickFind.setEnabled(isNull);
+    this.itemSelCopy.setEnabled(isNull);
+    this.itemPopCopy.setEnabled(isNull);
+    this.itemPopCut.setEnabled(isNull);
+    this.itemPopDel.setEnabled(isNull);
+    this.itemTrimSelected.setEnabled(isNull);
+    this.itemDelNullLineSelected.setEnabled(isNull);
+  }
+
+  /**
+   * 设置撤销与重做菜单项的状态
+   */
+  private void setMenuStateUndoRedo() {
+    boolean canRedo = this.undoManager.canRedo();
+    boolean canUndo = this.undoManager.canUndo();
+    this.itemReDo.setEnabled(canRedo);
+    this.itemUnDo.setEnabled(canUndo);
+    this.itemPopUnDo.setEnabled(canUndo);
+    this.itemPopReDo.setEnabled(canRedo);
+  }
+
+  /**
+   * 为各菜单项设置助记符和快捷键
+   */
+  private void setMenuMnemonic() {
+    this.menuFile.setMnemonic('F');
+    this.menuHelp.setMnemonic('H');
+    this.menuEdit.setMnemonic('E');
+    this.menuSearch.setMnemonic('S');
+    this.menuStyle.setMnemonic('O');
+    this.menuView.setMnemonic('V');
+    this.menuLineWrapSet.setMnemonic('L');
+    this.menuLineStyle.setMnemonic('S');
+    this.itemLineStyleWin.setMnemonic('W');
+    this.itemLineStyleUnix.setMnemonic('U');
+    this.itemLineStyleMac.setMnemonic('M');
+    this.menuCharset.setMnemonic('C');
+    this.itemCharsetANSI.setMnemonic('A');
+    this.itemCharsetUTF8.setMnemonic('U');
+    this.itemCharsetUTF8_NO_BOM.setMnemonic('N');
+    this.itemCharsetULE.setMnemonic('L');
+    this.itemCharsetUBE.setMnemonic('B');
+    this.menuInsert.setMnemonic('I');
+    this.itemLineWrap.setMnemonic('W');
+    this.menuLineWrapStyle.setMnemonic('S');
+    this.itemLineWrapByWord.setMnemonic('W');
+    this.itemLineWrapByChar.setMnemonic('C');
+    this.itemTextDrag.setMnemonic('D');
+    this.itemAutoIndent.setMnemonic('I');
+    this.itemStateBar.setMnemonic('S');
+    this.itemAlwaysOnTop.setMnemonic('A');
+    this.itemResizable.setMnemonic('R');
+    this.menuColor.setMnemonic('C');
+    this.menuFontSize.setMnemonic('F');
+    this.menuColorStyle.setMnemonic('Y');
+    this.menuHighlight.setMnemonic('H');
+    this.menuRmHighlight.setMnemonic('M');
+    this.menuPopHighlight.setMnemonic('H');
+    this.menuPopRmHighlight.setMnemonic('M');
+    this.itemNew.setAccelerator(KeyStroke.getKeyStroke('N',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemOpen.setAccelerator(KeyStroke.getKeyStroke('O',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemSave.setAccelerator(KeyStroke.getKeyStroke('S',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemExit.setAccelerator(KeyStroke.getKeyStroke('Q',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemAbout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0)); // 快捷键：F1
+    this.itemUnDo.setAccelerator(KeyStroke.getKeyStroke('Z',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemReDo.setAccelerator(KeyStroke.getKeyStroke('Y',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemCut.setAccelerator(KeyStroke.getKeyStroke('X',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemCopy.setAccelerator(KeyStroke.getKeyStroke('C',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemPaste.setAccelerator(KeyStroke.getKeyStroke('V',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemDel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0)); // 快捷键：Delete
+    this.itemCaseUp.setAccelerator(KeyStroke.getKeyStroke('U',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemCaseLow.setAccelerator(KeyStroke.getKeyStroke('U',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemFind.setAccelerator(KeyStroke.getKeyStroke('F',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemFindNext.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0)); // 快捷键：F3
+    this.itemFindPrevious.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
+        InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Shift+F3
+    this.itemQuickFindDown.setAccelerator(KeyStroke.getKeyStroke('K',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemQuickFindUp.setAccelerator(KeyStroke.getKeyStroke('K',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemReplace.setAccelerator(KeyStroke.getKeyStroke('H',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemGoto.setAccelerator(KeyStroke.getKeyStroke('G',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemToClipCurLine.setAccelerator(KeyStroke.getKeyStroke('C',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemToClipAllText.setAccelerator(KeyStroke.getKeyStroke('A',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemLineCopy.setAccelerator(KeyStroke.getKeyStroke('D',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemLineDel.setAccelerator(KeyStroke.getKeyStroke('D',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemSortUp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
+        InputEvent.ALT_DOWN_MASK)); // 快捷键：Alt+向上方向键
+    this.itemSortDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
+        InputEvent.ALT_DOWN_MASK)); // 快捷键：Alt+向下方向键
+    this.itemSelCopy.setAccelerator(KeyStroke.getKeyStroke('R',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemTrimStart.setAccelerator(KeyStroke.getKeyStroke('S',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemTrimEnd.setAccelerator(KeyStroke.getKeyStroke('E',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemTrimAll.setAccelerator(KeyStroke.getKeyStroke('L',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemTrimSelected.setAccelerator(KeyStroke.getKeyStroke('T',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemDelNullLineAll.setAccelerator(KeyStroke.getKeyStroke('A',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK));
+    this.itemDelNullLineSelected.setAccelerator(KeyStroke.getKeyStroke('S',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK));
+    this.itemSelAll.setAccelerator(KeyStroke.getKeyStroke('A',
+        InputEvent.CTRL_DOWN_MASK));
+    this.itemInsertDateTime.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_F5, 0)); // 快捷键：F5
+    this.itemFontSizePlus.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+向上方向键
+    this.itemFontSizeMinus.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+向下方向键
+    this.itemFontSizeReset.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_SLASH, InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+'/'键
+    this.itemLineDelToStart
+        .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
+            InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+向左方向键
+    this.itemLineDelToEnd.setAccelerator(KeyStroke
+        .getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK
+            + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+向右方向键
+    this.itemLineToUp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向上方向键
+    this.itemLineToDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向下方向键
+  }
+
+  /**
+   * 为各菜单项添加事件的处理方法
+   */
+  public void actionPerformed(ActionEvent e) {
+    if (this.itemAbout.equals(e.getSource())) {
+      this.showAbout();
+    } else if (this.itemCopy.equals(e.getSource())) {
+      this.copyText();
+    } else if (this.itemCut.equals(e.getSource())) {
+      this.cutText();
+    } else if (this.itemInsertChar.equals(e.getSource())) {
+      this.openInsertCharDialog();
+    } else if (this.itemInsertDateTime.equals(e.getSource())) {
+      this.openInsertDateDialog();
+    } else if (this.itemDel.equals(e.getSource())) {
+      this.deleteText();
+    } else if (this.itemCaseUp.equals(e.getSource())) {
+      this.switchCase(true);
+    } else if (this.itemCaseLow.equals(e.getSource())) {
+      this.switchCase(false);
+    } else if (this.itemExit.equals(e.getSource())) {
+      this.exit();
+    } else if (this.itemFind.equals(e.getSource())) {
+      this.openFindDialog();
+    } else if (this.itemFindNext.equals(e.getSource())) {
+      this.findNextText(true);
+    } else if (this.itemFindPrevious.equals(e.getSource())) {
+      this.findNextText(false);
+    } else if (this.itemQuickFindDown.equals(e.getSource())) {
+      this.quickFindText(true);
+    } else if (this.itemQuickFindUp.equals(e.getSource())) {
+      this.quickFindText(false);
+    } else if (this.itemFont.equals(e.getSource())) {
+      this.openFontChooser();
+    } else if (this.itemGoto.equals(e.getSource())) {
+      this.openGotoDialog();
+    } else if (this.itemToClipFileName.equals(e.getSource())) {
+      this.toClipFileName();
+    } else if (this.itemToClipFilePath.equals(e.getSource())) {
+      this.toClipFilePath();
+    } else if (this.itemToClipDirPath.equals(e.getSource())) {
+      this.toClipDirPath();
+    } else if (this.itemToClipCurLine.equals(e.getSource())) {
+      this.toClipCurLine();
+    } else if (this.itemToClipAllText.equals(e.getSource())) {
+      this.toClipAllText();
+    } else if (this.itemLineCopy.equals(e.getSource())) {
+      this.copyLines();
+    } else if (this.itemLineDel.equals(e.getSource())) {
+      this.deleteLines();
+    } else if (this.itemLineDelToStart.equals(e.getSource())) {
+      this.deleteLineToStart();
+    } else if (this.itemLineDelToEnd.equals(e.getSource())) {
+      this.deleteLineToEnd();
+    } else if (this.itemLineToUp.equals(e.getSource())) {
+      this.moveLineToUp();
+    } else if (this.itemLineToDown.equals(e.getSource())) {
+      this.moveLineToDown();
+    } else if (this.itemSortUp.equals(e.getSource())) {
+      this.sortLines(true);
+    } else if (this.itemSortDown.equals(e.getSource())) {
+      this.sortLines(false);
+    } else if (this.itemSelCopy.equals(e.getSource())) {
+      this.copySelectedText();
+    } else if (this.itemTrimStart.equals(e.getSource())) {
+      this.trimLines(0);
+    } else if (this.itemTrimEnd.equals(e.getSource())) {
+      this.trimLines(1);
+    } else if (this.itemTrimAll.equals(e.getSource())) {
+      this.trimLines(2);
+    } else if (this.itemTrimSelected.equals(e.getSource())) {
+      this.trimSelected();
+    } else if (this.itemDelNullLineAll.equals(e.getSource())) {
+      this.delAllNullLines();
+    } else if (this.itemDelNullLineSelected.equals(e.getSource())) {
+      this.delSelectedNullLines();
+    } else if (this.itemHelp.equals(e.getSource())) {
+
+    } else if (this.itemLineWrap.equals(e.getSource())) {
+      this.setLineWarp();
+    } else if (this.itemLineWrapByWord.equals(e.getSource())) {
+      this.setLineWrapStyle(true);
+    } else if (this.itemLineWrapByChar.equals(e.getSource())) {
+      this.setLineWrapStyle(false);
+    } else if (this.itemLineStyleWin.equals(e.getSource())) {
+      this.setLineStyleString(LineSeparator.WINDOWS, false);
+    } else if (this.itemLineStyleUnix.equals(e.getSource())) {
+      this.setLineStyleString(LineSeparator.UNIX, false);
+    } else if (this.itemLineStyleMac.equals(e.getSource())) {
+      this.setLineStyleString(LineSeparator.MACINTOSH, false);
+    } else if (this.itemCharsetBASE.equals(e.getSource())) {
+      this.setCharEncoding(CharEncoding.BASE, false);
+    } else if (this.itemCharsetANSI.equals(e.getSource())) {
+      this.setCharEncoding(CharEncoding.ANSI, false);
+    } else if (this.itemCharsetUTF8.equals(e.getSource())) {
+      this.setCharEncoding(CharEncoding.UTF8, false);
+    } else if (this.itemCharsetUTF8_NO_BOM.equals(e.getSource())) {
+      this.setCharEncoding(CharEncoding.UTF8_NO_BOM, false);
+    } else if (this.itemCharsetULE.equals(e.getSource())) {
+      this.setCharEncoding(CharEncoding.ULE, false);
+    } else if (this.itemCharsetUBE.equals(e.getSource())) {
+      this.setCharEncoding(CharEncoding.UBE, false);
+    } else if (this.itemTextDrag.equals(e.getSource())) {
+      this.setTextDrag();
+    } else if (this.itemAutoIndent.equals(e.getSource())) {
+      this.setAutoIndent();
+    } else if (this.itemNew.equals(e.getSource())) {
+      this.createNew(true);
+    } else if (this.itemOpen.equals(e.getSource())) {
+      this.openFile();
+    } else if (this.itemOpenByEncoding.equals(e.getSource())) {
+      this.openFileByEncoding();
+    } else if (this.itemReOpen.equals(e.getSource())) {
+      this.reOpenFile();
+    } else if (this.itemReName.equals(e.getSource())) {
+      this.reNameFile();
+    } else if (this.itemPaste.equals(e.getSource())) {
+      this.pasteText();
+    } else if (this.itemPopCopy.equals(e.getSource())) {
+      this.copyText();
+    } else if (this.itemPopCut.equals(e.getSource())) {
+      this.cutText();
+    } else if (this.itemPopDel.equals(e.getSource())) {
+      this.deleteText();
+    } else if (this.itemPopPaste.equals(e.getSource())) {
+      this.pasteText();
+    } else if (this.itemPopSelAll.equals(e.getSource())) {
+      this.selectAll();
+    } else if (this.itemPopUnDo.equals(e.getSource())) {
+      this.undoAction();
+    } else if (this.itemPopReDo.equals(e.getSource())) {
+      this.redoAction();
+    } else if (this.itemReDo.equals(e.getSource())) {
+      this.redoAction();
+    } else if (this.itemReplace.equals(e.getSource())) {
+      this.openReplaceDialog();
+    } else if (this.itemSave.equals(e.getSource())) {
+      this.saveFile(false);
+    } else if (this.itemSaveAs.equals(e.getSource())) {
+      this.saveAsFile();
+    } else if (this.itemDelFile.equals(e.getSource())) {
+      this.deleteFile();
+    } else if (this.itemSelAll.equals(e.getSource())) {
+      this.selectAll();
+    } else if (this.itemStateBar.equals(e.getSource())) {
+      this.setStateBar();
+    } else if (this.itemAlwaysOnTop.equals(e.getSource())) {
+      this.setAlwaysOnTop();
+    } else if (this.itemResizable.equals(e.getSource())) {
+      this.setResizable();
+    } else if (this.itemFontSizePlus.equals(e.getSource())) {
+      this.setFontSizePlus();
+    } else if (this.itemFontSizeMinus.equals(e.getSource())) {
+      this.setFontSizeMinus();
+    } else if (this.itemFontSizeReset.equals(e.getSource())) {
+      this.setFontSizeReset();
+    } else if (this.itemColorFont.equals(e.getSource())) {
+      this.setFontColor();
+    } else if (this.itemColorBack.equals(e.getSource())) {
+      this.setBackColor();
+    } else if (this.itemColorCaret.equals(e.getSource())) {
+      this.setCaretColor();
+    } else if (this.itemColorSelFont.equals(e.getSource())) {
+      this.setSelFontColor();
+    } else if (this.itemColorSelBack.equals(e.getSource())) {
+      this.setSelBackColor();
+    } else if (this.itemColorAnti.equals(e.getSource())) {
+      this.setColorTransform(true);
+    } else if (this.itemColorComplementary.equals(e.getSource())) {
+      this.setColorTransform(false);
+    } else if (this.itemColorStyle1.equals(e.getSource())) {
+      this.setColorStyle(1);
+    } else if (this.itemColorStyle2.equals(e.getSource())) {
+      this.setColorStyle(2);
+    } else if (this.itemColorStyle3.equals(e.getSource())) {
+      this.setColorStyle(3);
+    } else if (this.itemColorStyle4.equals(e.getSource())) {
+      this.setColorStyle(4);
+    } else if (this.itemColorStyle5.equals(e.getSource())) {
+      this.setColorStyle(5);
+    } else if (this.itemColorStyleDefault.equals(e.getSource())) {
+      this.setColorStyle(0);
+    } else if (this.itemHighlight1.equals(e.getSource())) {
+      this.setHighlight(1);
+    } else if (this.itemHighlight2.equals(e.getSource())) {
+      this.setHighlight(2);
+    } else if (this.itemHighlight3.equals(e.getSource())) {
+      this.setHighlight(3);
+    } else if (this.itemHighlight4.equals(e.getSource())) {
+      this.setHighlight(4);
+    } else if (this.itemHighlight5.equals(e.getSource())) {
+      this.setHighlight(5);
+    } else if (this.itemRmHighlight1.equals(e.getSource())) {
+      this.rmHighlight(1);
+    } else if (this.itemRmHighlight2.equals(e.getSource())) {
+      this.rmHighlight(2);
+    } else if (this.itemRmHighlight3.equals(e.getSource())) {
+      this.rmHighlight(3);
+    } else if (this.itemRmHighlight4.equals(e.getSource())) {
+      this.rmHighlight(4);
+    } else if (this.itemRmHighlight5.equals(e.getSource())) {
+      this.rmHighlight(5);
+    } else if (this.itemRmHighlightAll.equals(e.getSource())) {
+      this.rmHighlight(0);
+    } else if (this.itemPopHighlight1.equals(e.getSource())) {
+      this.setHighlight(1);
+    } else if (this.itemPopHighlight2.equals(e.getSource())) {
+      this.setHighlight(2);
+    } else if (this.itemPopHighlight3.equals(e.getSource())) {
+      this.setHighlight(3);
+    } else if (this.itemPopHighlight4.equals(e.getSource())) {
+      this.setHighlight(4);
+    } else if (this.itemPopHighlight5.equals(e.getSource())) {
+      this.setHighlight(5);
+    } else if (this.itemPopRmHighlight1.equals(e.getSource())) {
+      this.rmHighlight(1);
+    } else if (this.itemPopRmHighlight2.equals(e.getSource())) {
+      this.rmHighlight(2);
+    } else if (this.itemPopRmHighlight3.equals(e.getSource())) {
+      this.rmHighlight(3);
+    } else if (this.itemPopRmHighlight4.equals(e.getSource())) {
+      this.rmHighlight(4);
+    } else if (this.itemPopRmHighlight5.equals(e.getSource())) {
+      this.rmHighlight(5);
+    } else if (this.itemPopRmHighlightAll.equals(e.getSource())) {
+      this.rmHighlight(0);
+    } else if (this.itemTabSet.equals(e.getSource())) {
+      this.openTabSetDialog();
+    } else if (this.itemUnDo.equals(e.getSource())) {
+      this.undoAction();
+    } else if (this.itemClearFileHistory.equals(e.getSource())) {
+      this.clearFileHistory();
+    } else if (Util.FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
+      JMenuItem itemFile = (JMenuItem) e.getSource();
+      this.openFileHistory(itemFile.getText());
+    }
+  }
+
+  /**
+   * "高亮显示"中各格式的处理方法
+   * 
+   * @param style
+   *          按照某种颜色进行高亮显示
+   */
+  private void setHighlight(int style) {
+    String strSelText = this.txaMain.getSelectedText();
+    if (strSelText == null || strSelText.isEmpty()) {
+      return;
+    }
+    String strText = this.txaMain.getText();
+    LinkedList<Integer> linkedList = new LinkedList<Integer>();
+    int index = -1;
+    do {
+      int start = 0;
+      if (index >= 0) {
+        start += index + strSelText.length();
+      }
+      index = strText.indexOf(strSelText, start);
+      if (index >= 0) {
+        linkedList.add(index);
+      }
+    } while (index >= 0);
+    Color color = null;
+    switch (style) {
+    case 1:
+      color = Util.COLOR_HIGHLIGHT_1;
+      break;
+    case 2:
+      color = Util.COLOR_HIGHLIGHT_2;
+      break;
+    case 3:
+      color = Util.COLOR_HIGHLIGHT_3;
+      break;
+    case 4:
+      color = Util.COLOR_HIGHLIGHT_4;
+      break;
+    case 5:
+      color = Util.COLOR_HIGHLIGHT_5;
+      break;
+    }
+    for (Integer startIndex : linkedList) {
+      try {
+        this.highlighter.addHighlight(startIndex, startIndex
+            + strSelText.length(),
+            new DefaultHighlighter.DefaultHighlightPainter(color));
+        Highlighter.Highlight[] arrHighlight = highlighter.getHighlights();
+        this.highlighterList.add(new PartnerBean(
+            arrHighlight[arrHighlight.length - 1], style));
+      } catch (BadLocationException x) {
+        x.printStackTrace();
+      }
+    }
+  }
+
+  /**
+   * "清除高亮"中各格式的处理方法
+   * 
+   * @param style
+   *          清除某种颜色的高亮显示
+   */
+  private void rmHighlight(int style) {
+    if (style == 0) {
+      this.highlighter.removeAllHighlights();
+      this.highlighterList.clear();
+      return;
+    }
+    for (int n = 0; n < this.highlighterList.size(); n++) {
+      PartnerBean partnerBean = this.highlighterList.get(n);
+      if (partnerBean.getIndex() == style) {
+        this.highlighter.removeHighlight((Highlighter.Highlight) partnerBean
+            .getObject());
+        this.highlighterList.remove(n);
+        n--;
+      }
+    }
+  }
+
+  /**
+   * "颜色设置"中"全部反色/全部补色"的处理方法
+   * 
+   * @param mode
+   *          用于标识反色/补色，如果为true表示反色，反之则为补色
+   */
+  private void setColorTransform(boolean mode) {
+    Color colorFont = this.getConvertColor(this.txaMain.getForeground(), mode);
+    Color colorBack = this.getConvertColor(this.txaMain.getBackground(), mode);
+    Color colorCaret = this.getConvertColor(this.txaMain.getCaretColor(), mode);
+    Color colorSelFont = this.getConvertColor(this.txaMain
+        .getSelectedTextColor(), mode);
+    Color colorSelBack = this.getConvertColor(this.txaMain.getSelectionColor(),
+        mode);
+    this.txaMain.setForeground(colorFont);
+    this.txaMain.setBackground(colorBack);
+    this.txaMain.setCaretColor(colorCaret);
+    this.txaMain.setSelectedTextColor(colorSelFont);
+    this.txaMain.setSelectionColor(colorSelBack);
+  }
+
+  /**
+   * 将指定的rgb模式颜色转化为反色/补色
+   * 
+   * @param color
+   *          欲处理的rgb模式颜色
+   * @param mode
+   *          用于标识反色/补色，如果为true表示反色，反之则为补色
+   * @return 处理后的颜色
+   */
+  private Color getConvertColor(Color color, boolean mode) {
+    if (color != null) {
+      int red = color.getRed();
+      int green = color.getGreen();
+      int blue = color.getBlue();
+      if (mode) { // 反色
+        red = 255 - red;
+        green = 255 - green;
+        blue = 255 - blue;
+      } else { // 补色
+        int min = red;
+        int max = red;
+        if (min > green) {
+          min = green;
+        }
+        if (min > blue) {
+          min = blue;
+        }
+        if (max < green) {
+          max = green;
+        }
+        if (max < blue) {
+          max = blue;
+        }
+        int total = max + min;
+        red = total - red;
+        green = total - green;
+        blue = total - blue;
+      }
+      color = new Color(red, green, blue);
+    }
+    return color;
+  }
+
+  /**
+   * 设置"配色方案"的处理方法
+   * 
+   * @param style
+   *          配色方案序号，有1、2、3、4、5以及默认配色（0）等共6种
+   */
+  private void setColorStyle(int style) {
+    Color colorFont = null;
+    Color colorBack = null;
+    Color colorCaret = null;
+    Color colorSelFont = null;
+    Color colorSelBack = null;
+    switch (style) {
+    case 1:
+      colorFont = new Color(211, 215, 207);
+      colorBack = new Color(46, 52, 54);
+      colorCaret = new Color(211, 215, 207);
+      colorSelFont = new Color(238, 238, 236);
+      colorSelBack = new Color(136, 138, 133);
+      break;
+    case 2:
+      colorFont = new Color(240, 240, 240);
+      colorBack = new Color(0, 128, 128);
+      colorCaret = new Color(240, 240, 240);
+      colorSelFont = new Color(22, 99, 88);
+      colorSelBack = new Color(240, 240, 240);
+      break;
+    case 3:
+      colorFont = new Color(46, 52, 54);
+      colorBack = new Color(255, 251, 240);
+      colorCaret = new Color(46, 52, 54);
+      colorSelFont = new Color(255, 251, 240);
+      colorSelBack = new Color(46, 52, 54);
+      break;
+    case 4:
+      colorFont = new Color(51, 53, 49);
+      colorBack = new Color(204, 232, 207);
+      colorCaret = new Color(51, 53, 49);
+      colorSelFont = new Color(204, 232, 207);
+      colorSelBack = new Color(51, 53, 49);
+      break;
+    case 5:
+      colorFont = new Color(58, 57, 53);
+      colorBack = new Color(221, 212, 195);
+      colorCaret = new Color(58, 57, 53);
+      colorSelFont = new Color(221, 212, 195);
+      colorSelBack = new Color(58, 57, 53);
+      break;
+    case 0:
+    default:
+      colorFont = this.colorFont;
+      colorBack = this.colorBack;
+      colorCaret = this.colorCaret;
+      colorSelFont = this.colorSelFont;
+      colorSelBack = this.colorSelBack;
+      break;
+    }
+    this.txaMain.setForeground(colorFont);
+    this.txaMain.setBackground(colorBack);
+    this.txaMain.setCaretColor(colorCaret);
+    this.txaMain.setSelectedTextColor(colorSelFont);
+    this.txaMain.setSelectionColor(colorSelBack);
+  }
+
+  /**
+   * "排序"的处理方法
+   * 
+   * @param order
+   *          排序的顺序，升序为true，降序为false
+   */
+  private void sortLines(boolean order) {
+    if (this.txaMain.getText().isEmpty()) {
+      return;
+    }
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int lineCount = currentLines.getLineCount();
+    if (lineCount < 2) {
+      this.txaMain.selectAll();
+    } else {
+      this.txaMain.select(currentLines.getStartIndex(), currentLines
+          .getEndIndex());
+    }
+    String strSelText = this.txaMain.getSelectedText();
+    String[] arrText = strSelText.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
+    if (arrText.length <= 1) {
+      return;
+    }
+    for (int i = 0; i < arrText.length; i++) { // 冒泡排序
+      for (int j = 0; j < i; j++) {
+        if (arrText[i].compareTo(arrText[j]) < 0) {
+          String str = arrText[i];
+          arrText[i] = arrText[j];
+          arrText[j] = str;
+        }
+      }
+    }
+    StringBuilder stbSorted = new StringBuilder();
+    if (order) { // 升序
+      for (String str : arrText) {
+        stbSorted.append(str + "\n");
+      }
+    } else { // 降序
+      for (String str : arrText) {
+        stbSorted.insert(0, str + "\n");
+      }
+    }
+    this.txaMain.replaceSelection(stbSorted
+        .deleteCharAt(stbSorted.length() - 1).toString()); // 删除字符串末尾多余的换行符
+  }
+
+  /**
+   * "设置以空格代替Tab键"的处理方法
+   */
+  private void setTabReplace() {
+    if (this.isReplaceBySpace) {
+      this.txaMain.addKeyListener(this.tabReplaceKeyAdapter);
+    } else {
+      this.txaMain.removeKeyListener(this.tabReplaceKeyAdapter);
+    }
+  }
+
+  /**
+   * 按Tab键时将其替换为等量的空格
+   */
+  private void toTabReplace() {
+    int currentIndex = this.txaMain.getCaretPosition();
+    if (this.txaMain.getText().charAt(currentIndex - 1) != '\t') { // 文本域中输入的前一个字符是否为Tab
+      return;
+    }
+    int tabSize = this.txaMain.getTabSize();
+    String strSpace = "";
+    for (int i = 0; i < tabSize; i++) {
+      strSpace += " ";
+    }
+    this.txaMain.replaceRange(strSpace, currentIndex - 1, currentIndex);
+  }
+
+  /**
+   * "自动缩进"的处理方法
+   */
+  private void setAutoIndent() {
+    if (this.itemAutoIndent.isSelected()) {
+      this.txaMain.addKeyListener(this.autoIndentKeyAdapter);
+    } else {
+      this.txaMain.removeKeyListener(this.autoIndentKeyAdapter);
+    }
+  }
+
+  /**
+   * 按回车键时进行缩进
+   */
+  private void toAutoIndent() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain,
+        CurrentLines.LineExtend.EXTEND_UP);
+    String strContentExtend = currentLines.getStrContentExtend();
+    if (strContentExtend == null) {
+      return;
+    }
+    int currentIndex = currentLines.getCurrentIndex();
+    if (this.txaMain.getText().charAt(currentIndex - 1) != '\n') { // 如果不是换行操作，将不作处理
+      return;
+    }
+    String strSpace = "";
+    for (int i = 0; i < strContentExtend.length(); i++) {
+      switch (strContentExtend.charAt(i)) {
+      case ' ':
+      case '\t':
+      case '　':
+        strSpace += strContentExtend.charAt(i);
+        break;
+      default:
+        break;
+      }
+      if (strSpace.length() == i) {
+        break;
+      }
+    }
+    if (!strSpace.isEmpty()) {
+      this.txaMain.insert(strSpace, this.txaMain.getCaretPosition());
+    }
+  }
+
+  /**
+   * "上移当前行"的处理方法
+   */
+  private void moveLineToUp() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain,
+        CurrentLines.LineExtend.EXTEND_UP);
+    String strContentExtend = currentLines.getStrContentExtend();
+    if (strContentExtend == null) {
+      return;
+    }
+    int startIndex = currentLines.getStartIndex();
+    int endIndex = currentLines.getEndIndex();
+    int endLineNum = currentLines.getEndLineNum();
+    String strContentCurrent = currentLines.getStrContentCurrent();
+    if (endLineNum == this.txaMain.getLineCount() - 1) {
+      // 如果当前实际选区的末行为文本域末行，应作一定处理
+      strContentCurrent += "\n";
+      strContentExtend = strContentExtend.substring(0, strContentExtend
+          .length() - 1);
+    }
+    String strMoved = strContentCurrent + strContentExtend;
+    this.txaMain.replaceRange(strMoved, startIndex, endIndex);
+    this.txaMain
+        .select(startIndex, startIndex + strContentCurrent.length() - 1);
+  }
+
+  /**
+   * "下移当前行"的处理方法
+   */
+  private void moveLineToDown() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain,
+        CurrentLines.LineExtend.EXTEND_DOWN);
+    String strContentExtend = currentLines.getStrContentExtend();
+    if (strContentExtend == null) {
+      return;
+    }
+    int startIndex = currentLines.getStartIndex();
+    int endIndex = currentLines.getEndIndex();
+    int endLineNum = currentLines.getEndLineNum();
+    String strContent = currentLines.getStrContent();
+    String strContentCurrent = currentLines.getStrContentCurrent();
+    boolean isReachEnd = false;
+    if (endLineNum == this.txaMain.getLineCount() - 1) {
+      // 如果扩展行为文本域末行，应作一定处理
+      strContentCurrent = strContentCurrent.substring(0, strContentCurrent
+          .length() - 1);
+      strContentExtend += "\n";
+      isReachEnd = true;
+    }
+    String strMoved = strContentExtend + strContentCurrent;
+    this.txaMain.replaceRange(strMoved, startIndex, endIndex);
+    int selectEndIndex = startIndex + strContent.length() - 1; // 移动行之后，重新选择被移动多行的行末偏移量
+    if (isReachEnd) {
+      selectEndIndex++;
+    }
+    this.txaMain.select(startIndex + strContentExtend.length(), selectEndIndex);
+  }
+
+  /**
+   * "清空最近编辑列表"的处理方法
+   */
+  private void clearFileHistory() {
+    if (!this.fileHistoryList.isEmpty()) {
+      this.fileHistoryList.clear();
+      this.menuFileHistory.removeAll();
+      this.setFileHistoryMenuEnabled();
+    }
+  }
+
+  /**
+   * 清除"选区内"的处理方法
+   */
+  private void trimSelected() {
+    StringBuilder stbSelected = new StringBuilder(this.txaMain
+        .getSelectedText());
+    if (stbSelected.toString().isEmpty()) {
+      return;
+    }
+    boolean label = false; // 是否存在空白字符的标识符
+    for (int i = 0; i < stbSelected.length(); i++) {
+      switch (stbSelected.charAt(i)) {
+      case ' ':
+      case '\t':
+      case '　':
+        stbSelected.deleteCharAt(i);
+        label = true; // 查找到空白字符
+        i--; // 由于删除了查找到的空白字符，需要回退索引值
+        break;
+      }
+    }
+    if (label) {
+      this.txaMain.replaceSelection(stbSelected.toString());
+    }
+  }
+
+  /**
+   * 设置"字符编码格式"的处理方法
+   * 
+   * @param encoding
+   *          字符编码格式的枚举值
+   * @param isUpdateMenu
+   *          是否更新菜单的选择
+   */
+  private void setCharEncoding(CharEncoding encoding, boolean isUpdateMenu) {
+    if (isUpdateMenu) {
+      this.encoding = encoding;
+      this.setCharEncodingSelected();
+    } else if (!this.encoding.equals(encoding)) {
+      this.encoding = encoding;
+      this.isStyleChanged = true;
+      this.setStylePrefix();
+    }
+    this.updateStateEncoding();
+  }
+
+  /**
+   * 根据采用的字符编码格式，更新菜单的选择
+   */
+  private void setCharEncodingSelected() {
+    switch (this.encoding) {
+    case UTF8:
+      this.itemCharsetUTF8.setSelected(true);
+      break;
+    case UTF8_NO_BOM:
+      this.itemCharsetUTF8_NO_BOM.setSelected(true);
+      break;
+    case ULE:
+      this.itemCharsetULE.setSelected(true);
+      break;
+    case UBE:
+      this.itemCharsetUBE.setSelected(true);
+      break;
+    case ANSI:
+      this.itemCharsetANSI.setSelected(true);
+      break;
+    default:
+      this.itemCharsetBASE.setSelected(true);
+      break;
+    }
+  }
+
+  /**
+   * 设置"换行符格式"的处理方法
+   * 
+   * @param lineSeparator
+   *          欲采用的换行符
+   * @param isUpdateMenu
+   *          是否更新菜单的选择
+   */
+  private void setLineStyleString(LineSeparator lineSeparator,
+      boolean isUpdateMenu) {
+    if (isUpdateMenu) {
+      this.lineSeparator = lineSeparator;
+      this.setLineStyleSelected();
+    } else if (!this.lineSeparator.equals(lineSeparator)) {
+      this.lineSeparator = lineSeparator;
+      this.isStyleChanged = true;
+      this.setStylePrefix();
+    }
+    this.updateStateLineStyle();
+  }
+
+  /**
+   * 根据采用的换行符，更新菜单的选择
+   */
+  private void setLineStyleSelected() {
+    switch (this.lineSeparator) {
+    case UNIX:
+      this.itemLineStyleUnix.setSelected(true);
+      break;
+    case MACINTOSH:
+      this.itemLineStyleMac.setSelected(true);
+      break;
+    case WINDOWS:
+      this.itemLineStyleWin.setSelected(true);
+      break;
+    case DEFAULT:
+      if (LineSeparator.DEFAULT.toString().equals(
+          LineSeparator.WINDOWS.toString())) {
+        this.itemLineStyleWin.setSelected(true);
+      } else if (LineSeparator.DEFAULT.toString().equals(
+          LineSeparator.UNIX.toString())) {
+        this.itemLineStyleUnix.setSelected(true);
+      } else if (LineSeparator.DEFAULT.toString().equals(
+          LineSeparator.MACINTOSH.toString())) {
+        this.itemLineStyleMac.setSelected(true);
+      }
+    }
+  }
+
+  /**
+   * 插入"特殊字符"的处理方法
+   */
+  private void openInsertCharDialog() {
+    if (this.insertCharDialog == null) {
+      Hashtable<String, String> hashtable = new Hashtable<String, String>();
+      hashtable.put("特殊符号", Util.INSERT_SPECIAL);
+      hashtable.put("标点符号", Util.INSERT_PUNCTUATION);
+      hashtable.put("数学符号", Util.INSERT_MATH);
+      hashtable.put("单位符号", Util.INSERT_UNIT);
+      hashtable.put("数字符号", Util.INSERT_DIGIT);
+      hashtable.put("拼音符号", Util.INSERT_PINYIN);
+      this.insertCharDialog = new InsertCharDialog(this, false, this.txaMain,
+          hashtable);
+    } else if (!this.insertCharDialog.isVisible()) {
+      this.insertCharDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "换行方式"的处理方法
+   * 
+   * @param isByWord
+   *          换行方式，true表示以单词边界换行，false表示以字符边界换行
+   */
+  private void setLineWrapStyle(boolean isByWord) {
+    this.txaMain.setWrapStyleWord(isByWord);
+  }
+
+  /**
+   * "删除至行首"的处理方法
+   */
+  private void deleteLineToStart() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int startIndex = currentLine.getStartIndex();
+    int currentIndex = currentLine.getCurrentIndex();
+    if (currentIndex != startIndex) {
+      this.txaMain.replaceRange("", startIndex, currentIndex);
+    }
+  }
+
+  /**
+   * "删除至行尾"的处理方法
+   */
+  private void deleteLineToEnd() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int endIndex = currentLine.getEndIndex();
+    int currentIndex = currentLine.getCurrentIndex();
+    int lineNum = currentLine.getLineNum();
+    int lineCount = this.txaMain.getLineCount();
+    if (currentIndex != endIndex) {
+      if (lineCount > lineNum + 1) {
+        endIndex--;
+      }
+      this.txaMain.replaceRange("", currentIndex, endIndex);
+    }
+  }
+
+  /**
+   * 添加最近编辑的文件子菜单
+   * 
+   * @param strFile
+   *          完整的文件路径
+   */
+  private void addFileHistoryItem(String strFile) {
+    if (strFile == null || strFile.isEmpty()) {
+      return;
+    }
+    int index = this.checkFileInHistory(strFile);
+    if (index >= 0) {
+      JMenuItem itemFile = new JMenuItem(strFile);
+      itemFile.setActionCommand(Util.FILE_HISTORY);
+      itemFile.addActionListener(this);
+      if (this.fileHistoryList.size() > index) {
+        this.fileHistoryList.remove(index);
+        this.menuFileHistory.remove(index);
+      }
+      this.fileHistoryList.add(strFile);
+      this.menuFileHistory.add(itemFile);
+      this.setFileHistoryMenuEnabled();
+    }
+  }
+
+  /**
+   * 检测文件名是否已存在
+   * 
+   * @param strFile
+   *          完整的文件路径
+   * @return 将要添加到最近编辑的索引，-1表示产生异常
+   */
+  private int checkFileInHistory(String strFile) {
+    if (strFile == null || strFile.isEmpty()) {
+      return -1;
+    }
+    int index = -1;
+    int listSize = this.fileHistoryList.size();
+    if (listSize == 0) {
+      index = 0;
+    } else {
+      index = this.fileHistoryList.indexOf(strFile);
+      if (index < 0) {
+        if (listSize >= Util.FILE_HISTORY_MAX) {
+          index = 0;
+        } else {
+          index = listSize;
+        }
+      }
+    }
+    return index;
+  }
+
+  /**
+   * 打开最近编辑的文件
+   * 
+   * @param strFile
+   *          最近编辑的完整文件路径
+   */
+  private void openFileHistory(String strFile) {
+    if (!this.saveFileBeforeAct()) {
+      return;
+    }
+    if (strFile == null || strFile.isEmpty()) {
+      return;
+    }
+    File file = new File(strFile);
+    if (file != null && file.exists()) {
+      this.toOpenFile(file, true);
+      this.setAfterOpenFile();
+      this.setFileNameAndPath(file);
+    } else {
+      JOptionPane.showMessageDialog(this, "文件：" + file + " 不存在！",
+          Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
+  /**
+   * "删除全文空行"的处理方法
+   */
+  private void delAllNullLines() {
+    String strTextAll = this.txaMain.getText();
+    String strText = this.delNullLines(strTextAll);
+    if (!strTextAll.equals(strText)) {
+      this.txaMain.setText(strText);
+    }
+  }
+
+  /**
+   * "删除选区内空行"的处理方法
+   */
+  private void delSelectedNullLines() {
+    String strTextSel = this.txaMain.getSelectedText();
+    String strText = this.delNullLines(strTextSel);
+    if (!strTextSel.equals(strText)) {
+      this.txaMain.replaceSelection(strText);
+    }
+  }
+
+  /**
+   * 删除文本内空行
+   * 
+   * @param strText
+   *          欲处理的文本
+   * @return 删除空行后的文本
+   */
+  private String delNullLines(String strText) {
+    if (strText == null) {
+      return strText;
+    }
+    String strDouble = "\n\n";
+    int index = strText.indexOf(strDouble);
+    boolean hasEnter = false;
+    if (strText.startsWith("\n") || strText.endsWith("\n")) {
+      hasEnter = true;
+    }
+    if (index < 0 && !hasEnter) {
+      return strText;
+    }
+    while (index >= 0) {
+      strText = strText.replaceAll(strDouble, "\n");
+      index = strText.indexOf(strDouble);
+    }
+    if (strText.startsWith("\n")) {
+      strText = strText.substring(1, strText.length());
+    }
+    if (strText.endsWith("\n")) {
+      strText = strText.substring(0, strText.length() - 1);
+    }
+    return strText;
+  }
+
+  /**
+   * "字体颜色"的处理方法
+   */
+  private void setFontColor() {
+    Color color = JColorChooser.showDialog(this, "字体颜色", this.txaMain
+        .getForeground());
+    if (color != null) {
+      this.txaMain.setForeground(color);
+    }
+  }
+
+  /**
+   * "背景颜色"的处理方法
+   */
+  private void setBackColor() {
+    Color color = JColorChooser.showDialog(this, "背景颜色", this.txaMain
+        .getBackground());
+    if (color != null) {
+      this.txaMain.setBackground(color);
+    }
+  }
+
+  /**
+   * "光标颜色"的处理方法
+   */
+  private void setCaretColor() {
+    Color color = JColorChooser.showDialog(this, "光标颜色", this.txaMain
+        .getCaretColor());
+    if (color != null) {
+      this.txaMain.setCaretColor(color);
+    }
+  }
+
+  /**
+   * "选区字体颜色"的处理方法
+   */
+  private void setSelFontColor() {
+    Color color = JColorChooser.showDialog(this, "选区字体颜色", this.txaMain
+        .getSelectedTextColor());
+    if (color != null) {
+      this.txaMain.setSelectedTextColor(color);
+    }
+  }
+
+  /**
+   * "选区背景颜色"的处理方法
+   */
+  private void setSelBackColor() {
+    Color color = JColorChooser.showDialog(this, "选区背景颜色", this.txaMain
+        .getSelectionColor());
+    if (color != null) {
+      this.txaMain.setSelectionColor(color);
+    }
+  }
+
+  /**
+   * "Tab键设置"的处理方法
+   */
+  private void openTabSetDialog() {
+    if (this.tabSetDialog == null) {
+      this.tabSetDialog = new TabSetDialog(this, true, this.txaMain);
+    } else {
+      this.tabSetDialog.setVisible(true);
+    }
+    this.isReplaceBySpace = this.tabSetDialog.getReplaceBySpace();
+    this.setTabReplace();
+  }
+
+  /**
+   * "文本拖拽"的处理方法
+   */
+  private void setTextDrag() {
+    this.txaMain.setDragEnabled(this.itemTextDrag.isSelected());
+  }
+
+  /**
+   * 字体缩放："放大"的处理方法
+   */
+  private void setFontSizePlus() {
+    Font font = this.txaMain.getFont();
+    if (font.getSize() >= Util.MAX_FONT_SIZE) {
+      return;
+    }
+    this.txaMain.setFont(new Font(font.getFamily(), font.getStyle(), font
+        .getSize() + 1));
+  }
+
+  /**
+   * 字体缩放："缩小"的处理方法
+   */
+  private void setFontSizeMinus() {
+    Font font = this.txaMain.getFont();
+    if (font.getSize() <= Util.MIN_FONT_SIZE) {
+      return;
+    }
+    this.txaMain.setFont(new Font(font.getFamily(), font.getStyle(), font
+        .getSize() - 1));
+  }
+
+  /**
+   * 字体缩放："恢复初始"的处理方法
+   */
+  private void setFontSizeReset() {
+    Font font = this.txaMain.getFont();
+    this.txaMain.setFont(new Font(font.getFamily(), font.getStyle(),
+        Util.TEXT_FONT.getSize()));
+  }
+
+  /**
+   * 清除空白的处理方法
+   * 
+   * @param position
+   *          清除空白的位置，0为“行首”空白，1为“行尾”空白，2为“行首+行尾”空白
+   */
+  private void trimLines(int position) {
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    String strContent = currentLines.getStrContent();
+    if (strContent == null || strContent.isEmpty()) {
+      return;
+    }
+    String arrContents[] = strContent.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
+    StringBuilder stbContent = new StringBuilder(); // 用于存放处理后的文本
+    for (int n = 0; n < arrContents.length; n++) {
+      String strLine = arrContents[n];
+      if (strLine.isEmpty()) {
+        stbContent.append("\n");
+        continue;
+      }
+      if (position == 0) { // 清除"行首"空白
+        stbContent.append(this.trimLine(strLine, true) + "\n");
+      } else if (position == 1) { // 清除"行尾"空白
+        stbContent.append(this.trimLine(strLine, false) + "\n");
+      } else if (position == 2) { // 清除"行首+行尾"空白
+        strLine = this.trimLine(strLine, true);
+        stbContent.append(this.trimLine(strLine, false) + "\n");
+      }
+    }
+    if (stbContent != null) {
+      int startIndex = currentLines.getStartIndex();
+      int endIndex = currentLines.getEndIndex();
+      this.txaMain.replaceRange(stbContent
+          .deleteCharAt(stbContent.length() - 1).toString(), startIndex,
+          endIndex);
+    }
+  }
+
+  /**
+   * 清除一行文本的空白
+   * 
+   * @param position
+   *          清除空白的位置，true为“行首”空白，false为“行尾”空白
+   * @return 清除指定空白的文本
+   */
+  private String trimLine(String strLine, boolean position) {
+    if (strLine == null || strLine.isEmpty()) {
+      return strLine;
+    }
+    int blank = 0; // 空白字符的个数
+    boolean label = false; // 用于标识空白字符的结束
+    if (position) { // 清除"行首"空白
+      for (int i = 0; i < strLine.length(); i++) {
+        switch (strLine.charAt(i)) {
+        case ' ':
+        case '\t':
+        case '　':
+          blank++;
+          break;
+        default:
+          label = true;
+          break;
+        }
+        if (label) {
+          break;
+        }
+      }
+      strLine = strLine.substring(blank);
+    } else { // 清除"行尾"空白
+      for (int i = strLine.length() - 1; i >= 0; i--) {
+        switch (strLine.charAt(i)) {
+        case ' ':
+        case '\t':
+        case '　':
+          blank++;
+          break;
+        default:
+          label = true;
+          break;
+        }
+        if (label) {
+          break;
+        }
+      }
+      strLine = strLine.substring(0, strLine.length() - blank);
+    }
+    return strLine;
+  }
+
+  /**
+   * 设置标题栏开头的"*"号标识，以表示文本是否已修改
+   */
+  private void setTextPrefix() {
+    if (this.isTextChanged) {
+      if (!this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
+        this.stbTitle.insert(0, Util.TEXT_PREFIX); // 在标题栏的开头添加"*"
+        this.setTitle(this.stbTitle.toString());
+      }
+    } else {
+      if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
+        this.stbTitle.deleteCharAt(0); // 删除标题栏开头的"*"
+        this.setTitle(this.stbTitle.toString());
+      }
+    }
+  }
+
+  /**
+   * 设置标题栏开头的"※"号标识，以表示文本格式是否已修改
+   */
+  private void setStylePrefix() {
+    if (this.isStyleChanged) {
+      if (this.stbTitle.toString().startsWith(
+          Util.TEXT_PREFIX + Util.STYLE_PREFIX)) {
+      } else if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
+        this.stbTitle.insert(1, Util.STYLE_PREFIX);
+      } else if (this.stbTitle.toString().startsWith(Util.STYLE_PREFIX)) {
+      } else {
+        this.stbTitle.insert(0, Util.STYLE_PREFIX);
+      }
+    } else {
+      if (this.stbTitle.toString().startsWith(
+          Util.TEXT_PREFIX + Util.STYLE_PREFIX)) {
+        this.stbTitle.deleteCharAt(1);
+      } else if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
+      } else if (this.stbTitle.toString().startsWith(Util.STYLE_PREFIX)) {
+        this.stbTitle.deleteCharAt(0);
+      } else {
+      }
+    }
+    this.setTitle(this.stbTitle.toString());
+  }
+
+  /**
+   * 设置系统剪贴板的内容
+   * 
+   * @param strText
+   *          要存入剪贴板的文本
+   */
+  private void setClipboardContents(String strText) {
+    if (strText == null || strText.isEmpty()) {
+      return;
+    }
+    StringSelection ss = new StringSelection(strText);
+    this.clip.setContents(ss, ss);
+    this.itemPaste.setEnabled(true);
+    this.itemPopPaste.setEnabled(true);
+  }
+
+  /**
+   * 复制"当前文件名"到剪贴板的处理方法
+   */
+  private void toClipFileName() {
+    this.setClipboardContents(this.file.getName());
+  }
+
+  /**
+   * 复制"当前文件路径"到剪贴板的处理方法
+   */
+  private void toClipFilePath() {
+    this.setClipboardContents(this.file.getAbsolutePath());
+  }
+
+  /**
+   * 复制"当前目录路径"到剪贴板的处理方法
+   */
+  private void toClipDirPath() {
+    this.setClipboardContents(this.file.getParent());
+  }
+
+  /**
+   * 复制"当前行"到剪贴板的处理方法
+   */
+  private void toClipCurLine() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    String strLine = currentLine.getStrLine();
+    if (!strLine.endsWith("\n")) {
+      strLine += "\n";
+    }
+    this.setClipboardContents(strLine);
+  }
+
+  /**
+   * 复制"所有文本"到剪贴板的处理方法
+   */
+  private void toClipAllText() {
+    this.setClipboardContents(this.txaMain.getText());
+  }
+
+  /**
+   * "锁定窗口"的处理方法
+   */
+  private void setResizable() {
+    this.setResizable(!this.itemResizable.isSelected());
+  }
+
+  /**
+   * "前端显示"的处理方法
+   */
+  private void setAlwaysOnTop() {
+    this.setAlwaysOnTop(this.itemAlwaysOnTop.isSelected());
+  }
+
+  /**
+   * "复写当前选择"的处理方法
+   */
+  private void copySelectedText() {
+    int start = this.txaMain.getSelectionStart();
+    int end = this.txaMain.getSelectionEnd();
+    if (start != end) {
+      this.txaMain.insert(this.txaMain.getSelectedText(), end);
+      this.txaMain.select(start, end);
+    }
+  }
+
+  /**
+   * "复写当前行"的处理方法
+   */
+  private void copyLines() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    String strContent = currentLines.getStrContent();
+    int endIndex = currentLines.getEndIndex();
+    int currentIndex = currentLines.getCurrentIndex();
+    if (currentIndex == this.txaMain.getText().length()) {
+      strContent = "\n" + strContent;
+    }
+    this.txaMain.insert(strContent, endIndex);
+  }
+
+  /**
+   * "删除当前行"的处理方法
+   */
+  private void deleteLines() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int startIndex = currentLines.getStartIndex();
+    int endIndex = currentLines.getEndIndex();
+    int length = this.txaMain.getText().length();
+    if (length > 0) {
+      if (startIndex > 0 && endIndex == length) {
+        startIndex--; // 位于文本域中非空的最后一行时，确保删除换行符
+      }
+      this.txaMain.replaceRange("", startIndex, endIndex);
+    }
+  }
+
+  /**
+   * "快速查找"的处理方法
+   * 
+   * @param isFindDown
+   *          查找方向：向下查找为true，向上查找为false
+   */
+  private void quickFindText(boolean isFindDown) {
+    String strFindText = this.txaMain.getSelectedText();
+    if (strFindText != null && strFindText.length() > 0) {
+      int index = Util.findText(strFindText, this.txaMain, isFindDown, false);
+      if (index >= 0) {
+        this.txaMain.select(index, index + strFindText.length());
+      }
+    }
+  }
+
+  /**
+   * "切换大小写"的处理方法
+   * 
+   * @param isCaseUp
+   *          切换为大写(true)或切换为小写(false)
+   */
+  private void switchCase(boolean isCaseUp) {
+    String strSel = this.txaMain.getSelectedText();
+    if (strSel.isEmpty()) {
+      return;
+    }
+    int start = this.txaMain.getSelectionStart();
+    int end = this.txaMain.getSelectionEnd();
+    if (isCaseUp) {
+      this.txaMain.replaceSelection(strSel.toUpperCase());
+    } else {
+      this.txaMain.replaceSelection(strSel.toLowerCase());
+    }
+    this.txaMain.select(start, end);
+  }
+
+  /**
+   * "从磁盘删除文件"的处理方法
+   */
+  private void deleteFile() {
+    int result = JOptionPane.showConfirmDialog(this, "此操作将删除磁盘文件：" + this.file
+        + "\n是否继续？", Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+    if (result != JOptionPane.YES_OPTION) {
+      return;
+    }
+    if (this.file.delete()) {
+      this.createNew(false);
+    } else {
+      JOptionPane.showMessageDialog(this, "文件：" + this.file + "删除失败！",
+          Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
+  /**
+   * "重命名"的处理方法
+   */
+  private void reNameFile() {
+    this.fcrSave.setSelectedFile(this.file);
+    this.fcrSave.setDialogTitle("重命名");
+    if (JFileChooser.APPROVE_OPTION != this.fcrSave.showSaveDialog(this)) {
+      return;
+    }
+    File fileReName = this.fcrSave.getSelectedFile();
+    if (this.file.equals(fileReName)) { // 文件名未修改时，不做操作
+      return;
+    }
+    this.toSaveFile(fileReName);
+    this.file.delete(); // 删除原文件
+    this.setFileNameAndPath(fileReName);
+  }
+
+  /**
+   * "撤销"的处理方法
+   */
+  private void undoAction() {
+    if (this.undoManager.canUndo()) { // 判断是否可以撤销
+      this.undoManager.undo(); // 执行撤销操作
+      this.undoIndex--; // 撤销标识符递减
+      this.updateStateAll();
+    }
+    this.setAfterUndoRedo();
+  }
+
+  /**
+   * "重做"的处理方法
+   */
+  private void redoAction() {
+    if (this.undoManager.canRedo()) { // 判断是否可以重做
+      this.undoManager.redo(); // 执行重做操作
+      this.undoIndex++; // 撤销标识符递增
+      this.updateStateAll();
+    }
+    this.setAfterUndoRedo();
+  }
+
+  /**
+   * 执行"撤销"或"重做"后的相关设置
+   */
+  private void setAfterUndoRedo() {
+    if (this.undoIndex == Util.DEFAULT_UNDO_INDEX) { // 撤销标识符与默认值相等，表示文本未修改
+      this.isTextChanged = false;
+    } else {
+      this.isTextChanged = true;
+    }
+    this.setTextPrefix();
+    this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
+  }
+
+  /**
+   * "时间/日期"的处理方法
+   */
+  private void openInsertDateDialog() {
+    if (this.insertDateDialog == null) {
+      this.insertDateDialog = new InsertDateDialog(this, false, this.txaMain);
+    } else if (!this.insertDateDialog.isVisible()) {
+      this.insertDateDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "退出"的处理方法
+   */
+  private void exit() {
+    if (saveFileBeforeAct()) { // 关闭程序前检测文件是否已修改
+      System.exit(0);
+    }
+  }
+
+  /**
+   * "关于"的处理方法
+   */
+  private void showAbout() {
+    if (this.aboutDialog == null) {
+      final String strBlog = "http://hi.baidu.com/xiboliya";
+      String[] arrStrLabel = new String[] { "软件：" + Util.SOFTWARE,
+          "版本：" + Util.VERSION, "作者：冰原",
+          "<html>博客：<a href='" + strBlog + "'>" + strBlog + "</a></html>",
+          "版权：此为自由软件可以任意引用或修改" };
+      this.aboutDialog = new AboutDialog(this, true, arrStrLabel, this.icon);
+      this.aboutDialog.addLinkByIndex(3, strBlog);
+      this.aboutDialog.pack(); // 自动调整窗口大小，以适应各组件
+    }
+    this.aboutDialog.setVisible(true);
+  }
+
+  /**
+   * "自动换行"的处理方法
+   */
+  private void setLineWarp() {
+    boolean isLineWrap = this.itemLineWrap.isSelected();
+    this.txaMain.setLineWrap(isLineWrap);
+    this.menuLineWrapStyle.setEnabled(isLineWrap);
+  }
+
+  /**
+   * 打开的文件内容已修改，当执行新建、关闭操作时，弹出对话框，让用户选择相应的操作
+   * 
+   * @return 用户选择了是或否时返回true，选择取消或关闭时返回false
+   */
+  private boolean saveFileBeforeAct() {
+    if (this.file != null && (this.isTextChanged || this.isStyleChanged)) {
+      String strTemp = "内容";
+      if (!this.isTextChanged && this.isStyleChanged) {
+        strTemp = "格式";
+      }
+      int result = JOptionPane.showConfirmDialog(this, "文件：" + this.file + "的"
+          + strTemp + "已经修改。\n想保存文件吗？", Util.SOFTWARE,
+          JOptionPane.YES_NO_CANCEL_OPTION);
+      if (result == JOptionPane.YES_OPTION) {
+        this.saveFile(false);
+      } else if (result == JOptionPane.CANCEL_OPTION
+          || result == JOptionPane.CLOSED_OPTION) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * "新建"的处理方法
+   * 
+   * @param needSave
+   *          是否需要保存修改
+   */
+  private void createNew(boolean needSave) {
+    if (needSave && !this.saveFileBeforeAct()) {
+      return;
+    }
+    this.txaMain.setText("");
+    this.setFileNameAndPath(null);
+    this.setLineStyleString(LineSeparator.DEFAULT, true);
+    this.setCharEncoding(CharEncoding.BASE, true);
+    this.isNew = true;
+    this.isTextChanged = false;
+    this.isStyleChanged = false;
+    this.fileExistsLabel = false;
+    this.setMenuDefault(); // 恢复菜单的初始状态
+    this.undoManager.discardAllEdits(); // 清空撤销管理器
+    this.undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符恢复默认值
+    this.setTextPrefix();
+    this.setStylePrefix();
+  }
+
+  /**
+   * "删除"的处理方法
+   */
+  private void deleteText() {
+    this.txaMain.replaceSelection("");
+  }
+
+  /**
+   * "复制"的处理方法
+   */
+  private void copyText() {
+    this.setClipboardContents(this.txaMain.getSelectedText());
+  }
+
+  /**
+   * "剪切"的处理方法
+   */
+  private void cutText() {
+    this.copyText(); // 复制选中文本
+    this.deleteText(); // 删除选中文本
+  }
+
+  /**
+   * "粘贴"的处理方法
+   */
+  private void pasteText() {
+    try {
+      Transferable tf = this.clip.getContents(this);
+      if (tf != null) {
+        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
+        if (str != null) {
+          str = str.replaceAll(LineSeparator.WINDOWS.toString(),
+              LineSeparator.UNIX.toString()); // 将Windows格式的换行符\n\r，转换为UNIX/Linux格式
+          str = str.replaceAll(LineSeparator.MACINTOSH.toString(),
+              LineSeparator.UNIX.toString()); // 为了容错，将可能残余的\r字符替换为\n
+          this.txaMain.replaceSelection(str);
+        }
+      }
+    } catch (Exception x) {
+      // 剪贴板异常
+      x.printStackTrace();
+    }
+  }
+
+  /**
+   * "全选"的处理方法
+   */
+  private void selectAll() {
+    this.txaMain.selectAll();
+  }
+
+  /**
+   * "字体"的处理方法
+   */
+  private void openFontChooser() {
+    if (this.fontChooser == null) {
+      this.fontChooser = new FontChooser(this, true, this.txaMain);
+    } else {
+      this.fontChooser.updateListView();
+      this.fontChooser.setFontView();
+      this.fontChooser.setStyleView();
+      this.fontChooser.setSizeView();
+      this.fontChooser.setVisible(true);
+    }
+  }
+
+  /**
+   * 是否已经打开了查找或替换对话框
+   * 
+   * @return 如果已经打开了查找或替换对话框则返回false
+   */
+  private boolean canOpenDialog() {
+    if (this.findReplaceDialog != null && this.findReplaceDialog.isVisible()) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 预处理当前选中的文本，以便用于查找对话框的显示
+   * 
+   * @return 经处理之后的文本
+   */
+  private String checkSelText() {
+    String strSel = this.txaMain.getSelectedText();
+    if (strSel != null) {
+      int index = strSel.indexOf("\n");
+      if (index >= 0) {
+        strSel = strSel.substring(0, index);
+      }
+    }
+    return strSel;
+  }
+
+  /**
+   * "查找"的处理方法
+   */
+  private void openFindDialog() {
+    if (!this.canOpenDialog()) {
+      this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
+      return;
+    }
+    if (this.findReplaceDialog == null) {
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain);
+    } else {
+      this.findReplaceDialog.setVisible(true);
+    }
+    this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
+    String strSel = this.checkSelText();
+    if (strSel != null && !strSel.isEmpty()) {
+      this.findReplaceDialog.setFindText(strSel, true);
+    } else {
+      this.findReplaceDialog.setFindTextSelect();
+    }
+  }
+
+  /**
+   * "查找下一个"的处理方法
+   * 
+   * @param isFindDown
+   *          查找的方向，如果向下查找则为true，反之则为false
+   */
+  private void findNextText(boolean isFindDown) {
+    if (!this.canOpenDialog()) {
+      this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
+      return;
+    }
+    String strSel = this.checkSelText();
+    if (this.findReplaceDialog == null) {
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain);
+      this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
+      if (strSel != null && !strSel.isEmpty()) {
+        this.findReplaceDialog.setFindText(strSel, true);
+      }
+    } else if (this.findReplaceDialog.getFindText().isEmpty()) {
+      if (strSel != null && !strSel.isEmpty()) {
+        this.findReplaceDialog.setFindText(strSel, true);
+      }
+      this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
+      this.findReplaceDialog.setVisible(true);
+    } else {
+      this.findReplaceDialog.findText(isFindDown);
+    }
+  }
+
+  /**
+   * "替换"的处理方法
+   */
+  private void openReplaceDialog() {
+    if (!this.canOpenDialog()) {
+      this.findReplaceDialog.setTabbedIndex(1); // 打开替换选项卡
+      return;
+    }
+    if (this.findReplaceDialog == null) {
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain);
+    } else {
+      this.findReplaceDialog.setVisible(true);
+    }
+    this.findReplaceDialog.setTabbedIndex(1); // 打开替换选项卡
+    String strSel = this.checkSelText();
+    if (strSel != null && !strSel.isEmpty()) {
+      this.findReplaceDialog.setFindText(strSel, true);
+    } else {
+      this.findReplaceDialog.setFindTextSelect();
+    }
+    this.findReplaceDialog.setReplaceText("");
+  }
+
+  /**
+   * "转到"的处理方法
+   */
+  private void openGotoDialog() {
+    if (this.gotoDialog == null) {
+      this.gotoDialog = new GotoDialog(this, true, this.txaMain);
+    } else {
+      this.gotoDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "状态栏"的处理方法
+   */
+  private void setStateBar() {
+    this.pnlState.setVisible(this.itemStateBar.isSelected());
+  }
+
+  /**
+   * "重新载入文件"的处理方法
+   */
+  private void reOpenFile() {
+    if (this.file == null) {
+      return;
+    }
+    if (this.isTextChanged || this.isStyleChanged) {
+      String strTemp = "内容";
+      if (!this.isTextChanged && this.isStyleChanged) {
+        strTemp = "格式";
+      }
+      int result = JOptionPane.showConfirmDialog(this, "文件：" + this.file + "的"
+          + strTemp + "已经修改。\n想放弃修改重新载入吗？", Util.SOFTWARE,
+          JOptionPane.YES_NO_CANCEL_OPTION);
+      if (result != JOptionPane.YES_OPTION) {
+        return;
+      }
+    }
+    if (this.file.exists()) {
+      this.toOpenFile(this.file, true);
+      this.setAfterOpenFile();
+      this.setTextPrefix();
+      this.setStylePrefix();
+    } else {
+      int result = JOptionPane.showConfirmDialog(this, "文件：" + this.file
+          + "不存在。\n要重新创建吗？", Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+      if (result == JOptionPane.YES_OPTION) {
+        this.checkFile(this.file);
+        this.toSaveFile(this.file);
+        this.setAfterSaveFile();
+        this.setTextPrefix();
+        this.setStylePrefix();
+      }
+    }
+  }
+
+  /**
+   * 打开文件后的设置
+   */
+  private void setAfterOpenFile() {
+    this.txaMain.setCaretPosition(0); // 将插入点设置为文本开头
+    this.isTextChanged = false;
+    this.isStyleChanged = false;
+    this.isNew = false;
+    this.undoManager.discardAllEdits();
+    this.undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符恢复默认值
+    this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
+    this.itemReOpen.setEnabled(true);
+    this.itemReName.setEnabled(true);
+    this.itemDelFile.setEnabled(true);
+    this.itemToClipFileName.setEnabled(true);
+    this.itemToClipFilePath.setEnabled(true);
+    this.itemToClipDirPath.setEnabled(true);
+  }
+
+  /**
+   * "打开"的处理方法
+   */
+  private void openFile() {
+    if (!this.saveFileBeforeAct()) {
+      return;
+    }
+    this.fcrOpen.setSelectedFile(null);
+    if (JFileChooser.APPROVE_OPTION != this.fcrOpen.showOpenDialog(this)) {
+      return;
+    }
+    File file = this.fcrOpen.getSelectedFile();
+    if (file != null && file.exists()) {
+      this.toOpenFile(file, true);
+      this.setAfterOpenFile();
+      this.setFileNameAndPath(file);
+    }
+  }
+
+  /**
+   * "以指定编码打开"的处理方法
+   */
+  private void openFileByEncoding() {
+    if (!this.saveFileBeforeAct()) {
+      return;
+    }
+    if (this.fileEncodingDialog == null) {
+      this.fileEncodingDialog = new FileEncodingDialog(this, true);
+    } else {
+      this.fileEncodingDialog.setVisible(true);
+    }
+    if (!this.fileEncodingDialog.getOk()) {
+      return;
+    }
+    CharEncoding charEncoding = this.fileEncodingDialog.getCharEncoding();
+    this.fcrOpen.setSelectedFile(null);
+    if (JFileChooser.APPROVE_OPTION != this.fcrOpen.showOpenDialog(this)) {
+      return;
+    }
+    File file = this.fcrOpen.getSelectedFile();
+    if (file != null && file.exists()) {
+      if (charEncoding != null) {
+        this.setCharEncoding(charEncoding, true);
+        this.toOpenFile(file, false);
+      } else {
+        this.toOpenFile(file, true);
+      }
+      this.setAfterOpenFile();
+      this.setFileNameAndPath(file);
+    }
+
+  }
+
+  /**
+   * 根据文件开头的BOM（如果存在的话），判断文件的编码格式。 文本文件有各种不同的编码格式，如果判断有误，则会导致显示或保存错误。
+   * 为了标识文件的编码格式，便于编辑和保存，则在文件开头加入了BOM，用以标识编码格式。 UTF-8格式：0xef 0xbb 0xbf， Unicode
+   * Little Endian格式：0xff 0xfe， Unicode Big Endian格式：0xfe
+   * 0xff。而ANSI格式是没有BOM的。另有一种不含BOM的UTF-8格式的文件，则不易与ANSI相区分，因此未能识别此类格式。
+   * 
+   * @param file
+   *          待判断的文件
+   */
+  private void checkFileEncoding(File file) {
+    FileInputStream fileInputStream = null;
+    int charArr[] = new int[3];
+    try {
+      fileInputStream = new FileInputStream(file);
+      for (int i = 0; i < charArr.length; i++) {
+        charArr[i] = fileInputStream.read();
+      }
+    } catch (Exception x) {
+      x.printStackTrace();
+    } finally {
+      try {
+        fileInputStream.close();
+      } catch (IOException x) {
+        x.printStackTrace();
+      }
+    }
+    if (charArr[0] == 0xff && charArr[1] == 0xfe) {
+      this.setCharEncoding(CharEncoding.ULE, true);
+    } else if (charArr[0] == 0xfe && charArr[1] == 0xff) {
+      this.setCharEncoding(CharEncoding.UBE, true);
+    } else if (charArr[0] == 0xef && charArr[1] == 0xbb && charArr[2] == 0xbf) {
+      this.setCharEncoding(CharEncoding.UTF8, true);
+    } else {
+      this.setCharEncoding(CharEncoding.BASE, true);
+    }
+  }
+
+  /**
+   * 打开文本文件并将内容显示在文本域中
+   * 
+   * @param file
+   *          打开的文件
+   * @param isAutoCheckEncoding
+   *          是否自动检测编码格式
+   */
+  private void toOpenFile(File file, boolean isAutoCheckEncoding) {
+    if (isAutoCheckEncoding) {
+      this.checkFileEncoding(file);
+    }
+    InputStreamReader inputStreamReader = null;
+    try {
+      String strCharset = this.encoding.toString();
+      inputStreamReader = new InputStreamReader(new FileInputStream(file),
+          strCharset);
+      char chrBuf[] = new char[Util.BUFFER_LENGTH];
+      int len = 0;
+      StringBuilder stbTemp = new StringBuilder();
+      switch (this.encoding) {
+      case UTF8:
+      case ULE:
+      case UBE:
+        inputStreamReader.read(); // 去掉文件开头的BOM
+        break;
+      }
+      while ((len = inputStreamReader.read(chrBuf)) != -1) {
+        stbTemp.append(chrBuf, 0, len);
+      }
+      String strTemp = stbTemp.toString();
+      if (strTemp.indexOf(LineSeparator.WINDOWS.toString()) >= 0) {
+        strTemp = strTemp.replaceAll(LineSeparator.WINDOWS.toString(),
+            LineSeparator.UNIX.toString());
+        this.setLineStyleString(LineSeparator.WINDOWS, true);
+      } else if (strTemp.indexOf(LineSeparator.MACINTOSH.toString()) >= 0) {
+        strTemp = strTemp.replaceAll(LineSeparator.MACINTOSH.toString(),
+            LineSeparator.UNIX.toString());
+        this.setLineStyleString(LineSeparator.MACINTOSH, true);
+      } else if (strTemp.indexOf(LineSeparator.UNIX.toString()) >= 0) {
+        this.setLineStyleString(LineSeparator.UNIX, true);
+      } else { // 当文件内容不足1行时，则设置为系统默认的换行符
+        this.setLineStyleString(LineSeparator.DEFAULT, true);
+      }
+      this.txaMain.setText(strTemp);
+      this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
+      this.fileExistsLabel = true;
+    } catch (Exception x) {
+      x.printStackTrace();
+    } finally {
+      try {
+        inputStreamReader.close();
+      } catch (IOException x) {
+        x.printStackTrace();
+      }
+    }
+  }
+
+  /**
+   * "保存"的处理方法
+   * 
+   * @param isSaveAs
+   *          是否为"另存为"
+   */
+  private void saveFile(boolean isSaveAs) {
+    boolean isFileExist = true; // 当前文件是否存在
+    if (isSaveAs || this.isNew) {
+      if (isSaveAs) {
+        this.fcrSave.setDialogTitle("另存为");
+      } else {
+        this.fcrSave.setDialogTitle("保存");
+      }
+      this.fcrSave.setSelectedFile(null);
+      if (JFileChooser.APPROVE_OPTION != this.fcrSave.showSaveDialog(this)) {
+        return;
+      }
+      File file = this.fcrSave.getSelectedFile();
+      if (file != null) {
+        this.toSaveFile(file);
+        this.setFileNameAndPath(file);
+      } else {
+        return;
+      }
+    } else {
+      if (this.file != null) {
+        isFileExist = this.checkFile(this.file);
+        this.toSaveFile(this.file);
+      } else {
+        return;
+      }
+    }
+    this.setAfterSaveFile();
+    this.setTextPrefix();
+    this.setStylePrefix();
+    if (!isFileExist) {
+      JOptionPane.showMessageDialog(this, "丢失的文件："
+          + this.file.getAbsolutePath() + "\n已重新创建！", Util.SOFTWARE,
+          JOptionPane.CANCEL_OPTION);
+    }
+  }
+
+  /**
+   * 检测文件以及所在的目录是否存在
+   * 
+   * @param file
+   *          被检测的文件
+   * @return 被检测文件是否存在，如果存在返回true，反之则为false
+   */
+  private boolean checkFile(File file) {
+    File fileParent = new File(file.getParent()); // 获取文件的父目录
+    if (!fileParent.exists()) {
+      fileParent.mkdirs(); // 如果父目录不存在，则创建之
+    }
+    return file.exists();
+  }
+
+  /**
+   * "另存为"的处理方法
+   */
+  private void saveAsFile() {
+    this.saveFile(true);
+  }
+
+  /**
+   * 将文本域中的文本保存到文件
+   * 
+   * @param file
+   *          保存的文件
+   */
+  private void toSaveFile(File file) {
+    FileOutputStream fileOutputStream = null;
+    try {
+      fileOutputStream = new FileOutputStream(file);
+      String strText = this.txaMain.getText();
+      strText = strText.replaceAll(LineSeparator.UNIX.toString(),
+          this.lineSeparator.toString());
+      byte byteStr[];
+      int charBOM[] = new int[] { -1, -1, -1 }; // 根据当前的字符编码，存放BOM的数组
+      switch (this.encoding) {
+      case UTF8:
+        charBOM[0] = 0xef;
+        charBOM[1] = 0xbb;
+        charBOM[2] = 0xbf;
+        break;
+      case ULE:
+        charBOM[0] = 0xff;
+        charBOM[1] = 0xfe;
+        break;
+      case UBE:
+        charBOM[0] = 0xfe;
+        charBOM[1] = 0xff;
+        break;
+      }
+      byteStr = strText.getBytes(this.encoding.toString());
+      for (int i = 0; i < charBOM.length; i++) {
+        if (charBOM[i] == -1) {
+          break;
+        }
+        fileOutputStream.write(charBOM[i]);
+      }
+      fileOutputStream.write(byteStr);
+      this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
+      this.fileExistsLabel = true;
+    } catch (Exception x) {
+      x.printStackTrace();
+    } finally {
+      try {
+        fileOutputStream.flush();
+        fileOutputStream.close();
+      } catch (IOException x) {
+        x.printStackTrace();
+      }
+    }
+  }
+
+  /**
+   * 保存文件后的设置
+   */
+  private void setAfterSaveFile() {
+    this.itemReOpen.setEnabled(true);
+    this.itemReName.setEnabled(true);
+    this.itemDelFile.setEnabled(true);
+    this.itemToClipFileName.setEnabled(true);
+    this.itemToClipFilePath.setEnabled(true);
+    this.itemToClipDirPath.setEnabled(true);
+    this.isTextChanged = false;
+    this.isStyleChanged = false;
+    this.isNew = false;
+    this.undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符恢复默认值
+  }
+
+  /**
+   * 设置文件的名称和路径
+   * 
+   * @param file
+   *          当前编辑的文件
+   */
+  private void setFileNameAndPath(File file) {
+    this.file = file;
+    this.stbTitle = new StringBuilder(Util.SOFTWARE);
+    if (file != null && file.exists()) {
+      try {
+        this.file = this.file.getCanonicalFile(); // 获取此抽象路径名的规范形式
+        this.stbTitle.insert(0, this.file.getAbsolutePath() + " - ");
+      } catch (IOException x) {
+        x.printStackTrace();
+      }
+    }
+    this.setTitle(this.stbTitle.toString());
+  }
+
+  /**
+   * 更新状态栏的文本总字数
+   */
+  private void updateStateAll() {
+    String strStateChars = Util.STATE_CHARS + this.txaMain.getText().length();
+    String strStateLines = Util.STATE_LINES + this.txaMain.getLineCount();
+    this.pnlState.setStringByIndex(0, strStateChars + ", " + strStateLines);
+  }
+
+  /**
+   * 更新状态栏当前光标所在的行数、列数与当前选择的字符数
+   */
+  private void updateStateCur() {
+    int curLn = 1;
+    int curCol = 1;
+    int curSel = 0;
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int currentIndex = currentLine.getCurrentIndex();
+    int startIndex = currentLine.getStartIndex();
+    curLn = currentLine.getLineNum() + 1;
+    curCol += currentIndex - startIndex;
+    String strSel = this.txaMain.getSelectedText();
+    if (strSel != null) {
+      curSel = strSel.length();
+    }
+    String strStateCurLn = Util.STATE_CUR_LINE + curLn;
+    String strStateCurCol = Util.STATE_CUR_COLUMN + curCol;
+    String strStateCurSel = Util.STATE_CUR_SELECT + curSel;
+    this.pnlState.setStringByIndex(1, strStateCurLn + ", " + strStateCurCol
+        + ", " + strStateCurSel);
+  }
+
+  /**
+   * 更新状态栏当前的换行符格式
+   */
+  private void updateStateLineStyle() {
+    this.pnlState.setStringByIndex(2, Util.STATE_LINE_STYLE
+        + this.lineSeparator.getName());
+  }
+
+  /**
+   * 更新状态栏当前的字符编码格式
+   */
+  private void updateStateEncoding() {
+    this.pnlState.setStringByIndex(3, Util.STATE_ENCODING
+        + this.encoding.getName());
+  }
+
+  /**
+   * 当文本域中的光标变化时，将触发此事件
+   */
+  public void caretUpdate(CaretEvent e) {
+    this.updateStateCur();
+    String selText = this.txaMain.getSelectedText();
+    if (selText != null && selText.length() > 0) {
+      this.setMenuStateBySelectedText(true);
+    } else {
+      this.setMenuStateBySelectedText(false);
+    }
+  }
+
+  /**
+   * 当文本域中的文本发生变化时，将触发此事件
+   */
+
+  public void undoableEditHappened(UndoableEditEvent e) {
+    this.undoManager.addEdit(e.getEdit());
+    this.undoIndex++; // 撤销标识符递增
+    this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
+    if (this.txaMain == null || this.txaMain.getText().isEmpty()) {
+      this.setMenuStateByTextArea(false);
+    } else {
+      this.setMenuStateByTextArea(true);
+    }
+    this.isTextChanged = true;
+    this.updateStateAll();
+    this.setTextPrefix();
+  }
+
+  /**
+   * 当主窗口获得焦点时，将触发此事件
+   */
+  public void windowGainedFocus(WindowEvent e) {
+    try {
+      Transferable tf = this.clip.getContents(this);
+      if (tf == null) {
+        this.itemPaste.setEnabled(false);
+        this.itemPopPaste.setEnabled(false);
+      } else {
+        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
+        if (str != null && str.length() > 0) {
+          this.itemPaste.setEnabled(true);
+          this.itemPopPaste.setEnabled(true);
+        }
+      }
+    } catch (Exception x) {
+      // 剪贴板异常
+      // x.printStackTrace();
+      this.itemPaste.setEnabled(false);
+      this.itemPopPaste.setEnabled(false);
+    }
+    if (this.file != null && !this.file.exists()) {
+      if (this.fileExistsLabel) {
+        int result = JOptionPane.showConfirmDialog(this, "文件：" + this.file
+            + "不存在。\n要重新创建吗？", Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+          this.checkFile(this.file);
+          this.toSaveFile(this.file);
+          this.setAfterSaveFile();
+          this.setTextPrefix();
+          this.setStylePrefix();
+        } else {
+          this.fileExistsLabel = false;
+        }
+      }
+    }
+  }
+
+  /**
+   * 当主窗口失去焦点时，将触发此事件
+   */
+  public void windowLostFocus(WindowEvent e) {
+
+  }
+}
