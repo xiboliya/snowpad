@@ -134,14 +134,16 @@ public final class Util {
    *          是否向下查找
    * @param isIgnoreCase
    *          是否区分大小写
+   * @param isWrap
+   *          是否循环查找
    * @return 查找的字符串位于文本组件中的索引
    */
   public static int findText(String strFindText, JTextComponent txcSource,
-      boolean isFindDown, boolean isIgnoreCase) {
+      boolean isFindDown, boolean isIgnoreCase, boolean isWrap) {
     if (isFindDown) {
-      return findDownText(strFindText, txcSource, isIgnoreCase);
+      return findDownText(strFindText, txcSource, isIgnoreCase, isWrap);
     } else {
-      return findUpText(strFindText, txcSource, isIgnoreCase);
+      return findUpText(strFindText, txcSource, isIgnoreCase, isWrap);
     }
   }
 
@@ -154,26 +156,34 @@ public final class Util {
    *          文本组件
    * @param isIgnoreCase
    *          是否区分大小写
+   * @param isWrap
+   *          是否循环查找
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findDownText(String strFindText, JTextComponent txcSource,
-      boolean isIgnoreCase) {
+      boolean isIgnoreCase, boolean isWrap) {
     if (strFindText == null || txcSource == null || strFindText.isEmpty()
         || txcSource.getText().isEmpty()) {
       return -1;
     }
+    int result = -1;
+    String strSourceAll = txcSource.getText();
     int caretPos = txcSource.getCaretPosition();
-    String strSource = txcSource.getText().substring(caretPos);
+    String strSource = strSourceAll.substring(caretPos);
     if (isIgnoreCase) {
       strFindText = strFindText.toLowerCase();
+      strSourceAll = strSourceAll.toLowerCase();
       strSource = strSource.toLowerCase();
     }
     int index = strSource.indexOf(strFindText);
     if (index >= 0) {
-      return caretPos + index;
+      result = caretPos + index;
     } else {
-      return -1;
+      if (isWrap) {
+        result = strSourceAll.indexOf(strFindText);
+      }
     }
+    return result;
   }
 
   /**
@@ -185,29 +195,40 @@ public final class Util {
    *          文本组件
    * @param isIgnoreCase
    *          是否区分大小写
+   * @param isWrap
+   *          是否循环查找
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findUpText(String strFindText, JTextComponent txcSource,
-      boolean isIgnoreCase) {
+      boolean isIgnoreCase, boolean isWrap) {
     if (strFindText == null || txcSource == null || strFindText.isEmpty()
         || txcSource.getText().isEmpty()) {
       return -1;
     }
+    int result = -1;
     int caretPos = txcSource.getCaretPosition();
-    if (txcSource.getSelectedText() != null && isIgnoreCase) {
-      if (txcSource.getSelectedText().equalsIgnoreCase(strFindText)) {
-        caretPos -= strFindText.length();
-      }
-    } else if (txcSource.getSelectedText() != null && !isIgnoreCase) {
-      if (txcSource.getSelectedText().equals(strFindText)) {
-        caretPos -= strFindText.length();
+    if (txcSource.getSelectedText() != null) {
+      if (isIgnoreCase) {
+        if (txcSource.getSelectedText().equalsIgnoreCase(strFindText)) {
+          caretPos -= strFindText.length();
+        }
+      } else {
+        if (txcSource.getSelectedText().equals(strFindText)) {
+          caretPos -= strFindText.length();
+        }
       }
     }
-    String strSource = txcSource.getText().substring(0, caretPos);
+    String strSourceAll = txcSource.getText();
+    String strSource = strSourceAll.substring(0, caretPos);
     if (isIgnoreCase) {
       strFindText = strFindText.toLowerCase();
+      strSourceAll = strSourceAll.toLowerCase();
       strSource = strSource.toLowerCase();
     }
-    return strSource.lastIndexOf(strFindText);
+    result = strSource.lastIndexOf(strFindText);
+    if (result < 0 && isWrap) {
+      result = strSourceAll.lastIndexOf(strFindText);
+    }
+    return result;
   }
 }

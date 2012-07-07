@@ -727,6 +727,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopDel.setEnabled(false);
     this.itemPopUnDo.setEnabled(false);
     this.itemPopReDo.setEnabled(false);
+    this.menuHighlight.setEnabled(false);
+    this.menuPopHighlight.setEnabled(false);
     this.setFileHistoryMenuEnabled();
   }
 
@@ -807,6 +809,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopDel.setEnabled(isNull);
     this.itemTrimSelected.setEnabled(isNull);
     this.itemDelNullLineSelected.setEnabled(isNull);
+    this.menuHighlight.setEnabled(isNull);
+    this.menuPopHighlight.setEnabled(isNull);
   }
 
   /**
@@ -2248,7 +2252,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void quickFindText(boolean isFindDown) {
     String strFindText = this.txaMain.getSelectedText();
     if (strFindText != null && strFindText.length() > 0) {
-      int index = Util.findText(strFindText, this.txaMain, isFindDown, false);
+      int index = Util.findText(strFindText, this.txaMain, isFindDown, false,
+          true);
       if (index >= 0) {
         this.txaMain.select(index, index + strFindText.length());
       }

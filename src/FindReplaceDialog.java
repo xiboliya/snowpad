@@ -34,6 +34,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private JTextArea txaSource = null; // 用于编辑的文本域
   private boolean isFindDown = true; // 向下查找
   private boolean isIgnoreCase = true; // 忽略大小写
+  private boolean isWrap = false; // 循环查找
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private String strFind = ""; // 查找的字符串
@@ -42,6 +43,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private JLabel lblFindTextF = new JLabel("查找内容：");
   private BaseTextField txtFindTextF = new BaseTextField();
   private JCheckBox chkNotIgnoreCaseF = new JCheckBox("区分大小写(C)", false);
+  private JCheckBox chkIsWrapF = new JCheckBox("循环查找(W)", false);
   private JRadioButton radFindUpF = new JRadioButton("向上(U)", false);
   private JRadioButton radFindDownF = new JRadioButton("向下(D)", true);
   private JButton btnFindF = new JButton("查找(F)");
@@ -56,6 +58,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private BaseTextField txtFindTextR = new BaseTextField();
   private BaseTextField txtReplaceTextR = new BaseTextField();
   private JCheckBox chkNotIgnoreCaseR = new JCheckBox("区分大小写(C)", false);
+  private JCheckBox chkIsWrapR = new JCheckBox("循环查找(W)", false);
   private JRadioButton radFindUpR = new JRadioButton("向上(U)", false);
   private JRadioButton radFindDownR = new JRadioButton("向下(D)", true);
   private JButton btnFindR = new JButton("查找(F)");
@@ -89,8 +92,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.txtFindTextF.setBounds(80, 9, 180, Util.INPUT_HEIGHT);
     this.pnlFind.add(this.lblFindTextF);
     this.pnlFind.add(this.txtFindTextF);
-    this.chkNotIgnoreCaseF.setBounds(10, 60, 110, Util.VIEW_HEIGHT);
+    this.chkNotIgnoreCaseF.setBounds(10, 50, 110, Util.VIEW_HEIGHT);
     this.pnlFind.add(this.chkNotIgnoreCaseF);
+    this.chkIsWrapF.setBounds(10, 70, 110, Util.VIEW_HEIGHT);
+    this.pnlFind.add(this.chkIsWrapF);
     this.pnlFindUpDownF.setBounds(145, 40, 95, 70);
     this.pnlFindUpDownF.setBorder(new TitledBorder("方向"));
     this.pnlFindUpDownF.add(this.radFindUpF);
@@ -116,8 +121,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.txtReplaceTextR.setBounds(80, 37, 180, Util.INPUT_HEIGHT);
     this.pnlReplace.add(this.lblReplaceTextR);
     this.pnlReplace.add(this.txtReplaceTextR);
-    this.chkNotIgnoreCaseR.setBounds(10, 88, 110, Util.VIEW_HEIGHT);
+    this.chkNotIgnoreCaseR.setBounds(10, 70, 110, Util.VIEW_HEIGHT);
     this.pnlReplace.add(this.chkNotIgnoreCaseR);
+    this.chkIsWrapR.setBounds(10, 90, 110, Util.VIEW_HEIGHT);
+    this.pnlReplace.add(this.chkIsWrapR);
     this.pnlFindUpDownR.setBounds(145, 60, 95, 70);
     this.pnlFindUpDownR.setBorder(new TitledBorder("方向"));
     this.pnlFindUpDownR.add(this.radFindUpR);
@@ -230,12 +237,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private void setMnemonic() {
     // 查找
     this.chkNotIgnoreCaseF.setMnemonic('C');
+    this.chkIsWrapF.setMnemonic('W');
     this.btnFindF.setMnemonic('F');
     this.btnCountF.setMnemonic('T');
     this.radFindUpF.setMnemonic('U');
     this.radFindDownF.setMnemonic('D');
     // 替换
     this.chkNotIgnoreCaseR.setMnemonic('C');
+    this.chkIsWrapR.setMnemonic('W');
     this.btnFindR.setMnemonic('F');
     this.btnReplaceR.setMnemonic('R');
     this.btnReplaceAllR.setMnemonic('A');
@@ -256,8 +265,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.radFindDownF.addActionListener(this);
     this.radFindUpF.addActionListener(this);
     this.chkNotIgnoreCaseF.addActionListener(this);
+    this.chkIsWrapF.addActionListener(this);
     this.txtFindTextF.addKeyListener(this.keyAdapter);
     this.chkNotIgnoreCaseF.addKeyListener(this.keyAdapter);
+    this.chkIsWrapF.addKeyListener(this.keyAdapter);
     this.radFindDownF.addKeyListener(this.keyAdapter);
     this.radFindUpF.addKeyListener(this.keyAdapter);
     this.btnCancelF.addKeyListener(this.buttonKeyAdapter);
@@ -272,9 +283,11 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.radFindDownR.addActionListener(this);
     this.radFindUpR.addActionListener(this);
     this.chkNotIgnoreCaseR.addActionListener(this);
+    this.chkIsWrapR.addActionListener(this);
     this.txtFindTextR.addKeyListener(this.keyAdapter);
     this.txtReplaceTextR.addKeyListener(this.keyAdapter);
     this.chkNotIgnoreCaseR.addKeyListener(this.keyAdapter);
+    this.chkIsWrapR.addKeyListener(this.keyAdapter);
     this.radFindDownR.addKeyListener(this.keyAdapter);
     this.radFindUpR.addKeyListener(this.keyAdapter);
     this.btnCancelR.addKeyListener(this.buttonKeyAdapter);
@@ -298,6 +311,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       boolean selected = this.chkNotIgnoreCaseF.isSelected();
       this.isIgnoreCase = !selected;
       this.chkNotIgnoreCaseR.setSelected(selected);
+    } else if (this.chkIsWrapF.equals(e.getSource())) {
+      boolean selected = this.chkIsWrapF.isSelected();
+      this.isWrap = selected;
+      this.chkIsWrapR.setSelected(selected);
     } else if (this.radFindDownF.equals(e.getSource())) {
       this.isFindDown = true;
       this.radFindDownR.setSelected(true);
@@ -318,6 +335,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       boolean selected = this.chkNotIgnoreCaseR.isSelected();
       this.isIgnoreCase = !selected;
       this.chkNotIgnoreCaseF.setSelected(selected);
+    } else if (this.chkIsWrapR.equals(e.getSource())) {
+      boolean selected = this.chkIsWrapR.isSelected();
+      this.isWrap = selected;
+      this.chkIsWrapF.setSelected(selected);
     } else if (this.radFindDownR.equals(e.getSource())) {
       this.isFindDown = true;
       this.radFindDownF.setSelected(true);
@@ -355,7 +376,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   public boolean findText(boolean isFindDown) {
     if (this.strFind != null && !this.strFind.isEmpty()) {
       int index = Util.findText(this.strFind, this.txaSource, isFindDown,
-          this.isIgnoreCase);
+          this.isIgnoreCase, this.isWrap);
       if (index >= 0) {
         this.txaSource.select(index, index + this.strFind.length());
         return true;
