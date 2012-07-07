@@ -497,3 +497,9 @@ src/SnowPadFrame.java
 src/PartnerBean.java(添加)
 src/SnowPadFrame.java
 src/Util.java
+
+2012-07-07
+1.在查找/替换对话框中添加“循环查找”功能
+src/FindReplaceDialog.java
+src/SnowPadFrame.java
+src/Util.java
