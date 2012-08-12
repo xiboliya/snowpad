@@ -68,7 +68,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private ButtonGroup bgpFindUpDownR = new ButtonGroup();
   private JPanel pnlFindUpDownR = new JPanel(new GridLayout(2, 1));
 
-  public FindReplaceDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public FindReplaceDialog(JFrame owner, boolean modal, JTextArea txaSource,
+      boolean visible) {
     super(owner, modal);
     if (txaSource == null) {
       return;
@@ -79,7 +80,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.setMnemonic();
     this.addListeners();
     this.setSize(390, 205);
-    this.setVisible(true);
+    this.setVisible(visible);
   }
 
   /**

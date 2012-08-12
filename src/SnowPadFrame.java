@@ -119,6 +119,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemFind = new JMenuItem("查找(F)...", 'F');
   private JMenuItem itemFindNext = new JMenuItem("查找下一个(N)", 'N');
   private JMenuItem itemFindPrevious = new JMenuItem("查找上一个(P)", 'P');
+  private JMenuItem itemSelFindNext = new JMenuItem("选定查找下一个(T)", 'T');
+  private JMenuItem itemSelFindPrevious = new JMenuItem("选定查找上一个(S)", 'S');
   private JMenu menuQuickFind = new JMenu("快速查找");
   private JMenuItem itemQuickFindDown = new JMenuItem("快速向下查找");
   private JMenuItem itemQuickFindUp = new JMenuItem("快速向上查找");
@@ -336,6 +338,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFind.addActionListener(this);
     this.itemFindNext.addActionListener(this);
     this.itemFindPrevious.addActionListener(this);
+    this.itemSelFindNext.addActionListener(this);
+    this.itemSelFindPrevious.addActionListener(this);
     this.itemFont.addActionListener(this);
     this.itemGoto.addActionListener(this);
     this.itemToClipFileName.addActionListener(this);
@@ -584,6 +588,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuSearch.add(this.itemFind);
     this.menuSearch.add(this.itemFindNext);
     this.menuSearch.add(this.itemFindPrevious);
+    this.menuSearch.add(this.itemSelFindNext);
+    this.menuSearch.add(this.itemSelFindPrevious);
     this.menuSearch.add(this.menuQuickFind);
     this.menuQuickFind.add(this.itemQuickFindDown);
     this.menuQuickFind.add(this.itemQuickFindUp);
@@ -717,6 +723,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFind.setEnabled(false);
     this.itemFindNext.setEnabled(false);
     this.itemFindPrevious.setEnabled(false);
+    this.itemSelFindNext.setEnabled(false);
+    this.itemSelFindPrevious.setEnabled(false);
     this.menuQuickFind.setEnabled(false);
     this.itemSelCopy.setEnabled(false);
     this.itemRemoveText.setEnabled(false);
@@ -794,6 +802,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFind.setEnabled(isExist);
     this.itemFindNext.setEnabled(isExist);
     this.itemFindPrevious.setEnabled(isExist);
+    this.itemSelFindNext.setEnabled(isExist);
+    this.itemSelFindPrevious.setEnabled(isExist);
     this.itemReplace.setEnabled(isExist);
     this.itemGoto.setEnabled(isExist);
   }
@@ -901,6 +911,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFindNext.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0)); // 快捷键：F3
     this.itemFindPrevious.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
         InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Shift+F3
+    this.itemSelFindNext.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+F3
+    this.itemSelFindPrevious
+        .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
+            InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+F3
     this.itemQuickFindDown.setAccelerator(KeyStroke.getKeyStroke('K',
         InputEvent.CTRL_DOWN_MASK));
     this.itemQuickFindUp.setAccelerator(KeyStroke.getKeyStroke('K',
@@ -987,6 +1002,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.findNextText(true);
     } else if (this.itemFindPrevious.equals(e.getSource())) {
       this.findNextText(false);
+    } else if (this.itemSelFindNext.equals(e.getSource())) {
+      this.findSelNextText(true);
+    } else if (this.itemSelFindPrevious.equals(e.getSource())) {
+      this.findSelNextText(false);
     } else if (this.itemQuickFindDown.equals(e.getSource())) {
       this.quickFindText(true);
     } else if (this.itemQuickFindUp.equals(e.getSource())) {
@@ -1197,6 +1216,24 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       JMenuItem itemFile = (JMenuItem) e.getSource();
       this.openFileHistory(itemFile.getText());
     }
+  }
+
+  /**
+   * "选定查找"的处理方法
+   * 
+   * @param isFindDown
+   *          查找的方向，如果向下查找则为true，反之则为false
+   */
+  private void findSelNextText(boolean isFindDown) {
+    String strSel = this.txaMain.getSelectedText();
+    if (this.findReplaceDialog == null) {
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain,
+          false);
+    }
+    if (strSel != null && !strSel.isEmpty()) {
+      this.findReplaceDialog.setFindText(strSel, false);
+    }
+    this.findReplaceDialog.findText(isFindDown);
   }
 
   /**
@@ -2578,7 +2615,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     if (this.findReplaceDialog == null) {
-      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain);
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain,
+          true);
     } else {
       this.findReplaceDialog.setVisible(true);
     }
@@ -2604,7 +2642,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     String strSel = this.checkSelText();
     if (this.findReplaceDialog == null) {
-      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain);
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain,
+          true);
       this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
       if (strSel != null && !strSel.isEmpty()) {
         this.findReplaceDialog.setFindText(strSel, true);
@@ -2629,7 +2668,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     if (this.findReplaceDialog == null) {
-      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain);
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain,
+          true);
     } else {
       this.findReplaceDialog.setVisible(true);
     }
