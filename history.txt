@@ -503,3 +503,17 @@ src/Util.java
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
 src/Util.java
+
+2012-08-12
+1.在编辑菜单下添加“切除”功能
+src/RemoveTextDialog.java（添加）
+src/SnowPadFrame.java
+2.解决“复写当前行”时，当光标处于文本域中最后一行，且此行非空时，不会换行的问题
+src/SnowPadFrame.java
+3.编译打包时，删除res目录里可能存在的图片缓存文件Thumbs.db
+build.xml
+4.在搜索菜单下添加“选定查找”功能
+src/FindReplaceDialog.java
+src/SnowPadFrame.java
+5.调整“插入特殊字符”界面的字符
+src/Util.java
