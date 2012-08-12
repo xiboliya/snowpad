@@ -102,6 +102,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemSortUp = new JMenuItem("升序");
   private JMenuItem itemSortDown = new JMenuItem("降序");
   private JMenuItem itemSelCopy = new JMenuItem("复写当前选择(W)", 'W');
+  private JMenuItem itemRemoveText = new JMenuItem("切除(X)...", 'X');
   private JMenu menuTrim = new JMenu("清除空白");
   private JMenuItem itemTrimStart = new JMenuItem("行首");
   private JMenuItem itemTrimEnd = new JMenuItem("行尾");
@@ -238,6 +239,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private InsertCharDialog insertCharDialog = null; // 插入字符对话框
   private InsertDateDialog insertDateDialog = null; // 插入时间/日期对话框
   private FileEncodingDialog fileEncodingDialog = null; // 文件编码格式对话框
+  private RemoveTextDialog removeTextDialog = null; // 切除文本对话框
   private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
   private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // 用于存放换行方式的按钮组
   private ButtonGroup bgpLineStyle = new ButtonGroup(); // 用于存放换行符格式的按钮组
@@ -350,6 +352,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSortUp.addActionListener(this);
     this.itemSortDown.addActionListener(this);
     this.itemSelCopy.addActionListener(this);
+    this.itemRemoveText.addActionListener(this);
     this.itemTrimStart.addActionListener(this);
     this.itemTrimEnd.addActionListener(this);
     this.itemTrimAll.addActionListener(this);
@@ -562,7 +565,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuSort);
     this.menuSort.add(this.itemSortUp);
     this.menuSort.add(this.itemSortDown);
-    this.menuEdit.add(this.itemSelCopy);
     this.menuEdit.add(this.menuTrim);
     this.menuTrim.add(this.itemTrimStart);
     this.menuTrim.add(this.itemTrimEnd);
@@ -572,6 +574,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuDelNullLine);
     this.menuDelNullLine.add(this.itemDelNullLineAll);
     this.menuDelNullLine.add(this.itemDelNullLineSelected);
+    this.menuEdit.add(this.itemSelCopy);
+    this.menuEdit.add(this.itemRemoveText);
     this.menuEdit.addSeparator();
     this.menuEdit.add(this.menuInsert);
     this.menuInsert.add(this.itemInsertChar);
@@ -715,6 +719,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFindPrevious.setEnabled(false);
     this.menuQuickFind.setEnabled(false);
     this.itemSelCopy.setEnabled(false);
+    this.itemRemoveText.setEnabled(false);
     this.itemReplace.setEnabled(false);
     this.itemGoto.setEnabled(false);
     this.itemToClipFileName.setEnabled(false);
@@ -778,12 +783,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
 
   /**
    * 根据文本域中的字符是否为空，设置相关菜单的状态
-   * 
-   * @param isExist
-   *          文本域中是否有字符
    */
-  private void setMenuStateByTextArea(boolean isExist) {
+  private void setMenuStateByTextArea() {
+    boolean isExist = true;
+    if (this.txaMain == null || this.txaMain.getText().isEmpty()) {
+      isExist = false;
+    }
     this.menuSort.setEnabled(isExist);
+    this.itemRemoveText.setEnabled(isExist);
     this.itemFind.setEnabled(isExist);
     this.itemFindNext.setEnabled(isExist);
     this.itemFindPrevious.setEnabled(isExist);
@@ -793,11 +800,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
 
   /**
    * 根据文本域中选择的字符串是否为空，设置相关菜单的状态
-   * 
-   * @param isNull
-   *          选择是否为空
    */
-  private void setMenuStateBySelectedText(boolean isNull) {
+  private void setMenuStateBySelectedText() {
+    boolean isNull = false;
+    String selText = this.txaMain.getSelectedText();
+    if (selText != null && selText.length() > 0) {
+      isNull = true;
+    }
     this.itemCopy.setEnabled(isNull);
     this.itemCut.setEnabled(isNull);
     this.itemDel.setEnabled(isNull);
@@ -914,6 +923,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.ALT_DOWN_MASK)); // 快捷键：Alt+向下方向键
     this.itemSelCopy.setAccelerator(KeyStroke.getKeyStroke('R',
         InputEvent.CTRL_DOWN_MASK));
+    this.itemRemoveText.setAccelerator(KeyStroke.getKeyStroke('X',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK));
     this.itemTrimStart.setAccelerator(KeyStroke.getKeyStroke('S',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
     this.itemTrimEnd.setAccelerator(KeyStroke.getKeyStroke('E',
@@ -1012,6 +1023,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.sortLines(false);
     } else if (this.itemSelCopy.equals(e.getSource())) {
       this.copySelectedText();
+    } else if (this.itemRemoveText.equals(e.getSource())) {
+      this.removeText();
     } else if (this.itemTrimStart.equals(e.getSource())) {
       this.trimLines(0);
     } else if (this.itemTrimEnd.equals(e.getSource())) {
@@ -1183,6 +1196,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (Util.FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
       JMenuItem itemFile = (JMenuItem) e.getSource();
       this.openFileHistory(itemFile.getText());
+    }
+  }
+
+  /**
+   * "切除"的处理方法
+   */
+  private void removeText() {
+    if (this.removeTextDialog == null) {
+      this.removeTextDialog = new RemoveTextDialog(this, true, this.txaMain);
+    } else {
+      this.removeTextDialog.setVisible(true);
     }
   }
 
@@ -2251,7 +2275,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void quickFindText(boolean isFindDown) {
     String strFindText = this.txaMain.getSelectedText();
-    if (strFindText != null && strFindText.length() > 0) {
+    if (strFindText != null && !strFindText.isEmpty()) {
       int index = Util.findText(strFindText, this.txaMain, isFindDown, false,
           true);
       if (index >= 0) {
@@ -2351,6 +2375,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.setTextPrefix();
     this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
+    this.setMenuStateByTextArea();
   }
 
   /**
@@ -3044,12 +3069,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   public void caretUpdate(CaretEvent e) {
     this.updateStateCur();
-    String selText = this.txaMain.getSelectedText();
-    if (selText != null && selText.length() > 0) {
-      this.setMenuStateBySelectedText(true);
-    } else {
-      this.setMenuStateBySelectedText(false);
-    }
+    this.setMenuStateBySelectedText();
   }
 
   /**
@@ -3060,11 +3080,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.undoManager.addEdit(e.getEdit());
     this.undoIndex++; // 撤销标识符递增
     this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
-    if (this.txaMain == null || this.txaMain.getText().isEmpty()) {
-      this.setMenuStateByTextArea(false);
-    } else {
-      this.setMenuStateByTextArea(true);
-    }
+    this.setMenuStateByTextArea();
     this.isTextChanged = true;
     this.updateStateAll();
     this.setTextPrefix();
