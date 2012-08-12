@@ -2245,7 +2245,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     String strContent = currentLines.getStrContent();
     int endIndex = currentLines.getEndIndex();
     int currentIndex = currentLines.getCurrentIndex();
-    if (currentIndex == this.txaMain.getText().length()) {
+    int endLineNum = currentLines.getEndLineNum();
+    if (currentIndex == this.txaMain.getText().length()
+        || endLineNum == this.txaMain.getLineCount() - 1) {
       strContent = "\n" + strContent;
     }
     this.txaMain.insert(strContent, endIndex);
