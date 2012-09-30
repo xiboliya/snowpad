@@ -517,3 +517,7 @@ src/FindReplaceDialog.java
 src/SnowPadFrame.java
 5.调整“插入特殊字符”界面的字符
 src/Util.java
+
+2012-09-30
+1.在编辑菜单下添加“缩进”功能
+src/SnowPadFrame.java
