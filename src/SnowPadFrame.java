@@ -101,6 +101,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuSort = new JMenu("排序");
   private JMenuItem itemSortUp = new JMenuItem("升序");
   private JMenuItem itemSortDown = new JMenuItem("降序");
+  private JMenu menuIndent = new JMenu("缩进");
+  private JMenuItem itemIndentAdd = new JMenuItem("缩进");
+  private JMenuItem itemIndentBack = new JMenuItem("退格");
   private JMenuItem itemSelCopy = new JMenuItem("复写当前选择(W)", 'W');
   private JMenuItem itemRemoveText = new JMenuItem("切除(X)...", 'X');
   private JMenu menuTrim = new JMenu("清除空白");
@@ -248,7 +251,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private ButtonGroup bgpCharset = new ButtonGroup(); // 用于存放字符编码格式的按钮组
   private KeyAdapter autoIndentKeyAdapter = null; // 用于自动缩进的键盘适配器
   private KeyAdapter tabReplaceKeyAdapter = null; // 用于设置以空格代替Tab键的键盘适配器
-  private boolean isReplaceBySpace = true; // 以空格代替Tab键
+  private boolean isReplaceBySpace = false; // 以空格代替Tab键
   private File file = null; // 当前编辑的文件
   private ImageIcon icon = null; // 本程序图标
   private final Color colorFont = this.txaMain.getForeground(); // 文本域默认字体颜色
@@ -355,6 +358,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineToDown.addActionListener(this);
     this.itemSortUp.addActionListener(this);
     this.itemSortDown.addActionListener(this);
+    this.itemIndentAdd.addActionListener(this);
+    this.itemIndentBack.addActionListener(this);
     this.itemSelCopy.addActionListener(this);
     this.itemRemoveText.addActionListener(this);
     this.itemTrimStart.addActionListener(this);
@@ -569,6 +574,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuSort);
     this.menuSort.add(this.itemSortUp);
     this.menuSort.add(this.itemSortDown);
+    this.menuEdit.add(this.menuIndent);
+    this.menuIndent.add(this.itemIndentAdd);
+    this.menuIndent.add(this.itemIndentBack);
     this.menuEdit.add(this.menuTrim);
     this.menuTrim.add(this.itemTrimStart);
     this.menuTrim.add(this.itemTrimEnd);
@@ -936,6 +944,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.ALT_DOWN_MASK)); // 快捷键：Alt+向上方向键
     this.itemSortDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
         InputEvent.ALT_DOWN_MASK)); // 快捷键：Alt+向下方向键
+    this.itemIndentAdd.setAccelerator(KeyStroke.getKeyStroke('T',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+T
+    this.itemIndentBack.setAccelerator(KeyStroke.getKeyStroke('T',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK
+            + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Alt+Shift+T
     this.itemSelCopy.setAccelerator(KeyStroke.getKeyStroke('R',
         InputEvent.CTRL_DOWN_MASK));
     this.itemRemoveText.setAccelerator(KeyStroke.getKeyStroke('X',
@@ -1040,6 +1053,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.sortLines(true);
     } else if (this.itemSortDown.equals(e.getSource())) {
       this.sortLines(false);
+    } else if (this.itemIndentAdd.equals(e.getSource())) {
+      this.toIndent(true);
+    } else if (this.itemIndentBack.equals(e.getSource())) {
+      this.toIndent(false);
     } else if (this.itemSelCopy.equals(e.getSource())) {
       this.copySelectedText();
     } else if (this.itemRemoveText.equals(e.getSource())) {
@@ -1216,6 +1233,65 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       JMenuItem itemFile = (JMenuItem) e.getSource();
       this.openFileHistory(itemFile.getText());
     }
+  }
+
+  /**
+   * "缩进"的处理方法
+   * 
+   * @param indent
+   *          缩进的方向，如果缩进则为true，退格则为false
+   */
+  private void toIndent(boolean indent) {
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int startIndex = currentLines.getStartIndex();
+    int endIndex = currentLines.getEndIndex();
+    String strContent = currentLines.getStrContent();
+    String strText = this.txaMain.getText();
+    if (strContent.endsWith("\n") && endIndex != strText.length()) {
+      endIndex--;
+    }
+    this.txaMain.select(startIndex, endIndex);
+    String strSel = this.txaMain.getSelectedText();
+    if (strSel == null) {
+      strSel = "";
+    }
+    String[] arrText = strSel.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
+    String strIndent = "\t"; // 用于缩进的字符，默认为TAB字符
+    String strIndentBlanks = ""; // 当前等价于Tab键的多个空格
+    int tabSize = this.txaMain.getTabSize();
+    for (int i = 0; i < tabSize; i++) {
+      strIndentBlanks += " ";
+    }
+    if (this.isReplaceBySpace) { // 如果被设置为“以空格代替Tab键”，则将缩进字符设置为相应个数的空格
+      strIndent = strIndentBlanks;
+    }
+    StringBuilder stbIndent = new StringBuilder();
+    boolean label = false; // 用来标识是否进行了退格
+    if (indent) {
+      for (String str : arrText) {
+        stbIndent.append(strIndent + str + "\n");
+      }
+    } else {
+      for (String str : arrText) {
+        if (str.startsWith(strIndent)) {
+          str = str.substring(strIndent.length());
+          label = true;
+        } else if (str.startsWith(strIndentBlanks)) {
+          str = str.substring(strIndentBlanks.length());
+          label = true;
+        } else if (str.startsWith("\t")) {
+          str = str.substring(1);
+          label = true;
+        }
+        stbIndent.append(str + "\n");
+      }
+      if (!label) {
+        return;
+      }
+    }
+    this.txaMain.replaceSelection(stbIndent
+        .deleteCharAt(stbIndent.length() - 1).toString()); // 删除字符串末尾多余的换行符
+    this.txaMain.select(startIndex, startIndex + stbIndent.length());
   }
 
   /**
