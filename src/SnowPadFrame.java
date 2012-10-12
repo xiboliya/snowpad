@@ -1567,13 +1567,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       for (String str : arrText) {
         stbSorted.append(str + "\n");
       }
+      if (stbSorted.toString().startsWith("\n")) {
+        stbSorted.deleteCharAt(0); // É¾³ý×Ö·û´®¿ªÍ·¶àÓàµÄ»»ÐÐ·û
+      } else {
+        stbSorted.deleteCharAt(stbSorted.length() - 1); // É¾³ý×Ö·û´®Ä©Î²¶àÓàµÄ»»ÐÐ·û
+      }
+      this.txaMain.replaceSelection(stbSorted.toString());
     } else { // ½µÐò
       for (String str : arrText) {
         stbSorted.insert(0, str + "\n");
       }
+      this.txaMain.replaceSelection(stbSorted.deleteCharAt(
+          stbSorted.length() - 1).toString()); // É¾³ý×Ö·û´®Ä©Î²¶àÓàµÄ»»ÐÐ·û
     }
-    this.txaMain.replaceSelection(stbSorted
-        .deleteCharAt(stbSorted.length() - 1).toString()); // É¾³ý×Ö·û´®Ä©Î²¶àÓàµÄ»»ÐÐ·û
   }
 
   /**
