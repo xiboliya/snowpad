@@ -28,10 +28,7 @@
     </javac>
   </target>
   <target name="makeJar" depends="init,compile" description="生成jar包">
-    <delete description="删除res目录里可能存在的图片缓存文件Thumbs.db">
-      <fileset dir="${antDir}" includes="**/Thumbs.db"/>
-    </delete>
-    <jar destfile="${jarFile}" basedir="${binDir}">
+    <jar destfile="${jarFile}" basedir="${binDir}" excludes="**/Thumbs.db" description="打包为jar文件，并排除Thumbs.db文件">
       <manifest>
         <attribute name="Main-Class" value="${package}.${mainClass}" />
       </manifest>
