@@ -521,3 +521,11 @@ src/Util.java
 2012-09-30
 1.在编辑菜单下添加“缩进”功能
 src/SnowPadFrame.java
+
+2012-10-12
+1.解决“升序”排序时，换行偏移的问题
+src/SnowPadFrame.java
+2.修改编译部署文件，在jar中添加excludes属性，保证在打包时排除图片缓存文件Thumbs.db
+build.xml
+3.添加cmd.exe文件，以便于在Windows中编译
+cmd.exe（添加）
