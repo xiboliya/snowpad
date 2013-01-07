@@ -529,3 +529,10 @@ src/SnowPadFrame.java
 build.xml
 3.添加cmd.exe文件，以便于在Windows中编译
 cmd.exe（添加）
+
+2013-01-07
+1.“关于记事本”窗口中，当鼠标点击链接时添加对多浏览器（firefox、opera和chrome）的支持
+src/AboutDialog.java
+src/Util.java
+2.“关于记事本”窗口中，添加“代码”一项，即本项目在谷歌代码的链接
+src/SnowPadFrame.java
