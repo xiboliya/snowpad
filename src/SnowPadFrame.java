@@ -2525,12 +2525,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void showAbout() {
     if (this.aboutDialog == null) {
       final String strBlog = "http://hi.baidu.com/xiboliya";
+      final String strCode = "http://code.google.com/p/snowpad";
       String[] arrStrLabel = new String[] { "软件：" + Util.SOFTWARE,
           "版本：" + Util.VERSION, "作者：冰原",
           "<html>博客：<a href='" + strBlog + "'>" + strBlog + "</a></html>",
+          "<html>代码：<a href='" + strCode + "'>" + strCode + "</a></html>",
           "版权：此为自由软件可以任意引用或修改" };
       this.aboutDialog = new AboutDialog(this, true, arrStrLabel, this.icon);
       this.aboutDialog.addLinkByIndex(3, strBlog);
+      this.aboutDialog.addLinkByIndex(4, strCode);
       this.aboutDialog.pack(); // 自动调整窗口大小，以适应各组件
     }
     this.aboutDialog.setVisible(true);
