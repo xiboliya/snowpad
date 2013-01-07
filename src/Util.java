@@ -18,6 +18,7 @@ public final class Util {
   public static final String SOFTWARE = "冰雪记事本"; // 软件名称
   public static final String VERSION = "V2.2"; // 软件版本号
   public static final String TXT_EXT = ".txt"; // txt文件的扩展名
+  public static final String OS_NAME = System.getProperty("os.name", "Windows"); // 当前操作系统的名称
   public static final String FILE_SEPARATOR = System.getProperty(
       "file.separator", "/"); // 当前操作系统的文件分隔符
   public static final String LINE_SEPARATOR = System.getProperty(

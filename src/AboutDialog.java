@@ -169,14 +169,41 @@ public class AboutDialog extends BaseDialog implements ActionListener {
     lblTemp.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         try {
-          // 当用鼠标点击此标签时，将调用系统命令，打开网页
-          Runtime.getRuntime().exec("cmd /c start " + strLink);
+          if (Util.OS_NAME.indexOf("Windows") >= 0) {
+            // 当用鼠标点击此标签时，将调用系统命令，打开网页
+            Runtime.getRuntime().exec("cmd /c start " + strLink);
+          } else { // 如为非Windows系统，则试图使用特定浏览器打开
+            openLinkByBrowser(0, strLink);
+          }
         } catch (Exception x) {
-          // 如果操作系统不支持此命令，将抛出异常
+          // 如果操作系统不支持上述命令，将抛出异常
           x.printStackTrace();
         }
       }
     });
+  }
+
+  /**
+   * 使用特定的浏览器打开链接
+   * 
+   * @param index
+   *          浏览器数组的索引
+   * @param strLink
+   *          链接字符串
+   */
+  private void openLinkByBrowser(int index, final String strLink) {
+    String[] arrBrowser = new String[] { "firefox", "opera", "chrome" };
+    if (index < 0 || index >= arrBrowser.length) {
+      return;
+    } else {
+      try {
+        Runtime.getRuntime().exec(arrBrowser[index] + " " + strLink);
+      } catch (Exception x) {
+        // 如果未能正常打开链接，则递归调用本方法，试图使用上述数组中的下一个浏览器打开
+        this.openLinkByBrowser(++index, strLink);
+        x.printStackTrace();
+      }
+    }
   }
 
   /**
