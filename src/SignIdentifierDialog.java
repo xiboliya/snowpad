@@ -21,27 +21,30 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 /**
- * "插入字符"对话框
+ * "列表符号与编号"对话框
  * 
  * @author chen
  * 
  */
-public class InsertCharDialog extends BaseDialog implements ActionListener,
+public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     FocusListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
   private JPanel pnlRight = new JPanel(null);
   private JTabbedPane tpnMain = new JTabbedPane();
-  private GridLayout gridLayout = new GridLayout(Util.INSERT_MAX_ROW,
-      Util.INSERT_MAX_COLUMN, 0, 0);
-  private JButton btnOk = new JButton("插入");
-  private JButton btnCancel = new JButton("关闭");
-  private JLabel lblView = new JLabel();
+  private GridLayout gridLayout = new GridLayout(Util.SIGN_MAX_ROW,
+      Util.SIGN_MAX_COLUMN, 5, 5);
+  private GridLayout specialGridLayout = new GridLayout(Util.SIGN_MAX_ROW, 1,
+      5, 5);
+  private JButton btnOk = new JButton("确定");
+  private JButton btnCancel = new JButton("取消");
+  private JTextArea txaView = new JTextArea();
   private JTextArea txaSource = null;
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
   private MouseAdapter mouseAdapter = null;
+  private String strSignIdentifier = ""; // 当前选中的符号或编号字符串
 
   /**
    * 构造方法
@@ -55,7 +58,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
    * @param hashtable
    *          用于显示字符的哈希表。键为标签，值为该标签下的字符序列
    */
-  public InsertCharDialog(JFrame owner, boolean modal, JTextArea txaSource,
+  public SignIdentifierDialog(JFrame owner, boolean modal, JTextArea txaSource,
       Hashtable<String, String> hashtable) {
     super(owner, modal);
     if (txaSource == null) {
@@ -64,7 +67,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
     this.txaSource = txaSource;
     this.init();
     this.addListeners();
-    this.setSize(340, 275);
+    this.setSize(320, 275);
     this.fillTabbedPane(hashtable);
     this.setVisible(true);
   }
@@ -73,24 +76,24 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
    * 初始化界面
    */
   private void init() {
-    this.setTitle("插入字符");
+    this.setTitle("列表符号与编号");
     this.pnlMain.setLayout(null);
-    this.pnlLeft.setBounds(0, 0, 230, 245);
-    this.pnlRight.setBounds(230, 0, 110, 240);
+    this.pnlLeft.setBounds(0, 0, 200, 245);
+    this.pnlRight.setBounds(200, 0, 110, 240);
     this.pnlMain.add(this.pnlLeft);
     this.pnlMain.add(this.pnlRight);
     this.pnlLeft.add(this.tpnMain, BorderLayout.CENTER);
-    this.btnOk.setBounds(10, 30, 85, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(10, 70, 85, Util.BUTTON_HEIGHT);
-    this.lblView.setBounds(6, 125, 96, 96);
-    this.lblView.setBorder(new EtchedBorder());
-    this.lblView.setHorizontalAlignment(SwingConstants.CENTER);
-    this.lblView.setOpaque(true);
+    this.btnOk.setBounds(10, 30, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(10, 70, 90, Util.BUTTON_HEIGHT);
+    this.txaView.setBounds(6, 120, 98, 110);
+    this.txaView.setBorder(new EtchedBorder());
+    this.txaView.setOpaque(true);
+    this.txaView.setEditable(false);
+    this.txaView.setFocusable(false);
     this.pnlRight.add(this.btnOk);
     this.pnlRight.add(this.btnCancel);
-    this.pnlRight.add(this.lblView);
+    this.pnlRight.add(this.txaView);
     this.tpnMain.setFocusable(false);
-    this.lblView.setFont(Util.INSERT_VIEW_FONT);
     this.btnOk.setFocusable(false);
     this.btnCancel.setFocusable(false);
   }
@@ -126,19 +129,33 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
         || strTitle.isEmpty()) {
       return;
     }
-    JPanel pnlTemp = new JPanel(this.gridLayout);
     int elementCount = strElement.length();
-    if (elementCount > Util.INSERT_MAX_ELEMENT) {
-      elementCount = Util.INSERT_MAX_ELEMENT;
+    boolean isSpecial = false;
+    JPanel pnlTemp = null;
+    int gridTotal = 0;
+    if (strElement.equals(Util.IDENTIFIER_CHARS)) {
+      isSpecial = true;
+    }
+    if (isSpecial) {
+      pnlTemp = new JPanel(this.specialGridLayout); // 创建特殊格式的布局
+      gridTotal = this.specialGridLayout.getRows()
+          * this.specialGridLayout.getColumns();
+    } else {
+      pnlTemp = new JPanel(this.gridLayout); // 创建普通格式的布局
+      gridTotal = this.gridLayout.getRows() * this.gridLayout.getColumns();
+    }
+    if (elementCount > gridTotal) { // 保证元素的个数不大于布局中预留的网格数，多出的元素将被舍弃
+      elementCount = gridTotal;
     }
     int index = 0;
     for (; index < elementCount; index++) {
       char charElement = strElement.charAt(index);
-      JLabel lblElement = this.createElement(String.valueOf(charElement));
+      JLabel lblElement = this.createElement(String.valueOf(charElement),
+          isSpecial);
       pnlTemp.add(lblElement);
     }
-    for (; index < Util.INSERT_MAX_ELEMENT; index++) {
-      JLabel lblElement = this.createElement("");
+    for (; index < gridTotal; index++) {
+      JLabel lblElement = this.createElement("", false);
       pnlTemp.add(lblElement);
     }
     this.tpnMain.add(pnlTemp, strTitle);
@@ -149,10 +166,19 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
    * 
    * @param strElement
    *          显示的字符
+   * @param isSpecial
+   *          是否为特殊格式
    * @return 新创建的文本标签
    */
-  private JLabel createElement(String strElement) {
-    JLabel lblElement = new JLabel(strElement);
+  private JLabel createElement(String strElement, boolean isSpecial) {
+    JLabel lblElement = null;
+    if (isSpecial) {
+      lblElement = new JLabel(Util.SIGN_IDENTIFIER_NAMES[Util.IDENTIFIER_CHARS
+          .indexOf(strElement)]);
+    } else {
+      lblElement = new JLabel(strElement);
+      lblElement.setFont(Util.SIGN_VIEW_FONT);
+    }
     if (!strElement.isEmpty()) {
       lblElement.setHorizontalAlignment(SwingConstants.CENTER);
       lblElement.setFocusable(true); // 设置标签可以获得焦点
@@ -167,17 +193,84 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * 预览当前选中的字符
+   * 使用或预览当前选中的符号或编号方式
    * 
-   * @param strView
-   *          当前选中文本标签的字符
+   * @param isView
+   *          是否为预览模式，当为true时表示为预览当前模式，否则为使用当前模式
    */
-  private void setView(String strView) {
-    this.lblView.setText(strView);
+  private void signIdentifier(boolean isView) {
+    String[] arrText = null;
+    if (isView) {
+      arrText = Util.SIGN_CHARS_VIEW.split("\n");
+    } else {
+      arrText = Util.getCurrentLinesArray(this.txaSource);
+    }
+    if (arrText == null || arrText.length < 1) {
+      return;
+    }
+    boolean isSpecial = false;
+    if (this.tpnMain.getTitleAt(this.tpnMain.getSelectedIndex()).equals("编号")) {
+      isSpecial = true;
+    }
+    this.toConvertArray(arrText, isSpecial);
+    StringBuilder stbIndent = new StringBuilder();
+    for (String str : arrText) {
+      stbIndent.append(str + "\n");
+    }
+    if (isView) {
+      this.txaView.setText(stbIndent.deleteCharAt(stbIndent.length() - 1)
+          .toString()); // 删除字符串末尾多余的换行符
+    } else {
+      this.txaSource.replaceSelection(stbIndent.deleteCharAt(
+          stbIndent.length() - 1).toString()); // 删除字符串末尾多余的换行符
+    }
   }
 
   /**
-   * 添加事件监听器
+   * 为指定的字符串数组添加当前选中的符号或编号
+   * 
+   * @param arrText
+   *          待处理的字符串数组
+   * @param isSpecial
+   *          是否为特殊格式
+   */
+  private void toConvertArray(String[] arrText, boolean isSpecial) {
+    int n = 0;
+    if (isSpecial) {
+      int index = 0;
+      for (; index < Util.SIGN_IDENTIFIER_NAMES.length; index++) {
+        if (this.strSignIdentifier.equals(Util.SIGN_IDENTIFIER_NAMES[index])) {
+          break;
+        }
+      }
+      switch (index) {
+      case 0:
+        for (n = 0; n < arrText.length; n++) {
+          arrText[n] = (n + 1) + "." + arrText[n];
+        }
+        break;
+      case 1:
+        for (n = 0; n < arrText.length; n++) {
+          arrText[n] = Integer.toHexString(n + 1).toLowerCase() + "."
+              + arrText[n];
+        }
+        break;
+      case 2:
+        for (n = 0; n < arrText.length; n++) {
+          arrText[n] = Integer.toHexString(n + 1).toUpperCase() + "."
+              + arrText[n];
+        }
+        break;
+      }
+    } else {
+      for (n = 0; n < arrText.length; n++) {
+        arrText[n] = this.strSignIdentifier + arrText[n];
+      }
+    }
+  }
+
+  /**
+   * 添加和初始化事件监听器
    */
   private void addListeners() {
     this.btnOk.addActionListener(this);
@@ -208,7 +301,8 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
    * 默认的"确定"操作方法
    */
   public void onEnter() {
-    this.txaSource.replaceSelection(this.lblView.getText());
+    this.signIdentifier(false); // 应用当前的列表符号或编号效果
+    this.onCancel();
   }
 
   /**
@@ -224,7 +318,8 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   public void focusGained(FocusEvent e) {
     JLabel lblTemp = (JLabel) e.getSource();
     lblTemp.setBackground(Color.PINK);
-    this.setView(lblTemp.getText());
+    this.strSignIdentifier = lblTemp.getText();
+    this.signIdentifier(true); // 预览当前的列表符号或编号效果
   }
 
   /**

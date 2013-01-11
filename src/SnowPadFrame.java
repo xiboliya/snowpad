@@ -160,6 +160,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       "Unicode Little Endian格式");
   private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem(
       "Unicode Big Endian格式");
+  private JMenuItem itemSignIdentifier = new JMenuItem("列表符号与编号(G)...", 'G');
   private JMenu menuView = new JMenu("查看(V)");
   private JCheckBoxMenuItem itemStateBar = new JCheckBoxMenuItem("状态栏(S)");
   private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("前端显示(A)");
@@ -223,19 +224,36 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemPopRmHighlight5 = new JMenuItem("格式(5)", '5');
   private JMenuItem itemPopRmHighlightAll = new JMenuItem("所有格式(0)", '0');
 
-  private JFileChooser fcrOpen = new OpenFileChooser(); // "打开"文件选择器
-  private JFileChooser fcrSave = new SaveFileChooser(); // "保存"文件选择器
-  private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // 标题栏字符串
-  private StatePanel pnlState = new StatePanel(4); // 状态栏面板
   private boolean isNew = true; // 文件是否已保存，如果未保存则为true
   private boolean isTextChanged = false; // 文本内容是否已修改，如果已修改则为true
   private boolean isStyleChanged = false; // 文本格式是否已修改，如果已修改则为true
   private boolean fileExistsLabel = false; // 当文件删除或移动后，用于标识是否已弹出过提示框
-  private LineSeparator lineSeparator = LineSeparator.DEFAULT; // 当前的换行符格式
-  private CharEncoding encoding = CharEncoding.BASE; // 当前的字符编码
-  private UndoManager undoManager = new UndoManager(); // 撤销管理器
+  private boolean isReplaceBySpace = false; // 以空格代替Tab键
   private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
+  private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // 用于存放换行方式的按钮组
+  private ButtonGroup bgpLineStyle = new ButtonGroup(); // 用于存放换行符格式的按钮组
+  private ButtonGroup bgpCharset = new ButtonGroup(); // 用于存放字符编码格式的按钮组
+  private CharEncoding encoding = CharEncoding.BASE; // 当前的字符编码
   private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
+  private final Color colorFont = this.txaMain.getForeground(); // 文本域默认字体颜色
+  private final Color colorBack = this.txaMain.getBackground(); // 文本域默认背景颜色
+  private final Color colorCaret = this.txaMain.getCaretColor(); // 文本域默认光标颜色
+  private final Color colorSelFont = this.txaMain.getSelectedTextColor(); // 文本域默认选区字体颜色
+  private final Color colorSelBack = this.txaMain.getSelectionColor(); // 文本域默认选区背景颜色
+  private File file = null; // 当前编辑的文件
+  private Highlighter highlighter = this.txaMain.getHighlighter(); // 文本域的高亮显示对象
+  private ImageIcon icon = null; // 本程序图标
+  private KeyAdapter autoIndentKeyAdapter = null; // 用于自动缩进的键盘适配器
+  private KeyAdapter tabReplaceKeyAdapter = null; // 用于设置以空格代替Tab键的键盘适配器
+  private LineSeparator lineSeparator = LineSeparator.DEFAULT; // 当前的换行符格式
+  private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
+  private LinkedList<PartnerBean> highlighterList = new LinkedList<PartnerBean>(); // 存放文本域中所有高亮对象的链表
+  private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // 标题栏字符串
+  private StatePanel pnlState = new StatePanel(4); // 状态栏面板
+  private UndoManager undoManager = new UndoManager(); // 撤销管理器
+
+  private JFileChooser fcrOpen = new OpenFileChooser(); // "打开"文件选择器
+  private JFileChooser fcrSave = new SaveFileChooser(); // "保存"文件选择器
   private FontChooser fontChooser = null; // 字体对话框
   private FindReplaceDialog findReplaceDialog = null; // 查找、替换对话框
   private GotoDialog gotoDialog = null; // 转到对话框
@@ -245,22 +263,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private InsertDateDialog insertDateDialog = null; // 插入时间/日期对话框
   private FileEncodingDialog fileEncodingDialog = null; // 文件编码格式对话框
   private RemoveTextDialog removeTextDialog = null; // 切除文本对话框
-  private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
-  private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // 用于存放换行方式的按钮组
-  private ButtonGroup bgpLineStyle = new ButtonGroup(); // 用于存放换行符格式的按钮组
-  private ButtonGroup bgpCharset = new ButtonGroup(); // 用于存放字符编码格式的按钮组
-  private KeyAdapter autoIndentKeyAdapter = null; // 用于自动缩进的键盘适配器
-  private KeyAdapter tabReplaceKeyAdapter = null; // 用于设置以空格代替Tab键的键盘适配器
-  private boolean isReplaceBySpace = false; // 以空格代替Tab键
-  private File file = null; // 当前编辑的文件
-  private ImageIcon icon = null; // 本程序图标
-  private final Color colorFont = this.txaMain.getForeground(); // 文本域默认字体颜色
-  private final Color colorBack = this.txaMain.getBackground(); // 文本域默认背景颜色
-  private final Color colorCaret = this.txaMain.getCaretColor(); // 文本域默认光标颜色
-  private final Color colorSelFont = this.txaMain.getSelectedTextColor(); // 文本域默认选区字体颜色
-  private final Color colorSelBack = this.txaMain.getSelectionColor(); // 文本域默认选区背景颜色
-  private Highlighter highlighter = this.txaMain.getHighlighter(); // 文本域的高亮显示对象
-  private LinkedList<PartnerBean> highlighterList = new LinkedList<PartnerBean>(); // 存放文本域中所有高亮对象的链表
+  private SignIdentifierDialog signIdentifierDialog = null; // 项目符号与编号对话框
 
   /**
    * 构造方法 用于初始化界面和设置
@@ -381,6 +384,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCharsetUTF8_NO_BOM.addActionListener(this);
     this.itemCharsetULE.addActionListener(this);
     this.itemCharsetUBE.addActionListener(this);
+    this.itemSignIdentifier.addActionListener(this);
     this.itemTextDrag.addActionListener(this);
     this.itemAutoIndent.addActionListener(this);
     this.itemAlwaysOnTop.addActionListener(this);
@@ -621,6 +625,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuCharset.add(this.itemCharsetUTF8_NO_BOM);
     this.menuCharset.add(this.itemCharsetULE);
     this.menuCharset.add(this.itemCharsetUBE);
+    this.menuStyle.add(this.itemSignIdentifier);
     this.menuStyle.add(this.itemFont);
     this.menuStyle.add(this.itemTextDrag);
     this.menuStyle.add(this.itemAutoIndent);
@@ -743,6 +748,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemToClipDirPath.setEnabled(false);
     this.itemTrimSelected.setEnabled(false);
     this.itemDelNullLineSelected.setEnabled(false);
+    this.itemSignIdentifier.setEnabled(false);
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
     this.itemPopDel.setEnabled(false);
@@ -836,6 +842,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopDel.setEnabled(isNull);
     this.itemTrimSelected.setEnabled(isNull);
     this.itemDelNullLineSelected.setEnabled(isNull);
+    this.itemSignIdentifier.setEnabled(isNull);
     this.menuHighlight.setEnabled(isNull);
     this.menuPopHighlight.setEnabled(isNull);
   }
@@ -1099,6 +1106,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setCharEncoding(CharEncoding.ULE, false);
     } else if (this.itemCharsetUBE.equals(e.getSource())) {
       this.setCharEncoding(CharEncoding.UBE, false);
+    } else if (this.itemSignIdentifier.equals(e.getSource())) {
+      this.openSignIdentifierDialog();
     } else if (this.itemTextDrag.equals(e.getSource())) {
       this.setTextDrag();
     } else if (this.itemAutoIndent.equals(e.getSource())) {
@@ -1236,6 +1245,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * "列表符号与编号"的处理方法
+   */
+  private void openSignIdentifierDialog() {
+    if (this.signIdentifierDialog == null) {
+      Hashtable<String, String> hashtable = new Hashtable<String, String>();
+      hashtable.put("符号", Util.SIGN_CHARS);
+      hashtable.put("编号", Util.IDENTIFIER_CHARS);
+      this.signIdentifierDialog = new SignIdentifierDialog(this, true,
+          this.txaMain, hashtable);
+    } else {
+      this.signIdentifierDialog.setVisible(true);
+    }
+  }
+
+  /**
    * "缩进"的处理方法
    * 
    * @param indent
@@ -1244,18 +1268,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void toIndent(boolean indent) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
     int startIndex = currentLines.getStartIndex();
-    int endIndex = currentLines.getEndIndex();
-    String strContent = currentLines.getStrContent();
-    String strText = this.txaMain.getText();
-    if (strContent.endsWith("\n") && endIndex != strText.length()) {
-      endIndex--;
-    }
-    this.txaMain.select(startIndex, endIndex);
-    String strSel = this.txaMain.getSelectedText();
-    if (strSel == null) {
-      strSel = "";
-    }
-    String[] arrText = strSel.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain);
     String strIndent = "\t"; // 用于缩进的字符，默认为TAB字符
     String strIndentBlanks = ""; // 当前等价于Tab键的多个空格
     int tabSize = this.txaMain.getTabSize();
