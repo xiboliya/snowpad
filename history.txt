@@ -536,3 +536,15 @@ src/AboutDialog.java
 src/Util.java
 2.“关于记事本”窗口中，添加“代码”一项，即本项目在谷歌代码的链接
 src/SnowPadFrame.java
+
+2013-01-10
+1.在“格式”菜单下添加“列表符号与编号...”功能
+src/SignIdentifierDialog（添加）
+src/SnowPadFrame.java
+src/Util.java
+src/InsertCharDialog.java
+2.解决“缩进”时，当选区内最后一行为文本域的倒数第二行，且文本域最后一行为空行时，会将此空行同步处理的问题
+src/SnowPadFrame.java
+src/Util.java
+3.删除cmd.exe文件，以防代码传播过程中被病毒感染
+cmd.exe（删除）
