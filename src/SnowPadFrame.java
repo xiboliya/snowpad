@@ -577,6 +577,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLine.addSeparator();
     this.menuLine.add(this.itemLineToUp);
     this.menuLine.add(this.itemLineToDown);
+    this.menuLine.addSeparator();
     this.menuLine.add(this.itemMergeLines);
     this.menuEdit.add(this.menuSort);
     this.menuSort.add(this.itemSortUp);
