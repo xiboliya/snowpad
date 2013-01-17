@@ -98,6 +98,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemLineDelToEnd = new JMenuItem("删除至行尾");
   private JMenuItem itemLineToUp = new JMenuItem("上移当前行");
   private JMenuItem itemLineToDown = new JMenuItem("下移当前行");
+  private JMenuItem itemMergeLines = new JMenuItem("合并为一行");
   private JMenu menuSort = new JMenu("排序");
   private JMenuItem itemSortUp = new JMenuItem("升序");
   private JMenuItem itemSortDown = new JMenuItem("降序");
@@ -359,6 +360,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineDelToEnd.addActionListener(this);
     this.itemLineToUp.addActionListener(this);
     this.itemLineToDown.addActionListener(this);
+    this.itemMergeLines.addActionListener(this);
     this.itemSortUp.addActionListener(this);
     this.itemSortDown.addActionListener(this);
     this.itemIndentAdd.addActionListener(this);
@@ -575,6 +577,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLine.addSeparator();
     this.menuLine.add(this.itemLineToUp);
     this.menuLine.add(this.itemLineToDown);
+    this.menuLine.add(this.itemMergeLines);
     this.menuEdit.add(this.menuSort);
     this.menuSort.add(this.itemSortUp);
     this.menuSort.add(this.itemSortDown);
@@ -733,6 +736,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCopy.setEnabled(false);
     this.itemDel.setEnabled(false);
     this.menuCase.setEnabled(false);
+    this.itemMergeLines.setEnabled(false);
     this.itemFind.setEnabled(false);
     this.itemFindNext.setEnabled(false);
     this.itemFindPrevious.setEnabled(false);
@@ -835,6 +839,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCut.setEnabled(isNull);
     this.itemDel.setEnabled(isNull);
     this.menuCase.setEnabled(isNull);
+    this.itemMergeLines.setEnabled(isNull);
     this.menuQuickFind.setEnabled(isNull);
     this.itemSelCopy.setEnabled(isNull);
     this.itemPopCopy.setEnabled(isNull);
@@ -992,6 +997,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向上方向键
     this.itemLineToDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向下方向键
+    this.itemMergeLines.setAccelerator(KeyStroke.getKeyStroke('M',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
   }
 
   /**
@@ -1056,6 +1063,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.moveLineToUp();
     } else if (this.itemLineToDown.equals(e.getSource())) {
       this.moveLineToDown();
+    } else if (this.itemMergeLines.equals(e.getSource())) {
+      this.mergeLines();
     } else if (this.itemSortUp.equals(e.getSource())) {
       this.sortLines(true);
     } else if (this.itemSortDown.equals(e.getSource())) {
@@ -1242,6 +1251,24 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       JMenuItem itemFile = (JMenuItem) e.getSource();
       this.openFileHistory(itemFile.getText());
     }
+  }
+
+  /**
+   * "合并为一行"的处理方法
+   */
+  private void mergeLines() {
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain);
+    if (arrText.length <= 1) {
+      return;
+    }
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int startIndex = currentLines.getStartIndex();
+    StringBuilder stbLines = new StringBuilder();
+    for (String str : arrText) {
+      stbLines.append(str);
+    }
+    this.txaMain.replaceSelection(stbLines.toString());
+    this.txaMain.select(startIndex, startIndex + stbLines.length());
   }
 
   /**
