@@ -36,7 +36,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   private JScrollPane srpStyles = new JScrollPane(this.listStyles);
   private JRadioButton radUser = new JRadioButton("使用自定义格式(U)", false);
   private JLabel lblWarning = new JLabel("");
-  private BaseTextField txtUser = new BaseTextField(Util.DATE_STYLES[0]);
+  private BaseTextField txtUser = new BaseTextField(Util.DATE_STYLES[1]);
   private JLabel lblView = new JLabel("");
   private JButton btnOk = new JButton("插入");
   private JButton btnCancel = new JButton("关闭");

@@ -51,7 +51,7 @@ public final class Util {
       CharEncoding.ANSI.getName(), CharEncoding.UBE.getName(),
       CharEncoding.ULE.getName(), CharEncoding.UTF8.getName(),
       CharEncoding.UTF8_NO_BOM.getName(), CharEncoding.BASE.getName() }; // 选择编码格式的数组
-  public static final String[] DATE_STYLES = new String[] {
+  public static final String[] DATE_STYLES = new String[] { "yyyy-MM-dd",
       "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss:SSS", "yyyy-MM-dd KK:mm:ss",
       "yyyy-MM-dd KK:mm:ss a", "yyyy-MM-dd HH:mm:ss E",
       "yyyy-MM-dd HH:mm:ss zZ", "yyyy年MM月dd日 HH时mm分ss秒",
