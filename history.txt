@@ -555,3 +555,9 @@ src/SnowPadFrame.java
 2.在“插入”->“时间、日期”界面中添加一行默认的格式
 src/InsertDateDialog.java
 src/Util.java
+
+2013-01-24
+1.将程序主界面的最小尺寸设置为200*200像素，当用户拖动鼠标调整主界面大小时，将不会小于此处定义的像素值
+src/SnowPadFrame.java
+2.添加保存文件时的检测，当文件保存失败时，会弹出提示框
+src/SnowPadFrame.java
