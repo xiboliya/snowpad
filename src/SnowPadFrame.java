@@ -2498,7 +2498,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.file.equals(fileReName)) { // 文件名未修改时，不做操作
       return;
     }
-    this.toSaveFile(fileReName);
+    try {
+      this.toSaveFile(fileReName);
+    } catch (Exception x) {
+      this.showSaveErrorDialog(fileReName);
+      return;
+    }
     this.file.delete(); // 删除原文件
     this.setFileNameAndPath(fileReName);
   }
@@ -2857,7 +2862,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           + "不存在。\n要重新创建吗？", Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result == JOptionPane.YES_OPTION) {
         this.checkFile(this.file);
-        this.toSaveFile(this.file);
+        try {
+          this.toSaveFile(this.file);
+        } catch (Exception x) {
+          this.showSaveErrorDialog(this.file);
+          return;
+        }
         this.setAfterSaveFile();
         this.setTextPrefix();
         this.setStylePrefix();
@@ -3052,7 +3062,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
       File file = this.fcrSave.getSelectedFile();
       if (file != null) {
-        this.toSaveFile(file);
+        try {
+          this.toSaveFile(file);
+        } catch (Exception x) {
+          this.showSaveErrorDialog(file);
+          return;
+        }
         this.setFileNameAndPath(file);
       } else {
         return;
@@ -3060,7 +3075,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       if (this.file != null) {
         isFileExist = this.checkFile(this.file);
-        this.toSaveFile(this.file);
+        try {
+          this.toSaveFile(this.file);
+        } catch (Exception x) {
+          this.showSaveErrorDialog(this.file);
+          return;
+        }
       } else {
         return;
       }
@@ -3147,6 +3167,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         x.printStackTrace();
       }
     }
+  }
+
+  /**
+   * 在保存文件失败后，弹出提示框
+   * 
+   * @param file
+   *          当前编辑的文件
+   */
+  private void showSaveErrorDialog(File file) {
+    JOptionPane.showMessageDialog(this, "文件：" + file.getAbsolutePath()
+        + "\n保存失败！请确认是否有写权限！", Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
   }
 
   /**
@@ -3283,7 +3314,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             + "不存在。\n要重新创建吗？", Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
         if (result == JOptionPane.YES_OPTION) {
           this.checkFile(this.file);
-          this.toSaveFile(this.file);
+          try {
+            this.toSaveFile(this.file);
+          } catch (Exception x) {
+            this.showSaveErrorDialog(this.file);
+            return;
+          }
           this.setAfterSaveFile();
           this.setTextPrefix();
           this.setStylePrefix();
