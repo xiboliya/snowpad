@@ -62,6 +62,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     CaretListener, UndoableEditListener, WindowFocusListener {
   private static final long serialVersionUID = 1L; // 序列化运行时使用的一个版本号，以与当前可序列化类相关联
   private JTextArea txaMain = new JTextArea(); // 用于编辑的文本域
+  private JScrollPane srp = new JScrollPane(this.txaMain);
   private JMenuBar menuBar = new JMenuBar();
   private JMenu menuFile = new JMenu("文件(F)");
   private JMenuItem itemNew = new JMenuItem("新建(N)", 'N');
@@ -202,7 +203,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于记事本(A)", 'A');
-  private JScrollPane srp = new JScrollPane(this.txaMain);
   private JPopupMenu popMenu = new JPopupMenu();
   private JMenuItem itemPopUnDo = new JMenuItem("撤销(U)", 'U');
   private JMenuItem itemPopReDo = new JMenuItem("重做(Y)", 'Y');
@@ -507,6 +507,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.getContentPane().add(this.srp, BorderLayout.CENTER); // 为使文本域有滚动条，必须在主面板上添加
     this.txaMain.setTabSize(Util.DEFAULT_TABSIZE); // 为了美观，适当调整"Tab"字符占用的空格（默认占用8个空格）
     this.txaMain.setFont(Util.TEXT_FONT);
+    this.setMinimumSize(new Dimension(200, 200)); // 设置主界面的最小尺寸
   }
 
   /**
