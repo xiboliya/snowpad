@@ -561,3 +561,7 @@ src/Util.java
 src/SnowPadFrame.java
 2.添加保存文件时的检测，当文件保存失败时，会弹出提示框
 src/SnowPadFrame.java
+
+2013-01-25
+1.修改编译部署文件，在javac中添加-Xlint:deprecation选项，以保证在编译过程中显示一些警告信息，例如：代码中使用了已过时的API
+build.xml
