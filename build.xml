@@ -25,6 +25,7 @@
   <target name="compile" depends="init" description="编译代码">
     <javac srcdir="${srcDir}" destdir="${binDir}" includeAntRuntime="false" encoding="GB18030">
       <compilerarg value="-Xlint:unchecked"/>
+      <compilerarg value="-Xlint:deprecation"/>
     </javac>
   </target>
   <target name="makeJar" depends="init,compile" description="生成jar包">
