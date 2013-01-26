@@ -570,3 +570,8 @@ build.xml
 1.在“列表符号与编号...”界面添加“干支计数”
 src/SignIdentifierDialog
 src/Util.java
+
+*************************
+* date:2013-01-26       *
+* tag:SnowPad-V2.3      *
+*************************
