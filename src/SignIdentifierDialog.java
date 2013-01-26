@@ -261,6 +261,15 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
               + arrText[n];
         }
         break;
+      case 3:
+        int len1 = Util.IDENTIFIER_TIANGAN.length();
+        int len2 = Util.IDENTIFIER_DIZHI.length();
+        for (n = 0; n < arrText.length; n++) {
+          arrText[n] = String.valueOf(Util.IDENTIFIER_TIANGAN.charAt(n % len1))
+              + String.valueOf(Util.IDENTIFIER_DIZHI.charAt(n % len2)) + "."
+              + arrText[n];
+        }
+        break;
       }
     } else {
       for (n = 0; n < arrText.length; n++) {

@@ -44,7 +44,9 @@ public final class Util {
   public static final String STATE_ENCODING = "Encoding:"; // 状态栏显示信息-当前编码格式
   public static final String SIGN_CHARS_VIEW = "__________\n__________\n__________\n__________\n__________"; // 列表符号与编号窗口的预览界面的初始化字符串
   public static final String SIGN_CHARS = "﹟·※＊§¤⊙◎○●△▲▽▼◇◆□■☆★"; // 列表符号
-  public static final String IDENTIFIER_CHARS = "012"; // 列表编号类型标识符
+  public static final String IDENTIFIER_CHARS = "0123"; // 列表编号类型标识符
+  public static final String IDENTIFIER_TIANGAN = "甲乙丙丁戊己庚辛壬癸"; // 十天干
+  public static final String IDENTIFIER_DIZHI = "子丑寅卯辰巳午未申酉戌亥"; // 十二地支
   public static final String[] FONT_FAMILY_NAMES = java.awt.GraphicsEnvironment
       .getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // 获取系统所有字体的名称列表
   public static final String[] FILE_ENCODINGS = new String[] { "自动检测",
@@ -59,7 +61,8 @@ public final class Util {
       "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "yyyy.MM.dd",
       "yy/MM/dd", "HH:mm:ss", "KK:mm:ss a", "HH:mm:ss:SSS" }; // 时间/日期格式字符串
   public static final String[] SIGN_IDENTIFIER_NAMES = new String[] {
-      "十进制数(1.2..10.11.)", "小写十六进制数(1.2..a.b.)", "大写十六进制数(1.2..A.B.)" }; // 列表编号类型的显示名称
+      "十进制数(1.2..10.11.)", "小写十六进制数(1.2..a.b.)", "大写十六进制数(1.2..A.B.)",
+      "干支计数(甲子.乙丑..癸酉.甲戌.)" }; // 列表编号类型的显示名称
   public static final int INPUT_HEIGHT = 22; // 单行输入框的高度
   public static final int VIEW_HEIGHT = 18; // 标签、单选按钮、复选框的高度
   public static final int BUTTON_HEIGHT = 23; // 按钮的高度
