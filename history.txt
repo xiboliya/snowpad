@@ -565,3 +565,8 @@ src/SnowPadFrame.java
 2013-01-25
 1.修改编译部署文件，在javac中添加-Xlint:deprecation选项，以保证在编译过程中显示一些警告信息，例如：代码中使用了已过时的API
 build.xml
+
+2013-01-26
+1.在“列表符号与编号...”界面添加“干支计数”
+src/SignIdentifierDialog
+src/Util.java
