@@ -568,10 +568,17 @@ build.xml
 
 2013-01-26
 1.在“列表符号与编号...”界面添加“干支计数”
-src/SignIdentifierDialog
+src/SignIdentifierDialog.java
 src/Util.java
 
 *************************
 * date:2013-01-26       *
 * tag:SnowPad-V2.3      *
 *************************
+
+2013-01-29
+1.修改编译部署文件，添加clean.bin和clean.doc目标，可在命令行中执行ant clean.bin清空编译生成的.class与资源文件，执行ant clean.doc清空编译生成的api帮助文档。
+build.xml
+2.当打开的新文件与当前编辑的文件相同时，成功打开后，将光标插入点设置为打开之前的位置
+src/SnowPadFrame.java
+src/Util.java
