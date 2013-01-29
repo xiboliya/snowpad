@@ -63,6 +63,7 @@ public final class Util {
   public static final String[] SIGN_IDENTIFIER_NAMES = new String[] {
       "十进制数(1.2..10.11.)", "小写十六进制数(1.2..a.b.)", "大写十六进制数(1.2..A.B.)",
       "干支计数(甲子.乙丑..癸酉.甲戌.)" }; // 列表编号类型的显示名称
+  public static final int DEFAULT_CARET_INDEX = 0; // 文本域默认插入点位置
   public static final int INPUT_HEIGHT = 22; // 单行输入框的高度
   public static final int VIEW_HEIGHT = 18; // 标签、单选按钮、复选框的高度
   public static final int BUTTON_HEIGHT = 23; // 按钮的高度

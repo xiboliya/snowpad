@@ -291,7 +291,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       File file = new File(strFile);
       if (file.exists()) {
         this.toOpenFile(file, true);
-        this.setAfterOpenFile();
+        this.setAfterOpenFile(Util.DEFAULT_CARET_INDEX);
         this.setFileNameAndPath(file);
       }
     }
@@ -2012,8 +2012,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     File file = new File(strFile);
     if (file != null && file.exists()) {
+      int index = this.getCurrentIndexBySameFile(file);
       this.toOpenFile(file, true);
-      this.setAfterOpenFile();
+      this.setAfterOpenFile(index);
       this.setFileNameAndPath(file);
     } else {
       JOptionPane.showMessageDialog(this, "文件：" + file + " 不存在！",
@@ -2853,8 +2854,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     }
     if (this.file.exists()) {
+      int index = this.getCurrentIndexBySameFile(this.file);
       this.toOpenFile(this.file, true);
-      this.setAfterOpenFile();
+      this.setAfterOpenFile(index);
       this.setTextPrefix();
       this.setStylePrefix();
     } else {
@@ -2877,9 +2879,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
 
   /**
    * 打开文件后的设置
+   * 
+   * @param index
+   *          文本域的插入点位置
    */
-  private void setAfterOpenFile() {
-    this.txaMain.setCaretPosition(0); // 将插入点设置为文本开头
+  private void setAfterOpenFile(int index) {
+    int totalIndex = this.txaMain.getText().length();
+    if (index < 0) {
+      index = 0;
+    } else if (index > totalIndex) {
+      index = totalIndex;
+    }
+    this.txaMain.setCaretPosition(index); // 设置插入点位置
     this.isTextChanged = false;
     this.isStyleChanged = false;
     this.isNew = false;
@@ -2907,10 +2918,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     File file = this.fcrOpen.getSelectedFile();
     if (file != null && file.exists()) {
+      int index = this.getCurrentIndexBySameFile(file);
       this.toOpenFile(file, true);
-      this.setAfterOpenFile();
+      this.setAfterOpenFile(index);
       this.setFileNameAndPath(file);
     }
+  }
+
+  /**
+   * 如果新打开的文件与当前编辑的文件相同，则获取当前文本域的插入点位置，否则返回默认位置
+   * 
+   * @param file
+   *          新打开的文件
+   * @return 将要设置的插入点位置
+   */
+  private int getCurrentIndexBySameFile(File file) {
+    int index = Util.DEFAULT_CARET_INDEX;
+    if (file.equals(this.file)) {
+      index = this.txaMain.getCaretPosition();
+    }
+    return index;
   }
 
   /**
@@ -2935,16 +2962,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     File file = this.fcrOpen.getSelectedFile();
     if (file != null && file.exists()) {
+      int index = this.getCurrentIndexBySameFile(file);
       if (charEncoding != null) {
         this.setCharEncoding(charEncoding, true);
         this.toOpenFile(file, false);
       } else {
         this.toOpenFile(file, true);
       }
-      this.setAfterOpenFile();
+      this.setAfterOpenFile(index);
       this.setFileNameAndPath(file);
     }
-
   }
 
   /**
