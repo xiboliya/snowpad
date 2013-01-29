@@ -49,4 +49,10 @@
   <target name="clean" description="清空编译生成的所有文件">
     <delete dir="${antDir}" />
   </target>
+  <target name="clean.bin" description="清空编译生成的.class与资源文件">
+    <delete dir="${binDir}" />
+  </target>
+  <target name="clean.doc" description="清空编译生成的api帮助文档">
+    <delete dir="${docDir}" />
+  </target>
 </project>
