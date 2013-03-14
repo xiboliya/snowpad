@@ -23,7 +23,7 @@ public class BaseKeyAdapter extends KeyAdapter {
   }
 
   public void keyPressed(KeyEvent e) {
-    if (null == this.dialog) {
+    if (this.dialog == null) {
       return;
     }
     if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {

@@ -162,7 +162,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
    */
   public void setFontView() {
     String strFont = this.listFont.getSelectedValue().toString();
-    if (null != strFont) {
+    if (strFont != null) {
       this.txtFont.setText(strFont);
     }
   }
@@ -172,7 +172,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
    */
   public void setStyleView() {
     String strStyle = this.listStyle.getSelectedValue().toString();
-    if (null != strStyle) {
+    if (strStyle != null) {
       this.txtStyle.setText(strStyle);
     }
   }
@@ -182,7 +182,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
    */
   public void setSizeView() {
     String strSize = this.listSize.getSelectedValue().toString();
-    if (null != strSize) {
+    if (strSize != null) {
       this.txtSize.setText(strSize);
     }
   }

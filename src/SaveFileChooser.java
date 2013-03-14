@@ -26,7 +26,7 @@ public class SaveFileChooser extends JFileChooser {
           baseFileFilter.getExt());
     }
     this.setSelectedFile(file);
-    if (null != file && file.exists()) { // 当用户选择的文件已经存在时，将弹出提示框
+    if (file != null && file.exists()) { // 当用户选择的文件已经存在时，将弹出提示框
       int result = JOptionPane.showConfirmDialog(this, file + " 已存在。\n是否覆盖？",
           "保存", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
       if (JOptionPane.YES_OPTION == result) { // 用户选择覆盖

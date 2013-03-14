@@ -736,6 +736,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemReDo.setEnabled(false);
     this.itemCut.setEnabled(false);
     this.itemCopy.setEnabled(false);
+    this.itemSelAll.setEnabled(false);
     this.itemDel.setEnabled(false);
     this.menuCase.setEnabled(false);
     this.itemMergeLines.setEnabled(false);
@@ -758,6 +759,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
     this.itemPopDel.setEnabled(false);
+    this.itemPopSelAll.setEnabled(false);
     this.itemPopUnDo.setEnabled(false);
     this.itemPopReDo.setEnabled(false);
     this.menuHighlight.setEnabled(false);
@@ -790,10 +792,22 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 为文件选择器添加文件过滤器
    */
   private void addFileFilter() {
-    BaseFileFilter txtFileFilter = new BaseFileFilter(Util.TXT_EXT, "文本文档(*"
-        + Util.TXT_EXT + ")");
-    this.fcrOpen.addChoosableFileFilter(txtFileFilter);
-    this.fcrSave.addChoosableFileFilter(txtFileFilter);
+    FileExt[] arrFileExt = FileExt.values(); // 获取包含枚举所有成员的数组
+    BaseFileFilter fileFilter = null;
+    BaseFileFilter defFileFilter = null; // 默认选择的文件过滤器
+    for (FileExt fileExt : arrFileExt) { // 遍历枚举的所有成员
+      fileFilter = new BaseFileFilter(fileExt.toString(), fileExt
+          .getDescription());
+      this.fcrOpen.addChoosableFileFilter(fileFilter);
+      this.fcrSave.addChoosableFileFilter(fileFilter);
+      if (fileExt.equals(FileExt.TXT)) {
+        defFileFilter = fileFilter;
+      }
+    }
+    if (defFileFilter != null) {
+      this.fcrOpen.setFileFilter(defFileFilter);
+      this.fcrSave.setFileFilter(defFileFilter);
+    }
   }
 
   /**
@@ -826,6 +840,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelFindPrevious.setEnabled(isExist);
     this.itemReplace.setEnabled(isExist);
     this.itemGoto.setEnabled(isExist);
+    this.itemSelAll.setEnabled(isExist);
+    this.itemPopSelAll.setEnabled(isExist);
   }
 
   /**
@@ -1292,7 +1308,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "缩进"的处理方法
    * 
    * @param indent
-   *          缩进的方向，如果缩进则为true，退格则为false
+   *          缩进的方向，缩进为true，退格为false
    */
   private void toIndent(boolean indent) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
@@ -1469,7 +1485,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 将指定的rgb模式颜色转化为反色/补色
    * 
    * @param color
-   *          欲处理的rgb模式颜色
+   *          待处理的rgb模式颜色
    * @param mode
    *          用于标识反色/补色，如果为true表示反色，反之则为补色
    * @return 处理后的颜色
@@ -1841,7 +1857,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 设置"换行符格式"的处理方法
    * 
    * @param lineSeparator
-   *          欲采用的换行符
+   *          待采用的换行符
    * @param isUpdateMenu
    *          是否更新菜单的选择
    */
@@ -2048,7 +2064,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 删除文本内空行
    * 
    * @param strText
-   *          欲处理的文本
+   *          待处理的文本
    * @return 删除空行后的文本
    */
   private String delNullLines(String strText) {
@@ -2226,6 +2242,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 清除一行文本的空白
    * 
+   * @param strLine
+   *          待处理的一行文本
    * @param position
    *          清除空白的位置，true为“行首”空白，false为“行尾”空白
    * @return 清除指定空白的文本

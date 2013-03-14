@@ -25,7 +25,7 @@ public class OpenFileChooser extends JFileChooser {
       file = Util.checkFileName(file.getAbsolutePath(), baseFileFilter,
           baseFileFilter.getExt());
     }
-    if (null != file && file.exists()) {
+    if (file != null && file.exists()) {
       this.setSelectedFile(file);
       super.approveSelection();
     } else { // 当用户未选择文件或选择的文件不存在时，将弹出提示框
