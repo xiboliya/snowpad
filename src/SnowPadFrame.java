@@ -2597,18 +2597,23 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * 打开的文件内容已修改，当执行新建、关闭操作时，弹出对话框，让用户选择相应的操作
+   * 当前编辑的文本内容或格式已修改，当执行新建、关闭操作时，弹出对话框，让用户选择相应的操作
    * 
    * @return 用户选择了是或否时返回true，选择取消或关闭时返回false
    */
   private boolean saveFileBeforeAct() {
-    if (this.file != null && (this.isTextChanged || this.isStyleChanged)) {
-      String strTemp = "内容";
-      if (!this.isTextChanged && this.isStyleChanged) {
-        strTemp = "格式";
+    if (this.isTextChanged || this.isStyleChanged) {
+      String strChanged = "内容";
+      if (this.isTextChanged && this.isStyleChanged) {
+        strChanged = "内容与格式";
+      } else if (this.isStyleChanged) {
+        strChanged = "格式";
       }
-      int result = JOptionPane.showConfirmDialog(this, "文件：" + this.file + "的"
-          + strTemp + "已经修改。\n想保存文件吗？", Util.SOFTWARE,
+      String str = "新建文件的" + strChanged + "已经修改。\n想保存文件吗？";
+      if (file != null) {
+        str = "文件：" + this.file + "的" + strChanged + "已经修改。\n想保存文件吗？";
+      }
+      int result = JOptionPane.showConfirmDialog(this, str, Util.SOFTWARE,
           JOptionPane.YES_NO_CANCEL_OPTION);
       if (result == JOptionPane.YES_OPTION) {
         this.saveFile(false);
