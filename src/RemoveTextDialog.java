@@ -29,7 +29,6 @@ public class RemoveTextDialog extends BaseDialog implements ActionListener {
   private BaseTextField txtOffset = new BaseTextField();
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
-  private JTextArea txaSource = null;
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private ButtonGroup bgpRmLineStartEnd = new ButtonGroup();

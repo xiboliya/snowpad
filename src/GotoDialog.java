@@ -22,7 +22,6 @@ public class GotoDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JTabbedPane tpnMain = new JTabbedPane();
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JTextArea txaSource = null;
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   // ÐÐºÅ

@@ -24,7 +24,6 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   private JCheckBox chkReplaceBySpace = new JCheckBox("以空格代替Tab键(R)", false);
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
-  private JTextArea txaSource = null;
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private boolean isReplaceBySpace = false; // 以空格代替Tab键

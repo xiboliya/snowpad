@@ -40,7 +40,6 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private JTextArea txaView = new JTextArea();
-  private JTextArea txaSource = null;
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
   private MouseAdapter mouseAdapter = null;

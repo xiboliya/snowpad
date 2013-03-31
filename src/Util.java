@@ -18,6 +18,7 @@ import javax.swing.text.JTextComponent;
 public final class Util {
   public static final String SOFTWARE = "冰雪记事本"; // 软件名称
   public static final String VERSION = "V2.3"; // 软件版本号
+  public static final String NEW_FILE_NAME = "新建"; // 新建文件的默认名称
   public static final String OS_NAME = System.getProperty("os.name", "Windows"); // 当前操作系统的名称
   public static final String FILE_SEPARATOR = System.getProperty(
       "file.separator", "/"); // 当前操作系统的文件分隔符
@@ -30,8 +31,12 @@ public final class Util {
   public static final String INSERT_UNIT = "°′″＄￥〒￠￡％℃℉﹩﹪‰﹫㏕㎜㎝㎞㏎㎡㎎㎏㏄¤"; // 单位符号
   public static final String INSERT_DIGIT = "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇①②③④⑤⑥⑦⑧⑨⑩㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ"; // 数字符号
   public static final String INSERT_PINYIN = "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡ"; // 拼音符号
-  public static final String CTRL_Z = "Ctrl+Z"; // 组合键Ctrl+Z的字符串
+  public static final String CTRL_C = "Ctrl+C"; // 组合键Ctrl+C的字符串
+  public static final String CTRL_H = "Ctrl+H"; // 组合键Ctrl+H的字符串
+  public static final String CTRL_V = "Ctrl+V"; // 组合键Ctrl+V的字符串
+  public static final String CTRL_X = "Ctrl+X"; // 组合键Ctrl+X的字符串
   public static final String CTRL_Y = "Ctrl+Y"; // 组合键Ctrl+Y的字符串
+  public static final String CTRL_Z = "Ctrl+Z"; // 组合键Ctrl+Z的字符串
   public static final String TEXT_PREFIX = "*"; // 文件文本修改的标题栏标识符
   public static final String STYLE_PREFIX = "※"; // 文件格式修改的标题栏标识符
   public static final String STATE_CHARS = "Chars:"; // 状态栏显示信息-文本总字符数
@@ -90,6 +95,24 @@ public final class Util {
   public static final Font TEXT_FONT = new Font("宋体", Font.PLAIN, 14); // 文本域的默认字体
   public static final Font INSERT_VIEW_FONT = new Font("宋体", Font.PLAIN, 80); // 插入字符界面中预览标签的字体
   public static final Font SIGN_VIEW_FONT = new Font("宋体", Font.PLAIN, 28); // 列表符号与编号界面中预览区域的字体
+  public static final Color[] COLOR_STYLE_1 = new Color[] {
+      new Color(211, 215, 207), new Color(46, 52, 54),
+      new Color(211, 215, 207), new Color(238, 238, 236),
+      new Color(136, 138, 133) };
+  public static final Color[] COLOR_STYLE_2 = new Color[] {
+      new Color(240, 240, 240), new Color(0, 128, 128),
+      new Color(240, 240, 240), new Color(22, 99, 88), new Color(240, 240, 240) };
+  public static final Color[] COLOR_STYLE_3 = new Color[] {
+      new Color(46, 52, 54), new Color(255, 251, 240), new Color(46, 52, 54),
+      new Color(255, 251, 240), new Color(46, 52, 54) };
+  public static final Color[] COLOR_STYLE_4 = new Color[] {
+      new Color(51, 53, 49), new Color(204, 232, 207), new Color(51, 53, 49),
+      new Color(204, 232, 207), new Color(51, 53, 49) };
+  public static final Color[] COLOR_STYLE_5 = new Color[] {
+      new Color(58, 57, 53), new Color(221, 212, 195), new Color(58, 57, 53),
+      new Color(221, 212, 195), new Color(58, 57, 53) };
+  public static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1,
+      COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
 
   /**
    * 由于此类为工具类，故将构造方法私有化

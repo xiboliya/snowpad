@@ -46,8 +46,8 @@ public class FontChooser extends BaseDialog implements ActionListener,
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private JTextArea txaSource = null;
   private BaseMouseAdapter baseMouseAdapter = new BaseMouseAdapter();
+  private boolean isOk = false;
 
   /**
    * 构造方法
@@ -68,7 +68,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
     this.fillFontList();
     this.fillStyleList();
     this.fillSizeList();
-    this.setView(false);
+    this.setView();
     this.addListeners();
     this.setSize(365, 315);
     this.setVisible(true);
@@ -188,16 +188,18 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * 设置示例文字和文本域的字体
+   * 获取设置后的字体
    * 
-   * @param isOk
-   *          用户是否点击了"确定"按钮
+   * @return 设置后的字体
    */
-  private void setView(boolean isOk) {
-    if (isOk) {
-      this.txaSource.setFont(this.lblView.getFont());
-      return;
-    }
+  public Font getTextAreaFont() {
+    return this.lblView.getFont();
+  }
+
+  /**
+   * 设置示例文字和文本域的字体
+   */
+  private void setView() {
     Font font = new Font(this.listFont.getSelectedValue().toString(),
         this.listStyle.getSelectedIndex(), (Integer) this.listSize
             .getSelectedValue());
@@ -256,14 +258,24 @@ public class FontChooser extends BaseDialog implements ActionListener,
    */
   public void onCancel() {
     this.dispose();
+    this.isOk = false;
   }
 
   /**
    * "确定"按钮的处理方法
    */
   public void onEnter() {
-    this.setView(true);
     this.onCancel();
+    this.isOk = true;
+  }
+
+  /**
+   * 获取是否执行了确定
+   * 
+   * @return 是否执行了确定
+   */
+  public boolean getOk() {
+    return this.isOk;
   }
 
   /**
@@ -302,7 +314,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
         x.printStackTrace();
       }
     }
-    this.setView(false);
+    this.setView();
   }
 
   /**

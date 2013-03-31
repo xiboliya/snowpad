@@ -41,7 +41,6 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   private JButton btnOk = new JButton("≤Â»Î");
   private JButton btnCancel = new JButton("πÿ±’");
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JTextArea txaSource = null;
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private BaseMouseAdapter baseMouseAdapter = new BaseMouseAdapter();

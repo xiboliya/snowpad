@@ -38,7 +38,6 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   private JButton btnOk = new JButton("≤Â»Î");
   private JButton btnCancel = new JButton("πÿ±’");
   private JLabel lblView = new JLabel();
-  private JTextArea txaSource = null;
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
   private MouseAdapter mouseAdapter = null;

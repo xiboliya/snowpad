@@ -110,17 +110,18 @@ public class BaseTextField extends JTextField implements ActionListener,
   private void setInputActionMap() {
     InputMap inputMap = this.getInputMap();
     ActionMap actionMap = this.getActionMap();
-    // 将组合键Ctrl+Z与特定字符串（表示撤销）绑定
+    // 将组合键与特定字符串绑定（如果未建立与Action的映射，则会屏蔽该组合键）
     inputMap.put(
         KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK),
         Util.CTRL_Z);
-    // 将特定字符串（表示撤销）与Action建立映射
-    actionMap.put(Util.CTRL_Z, this.actUndo);
-    // 将组合键Ctrl+Y与特定字符串（表示重做）绑定
     inputMap.put(
         KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_DOWN_MASK),
         Util.CTRL_Y);
-    // 将特定字符串（表示重做）与Action建立映射
+    inputMap.put(
+        KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK),
+        Util.CTRL_H);
+    // 将特定字符串与Action建立映射
+    actionMap.put(Util.CTRL_Z, this.actUndo);
     actionMap.put(Util.CTRL_Y, this.actRedo);
   }
 
@@ -161,15 +162,15 @@ public class BaseTextField extends JTextField implements ActionListener,
     } else if (this.itemPopReDo.equals(e.getSource())) {
       this.redoAction();
     } else if (this.itemPopCut.equals(e.getSource())) {
-      this.cutText();
+      this.cut();
     } else if (this.itemPopCopy.equals(e.getSource())) {
-      this.copyText();
+      this.copy();
     } else if (this.itemPopPaste.equals(e.getSource())) {
-      this.pasteText();
+      this.paste();
     } else if (this.itemPopDel.equals(e.getSource())) {
       this.deleteText();
     } else if (this.itemPopSelAll.equals(e.getSource())) {
-      this.selectAllText();
+      this.selectAll();
     }
   }
 
@@ -178,34 +179,6 @@ public class BaseTextField extends JTextField implements ActionListener,
    */
   private void deleteText() {
     this.replaceSelection("");
-  }
-
-  /**
-   * "复制"的处理方法
-   */
-  private void copyText() {
-    this.copy();
-  }
-
-  /**
-   * "剪切"的处理方法
-   */
-  private void cutText() {
-    this.cut();
-  }
-
-  /**
-   * "粘贴"的处理方法
-   */
-  private void pasteText() {
-    this.paste();
-  }
-
-  /**
-   * "全选"的处理方法
-   */
-  private void selectAllText() {
-    this.selectAll();
   }
 
   /**

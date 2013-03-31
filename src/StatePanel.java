@@ -83,6 +83,7 @@ public class StatePanel extends JPanel {
   private boolean appendLabelList() {
     if (this.labelList.size() < this.columns) {
       JLabel lblTemp = new JLabel(" ");
+      lblTemp.setFont(Util.GLOBAL_FONT);
       this.labelList.add(lblTemp);
       this.add(lblTemp);
       return true;

@@ -31,7 +31,6 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
-  private JTextArea txaSource = null; // 用于编辑的文本域
   private boolean isFindDown = true; // 向下查找
   private boolean isIgnoreCase = true; // 忽略大小写
   private boolean isWrap = false; // 循环查找
