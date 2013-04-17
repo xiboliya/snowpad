@@ -608,3 +608,9 @@ src/TabSetDialog.java
 src/Util.java
 src/BaseTextArea.java（添加）
 src/Setting.java（添加）
+
+2013-04-17
+1.在右键快捷菜单中，添加“关闭”菜单
+src/SnowPadFrame.java
+2.在“转到”对话框中，添加“转到百分比”功能
+src/GotoDialog.java
