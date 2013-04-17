@@ -89,7 +89,6 @@ public class BaseTextArea extends JTextArea {
     this.setTextChanged(setting.isTextChanged);
     this.setStyleChanged(setting.isStyleChanged);
     this.setFileExistsLabel(setting.fileExistsLabel);
-
   }
 
   private void disableShortcut() {

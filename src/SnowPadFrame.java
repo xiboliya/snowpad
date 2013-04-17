@@ -226,6 +226,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemPopRmHighlight4 = new JMenuItem("格式(4)", '4');
   private JMenuItem itemPopRmHighlight5 = new JMenuItem("格式(5)", '5');
   private JMenuItem itemPopRmHighlightAll = new JMenuItem("所有格式(0)", '0');
+  private JMenuItem itemPopClose = new JMenuItem("关闭(Q)", 'Q');
 
   private int newFileIndex = 1; // 新建文件的序号
   private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // 用于存放换行方式的按钮组
@@ -432,6 +433,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopRmHighlight4.addActionListener(this);
     this.itemPopRmHighlight5.addActionListener(this);
     this.itemPopRmHighlightAll.addActionListener(this);
+    this.itemPopClose.addActionListener(this);
     this.itemReplace.addActionListener(this);
     this.itemSave.addActionListener(this);
     this.itemSaveAs.addActionListener(this);
@@ -705,6 +707,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuPopRmHighlight.add(itemPopRmHighlight5);
     this.menuPopRmHighlight.addSeparator();
     this.menuPopRmHighlight.add(itemPopRmHighlightAll);
+    this.popMenu.addSeparator();
+    this.popMenu.add(itemPopClose);
     Dimension popSize = this.popMenu.getPreferredSize();
     popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
     this.popMenu.setPopupSize(popSize);
@@ -1245,6 +1249,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.rmHighlight(5);
     } else if (this.itemPopRmHighlightAll.equals(e.getSource())) {
       this.rmHighlight(0);
+    } else if (this.itemPopClose.equals(e.getSource())) {
+      this.closeFile(true);
     } else if (this.itemTabSet.equals(e.getSource())) {
       this.openTabSetDialog();
     } else if (this.itemUnDo.equals(e.getSource())) {
