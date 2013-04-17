@@ -1,6 +1,5 @@
 package com.xiboliya.snowpad;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -8,8 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 
 /**
@@ -18,28 +20,34 @@ import javax.swing.text.BadLocationException;
  * @author chen
  * 
  */
-public class GotoDialog extends BaseDialog implements ActionListener {
+public class GotoDialog extends BaseDialog implements ActionListener,
+    ChangeListener {
   private static final long serialVersionUID = 1L;
   private JTabbedPane tpnMain = new JTabbedPane();
   private JPanel pnlMain = (JPanel) this.getContentPane();
+  private JPanel pnlBottom = new JPanel();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
+  private boolean percentChanged = false; // 用于标识是否移动过百分比的滑块
+  private JButton btnGoto = new JButton("确定");
+  private JButton btnCancel = new JButton("取消");
   // 行号
   private JPanel pnlLine = new JPanel();
   private JLabel lblCurLine = new JLabel();
   private JLabel lblEndLine = new JLabel();
   private JLabel lblGotoLine = new JLabel("转到行号：");
   private BaseTextField txtGotoLine = new BaseTextField();
-  private JButton btnGotoLine = new JButton("确定");
-  private JButton btnCancelLine = new JButton("取消");
   // 偏移量
   private JPanel pnlOffset = new JPanel();
   private JLabel lblCurOffset = new JLabel();
   private JLabel lblEndOffset = new JLabel();
   private JLabel lblGotoOffset = new JLabel("转到偏移量：");
   private BaseTextField txtGotoOffset = new BaseTextField();
-  private JButton btnGotoOffset = new JButton("确定");
-  private JButton btnCancelOffset = new JButton("取消");
+  // 百分比
+  private JSlider sldPercent = new JSlider();
+  private JPanel pnlPercent = new JPanel();
+  private JLabel lblGotoPercent = new JLabel("转到百分比：");
+  private BaseTextField txtGotoPercent = new BaseTextField();
 
   public GotoDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal);
@@ -51,11 +59,12 @@ public class GotoDialog extends BaseDialog implements ActionListener {
     this.init();
     this.updateView();
     this.addListeners();
-    this.setSize(240, 190);
+    this.setSize(240, 195);
     this.setVisible(true);
   }
 
   private void init() {
+    this.pnlMain.setLayout(null);
     // 行号
     this.pnlLine.setLayout(null);
     this.lblCurLine.setBounds(15, 10, 220, Util.VIEW_HEIGHT);
@@ -66,10 +75,6 @@ public class GotoDialog extends BaseDialog implements ActionListener {
     this.txtGotoLine.setBounds(95, 58, 100, Util.INPUT_HEIGHT);
     this.pnlLine.add(this.lblGotoLine);
     this.pnlLine.add(this.txtGotoLine);
-    this.btnGotoLine.setBounds(20, 90, 85, 23);
-    this.btnCancelLine.setBounds(120, 90, 85, 23);
-    this.pnlLine.add(this.btnGotoLine);
-    this.pnlLine.add(this.btnCancelLine);
     // 偏移量
     this.pnlOffset.setLayout(null);
     this.lblCurOffset.setBounds(15, 10, 220, Util.VIEW_HEIGHT);
@@ -80,14 +85,30 @@ public class GotoDialog extends BaseDialog implements ActionListener {
     this.txtGotoOffset.setBounds(95, 58, 100, Util.INPUT_HEIGHT);
     this.pnlOffset.add(this.lblGotoOffset);
     this.pnlOffset.add(this.txtGotoOffset);
-    this.btnGotoOffset.setBounds(20, 90, 85, Util.BUTTON_HEIGHT);
-    this.btnCancelOffset.setBounds(120, 90, 85, Util.BUTTON_HEIGHT);
-    this.pnlOffset.add(this.btnGotoOffset);
-    this.pnlOffset.add(this.btnCancelOffset);
+    // 百分比
+    this.pnlPercent.setLayout(null);
+    this.sldPercent.setBounds(20, 10, 200, 35);
+    this.lblGotoPercent.setBounds(15, 60, 80, Util.VIEW_HEIGHT);
+    this.txtGotoPercent.setBounds(95, 58, 100, Util.INPUT_HEIGHT);
+    this.txtGotoPercent.setEditable(false);
+    this.txtGotoPercent.setFocusable(false);
+    this.pnlPercent.add(this.sldPercent);
+    this.pnlPercent.add(this.lblGotoPercent);
+    this.pnlPercent.add(this.txtGotoPercent);
+    // 按钮
+    this.pnlBottom.setLayout(null);
+    this.pnlBottom.setBounds(0, 130, 240, 65);
+    this.btnGoto.setBounds(25, 5, 85, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(128, 5, 85, Util.BUTTON_HEIGHT);
+    this.pnlBottom.add(this.btnGoto);
+    this.pnlBottom.add(this.btnCancel);
 
+    this.tpnMain.setBounds(0, 0, 240, 130);
     this.tpnMain.add(this.pnlLine, "行号");
     this.tpnMain.add(this.pnlOffset, "偏移量");
-    this.pnlMain.add(this.tpnMain, BorderLayout.CENTER);
+    this.tpnMain.add(this.pnlPercent, "百分比");
+    this.pnlMain.add(this.tpnMain);
+    this.pnlMain.add(this.pnlBottom);
     this.setTabbedIndex(0);
     this.tpnMain.setFocusable(false);
   }
@@ -122,29 +143,31 @@ public class GotoDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * 更新当前行号和结尾行号的显示
+   * 更新当前和结尾状态的显示，包括：行号、偏移量或百分比
    */
   private void updateView() {
     CurrentLine currentLine = new CurrentLine(this.txaSource);
+    int total = this.txaSource.getText().length();
     int lineNum = currentLine.getLineNum() + 1;
     this.lblCurLine.setText("当前行号：" + lineNum);
     this.lblEndLine.setText("结尾行号：" + this.txaSource.getLineCount());
     int currentIndex = currentLine.getCurrentIndex();
     this.lblCurOffset.setText("当前偏移量：" + currentIndex);
-    this.lblEndOffset.setText("结尾偏移量：" + this.txaSource.getText().length());
+    this.lblEndOffset.setText("结尾偏移量：" + total);
+    this.sldPercent.setValue(currentIndex * 100 / total);
+    this.percentChanged = false;
+    this.txtGotoPercent.setText(this.sldPercent.getValue() + "%");
   }
 
   private void addListeners() {
-    this.btnGotoLine.addActionListener(this);
-    this.btnCancelLine.addActionListener(this);
+    this.btnGoto.addActionListener(this);
+    this.btnGoto.addKeyListener(this.buttonKeyAdapter);
+    this.btnCancel.addActionListener(this);
+    this.btnCancel.addKeyListener(this.buttonKeyAdapter);
     this.txtGotoLine.addKeyListener(this.keyAdapter);
-    this.btnCancelLine.addKeyListener(this.buttonKeyAdapter);
-    this.btnGotoLine.addKeyListener(this.buttonKeyAdapter);
-    this.btnGotoOffset.addActionListener(this);
-    this.btnCancelOffset.addActionListener(this);
     this.txtGotoOffset.addKeyListener(this.keyAdapter);
-    this.btnCancelOffset.addKeyListener(this.buttonKeyAdapter);
-    this.btnGotoOffset.addKeyListener(this.buttonKeyAdapter);
+    this.sldPercent.addChangeListener(this);
+    this.sldPercent.addKeyListener(this.keyAdapter);
   }
 
   /**
@@ -236,13 +259,31 @@ public class GotoDialog extends BaseDialog implements ActionListener {
     this.txtGotoOffset.selectAll();
   }
 
+  /**
+   * 转到指定百分比
+   */
+  private void gotoPercent() {
+    if (percentChanged) {
+      int total = this.txaSource.getText().length(); // 文本域总偏移量
+      int target = this.sldPercent.getValue(); // 指定的百分比
+      int offset = total * target / 100;
+      this.txaSource.setCaretPosition(offset);
+    }
+    this.cancelGoto();
+  }
+
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCancelLine.equals(e.getSource())
-        || this.btnCancelOffset.equals(e.getSource())) {
+    if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
-    } else if (this.btnGotoLine.equals(e.getSource())
-        || this.btnGotoOffset.equals(e.getSource())) {
+    } else if (this.btnGoto.equals(e.getSource())) {
       this.onEnter();
+    }
+  }
+
+  public void stateChanged(ChangeEvent e) {
+    if (this.sldPercent.equals(e.getSource())) {
+      this.percentChanged = true;
+      this.txtGotoPercent.setText(this.sldPercent.getValue() + "%");
     }
   }
 
@@ -252,8 +293,10 @@ public class GotoDialog extends BaseDialog implements ActionListener {
   public void onEnter() {
     if (this.getTabbedIndex() == 0) {
       this.gotoLine();
-    } else {
+    } else if (this.getTabbedIndex() == 1) {
       this.gotoOffset();
+    } else {
+      this.gotoPercent();
     }
   }
 
