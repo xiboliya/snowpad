@@ -36,13 +36,13 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   private JLabel lblCurLine = new JLabel();
   private JLabel lblEndLine = new JLabel();
   private JLabel lblGotoLine = new JLabel("转到行号：");
-  private BaseTextField txtGotoLine = new BaseTextField();
+  private BaseTextField txtGotoLine = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
   // 偏移量
   private JPanel pnlOffset = new JPanel();
   private JLabel lblCurOffset = new JLabel();
   private JLabel lblEndOffset = new JLabel();
   private JLabel lblGotoOffset = new JLabel("转到偏移量：");
-  private BaseTextField txtGotoOffset = new BaseTextField();
+  private BaseTextField txtGotoOffset = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
   // 百分比
   private JSlider sldPercent = new JSlider();
   private JPanel pnlPercent = new JPanel();

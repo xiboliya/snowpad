@@ -70,10 +70,28 @@ public class BaseTextField extends JTextField implements ActionListener,
 
   /**
    * 带参数的构造方法
+   * 
+   * @param str
+   *          初始化的字符串
    */
   public BaseTextField(String str) {
     super(str);
     this.init();
+  }
+
+  /**
+   * 带参数的构造方法
+   * 
+   * @param isSetDocument
+   *          是否重新设置Document文档
+   * @param pattern
+   *          限制用户输入的正则表达式
+   */
+  public BaseTextField(boolean isSetDocument, String pattern) {
+    this();
+    if (isSetDocument) {
+      this.setDocument(new BasePlainDocument(pattern));
+    }
   }
 
   /**

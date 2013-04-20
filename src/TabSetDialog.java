@@ -20,7 +20,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblTabSize = new JLabel("Tab键所占字符数：");
-  private BaseTextField txtTabSize = new BaseTextField();
+  private BaseTextField txtTabSize = new BaseTextField(true, "\\d{0,2}"); // 限制用户只能输入数字，并且不能超过2位
   private JCheckBox chkReplaceBySpace = new JCheckBox("以空格代替Tab键(R)", false);
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");

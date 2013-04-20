@@ -26,7 +26,7 @@ public class RemoveTextDialog extends BaseDialog implements ActionListener {
   private JRadioButton radRmLineEnd = new JRadioButton("行尾(E)", true);
   private JPanel pnlRmLineStartEnd = new JPanel(new GridLayout(2, 1));
   private JLabel lblOffset = new JLabel("偏移量：");
-  private BaseTextField txtOffset = new BaseTextField();
+  private BaseTextField txtOffset = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);

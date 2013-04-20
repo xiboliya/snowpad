@@ -34,7 +34,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   private JLabel lblView = new JLabel("A※文");
   private BaseTextField txtFont = new BaseTextField();
   private BaseTextField txtStyle = new BaseTextField();
-  private BaseTextField txtSize = new BaseTextField();
+  private BaseTextField txtSize = new BaseTextField(true, "\\d{0,3}"); // 限制用户只能输入数字，并且不能超过3位
   private JList listFont = new JList();
   private JList listStyle = new JList();
   private JList listSize = new JList();
