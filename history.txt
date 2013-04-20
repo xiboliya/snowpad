@@ -614,3 +614,12 @@ src/Setting.java（添加）
 src/SnowPadFrame.java
 2.在“转到”对话框中，添加“转到百分比”功能
 src/GotoDialog.java
+
+2013-04-20
+1.在某些单行输入框中，添加限制用户输入的正则表达式规则。牵涉的界面包括：字体对话框的字体大小、切除对话框的偏移量、转到对话框的行号和偏移量、Tab键设置的字符数，以上输入框中只能输入数字。
+src/BaseTextField.java
+src/FontChooser.java
+src/GotoDialog.java
+src/RemoveTextDialog.java
+src/TabSetDialog.java
+src/BasePlainDocument.java（添加）
