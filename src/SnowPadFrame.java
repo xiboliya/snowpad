@@ -1375,14 +1375,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     } else {
       for (String str : arrText) {
-        if (str.startsWith(strIndent)) {
-          str = str.substring(strIndent.length());
-          label = true;
-        } else if (str.startsWith(strIndentBlanks)) {
+        if (str.startsWith(strIndentBlanks)) {
           str = str.substring(strIndentBlanks.length());
           label = true;
         } else if (str.startsWith("\t")) {
           str = str.substring(1);
+          label = true;
+        } else if (str.startsWith(" ")) {
+          int i = 1;
+          for (; i < str.length() - 1; i++) {
+            if (str.charAt(i) != ' ') {
+              break;
+            }
+          }
+          str = str.substring(i);
           label = true;
         }
         stbIndent.append(str + "\n");
