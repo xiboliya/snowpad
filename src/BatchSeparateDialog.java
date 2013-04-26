@@ -14,26 +14,26 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 /**
- * "切除"对话框
+ * 批处理"分割行"对话框
  * 
  * @author chen
  * 
  */
-public class RemoveTextDialog extends BaseDialog implements ActionListener {
+public class BatchSeparateDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JRadioButton radRmLineStart = new JRadioButton("行首(S)", false);
-  private JRadioButton radRmLineEnd = new JRadioButton("行尾(E)", true);
-  private JPanel pnlRmLineStartEnd = new JPanel(new GridLayout(2, 1));
+  private JRadioButton radLineStart = new JRadioButton("行首(S)", false);
+  private JRadioButton radLineEnd = new JRadioButton("行尾(E)", true);
+  private JPanel pnlLineStartEnd = new JPanel(new GridLayout(2, 1));
   private JLabel lblOffset = new JLabel("偏移量：");
   private BaseTextField txtOffset = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private ButtonGroup bgpRmLineStartEnd = new ButtonGroup();
+  private ButtonGroup bgpLineStartEnd = new ButtonGroup();
 
-  public RemoveTextDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public BatchSeparateDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal);
     if (txaSource == null) {
       return;
@@ -59,22 +59,22 @@ public class RemoveTextDialog extends BaseDialog implements ActionListener {
    * 初始化界面
    */
   private void init() {
-    this.setTitle("切除文本");
+    this.setTitle("分割行");
     this.pnlMain.setLayout(null);
     this.lblOffset.setBounds(20, 10, 60, Util.VIEW_HEIGHT);
     this.txtOffset.setBounds(80, 10, 100, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblOffset);
     this.pnlMain.add(this.txtOffset);
-    this.pnlRmLineStartEnd.setBounds(10, 40, 85, 65);
-    this.pnlRmLineStartEnd.setBorder(new TitledBorder("切除位置"));
-    this.pnlRmLineStartEnd.add(this.radRmLineStart);
-    this.pnlRmLineStartEnd.add(this.radRmLineEnd);
-    this.pnlMain.add(this.pnlRmLineStartEnd);
-    this.radRmLineStart.setMnemonic('S');
-    this.radRmLineEnd.setMnemonic('E');
-    this.bgpRmLineStartEnd.add(radRmLineStart);
-    this.bgpRmLineStartEnd.add(radRmLineEnd);
-    this.radRmLineStart.setSelected(true);
+    this.pnlLineStartEnd.setBounds(10, 40, 85, 65);
+    this.pnlLineStartEnd.setBorder(new TitledBorder("分割位置"));
+    this.pnlLineStartEnd.add(this.radLineStart);
+    this.pnlLineStartEnd.add(this.radLineEnd);
+    this.pnlMain.add(this.pnlLineStartEnd);
+    this.radLineStart.setMnemonic('S');
+    this.radLineEnd.setMnemonic('E');
+    this.bgpLineStartEnd.add(radLineStart);
+    this.bgpLineStartEnd.add(radLineEnd);
+    this.radLineStart.setSelected(true);
     this.btnOk.setBounds(110, 45, 85, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(110, 80, 85, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnOk);
@@ -85,8 +85,8 @@ public class RemoveTextDialog extends BaseDialog implements ActionListener {
    * 添加事件监听器
    */
   private void addListeners() {
-    this.radRmLineStart.addKeyListener(this.keyAdapter);
-    this.radRmLineEnd.addKeyListener(this.keyAdapter);
+    this.radLineStart.addKeyListener(this.keyAdapter);
+    this.radLineEnd.addKeyListener(this.keyAdapter);
     this.txtOffset.addKeyListener(this.keyAdapter);
     this.btnOk.addActionListener(this);
     this.btnOk.addKeyListener(this.buttonKeyAdapter);
@@ -106,12 +106,12 @@ public class RemoveTextDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * 切除字符
+   * 分割行
    */
-  private void removeText() {
-    int rmSize = 0;
+  private void separateText() {
+    int offset = 0;
     try {
-      rmSize = Integer.parseInt(this.txtOffset.getText().trim());
+      offset = Integer.parseInt(this.txtOffset.getText().trim());
     } catch (NumberFormatException x) {
       x.printStackTrace();
       JOptionPane.showMessageDialog(this, "格式错误，请输入数字！", Util.SOFTWARE,
@@ -120,47 +120,47 @@ public class RemoveTextDialog extends BaseDialog implements ActionListener {
       this.txtOffset.selectAll();
       return;
     }
-    if (rmSize <= 0) {
+    if (offset <= 0) {
       JOptionPane.showMessageDialog(this, "数值必须大于0！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtOffset.requestFocus();
       this.txtOffset.selectAll();
     } else {
-      this.toRemoveText(rmSize);
+      this.toSeparateText(offset);
       this.dispose();
     }
   }
 
   /**
-   * 从行首/行尾切除一定数目的字符
+   * 从行首/行尾以指定的偏移量分割行
    * 
-   * @param rmSize
-   *          从行首/行尾切除字符的个数
+   * @param offset
+   *          从行首/行尾进行分割的偏移量
    */
-  private void toRemoveText(int rmSize) {
+  private void toSeparateText(int offset) {
     CurrentLines currentLines = new CurrentLines(this.txaSource);
     String strContent = currentLines.getStrContent();
     int startIndex = currentLines.getStartIndex();
     int endIndex = currentLines.getEndIndex();
     String[] arrText = strContent.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
-    boolean isRmLineStart = this.radRmLineStart.isSelected();
+    boolean isLineStart = this.radLineStart.isSelected();
     StringBuilder stbText = new StringBuilder();
     for (int n = 0; n < arrText.length; n++) {
       int strLen = arrText[n].length();
-      if (strLen <= rmSize) {
-        arrText[n] = "";
-      } else {
-        if (isRmLineStart) {
-          arrText[n] = arrText[n].substring(rmSize);
+      if (strLen > offset) {
+        if (isLineStart) {
+          arrText[n] = arrText[n].substring(0, offset) + "\n"
+              + arrText[n].substring(offset);
         } else {
-          arrText[n] = arrText[n].substring(0, arrText[n].length() - rmSize);
+          arrText[n] = arrText[n].substring(0, strLen - offset) + "\n"
+              + arrText[n].substring(strLen - offset);
         }
       }
       stbText.append(arrText[n] + "\n");
     }
     this.txaSource.replaceRange(stbText.deleteCharAt(stbText.length() - 1)
         .toString(), startIndex, endIndex);
-    endIndex = startIndex + stbText.length() - 1; // 切除字符后，当前选区内末行的行尾偏移量
+    endIndex = startIndex + stbText.length() - 1; // 分割行后，当前选区内末行的行尾偏移量
     if (this.txaSource.getText().length() == endIndex + 1) {
       endIndex++;
     }
@@ -171,7 +171,7 @@ public class RemoveTextDialog extends BaseDialog implements ActionListener {
    * 默认的"确定"操作方法
    */
   public void onEnter() {
-    this.removeText();
+    this.separateText();
   }
 
   /**

@@ -101,7 +101,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemLineDelToEnd = new JMenuItem("删除至行尾");
   private JMenuItem itemLineToUp = new JMenuItem("上移当前行");
   private JMenuItem itemLineToDown = new JMenuItem("下移当前行");
-  private JMenuItem itemMergeLines = new JMenuItem("合并为一行");
+  private JMenu menuLineBatch = new JMenu("批处理行");
+  private JMenuItem itemLineBatchRemove = new JMenuItem("切除(R)...", 'R');
+  private JMenuItem itemLineBatchInsert = new JMenuItem("插入(I)...", 'I');
+  private JMenuItem itemLineBatchSeparate = new JMenuItem("分割行(S)...", 'S');
+  private JMenuItem itemLineBatchMerge = new JMenuItem("合并行(M)", 'M');
   private JMenu menuSort = new JMenu("排序");
   private JMenuItem itemSortUp = new JMenuItem("升序");
   private JMenuItem itemSortDown = new JMenuItem("降序");
@@ -109,7 +113,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemIndentAdd = new JMenuItem("缩进");
   private JMenuItem itemIndentBack = new JMenuItem("退格");
   private JMenuItem itemSelCopy = new JMenuItem("复写当前选择(W)", 'W');
-  private JMenuItem itemRemoveText = new JMenuItem("切除(X)...", 'X');
   private JMenu menuTrim = new JMenu("清除空白");
   private JMenuItem itemTrimStart = new JMenuItem("行首");
   private JMenuItem itemTrimEnd = new JMenuItem("行尾");
@@ -253,7 +256,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private InsertCharDialog insertCharDialog = null; // 插入字符对话框
   private InsertDateDialog insertDateDialog = null; // 插入时间/日期对话框
   private FileEncodingDialog fileEncodingDialog = null; // 文件编码格式对话框
-  private RemoveTextDialog removeTextDialog = null; // 切除文本对话框
+  private BatchRemoveDialog batchRemoveDialog = null; // 批处理"切除"对话框
+  private BatchInsertDialog batchInsertDialog = null; // 批处理"插入"对话框
+  private BatchSeparateDialog batchSeparateDialog = null; // 批处理"分割行"对话框
   private SignIdentifierDialog signIdentifierDialog = null; // 项目符号与编号对话框
 
   /**
@@ -350,13 +355,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineDelToEnd.addActionListener(this);
     this.itemLineToUp.addActionListener(this);
     this.itemLineToDown.addActionListener(this);
-    this.itemMergeLines.addActionListener(this);
     this.itemSortUp.addActionListener(this);
     this.itemSortDown.addActionListener(this);
     this.itemIndentAdd.addActionListener(this);
     this.itemIndentBack.addActionListener(this);
     this.itemSelCopy.addActionListener(this);
-    this.itemRemoveText.addActionListener(this);
+    this.itemLineBatchRemove.addActionListener(this);
+    this.itemLineBatchInsert.addActionListener(this);
+    this.itemLineBatchSeparate.addActionListener(this);
+    this.itemLineBatchMerge.addActionListener(this);
     this.itemTrimStart.addActionListener(this);
     this.itemTrimEnd.addActionListener(this);
     this.itemTrimAll.addActionListener(this);
@@ -566,8 +573,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLine.addSeparator();
     this.menuLine.add(this.itemLineToUp);
     this.menuLine.add(this.itemLineToDown);
-    this.menuLine.addSeparator();
-    this.menuLine.add(this.itemMergeLines);
+    this.menuEdit.add(this.menuLineBatch);
+    this.menuLineBatch.add(this.itemLineBatchRemove);
+    this.menuLineBatch.add(this.itemLineBatchInsert);
+    this.menuLineBatch.add(this.itemLineBatchSeparate);
+    this.menuLineBatch.add(this.itemLineBatchMerge);
     this.menuEdit.add(this.menuSort);
     this.menuSort.add(this.itemSortUp);
     this.menuSort.add(this.itemSortDown);
@@ -584,8 +594,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuDelNullLine.add(this.itemDelNullLineAll);
     this.menuDelNullLine.add(this.itemDelNullLineSelected);
     this.menuEdit.add(this.itemSelCopy);
-    this.menuEdit.add(this.itemRemoveText);
-    this.menuEdit.addSeparator();
     this.menuEdit.add(this.menuInsert);
     this.menuInsert.add(this.itemInsertChar);
     this.menuInsert.add(this.itemInsertDateTime);
@@ -729,7 +737,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelAll.setEnabled(false);
     this.itemDel.setEnabled(false);
     this.menuCase.setEnabled(false);
-    this.itemMergeLines.setEnabled(false);
     this.itemFind.setEnabled(false);
     this.itemFindNext.setEnabled(false);
     this.itemFindPrevious.setEnabled(false);
@@ -737,7 +744,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelFindPrevious.setEnabled(false);
     this.menuQuickFind.setEnabled(false);
     this.itemSelCopy.setEnabled(false);
-    this.itemRemoveText.setEnabled(false);
+    this.itemLineBatchRemove.setEnabled(false);
+    this.itemLineBatchInsert.setEnabled(false);
+    this.itemLineBatchSeparate.setEnabled(false);
+    this.itemLineBatchMerge.setEnabled(false);
     this.itemReplace.setEnabled(false);
     this.itemGoto.setEnabled(false);
     this.itemTrimSelected.setEnabled(false);
@@ -819,7 +829,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       isExist = false;
     }
     this.menuSort.setEnabled(isExist);
-    this.itemRemoveText.setEnabled(isExist);
+    this.itemLineBatchRemove.setEnabled(isExist);
+    this.itemLineBatchInsert.setEnabled(isExist);
+    this.itemLineBatchSeparate.setEnabled(isExist);
+    this.itemLineBatchMerge.setEnabled(isExist);
     this.itemFind.setEnabled(isExist);
     this.itemFindNext.setEnabled(isExist);
     this.itemFindPrevious.setEnabled(isExist);
@@ -844,7 +857,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCut.setEnabled(isNull);
     this.itemDel.setEnabled(isNull);
     this.menuCase.setEnabled(isNull);
-    this.itemMergeLines.setEnabled(isNull);
+    this.itemLineBatchMerge.setEnabled(isNull);
     this.menuQuickFind.setEnabled(isNull);
     this.itemSelCopy.setEnabled(isNull);
     this.itemPopCopy.setEnabled(isNull);
@@ -908,32 +921,32 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuPopHighlight.setMnemonic('H');
     this.menuPopRmHighlight.setMnemonic('M');
     this.itemNew.setAccelerator(KeyStroke.getKeyStroke('N',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+N
     this.itemOpen.setAccelerator(KeyStroke.getKeyStroke('O',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+O
     this.itemSave.setAccelerator(KeyStroke.getKeyStroke('S',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+S
     this.itemExit.setAccelerator(KeyStroke.getKeyStroke('Q',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+Q
     this.itemAbout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0)); // 快捷键：F1
     this.itemClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0)); // 快捷键：F4
     this.itemUnDo.setAccelerator(KeyStroke.getKeyStroke('Z',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+Z
     this.itemReDo.setAccelerator(KeyStroke.getKeyStroke('Y',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+Y
     this.itemCut.setAccelerator(KeyStroke.getKeyStroke('X',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+X
     this.itemCopy.setAccelerator(KeyStroke.getKeyStroke('C',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+C
     this.itemPaste.setAccelerator(KeyStroke.getKeyStroke('V',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+V
     this.itemDel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0)); // 快捷键：Delete
     this.itemCaseUp.setAccelerator(KeyStroke.getKeyStroke('U',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+U
     this.itemCaseLow.setAccelerator(KeyStroke.getKeyStroke('U',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+U
     this.itemFind.setAccelerator(KeyStroke.getKeyStroke('F',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+F
     this.itemFindNext.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0)); // 快捷键：F3
     this.itemFindPrevious.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
         InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Shift+F3
@@ -943,21 +956,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
             InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+F3
     this.itemQuickFindDown.setAccelerator(KeyStroke.getKeyStroke('K',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+K
     this.itemQuickFindUp.setAccelerator(KeyStroke.getKeyStroke('K',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+K
     this.itemReplace.setAccelerator(KeyStroke.getKeyStroke('H',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+H
     this.itemGoto.setAccelerator(KeyStroke.getKeyStroke('G',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+G
     this.itemToClipCurLine.setAccelerator(KeyStroke.getKeyStroke('C',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+C
     this.itemToClipAllText.setAccelerator(KeyStroke.getKeyStroke('A',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+A
     this.itemLineCopy.setAccelerator(KeyStroke.getKeyStroke('D',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+D
     this.itemLineDel.setAccelerator(KeyStroke.getKeyStroke('D',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+D
     this.itemSortUp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
         InputEvent.ALT_DOWN_MASK)); // 快捷键：Alt+向上方向键
     this.itemSortDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
@@ -968,23 +981,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK
             + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Alt+Shift+T
     this.itemSelCopy.setAccelerator(KeyStroke.getKeyStroke('R',
-        InputEvent.CTRL_DOWN_MASK));
-    this.itemRemoveText.setAccelerator(KeyStroke.getKeyStroke('X',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+R
     this.itemTrimStart.setAccelerator(KeyStroke.getKeyStroke('S',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+S
     this.itemTrimEnd.setAccelerator(KeyStroke.getKeyStroke('E',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+E
     this.itemTrimAll.setAccelerator(KeyStroke.getKeyStroke('L',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+L
     this.itemTrimSelected.setAccelerator(KeyStroke.getKeyStroke('T',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+T
     this.itemDelNullLineAll.setAccelerator(KeyStroke.getKeyStroke('A',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+A
     this.itemDelNullLineSelected.setAccelerator(KeyStroke.getKeyStroke('S',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+S
     this.itemSelAll.setAccelerator(KeyStroke.getKeyStroke('A',
-        InputEvent.CTRL_DOWN_MASK));
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+A
     this.itemInsertDateTime.setAccelerator(KeyStroke.getKeyStroke(
         KeyEvent.VK_F5, 0)); // 快捷键：F5
     this.itemFontSizePlus.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
@@ -1003,8 +1014,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向上方向键
     this.itemLineToDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向下方向键
-    this.itemMergeLines.setAccelerator(KeyStroke.getKeyStroke('M',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    this.itemLineBatchRemove.setAccelerator(KeyStroke.getKeyStroke('R',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+R
+    this.itemLineBatchInsert.setAccelerator(KeyStroke.getKeyStroke('I',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+I
+    this.itemLineBatchSeparate.setAccelerator(KeyStroke.getKeyStroke('P',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+P
+    this.itemLineBatchMerge.setAccelerator(KeyStroke.getKeyStroke('M',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+M
   }
 
   /**
@@ -1069,7 +1086,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.moveLineToUp();
     } else if (this.itemLineToDown.equals(e.getSource())) {
       this.moveLineToDown();
-    } else if (this.itemMergeLines.equals(e.getSource())) {
+    } else if (this.itemLineBatchRemove.equals(e.getSource())) {
+      this.openBatchRemoveDialog();
+    } else if (this.itemLineBatchInsert.equals(e.getSource())) {
+      this.openBatchInsertDialog();
+    } else if (this.itemLineBatchSeparate.equals(e.getSource())) {
+      this.openBatchSeparateDialog();
+    } else if (this.itemLineBatchMerge.equals(e.getSource())) {
       this.mergeLines();
     } else if (this.itemSortUp.equals(e.getSource())) {
       this.sortLines(true);
@@ -1081,8 +1104,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.toIndent(false);
     } else if (this.itemSelCopy.equals(e.getSource())) {
       this.copySelectedText();
-    } else if (this.itemRemoveText.equals(e.getSource())) {
-      this.removeText();
     } else if (this.itemTrimStart.equals(e.getSource())) {
       this.trimLines(0);
     } else if (this.itemTrimEnd.equals(e.getSource())) {
@@ -1282,7 +1303,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "合并为一行"的处理方法
+   * 批处理"分割行"的处理方法
+   */
+  private void openBatchSeparateDialog() {
+    if (this.batchSeparateDialog == null) {
+      this.batchSeparateDialog = new BatchSeparateDialog(this, true,
+          this.txaMain);
+    } else {
+      this.batchSeparateDialog.setTextArea(this.txaMain);
+      this.batchSeparateDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * 批处理"合并行"的处理方法
    */
   private void mergeLines() {
     String[] arrText = Util.getCurrentLinesArray(this.txaMain);
@@ -1383,14 +1417,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "切除"的处理方法
+   * 批处理"切除"的处理方法
    */
-  private void removeText() {
-    if (this.removeTextDialog == null) {
-      this.removeTextDialog = new RemoveTextDialog(this, true, this.txaMain);
+  private void openBatchRemoveDialog() {
+    if (this.batchRemoveDialog == null) {
+      this.batchRemoveDialog = new BatchRemoveDialog(this, true, this.txaMain);
     } else {
-      this.removeTextDialog.setTextArea(this.txaMain);
-      this.removeTextDialog.setVisible(true);
+      this.batchRemoveDialog.setTextArea(this.txaMain);
+      this.batchRemoveDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * 批处理"插入"的处理方法
+   */
+  private void openBatchInsertDialog() {
+    if (this.batchInsertDialog == null) {
+      this.batchInsertDialog = new BatchInsertDialog(this, true, this.txaMain);
+    } else {
+      this.batchInsertDialog.setTextArea(this.txaMain);
+      this.batchInsertDialog.setVisible(true);
     }
   }
 
@@ -3337,8 +3383,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.insertDateDialog != null) {
       this.insertDateDialog.setTextArea(this.txaMain);
     }
-    if (this.removeTextDialog != null) {
-      this.removeTextDialog.setTextArea(this.txaMain);
+    if (this.batchRemoveDialog != null) {
+      this.batchRemoveDialog.setTextArea(this.txaMain);
     }
     if (this.signIdentifierDialog != null) {
       this.signIdentifierDialog.setTextArea(this.txaMain);
