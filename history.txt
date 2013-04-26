@@ -623,3 +623,14 @@ src/GotoDialog.java
 src/RemoveTextDialog.java
 src/TabSetDialog.java
 src/BasePlainDocument.java（添加）
+
+2013-04-26
+1.在编辑菜单下，添加“批处理行”功能，共包括：切除、插入、分割行和合并行。其中“切除”和“合并行”是从原有菜单中转移过来。
+src/SnowPadFrame.java
+src/RemoveTextDialog.java 重命名为：src/BatchRemoveDialog.java
+src/BatchInsertDialog.java（添加）
+src/BatchSeparateDialog.java（添加）
+2.解决当选区内行首空格数小于当前Tab键所占字符数时，执行“退格”功能，不能去除行首空格的问题。
+src/SnowPadFrame.java
+3.添加bat批处理文件，以便于在Windows系统下以命令行方式运行；或者添加可执行权限在Linux系统下运行。
+SnowPad.bat（添加）
