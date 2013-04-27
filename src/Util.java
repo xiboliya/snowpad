@@ -86,6 +86,7 @@ public final class Util {
   public static final int SIGN_MAX_ROW = 5; // 列表符号与编号界面的最大行数
   public static final int SIGN_MAX_COLUMN = 4; // 列表符号与编号界面的最大列数
   public static final int SIGN_MAX_ELEMENT = SIGN_MAX_ROW * SIGN_MAX_COLUMN; // 列表符号与编号界面的最大元素数
+  public static final int MSG_LINE_SIZE = 60; // 提示框中每行字符串显示的最大字数
   public static final Color COLOR_HIGHLIGHT_1 = new Color(255, 0, 0, 40); // 用于高亮显示的颜色1,其中第4个参数表示透明度，数值越小越透明
   public static final Color COLOR_HIGHLIGHT_2 = new Color(0, 255, 0, 40); // 用于高亮显示的颜色2
   public static final Color COLOR_HIGHLIGHT_3 = new Color(0, 0, 255, 40); // 用于高亮显示的颜色3
@@ -118,6 +119,39 @@ public final class Util {
    * 由于此类为工具类，故将构造方法私有化
    */
   private Util() {
+  }
+
+  /**
+   * 将给定字符串重新分行，以适应对话框的显示
+   * 
+   * @param str
+   *          待处理的字符串
+   * @return 处理过的字符串
+   */
+  public static String convertToMsg(String str) {
+    String arrContents[] = str.split("\n", -1);
+    StringBuilder stbContent = new StringBuilder(); // 用于存放处理后的文本
+    for (int n = 0; n < arrContents.length; n++) {
+      String content = "";
+      if (arrContents[n].length() > MSG_LINE_SIZE) {
+        int lines = arrContents[n].length() / MSG_LINE_SIZE;
+        int remain = arrContents[n].length() % MSG_LINE_SIZE;
+        for (int i = 0; i < lines; i++) {
+          content = content
+              + arrContents[n].substring(MSG_LINE_SIZE * i, MSG_LINE_SIZE
+                  * (i + 1)) + "\n";
+        }
+        if (remain > 0) {
+          content += arrContents[n].substring(MSG_LINE_SIZE * lines);
+        } else {
+          content = content.substring(0, content.length() - 1);
+        }
+      } else {
+        content = arrContents[n];
+      }
+      stbContent.append(content + "\n");
+    }
+    return stbContent.toString();
   }
 
   /**

@@ -2000,8 +2000,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setAfterOpenFile(index);
       this.setFileNameAndPath(file);
     } else {
-      JOptionPane.showMessageDialog(this, "文件：" + file + " 不存在！",
-          Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + file
+          + " 不存在！"), Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -2514,16 +2514,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "删除当前文件"的处理方法
    */
   private void deleteFile() {
-    int result = JOptionPane.showConfirmDialog(this, "此操作将删除磁盘文件：" + this.file
-        + "\n是否继续？", Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+    int result = JOptionPane.showConfirmDialog(this, Util
+        .convertToMsg("此操作将删除磁盘文件：" + this.file + "\n是否继续？"), Util.SOFTWARE,
+        JOptionPane.YES_NO_CANCEL_OPTION);
     if (result != JOptionPane.YES_OPTION) {
       return;
     }
     if (this.file.delete()) {
       this.closeFile(false);
     } else {
-      JOptionPane.showMessageDialog(this, "文件：" + this.file + "删除失败！",
-          Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + this.file
+          + "删除失败！"), Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -2667,8 +2668,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (this.file != null) {
         str = "文件：" + this.file + " 的" + strChanged + "已经修改。\n想保存文件吗？";
       }
-      int result = JOptionPane.showConfirmDialog(this, str, Util.SOFTWARE,
-          JOptionPane.YES_NO_CANCEL_OPTION);
+      int result = JOptionPane.showConfirmDialog(this, Util.convertToMsg(str),
+          Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result == JOptionPane.YES_OPTION) {
         return this.saveFile(false);
       } else if (result == JOptionPane.CANCEL_OPTION
@@ -2920,8 +2921,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       } else if (this.txaMain.getStyleChanged()) {
         strTemp = "格式";
       }
-      int result = JOptionPane.showConfirmDialog(this, "文件：" + this.file + " 的"
-          + strTemp + "已经修改。\n想放弃修改重新载入吗？", Util.SOFTWARE,
+      int result = JOptionPane.showConfirmDialog(this, Util.convertToMsg("文件："
+          + this.file + " 的" + strTemp + "已经修改。\n想放弃修改重新载入吗？"), Util.SOFTWARE,
           JOptionPane.YES_NO_CANCEL_OPTION);
       if (result != JOptionPane.YES_OPTION) {
         return;
@@ -2934,8 +2935,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setTextPrefix();
       this.setStylePrefix();
     } else {
-      int result = JOptionPane.showConfirmDialog(this, "文件：" + this.file
-          + "不存在。\n要重新创建吗？", Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+      int result = JOptionPane.showConfirmDialog(this, Util.convertToMsg("文件："
+          + this.file + "不存在。\n要重新创建吗？"), Util.SOFTWARE,
+          JOptionPane.YES_NO_CANCEL_OPTION);
       if (result == JOptionPane.YES_OPTION) {
         this.checkFile(this.file);
         try {
@@ -3219,8 +3221,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setTextPrefix();
     this.setStylePrefix();
     if (!isFileExist) {
-      JOptionPane.showMessageDialog(this, "丢失的文件："
-          + this.file.getAbsolutePath() + "\n已重新创建！", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, Util.convertToMsg("丢失的文件："
+          + this.file.getAbsolutePath() + "\n已重新创建！"), Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     }
     return true;
@@ -3307,8 +3309,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          当前编辑的文件
    */
   private void showSaveErrorDialog(File file) {
-    JOptionPane.showMessageDialog(this, "文件：" + file.getAbsolutePath()
-        + "\n保存失败！请确认是否有写权限！", Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
+    JOptionPane.showMessageDialog(this, Util.convertToMsg("文件："
+        + file.getAbsolutePath() + "\n保存失败！请确认是否有写权限！"), Util.SOFTWARE,
+        JOptionPane.CANCEL_OPTION);
   }
 
   /**
@@ -3490,8 +3493,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     if (this.file != null && !this.file.exists()) {
       if (this.txaMain.getFileExistsLabel()) {
-        int result = JOptionPane.showConfirmDialog(this, "文件：" + this.file
-            + "不存在。\n要重新创建吗？", Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(this, Util
+            .convertToMsg("文件：" + this.file + "不存在。\n要重新创建吗？"), Util.SOFTWARE,
+            JOptionPane.YES_NO_CANCEL_OPTION);
         if (result == JOptionPane.YES_OPTION) {
           this.checkFile(this.file);
           try {
