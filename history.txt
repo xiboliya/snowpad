@@ -634,3 +634,8 @@ src/BatchSeparateDialog.java（添加）
 src/SnowPadFrame.java
 3.添加bat批处理文件，以便于在Windows系统下以命令行方式运行；或者添加可执行权限在Linux系统下运行。
 SnowPad.bat（添加）
+
+2013-04-27
+1.限制提示框中每行最多可显示的字符数，超出范围的文本，进行换行显示。现将每行字符数限定为60。
+src/SnowPadFrame.java
+src/Util.java
