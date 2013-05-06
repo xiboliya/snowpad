@@ -33,7 +33,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   private JLabel lblWest = new JLabel(" ");
   private JLabel lblNorth = new JLabel();
   private JLabel lblEast = new JLabel(" ");
-  private JButton btnOk = new JButton("确定");
+  private JButton btnOk = new JButton(" 确定 ");
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private LinkedList<JLabel> labelList = new LinkedList<JLabel>(); // 存放显示标签的链表
 
