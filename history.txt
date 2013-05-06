@@ -639,3 +639,11 @@ SnowPad.bat（添加）
 1.限制提示框中每行最多可显示的字符数，超出范围的文本，进行换行显示。现将每行字符数限定为60。
 src/SnowPadFrame.java
 src/Util.java
+
+2013-05-06
+1.执行“全部替换”后，将光标插入点设置为替换之前的位置
+src/FindReplaceDialog.java
+src/SnowPadFrame.java
+src/Util.java
+2.在“关于记事本”窗口中，添加GitHub代码仓库的链接地址
+src/SnowPadFrame.java
