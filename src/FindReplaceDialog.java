@@ -421,9 +421,12 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     StringBuilder stbTextAll = new StringBuilder(this.txaSource.getText()); //
     StringBuilder stbTextAllTemp = new StringBuilder(stbTextAll); //
     if (strFindText != null && strFindText.length() > 0) {
-      int caretPos = 0;
+      int caretPos = 0; // 当前从哪个索引值开始搜索字符串
       int index = 0;
       int times = 0; // 循环次数
+      int oldPos = this.txaSource.getCaretPosition(); // 替换之前文本域的插入点位置
+      int newPos = oldPos; // 替换之后的插入点位置
+      int offset = strFindText.length() - strReplaceText.length(); // 查找与替换的字符串长度的差值
       if (this.isIgnoreCase) {
         stbFindTextTemp = new StringBuilder(stbFindTextTemp.toString()
             .toLowerCase());
@@ -436,6 +439,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           stbTextAll.replace(index, index + stbFindTextTemp.length(),
               strReplaceText);
           caretPos = index + strReplaceText.length();
+          if (caretPos < oldPos) {
+            newPos -= offset;
+          }
           stbTextAllTemp = new StringBuilder(stbTextAll); //
           if (this.isIgnoreCase) {
             stbTextAllTemp = new StringBuilder(stbTextAllTemp.toString()
@@ -448,7 +454,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       }
       if (times > 0) {
         this.txaSource.setText(stbTextAll.toString());
-        this.txaSource.setCaretPosition(0);
+        this.txaSource.setCaretPosition(Util.checkCaretPosition(this.txaSource,
+            newPos));
         JOptionPane.showMessageDialog(this, "共替换 " + times + " 处。",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       } else {

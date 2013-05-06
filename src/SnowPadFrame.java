@@ -2960,13 +2960,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          文本域的插入点位置
    */
   private void setAfterOpenFile(int index) {
-    int totalIndex = this.txaMain.getText().length();
-    if (index < 0) {
-      index = 0;
-    } else if (index > totalIndex) {
-      index = totalIndex;
-    }
-    this.txaMain.setCaretPosition(index); // 设置插入点位置
+    this.txaMain.setCaretPosition(Util.checkCaretPosition(this.txaMain, index)); // 设置插入点位置
     this.txaMain.setTextChanged(false);
     this.txaMain.setStyleChanged(false);
     this.txaMain.setSaved(true);

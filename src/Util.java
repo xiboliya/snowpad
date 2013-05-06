@@ -122,6 +122,28 @@ public final class Util {
   }
 
   /**
+   * 检测或重新设置文本域插入点
+   * 
+   * @param txaSource
+   *          当前文本域
+   * @param index
+   *          待检测的插入点位置
+   * @return 处理过的插入点位置
+   */
+  public static int checkCaretPosition(JTextArea txaSource, int index) {
+    if (txaSource == null) {
+      return Util.DEFAULT_CARET_INDEX;
+    }
+    int totalIndex = txaSource.getText().length();
+    if (index < 0) {
+      index = 0;
+    } else if (index > totalIndex) {
+      index = totalIndex;
+    }
+    return index;
+  }
+
+  /**
    * 将给定字符串重新分行，以适应对话框的显示
    * 
    * @param str
