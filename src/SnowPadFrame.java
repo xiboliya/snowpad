@@ -246,8 +246,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private UndoManager undoManager = null; // 撤销管理器
   private Setting setting = new Setting(); // 文本域参数配置类
 
-  private JFileChooser fcrOpen = new OpenFileChooser(); // "打开"文件选择器
-  private JFileChooser fcrSave = new SaveFileChooser(); // "保存"文件选择器
+  private OpenFileChooser openFileChooser = new OpenFileChooser(); // "打开"文件选择器
+  private SaveFileChooser saveFileChooser = new SaveFileChooser(); // "保存"文件选择器
   private FontChooser fontChooser = null; // 字体对话框
   private FindReplaceDialog findReplaceDialog = null; // 查找、替换对话框
   private GotoDialog gotoDialog = null; // 转到对话框
@@ -319,7 +319,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setMenuDefault();
     this.setMenuDefaultInit();
     this.addListeners();
-    this.addFileFilter();
   }
 
   /**
@@ -783,28 +782,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setResizable();
     this.setLineStyleString(LineSeparator.DEFAULT, true);
     this.setCharEncoding(CharEncoding.BASE, true);
-  }
-
-  /**
-   * 为文件选择器添加文件过滤器
-   */
-  private void addFileFilter() {
-    FileExt[] arrFileExt = FileExt.values(); // 获取包含枚举所有成员的数组
-    BaseFileFilter fileFilter = null;
-    BaseFileFilter defFileFilter = null; // 默认选择的文件过滤器
-    for (FileExt fileExt : arrFileExt) { // 遍历枚举的所有成员
-      fileFilter = new BaseFileFilter(fileExt.toString(), fileExt
-          .getDescription());
-      this.fcrOpen.addChoosableFileFilter(fileFilter);
-      this.fcrSave.addChoosableFileFilter(fileFilter);
-      if (fileExt.equals(FileExt.TXT)) {
-        defFileFilter = fileFilter;
-      }
-    }
-    if (defFileFilter != null) {
-      this.fcrOpen.setFileFilter(defFileFilter);
-      this.fcrSave.setFileFilter(defFileFilter);
-    }
   }
 
   /**
@@ -2532,12 +2509,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "重命名"的处理方法
    */
   private void reNameFile() {
-    this.fcrSave.setSelectedFile(this.file);
-    this.fcrSave.setDialogTitle("重命名");
-    if (JFileChooser.APPROVE_OPTION != this.fcrSave.showSaveDialog(this)) {
+    this.saveFileChooser.setSelectedFile(this.file);
+    this.saveFileChooser.setDialogTitle("重命名");
+    if (JFileChooser.APPROVE_OPTION != this.saveFileChooser
+        .showSaveDialog(this)) {
       return;
     }
-    File fileReName = this.fcrSave.getSelectedFile();
+    File fileReName = this.saveFileChooser.getSelectedFile();
     if (this.file.equals(fileReName)) { // 文件名未修改时，不做操作
       return;
     }
@@ -2983,11 +2961,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "打开"的处理方法
    */
   private void openFile() {
-    this.fcrOpen.setSelectedFile(null);
-    if (JFileChooser.APPROVE_OPTION != this.fcrOpen.showOpenDialog(this)) {
+    this.openFileChooser.setSelectedFile(null);
+    if (JFileChooser.APPROVE_OPTION != this.openFileChooser
+        .showOpenDialog(this)) {
       return;
     }
-    File file = this.fcrOpen.getSelectedFile();
+    File file = this.openFileChooser.getSelectedFile();
     if (file != null && file.exists()) {
       boolean toCreateNew = this.checkToCreateNew(file);
       if (!toCreateNew && !this.saveFileBeforeAct()) {
@@ -3054,11 +3033,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     CharEncoding charEncoding = this.fileEncodingDialog.getCharEncoding();
-    this.fcrOpen.setSelectedFile(null);
-    if (JFileChooser.APPROVE_OPTION != this.fcrOpen.showOpenDialog(this)) {
+    this.openFileChooser.setSelectedFile(null);
+    if (JFileChooser.APPROVE_OPTION != this.openFileChooser
+        .showOpenDialog(this)) {
       return;
     }
-    File file = this.fcrOpen.getSelectedFile();
+    File file = this.openFileChooser.getSelectedFile();
     if (file != null && file.exists()) {
       boolean toCreateNew = this.checkToCreateNew(file);
       int index = this.getCurrentIndexBySameFile(file);
@@ -3185,15 +3165,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     boolean isFileExist = true; // 当前文件是否存在
     if (isSaveAs || !this.txaMain.getSaved()) {
       if (isSaveAs) {
-        this.fcrSave.setDialogTitle("另存为");
+        this.saveFileChooser.setDialogTitle("另存为");
       } else {
-        this.fcrSave.setDialogTitle("保存");
+        this.saveFileChooser.setDialogTitle("保存");
       }
-      this.fcrSave.setSelectedFile(null);
-      if (JFileChooser.APPROVE_OPTION != this.fcrSave.showSaveDialog(this)) {
+      this.saveFileChooser.setSelectedFile(null);
+      if (JFileChooser.APPROVE_OPTION != this.saveFileChooser
+          .showSaveDialog(this)) {
         return false;
       }
-      File file = this.fcrSave.getSelectedFile();
+      File file = this.saveFileChooser.getSelectedFile();
       if (file != null) {
         try {
           this.toSaveFile(file);

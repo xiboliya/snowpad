@@ -14,6 +14,11 @@ import javax.swing.filechooser.FileFilter;
 public class OpenFileChooser extends JFileChooser {
   private static final long serialVersionUID = 1L;
 
+  public OpenFileChooser() {
+    super();
+    Util.addChoosableFileFilters(this);
+  }
+
   /**
    * 当用户确认时将调用此方法
    */

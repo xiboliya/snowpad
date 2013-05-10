@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.util.Enumeration;
+import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
@@ -119,6 +120,29 @@ public final class Util {
    * 由于此类为工具类，故将构造方法私有化
    */
   private Util() {
+  }
+
+  /**
+   * 为文件选择器添加预定义的文件过滤器
+   * 
+   * @param fileChooser
+   *          要处理的文件选择器
+   */
+  public static void addChoosableFileFilters(JFileChooser fileChooser) {
+    FileExt[] arrFileExt = FileExt.values(); // 获取包含枚举所有成员的数组
+    BaseFileFilter fileFilter = null;
+    BaseFileFilter defFileFilter = null; // 默认选择的文件过滤器
+    for (FileExt fileExt : arrFileExt) { // 遍历枚举的所有成员
+      fileFilter = new BaseFileFilter(fileExt.toString(), fileExt
+          .getDescription());
+      fileChooser.addChoosableFileFilter(fileFilter);
+      if (fileExt.equals(FileExt.TXT)) {
+        defFileFilter = fileFilter;
+      }
+    }
+    if (defFileFilter != null) {
+      fileChooser.setFileFilter(defFileFilter);
+    }
   }
 
   /**
