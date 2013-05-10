@@ -18,7 +18,7 @@ import javax.swing.text.JTextComponent;
  */
 public final class Util {
   public static final String SOFTWARE = "冰雪记事本"; // 软件名称
-  public static final String VERSION = "V2.3"; // 软件版本号
+  public static final String VERSION = "V3.0"; // 软件版本号
   public static final String NEW_FILE_NAME = "新建"; // 新建文件的默认名称
   public static final String OS_NAME = System.getProperty("os.name", "Windows"); // 当前操作系统的名称
   public static final String FILE_SEPARATOR = System.getProperty(
