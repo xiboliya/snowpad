@@ -654,3 +654,8 @@ src/OpenFileChooser.java
 src/SaveFileChooser.java
 src/SnowPadFrame.java
 src/Util.java
+
+*****************************
+* date:2013-05-10
+* tag:SnowPad-V3.0
+*****************************
