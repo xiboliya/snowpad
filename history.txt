@@ -647,3 +647,10 @@ src/SnowPadFrame.java
 src/Util.java
 2.在“关于记事本”窗口中，添加GitHub代码仓库的链接地址
 src/SnowPadFrame.java
+
+2013-05-10
+1.调整“打开”、“保存”对话框中添加预定义文件过滤器的处理方法
+src/OpenFileChooser.java
+src/SaveFileChooser.java
+src/SnowPadFrame.java
+src/Util.java
