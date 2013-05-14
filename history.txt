@@ -667,3 +667,5 @@ src/LineNumberView.java（添加）
 src/Setting.java
 src/SnowPadFrame.java
 src/Util.java
+2.当执行“复制当前行”时，支持复制当前多行到剪切板。
+src/SnowPadFrame.java
