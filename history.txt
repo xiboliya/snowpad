@@ -659,3 +659,11 @@ src/Util.java
 * date:2013-05-10
 * tag:SnowPad-V3.0
 *****************************
+
+2013-05-14
+1.在“查看”菜单下，添加“行号栏”功能。不过目前还不够完善，此功能与“自动换行”功能不能同时使用。如要显示行号栏，则必须首先取消“自动换行”功能。
+src/BaseTextArea.java
+src/LineNumberView.java（添加）
+src/Setting.java
+src/SnowPadFrame.java
+src/Util.java
