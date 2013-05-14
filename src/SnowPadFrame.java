@@ -54,7 +54,8 @@ import java.util.LinkedList;
 /**
  * 冰雪记事本 打造一个与Windows的“记事本”功能相同的java版本。
  * 当然这只是最低要求，最终目标是实现一个可以同时在Windows和Linux下运行的增强型记事本。
- * 百度空间：http://hi.baidu.com/xiboliya
+ * 百度空间：http://hi.baidu.com/xiboliya 谷歌代码：http://code.google.com/p/snowpad
+ * GitHub：https://github.com/xiboliya/snowpad
  * 
  * @author chen
  * 
@@ -170,6 +171,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemSignIdentifier = new JMenuItem("列表符号与编号(G)...", 'G');
   private JMenu menuView = new JMenu("查看(V)");
   private JCheckBoxMenuItem itemStateBar = new JCheckBoxMenuItem("状态栏(S)");
+  private JCheckBoxMenuItem itemLineNumber = new JCheckBoxMenuItem("行号栏(L)");
   private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("前端显示(A)");
   private JCheckBoxMenuItem itemResizable = new JCheckBoxMenuItem("锁定窗口(R)");
   private JMenu menuFontSize = new JMenu("字体缩放(F)");
@@ -315,9 +317,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.addMenuItem();
     this.addStatePanel();
     this.addPopMenu();
-    this.setMenuMnemonic();
     this.setMenuDefault();
     this.setMenuDefaultInit();
+    this.setMenuMnemonic();
     this.addListeners();
   }
 
@@ -448,6 +450,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemClearFileHistory.addActionListener(this);
     this.itemSelAll.addActionListener(this);
     this.itemStateBar.addActionListener(this);
+    this.itemLineNumber.addActionListener(this);
     this.itemReDo.addActionListener(this);
     this.itemUnDo.addActionListener(this);
     // 为窗口添加事件监听器
@@ -631,6 +634,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStyle.add(this.itemAutoIndent);
     this.menuBar.add(this.menuView);
     this.menuView.add(this.itemStateBar);
+    this.menuView.add(this.itemLineNumber);
     this.menuView.add(this.itemAlwaysOnTop);
     this.menuView.add(this.itemResizable);
     this.menuView.addSeparator();
@@ -752,6 +756,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTrimSelected.setEnabled(false);
     this.itemDelNullLineSelected.setEnabled(false);
     this.itemSignIdentifier.setEnabled(false);
+    this.itemLineNumber.setEnabled(false);
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
     this.itemPopDel.setEnabled(false);
@@ -772,6 +777,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTextDrag.setSelected(false);
     this.itemAutoIndent.setSelected(false);
     this.itemStateBar.setSelected(true);
+    this.itemLineNumber.setSelected(false);
     this.itemAlwaysOnTop.setSelected(false);
     this.itemResizable.setSelected(false);
     this.setLineWrap();
@@ -888,6 +894,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTextDrag.setMnemonic('D');
     this.itemAutoIndent.setMnemonic('I');
     this.itemStateBar.setMnemonic('S');
+    this.itemLineNumber.setMnemonic('L');
     this.itemAlwaysOnTop.setMnemonic('A');
     this.itemResizable.setMnemonic('R');
     this.menuColor.setMnemonic('C');
@@ -1167,6 +1174,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.selectAll();
     } else if (this.itemStateBar.equals(e.getSource())) {
       this.setStateBar();
+    } else if (this.itemLineNumber.equals(e.getSource())) {
+      this.setLineNumber(this.itemLineNumber.isSelected());
     } else if (this.itemAlwaysOnTop.equals(e.getSource())) {
       this.setAlwaysOnTop();
     } else if (this.itemResizable.equals(e.getSource())) {
@@ -1258,6 +1267,57 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (Util.FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
       JMenuItem itemFile = (JMenuItem) e.getSource();
       this.openFileHistory(itemFile.getText());
+    }
+  }
+
+  /**
+   * "行号栏"的处理方法
+   * 
+   * @param enable
+   *          是否显示行号栏
+   */
+  private void setLineNumber(boolean enable) {
+    LineNumberView lineNumberView = null;
+    JScrollPane srp = null;
+    boolean menuEnabled = this.itemLineNumber.isEnabled();
+    for (int i = 0; i < this.tpnMain.getTabCount(); i++) {
+      srp = ((JScrollPane) this.tpnMain.getComponentAt(i));
+      if (enable && menuEnabled) {
+        lineNumberView = new LineNumberView(this.textAreaList.get(i));
+        srp.setRowHeaderView(lineNumberView);
+      } else {
+        srp.setRowHeaderView(null);
+      }
+    }
+    this.setting.isLineNumberView = enable;
+  }
+
+  /**
+   * 在开启"行号栏"设置的情况下，新建或打开新文件时，添加行号栏的显示
+   */
+  private void setLineNumberForNew() {
+    if (this.setting.isLineNumberView && this.itemLineNumber.isEnabled()) {
+      LineNumberView lineNumberView = new LineNumberView(this.textAreaList
+          .getLast());
+      JScrollPane srp = ((JScrollPane) this.tpnMain.getComponentAt(this.tpnMain
+          .getTabCount() - 1));
+      srp.setRowHeaderView(lineNumberView);
+    }
+  }
+
+  /**
+   * 设置各文本域字体。如果已显示"行号栏"，则同步设置其字体。
+   */
+  private void setTextAreaFont() {
+    for (BaseTextArea textArea : this.textAreaList) {
+      textArea.setFont(this.setting.font);
+    }
+    if (this.setting.isLineNumberView) {
+      JScrollPane srp = null;
+      for (int i = 0; i < this.tpnMain.getTabCount(); i++) {
+        srp = (JScrollPane) this.tpnMain.getComponentAt(i);
+        srp.getRowHeader().getView().setFont(this.setting.font);
+      }
     }
   }
 
@@ -1519,7 +1579,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         mode);
     Color[] colorStyle = new Color[] { colorFont, colorBack, colorCaret,
         colorSelFont, colorSelBack };
-    for (BaseTextArea textArea : textAreaList) {
+    for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(colorStyle);
     }
     this.setting.colorStyle = colorStyle;
@@ -1580,7 +1640,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       this.setting.colorStyle = this.defColorStyle;
     }
-    for (BaseTextArea textArea : textAreaList) {
+    for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(this.setting.colorStyle);
     }
   }
@@ -1642,7 +1702,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setAutoIndent() {
     boolean enable = this.itemAutoIndent.isSelected();
-    for (BaseTextArea textArea : textAreaList) {
+    for (BaseTextArea textArea : this.textAreaList) {
       textArea.setAutoIndent(enable);
     }
     this.setting.autoIndent = enable;
@@ -1865,7 +1925,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          换行方式，true表示以单词边界换行，false表示以字符边界换行
    */
   private void setLineWrapStyle(boolean isByWord) {
-    for (BaseTextArea textArea : textAreaList) {
+    for (BaseTextArea textArea : this.textAreaList) {
       textArea.setWrapStyleWord(isByWord);
     }
     this.setting.isWrapStyleWord = isByWord;
@@ -2052,7 +2112,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         colorStyle = this.defColorStyle;
       }
       colorStyle[index] = color;
-      for (BaseTextArea textArea : textAreaList) {
+      for (BaseTextArea textArea : this.textAreaList) {
         textArea.setColorStyle(colorStyle);
       }
       this.setting.colorStyle = colorStyle;
@@ -2114,7 +2174,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.tabSetDialog.setVisible(true);
     }
     boolean enable = this.tabSetDialog.getReplaceBySpace();
-    for (BaseTextArea textArea : textAreaList) {
+    for (BaseTextArea textArea : this.textAreaList) {
       textArea.setTabReplaceBySpace(enable);
     }
     this.setting.tabReplaceBySpace = enable;
@@ -2125,7 +2185,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setTextDrag() {
     boolean isTextDrag = this.itemTextDrag.isSelected();
-    for (BaseTextArea textArea : textAreaList) {
+    for (BaseTextArea textArea : this.textAreaList) {
       textArea.setDragEnabled(isTextDrag);
     }
     this.setting.textDrag = isTextDrag;
@@ -2141,9 +2201,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.setting.font = new Font(font.getFamily(), font.getStyle(), font
         .getSize() + 1);
-    for (BaseTextArea textArea : textAreaList) {
-      textArea.setFont(this.setting.font);
-    }
+    this.setTextAreaFont();
   }
 
   /**
@@ -2156,9 +2214,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.setting.font = new Font(font.getFamily(), font.getStyle(), font
         .getSize() - 1);
-    for (BaseTextArea textArea : textAreaList) {
-      textArea.setFont(this.setting.font);
-    }
+    this.setTextAreaFont();
   }
 
   /**
@@ -2168,9 +2224,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     Font font = this.txaMain.getFont();
     this.setting.font = new Font(font.getFamily(), font.getStyle(),
         Util.TEXT_FONT.getSize());
-    for (BaseTextArea textArea : textAreaList) {
-      textArea.setFont(this.setting.font);
-    }
+    this.setTextAreaFont();
   }
 
   /**
@@ -2584,7 +2638,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void exit() {
     boolean toExit = true;
-    for (int i = 0; i < textAreaList.size(); i++) {
+    for (int i = 0; i < this.textAreaList.size(); i++) {
       this.tpnMain.setSelectedIndex(i);
       if (!saveFileBeforeAct()) { // 关闭程序前检测文件是否已修改
         toExit = false;
@@ -2629,9 +2683,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void setLineWrap() {
     boolean isLineWrap = this.itemLineWrap.isSelected();
     this.menuLineWrapStyle.setEnabled(isLineWrap);
-    for (BaseTextArea textArea : textAreaList) {
+    for (BaseTextArea textArea : this.textAreaList) {
       textArea.setLineWrap(isLineWrap);
     }
+    this.itemLineNumber.setEnabled(!isLineWrap); // 如果开启了"自动换行"，则"行号栏"功能失效
+    this.setLineNumber(this.setting.isLineNumberView); // 设置行号栏是否显示
     this.setting.isLineWrap = isLineWrap;
   }
 
@@ -2688,6 +2744,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.tpnMain.add(srpNew, title);
     this.tpnMain.setSelectedComponent(srpNew);
     this.textAreaList.add(txaNew);
+    this.setLineNumberForNew();
     this.addMouseListener();
   }
 
@@ -2759,9 +2816,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     this.setting.font = this.fontChooser.getTextAreaFont();
-    for (BaseTextArea textArea : textAreaList) {
-      textArea.setFont(this.setting.font);
-    }
+    this.setTextAreaFont();
   }
 
   /**

@@ -34,6 +34,7 @@ public class BaseTextArea extends JTextArea {
   private boolean fileExistsLabel = false; // 当文件删除或移动后，用于标识是否已弹出过提示框
   private boolean tabReplaceBySpace = false; // 是否以空格代替Tab键
   private boolean autoIndent = false; // 是否可自动缩进
+  private boolean isLineNumberView = false; // 是否显示行号栏
   private UndoManager undoManager = new UndoManager(); // 撤销管理器
   private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
 
@@ -89,6 +90,7 @@ public class BaseTextArea extends JTextArea {
     this.setTextChanged(setting.isTextChanged);
     this.setStyleChanged(setting.isStyleChanged);
     this.setFileExistsLabel(setting.fileExistsLabel);
+    this.setLineNumberView(setting.isLineNumberView);
   }
 
   private void disableShortcut() {
@@ -304,5 +306,13 @@ public class BaseTextArea extends JTextArea {
 
   public int getNewFileIndex() {
     return this.newFileIndex;
+  }
+
+  public boolean getLineNumberView() {
+    return this.isLineNumberView;
+  }
+
+  public void setLineNumberView(boolean isLineNumberView) {
+    this.isLineNumberView = isLineNumberView;
   }
 }
