@@ -10,7 +10,7 @@ import javax.swing.text.PlainDocument;
 /**
  * 实现限制用户输入符合指定正则表达式的PlainDocument文档
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class BasePlainDocument extends PlainDocument {

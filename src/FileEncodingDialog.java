@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 /**
  * 选择"文件编码格式"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class FileEncodingDialog extends BaseDialog implements ActionListener {

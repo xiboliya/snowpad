@@ -16,7 +16,7 @@ import javax.swing.border.TitledBorder;
 /**
  * 批处理"分割行"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class BatchSeparateDialog extends BaseDialog implements ActionListener {

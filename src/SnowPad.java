@@ -6,7 +6,7 @@ import javax.swing.UIManager;
 /**
  * 本程序的主类
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class SnowPad {

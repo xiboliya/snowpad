@@ -6,7 +6,7 @@ import javax.swing.text.BadLocationException;
 /**
  * 表示当前行的属性类
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class CurrentLine {

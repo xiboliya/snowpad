@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 /**
  * "Tab字符设置"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class TabSetDialog extends BaseDialog implements ActionListener {

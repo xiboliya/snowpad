@@ -28,7 +28,7 @@ import java.awt.event.MouseListener;
 /**
  * 实现撤销管理器和右键快捷菜单的JTextField控件
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class BaseTextField extends JTextField implements ActionListener,

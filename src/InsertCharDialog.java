@@ -23,7 +23,7 @@ import javax.swing.border.EtchedBorder;
 /**
  * "插入字符"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class InsertCharDialog extends BaseDialog implements ActionListener,

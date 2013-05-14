@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 /**
  * 文本域的行号组件
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class LineNumberView extends JComponent {

@@ -17,7 +17,7 @@ import javax.swing.text.BadLocationException;
 /**
  * "转到"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class GotoDialog extends BaseDialog implements ActionListener,

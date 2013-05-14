@@ -14,7 +14,7 @@ import java.util.LinkedList;
 /**
  * 实现撤销管理器和右键快捷菜单的JTextArea控件
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class BaseTextArea extends JTextArea {

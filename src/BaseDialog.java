@@ -7,7 +7,7 @@ import javax.swing.JTextArea;
 /**
  * 用于统一行为的JDialog窗口类
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public abstract class BaseDialog extends JDialog {

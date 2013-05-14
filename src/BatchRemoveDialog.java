@@ -16,7 +16,7 @@ import javax.swing.border.TitledBorder;
 /**
  * 批处理"切除"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class BatchRemoveDialog extends BaseDialog implements ActionListener {

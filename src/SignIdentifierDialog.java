@@ -23,7 +23,7 @@ import javax.swing.border.EtchedBorder;
 /**
  * "列表符号与编号"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class SignIdentifierDialog extends BaseDialog implements ActionListener,

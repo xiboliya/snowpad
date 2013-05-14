@@ -3,7 +3,7 @@ package com.xiboliya.snowpad;
 /**
  * 保存广义键/值对的简单类
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class PartnerBean {

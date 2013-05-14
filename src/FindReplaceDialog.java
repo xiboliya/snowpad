@@ -23,7 +23,7 @@ import javax.swing.event.ChangeListener;
 /**
  * "查找"和"替换"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class FindReplaceDialog extends BaseDialog implements ActionListener,

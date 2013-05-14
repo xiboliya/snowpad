@@ -3,7 +3,7 @@ package com.xiboliya.snowpad;
 /**
  * 用于标识文件扩展名的枚举
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public enum FileExt {

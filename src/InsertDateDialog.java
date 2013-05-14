@@ -25,7 +25,7 @@ import javax.swing.event.CaretListener;
 /**
  * "插入时间/日期"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class InsertDateDialog extends BaseDialog implements ActionListener,
@@ -195,7 +195,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   /**
    * 接收鼠标事件的抽象适配器的自定义类
    * 
-   * @author chen
+   * @author 冰原
    * 
    */
   private class BaseMouseAdapter extends MouseAdapter {

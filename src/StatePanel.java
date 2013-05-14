@@ -11,7 +11,7 @@ import javax.swing.border.EtchedBorder;
 /**
  * 自定义的状态栏
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class StatePanel extends JPanel {

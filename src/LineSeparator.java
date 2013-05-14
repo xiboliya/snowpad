@@ -3,7 +3,7 @@ package com.xiboliya.snowpad;
 /**
  * 用于标识换行符格式的枚举
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public enum LineSeparator {

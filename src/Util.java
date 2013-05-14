@@ -13,7 +13,7 @@ import javax.swing.text.JTextComponent;
 /**
  * 实用工具类，包括可重用的各种属性和方法。设计为final类型，使本类不可被继承
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public final class Util {

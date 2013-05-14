@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 /**
  * "关于"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class AboutDialog extends BaseDialog implements ActionListener {

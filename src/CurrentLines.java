@@ -6,7 +6,7 @@ import javax.swing.text.BadLocationException;
 /**
  * 表示当前多行文本的属性类
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class CurrentLines {
@@ -27,7 +27,7 @@ public class CurrentLines {
   /**
    * 标识扩展上下行方式的枚举
    * 
-   * @author chen
+   * @author 冰原
    * 
    */
   public static enum LineExtend {

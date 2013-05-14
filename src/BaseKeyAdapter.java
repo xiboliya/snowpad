@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 /**
  * 当用户按下Esc键时关闭当前对话框，按Enter键时执行相应操作的键盘事件类
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class BaseKeyAdapter extends KeyAdapter {

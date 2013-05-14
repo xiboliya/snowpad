@@ -6,7 +6,7 @@ import java.awt.Font;
 /**
  * 用于初始化文本域的属性配置类。
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class Setting {

@@ -6,7 +6,7 @@ import java.io.File;
 /**
  * 可重用的文件过滤器
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class BaseFileFilter extends FileFilter {

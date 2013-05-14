@@ -57,7 +57,7 @@ import java.util.LinkedList;
  * 百度空间：http://hi.baidu.com/xiboliya 谷歌代码：http://code.google.com/p/snowpad
  * GitHub：https://github.com/xiboliya/snowpad
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class SnowPadFrame extends JFrame implements ActionListener,

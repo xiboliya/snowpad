@@ -22,7 +22,7 @@ import javax.swing.event.ListSelectionListener;
 /**
  * "字体"对话框
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class FontChooser extends BaseDialog implements ActionListener,
@@ -209,7 +209,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   /**
    * 接收鼠标事件的抽象适配器的自定义类
    * 
-   * @author chen
+   * @author 冰原
    * 
    */
   private class BaseMouseAdapter extends MouseAdapter {

@@ -8,7 +8,7 @@ import javax.swing.filechooser.FileFilter;
 /**
  * "打开"文件选择器
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public class OpenFileChooser extends JFileChooser {

@@ -3,7 +3,7 @@ package com.xiboliya.snowpad;
 /**
  * 用于状态栏对齐方式的枚举，目前只提供水平对齐方式
  * 
- * @author chen
+ * @author 冰原
  * 
  */
 public enum StatePanelAlignment {
