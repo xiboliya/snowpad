@@ -2430,12 +2430,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 复制"当前行"到剪贴板的处理方法
    */
   private void toClipCurLine() {
-    CurrentLine currentLine = new CurrentLine(this.txaMain);
-    String strLine = currentLine.getStrLine();
-    if (!strLine.endsWith("\n")) {
-      strLine += "\n";
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    String strContent = currentLines.getStrContent();
+    if (!strContent.endsWith("\n")) {
+      strContent += "\n";
     }
-    this.setClipboardContents(strLine);
+    this.setClipboardContents(strContent);
   }
 
   /**
