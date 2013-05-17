@@ -669,3 +669,12 @@ src/SnowPadFrame.java
 src/Util.java
 2.当执行“复制当前行”时，支持复制当前多行到剪切板。
 src/SnowPadFrame.java
+
+2013-05-17
+1.将“Tab键设置...”转移到“格式”菜单下，在“查看”菜单下添加“切换外观”功能，并调整某些界面的布局。
+src/BatchInsertDialog.java
+src/BatchRemoveDialog.java
+src/BatchSeparateDialog.java
+src/SnowPad.java
+src/SnowPadFrame.java
+src/Util.java
