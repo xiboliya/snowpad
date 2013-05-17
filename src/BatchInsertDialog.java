@@ -65,7 +65,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
     this.txtInsert.setBounds(70, 10, 130, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblInsert);
     this.pnlMain.add(this.txtInsert);
-    this.pnlLineStartEnd.setBounds(10, 40, 85, 65);
+    this.pnlLineStartEnd.setBounds(10, 40, 95, 70);
     this.pnlLineStartEnd.setBorder(new TitledBorder("≤Â»ÎŒª÷√"));
     this.pnlLineStartEnd.add(this.radLineStart);
     this.pnlLineStartEnd.add(this.radLineEnd);
@@ -75,8 +75,8 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
     this.bgpLineStartEnd.add(radLineStart);
     this.bgpLineStartEnd.add(radLineEnd);
     this.radLineStart.setSelected(true);
-    this.btnOk.setBounds(110, 45, 85, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(110, 80, 85, Util.BUTTON_HEIGHT);
+    this.btnOk.setBounds(115, 50, 85, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(115, 85, 85, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnOk);
     this.pnlMain.add(this.btnCancel);
   }

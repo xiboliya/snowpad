@@ -16,6 +16,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
@@ -146,6 +148,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JRadioButtonMenuItem itemLineWrapByChar = new JRadioButtonMenuItem(
       "字符边界换行(C)");
   private JMenuItem itemFont = new JMenuItem("字体(F)...", 'F');
+  private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
   private JCheckBoxMenuItem itemTextDrag = new JCheckBoxMenuItem("文本拖拽(D)");
   private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
   private JMenu menuLineStyle = new JMenu("换行符格式(S)");
@@ -206,7 +209,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemRmHighlight4 = new JMenuItem("格式(4)", '4');
   private JMenuItem itemRmHighlight5 = new JMenuItem("格式(5)", '5');
   private JMenuItem itemRmHighlightAll = new JMenuItem("所有格式(0)", '0');
-  private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
+  private JMenu menuLookAndFeel = new JMenu("切换外观(K)");
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于记事本(A)", 'A');
@@ -237,6 +240,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // 用于存放换行方式的按钮组
   private ButtonGroup bgpLineStyle = new ButtonGroup(); // 用于存放换行符格式的按钮组
   private ButtonGroup bgpCharset = new ButtonGroup(); // 用于存放字符编码格式的按钮组
+  private ButtonGroup bgpLookAndFeel = new ButtonGroup(); // 用于存放外观的按钮组
   private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private Color[] defColorStyle = null; // 文本域默认配色方案
   private File file = null; // 当前编辑的文件
@@ -248,8 +252,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private UndoManager undoManager = null; // 撤销管理器
   private Setting setting = new Setting(); // 文本域参数配置类
 
-  private OpenFileChooser openFileChooser = new OpenFileChooser(); // "打开"文件选择器
-  private SaveFileChooser saveFileChooser = new SaveFileChooser(); // "保存"文件选择器
+  private OpenFileChooser openFileChooser = null; // "打开"文件选择器
+  private SaveFileChooser saveFileChooser = null; // "保存"文件选择器
   private FontChooser fontChooser = null; // 字体对话框
   private FindReplaceDialog findReplaceDialog = null; // 查找、替换对话框
   private GotoDialog gotoDialog = null; // 转到对话框
@@ -344,6 +348,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelFindNext.addActionListener(this);
     this.itemSelFindPrevious.addActionListener(this);
     this.itemFont.addActionListener(this);
+    this.itemTabSet.addActionListener(this);
     this.itemGoto.addActionListener(this);
     this.itemToClipFileName.addActionListener(this);
     this.itemToClipFilePath.addActionListener(this);
@@ -416,7 +421,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemRmHighlight4.addActionListener(this);
     this.itemRmHighlight5.addActionListener(this);
     this.itemRmHighlightAll.addActionListener(this);
-    this.itemTabSet.addActionListener(this);
     this.itemNew.addActionListener(this);
     this.itemOpen.addActionListener(this);
     this.itemOpenByEncoding.addActionListener(this);
@@ -630,6 +634,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuCharset.add(this.itemCharsetUBE);
     this.menuStyle.add(this.itemSignIdentifier);
     this.menuStyle.add(this.itemFont);
+    this.menuStyle.add(this.itemTabSet);
     this.menuStyle.add(this.itemTextDrag);
     this.menuStyle.add(this.itemAutoIndent);
     this.menuBar.add(this.menuView);
@@ -673,11 +678,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuRmHighlight.add(this.itemRmHighlight5);
     this.menuRmHighlight.addSeparator();
     this.menuRmHighlight.add(this.itemRmHighlightAll);
-    this.menuView.add(this.itemTabSet);
+    this.menuView.add(this.menuLookAndFeel);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
     this.menuHelp.add(this.itemAbout);
+    this.addLookAndFeelItem();
     this.bgpLineWrapStyle.add(this.itemLineWrapByWord);
     this.bgpLineWrapStyle.add(this.itemLineWrapByChar);
     this.bgpLineStyle.add(this.itemLineStyleWin);
@@ -902,6 +908,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuColorStyle.setMnemonic('Y');
     this.menuHighlight.setMnemonic('H');
     this.menuRmHighlight.setMnemonic('M');
+    this.menuLookAndFeel.setMnemonic('K');
     this.menuPopHighlight.setMnemonic('H');
     this.menuPopRmHighlight.setMnemonic('M');
     this.itemNew.setAccelerator(KeyStroke.getKeyStroke('N',
@@ -1267,6 +1274,108 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (Util.FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
       JMenuItem itemFile = (JMenuItem) e.getSource();
       this.openFileHistory(itemFile.getText());
+    } else if (e.getActionCommand() != null
+        && e.getActionCommand().startsWith(Util.LOOK_AND_FEEL)) { // 当前系统支持的外观菜单
+      JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) e.getSource();
+      this.setLookAndFeel(itemInfo.getActionCommand().substring(
+          (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
+    }
+  }
+
+  /**
+   * 设置为"切换外观"下某个外观的处理方法
+   * 
+   * @param className
+   *          将要设置的外观完整类名
+   */
+  private void setLookAndFeel(String className) {
+    try {
+      UIManager.setLookAndFeel(className);
+      SwingUtilities.updateComponentTreeUI(this);
+      SwingUtilities.updateComponentTreeUI(this.popMenu);
+      this.popMenu.updateUI();
+      this.destroyAllDialogs();
+    } catch (Exception x) {
+      x.printStackTrace();
+    }
+  }
+
+  /**
+   * 将所有窗口设置为null，以便于将切换后的新外观完整应用于各窗口
+   */
+  private void destroyAllDialogs() {
+    if (this.openFileChooser != null) {
+      this.openFileChooser = null;
+    }
+    if (this.saveFileChooser != null) {
+      this.saveFileChooser = null;
+    }
+    if (this.fontChooser != null) {
+      this.fontChooser.dispose();
+      this.fontChooser = null;
+    }
+    if (this.findReplaceDialog != null) {
+      this.findReplaceDialog.dispose();
+      this.findReplaceDialog = null;
+    }
+    if (this.gotoDialog != null) {
+      this.gotoDialog.dispose();
+      this.gotoDialog = null;
+    }
+    if (this.aboutDialog != null) {
+      this.aboutDialog.dispose();
+      this.aboutDialog = null;
+    }
+    if (this.tabSetDialog != null) {
+      this.tabSetDialog.dispose();
+      this.tabSetDialog = null;
+    }
+    if (this.insertCharDialog != null) {
+      this.insertCharDialog.dispose();
+      this.insertCharDialog = null;
+    }
+    if (this.insertDateDialog != null) {
+      this.insertDateDialog.dispose();
+      this.insertDateDialog = null;
+    }
+    if (this.fileEncodingDialog != null) {
+      this.fileEncodingDialog.dispose();
+      this.fileEncodingDialog = null;
+    }
+    if (this.batchRemoveDialog != null) {
+      this.batchRemoveDialog.dispose();
+      this.batchRemoveDialog = null;
+    }
+    if (this.batchInsertDialog != null) {
+      this.batchInsertDialog.dispose();
+      this.batchInsertDialog = null;
+    }
+    if (this.batchSeparateDialog != null) {
+      this.batchSeparateDialog.dispose();
+      this.batchSeparateDialog = null;
+    }
+    if (this.signIdentifierDialog != null) {
+      this.signIdentifierDialog.dispose();
+      this.signIdentifierDialog = null;
+    }
+  }
+
+  /**
+   * 在"切换外观"菜单下，添加当前系统可用的外观
+   */
+  private void addLookAndFeelItem() {
+    UIManager.LookAndFeelInfo[] infos = Util.LOOK_AND_FEEL_INFOS;
+    for (UIManager.LookAndFeelInfo info : infos) {
+      JRadioButtonMenuItem itemInfo = new JRadioButtonMenuItem(info.getName());
+      String className = info.getClassName();
+      itemInfo.setActionCommand(Util.LOOK_AND_FEEL + Util.PARAM_SPLIT
+          + className);
+      itemInfo.addActionListener(this);
+      this.menuLookAndFeel.add(itemInfo);
+      this.bgpLookAndFeel.add(itemInfo);
+      if (Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME.equals(className)) {
+        itemInfo.setSelected(true);
+      }
     }
   }
 
@@ -2563,6 +2672,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "重命名"的处理方法
    */
   private void reNameFile() {
+    if (this.saveFileChooser == null) {
+      this.saveFileChooser = new SaveFileChooser();
+    }
     this.saveFileChooser.setSelectedFile(this.file);
     this.saveFileChooser.setDialogTitle("重命名");
     if (JFileChooser.APPROVE_OPTION != this.saveFileChooser
@@ -3016,6 +3128,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "打开"的处理方法
    */
   private void openFile() {
+    if (this.openFileChooser == null) {
+      this.openFileChooser = new OpenFileChooser();
+    }
     this.openFileChooser.setSelectedFile(null);
     if (JFileChooser.APPROVE_OPTION != this.openFileChooser
         .showOpenDialog(this)) {
@@ -3088,6 +3203,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     CharEncoding charEncoding = this.fileEncodingDialog.getCharEncoding();
+    if (this.openFileChooser == null) {
+      this.openFileChooser = new OpenFileChooser();
+    }
     this.openFileChooser.setSelectedFile(null);
     if (JFileChooser.APPROVE_OPTION != this.openFileChooser
         .showOpenDialog(this)) {
@@ -3219,6 +3337,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private boolean saveFile(boolean isSaveAs) {
     boolean isFileExist = true; // 当前文件是否存在
     if (isSaveAs || !this.txaMain.getSaved()) {
+      if (this.saveFileChooser == null) {
+        this.saveFileChooser = new SaveFileChooser();
+      }
       if (isSaveAs) {
         this.saveFileChooser.setDialogTitle("另存为");
       } else {

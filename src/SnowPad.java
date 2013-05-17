@@ -25,7 +25,7 @@ public class SnowPad {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         try {
-          UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+          UIManager.setLookAndFeel(Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME);
         } catch (Exception x) {
           x.printStackTrace();
         }

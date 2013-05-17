@@ -65,7 +65,7 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
     this.txtOffset.setBounds(80, 10, 100, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblOffset);
     this.pnlMain.add(this.txtOffset);
-    this.pnlLineStartEnd.setBounds(10, 40, 85, 65);
+    this.pnlLineStartEnd.setBounds(10, 40, 95, 70);
     this.pnlLineStartEnd.setBorder(new TitledBorder("ÇÐ³ýÎ»ÖÃ"));
     this.pnlLineStartEnd.add(this.radLineStart);
     this.pnlLineStartEnd.add(this.radLineEnd);
@@ -75,8 +75,8 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
     this.bgpLineStartEnd.add(radLineStart);
     this.bgpLineStartEnd.add(radLineEnd);
     this.radLineStart.setSelected(true);
-    this.btnOk.setBounds(110, 45, 85, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(110, 80, 85, Util.BUTTON_HEIGHT);
+    this.btnOk.setBounds(115, 50, 85, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(115, 85, 85, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnOk);
     this.pnlMain.add(this.btnCancel);
   }

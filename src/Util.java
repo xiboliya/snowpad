@@ -26,6 +26,8 @@ public final class Util {
   public static final String LINE_SEPARATOR = System.getProperty(
       "line.separator", "\n"); // 当前操作系统的行分隔符
   public static final String FILE_HISTORY = "FileHistory"; // 用于标识最近编辑的文件
+  public static final String LOOK_AND_FEEL = "LookAndFeel"; // 用于标识当前系统可用的外观
+  public static final String PARAM_SPLIT = "#"; // 用于分隔前后文本标识的字符串
   public static final String INSERT_SPECIAL = "﹟﹠﹡＃＠＆＊※§〃№♀♂㊣㈱℡℅⊙◎〓○●△▲▽▼◇◆□■☆★◢◣◤◥ˉ￣＿﹉﹊﹍﹎﹋﹌↑↓←→↖↗↙↘∥∣／＼∕﹨╋┳┻┫┣┃━┏┓┗┛╳╱╲"; // 特殊符号
   public static final String INSERT_PUNCTUATION = "，、。．；：？！︰…‥′‵～‖ˇˉ﹐﹑﹒?﹔﹕﹖﹗｜–︱—︳︴﹏（）︵︶｛｝︷︸〔〕︹︺【】︻︼《》︽︾〈〉︿﹀「」﹁﹂『』﹃﹄﹙﹚﹛﹜﹝﹞‘’“”〝〞ˋˊ々"; // 标点符号
   public static final String INSERT_MATH = "≈≡≠＝≤≥＜＞≮≯±＋－×÷／∫∮∝∞∧∨∑∏∪∩∈∵∴∷⊥∥∠⌒≌∽√≦≧≒﹢﹣﹤﹥﹦～∟⊿㏒㏑"; // 数学符号
@@ -52,6 +54,8 @@ public final class Util {
   public static final String IDENTIFIER_CHARS = "0123"; // 列表编号类型标识符
   public static final String IDENTIFIER_TIANGAN = "甲乙丙丁戊己庚辛壬癸"; // 十天干
   public static final String IDENTIFIER_DIZHI = "子丑寅卯辰巳午未申酉戌亥"; // 十二地支
+  public static final String SYSTEM_LOOK_AND_FEEL_CLASS_NAME = UIManager
+      .getSystemLookAndFeelClassName(); // 当前系统默认外观的完整类名
   public static final String[] FONT_FAMILY_NAMES = java.awt.GraphicsEnvironment
       .getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // 获取系统所有字体的名称列表
   public static final String[] FILE_ENCODINGS = new String[] { "自动检测",
@@ -90,7 +94,7 @@ public final class Util {
   public static final int MSG_LINE_SIZE = 60; // 提示框中每行字符串显示的最大字数
   public static final int LINE_NUMBER_HEIGHT = 2000000000; // 行号组件支持的最大高度
   public static final int LINE_NUMBER_MARGIN = 5; // 行号组件的左右边距
-  public static final int LINE_NUMBER_START_OFFSET = 4; // 行号组件的起始垂直偏移量，用于对齐文本域的各行
+  public static final int LINE_NUMBER_START_OFFSET = 2; // 行号组件的起始垂直偏移量，用于对齐文本域的各行
   public static final Color COLOR_HIGHLIGHT_1 = new Color(255, 0, 0, 40); // 用于高亮显示的颜色1,其中第4个参数表示透明度，数值越小越透明
   public static final Color COLOR_HIGHLIGHT_2 = new Color(0, 255, 0, 40); // 用于高亮显示的颜色2
   public static final Color COLOR_HIGHLIGHT_3 = new Color(0, 0, 255, 40); // 用于高亮显示的颜色3
@@ -118,6 +122,8 @@ public final class Util {
       new Color(221, 212, 195), new Color(58, 57, 53) };
   public static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1,
       COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
+  public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager
+      .getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
 
   /**
    * 由于此类为工具类，故将构造方法私有化
