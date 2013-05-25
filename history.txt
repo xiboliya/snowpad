@@ -678,3 +678,7 @@ src/BatchSeparateDialog.java
 src/SnowPad.java
 src/SnowPadFrame.java
 src/Util.java
+
+2013-05-25
+1.在“操作行”菜单下添加“剪切当前行”功能，并将“复制到剪贴板”下的“当前行”功能转移到“操作行”菜单下。
+src/SnowPadFrame.java
