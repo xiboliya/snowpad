@@ -91,12 +91,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuCase = new JMenu("切换大小写");
   private JMenuItem itemCaseUp = new JMenuItem("切换为大写");
   private JMenuItem itemCaseLow = new JMenuItem("切换为小写");
-  private JMenu menuToClip = new JMenu("复制到剪贴板");
-  private JMenuItem itemToClipFileName = new JMenuItem("当前文件名");
-  private JMenuItem itemToClipFilePath = new JMenuItem("当前文件路径");
-  private JMenuItem itemToClipDirPath = new JMenuItem("当前目录路径");
-  private JMenuItem itemToClipCurLine = new JMenuItem("当前行");
-  private JMenuItem itemToClipAllText = new JMenuItem("所有文本");
+  private JMenu menuCopyToClip = new JMenu("复制到剪贴板");
+  private JMenuItem itemToCopyFileName = new JMenuItem("当前文件名");
+  private JMenuItem itemToCopyFilePath = new JMenuItem("当前文件路径");
+  private JMenuItem itemToCopyDirPath = new JMenuItem("当前目录路径");
+  private JMenuItem itemToCopyAllText = new JMenuItem("所有文本");
   private JMenu menuLine = new JMenu("操作行");
   private JMenuItem itemLineCopy = new JMenuItem("复写当前行");
   private JMenuItem itemLineDel = new JMenuItem("删除当前行");
@@ -104,6 +103,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemLineDelToEnd = new JMenuItem("删除至行尾");
   private JMenuItem itemLineToUp = new JMenuItem("上移当前行");
   private JMenuItem itemLineToDown = new JMenuItem("下移当前行");
+  private JMenuItem itemLineToCopy = new JMenuItem("复制当前行");
+  private JMenuItem itemLineToCut = new JMenuItem("剪切当前行");
   private JMenu menuLineBatch = new JMenu("批处理行");
   private JMenuItem itemLineBatchRemove = new JMenuItem("切除(R)...", 'R');
   private JMenuItem itemLineBatchInsert = new JMenuItem("插入(I)...", 'I');
@@ -350,17 +351,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFont.addActionListener(this);
     this.itemTabSet.addActionListener(this);
     this.itemGoto.addActionListener(this);
-    this.itemToClipFileName.addActionListener(this);
-    this.itemToClipFilePath.addActionListener(this);
-    this.itemToClipDirPath.addActionListener(this);
-    this.itemToClipCurLine.addActionListener(this);
-    this.itemToClipAllText.addActionListener(this);
+    this.itemToCopyFileName.addActionListener(this);
+    this.itemToCopyFilePath.addActionListener(this);
+    this.itemToCopyDirPath.addActionListener(this);
+    this.itemToCopyAllText.addActionListener(this);
     this.itemLineCopy.addActionListener(this);
     this.itemLineDel.addActionListener(this);
     this.itemLineDelToStart.addActionListener(this);
     this.itemLineDelToEnd.addActionListener(this);
     this.itemLineToUp.addActionListener(this);
     this.itemLineToDown.addActionListener(this);
+    this.itemLineToCopy.addActionListener(this);
+    this.itemLineToCut.addActionListener(this);
     this.itemSortUp.addActionListener(this);
     this.itemSortDown.addActionListener(this);
     this.itemIndentAdd.addActionListener(this);
@@ -563,13 +565,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuCase);
     this.menuCase.add(this.itemCaseUp);
     this.menuCase.add(this.itemCaseLow);
-    this.menuEdit.add(this.menuToClip);
-    this.menuToClip.add(this.itemToClipFileName);
-    this.menuToClip.add(this.itemToClipFilePath);
-    this.menuToClip.add(this.itemToClipDirPath);
-    this.menuToClip.addSeparator();
-    this.menuToClip.add(this.itemToClipCurLine);
-    this.menuToClip.add(this.itemToClipAllText);
+    this.menuEdit.add(this.menuCopyToClip);
+    this.menuCopyToClip.add(this.itemToCopyFileName);
+    this.menuCopyToClip.add(this.itemToCopyFilePath);
+    this.menuCopyToClip.add(this.itemToCopyDirPath);
+    this.menuCopyToClip.addSeparator();
+    this.menuCopyToClip.add(this.itemToCopyAllText);
     this.menuEdit.add(this.menuLine);
     this.menuLine.add(this.itemLineCopy);
     this.menuLine.add(this.itemLineDel);
@@ -579,6 +580,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLine.addSeparator();
     this.menuLine.add(this.itemLineToUp);
     this.menuLine.add(this.itemLineToDown);
+    this.menuLine.addSeparator();
+    this.menuLine.add(this.itemLineToCopy);
+    this.menuLine.add(this.itemLineToCut);
     this.menuEdit.add(this.menuLineBatch);
     this.menuLineBatch.add(this.itemLineBatchRemove);
     this.menuLineBatch.add(this.itemLineBatchInsert);
@@ -954,9 +958,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+H
     this.itemGoto.setAccelerator(KeyStroke.getKeyStroke('G',
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+G
-    this.itemToClipCurLine.setAccelerator(KeyStroke.getKeyStroke('C',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+C
-    this.itemToClipAllText.setAccelerator(KeyStroke.getKeyStroke('A',
+    this.itemToCopyAllText.setAccelerator(KeyStroke.getKeyStroke('A',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+A
     this.itemLineCopy.setAccelerator(KeyStroke.getKeyStroke('D',
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+D
@@ -1005,6 +1007,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向上方向键
     this.itemLineToDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向下方向键
+    this.itemLineToCopy.setAccelerator(KeyStroke.getKeyStroke('C',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+C
+    this.itemLineToCut.setAccelerator(KeyStroke.getKeyStroke('X',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+X
     this.itemLineBatchRemove.setAccelerator(KeyStroke.getKeyStroke('R',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+R
     this.itemLineBatchInsert.setAccelerator(KeyStroke.getKeyStroke('I',
@@ -1055,16 +1061,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openFontChooser();
     } else if (this.itemGoto.equals(e.getSource())) {
       this.openGotoDialog();
-    } else if (this.itemToClipFileName.equals(e.getSource())) {
-      this.toClipFileName();
-    } else if (this.itemToClipFilePath.equals(e.getSource())) {
-      this.toClipFilePath();
-    } else if (this.itemToClipDirPath.equals(e.getSource())) {
-      this.toClipDirPath();
-    } else if (this.itemToClipCurLine.equals(e.getSource())) {
-      this.toClipCurLine();
-    } else if (this.itemToClipAllText.equals(e.getSource())) {
-      this.toClipAllText();
+    } else if (this.itemToCopyFileName.equals(e.getSource())) {
+      this.toCopyFileName();
+    } else if (this.itemToCopyFilePath.equals(e.getSource())) {
+      this.toCopyFilePath();
+    } else if (this.itemToCopyDirPath.equals(e.getSource())) {
+      this.toCopyDirPath();
+    } else if (this.itemToCopyAllText.equals(e.getSource())) {
+      this.toCopyAllText();
     } else if (this.itemLineCopy.equals(e.getSource())) {
       this.copyLines();
     } else if (this.itemLineDel.equals(e.getSource())) {
@@ -1077,6 +1081,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.moveLineToUp();
     } else if (this.itemLineToDown.equals(e.getSource())) {
       this.moveLineToDown();
+    } else if (this.itemLineToCopy.equals(e.getSource())) {
+      this.toCopyCurLine();
+    } else if (this.itemLineToCut.equals(e.getSource())) {
+      this.toCutCurLine();
     } else if (this.itemLineBatchRemove.equals(e.getSource())) {
       this.openBatchRemoveDialog();
     } else if (this.itemLineBatchInsert.equals(e.getSource())) {
@@ -2509,14 +2517,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 复制"当前文件名"到剪贴板的处理方法
    */
-  private void toClipFileName() {
+  private void toCopyFileName() {
     this.setClipboardContents(this.txaMain.getTitle());
   }
 
   /**
    * 复制"当前文件路径"到剪贴板的处理方法
    */
-  private void toClipFilePath() {
+  private void toCopyFilePath() {
     String fileName = this.txaMain.getFileName();
     if (fileName == null) {
       fileName = this.txaMain.getTitle();
@@ -2527,7 +2535,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 复制"当前目录路径"到剪贴板的处理方法
    */
-  private void toClipDirPath() {
+  private void toCopyDirPath() {
     String dirPath = " ";
     if (this.file != null) {
       dirPath = this.file.getParent();
@@ -2538,7 +2546,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 复制"当前行"到剪贴板的处理方法
    */
-  private void toClipCurLine() {
+  private void toCopyCurLine() {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
     String strContent = currentLines.getStrContent();
     if (!strContent.endsWith("\n")) {
@@ -2548,9 +2556,24 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * 剪切"当前行"到剪贴板的处理方法
+   */
+  private void toCutCurLine() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    String strContent = currentLines.getStrContent();
+    int startIndex = currentLines.getStartIndex();
+    int endIndex = currentLines.getEndIndex();
+    if (!strContent.endsWith("\n")) {
+      strContent += "\n";
+    }
+    this.setClipboardContents(strContent);
+    this.txaMain.replaceRange("", startIndex, endIndex);
+  }
+
+  /**
    * 复制"所有文本"到剪贴板的处理方法
    */
-  private void toClipAllText() {
+  private void toCopyAllText() {
     this.setClipboardContents(this.txaMain.getText());
   }
 
