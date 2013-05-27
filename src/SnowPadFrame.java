@@ -178,6 +178,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JCheckBoxMenuItem itemLineNumber = new JCheckBoxMenuItem("行号栏(L)");
   private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("前端显示(A)");
   private JCheckBoxMenuItem itemResizable = new JCheckBoxMenuItem("锁定窗口(R)");
+  private JCheckBoxMenuItem itemTabPolicy = new JCheckBoxMenuItem("多行标签(P)");
   private JMenu menuFontSize = new JMenu("字体缩放(F)");
   private JMenuItem itemFontSizePlus = new JMenuItem("放大(B)", 'B');
   private JMenuItem itemFontSizeMinus = new JMenuItem("缩小(S)", 'S');
@@ -396,6 +397,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAutoIndent.addActionListener(this);
     this.itemAlwaysOnTop.addActionListener(this);
     this.itemResizable.addActionListener(this);
+    this.itemTabPolicy.addActionListener(this);
     this.itemFontSizePlus.addActionListener(this);
     this.itemFontSizeMinus.addActionListener(this);
     this.itemFontSizeReset.addActionListener(this);
@@ -646,6 +648,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.add(this.itemLineNumber);
     this.menuView.add(this.itemAlwaysOnTop);
     this.menuView.add(this.itemResizable);
+    this.menuView.add(this.itemTabPolicy);
     this.menuView.addSeparator();
     this.menuView.add(this.menuFontSize);
     this.menuFontSize.add(this.itemFontSizePlus);
@@ -790,6 +793,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineNumber.setSelected(false);
     this.itemAlwaysOnTop.setSelected(false);
     this.itemResizable.setSelected(false);
+    this.itemTabPolicy.setSelected(true);
     this.setLineWrap();
     this.setLineWrapStyle(true);
     this.setTextDrag();
@@ -907,6 +911,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineNumber.setMnemonic('L');
     this.itemAlwaysOnTop.setMnemonic('A');
     this.itemResizable.setMnemonic('R');
+    this.itemTabPolicy.setMnemonic('P');
     this.menuColor.setMnemonic('C');
     this.menuFontSize.setMnemonic('F');
     this.menuColorStyle.setMnemonic('Y');
@@ -1195,6 +1200,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setAlwaysOnTop();
     } else if (this.itemResizable.equals(e.getSource())) {
       this.setResizable();
+    } else if (this.itemTabPolicy.equals(e.getSource())) {
+      this.setTabLayoutPolicy();
     } else if (this.itemFontSizePlus.equals(e.getSource())) {
       this.setFontSizePlus();
     } else if (this.itemFontSizeMinus.equals(e.getSource())) {
@@ -1287,6 +1294,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) e.getSource();
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
+    }
+  }
+
+  /**
+   * "多行标签"的处理方法
+   */
+  private void setTabLayoutPolicy() {
+    if (this.itemTabPolicy.isSelected()) {
+      this.tpnMain.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
+    } else {
+      this.tpnMain.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
   }
 
