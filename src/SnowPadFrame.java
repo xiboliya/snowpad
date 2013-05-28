@@ -77,6 +77,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemSave = new JMenuItem("保存(S)", 'S');
   private JMenuItem itemSaveAs = new JMenuItem("另存为(A)...", 'A');
   private JMenuItem itemClose = new JMenuItem("关闭(C)", 'C');
+  private JMenuItem itemCloseAll = new JMenuItem("全部关闭(Q)", 'Q');
   private JMenuItem itemDelFile = new JMenuItem("删除当前文件(D)", 'D');
   private JMenu menuFileHistory = new JMenu("最近编辑");
   private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表");
@@ -454,6 +455,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSave.addActionListener(this);
     this.itemSaveAs.addActionListener(this);
     this.itemClose.addActionListener(this);
+    this.itemCloseAll.addActionListener(this);
     this.itemDelFile.addActionListener(this);
     this.itemClearFileHistory.addActionListener(this);
     this.itemSelAll.addActionListener(this);
@@ -548,6 +550,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuFile.add(this.itemSaveAs);
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemClose);
+    this.menuFile.add(this.itemCloseAll);
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemDelFile);
     this.menuFile.add(this.menuFileHistory);
@@ -1188,6 +1191,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.saveAsFile();
     } else if (this.itemClose.equals(e.getSource())) {
       this.closeFile(true);
+    } else if (this.itemCloseAll.equals(e.getSource())) {
+      this.closeAll();
     } else if (this.itemDelFile.equals(e.getSource())) {
       this.deleteFile();
     } else if (this.itemSelAll.equals(e.getSource())) {
@@ -1294,6 +1299,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) e.getSource();
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
+    }
+  }
+
+  /**
+   * "全部关闭"的处理方法
+   */
+  private void closeAll() {
+    int size = this.textAreaList.size();
+    for (int i = 0; i < size; i++) {
+      this.tpnMain.setSelectedIndex(0);
+      if (!this.closeFile(true)) { // 关闭当前的文件
+        break;
+      }
     }
   }
 
@@ -1461,10 +1479,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 
    * @param check
    *          是否检查当前文件的修改状态，如果为true表示需要检查，反之则不需要检查。
+   * 
+   * @return 成功关闭文件时返回true，未能关闭时返回false
    */
-  private void closeFile(boolean check) {
+  private boolean closeFile(boolean check) {
     if (check && !this.saveFileBeforeAct()) {
-      return;
+      return false;
     }
     int index = this.tpnMain.getSelectedIndex();
     this.tpnMain.remove(index);
@@ -1472,6 +1492,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.textAreaList.size() == 0) {
       this.createNew(null);
     }
+    return true;
   }
 
   /**
