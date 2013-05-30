@@ -690,3 +690,10 @@ src/SnowPadFrame.java
 2013-05-28
 1.在“文件”菜单下添加“全部关闭”功能。
 src/SnowPadFrame.java
+
+2013-05-30
+1.切换外观时，如果切换后与切换前的外观相同，则不执行任何操作。
+src/SnowPadFrame.java
+2.“打开”文件时，支持选择多个文件同时打开。
+src/OpenFileChooser.java
+src/SnowPadFrame.java
