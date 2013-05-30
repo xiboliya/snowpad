@@ -251,6 +251,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
   private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // 存放界面中所有文本域的链表
   private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // 标题栏字符串
+  private String strLookAndFeel = Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME; // 当前外观的完整类名
   private StatePanel pnlState = new StatePanel(4); // 状态栏面板
   private UndoManager undoManager = null; // 撤销管理器
   private Setting setting = new Setting(); // 文本域参数配置类
@@ -1333,8 +1334,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          将要设置的外观完整类名
    */
   private void setLookAndFeel(String className) {
+    if (this.strLookAndFeel.equals(className)) {
+      return;
+    }
     try {
       UIManager.setLookAndFeel(className);
+      this.strLookAndFeel = className;
       SwingUtilities.updateComponentTreeUI(this);
       SwingUtilities.updateComponentTreeUI(this.popMenu);
       this.popMenu.updateUI();
