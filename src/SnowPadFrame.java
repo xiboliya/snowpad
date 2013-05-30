@@ -3203,16 +3203,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         .showOpenDialog(this)) {
       return;
     }
-    File file = this.openFileChooser.getSelectedFile();
-    if (file != null && file.exists()) {
-      boolean toCreateNew = this.checkToCreateNew(file);
-      if (!toCreateNew && !this.saveFileBeforeAct()) {
-        return;
+    File[] files = this.openFileChooser.getSelectedFiles();
+    for (File file : files) {
+      if (file != null && file.exists()) {
+        boolean toCreateNew = this.checkToCreateNew(file);
+        if (!toCreateNew && !this.saveFileBeforeAct()) {
+          return;
+        }
+        int index = this.getCurrentIndexBySameFile(file);
+        this.toOpenFile(file, true, toCreateNew);
+        this.setAfterOpenFile(index);
+        this.setFileNameAndPath(file);
       }
-      int index = this.getCurrentIndexBySameFile(file);
-      this.toOpenFile(file, true, toCreateNew);
-      this.setAfterOpenFile(index);
-      this.setFileNameAndPath(file);
     }
   }
 

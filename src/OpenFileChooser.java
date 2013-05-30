@@ -16,6 +16,7 @@ public class OpenFileChooser extends JFileChooser {
 
   public OpenFileChooser() {
     super();
+    this.setMultiSelectionEnabled(true);
     Util.addChoosableFileFilters(this);
   }
 
