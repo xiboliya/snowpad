@@ -239,7 +239,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemPopRmHighlightAll = new JMenuItem("所有格式(0)", '0');
   private JMenuItem itemPopClose = new JMenuItem("关闭(Q)", 'Q');
 
-  private int newFileIndex = 1; // 新建文件的序号
   private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // 用于存放换行方式的按钮组
   private ButtonGroup bgpLineStyle = new ButtonGroup(); // 用于存放换行符格式的按钮组
   private ButtonGroup bgpCharset = new ButtonGroup(); // 用于存放字符编码格式的按钮组
@@ -2914,8 +2913,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       title = file.getName();
       txaNew.setFile(file);
     } else {
-      title = Util.NEW_FILE_NAME + this.newFileIndex;
-      this.newFileIndex++;
+      int index = this.toSetNewFileIndex();
+      title = Util.NEW_FILE_NAME + index;
+      txaNew.setNewFileIndex(index);
     }
     txaNew.setTitle(title);
     txaNew.addCaretListener(this);
@@ -2925,6 +2925,36 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.textAreaList.add(txaNew);
     this.setLineNumberForNew();
     this.addMouseListener();
+  }
+
+  /**
+   * 新建文件时，重新设置文件序号
+   * 
+   * @return 新建文件的序号
+   */
+  private int toSetNewFileIndex() {
+    int size = this.textAreaList.size();
+    if (size == 0) {
+      return 1;
+    }
+    LinkedList<Integer> indexList = new LinkedList<Integer>();
+    for (int i = 0; i < size; i++) {
+      BaseTextArea txa = (BaseTextArea) this.textAreaList.get(i);
+      int newFileIndex = txa.getNewFileIndex();
+      if (newFileIndex > 0) {
+        indexList.add(newFileIndex);
+      }
+    }
+    int index = 1;
+    for (int i = 0; i < indexList.size(); i++) {
+      for (Integer j : indexList) {
+        if (index == j) {
+          index++;
+          break;
+        }
+      }
+    }
+    return index;
   }
 
   /**
@@ -3385,6 +3415,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.setText(strTemp);
       this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
       this.txaMain.setFileExistsLabel(true);
+      this.txaMain.setNewFileIndex(0);
     } catch (Exception x) {
       x.printStackTrace();
     } finally {
