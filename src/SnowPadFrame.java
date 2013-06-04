@@ -32,6 +32,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -216,7 +217,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于记事本(A)", 'A');
-  private JPopupMenu popMenu = new JPopupMenu();
+  private JPopupMenu popMenuMain = new JPopupMenu();
   private JMenuItem itemPopUnDo = new JMenuItem("撤销(U)", 'U');
   private JMenuItem itemPopReDo = new JMenuItem("重做(Y)", 'Y');
   private JMenuItem itemPopCut = new JMenuItem("剪切(T)", 'T');
@@ -237,7 +238,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemPopRmHighlight4 = new JMenuItem("格式(4)", '4');
   private JMenuItem itemPopRmHighlight5 = new JMenuItem("格式(5)", '5');
   private JMenuItem itemPopRmHighlightAll = new JMenuItem("所有格式(0)", '0');
-  private JMenuItem itemPopClose = new JMenuItem("关闭(Q)", 'Q');
+  private JPopupMenu popMenuTabbed = new JPopupMenu();
+  private JMenuItem itemPopCloseCurrent = new JMenuItem("关闭当前(C)", 'C');
+  private JMenuItem itemPopCloseOthers = new JMenuItem("关闭其它(O)", 'O');
+  private JMenuItem itemPopSave = new JMenuItem("保存(S)", 'S');
+  private JMenuItem itemPopSaveAs = new JMenuItem("另存为(A)...", 'A');
+  private JMenuItem itemPopReName = new JMenuItem("重命名(N)...", 'N');
+  private JMenuItem itemPopDelFile = new JMenuItem("删除文件(D)", 'D');
+  private JMenuItem itemPopReOpen = new JMenuItem("重新载入(R)", 'R');
+  private JMenuItem itemPopToCopyFileName = new JMenuItem("复制文件名(F)", 'F');
+  private JMenuItem itemPopToCopyFilePath = new JMenuItem("复制文件路径(P)", 'P');
+  private JMenuItem itemPopToCopyDirPath = new JMenuItem("复制目录路径(I)", 'I');
 
   private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // 用于存放换行方式的按钮组
   private ButtonGroup bgpLineStyle = new ButtonGroup(); // 用于存放换行符格式的按钮组
@@ -450,7 +461,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopRmHighlight4.addActionListener(this);
     this.itemPopRmHighlight5.addActionListener(this);
     this.itemPopRmHighlightAll.addActionListener(this);
-    this.itemPopClose.addActionListener(this);
+    this.itemPopCloseCurrent.addActionListener(this);
+    this.itemPopCloseOthers.addActionListener(this);
+    this.itemPopSave.addActionListener(this);
+    this.itemPopSaveAs.addActionListener(this);
+    this.itemPopReName.addActionListener(this);
+    this.itemPopDelFile.addActionListener(this);
+    this.itemPopReOpen.addActionListener(this);
+    this.itemPopToCopyFileName.addActionListener(this);
+    this.itemPopToCopyFilePath.addActionListener(this);
+    this.itemPopToCopyDirPath.addActionListener(this);
     this.itemReplace.addActionListener(this);
     this.itemSave.addActionListener(this);
     this.itemSaveAs.addActionListener(this);
@@ -471,16 +491,34 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     });
     // 为窗口添加焦点监听器
     this.addWindowFocusListener(this);
+    this.addTabbedPaneMouseListener();
   }
 
   /**
    * 为文本域添加鼠标事件监听器
    */
-  private void addMouseListener() {
+  private void addTextAreaMouseListener() {
     this.txaMain.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
-          popMenu.show(txaMain, e.getX(), e.getY());
+          popMenuMain.show(txaMain, e.getX(), e.getY());
+        }
+      }
+    });
+  }
+
+  /**
+   * 为选项卡组件添加鼠标事件监听器
+   */
+  private void addTabbedPaneMouseListener() {
+    tpnMain.addMouseListener(new MouseAdapter() {
+      public void mouseClicked(MouseEvent e) {
+        if (e.getButton() != MouseEvent.BUTTON3) {
+          return;
+        }
+        Rectangle rect = tpnMain.getBoundsAt(tpnMain.getSelectedIndex());
+        if (rect.contains(e.getX(), e.getY())) { // 当点击区域位于当前选项卡范围内时，显示快捷菜单
+          popMenuTabbed.show(tpnMain, e.getX(), e.getY());
         }
       }
     });
@@ -711,22 +749,22 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 初始化快捷菜单
    */
   private void addPopMenu() {
-    this.popMenu.add(this.itemPopUnDo);
-    this.popMenu.add(this.itemPopReDo);
-    this.popMenu.addSeparator();
-    this.popMenu.add(this.itemPopCut);
-    this.popMenu.add(this.itemPopCopy);
-    this.popMenu.add(this.itemPopPaste);
-    this.popMenu.add(this.itemPopDel);
-    this.popMenu.add(this.itemPopSelAll);
-    this.popMenu.addSeparator();
-    this.popMenu.add(this.menuPopHighlight);
+    this.popMenuMain.add(this.itemPopUnDo);
+    this.popMenuMain.add(this.itemPopReDo);
+    this.popMenuMain.addSeparator();
+    this.popMenuMain.add(this.itemPopCut);
+    this.popMenuMain.add(this.itemPopCopy);
+    this.popMenuMain.add(this.itemPopPaste);
+    this.popMenuMain.add(this.itemPopDel);
+    this.popMenuMain.add(this.itemPopSelAll);
+    this.popMenuMain.addSeparator();
+    this.popMenuMain.add(this.menuPopHighlight);
     this.menuPopHighlight.add(itemPopHighlight1);
     this.menuPopHighlight.add(itemPopHighlight2);
     this.menuPopHighlight.add(itemPopHighlight3);
     this.menuPopHighlight.add(itemPopHighlight4);
     this.menuPopHighlight.add(itemPopHighlight5);
-    this.popMenu.add(this.menuPopRmHighlight);
+    this.popMenuMain.add(this.menuPopRmHighlight);
     this.menuPopRmHighlight.add(itemPopRmHighlight1);
     this.menuPopRmHighlight.add(itemPopRmHighlight2);
     this.menuPopRmHighlight.add(itemPopRmHighlight3);
@@ -734,11 +772,25 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuPopRmHighlight.add(itemPopRmHighlight5);
     this.menuPopRmHighlight.addSeparator();
     this.menuPopRmHighlight.add(itemPopRmHighlightAll);
-    this.popMenu.addSeparator();
-    this.popMenu.add(itemPopClose);
-    Dimension popSize = this.popMenu.getPreferredSize();
+    Dimension popSize = this.popMenuMain.getPreferredSize();
     popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
-    this.popMenu.setPopupSize(popSize);
+    this.popMenuMain.setPopupSize(popSize);
+
+    this.popMenuTabbed.add(this.itemPopCloseCurrent);
+    this.popMenuTabbed.add(this.itemPopCloseOthers);
+    this.popMenuTabbed.addSeparator();
+    this.popMenuTabbed.add(this.itemPopSave);
+    this.popMenuTabbed.add(this.itemPopSaveAs);
+    this.popMenuTabbed.add(this.itemPopReName);
+    this.popMenuTabbed.add(this.itemPopDelFile);
+    this.popMenuTabbed.add(this.itemPopReOpen);
+    this.popMenuTabbed.addSeparator();
+    this.popMenuTabbed.add(this.itemPopToCopyFileName);
+    this.popMenuTabbed.add(this.itemPopToCopyFilePath);
+    this.popMenuTabbed.add(this.itemPopToCopyDirPath);
+    popSize = this.popMenuTabbed.getPreferredSize();
+    popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
+    this.popMenuTabbed.setPopupSize(popSize);
   }
 
   /**
@@ -779,6 +831,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopSelAll.setEnabled(false);
     this.itemPopUnDo.setEnabled(false);
     this.itemPopReDo.setEnabled(false);
+    this.itemPopReOpen.setEnabled(false);
+    this.itemPopReName.setEnabled(false);
+    this.itemPopDelFile.setEnabled(false);
     this.menuHighlight.setEnabled(false);
     this.menuPopHighlight.setEnabled(false);
     this.setFileHistoryMenuEnabled();
@@ -1283,8 +1338,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.rmHighlight(5);
     } else if (this.itemPopRmHighlightAll.equals(e.getSource())) {
       this.rmHighlight(0);
-    } else if (this.itemPopClose.equals(e.getSource())) {
+    } else if (this.itemPopCloseCurrent.equals(e.getSource())) {
       this.closeFile(true);
+    } else if (this.itemPopCloseOthers.equals(e.getSource())) {
+      this.closeOthers();
+    } else if (this.itemPopSave.equals(e.getSource())) {
+      this.saveFile(false);
+    } else if (this.itemPopSaveAs.equals(e.getSource())) {
+      this.saveAsFile();
+    } else if (this.itemPopReName.equals(e.getSource())) {
+      this.reNameFile();
+    } else if (this.itemPopDelFile.equals(e.getSource())) {
+      this.deleteFile();
+    } else if (this.itemPopReOpen.equals(e.getSource())) {
+      this.reOpenFile();
+    } else if (this.itemPopToCopyFileName.equals(e.getSource())) {
+      this.toCopyFileName();
+    } else if (this.itemPopToCopyFilePath.equals(e.getSource())) {
+      this.toCopyFilePath();
+    } else if (this.itemPopToCopyDirPath.equals(e.getSource())) {
+      this.toCopyDirPath();
     } else if (this.itemTabSet.equals(e.getSource())) {
       this.openTabSetDialog();
     } else if (this.itemUnDo.equals(e.getSource())) {
@@ -1299,6 +1372,27 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) e.getSource();
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
+    }
+  }
+
+  /**
+   * "关闭其它"的处理方法
+   */
+  private void closeOthers() {
+    int index = this.tpnMain.getSelectedIndex();
+    int size = this.textAreaList.size();
+    this.tpnMain.setSelectedIndex(0);
+    for (int i = 0; i < size; i++) {
+      if (index == i) {
+        if (this.tpnMain.getTabCount() > 1) {
+          this.tpnMain.setSelectedIndex(1);
+        }
+        continue;
+      } else {
+        if (!this.closeFile(true)) { // 关闭当前的文件
+          break;
+        }
+      }
     }
   }
 
@@ -1340,8 +1434,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       UIManager.setLookAndFeel(className);
       this.strLookAndFeel = className;
       SwingUtilities.updateComponentTreeUI(this);
-      SwingUtilities.updateComponentTreeUI(this.popMenu);
-      this.popMenu.updateUI();
+      SwingUtilities.updateComponentTreeUI(this.popMenuMain);
+      SwingUtilities.updateComponentTreeUI(this.popMenuTabbed);
+      this.popMenuMain.updateUI();
+      this.popMenuTabbed.updateUI();
       this.destroyAllDialogs();
     } catch (Exception x) {
       x.printStackTrace();
@@ -2924,7 +3020,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.tpnMain.setSelectedComponent(srpNew);
     this.textAreaList.add(txaNew);
     this.setLineNumberForNew();
-    this.addMouseListener();
+    this.addTextAreaMouseListener();
   }
 
   /**
@@ -3219,6 +3315,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemReOpen.setEnabled(true);
     this.itemReName.setEnabled(true);
     this.itemDelFile.setEnabled(true);
+    this.itemPopReName.setEnabled(true);
+    this.itemPopDelFile.setEnabled(true);
+    this.itemPopReOpen.setEnabled(true);
   }
 
   /**
@@ -3579,6 +3678,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemReOpen.setEnabled(true);
     this.itemReName.setEnabled(true);
     this.itemDelFile.setEnabled(true);
+    this.itemPopReName.setEnabled(true);
+    this.itemPopDelFile.setEnabled(true);
+    this.itemPopReOpen.setEnabled(true);
     this.txaMain.setTextChanged(false);
     this.txaMain.setStyleChanged(false);
     this.txaMain.setSaved(true);
@@ -3629,6 +3731,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemReOpen.setEnabled(enable);
     this.itemReName.setEnabled(enable);
     this.itemDelFile.setEnabled(enable);
+    this.itemPopReName.setEnabled(enable);
+    this.itemPopDelFile.setEnabled(enable);
+    this.itemPopReOpen.setEnabled(enable);
   }
 
   /**
