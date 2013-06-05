@@ -181,6 +181,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("前端显示(A)");
   private JCheckBoxMenuItem itemResizable = new JCheckBoxMenuItem("锁定窗口(R)");
   private JCheckBoxMenuItem itemTabPolicy = new JCheckBoxMenuItem("多行标签(P)");
+  private JCheckBoxMenuItem itemClickToClose = new JCheckBoxMenuItem(
+      "双击关闭标签(D)");
   private JMenu menuFontSize = new JMenu("字体缩放(F)");
   private JMenuItem itemFontSizePlus = new JMenuItem("放大(B)", 'B');
   private JMenuItem itemFontSizeMinus = new JMenuItem("缩小(S)", 'S');
@@ -265,6 +267,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private StatePanel pnlState = new StatePanel(4); // 状态栏面板
   private UndoManager undoManager = null; // 撤销管理器
   private Setting setting = new Setting(); // 文本域参数配置类
+  private boolean clickToClose = true; // 是否双击关闭当前标签
 
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private SaveFileChooser saveFileChooser = null; // "保存"文件选择器
@@ -410,6 +413,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAlwaysOnTop.addActionListener(this);
     this.itemResizable.addActionListener(this);
     this.itemTabPolicy.addActionListener(this);
+    this.itemClickToClose.addActionListener(this);
     this.itemFontSizePlus.addActionListener(this);
     this.itemFontSizeMinus.addActionListener(this);
     this.itemFontSizeReset.addActionListener(this);
@@ -513,12 +517,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void addTabbedPaneMouseListener() {
     tpnMain.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
-        if (e.getButton() != MouseEvent.BUTTON3) {
-          return;
-        }
         Rectangle rect = tpnMain.getBoundsAt(tpnMain.getSelectedIndex());
-        if (rect.contains(e.getX(), e.getY())) { // 当点击区域位于当前选项卡范围内时，显示快捷菜单
-          popMenuTabbed.show(tpnMain, e.getX(), e.getY());
+        if (rect.contains(e.getX(), e.getY())) { // 当点击区域位于当前选项卡范围内时，执行相应的操作
+          if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
+            popMenuTabbed.show(tpnMain, e.getX(), e.getY());
+          } else if (e.getClickCount() == 2) { // 双击时，关闭当前标签
+            if (clickToClose) {
+              closeFile(true);
+            }
+          }
         }
       }
     });
@@ -690,6 +697,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.add(this.itemAlwaysOnTop);
     this.menuView.add(this.itemResizable);
     this.menuView.add(this.itemTabPolicy);
+    this.menuView.add(this.itemClickToClose);
     this.menuView.addSeparator();
     this.menuView.add(this.menuFontSize);
     this.menuFontSize.add(this.itemFontSizePlus);
@@ -852,6 +860,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAlwaysOnTop.setSelected(false);
     this.itemResizable.setSelected(false);
     this.itemTabPolicy.setSelected(true);
+    this.itemClickToClose.setSelected(true);
     this.setLineWrap();
     this.setLineWrapStyle(true);
     this.setTextDrag();
@@ -970,6 +979,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAlwaysOnTop.setMnemonic('A');
     this.itemResizable.setMnemonic('R');
     this.itemTabPolicy.setMnemonic('P');
+    this.itemClickToClose.setMnemonic('D');
     this.menuColor.setMnemonic('C');
     this.menuFontSize.setMnemonic('F');
     this.menuColorStyle.setMnemonic('Y');
@@ -1262,6 +1272,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setResizable();
     } else if (this.itemTabPolicy.equals(e.getSource())) {
       this.setTabLayoutPolicy();
+    } else if (this.itemClickToClose.equals(e.getSource())) {
+      this.setClickToClose();
     } else if (this.itemFontSizePlus.equals(e.getSource())) {
       this.setFontSizePlus();
     } else if (this.itemFontSizeMinus.equals(e.getSource())) {
@@ -1373,6 +1385,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
     }
+  }
+
+  /**
+   * "双击关闭标签"的处理方法
+   */
+  private void setClickToClose() {
+    this.clickToClose = this.itemClickToClose.isSelected();
   }
 
   /**
