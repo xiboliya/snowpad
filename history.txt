@@ -706,3 +706,7 @@ src/SnowPadFrame.java
 2013-06-04
 1.当右键点击选项卡组件的当前标签时，弹出快捷菜单，以提供常用功能。
 src/SnowPadFrame.java
+
+2013-06-06
+1.在“查看”菜单下添加“双击关闭标签”功能。此功能开启时，双击当前标签则会关闭。
+src/SnowPadFrame.java
