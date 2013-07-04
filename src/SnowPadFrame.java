@@ -248,6 +248,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemPopReName = new JMenuItem("重命名(N)...", 'N');
   private JMenuItem itemPopDelFile = new JMenuItem("删除文件(D)", 'D');
   private JMenuItem itemPopReOpen = new JMenuItem("重新载入(R)", 'R');
+  private JMenu menuPopCopyToClip = new JMenu("复制到剪贴板(P)");
   private JMenuItem itemPopToCopyFileName = new JMenuItem("复制文件名(F)", 'F');
   private JMenuItem itemPopToCopyFilePath = new JMenuItem("复制文件路径(P)", 'P');
   private JMenuItem itemPopToCopyDirPath = new JMenuItem("复制目录路径(I)", 'I');
@@ -793,9 +794,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.popMenuTabbed.add(this.itemPopDelFile);
     this.popMenuTabbed.add(this.itemPopReOpen);
     this.popMenuTabbed.addSeparator();
-    this.popMenuTabbed.add(this.itemPopToCopyFileName);
-    this.popMenuTabbed.add(this.itemPopToCopyFilePath);
-    this.popMenuTabbed.add(this.itemPopToCopyDirPath);
+    this.popMenuTabbed.add(this.menuPopCopyToClip);
+    this.menuPopCopyToClip.add(this.itemPopToCopyFileName);
+    this.menuPopCopyToClip.add(this.itemPopToCopyFilePath);
+    this.menuPopCopyToClip.add(this.itemPopToCopyDirPath);
     popSize = this.popMenuTabbed.getPreferredSize();
     popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
     this.popMenuTabbed.setPopupSize(popSize);
@@ -988,6 +990,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLookAndFeel.setMnemonic('K');
     this.menuPopHighlight.setMnemonic('H');
     this.menuPopRmHighlight.setMnemonic('M');
+    this.menuPopCopyToClip.setMnemonic('P');
     this.itemNew.setAccelerator(KeyStroke.getKeyStroke('N',
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+N
     this.itemOpen.setAccelerator(KeyStroke.getKeyStroke('O',
@@ -3433,10 +3436,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       boolean toCreateNew = this.checkToCreateNew(file);
       int index = this.getCurrentIndexBySameFile(file);
       if (charEncoding != null) {
+        if (toCreateNew) {
+          this.createNew(file);
+        }
         this.setCharEncoding(charEncoding, true);
-        this.toOpenFile(file, false, toCreateNew);
+        this.toOpenFile(file, false, false);
       } else {
-        this.toOpenFile(file, true, toCreateNew);
+        this.toOpenFile(file, true, false);
       }
       this.setAfterOpenFile(index);
       this.setFileNameAndPath(file);
