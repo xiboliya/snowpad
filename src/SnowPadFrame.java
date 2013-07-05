@@ -77,8 +77,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemReName = new JMenuItem("重命名(R)...", 'R');
   private JMenuItem itemSave = new JMenuItem("保存(S)", 'S');
   private JMenuItem itemSaveAs = new JMenuItem("另存为(A)...", 'A');
-  private JMenuItem itemClose = new JMenuItem("关闭(C)", 'C');
-  private JMenuItem itemCloseAll = new JMenuItem("全部关闭(Q)", 'Q');
+  private JMenuItem itemClose = new JMenuItem("关闭当前(C)", 'C');
+  private JMenuItem itemCloseOther = new JMenuItem("关闭其它(T)", 'T');
+  private JMenuItem itemCloseAll = new JMenuItem("关闭全部(Q)", 'Q');
   private JMenuItem itemDelFile = new JMenuItem("删除当前文件(D)", 'D');
   private JMenu menuFileHistory = new JMenu("最近编辑");
   private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表");
@@ -480,6 +481,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSave.addActionListener(this);
     this.itemSaveAs.addActionListener(this);
     this.itemClose.addActionListener(this);
+    this.itemCloseOther.addActionListener(this);
     this.itemCloseAll.addActionListener(this);
     this.itemDelFile.addActionListener(this);
     this.itemClearFileHistory.addActionListener(this);
@@ -596,6 +598,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuFile.add(this.itemSaveAs);
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemClose);
+    this.menuFile.add(this.itemCloseOther);
     this.menuFile.add(this.itemCloseAll);
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemDelFile);
@@ -1259,6 +1262,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.saveAsFile();
     } else if (this.itemClose.equals(e.getSource())) {
       this.closeFile(true);
+    } else if (this.itemCloseOther.equals(e.getSource())) {
+      this.closeOthers();
     } else if (this.itemCloseAll.equals(e.getSource())) {
       this.closeAll();
     } else if (this.itemDelFile.equals(e.getSource())) {
