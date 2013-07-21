@@ -3612,6 +3612,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           + this.file.getAbsolutePath() + "\n已重新创建！"), Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     }
+    this.txaMain.setNewFileIndex(0);
     return true;
   }
 
