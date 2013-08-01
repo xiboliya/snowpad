@@ -2303,9 +2303,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          最近编辑的完整文件路径
    */
   private void openFileHistory(String strFile) {
-    if (!this.saveFileBeforeAct()) {
-      return;
-    }
     if (strFile == null || strFile.isEmpty()) {
       return;
     }
