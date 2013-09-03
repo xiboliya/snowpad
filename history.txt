@@ -730,3 +730,12 @@ src/SnowPadFrame.java
 2013-08-01
 1.解决当前编辑的文件已修改，从最近编辑菜单中打开历史文件时，会提示是否保存修改的提示框的问题。
 src/SnowPadFrame.java
+
+2013-09-03
+1.为文件标签添加指示图标，蓝色图标表示为新建而未保存到硬盘的文件、绿色图标表示为普通的可编辑文件、红色图标表示为已删除或重命名的文件、灰色图标表示为对当前用户只读的文件。
+src/SnowPadFrame.java
+src/Util.java
+res/tab_exist_current.png（添加）
+res/tab_exist_readonly.png（添加）
+res/tab_new_file.png（添加）
+res/tab_not_exist.png（添加）
