@@ -261,7 +261,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private Color[] defColorStyle = null; // 文本域默认配色方案
   private File file = null; // 当前编辑的文件
-  private ImageIcon icon = null; // 本程序图标
   private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
   private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // 存放界面中所有文本域的链表
   private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // 标题栏字符串
@@ -270,6 +269,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private UndoManager undoManager = null; // 撤销管理器
   private Setting setting = new Setting(); // 文本域参数配置类
   private boolean clickToClose = true; // 是否双击关闭当前标签
+  private static boolean checking = false; // 是否正在检测所有文件的状态
 
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private SaveFileChooser saveFileChooser = null; // "保存"文件选择器
@@ -325,8 +325,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setIcon() {
     try {
-      this.icon = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif"));
-      this.setIconImage(icon.getImage());
+      this.setIconImage(Util.SW_ICON.getImage());
     } catch (Exception x) {
       x.printStackTrace();
     }
@@ -2966,7 +2965,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
               + "</a></html>",
           "<html>GitHub：<a href='" + strGithubCode + "'>" + strGithubCode
               + "</a></html>", "软件版权：此为自由软件可以任意引用或修改" };
-      this.aboutDialog = new AboutDialog(this, true, arrStrLabel, this.icon);
+      this.aboutDialog = new AboutDialog(this, true, arrStrLabel, Util.SW_ICON);
       this.aboutDialog.addLinkByIndex(3, strBaiduSpace);
       this.aboutDialog.addLinkByIndex(4, strGoogleCode);
       this.aboutDialog.addLinkByIndex(5, strGithubCode);
@@ -3029,9 +3028,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     BaseTextArea txaNew = new BaseTextArea(this.setting);
     JScrollPane srpNew = new JScrollPane(txaNew);
     String title = null;
+    ImageIcon tabIcon = Util.TAB_NEW_FILE_ICON;
     if (file != null) {
       title = file.getName();
       txaNew.setFile(file);
+      if (file.canWrite()) {
+        tabIcon = Util.TAB_EXIST_CURRENT_ICON;
+      } else {
+        tabIcon = Util.TAB_EXIST_READONLY_ICON;
+      }
     } else {
       int index = this.toSetNewFileIndex();
       title = Util.NEW_FILE_NAME + index;
@@ -3040,7 +3045,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     txaNew.setTitle(title);
     txaNew.addCaretListener(this);
     txaNew.getDocument().addUndoableEditListener(this);
-    this.tpnMain.add(srpNew, title);
+    this.tpnMain.addTab(title, tabIcon, srpNew);
     this.tpnMain.setSelectedComponent(srpNew);
     this.textAreaList.add(txaNew);
     this.setLineNumberForNew();
@@ -3542,6 +3547,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
       this.txaMain.setFileExistsLabel(true);
       this.txaMain.setNewFileIndex(0);
+      if (file.canWrite()) {
+        this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+            Util.TAB_EXIST_CURRENT_ICON);
+      } else {
+        this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+            Util.TAB_EXIST_READONLY_ICON);
+      }
     } catch (Exception x) {
       x.printStackTrace();
     } finally {
@@ -3610,6 +3622,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           JOptionPane.CANCEL_OPTION);
     }
     this.txaMain.setNewFileIndex(0);
+    this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+        Util.TAB_EXIST_CURRENT_ICON);
     return true;
   }
 
@@ -3882,8 +3896,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.itemPaste.setEnabled(false);
       this.itemPopPaste.setEnabled(false);
     }
-    if (this.file != null && !this.file.exists()) {
-      if (this.txaMain.getFileExistsLabel()) {
+    if (checking) {
+      return;
+    }
+    checking = true;
+    for (int i = 0; i < this.textAreaList.size(); i++) { // 循环检测所有文件的状态，如果文件不存在则弹出提示
+      File fileTemp = this.textAreaList.get(i).getFile();
+      if (fileTemp != null && !fileTemp.exists()) {
+        if (this.textAreaList.get(i).getFileExistsLabel()) {
+          this.tpnMain.setSelectedIndex(i);
+        } else {
+          continue; // 如果用户已选择过了“否”或者“取消”，则继续下一个文件的检测
+        }
         int result = JOptionPane.showConfirmDialog(this, Util
             .convertToMsg("文件：" + this.file + "不存在。\n要重新创建吗？"), Util.SOFTWARE,
             JOptionPane.YES_NO_CANCEL_OPTION);
@@ -3893,16 +3917,23 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             this.toSaveFile(this.file);
           } catch (Exception x) {
             this.showSaveErrorDialog(this.file);
-            return;
+            this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+                Util.TAB_NOT_EXIST_ICON);
+            continue; // 如果保存出现异常，则继续下一个文件的检测
           }
           this.setAfterSaveFile();
           this.setTextPrefix();
           this.setStylePrefix();
         } else {
           this.txaMain.setFileExistsLabel(false);
+          this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+              Util.TAB_NOT_EXIST_ICON);
         }
+      } else if (fileTemp != null && fileTemp.exists() && !fileTemp.canWrite()) {
+        this.tpnMain.setIconAt(i, Util.TAB_EXIST_READONLY_ICON);
       }
     }
+    checking = false;
   }
 
   /**

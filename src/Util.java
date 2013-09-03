@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.util.Enumeration;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
@@ -124,6 +125,16 @@ public final class Util {
       COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
   public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager
       .getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
+  public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader
+      .getSystemResource("res/icon.gif")); // 主程序图标
+  public static final ImageIcon TAB_EXIST_READONLY_ICON = new ImageIcon(
+      ClassLoader.getSystemResource("res/tab_exist_readonly.png")); // 只读文件图标
+  public static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(
+      ClassLoader.getSystemResource("res/tab_exist_current.png")); // 普通文件图标
+  public static final ImageIcon TAB_NEW_FILE_ICON = new ImageIcon(ClassLoader
+      .getSystemResource("res/tab_new_file.png")); // 新建文件图标
+  public static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader
+      .getSystemResource("res/tab_not_exist.png")); // 丢失文件图标
 
   /**
    * 由于此类为工具类，故将构造方法私有化
