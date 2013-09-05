@@ -136,6 +136,8 @@ public final class Util {
   public static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader
       .getSystemResource("res/tab_not_exist.png")); // 丢失文件图标
 
+  public static int transfer_count = 0; // 查找或替换时，启用“转义扩展”后被转义的字符个数
+
   /**
    * 由于此类为工具类，故将构造方法私有化
    */
@@ -304,14 +306,19 @@ public final class Util {
    *          是否区分大小写
    * @param isWrap
    *          是否循环查找
+   * @param isTransfer
+   *          是否进行转义扩展
    * @return 查找的字符串位于文本组件中的索引
    */
   public static int findText(String strFindText, JTextComponent txcSource,
-      boolean isFindDown, boolean isIgnoreCase, boolean isWrap) {
+      boolean isFindDown, boolean isIgnoreCase, boolean isWrap,
+      boolean isTransfer) {
     if (isFindDown) {
-      return findDownText(strFindText, txcSource, isIgnoreCase, isWrap);
+      return findDownText(strFindText, txcSource, isIgnoreCase, isWrap,
+          isTransfer);
     } else {
-      return findUpText(strFindText, txcSource, isIgnoreCase, isWrap);
+      return findUpText(strFindText, txcSource, isIgnoreCase, isWrap,
+          isTransfer);
     }
   }
 
@@ -326,23 +333,30 @@ public final class Util {
    *          是否区分大小写
    * @param isWrap
    *          是否循环查找
+   * @param isTransfer
+   *          是否进行转义扩展
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findDownText(String strFindText, JTextComponent txcSource,
-      boolean isIgnoreCase, boolean isWrap) {
+      boolean isIgnoreCase, boolean isWrap, boolean isTransfer) {
     if (strFindText == null || txcSource == null || strFindText.isEmpty()
         || txcSource.getText().isEmpty()) {
       return -1;
     }
+    if (isTransfer) {
+      int len1 = strFindText.length();
+      strFindText = transfer(strFindText);
+      int len2 = strFindText.length();
+      transfer_count = len1 - len2;
+    }
     int result = -1;
     String strSourceAll = txcSource.getText();
-    int caretPos = txcSource.getCaretPosition();
-    String strSource = strSourceAll.substring(caretPos);
     if (isIgnoreCase) {
       strFindText = strFindText.toLowerCase();
       strSourceAll = strSourceAll.toLowerCase();
-      strSource = strSource.toLowerCase();
     }
+    int caretPos = txcSource.getCaretPosition();
+    String strSource = strSourceAll.substring(caretPos);
     int index = strSource.indexOf(strFindText);
     if (index >= 0) {
       result = caretPos + index;
@@ -365,13 +379,21 @@ public final class Util {
    *          是否区分大小写
    * @param isWrap
    *          是否循环查找
+   * @param isTransfer
+   *          是否进行转义扩展
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findUpText(String strFindText, JTextComponent txcSource,
-      boolean isIgnoreCase, boolean isWrap) {
+      boolean isIgnoreCase, boolean isWrap, boolean isTransfer) {
     if (strFindText == null || txcSource == null || strFindText.isEmpty()
         || txcSource.getText().isEmpty()) {
       return -1;
+    }
+    if (isTransfer) {
+      int len1 = strFindText.length();
+      strFindText = transfer(strFindText);
+      int len2 = strFindText.length();
+      transfer_count = len1 - len2;
     }
     int result = -1;
     int caretPos = txcSource.getCaretPosition();
@@ -387,16 +409,26 @@ public final class Util {
       }
     }
     String strSourceAll = txcSource.getText();
-    String strSource = strSourceAll.substring(0, caretPos);
     if (isIgnoreCase) {
       strFindText = strFindText.toLowerCase();
       strSourceAll = strSourceAll.toLowerCase();
-      strSource = strSource.toLowerCase();
     }
+    String strSource = strSourceAll.substring(0, caretPos);
     result = strSource.lastIndexOf(strFindText);
     if (result < 0 && isWrap) {
       result = strSourceAll.lastIndexOf(strFindText);
     }
     return result;
+  }
+
+  /**
+   * 将给定的字符串进行转义替换，即将字符串中的\n替换为换行符，\t替换为tab字符
+   * 
+   * @param strSource
+   *          处理的字符串
+   * @return 替换后的字符串
+   */
+  public static String transfer(String strSource) {
+    return strSource.replace("\\n", "\n").replace("\\t", "\t"); // 将字符串中的\n替换为换行符，\t替换为tab字符
   }
 }

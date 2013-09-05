@@ -34,6 +34,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private boolean isFindDown = true; // 向下查找
   private boolean isIgnoreCase = true; // 忽略大小写
   private boolean isWrap = false; // 循环查找
+  private boolean isTransfer = false; // 转义扩展
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private String strFind = ""; // 查找的字符串
@@ -43,6 +44,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private BaseTextField txtFindTextF = new BaseTextField();
   private JCheckBox chkNotIgnoreCaseF = new JCheckBox("区分大小写(C)", false);
   private JCheckBox chkIsWrapF = new JCheckBox("循环查找(W)", false);
+  private JCheckBox chkTransferF = new JCheckBox("转义扩展(T)", false);
   private JRadioButton radFindUpF = new JRadioButton("向上(U)", false);
   private JRadioButton radFindDownF = new JRadioButton("向下(D)", true);
   private JButton btnFindF = new JButton("查找(F)");
@@ -58,6 +60,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private BaseTextField txtReplaceTextR = new BaseTextField();
   private JCheckBox chkNotIgnoreCaseR = new JCheckBox("区分大小写(C)", false);
   private JCheckBox chkIsWrapR = new JCheckBox("循环查找(W)", false);
+  private JCheckBox chkTransferR = new JCheckBox("转义扩展(T)", false);
   private JRadioButton radFindUpR = new JRadioButton("向上(U)", false);
   private JRadioButton radFindDownR = new JRadioButton("向下(D)", true);
   private JButton btnFindR = new JButton("查找(F)");
@@ -96,6 +99,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.pnlFind.add(this.chkNotIgnoreCaseF);
     this.chkIsWrapF.setBounds(10, 70, 110, Util.VIEW_HEIGHT);
     this.pnlFind.add(this.chkIsWrapF);
+    this.chkTransferF.setBounds(10, 90, 110, Util.VIEW_HEIGHT);
+    this.chkTransferF.setToolTipText("可使用\\n、\\t转义字符");
+    this.pnlFind.add(this.chkTransferF);
     this.pnlFindUpDownF.setBounds(145, 40, 95, 70);
     this.pnlFindUpDownF.setBorder(new TitledBorder("方向"));
     this.pnlFindUpDownF.add(this.radFindUpF);
@@ -125,6 +131,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.pnlReplace.add(this.chkNotIgnoreCaseR);
     this.chkIsWrapR.setBounds(10, 90, 110, Util.VIEW_HEIGHT);
     this.pnlReplace.add(this.chkIsWrapR);
+    this.chkTransferR.setBounds(10, 110, 110, Util.VIEW_HEIGHT);
+    this.chkTransferR.setToolTipText("可使用\\n、\\t转义字符");
+    this.pnlReplace.add(this.chkTransferR);
     this.pnlFindUpDownR.setBounds(145, 60, 95, 70);
     this.pnlFindUpDownR.setBorder(new TitledBorder("方向"));
     this.pnlFindUpDownR.add(this.radFindUpR);
@@ -238,6 +247,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     // 查找
     this.chkNotIgnoreCaseF.setMnemonic('C');
     this.chkIsWrapF.setMnemonic('W');
+    this.chkTransferF.setMnemonic('T');
     this.btnFindF.setMnemonic('F');
     this.btnCountF.setMnemonic('T');
     this.radFindUpF.setMnemonic('U');
@@ -245,6 +255,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     // 替换
     this.chkNotIgnoreCaseR.setMnemonic('C');
     this.chkIsWrapR.setMnemonic('W');
+    this.chkTransferR.setMnemonic('T');
     this.btnFindR.setMnemonic('F');
     this.btnReplaceR.setMnemonic('R');
     this.btnReplaceAllR.setMnemonic('A');
@@ -266,9 +277,11 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.radFindUpF.addActionListener(this);
     this.chkNotIgnoreCaseF.addActionListener(this);
     this.chkIsWrapF.addActionListener(this);
+    this.chkTransferF.addActionListener(this);
     this.txtFindTextF.addKeyListener(this.keyAdapter);
     this.chkNotIgnoreCaseF.addKeyListener(this.keyAdapter);
     this.chkIsWrapF.addKeyListener(this.keyAdapter);
+    this.chkTransferF.addKeyListener(this.keyAdapter);
     this.radFindDownF.addKeyListener(this.keyAdapter);
     this.radFindUpF.addKeyListener(this.keyAdapter);
     this.btnCancelF.addKeyListener(this.buttonKeyAdapter);
@@ -284,10 +297,12 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.radFindUpR.addActionListener(this);
     this.chkNotIgnoreCaseR.addActionListener(this);
     this.chkIsWrapR.addActionListener(this);
+    this.chkTransferR.addActionListener(this);
     this.txtFindTextR.addKeyListener(this.keyAdapter);
     this.txtReplaceTextR.addKeyListener(this.keyAdapter);
     this.chkNotIgnoreCaseR.addKeyListener(this.keyAdapter);
     this.chkIsWrapR.addKeyListener(this.keyAdapter);
+    this.chkTransferR.addKeyListener(this.keyAdapter);
     this.radFindDownR.addKeyListener(this.keyAdapter);
     this.radFindUpR.addKeyListener(this.keyAdapter);
     this.btnCancelR.addKeyListener(this.buttonKeyAdapter);
@@ -315,6 +330,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       boolean selected = this.chkIsWrapF.isSelected();
       this.isWrap = selected;
       this.chkIsWrapR.setSelected(selected);
+    } else if (this.chkTransferF.equals(e.getSource())) {
+      boolean selected = this.chkTransferF.isSelected();
+      this.isTransfer = selected;
+      this.chkTransferR.setSelected(selected);
     } else if (this.radFindDownF.equals(e.getSource())) {
       this.isFindDown = true;
       this.radFindDownR.setSelected(true);
@@ -339,6 +358,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       boolean selected = this.chkIsWrapR.isSelected();
       this.isWrap = selected;
       this.chkIsWrapF.setSelected(selected);
+    } else if (this.chkTransferR.equals(e.getSource())) {
+      boolean selected = this.chkTransferR.isSelected();
+      this.isTransfer = selected;
+      this.chkTransferF.setSelected(selected);
     } else if (this.radFindDownR.equals(e.getSource())) {
       this.isFindDown = true;
       this.radFindDownF.setSelected(true);
@@ -376,9 +399,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   public boolean findText(boolean isFindDown) {
     if (this.strFind != null && !this.strFind.isEmpty()) {
       int index = Util.findText(this.strFind, this.txaSource, isFindDown,
-          this.isIgnoreCase, this.isWrap);
+          this.isIgnoreCase, this.isWrap, this.isTransfer);
       if (index >= 0) {
-        this.txaSource.select(index, index + this.strFind.length());
+        if (this.isTransfer) {
+          this.txaSource.select(index, index + this.strFind.length()
+              - Util.transfer_count);
+        } else {
+          this.txaSource.select(index, index + this.strFind.length());
+        }
         return true;
       } else {
         JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
@@ -394,19 +422,25 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private void replaceText() {
     boolean isEquals = false;
     String strSel = this.txaSource.getSelectedText();
+    String strFindTemp = this.txtFindTextR.getText();
+    String strReplaceTemp = this.txtReplaceTextR.getText();
     if (strSel != null) {
+      if (this.isTransfer) {
+        strFindTemp = Util.transfer(strFindTemp);
+        strReplaceTemp = Util.transfer(strReplaceTemp);
+      }
       if (this.isIgnoreCase) {
-        if (strSel.equalsIgnoreCase(this.txtFindTextR.getText())) {
+        if (strSel.equalsIgnoreCase(strFindTemp)) {
           isEquals = true;
         }
       } else {
-        if (strSel.equals(this.txtFindTextR.getText())) {
+        if (strSel.equals(strFindTemp)) {
           isEquals = true;
         }
       }
     }
     if (isEquals) {
-      this.txaSource.replaceSelection(this.txtReplaceTextR.getText());
+      this.txaSource.replaceSelection(strReplaceTemp);
     }
     this.findText(this.isFindDown);
   }
@@ -416,10 +450,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    */
   private void replaceAllText() {
     String strFindText = this.txtFindTextR.getText();
-    StringBuilder stbFindTextTemp = new StringBuilder(strFindText);
     String strReplaceText = this.txtReplaceTextR.getText();
     StringBuilder stbTextAll = new StringBuilder(this.txaSource.getText()); //
     StringBuilder stbTextAllTemp = new StringBuilder(stbTextAll); //
+    if (this.isTransfer) {
+      strFindText = Util.transfer(strFindText);
+      strReplaceText = Util.transfer(strReplaceText);
+    }
+    StringBuilder stbFindTextTemp = new StringBuilder(strFindText);
     if (strFindText != null && strFindText.length() > 0) {
       int caretPos = 0; // 当前从哪个索引值开始搜索字符串
       int index = 0;
@@ -474,6 +512,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     }
     String strText = this.txaSource.getText();
     String strFindTemp = this.strFind;
+    if (this.isTransfer) {
+      strFindTemp = Util.transfer(strFindTemp);
+    }
     if (this.isIgnoreCase) {
       strFindTemp = strFindTemp.toLowerCase();
       strText = strText.toLowerCase();
