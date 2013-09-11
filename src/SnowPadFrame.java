@@ -1,7 +1,9 @@
 package com.xiboliya.snowpad;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -14,6 +16,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
 import javax.swing.JViewport;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -68,6 +72,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private static final long serialVersionUID = 1L; // 序列化运行时使用的一个版本号，以与当前可序列化类相关联
   private BaseTextArea txaMain = null; // 当前编辑的文本域
   private JTabbedPane tpnMain = new JTabbedPane(); // 显示文本域的选项卡组件
+  private JToolBar tlbMain = new JToolBar(); // 显示常用按钮的工具栏组件
   private JMenuBar menuBar = new JMenuBar();
   private JMenu menuFile = new JMenu("文件(F)");
   private JMenuItem itemNew = new JMenuItem("新建(N)", 'N');
@@ -177,6 +182,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       "Unicode Big Endian格式");
   private JMenuItem itemSignIdentifier = new JMenuItem("列表符号与编号(G)...", 'G');
   private JMenu menuView = new JMenu("查看(V)");
+  private JCheckBoxMenuItem itemToolBar = new JCheckBoxMenuItem("工具栏(T)");
   private JCheckBoxMenuItem itemStateBar = new JCheckBoxMenuItem("状态栏(S)");
   private JCheckBoxMenuItem itemLineNumber = new JCheckBoxMenuItem("行号栏(L)");
   private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("前端显示(A)");
@@ -263,6 +269,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private File file = null; // 当前编辑的文件
   private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
   private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // 存放界面中所有文本域的链表
+  private LinkedList<AbstractButton> toolButtonList = new LinkedList<AbstractButton>(); // 存放工具栏中所有按钮的链表
   private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // 标题栏字符串
   private String strLookAndFeel = Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME; // 当前外观的完整类名
   private StatePanel pnlState = new StatePanel(4); // 状态栏面板
@@ -335,6 +342,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 初始化界面和添加监听器
    */
   private void init() {
+    this.addToolBar();
     this.addTabbedPane();
     this.addMenuItem();
     this.addStatePanel();
@@ -485,6 +493,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemDelFile.addActionListener(this);
     this.itemClearFileHistory.addActionListener(this);
     this.itemSelAll.addActionListener(this);
+    this.itemToolBar.addActionListener(this);
     this.itemStateBar.addActionListener(this);
     this.itemLineNumber.addActionListener(this);
     this.itemReDo.addActionListener(this);
@@ -560,6 +569,37 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.defColorStyle = new Color[] { this.txaMain.getForeground(),
         this.txaMain.getBackground(), this.txaMain.getCaretColor(),
         this.txaMain.getSelectedTextColor(), this.txaMain.getSelectionColor() };
+  }
+
+  /**
+   * 主面板上添加工具栏视图
+   */
+  private void addToolBar() {
+    this.getContentPane().add(this.tlbMain, BorderLayout.NORTH);
+    for (int i = 0; i < Util.TOOL_ENABLE_ICONS.length; i++) {
+      AbstractButton btnTool = null;
+      if (i == Util.TOOL_ENABLE_ICONS.length - 1) {
+        btnTool = new JToggleButton(Util.TOOL_DISABLE_ICONS[i]);
+        btnTool.setSelectedIcon(Util.TOOL_ENABLE_ICONS[i]);
+      } else {
+        btnTool = new JButton(Util.TOOL_ENABLE_ICONS[i]);
+        btnTool.setDisabledIcon(Util.TOOL_DISABLE_ICONS[i]);
+      }
+      btnTool.setToolTipText(Util.TOOL_TOOLTIP_TEXTS[i]);
+      btnTool.setFocusable(false);
+      btnTool.addActionListener(this);
+      this.tlbMain.add(btnTool);
+      this.toolButtonList.add(btnTool);
+      switch (i) {
+      case 5:
+      case 8:
+      case 10:
+      case 12:
+      case 14:
+        this.tlbMain.addSeparator();
+        break;
+      }
+    }
   }
 
   /**
@@ -656,10 +696,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuDelNullLine);
     this.menuDelNullLine.add(this.itemDelNullLineAll);
     this.menuDelNullLine.add(this.itemDelNullLineSelected);
-    this.menuEdit.add(this.itemSelCopy);
     this.menuEdit.add(this.menuInsert);
     this.menuInsert.add(this.itemInsertChar);
     this.menuInsert.add(this.itemInsertDateTime);
+    this.menuEdit.add(this.itemSelCopy);
     this.menuBar.add(this.menuSearch);
     this.menuSearch.add(this.itemFind);
     this.menuSearch.add(this.itemFindNext);
@@ -695,6 +735,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStyle.add(this.itemTextDrag);
     this.menuStyle.add(this.itemAutoIndent);
     this.menuBar.add(this.menuView);
+    this.menuView.add(this.itemToolBar);
     this.menuView.add(this.itemStateBar);
     this.menuView.add(this.itemLineNumber);
     this.menuView.add(this.itemAlwaysOnTop);
@@ -848,6 +889,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopDelFile.setEnabled(false);
     this.menuHighlight.setEnabled(false);
     this.menuPopHighlight.setEnabled(false);
+    this.toolButtonList.get(6).setEnabled(false);
+    this.toolButtonList.get(7).setEnabled(false);
+    this.toolButtonList.get(9).setEnabled(false);
+    this.toolButtonList.get(10).setEnabled(false);
+    this.toolButtonList.get(11).setEnabled(false);
+    this.toolButtonList.get(12).setEnabled(false);
     this.setFileHistoryMenuEnabled();
   }
 
@@ -859,12 +906,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineWrapByWord.setSelected(true);
     this.itemTextDrag.setSelected(false);
     this.itemAutoIndent.setSelected(false);
+    this.itemToolBar.setSelected(true);
     this.itemStateBar.setSelected(true);
     this.itemLineNumber.setSelected(false);
     this.itemAlwaysOnTop.setSelected(false);
     this.itemResizable.setSelected(false);
     this.itemTabPolicy.setSelected(true);
     this.itemClickToClose.setSelected(true);
+    this.toolButtonList.get(15).setSelected(true);
     this.setLineWrap();
     this.setLineWrapStyle(true);
     this.setTextDrag();
@@ -910,6 +959,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemGoto.setEnabled(isExist);
     this.itemSelAll.setEnabled(isExist);
     this.itemPopSelAll.setEnabled(isExist);
+    this.toolButtonList.get(11).setEnabled(isExist);
+    this.toolButtonList.get(12).setEnabled(isExist);
   }
 
   /**
@@ -936,6 +987,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSignIdentifier.setEnabled(isNull);
     this.menuHighlight.setEnabled(isNull);
     this.menuPopHighlight.setEnabled(isNull);
+    this.toolButtonList.get(6).setEnabled(isNull);
+    this.toolButtonList.get(7).setEnabled(isNull);
   }
 
   /**
@@ -948,6 +1001,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemUnDo.setEnabled(canUndo);
     this.itemPopUnDo.setEnabled(canUndo);
     this.itemPopReDo.setEnabled(canRedo);
+    this.toolButtonList.get(9).setEnabled(canUndo);
+    this.toolButtonList.get(10).setEnabled(canRedo);
   }
 
   /**
@@ -978,6 +1033,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineWrapByChar.setMnemonic('C');
     this.itemTextDrag.setMnemonic('D');
     this.itemAutoIndent.setMnemonic('I');
+    this.itemToolBar.setMnemonic('T');
     this.itemStateBar.setMnemonic('S');
     this.itemLineNumber.setMnemonic('L');
     this.itemAlwaysOnTop.setMnemonic('A');
@@ -1105,15 +1161,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   public void actionPerformed(ActionEvent e) {
     if (this.itemAbout.equals(e.getSource())) {
       this.showAbout();
-    } else if (this.itemCopy.equals(e.getSource())) {
+    } else if (this.itemCopy.equals(e.getSource())
+        || this.itemPopCopy.equals(e.getSource())
+        || this.toolButtonList.get(7).equals(e.getSource())) {
       this.copyText();
-    } else if (this.itemCut.equals(e.getSource())) {
+    } else if (this.itemCut.equals(e.getSource())
+        || this.itemPopCut.equals(e.getSource())
+        || this.toolButtonList.get(6).equals(e.getSource())) {
       this.cutText();
     } else if (this.itemInsertChar.equals(e.getSource())) {
       this.openInsertCharDialog();
     } else if (this.itemInsertDateTime.equals(e.getSource())) {
       this.openInsertDateDialog();
-    } else if (this.itemDel.equals(e.getSource())) {
+    } else if (this.itemDel.equals(e.getSource())
+        || this.itemPopDel.equals(e.getSource())) {
       this.deleteText();
     } else if (this.itemCaseUp.equals(e.getSource())) {
       this.switchCase(true);
@@ -1121,7 +1182,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.switchCase(false);
     } else if (this.itemExit.equals(e.getSource())) {
       this.exit();
-    } else if (this.itemFind.equals(e.getSource())) {
+    } else if (this.itemFind.equals(e.getSource())
+        || this.toolButtonList.get(11).equals(e.getSource())) {
       this.openFindDialog();
     } else if (this.itemFindNext.equals(e.getSource())) {
       this.findNextText(true);
@@ -1139,11 +1201,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openFontChooser();
     } else if (this.itemGoto.equals(e.getSource())) {
       this.openGotoDialog();
-    } else if (this.itemToCopyFileName.equals(e.getSource())) {
+    } else if (this.itemToCopyFileName.equals(e.getSource())
+        || this.itemPopToCopyFileName.equals(e.getSource())) {
       this.toCopyFileName();
-    } else if (this.itemToCopyFilePath.equals(e.getSource())) {
+    } else if (this.itemToCopyFilePath.equals(e.getSource())
+        || this.itemPopToCopyFilePath.equals(e.getSource())) {
       this.toCopyFilePath();
-    } else if (this.itemToCopyDirPath.equals(e.getSource())) {
+    } else if (this.itemToCopyDirPath.equals(e.getSource())
+        || this.itemPopToCopyDirPath.equals(e.getSource())) {
       this.toCopyDirPath();
     } else if (this.itemToCopyAllText.equals(e.getSource())) {
       this.toCopyAllText();
@@ -1196,6 +1261,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemHelp.equals(e.getSource())) {
 
     } else if (this.itemLineWrap.equals(e.getSource())) {
+      this.toolButtonList.get(15).setSelected(this.itemLineWrap.isSelected());
+      this.setLineWrap();
+    } else if (this.toolButtonList.get(15).equals(e.getSource())) {
+      this.itemLineWrap.setSelected(this.toolButtonList.get(15).isSelected());
       this.setLineWrap();
     } else if (this.itemLineWrapByWord.equals(e.getSource())) {
       this.setLineWrapStyle(true);
@@ -1225,50 +1294,61 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setTextDrag();
     } else if (this.itemAutoIndent.equals(e.getSource())) {
       this.setAutoIndent();
-    } else if (this.itemNew.equals(e.getSource())) {
+    } else if (this.itemNew.equals(e.getSource())
+        || this.toolButtonList.get(0).equals(e.getSource())) {
       this.createNew(null);
-    } else if (this.itemOpen.equals(e.getSource())) {
+    } else if (this.itemOpen.equals(e.getSource())
+        || this.toolButtonList.get(1).equals(e.getSource())) {
       this.openFile();
     } else if (this.itemOpenByEncoding.equals(e.getSource())) {
       this.openFileByEncoding();
-    } else if (this.itemReOpen.equals(e.getSource())) {
+    } else if (this.itemReOpen.equals(e.getSource())
+        || this.itemPopReOpen.equals(e.getSource())) {
       this.reOpenFile();
-    } else if (this.itemReName.equals(e.getSource())) {
+    } else if (this.itemReName.equals(e.getSource())
+        || this.itemPopReName.equals(e.getSource())) {
       this.reNameFile();
-    } else if (this.itemPaste.equals(e.getSource())) {
+    } else if (this.itemPaste.equals(e.getSource())
+        || this.itemPopPaste.equals(e.getSource())
+        || this.toolButtonList.get(8).equals(e.getSource())) {
       this.pasteText();
-    } else if (this.itemPopCopy.equals(e.getSource())) {
-      this.copyText();
-    } else if (this.itemPopCut.equals(e.getSource())) {
-      this.cutText();
-    } else if (this.itemPopDel.equals(e.getSource())) {
-      this.deleteText();
-    } else if (this.itemPopPaste.equals(e.getSource())) {
-      this.pasteText();
-    } else if (this.itemPopSelAll.equals(e.getSource())) {
+    } else if (this.itemSelAll.equals(e.getSource())
+        || this.itemPopSelAll.equals(e.getSource())) {
       this.selectAll();
-    } else if (this.itemPopUnDo.equals(e.getSource())) {
+    } else if (this.itemUnDo.equals(e.getSource())
+        || this.itemPopUnDo.equals(e.getSource())
+        || this.toolButtonList.get(9).equals(e.getSource())) {
       this.undoAction();
-    } else if (this.itemPopReDo.equals(e.getSource())) {
+    } else if (this.itemReDo.equals(e.getSource())
+        || this.itemPopReDo.equals(e.getSource())
+        || this.toolButtonList.get(10).equals(e.getSource())) {
       this.redoAction();
-    } else if (this.itemReDo.equals(e.getSource())) {
-      this.redoAction();
-    } else if (this.itemReplace.equals(e.getSource())) {
+    } else if (this.itemReplace.equals(e.getSource())
+        || this.toolButtonList.get(12).equals(e.getSource())) {
       this.openReplaceDialog();
-    } else if (this.itemSave.equals(e.getSource())) {
+    } else if (this.itemSave.equals(e.getSource())
+        || this.itemPopSave.equals(e.getSource())
+        || this.toolButtonList.get(2).equals(e.getSource())) {
       this.saveFile(false);
-    } else if (this.itemSaveAs.equals(e.getSource())) {
+    } else if (this.itemSaveAs.equals(e.getSource())
+        || this.itemPopSaveAs.equals(e.getSource())
+        || this.toolButtonList.get(3).equals(e.getSource())) {
       this.saveAsFile();
-    } else if (this.itemClose.equals(e.getSource())) {
+    } else if (this.itemClose.equals(e.getSource())
+        || this.itemPopCloseCurrent.equals(e.getSource())
+        || this.toolButtonList.get(4).equals(e.getSource())) {
       this.closeFile(true);
-    } else if (this.itemCloseOther.equals(e.getSource())) {
+    } else if (this.itemCloseOther.equals(e.getSource())
+        || this.itemPopCloseOthers.equals(e.getSource())) {
       this.closeOthers();
-    } else if (this.itemCloseAll.equals(e.getSource())) {
+    } else if (this.itemCloseAll.equals(e.getSource())
+        || this.toolButtonList.get(5).equals(e.getSource())) {
       this.closeAll();
-    } else if (this.itemDelFile.equals(e.getSource())) {
+    } else if (this.itemDelFile.equals(e.getSource())
+        || this.itemPopDelFile.equals(e.getSource())) {
       this.deleteFile();
-    } else if (this.itemSelAll.equals(e.getSource())) {
-      this.selectAll();
+    } else if (this.itemToolBar.equals(e.getSource())) {
+      this.setToolBar();
     } else if (this.itemStateBar.equals(e.getSource())) {
       this.setStateBar();
     } else if (this.itemLineNumber.equals(e.getSource())) {
@@ -1281,9 +1361,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setTabLayoutPolicy();
     } else if (this.itemClickToClose.equals(e.getSource())) {
       this.setClickToClose();
-    } else if (this.itemFontSizePlus.equals(e.getSource())) {
+    } else if (this.itemFontSizePlus.equals(e.getSource())
+        || this.toolButtonList.get(13).equals(e.getSource())) {
       this.setFontSizePlus();
-    } else if (this.itemFontSizeMinus.equals(e.getSource())) {
+    } else if (this.itemFontSizeMinus.equals(e.getSource())
+        || this.toolButtonList.get(14).equals(e.getSource())) {
       this.setFontSizeMinus();
     } else if (this.itemFontSizeReset.equals(e.getSource())) {
       this.setFontSizeReset();
@@ -1313,74 +1395,41 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setColorStyle(5);
     } else if (this.itemColorStyleDefault.equals(e.getSource())) {
       this.setColorStyle(0);
-    } else if (this.itemHighlight1.equals(e.getSource())) {
+    } else if (this.itemHighlight1.equals(e.getSource())
+        || this.itemPopHighlight1.equals(e.getSource())) {
       this.setHighlight(1);
-    } else if (this.itemHighlight2.equals(e.getSource())) {
+    } else if (this.itemHighlight2.equals(e.getSource())
+        || this.itemPopHighlight2.equals(e.getSource())) {
       this.setHighlight(2);
-    } else if (this.itemHighlight3.equals(e.getSource())) {
+    } else if (this.itemHighlight3.equals(e.getSource())
+        || this.itemPopHighlight3.equals(e.getSource())) {
       this.setHighlight(3);
-    } else if (this.itemHighlight4.equals(e.getSource())) {
+    } else if (this.itemHighlight4.equals(e.getSource())
+        || this.itemPopHighlight4.equals(e.getSource())) {
       this.setHighlight(4);
-    } else if (this.itemHighlight5.equals(e.getSource())) {
+    } else if (this.itemHighlight5.equals(e.getSource())
+        || this.itemPopHighlight5.equals(e.getSource())) {
       this.setHighlight(5);
-    } else if (this.itemRmHighlight1.equals(e.getSource())) {
+    } else if (this.itemRmHighlight1.equals(e.getSource())
+        || this.itemPopRmHighlight1.equals(e.getSource())) {
       this.rmHighlight(1);
-    } else if (this.itemRmHighlight2.equals(e.getSource())) {
+    } else if (this.itemRmHighlight2.equals(e.getSource())
+        || this.itemPopRmHighlight2.equals(e.getSource())) {
       this.rmHighlight(2);
-    } else if (this.itemRmHighlight3.equals(e.getSource())) {
+    } else if (this.itemRmHighlight3.equals(e.getSource())
+        || this.itemPopRmHighlight3.equals(e.getSource())) {
       this.rmHighlight(3);
-    } else if (this.itemRmHighlight4.equals(e.getSource())) {
+    } else if (this.itemRmHighlight4.equals(e.getSource())
+        || this.itemPopRmHighlight4.equals(e.getSource())) {
       this.rmHighlight(4);
-    } else if (this.itemRmHighlight5.equals(e.getSource())) {
+    } else if (this.itemRmHighlight5.equals(e.getSource())
+        || this.itemPopRmHighlight5.equals(e.getSource())) {
       this.rmHighlight(5);
-    } else if (this.itemRmHighlightAll.equals(e.getSource())) {
+    } else if (this.itemRmHighlightAll.equals(e.getSource())
+        || this.itemPopRmHighlightAll.equals(e.getSource())) {
       this.rmHighlight(0);
-    } else if (this.itemPopHighlight1.equals(e.getSource())) {
-      this.setHighlight(1);
-    } else if (this.itemPopHighlight2.equals(e.getSource())) {
-      this.setHighlight(2);
-    } else if (this.itemPopHighlight3.equals(e.getSource())) {
-      this.setHighlight(3);
-    } else if (this.itemPopHighlight4.equals(e.getSource())) {
-      this.setHighlight(4);
-    } else if (this.itemPopHighlight5.equals(e.getSource())) {
-      this.setHighlight(5);
-    } else if (this.itemPopRmHighlight1.equals(e.getSource())) {
-      this.rmHighlight(1);
-    } else if (this.itemPopRmHighlight2.equals(e.getSource())) {
-      this.rmHighlight(2);
-    } else if (this.itemPopRmHighlight3.equals(e.getSource())) {
-      this.rmHighlight(3);
-    } else if (this.itemPopRmHighlight4.equals(e.getSource())) {
-      this.rmHighlight(4);
-    } else if (this.itemPopRmHighlight5.equals(e.getSource())) {
-      this.rmHighlight(5);
-    } else if (this.itemPopRmHighlightAll.equals(e.getSource())) {
-      this.rmHighlight(0);
-    } else if (this.itemPopCloseCurrent.equals(e.getSource())) {
-      this.closeFile(true);
-    } else if (this.itemPopCloseOthers.equals(e.getSource())) {
-      this.closeOthers();
-    } else if (this.itemPopSave.equals(e.getSource())) {
-      this.saveFile(false);
-    } else if (this.itemPopSaveAs.equals(e.getSource())) {
-      this.saveAsFile();
-    } else if (this.itemPopReName.equals(e.getSource())) {
-      this.reNameFile();
-    } else if (this.itemPopDelFile.equals(e.getSource())) {
-      this.deleteFile();
-    } else if (this.itemPopReOpen.equals(e.getSource())) {
-      this.reOpenFile();
-    } else if (this.itemPopToCopyFileName.equals(e.getSource())) {
-      this.toCopyFileName();
-    } else if (this.itemPopToCopyFilePath.equals(e.getSource())) {
-      this.toCopyFilePath();
-    } else if (this.itemPopToCopyDirPath.equals(e.getSource())) {
-      this.toCopyDirPath();
     } else if (this.itemTabSet.equals(e.getSource())) {
       this.openTabSetDialog();
-    } else if (this.itemUnDo.equals(e.getSource())) {
-      this.undoAction();
     } else if (this.itemClearFileHistory.equals(e.getSource())) {
       this.clearFileHistory();
     } else if (Util.FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
@@ -2674,6 +2723,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.clip.setContents(ss, ss);
     this.itemPaste.setEnabled(true);
     this.itemPopPaste.setEnabled(true);
+    this.toolButtonList.get(8).setEnabled(true);
   }
 
   /**
@@ -3272,6 +3322,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.gotoDialog.setTextArea(this.txaMain);
       this.gotoDialog.setVisible(true);
     }
+  }
+
+  /**
+   * "工具栏"的处理方法
+   */
+  private void setToolBar() {
+    this.tlbMain.setVisible(this.itemToolBar.isSelected());
   }
 
   /**
@@ -3883,11 +3940,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (tf == null) {
         this.itemPaste.setEnabled(false);
         this.itemPopPaste.setEnabled(false);
+        this.toolButtonList.get(8).setEnabled(false);
       } else {
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
         if (str != null && str.length() > 0) {
           this.itemPaste.setEnabled(true);
           this.itemPopPaste.setEnabled(true);
+          this.toolButtonList.get(8).setEnabled(true);
         }
       }
     } catch (Exception x) {
@@ -3895,6 +3954,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       // x.printStackTrace();
       this.itemPaste.setEnabled(false);
       this.itemPopPaste.setEnabled(false);
+      this.toolButtonList.get(8).setEnabled(false);
     }
     if (checking) {
       return;

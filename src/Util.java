@@ -73,6 +73,9 @@ public final class Util {
   public static final String[] SIGN_IDENTIFIER_NAMES = new String[] {
       "十进制数(1.2..10.11.)", "小写十六进制数(1.2..a.b.)", "大写十六进制数(1.2..A.B.)",
       "干支计数(甲子.乙丑..癸酉.甲戌.)" }; // 列表编号类型的显示名称
+  public static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "新建", "打开",
+      "保存", "另存为", "关闭", "关闭全部", "剪切", "复制", "粘贴", "撤销", "重做", "查找", "替换",
+      "字体放大", "字体缩小", "自动换行" }; // 工具栏提示信息
   public static final int DEFAULT_CARET_INDEX = 0; // 文本域默认插入点位置
   public static final int INPUT_HEIGHT = 22; // 单行输入框的高度
   public static final int VIEW_HEIGHT = 18; // 标签、单选按钮、复选框的高度
@@ -135,6 +138,52 @@ public final class Util {
       .getSystemResource("res/tab_new_file.png")); // 新建文件图标
   public static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader
       .getSystemResource("res/tab_not_exist.png")); // 丢失文件图标
+  public static final ImageIcon[] TOOL_ENABLE_ICONS = new ImageIcon[] {
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_new.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_open.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_save.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/enable/tool_save_as.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_close.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/enable/tool_close_all.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_cut.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_copy.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_paste.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_undo.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_redo.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_find.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/enable/tool_replace.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/enable/tool_font_size_plus.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/enable/tool_font_size_minus.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/enable/tool_line_wrap.png")) }; // 工具栏可用状态的图标
+  public static final ImageIcon[] TOOL_DISABLE_ICONS = new ImageIcon[] {
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_new.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_open.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_save.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/disable/tool_save_as.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_close.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/disable/tool_close_all.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_cut.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_copy.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_paste.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_undo.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_redo.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_find.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/disable/tool_replace.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/disable/tool_font_size_plus.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/disable/tool_font_size_minus.png")),
+      new ImageIcon(ClassLoader
+          .getSystemResource("res/disable/tool_line_wrap.png")) }; // 工具栏禁用状态的图标
 
   public static int transfer_count = 0; // 查找或替换时，启用“转义扩展”后被转义的字符个数
 
