@@ -251,6 +251,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
     try {
       this.simpleDateFormat.applyPattern(strStyles);
       this.txaSource.replaceSelection(this.simpleDateFormat.format(new Date()));
+      this.dispose();
     } catch (IllegalArgumentException x) {
       // x.printStackTrace();
       JOptionPane.showMessageDialog(this, "格式错误，请重新输入！", Util.SOFTWARE,
