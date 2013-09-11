@@ -745,3 +745,14 @@ res/tab_not_exist.png（添加）
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
 src/Util.java
+
+2013-09-11
+1.在主界面添加常用功能的工具栏
+src/SnowPadFrame.java
+src/Util.java
+res/enable目录（添加）
+res/disable目录（添加）
+2.插入时间/日期后，关闭窗口
+src/InsertDateDialog.java
+3.当前文本域选中文本的状态下，切换外观后，文本域变为未选择状态，某些菜单与按钮的状态没有及时更新，导致执行这些功能时出错。为了避免此问题，在切换外观后，保持切换前的选择状态。
+src/SnowPadFrame.java
