@@ -1506,6 +1506,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     try {
+      int start = this.txaMain.getSelectionStart();
+      int end = this.txaMain.getSelectionEnd();
       UIManager.setLookAndFeel(className);
       this.strLookAndFeel = className;
       SwingUtilities.updateComponentTreeUI(this);
@@ -1514,6 +1516,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.popMenuMain.updateUI();
       this.popMenuTabbed.updateUI();
       this.destroyAllDialogs();
+      this.txaMain.select(start, end);
     } catch (Exception x) {
       x.printStackTrace();
     }
