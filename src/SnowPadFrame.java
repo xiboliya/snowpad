@@ -308,21 +308,33 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * 带参数的构造方法，用于在程序启动的同时打开文件
+   * 带参数的构造方法，用于在程序启动的同时打开文件，并可为多个
    * 
-   * @param strFile
-   *          表示文件路径的字符串。
+   * @param strFiles
+   *          表示文件路径的字符串数组。
    *          可以是绝对路径，如：E:\file\test.txt或/home/chen/test.txt等。也可以是相对路径
    *          ，如：../test.txt或chen/test.txt或test.txt等。
    */
-  public SnowPadFrame(String strFile) {
+  public SnowPadFrame(String[] strFiles) {
     this();
-    if (strFile != null && !strFile.isEmpty()) {
-      File file = new File(strFile);
-      if (file.exists()) {
-        this.toOpenFile(file, true, false);
-        this.setAfterOpenFile(Util.DEFAULT_CARET_INDEX);
-        this.setFileNameAndPath(file);
+    if (strFiles == null) {
+      return;
+    }
+    boolean toCreateNew = false; // 用于标识新打开的文件，是要在当前文本域中打开，还是要新建文本域
+    for (int i = 0; i < strFiles.length; i++) {
+      String strFile = strFiles[i];
+      if (strFile != null && !strFile.isEmpty()) {
+        File file = new File(strFile);
+        if (file.exists()) {
+          if (!toCreateNew) {
+            this.toOpenFile(file, true, false);
+            toCreateNew = true; // 保证第一个被打开的文件在当前文本域中显示，其后的文件都需要新建文本域
+          } else {
+            this.toOpenFile(file, true, true);
+          }
+          this.setAfterOpenFile(Util.DEFAULT_CARET_INDEX);
+          this.setFileNameAndPath(file);
+        }
       }
     }
   }
