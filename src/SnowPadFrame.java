@@ -1865,24 +1865,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         linkedList.add(index);
       }
     } while (index >= 0);
-    Color color = null;
-    switch (style) {
-    case 1:
-      color = Util.COLOR_HIGHLIGHT_1;
-      break;
-    case 2:
-      color = Util.COLOR_HIGHLIGHT_2;
-      break;
-    case 3:
-      color = Util.COLOR_HIGHLIGHT_3;
-      break;
-    case 4:
-      color = Util.COLOR_HIGHLIGHT_4;
-      break;
-    case 5:
-      color = Util.COLOR_HIGHLIGHT_5;
-      break;
-    }
+    Color color = Util.COLOR_HIGHLIGHTS[style - 1];
     for (Integer startIndex : linkedList) {
       try {
         this.txaMain.getHighlighter().addHighlight(startIndex,
@@ -1906,13 +1889,29 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void rmHighlight(int style) {
     if (style == 0) {
-      this.txaMain.getHighlighter().removeAllHighlights();
-      this.txaMain.getHighlighterList().clear();
+      this.rmHighlightAll();
       return;
     }
+    PartnerBean partnerBean = null;
     for (int n = 0; n < this.txaMain.getHighlighterList().size(); n++) {
-      PartnerBean partnerBean = this.txaMain.getHighlighterList().get(n);
+      partnerBean = this.txaMain.getHighlighterList().get(n);
       if (partnerBean.getIndex() == style) {
+        this.txaMain.getHighlighter().removeHighlight(
+            (Highlighter.Highlight) partnerBean.getObject());
+        this.txaMain.getHighlighterList().remove(n);
+        n--;
+      }
+    }
+  }
+
+  /**
+   * "清除高亮"中"所有格式"的处理方法
+   */
+  private void rmHighlightAll() {
+    PartnerBean partnerBean = null;
+    for (int n = 0; n < this.txaMain.getHighlighterList().size(); n++) {
+      partnerBean = this.txaMain.getHighlighterList().get(n);
+      if (partnerBean.getIndex() >= 1 && partnerBean.getIndex() <= 5) {
         this.txaMain.getHighlighter().removeHighlight(
             (Highlighter.Highlight) partnerBean.getObject());
         this.txaMain.getHighlighterList().remove(n);

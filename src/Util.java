@@ -99,15 +99,14 @@ public final class Util {
   public static final int LINE_NUMBER_HEIGHT = 2000000000; // 行号组件支持的最大高度
   public static final int LINE_NUMBER_MARGIN = 5; // 行号组件的左右边距
   public static final int LINE_NUMBER_START_OFFSET = 2; // 行号组件的起始垂直偏移量，用于对齐文本域的各行
-  public static final Color COLOR_HIGHLIGHT_1 = new Color(255, 0, 0, 40); // 用于高亮显示的颜色1,其中第4个参数表示透明度，数值越小越透明
-  public static final Color COLOR_HIGHLIGHT_2 = new Color(0, 255, 0, 40); // 用于高亮显示的颜色2
-  public static final Color COLOR_HIGHLIGHT_3 = new Color(0, 0, 255, 40); // 用于高亮显示的颜色3
-  public static final Color COLOR_HIGHLIGHT_4 = new Color(0, 255, 255, 40); // 用于高亮显示的颜色4
-  public static final Color COLOR_HIGHLIGHT_5 = new Color(255, 0, 255, 40); // 用于高亮显示的颜色5
   public static final Font GLOBAL_FONT = new Font("宋体", Font.PLAIN, 12); // 全局的默认字体
   public static final Font TEXT_FONT = new Font("宋体", Font.PLAIN, 14); // 文本域的默认字体
   public static final Font INSERT_VIEW_FONT = new Font("宋体", Font.PLAIN, 80); // 插入字符界面中预览标签的字体
   public static final Font SIGN_VIEW_FONT = new Font("宋体", Font.PLAIN, 28); // 列表符号与编号界面中预览区域的字体
+  public static final Color[] COLOR_HIGHLIGHTS = new Color[] {
+      new Color(255, 0, 0, 40), new Color(0, 255, 0, 40),
+      new Color(0, 0, 255, 40), new Color(0, 255, 255, 40),
+      new Color(255, 0, 255, 40) }; // 用于高亮显示的颜色，其中第4个参数表示透明度，数值越小越透明
   public static final Color[] COLOR_STYLE_1 = new Color[] {
       new Color(211, 215, 207), new Color(46, 52, 54),
       new Color(211, 215, 207), new Color(238, 238, 236),
