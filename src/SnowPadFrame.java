@@ -124,7 +124,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuIndent = new JMenu("缩进");
   private JMenuItem itemIndentAdd = new JMenuItem("缩进");
   private JMenuItem itemIndentBack = new JMenuItem("退格");
-  private JMenuItem itemSelCopy = new JMenuItem("复写当前选择(W)", 'W');
   private JMenu menuTrim = new JMenu("清除空白");
   private JMenuItem itemTrimStart = new JMenuItem("行首");
   private JMenuItem itemTrimEnd = new JMenuItem("行尾");
@@ -137,6 +136,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuInsert = new JMenu("插入(I)");
   private JMenuItem itemInsertDateTime = new JMenuItem("时间/日期(D)...", 'D');
   private JMenuItem itemInsertChar = new JMenuItem("特殊字符(S)...", 'S');
+  private JMenu menuSelection = new JMenu("选区操作");
+  private JMenuItem itemSelCopy = new JMenuItem("复写选区字符(W)", 'W');
+  private JMenuItem itemSelInvert = new JMenuItem("反转选区字符(I)", 'I');
   private JMenu menuSearch = new JMenu("搜索(S)");
   private JMenuItem itemFind = new JMenuItem("查找(F)...", 'F');
   private JMenuItem itemFindNext = new JMenuItem("查找下一个(N)", 'N');
@@ -187,6 +189,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JCheckBoxMenuItem itemLineNumber = new JCheckBoxMenuItem("行号栏(L)");
   private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("前端显示(A)");
   private JCheckBoxMenuItem itemResizable = new JCheckBoxMenuItem("锁定窗口(R)");
+  private JMenu menuTab = new JMenu("标签设置(B)");
   private JCheckBoxMenuItem itemTabPolicy = new JCheckBoxMenuItem("多行标签(P)");
   private JCheckBoxMenuItem itemClickToClose = new JCheckBoxMenuItem(
       "双击关闭标签(D)");
@@ -405,6 +408,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemIndentAdd.addActionListener(this);
     this.itemIndentBack.addActionListener(this);
     this.itemSelCopy.addActionListener(this);
+    this.itemSelInvert.addActionListener(this);
     this.itemLineBatchRemove.addActionListener(this);
     this.itemLineBatchInsert.addActionListener(this);
     this.itemLineBatchSeparate.addActionListener(this);
@@ -711,7 +715,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuInsert);
     this.menuInsert.add(this.itemInsertChar);
     this.menuInsert.add(this.itemInsertDateTime);
-    this.menuEdit.add(this.itemSelCopy);
+    this.menuEdit.add(this.menuSelection);
+    this.menuSelection.add(this.itemSelCopy);
+    this.menuSelection.add(this.itemSelInvert);
     this.menuBar.add(this.menuSearch);
     this.menuSearch.add(this.itemFind);
     this.menuSearch.add(this.itemFindNext);
@@ -752,9 +758,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.add(this.itemLineNumber);
     this.menuView.add(this.itemAlwaysOnTop);
     this.menuView.add(this.itemResizable);
-    this.menuView.add(this.itemTabPolicy);
-    this.menuView.add(this.itemClickToClose);
     this.menuView.addSeparator();
+    this.menuView.add(this.menuTab);
+    this.menuTab.add(this.itemTabPolicy);
+    this.menuTab.add(this.itemClickToClose);
     this.menuView.add(this.menuFontSize);
     this.menuFontSize.add(this.itemFontSizePlus);
     this.menuFontSize.add(this.itemFontSizeMinus);
@@ -879,7 +886,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelFindNext.setEnabled(false);
     this.itemSelFindPrevious.setEnabled(false);
     this.menuQuickFind.setEnabled(false);
-    this.itemSelCopy.setEnabled(false);
+    this.menuSelection.setEnabled(false);
     this.itemLineBatchRemove.setEnabled(false);
     this.itemLineBatchInsert.setEnabled(false);
     this.itemLineBatchSeparate.setEnabled(false);
@@ -990,7 +997,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuCase.setEnabled(isNull);
     this.itemLineBatchMerge.setEnabled(isNull);
     this.menuQuickFind.setEnabled(isNull);
-    this.itemSelCopy.setEnabled(isNull);
+    this.menuSelection.setEnabled(isNull);
     this.itemPopCopy.setEnabled(isNull);
     this.itemPopCut.setEnabled(isNull);
     this.itemPopDel.setEnabled(isNull);
@@ -1050,6 +1057,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineNumber.setMnemonic('L');
     this.itemAlwaysOnTop.setMnemonic('A');
     this.itemResizable.setMnemonic('R');
+    this.menuTab.setMnemonic('B');
     this.itemTabPolicy.setMnemonic('P');
     this.itemClickToClose.setMnemonic('D');
     this.menuColor.setMnemonic('C');
@@ -1121,6 +1129,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Alt+Shift+T
     this.itemSelCopy.setAccelerator(KeyStroke.getKeyStroke('R',
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+R
+    this.itemSelInvert.setAccelerator(KeyStroke.getKeyStroke('I',
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+I
     this.itemTrimStart.setAccelerator(KeyStroke.getKeyStroke('S',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+S
     this.itemTrimEnd.setAccelerator(KeyStroke.getKeyStroke('E',
@@ -1258,6 +1268,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.toIndent(false);
     } else if (this.itemSelCopy.equals(e.getSource())) {
       this.copySelectedText();
+    } else if (this.itemSelInvert.equals(e.getSource())) {
+      this.invertSelectedText();
     } else if (this.itemTrimStart.equals(e.getSource())) {
       this.trimLines(0);
     } else if (this.itemTrimEnd.equals(e.getSource())) {
@@ -2819,13 +2831,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "复写当前选择"的处理方法
+   * "复写选区字符"的处理方法
    */
   private void copySelectedText() {
     int start = this.txaMain.getSelectionStart();
     int end = this.txaMain.getSelectionEnd();
     if (start != end) {
       this.txaMain.insert(this.txaMain.getSelectedText(), end);
+      this.txaMain.select(start, end);
+    }
+  }
+
+  /**
+   * "反转选区字符"的处理方法
+   */
+  private void invertSelectedText() {
+    int start = this.txaMain.getSelectionStart();
+    int end = this.txaMain.getSelectionEnd();
+    if (start != end) {
+      StringBuilder stbSel = new StringBuilder(this.txaMain.getSelectedText());
+      this.txaMain.replaceSelection(stbSel.reverse().toString());
       this.txaMain.select(start, end);
     }
   }
