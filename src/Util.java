@@ -137,6 +137,8 @@ public final class Util {
       .getSystemResource("res/tab_new_file.png")); // 新建文件图标
   public static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader
       .getSystemResource("res/tab_not_exist.png")); // 丢失文件图标
+  public static final ImageIcon HELP_ICON = new ImageIcon(ClassLoader
+      .getSystemResource("res/help.png")); // 帮助图标
   public static final ImageIcon[] TOOL_ENABLE_ICONS = new ImageIcon[] {
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_new.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_open.png")),

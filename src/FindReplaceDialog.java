@@ -45,6 +45,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private JCheckBox chkNotIgnoreCaseF = new JCheckBox("区分大小写(C)", false);
   private JCheckBox chkIsWrapF = new JCheckBox("循环查找(W)", false);
   private JCheckBox chkTransferF = new JCheckBox("转义扩展(T)", false);
+  private JButton btnHelpF = new JButton(Util.HELP_ICON);
   private JRadioButton radFindUpF = new JRadioButton("向上(U)", false);
   private JRadioButton radFindDownF = new JRadioButton("向下(D)", true);
   private JButton btnFindF = new JButton("查找(F)");
@@ -61,6 +62,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private JCheckBox chkNotIgnoreCaseR = new JCheckBox("区分大小写(C)", false);
   private JCheckBox chkIsWrapR = new JCheckBox("循环查找(W)", false);
   private JCheckBox chkTransferR = new JCheckBox("转义扩展(T)", false);
+  private JButton btnHelpR = new JButton(Util.HELP_ICON);
   private JRadioButton radFindUpR = new JRadioButton("向上(U)", false);
   private JRadioButton radFindDownR = new JRadioButton("向下(D)", true);
   private JButton btnFindR = new JButton("查找(F)");
@@ -99,9 +101,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.pnlFind.add(this.chkNotIgnoreCaseF);
     this.chkIsWrapF.setBounds(10, 70, 110, Util.VIEW_HEIGHT);
     this.pnlFind.add(this.chkIsWrapF);
-    this.chkTransferF.setBounds(10, 90, 110, Util.VIEW_HEIGHT);
+    this.chkTransferF.setBounds(10, 90, 95, Util.VIEW_HEIGHT);
     this.chkTransferF.setToolTipText("可使用\\n、\\t转义字符");
     this.pnlFind.add(this.chkTransferF);
+    this.btnHelpF.setBounds(105, 90, 12, Util.VIEW_HEIGHT);
+    this.pnlFind.add(this.btnHelpF);
+    this.btnHelpF.setToolTipText("功能简介");
+    this.btnHelpF.setContentAreaFilled(false);
+    this.btnHelpF.setFocusable(false);
     this.pnlFindUpDownF.setBounds(145, 40, 95, 70);
     this.pnlFindUpDownF.setBorder(new TitledBorder("方向"));
     this.pnlFindUpDownF.add(this.radFindUpF);
@@ -131,9 +138,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.pnlReplace.add(this.chkNotIgnoreCaseR);
     this.chkIsWrapR.setBounds(10, 90, 110, Util.VIEW_HEIGHT);
     this.pnlReplace.add(this.chkIsWrapR);
-    this.chkTransferR.setBounds(10, 110, 110, Util.VIEW_HEIGHT);
+    this.chkTransferR.setBounds(10, 110, 95, Util.VIEW_HEIGHT);
     this.chkTransferR.setToolTipText("可使用\\n、\\t转义字符");
     this.pnlReplace.add(this.chkTransferR);
+    this.btnHelpR.setBounds(105, 110, 12, Util.VIEW_HEIGHT);
+    this.pnlReplace.add(this.btnHelpR);
+    this.btnHelpR.setToolTipText("功能简介");
+    this.btnHelpR.setContentAreaFilled(false);
+    this.btnHelpR.setFocusable(false);
     this.pnlFindUpDownR.setBounds(145, 60, 95, 70);
     this.pnlFindUpDownR.setBorder(new TitledBorder("方向"));
     this.pnlFindUpDownR.add(this.radFindUpR);
@@ -278,6 +290,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.chkNotIgnoreCaseF.addActionListener(this);
     this.chkIsWrapF.addActionListener(this);
     this.chkTransferF.addActionListener(this);
+    this.btnHelpF.addActionListener(this);
     this.txtFindTextF.addKeyListener(this.keyAdapter);
     this.chkNotIgnoreCaseF.addKeyListener(this.keyAdapter);
     this.chkIsWrapF.addKeyListener(this.keyAdapter);
@@ -298,6 +311,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.chkNotIgnoreCaseR.addActionListener(this);
     this.chkIsWrapR.addActionListener(this);
     this.chkTransferR.addActionListener(this);
+    this.btnHelpR.addActionListener(this);
     this.txtFindTextR.addKeyListener(this.keyAdapter);
     this.txtReplaceTextR.addKeyListener(this.keyAdapter);
     this.chkNotIgnoreCaseR.addKeyListener(this.keyAdapter);
@@ -334,6 +348,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       boolean selected = this.chkTransferF.isSelected();
       this.isTransfer = selected;
       this.chkTransferR.setSelected(selected);
+    } else if (this.btnHelpF.equals(e.getSource())) {
+      this.showHelp();
     } else if (this.radFindDownF.equals(e.getSource())) {
       this.isFindDown = true;
       this.radFindDownR.setSelected(true);
@@ -362,6 +378,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       boolean selected = this.chkTransferR.isSelected();
       this.isTransfer = selected;
       this.chkTransferF.setSelected(selected);
+    } else if (this.btnHelpR.equals(e.getSource())) {
+      this.showHelp();
     } else if (this.radFindDownR.equals(e.getSource())) {
       this.isFindDown = true;
       this.radFindDownF.setSelected(true);
@@ -387,6 +405,15 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     } else {
       this.replaceText();
     }
+  }
+
+  /**
+   * 弹出帮助窗口
+   */
+  private void showHelp() {
+    JOptionPane.showMessageDialog(this,
+        "开启此选项后，你可以将文本域中不方便输入搜索框的字符进行转义替换。\n比如，可以使用\\n代替换行，\\t代替Tab字符。",
+        Util.SOFTWARE, JOptionPane.NO_OPTION);
   }
 
   /**
