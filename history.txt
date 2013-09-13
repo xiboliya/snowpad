@@ -756,3 +756,17 @@ res/disable目录（添加）
 src/InsertDateDialog.java
 3.当前文本域选中文本的状态下，切换外观后，文本域变为未选择状态，某些菜单与按钮的状态没有及时更新，导致执行这些功能时出错。为了避免此问题，在切换外观后，保持切换前的选择状态。
 src/SnowPadFrame.java
+
+2013-09-13
+1.使用命令行运行程序时，支持同时指定多个文件打开
+src/SnowPad.java
+src/SnowPadFrame.java
+2.在“编辑”菜单下添加“反转选区字符”功能
+src/SnowPadFrame.java
+3.调整“高亮显示”和“清除高亮”的处理方法
+src/SnowPadFrame.java
+src/Util.java
+4.“查找/替换”对话框中，在“转义扩展”复选框右侧添加一个帮助按钮，点击此按钮会弹出此功能的使用简介
+res/help.png（添加）
+src/FindReplaceDialog.java
+src/Util.java
