@@ -151,15 +151,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemReplace = new JMenuItem("替换(R)...", 'R');
   private JMenuItem itemGoto = new JMenuItem("转到(G)...", 'G');
   private JMenu menuStyle = new JMenu("格式(O)");
-  private JMenu menuLineWrapSet = new JMenu("换行设置(L)");
-  private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
-  private JMenu menuLineWrapStyle = new JMenu("换行方式(S)");
+  private JMenu menuLineWrapStyle = new JMenu("换行方式(L)");
   private JRadioButtonMenuItem itemLineWrapByWord = new JRadioButtonMenuItem(
       "单词边界换行(W)");
   private JRadioButtonMenuItem itemLineWrapByChar = new JRadioButtonMenuItem(
       "字符边界换行(C)");
   private JMenuItem itemFont = new JMenuItem("字体(F)...", 'F');
   private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
+  private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
   private JCheckBoxMenuItem itemTextDrag = new JCheckBoxMenuItem("文本拖拽(D)");
   private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
   private JMenu menuLineStyle = new JMenu("换行符格式(S)");
@@ -295,6 +294,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private BatchInsertDialog batchInsertDialog = null; // 批处理"插入"对话框
   private BatchSeparateDialog batchSeparateDialog = null; // 批处理"分割行"对话框
   private SignIdentifierDialog signIdentifierDialog = null; // 项目符号与编号对话框
+  private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
    * 构造方法 用于初始化界面和设置
@@ -302,7 +302,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   public SnowPadFrame() {
     this.setTitle(this.stbTitle.toString());
     this.setSize(600, 500);
-    this.setMinimumSize(new Dimension(200, 200)); // 设置主界面的最小尺寸
+    this.setMinimumSize(new Dimension(300, 300)); // 设置主界面的最小尺寸
     this.setLocationRelativeTo(null); // 使窗口居中显示
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // 设置默认关闭操作为空，以便添加窗口监听事件
     this.init();
@@ -730,9 +730,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuSearch.add(this.itemReplace);
     this.menuSearch.add(this.itemGoto);
     this.menuBar.add(this.menuStyle);
-    this.menuStyle.add(this.menuLineWrapSet);
-    this.menuLineWrapSet.add(this.itemLineWrap);
-    this.menuLineWrapSet.add(this.menuLineWrapStyle);
+    this.menuStyle.add(this.menuLineWrapStyle);
     this.menuLineWrapStyle.add(this.itemLineWrapByWord);
     this.menuLineWrapStyle.add(this.itemLineWrapByChar);
     this.menuStyle.add(this.menuLineStyle);
@@ -750,6 +748,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStyle.add(this.itemSignIdentifier);
     this.menuStyle.add(this.itemFont);
     this.menuStyle.add(this.itemTabSet);
+    this.menuStyle.add(this.itemLineWrap);
     this.menuStyle.add(this.itemTextDrag);
     this.menuStyle.add(this.itemAutoIndent);
     this.menuBar.add(this.menuView);
@@ -1034,7 +1033,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuSearch.setMnemonic('S');
     this.menuStyle.setMnemonic('O');
     this.menuView.setMnemonic('V');
-    this.menuLineWrapSet.setMnemonic('L');
     this.menuLineStyle.setMnemonic('S');
     this.itemLineStyleWin.setMnemonic('W');
     this.itemLineStyleUnix.setMnemonic('U');
@@ -1047,7 +1045,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCharsetUBE.setMnemonic('B');
     this.menuInsert.setMnemonic('I');
     this.itemLineWrap.setMnemonic('W');
-    this.menuLineWrapStyle.setMnemonic('S');
+    this.menuLineWrapStyle.setMnemonic('L');
     this.itemLineWrapByWord.setMnemonic('W');
     this.itemLineWrapByChar.setMnemonic('C');
     this.itemTextDrag.setMnemonic('D');
@@ -1283,7 +1281,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemDelNullLineSelected.equals(e.getSource())) {
       this.delSelectedNullLines();
     } else if (this.itemHelp.equals(e.getSource())) {
-
+      this.showHelpFrame();
     } else if (this.itemLineWrap.equals(e.getSource())) {
       this.toolButtonList.get(15).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -1604,6 +1602,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.signIdentifierDialog.dispose();
       this.signIdentifierDialog = null;
     }
+    if (this.helpFrame != null) {
+      this.helpFrame.dispose();
+      this.helpFrame = null;
+    }
   }
 
   /**
@@ -1812,7 +1814,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.findReplaceDialog.setTextArea(this.txaMain);
     }
     if (strSel != null && !strSel.isEmpty()) {
-      this.findReplaceDialog.setFindText(strSel, false);
+      this.findReplaceDialog.setFindText(strSel, true);
     }
     this.findReplaceDialog.findText(isFindDown);
   }
@@ -3061,6 +3063,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.aboutDialog.pack(); // 自动调整窗口大小，以适应各组件
     }
     this.aboutDialog.setVisible(true);
+  }
+
+  /**
+   * "帮助主题"的处理方法
+   */
+  private void showHelpFrame() {
+    if (this.helpFrame == null) {
+      this.helpFrame = new HelpFrame();
+    } else {
+      this.helpFrame.setVisible(true);
+      this.helpFrame.requestFocus();
+    }
   }
 
   /**
