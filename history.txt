@@ -770,3 +770,15 @@ src/Util.java
 res/help.png（添加）
 src/FindReplaceDialog.java
 src/Util.java
+
+2013-11-04
+1.添加“帮助主题”内容
+src/SnowPadFrame.java
+src/Util.java
+src/BaseTreeNode.java（添加）
+src/HelpFrame.java（添加）
+res/help.res（添加）
+
+******************************
+git tag SnowPad-V3.2-20131104
+******************************
