@@ -11,15 +11,15 @@
   <property name="package" value="com.xiboliya.snowpad"
     description="包名" />
   <property name="mainClass" value="SnowPad" description="主类名" />
-  <property name="resourceFrom" location="res" description="资源文件的源目录" />
-  <property name="resourceTo" location="${binDir}/res" description="资源文件的目标目录" />
+  <property name="resFromDir" location="res" description="资源文件的源目录" />
+  <property name="resToDir" location="${binDir}/res" description="资源文件的目标目录" />
   <target name="init" description="初始化">
     <delete dir="${binDir}" />
     <delete dir="${jarDir}" />
     <mkdir dir="${binDir}" />
     <mkdir dir="${jarDir}" />
-    <copy todir="${resourceTo}" description="复制资源文件">
-      <fileset dir="${resourceFrom}" />
+    <copy todir="${resToDir}" description="复制资源文件">
+      <fileset dir="${resFromDir}" />
     </copy>
   </target>
   <target name="compile" depends="init" description="编译代码">
@@ -45,6 +45,12 @@
         <include name="*.java" />
       </fileset>
     </javadoc>
+  </target>
+  <target name="zip" description="将项目打包成zip文件，以便于整包发布">
+    <delete file="${mainClass}.zip" />
+    <zip destfile="${mainClass}.zip" basedir="." excludes="**/Thumbs.db, ant/doc/**, **复件**/**, .git/**, .gitignore"
+      description="将源代码、资源与编译后的ant目录打包成zip文件">
+    </zip>
   </target>
   <target name="clean" description="清空编译生成的所有文件">
     <delete dir="${antDir}" />
