@@ -27,6 +27,7 @@ public class SnowPad {
           x.printStackTrace();
         }
         Util.setDefaultFont();
+        System.setProperty("java.awt.im.style", "on-the-spot"); // 去掉文本框输入中文时所弹出的输入窗口
         new SnowPadFrame(args); // 初始化界面的同时打开文件
       }
     });
