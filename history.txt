@@ -782,3 +782,11 @@ res/help.res（添加）
 ******************************
 git tag SnowPad-V3.2-20131104
 ******************************
+
+2013-11-05
+1.修改“关于”窗口的显示，添加“CSDN代码”的网址
+src/SnowPadFrame.java
+2.在build.xml部署文件中添加zip目标，可在命令行中执行ant zip将源代码、资源与编译后的ant目录打包成zip文件，以便于整包发布。
+build.xml
+3.去掉文本框输入中文时所弹出的输入窗口
+src/SnowPad.java
