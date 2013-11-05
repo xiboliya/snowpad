@@ -61,8 +61,9 @@ import java.util.LinkedList;
 /**
  * 冰雪记事本 打造一个与Windows的“记事本”功能相同的java版本。
  * 当然这只是最低要求，最终目标是实现一个可以同时在Windows和Linux下运行的增强型记事本。
- * 百度空间：http://hi.baidu.com/xiboliya 谷歌代码：http://code.google.com/p/snowpad
- * GitHub：https://github.com/xiboliya/snowpad
+ * 百度空间：http://hi.baidu.com/xiboliya GitHub：https://github.com/xiboliya/snowpad
+ * CSDN代码：https://code.csdn.net/chenzhengfeng/snowpad
+ * 谷歌代码：http://code.google.com/p/snowpad
  * 
  * @author 冰原
  * 
@@ -227,7 +228,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuLookAndFeel = new JMenu("切换外观(K)");
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
-  private JMenuItem itemAbout = new JMenuItem("关于记事本(A)", 'A');
+  private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
   private JPopupMenu popMenuMain = new JPopupMenu();
   private JMenuItem itemPopUnDo = new JMenuItem("撤销(U)", 'U');
   private JMenuItem itemPopReDo = new JMenuItem("重做(Y)", 'Y');
@@ -3044,22 +3045,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void showAbout() {
     if (this.aboutDialog == null) {
       final String strBaiduSpace = "http://hi.baidu.com/xiboliya";
-      final String strGoogleCode = "http://code.google.com/p/snowpad";
       final String strGithubCode = "https://github.com/xiboliya/snowpad";
+      final String strCsdnCode = "https://code.csdn.net/chenzhengfeng/snowpad";
+      final String strGoogleCode = "http://code.google.com/p/snowpad";
       String[] arrStrLabel = new String[] {
           "软件名称：" + Util.SOFTWARE,
           "软件版本：" + Util.VERSION,
           "软件作者：冰原",
           "<html>百度空间：<a href='" + strBaiduSpace + "'>" + strBaiduSpace
               + "</a></html>",
-          "<html>谷歌代码：<a href='" + strGoogleCode + "'>" + strGoogleCode
-              + "</a></html>",
           "<html>GitHub：<a href='" + strGithubCode + "'>" + strGithubCode
-              + "</a></html>", "软件版权：此为自由软件可以任意引用或修改" };
+              + "</a></html>",
+          "<html>CSDN代码：<a href='" + strCsdnCode + "'>" + strCsdnCode
+              + "</a></html>",
+          "<html>谷歌代码：<a href='" + strGoogleCode + "'>" + strGoogleCode
+              + "</a>(只更新到V3.1)</html>", "软件版权：此为自由软件可以任意引用或修改" };
       this.aboutDialog = new AboutDialog(this, true, arrStrLabel, Util.SW_ICON);
       this.aboutDialog.addLinkByIndex(3, strBaiduSpace);
-      this.aboutDialog.addLinkByIndex(4, strGoogleCode);
-      this.aboutDialog.addLinkByIndex(5, strGithubCode);
+      this.aboutDialog.addLinkByIndex(4, strGithubCode);
+      this.aboutDialog.addLinkByIndex(5, strCsdnCode);
+      this.aboutDialog.addLinkByIndex(6, strGoogleCode);
       this.aboutDialog.pack(); // 自动调整窗口大小，以适应各组件
     }
     this.aboutDialog.setVisible(true);
