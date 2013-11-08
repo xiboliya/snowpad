@@ -790,3 +790,8 @@ src/SnowPadFrame.java
 build.xml
 3.去掉文本框输入中文时所弹出的输入窗口
 src/SnowPad.java
+
+2013-11-08
+1.添加GNU GPL（即GNU General Public Licence）第三版开源许可协议的完整文字版，并在所有java源代码文件开头添加相关的版权说明。
+src/*.java
+licenses/GPLv3.txt（添加）
