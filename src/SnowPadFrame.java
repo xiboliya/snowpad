@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2013 冰原
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.xiboliya.snowpad;
 
 import javax.swing.AbstractButton;
@@ -3059,7 +3076,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           "<html>CSDN代码：<a href='" + strCsdnCode + "'>" + strCsdnCode
               + "</a></html>",
           "<html>谷歌代码：<a href='" + strGoogleCode + "'>" + strGoogleCode
-              + "</a>(只更新到V3.1)</html>", "软件版权：此为自由软件可以任意引用或修改" };
+              + "</a>(只更新到V3.1)</html>", "软件版权：遵循GNU GPL第三版开源许可协议的相关条款" };
       this.aboutDialog = new AboutDialog(this, true, arrStrLabel, Util.SW_ICON);
       this.aboutDialog.addLinkByIndex(3, strBaiduSpace);
       this.aboutDialog.addLinkByIndex(4, strGithubCode);
