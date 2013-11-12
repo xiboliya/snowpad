@@ -795,3 +795,8 @@ src/SnowPad.java
 1.添加GNU GPL（即GNU General Public Licence）第三版开源许可协议的完整文字版，并在所有java源代码文件开头添加相关的版权说明。
 src/*.java
 licenses/GPLv3.txt（添加）
+
+2013-11-12
+1.在“批处理行”中添加“逐行复写”功能
+src/SnowPadFrame.java
+res/help.res
