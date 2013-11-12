@@ -104,8 +104,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemCloseOther = new JMenuItem("关闭其它(T)", 'T');
   private JMenuItem itemCloseAll = new JMenuItem("关闭全部(Q)", 'Q');
   private JMenuItem itemDelFile = new JMenuItem("删除当前文件(D)", 'D');
-  private JMenu menuFileHistory = new JMenu("最近编辑");
-  private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表");
+  private JMenu menuFileHistory = new JMenu("最近编辑(H)");
+  private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表(Y)", 'Y');
   private JMenuItem itemExit = new JMenuItem("退出(X)", 'X');
   private JMenu menuEdit = new JMenu("编辑(E)");
   private JMenuItem itemUnDo = new JMenuItem("撤销(U)", 'U');
@@ -118,9 +118,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemCaseUp = new JMenuItem("切换为大写");
   private JMenuItem itemCaseLow = new JMenuItem("切换为小写");
   private JMenu menuCopyToClip = new JMenu("复制到剪贴板");
-  private JMenuItem itemToCopyFileName = new JMenuItem("当前文件名");
-  private JMenuItem itemToCopyFilePath = new JMenuItem("当前文件路径");
-  private JMenuItem itemToCopyDirPath = new JMenuItem("当前目录路径");
+  private JMenuItem itemToCopyFileName = new JMenuItem("当前文件名(F)", 'F');
+  private JMenuItem itemToCopyFilePath = new JMenuItem("当前文件路径(P)", 'P');
+  private JMenuItem itemToCopyDirPath = new JMenuItem("当前目录路径(I)", 'I');
   private JMenuItem itemToCopyAllText = new JMenuItem("所有文本");
   private JMenu menuLine = new JMenu("操作行");
   private JMenuItem itemLineCopy = new JMenuItem("复写当前行");
@@ -136,6 +136,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemLineBatchInsert = new JMenuItem("插入(I)...", 'I');
   private JMenuItem itemLineBatchSeparate = new JMenuItem("分割行(S)...", 'S');
   private JMenuItem itemLineBatchMerge = new JMenuItem("合并行(M)", 'M');
+  private JMenuItem itemLineBatchRewrite = new JMenuItem("逐行复写(C)", 'C');
   private JMenu menuSort = new JMenu("排序");
   private JMenuItem itemSortUp = new JMenuItem("升序");
   private JMenuItem itemSortDown = new JMenuItem("降序");
@@ -163,7 +164,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemFindPrevious = new JMenuItem("查找上一个(P)", 'P');
   private JMenuItem itemSelFindNext = new JMenuItem("选定查找下一个(T)", 'T');
   private JMenuItem itemSelFindPrevious = new JMenuItem("选定查找上一个(S)", 'S');
-  private JMenu menuQuickFind = new JMenu("快速查找");
+  private JMenu menuQuickFind = new JMenu("快速查找(Q)");
   private JMenuItem itemQuickFindDown = new JMenuItem("快速向下查找");
   private JMenuItem itemQuickFindUp = new JMenuItem("快速向上查找");
   private JMenuItem itemReplace = new JMenuItem("替换(R)...", 'R');
@@ -431,6 +432,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineBatchInsert.addActionListener(this);
     this.itemLineBatchSeparate.addActionListener(this);
     this.itemLineBatchMerge.addActionListener(this);
+    this.itemLineBatchRewrite.addActionListener(this);
     this.itemTrimStart.addActionListener(this);
     this.itemTrimEnd.addActionListener(this);
     this.itemTrimAll.addActionListener(this);
@@ -715,6 +717,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLineBatch.add(this.itemLineBatchInsert);
     this.menuLineBatch.add(this.itemLineBatchSeparate);
     this.menuLineBatch.add(this.itemLineBatchMerge);
+    this.menuLineBatch.add(this.itemLineBatchRewrite);
     this.menuEdit.add(this.menuSort);
     this.menuSort.add(this.itemSortUp);
     this.menuSort.add(this.itemSortDown);
@@ -908,6 +911,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineBatchInsert.setEnabled(false);
     this.itemLineBatchSeparate.setEnabled(false);
     this.itemLineBatchMerge.setEnabled(false);
+    this.itemLineBatchRewrite.setEnabled(false);
     this.itemReplace.setEnabled(false);
     this.itemGoto.setEnabled(false);
     this.itemTrimSelected.setEnabled(false);
@@ -986,6 +990,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineBatchInsert.setEnabled(isExist);
     this.itemLineBatchSeparate.setEnabled(isExist);
     this.itemLineBatchMerge.setEnabled(isExist);
+    this.itemLineBatchRewrite.setEnabled(isExist);
     this.itemFind.setEnabled(isExist);
     this.itemFindNext.setEnabled(isExist);
     this.itemFindPrevious.setEnabled(isExist);
@@ -1048,7 +1053,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuFile.setMnemonic('F');
     this.menuHelp.setMnemonic('H');
     this.menuEdit.setMnemonic('E');
+    this.menuFileHistory.setMnemonic('H');
     this.menuSearch.setMnemonic('S');
+    this.menuQuickFind.setMnemonic('Q');
     this.menuStyle.setMnemonic('O');
     this.menuView.setMnemonic('V');
     this.menuLineStyle.setMnemonic('S');
@@ -1191,6 +1198,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+P
     this.itemLineBatchMerge.setAccelerator(KeyStroke.getKeyStroke('M',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+M
+    this.itemLineBatchRewrite.setAccelerator(KeyStroke.getKeyStroke('W',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+W
   }
 
   /**
@@ -1274,6 +1283,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openBatchSeparateDialog();
     } else if (this.itemLineBatchMerge.equals(e.getSource())) {
       this.mergeLines();
+    } else if (this.itemLineBatchRewrite.equals(e.getSource())) {
+      this.rewriteLines();
     } else if (this.itemSortUp.equals(e.getSource())) {
       this.sortLines(true);
     } else if (this.itemSortDown.equals(e.getSource())) {
@@ -1745,6 +1756,25 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       stbLines.append(str);
     }
     this.txaMain.replaceSelection(stbLines.toString());
+    this.txaMain.select(startIndex, startIndex + stbLines.length());
+  }
+
+  /**
+   * 批处理"逐行复写"的处理方法
+   */
+  private void rewriteLines() {
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain);
+    if (arrText.length <= 0) {
+      return;
+    }
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int startIndex = currentLines.getStartIndex();
+    StringBuilder stbLines = new StringBuilder();
+    for (String str : arrText) {
+      stbLines.append(str + str + "\n");
+    }
+    this.txaMain.replaceSelection(stbLines.deleteCharAt(stbLines.length() - 1)
+        .toString());
     this.txaMain.select(startIndex, startIndex + stbLines.length());
   }
 
