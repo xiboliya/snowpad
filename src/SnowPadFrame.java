@@ -4016,11 +4016,134 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * 查找当前光标处的括号的匹配括号所在的索引值
+   * 
+   * @param charLeft
+   *          当前光标之前的字符
+   * @param currentIndex
+   *          当前的光标的插入点索引值
+   * @param strMain
+   *          当前文本域的文本
+   */
+  private int getBracketTargetIndex(char charLeft, int currentIndex,
+      String strMain) {
+    int targetIndex = -1; // 查找到的匹配括号所在的索引值
+    int style = -1; // 待匹配括号的类型，目前主要有几种括号：()[]{}<>
+    boolean isLeft = true; // 当前光标处的字符是否是左边的括号
+    char charTarget = ' ';
+    style = Util.BRACKETS_LEFT.indexOf(charLeft);
+    if (style >= 0) {
+      charTarget = Util.BRACKETS_RIGHT.charAt(style);
+    } else {
+      style = Util.BRACKETS_RIGHT.indexOf(charLeft);
+      if (style >= 0) {
+        isLeft = false;
+        charTarget = Util.BRACKETS_LEFT.charAt(style);
+      }
+    }
+    if (style < 0) { // 如果不是上述几种括号，则返回
+      return targetIndex;
+    }
+    String tempText = strMain.substring(currentIndex);
+    if (isLeft) {
+      targetIndex = tempText.indexOf(charTarget);
+      if (targetIndex >= 0) {
+        targetIndex += currentIndex;
+      }
+    } else {
+      tempText = strMain.substring(0, currentIndex + 1);
+      targetIndex = tempText.lastIndexOf(charTarget);
+    }
+    if (targetIndex < 0) { // 如果第1次没有找到匹配的括号，则返回
+      return targetIndex;
+    }
+    int timesLeft = 0; // 左括号出现次数
+    int timesRight = 0; // 右括号出现次数
+    int index = 0; // 临时索引值
+    boolean label = false; // 是否查找到匹配的括号
+    if (isLeft) {
+      for (index = 0; index < tempText.length(); index++) {
+        char charTemp = tempText.charAt(index);
+        if (charTemp == charLeft) {
+          timesLeft++;
+        } else if (charTemp == charTarget) {
+          timesRight++;
+          if (timesLeft == timesRight) {
+            label = true;
+            break;
+          }
+        }
+      }
+      if (label) {
+        targetIndex = currentIndex + index;
+      }
+    } else {
+      for (index = tempText.length() - 1; index >= 0; index--) {
+        char charTemp = tempText.charAt(index);
+        if (charTemp == charLeft) {
+          timesRight++;
+        } else if (charTemp == charTarget) {
+          timesLeft++;
+          if (timesLeft == timesRight) {
+            label = true;
+            break;
+          }
+        }
+      }
+      if (label) {
+        targetIndex = index;
+      }
+    }
+    if (!label) {
+      targetIndex = -1;
+    }
+    return targetIndex;
+  }
+
+  /**
+   * 查找当前光标处的括号的匹配括号，并进行高亮显示
+   */
+  private void searchTargetBracket() {
+    this.rmHighlight(Util.BRACKET_COLOR_STYLE); // 取消上一次的括号匹配高亮
+    String strMain = this.txaMain.getText();
+    char charLeft = ' '; // 当前光标左侧的字符
+    int currentIndex = this.txaMain.getCaretPosition(); // 将要匹配的括号的索引值
+    currentIndex--;
+    int targetIndex = -1; // 查找到的匹配括号所在的索引值
+    if (currentIndex >= 0) {
+      charLeft = strMain.charAt(currentIndex);
+    }
+    targetIndex = this.getBracketTargetIndex(charLeft, currentIndex, strMain);
+    if (targetIndex < 0) {
+      return;
+    }
+    try {
+      this.txaMain.getHighlighter().addHighlight(currentIndex,
+          currentIndex + 1,
+          new DefaultHighlighter.DefaultHighlightPainter(Util.COLOR_BRACKET));
+      Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter()
+          .getHighlights();
+      this.txaMain.getHighlighterList().add(
+          new PartnerBean(arrHighlight[arrHighlight.length - 1],
+              Util.BRACKET_COLOR_STYLE));
+      this.txaMain.getHighlighter().addHighlight(targetIndex, targetIndex + 1,
+          new DefaultHighlighter.DefaultHighlightPainter(Util.COLOR_BRACKET));
+      arrHighlight = this.txaMain.getHighlighter().getHighlights();
+      this.txaMain.getHighlighterList().add(
+          new PartnerBean(arrHighlight[arrHighlight.length - 1],
+              Util.BRACKET_COLOR_STYLE));
+    } catch (BadLocationException x) {
+      x.printStackTrace();
+    }
+  }
+
+  /**
    * 当文本域中的光标变化时，将触发此事件
    */
   public void caretUpdate(CaretEvent e) {
     this.updateStateCur();
     this.setMenuStateBySelectedText();
+    this.searchTargetBracket();
   }
 
   /**
