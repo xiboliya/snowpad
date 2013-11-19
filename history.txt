@@ -800,3 +800,8 @@ licenses/GPLv3.txt（添加）
 1.在“批处理行”中添加“逐行复写”功能
 src/SnowPadFrame.java
 res/help.res
+
+2013-11-19
+1.当光标位置在文本域中变化时，如果当前光标处的字符是如下几种括号：()[]{}<>时，则自动查找并高亮显示所匹配的另一半括号。
+src/SnowPadFrame.java
+src/Util.java
