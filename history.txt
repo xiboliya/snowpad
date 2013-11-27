@@ -805,3 +805,7 @@ res/help.res
 1.当光标位置在文本域中变化时，如果当前光标处的字符是如下几种括号：()[]{}<>时，则自动查找并高亮显示所匹配的另一半括号。
 src/SnowPadFrame.java
 src/Util.java
+
+2013-11-27
+1.完善括号自动匹配并高亮的功能。
+src/SnowPadFrame.java
