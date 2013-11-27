@@ -4016,26 +4016,30 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * 查找当前光标处的括号的匹配括号所在的索引值
+   * 查找当前光标处括号的匹配括号所在的索引值
    * 
-   * @param charLeft
-   *          当前光标之前的字符
+   * @param charCurrent
+   *          当前光标处的字符
    * @param currentIndex
-   *          当前的光标的插入点索引值
+   *          当前光标插入点的索引值
    * @param strMain
    *          当前文本域的文本
+   * @return 匹配括号的索引值。如果未找到匹配括号，则返回-1
    */
-  private int getBracketTargetIndex(char charLeft, int currentIndex,
+  private int getBracketTargetIndex(char charCurrent, int currentIndex,
       String strMain) {
     int targetIndex = -1; // 查找到的匹配括号所在的索引值
+    if (charCurrent == ' ') {
+      return targetIndex;
+    }
     int style = -1; // 待匹配括号的类型，目前主要有几种括号：()[]{}<>
     boolean isLeft = true; // 当前光标处的字符是否是左边的括号
     char charTarget = ' ';
-    style = Util.BRACKETS_LEFT.indexOf(charLeft);
+    style = Util.BRACKETS_LEFT.indexOf(charCurrent);
     if (style >= 0) {
       charTarget = Util.BRACKETS_RIGHT.charAt(style);
     } else {
-      style = Util.BRACKETS_RIGHT.indexOf(charLeft);
+      style = Util.BRACKETS_RIGHT.indexOf(charCurrent);
       if (style >= 0) {
         isLeft = false;
         charTarget = Util.BRACKETS_LEFT.charAt(style);
@@ -4064,7 +4068,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (isLeft) {
       for (index = 0; index < tempText.length(); index++) {
         char charTemp = tempText.charAt(index);
-        if (charTemp == charLeft) {
+        if (charTemp == charCurrent) {
           timesLeft++;
         } else if (charTemp == charTarget) {
           timesRight++;
@@ -4080,7 +4084,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       for (index = tempText.length() - 1; index >= 0; index--) {
         char charTemp = tempText.charAt(index);
-        if (charTemp == charLeft) {
+        if (charTemp == charCurrent) {
           timesRight++;
         } else if (charTemp == charTarget) {
           timesLeft++;
@@ -4107,15 +4111,23 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.rmHighlight(Util.BRACKET_COLOR_STYLE); // 取消上一次的括号匹配高亮
     String strMain = this.txaMain.getText();
     char charLeft = ' '; // 当前光标左侧的字符
+    char charRight = ' '; // 当前光标右侧的字符
     int currentIndex = this.txaMain.getCaretPosition(); // 将要匹配的括号的索引值
     currentIndex--;
     int targetIndex = -1; // 查找到的匹配括号所在的索引值
     if (currentIndex >= 0) {
       charLeft = strMain.charAt(currentIndex);
     }
+    if (currentIndex < strMain.length() - 1) {
+      charRight = strMain.charAt(currentIndex + 1);
+    }
     targetIndex = this.getBracketTargetIndex(charLeft, currentIndex, strMain);
     if (targetIndex < 0) {
-      return;
+      targetIndex = this.getBracketTargetIndex(charRight, ++currentIndex,
+          strMain);
+      if (targetIndex < 0) {
+        return;
+      }
     }
     try {
       this.txaMain.getHighlighter().addHighlight(currentIndex,
