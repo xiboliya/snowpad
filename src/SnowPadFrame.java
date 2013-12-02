@@ -1077,7 +1077,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCommentForBlock.setEnabled(hasBlock);
     this.itemPopCommentForBlock.setEnabled(hasBlock);
   }
-  
+
   /**
    * 为各菜单项设置助记符和快捷键
    */
@@ -1557,7 +1557,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (label) {
       strContent = strContent + "\n";
     }
-    this.txaMain.replaceRange(strContent, startIndex, currentLines.getEndIndex());
+    this.txaMain.replaceRange(strContent, startIndex, currentLines
+        .getEndIndex());
     this.txaMain.select(startIndex, startIndex + strContent.length());
   }
 
@@ -1582,7 +1583,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (label) {
       strContent = strContent + "\n";
     }
-    this.txaMain.replaceRange(strContent, startIndex, currentLines.getEndIndex());
+    this.txaMain.replaceRange(strContent, startIndex, currentLines
+        .getEndIndex());
     this.txaMain.select(startIndex, startIndex + strContent.length());
   }
 
@@ -3319,7 +3321,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     return fileExt;
   }
-  
+
   /**
    * 新建文件时，重新设置文件序号
    * 
