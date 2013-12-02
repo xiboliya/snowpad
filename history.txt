@@ -809,3 +809,10 @@ src/Util.java
 2013-11-27
 1.完善括号自动匹配并高亮的功能。
 src/SnowPadFrame.java
+
+2013-12-02
+1.在“编辑”菜单下添加“添加注释”功能，并在右键菜单中同步添加。包括“单行注释”和“区块注释”。
+src/BaseTextArea.java
+src/FileExt.java
+src/SnowPadFrame.java
+res/help.res
