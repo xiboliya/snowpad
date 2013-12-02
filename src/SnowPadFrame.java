@@ -151,6 +151,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuDelNullLine = new JMenu("删除空行");
   private JMenuItem itemDelNullLineAll = new JMenuItem("全文范围");
   private JMenuItem itemDelNullLineSelected = new JMenuItem("选区范围");
+  private JMenu menuComment = new JMenu("添加注释(M)");
+  private JMenuItem itemCommentForLine = new JMenuItem("单行注释(L)", 'L');
+  private JMenuItem itemCommentForBlock = new JMenuItem("区块注释(B)", 'B');
   private JMenuItem itemSelAll = new JMenuItem("全选(A)", 'A');
   private JMenu menuInsert = new JMenu("插入(I)");
   private JMenuItem itemInsertDateTime = new JMenuItem("时间/日期(D)...", 'D');
@@ -268,6 +271,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemPopRmHighlight4 = new JMenuItem("格式(4)", '4');
   private JMenuItem itemPopRmHighlight5 = new JMenuItem("格式(5)", '5');
   private JMenuItem itemPopRmHighlightAll = new JMenuItem("所有格式(0)", '0');
+  private JMenuItem itemPopCommentForLine = new JMenuItem("单行注释(L)", 'L');
+  private JMenuItem itemPopCommentForBlock = new JMenuItem("区块注释(B)", 'B');
   private JPopupMenu popMenuTabbed = new JPopupMenu();
   private JMenuItem itemPopCloseCurrent = new JMenuItem("关闭当前(C)", 'C');
   private JMenuItem itemPopCloseOthers = new JMenuItem("关闭其它(O)", 'O');
@@ -439,6 +444,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTrimSelected.addActionListener(this);
     this.itemDelNullLineAll.addActionListener(this);
     this.itemDelNullLineSelected.addActionListener(this);
+    this.itemCommentForLine.addActionListener(this);
+    this.itemCommentForBlock.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -510,6 +517,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopRmHighlight4.addActionListener(this);
     this.itemPopRmHighlight5.addActionListener(this);
     this.itemPopRmHighlightAll.addActionListener(this);
+    this.itemPopCommentForLine.addActionListener(this);
+    this.itemPopCommentForBlock.addActionListener(this);
     this.itemPopCloseCurrent.addActionListener(this);
     this.itemPopCloseOthers.addActionListener(this);
     this.itemPopSave.addActionListener(this);
@@ -733,6 +742,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuDelNullLine);
     this.menuDelNullLine.add(this.itemDelNullLineAll);
     this.menuDelNullLine.add(this.itemDelNullLineSelected);
+    this.menuEdit.add(this.menuComment);
+    this.menuComment.add(this.itemCommentForLine);
+    this.menuComment.add(this.itemCommentForBlock);
     this.menuEdit.add(this.menuInsert);
     this.menuInsert.add(this.itemInsertChar);
     this.menuInsert.add(this.itemInsertDateTime);
@@ -863,6 +875,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuPopRmHighlight.add(itemPopRmHighlight5);
     this.menuPopRmHighlight.addSeparator();
     this.menuPopRmHighlight.add(itemPopRmHighlightAll);
+    this.popMenuMain.add(this.itemPopCommentForLine);
+    this.popMenuMain.add(this.itemPopCommentForBlock);
     Dimension popSize = this.popMenuMain.getPreferredSize();
     popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
     this.popMenuMain.setPopupSize(popSize);
@@ -1047,6 +1061,24 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * 设置单行注释与区块注释菜单项的状态
+   */
+  private void setMenuStateComment() {
+    boolean hasLine = true;
+    boolean hasBlock = true;
+    if (this.txaMain.getFileExt().getCommentForLine() == null) {
+      hasLine = false;
+    }
+    if (this.txaMain.getFileExt().getCommentForBlockBegin() == null) {
+      hasBlock = false;
+    }
+    this.itemCommentForLine.setEnabled(hasLine);
+    this.itemPopCommentForLine.setEnabled(hasLine);
+    this.itemCommentForBlock.setEnabled(hasBlock);
+    this.itemPopCommentForBlock.setEnabled(hasBlock);
+  }
+  
+  /**
    * 为各菜单项设置助记符和快捷键
    */
   private void setMenuMnemonic() {
@@ -1069,6 +1101,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCharsetULE.setMnemonic('L');
     this.itemCharsetUBE.setMnemonic('B');
     this.menuInsert.setMnemonic('I');
+    this.menuComment.setMnemonic('M');
     this.itemLineWrap.setMnemonic('W');
     this.menuLineWrapStyle.setMnemonic('L');
     this.itemLineWrapByWord.setMnemonic('W');
@@ -1166,6 +1199,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+A
     this.itemDelNullLineSelected.setAccelerator(KeyStroke.getKeyStroke('S',
         InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+S
+    this.itemCommentForLine.setAccelerator(KeyStroke.getKeyStroke('L',
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+L
+    this.itemCommentForBlock.setAccelerator(KeyStroke.getKeyStroke('M',
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+M
     this.itemSelAll.setAccelerator(KeyStroke.getKeyStroke('A',
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+A
     this.itemInsertDateTime.setAccelerator(KeyStroke.getKeyStroke(
@@ -1479,6 +1516,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemRmHighlightAll.equals(e.getSource())
         || this.itemPopRmHighlightAll.equals(e.getSource())) {
       this.rmHighlight(0);
+    } else if (this.itemCommentForLine.equals(e.getSource())
+        || this.itemPopCommentForLine.equals(e.getSource())) {
+      this.setCommentForLine();
+    } else if (this.itemCommentForBlock.equals(e.getSource())
+        || this.itemPopCommentForBlock.equals(e.getSource())) {
+      this.setCommentForBlock();
     } else if (this.itemTabSet.equals(e.getSource())) {
       this.openTabSetDialog();
     } else if (this.itemClearFileHistory.equals(e.getSource())) {
@@ -1492,6 +1535,55 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
     }
+  }
+
+  /**
+   * "单行注释"的处理方法
+   */
+  private void setCommentForLine() {
+    String comment = this.txaMain.getFileExt().getCommentForLine();
+    if (comment == null) {
+      return;
+    }
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int startIndex = currentLines.getStartIndex();
+    String strContent = currentLines.getStrContent();
+    boolean label = false;
+    if (strContent.endsWith("\n")) {
+      strContent = strContent.substring(0, strContent.length() - 1);
+      label = true;
+    }
+    strContent = comment + strContent.replaceAll("\n", "\n" + comment);
+    if (label) {
+      strContent = strContent + "\n";
+    }
+    this.txaMain.replaceRange(strContent, startIndex, currentLines.getEndIndex());
+    this.txaMain.select(startIndex, startIndex + strContent.length());
+  }
+
+  /**
+   * "区块注释"的处理方法
+   */
+  private void setCommentForBlock() {
+    String commentBegin = this.txaMain.getFileExt().getCommentForBlockBegin();
+    if (commentBegin == null) {
+      return;
+    }
+    String commentEnd = this.txaMain.getFileExt().getCommentForBlockEnd();
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int startIndex = currentLines.getStartIndex();
+    String strContent = currentLines.getStrContent();
+    boolean label = false;
+    if (strContent.endsWith("\n")) {
+      strContent = strContent.substring(0, strContent.length() - 1);
+      label = true;
+    }
+    strContent = commentBegin + strContent + commentEnd;
+    if (label) {
+      strContent = strContent + "\n";
+    }
+    this.txaMain.replaceRange(strContent, startIndex, currentLines.getEndIndex());
+    this.txaMain.select(startIndex, startIndex + strContent.length());
   }
 
   /**
@@ -3106,7 +3198,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           "<html>CSDN代码：<a href='" + strCsdnCode + "'>" + strCsdnCode
               + "</a></html>",
           "<html>谷歌代码：<a href='" + strGoogleCode + "'>" + strGoogleCode
-              + "</a>(只更新到V3.1)</html>", "软件版权：遵循GNU GPL第三版开源许可协议的相关条款" };
+              + "</a></html>", "软件版权：遵循GNU GPL第三版开源许可协议的相关条款" };
       this.aboutDialog = new AboutDialog(this, true, arrStrLabel, Util.SW_ICON);
       this.aboutDialog.addLinkByIndex(3, strBaiduSpace);
       this.aboutDialog.addLinkByIndex(4, strGithubCode);
@@ -3186,6 +3278,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     ImageIcon tabIcon = Util.TAB_NEW_FILE_ICON;
     if (file != null) {
       title = file.getName();
+      txaNew.setFileExt(this.getFileExtByName(title));
       txaNew.setFile(file);
       if (file.canWrite()) {
         tabIcon = Util.TAB_EXIST_CURRENT_ICON;
@@ -3205,8 +3298,28 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.textAreaList.add(txaNew);
     this.setLineNumberForNew();
     this.addTextAreaMouseListener();
+    this.setMenuStateComment();
   }
 
+  /**
+   * 获取当前编辑的文件扩展名类型
+   * 
+   * @param fileName
+   *          当前编辑的文件名
+   * @return 用于标识文件扩展名类型
+   */
+  private FileExt getFileExtByName(String fileName) {
+    FileExt[] arrFileExt = FileExt.values(); // 获取包含枚举所有成员的数组
+    FileExt fileExt = FileExt.TXT; // 当前的文件类型
+    for (FileExt tempFileExt : arrFileExt) {
+      if (fileName.toLowerCase().endsWith(tempFileExt.toString().toLowerCase())) {
+        fileExt = tempFileExt;
+        break;
+      }
+    }
+    return fileExt;
+  }
+  
   /**
    * 新建文件时，重新设置文件序号
    * 
@@ -3709,6 +3822,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
       this.txaMain.setFileExistsLabel(true);
       this.txaMain.setNewFileIndex(0);
+      this.txaMain.setFileExt(this.getFileExtByName(file.getName()));
+      this.setMenuStateComment();
       if (file.canWrite()) {
         this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
             Util.TAB_EXIST_CURRENT_ICON);
@@ -3851,6 +3966,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       fileOutputStream.write(byteStr);
       this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
       this.txaMain.setFileExistsLabel(true);
+      this.txaMain.setFileExt(this.getFileExtByName(file.getName()));
+      this.setMenuStateComment();
     } catch (Exception x) {
       x.printStackTrace();
     } finally {
@@ -4265,6 +4382,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setTextAreaInDialogs();
         this.undoManager = this.txaMain.getUndoManager();
         this.setMenuStateUndoRedo();
+        this.setMenuStateComment();
         this.setMenuStateByTextArea();
         this.setMenuStateBySelectedText();
       }

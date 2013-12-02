@@ -18,7 +18,7 @@
 package com.xiboliya.snowpad;
 
 /**
- * 用于标识文件扩展名的枚举
+ * 用于标识文件扩展名类型的枚举
  * 
  * @author 冰原
  * 
@@ -310,4 +310,164 @@ public enum FileExt {
       return "普通文本文件(.txt)";
     }
   }
+
+  /**
+   * 获取当前文件类型的单行注释字符串
+   * 
+   * @return 单行注释字符串
+   */
+  public String getCommentForLine() {
+    switch (this) {
+    case ADA:
+    case LUA:
+    case SQL:
+      return "-- ";
+    case C:
+    case CPP:
+    case CS:
+    case H:
+    case JAVA:
+    case JS:
+    case JSP:
+    case M:
+    case PAS:
+    case PHP:
+      return "// ";
+    case INF:
+    case INI:
+    case LISP:
+    case REG:
+      return "; ";
+    case MK:
+    case PL:
+    case PY:
+    case RB:
+    case SH:
+      return "# ";
+    case BAT:
+      return ":: ";
+    case ASP:
+    case VB:
+      return "' ";
+    case CSS:
+    case HTM:
+    case HTML:
+    case LOG:
+    case PATCH:
+    case ST:
+    case TXT:
+    case XML:
+    default:
+      return null;
+    }
+  }
+
+  /**
+   * 获取当前文件类型的区块注释首部字符串
+   * 
+   * @return 区块注释首部字符串
+   */
+  public String getCommentForBlockBegin() {
+    switch (this) {
+    case C:
+    case CPP:
+    case CS:
+    case CSS:
+    case H:
+    case JAVA:
+    case JS:
+    case JSP:
+    case M:
+    case PHP:
+    case SQL:
+      return "/* ";
+    case HTM:
+    case HTML:
+    case XML:
+      return "<!-- ";
+    case LUA:
+      return "--[[ ";
+    case PAS:
+      return "{ ";
+    case PL:
+      return "=pod\n";
+    case PY:
+      return "''' ";
+    case RB:
+      return "==begin\n";
+    case SH:
+      return ":<<'COMMENT'\n";
+    case ST:
+      return "\" ";
+    case ADA:
+    case ASP:
+    case BAT:
+    case INF:
+    case INI:
+    case LISP:
+    case LOG:
+    case MK:
+    case PATCH:
+    case REG:
+    case TXT:
+    case VB:
+    default:
+      return null;
+    }
+  }
+
+  /**
+   * 获取当前文件类型的区块注释尾部字符串
+   * 
+   * @return 区块注释尾部字符串
+   */
+  public String getCommentForBlockEnd() {
+    switch (this) {
+    case C:
+    case CPP:
+    case CS:
+    case CSS:
+    case H:
+    case JAVA:
+    case JS:
+    case JSP:
+    case M:
+    case PHP:
+    case SQL:
+      return " */";
+    case HTM:
+    case HTML:
+    case XML:
+      return " -->";
+    case LUA:
+      return " --]]";
+    case PAS:
+      return "{ ";
+    case PL:
+      return "\n=cut";
+    case PY:
+      return " '''";
+    case RB:
+      return "\n==end";
+    case SH:
+      return "\nCOMMENT";
+    case ST:
+      return " \"";
+    case ADA:
+    case ASP:
+    case BAT:
+    case INF:
+    case INI:
+    case LISP:
+    case LOG:
+    case MK:
+    case PATCH:
+    case REG:
+    case TXT:
+    case VB:
+    default:
+      return null;
+    }
+  }
+
 }
