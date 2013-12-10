@@ -53,6 +53,10 @@ public enum FileExt {
    */
   CSS,
   /**
+   * Go语言源文件
+   */
+  GO,
+  /**
    * C/C++ Head(C/C++语言头文件)
    */
   H,
@@ -176,6 +180,8 @@ public enum FileExt {
       return ".cs";
     case CSS:
       return ".css";
+    case GO:
+      return ".go";
     case H:
       return ".h";
     case HTM:
@@ -254,6 +260,8 @@ public enum FileExt {
       return "C#语言源文件(.cs)";
     case CSS:
       return "层叠样式表文件(.css)";
+    case GO:
+      return "Go语言源文件(.go)";
     case H:
       return "C/C++语言头文件(.h)";
     case HTM:
@@ -325,6 +333,7 @@ public enum FileExt {
     case C:
     case CPP:
     case CS:
+    case GO:
     case H:
     case JAVA:
     case JS:
@@ -373,6 +382,7 @@ public enum FileExt {
     case CPP:
     case CS:
     case CSS:
+    case GO:
     case H:
     case JAVA:
     case JS:
@@ -427,6 +437,7 @@ public enum FileExt {
     case CPP:
     case CS:
     case CSS:
+    case GO:
     case H:
     case JAVA:
     case JS:
