@@ -816,3 +816,8 @@ src/BaseTextArea.java
 src/FileExt.java
 src/SnowPadFrame.java
 res/help.res
+
+2013-12-10
+1.文件选择器中添加对Go语言源文件的支持
+src/FileExt.java
+res/help.res
