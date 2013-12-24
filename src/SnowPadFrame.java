@@ -172,6 +172,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemQuickFindUp = new JMenuItem("快速向上查找");
   private JMenuItem itemReplace = new JMenuItem("替换(R)...", 'R');
   private JMenuItem itemGoto = new JMenuItem("转到(G)...", 'G');
+  private JMenuItem itemFindBracket = new JMenuItem("定位匹配括号(B)", 'B');
   private JMenu menuStyle = new JMenu("格式(O)");
   private JMenu menuLineWrapStyle = new JMenu("换行方式(L)");
   private JRadioButtonMenuItem itemLineWrapByWord = new JRadioButtonMenuItem(
@@ -303,6 +304,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private Setting setting = new Setting(); // 文本域参数配置类
   private boolean clickToClose = true; // 是否双击关闭当前标签
   private static boolean checking = false; // 是否正在检测所有文件的状态
+  private int targetBracketIndex = -1; // 匹配括号的索引值
 
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private SaveFileChooser saveFileChooser = null; // "保存"文件选择器
@@ -415,6 +417,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFont.addActionListener(this);
     this.itemTabSet.addActionListener(this);
     this.itemGoto.addActionListener(this);
+    this.itemFindBracket.addActionListener(this);
     this.itemToCopyFileName.addActionListener(this);
     this.itemToCopyFilePath.addActionListener(this);
     this.itemToCopyDirPath.addActionListener(this);
@@ -762,6 +765,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuQuickFind.add(this.itemQuickFindUp);
     this.menuSearch.add(this.itemReplace);
     this.menuSearch.add(this.itemGoto);
+    this.menuSearch.add(this.itemFindBracket);
     this.menuBar.add(this.menuStyle);
     this.menuStyle.add(this.menuLineWrapStyle);
     this.menuLineWrapStyle.add(this.itemLineWrapByWord);
@@ -928,6 +932,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineBatchRewrite.setEnabled(false);
     this.itemReplace.setEnabled(false);
     this.itemGoto.setEnabled(false);
+    this.itemFindBracket.setEnabled(false);
     this.itemTrimSelected.setEnabled(false);
     this.itemDelNullLineSelected.setEnabled(false);
     this.itemSignIdentifier.setEnabled(false);
@@ -1168,6 +1173,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+H
     this.itemGoto.setAccelerator(KeyStroke.getKeyStroke('G',
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+G
+    this.itemFindBracket.setAccelerator(KeyStroke.getKeyStroke('B',
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+B
     this.itemToCopyAllText.setAccelerator(KeyStroke.getKeyStroke('A',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+A
     this.itemLineCopy.setAccelerator(KeyStroke.getKeyStroke('D',
@@ -1285,6 +1292,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openFontChooser();
     } else if (this.itemGoto.equals(e.getSource())) {
       this.openGotoDialog();
+    } else if (this.itemFindBracket.equals(e.getSource())) {
+      this.findTargetBracket();
     } else if (this.itemToCopyFileName.equals(e.getSource())
         || this.itemPopToCopyFileName.equals(e.getSource())) {
       this.toCopyFileName();
@@ -1535,6 +1544,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
     }
+  }
+
+  /**
+   * "定位匹配括号"的处理方法
+   */
+  private void findTargetBracket() {
+    if (this.targetBracketIndex < 0) {
+      return;
+    }
+    this.txaMain.setCaretPosition(this.targetBracketIndex);
   }
 
   /**
@@ -4219,6 +4238,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     if (!label) {
       targetIndex = -1;
+    } else {
+      this.targetBracketIndex = targetIndex + 1;
     }
     return targetIndex;
   }
@@ -4234,6 +4255,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     int currentIndex = this.txaMain.getCaretPosition(); // 将要匹配的括号的索引值
     currentIndex--;
     int targetIndex = -1; // 查找到的匹配括号所在的索引值
+    this.targetBracketIndex = targetIndex;
     if (currentIndex >= 0) {
       charLeft = strMain.charAt(currentIndex);
     }
@@ -4245,9 +4267,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       targetIndex = this.getBracketTargetIndex(charRight, ++currentIndex,
           strMain);
       if (targetIndex < 0) {
+        this.itemFindBracket.setEnabled(false);
         return;
       }
     }
+    this.itemFindBracket.setEnabled(true);
     try {
       this.txaMain.getHighlighter().addHighlight(currentIndex,
           currentIndex + 1,
