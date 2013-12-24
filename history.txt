@@ -821,3 +821,8 @@ res/help.res
 1.文件选择器中添加对Go语言源文件的支持
 src/FileExt.java
 res/help.res
+
+2013-12-24
+1.在“搜索”菜单中添加“定位匹配括号”功能
+src/SnowPadFrame.java
+res/help.res
