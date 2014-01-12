@@ -251,7 +251,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
-      this.onCancel();
+      this.onEnter();
     }
   }
 
@@ -259,7 +259,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
    * 默认的"确定"操作方法
    */
   public void onEnter() {
-    this.onCancel();
+    this.dispose();
   }
 
   /**

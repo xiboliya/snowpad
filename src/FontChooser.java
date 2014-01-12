@@ -282,7 +282,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
    * "确定"按钮的处理方法
    */
   public void onEnter() {
-    this.onCancel();
+    this.dispose();
     this.isOk = true;
   }
 

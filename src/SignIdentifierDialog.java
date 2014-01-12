@@ -327,7 +327,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    */
   public void onEnter() {
     this.signIdentifier(false); // 应用当前的列表符号或编号效果
-    this.onCancel();
+    this.dispose();
   }
 
   /**
