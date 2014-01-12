@@ -679,16 +679,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuFile.add(this.itemNew);
     this.menuFile.add(this.itemOpen);
     this.menuFile.add(this.itemOpenByEncoding);
-    this.menuFile.add(this.itemReOpen);
-    this.menuFile.add(this.itemReName);
     this.menuFile.add(this.itemSave);
     this.menuFile.add(this.itemSaveAs);
+    this.menuFile.add(this.itemReName);
+    this.menuFile.addSeparator();
+    this.menuFile.add(this.itemReOpen);
+    this.menuFile.add(this.itemDelFile);
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemClose);
     this.menuFile.add(this.itemCloseOther);
     this.menuFile.add(this.itemCloseAll);
     this.menuFile.addSeparator();
-    this.menuFile.add(this.itemDelFile);
     this.menuFile.add(this.menuFileHistory);
     this.menuFile.add(this.itemClearFileHistory);
     this.menuFile.addSeparator();
@@ -879,6 +880,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuPopRmHighlight.add(itemPopRmHighlight5);
     this.menuPopRmHighlight.addSeparator();
     this.menuPopRmHighlight.add(itemPopRmHighlightAll);
+    this.popMenuMain.addSeparator();
     this.popMenuMain.add(this.itemPopCommentForLine);
     this.popMenuMain.add(this.itemPopCommentForBlock);
     Dimension popSize = this.popMenuMain.getPreferredSize();
@@ -3059,7 +3061,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     String strFindText = this.txaMain.getSelectedText();
     if (strFindText != null && !strFindText.isEmpty()) {
       int index = Util.findText(strFindText, this.txaMain, isFindDown, false,
-          true, false);
+          true, SearchStyle.DEFAULT);
       if (index >= 0) {
         this.txaMain.select(index, index + strFindText.length());
       }

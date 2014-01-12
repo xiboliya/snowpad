@@ -21,8 +21,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.util.Enumeration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
@@ -209,6 +213,8 @@ public final class Util {
           .getSystemResource("res/disable/tool_line_wrap.png")) }; // 工具栏禁用状态的图标
 
   public static int transfer_count = 0; // 查找或替换时，启用“转义扩展”后被转义的字符个数
+  public static int matcher_length = 0; // 通过正则表达式成功匹配的字符个数
+  private static Matcher matcher = null; // 通过解释Pattern对指定文本执行匹配操作的引擎
 
   /**
    * 由于此类为工具类，故将构造方法私有化
@@ -378,19 +384,19 @@ public final class Util {
    *          是否区分大小写
    * @param isWrap
    *          是否循环查找
-   * @param isTransfer
-   *          是否进行转义扩展
+   * @param searchStyle
+   *          搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
   public static int findText(String strFindText, JTextComponent txcSource,
       boolean isFindDown, boolean isIgnoreCase, boolean isWrap,
-      boolean isTransfer) {
+      SearchStyle searchStyle) {
     if (isFindDown) {
       return findDownText(strFindText, txcSource, isIgnoreCase, isWrap,
-          isTransfer);
+          searchStyle);
     } else {
       return findUpText(strFindText, txcSource, isIgnoreCase, isWrap,
-          isTransfer);
+          searchStyle);
     }
   }
 
@@ -405,17 +411,17 @@ public final class Util {
    *          是否区分大小写
    * @param isWrap
    *          是否循环查找
-   * @param isTransfer
-   *          是否进行转义扩展
+   * @param searchStyle
+   *          搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findDownText(String strFindText, JTextComponent txcSource,
-      boolean isIgnoreCase, boolean isWrap, boolean isTransfer) {
+      boolean isIgnoreCase, boolean isWrap, SearchStyle searchStyle) {
     if (strFindText == null || txcSource == null || strFindText.isEmpty()
         || txcSource.getText().isEmpty()) {
       return -1;
     }
-    if (isTransfer) {
+    if (searchStyle == SearchStyle.TRANSFER) {
       int len1 = strFindText.length();
       strFindText = transfer(strFindText);
       int len2 = strFindText.length();
@@ -424,17 +430,44 @@ public final class Util {
     int result = -1;
     String strSourceAll = txcSource.getText();
     if (isIgnoreCase) {
-      strFindText = strFindText.toLowerCase();
+      if (searchStyle == SearchStyle.PATTERN) {
+        strFindText = "(?i)" + strFindText; // 正则表达式中，可用(?i)打开不区分大小写的属性
+      } else {
+        strFindText = strFindText.toLowerCase();
+      }
       strSourceAll = strSourceAll.toLowerCase();
     }
     int caretPos = txcSource.getCaretPosition();
     String strSource = strSourceAll.substring(caretPos);
-    int index = strSource.indexOf(strFindText);
-    if (index >= 0) {
-      result = caretPos + index;
+    if (searchStyle == SearchStyle.PATTERN) {
+      try {
+        matcher = Pattern.compile(strFindText).matcher(strSource);
+      } catch (PatternSyntaxException x) {
+        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n"
+            + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
+        return result;
+      }
+      matcher_length = 0;
+      if (matcher.find()) {
+        result = caretPos + matcher.start();
+        matcher_length = matcher.end() - matcher.start();
+      } else {
+        if (isWrap) {
+          matcher = Pattern.compile(strFindText).matcher(strSourceAll);
+          if (matcher.find()) {
+            result = matcher.start();
+            matcher_length = matcher.end() - matcher.start();
+          }
+        }
+      }
     } else {
-      if (isWrap) {
-        result = strSourceAll.indexOf(strFindText);
+      int index = strSource.indexOf(strFindText);
+      if (index >= 0) {
+        result = caretPos + index;
+      } else {
+        if (isWrap) {
+          result = strSourceAll.indexOf(strFindText);
+        }
       }
     }
     return result;
@@ -451,17 +484,17 @@ public final class Util {
    *          是否区分大小写
    * @param isWrap
    *          是否循环查找
-   * @param isTransfer
-   *          是否进行转义扩展
+   * @param searchStyle
+   *          搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findUpText(String strFindText, JTextComponent txcSource,
-      boolean isIgnoreCase, boolean isWrap, boolean isTransfer) {
+      boolean isIgnoreCase, boolean isWrap, SearchStyle searchStyle) {
     if (strFindText == null || txcSource == null || strFindText.isEmpty()
         || txcSource.getText().isEmpty()) {
       return -1;
     }
-    if (isTransfer) {
+    if (searchStyle == SearchStyle.TRANSFER) {
       int len1 = strFindText.length();
       strFindText = transfer(strFindText);
       int len2 = strFindText.length();
@@ -469,26 +502,61 @@ public final class Util {
     }
     int result = -1;
     int caretPos = txcSource.getCaretPosition();
-    if (txcSource.getSelectedText() != null) {
+    String strSel = txcSource.getSelectedText();
+    if (strSel != null) {
       if (isIgnoreCase) {
-        if (txcSource.getSelectedText().equalsIgnoreCase(strFindText)) {
-          caretPos -= strFindText.length();
+        if (searchStyle == SearchStyle.PATTERN) {
+          if (strSel.matches("(?i)" + strFindText)) { // 正则表达式中，可用(?i)打开不区分大小写的属性
+            caretPos -= strSel.length();
+          }
+        } else if (strSel.equalsIgnoreCase(strFindText)) {
+          caretPos -= strSel.length();
         }
       } else {
-        if (txcSource.getSelectedText().equals(strFindText)) {
-          caretPos -= strFindText.length();
+        if (searchStyle == SearchStyle.PATTERN) {
+          if (strSel.matches(strFindText)) {
+            caretPos -= strSel.length();
+          }
+        } else if (strSel.equals(strFindText)) {
+          caretPos -= strSel.length();
         }
       }
     }
     String strSourceAll = txcSource.getText();
     if (isIgnoreCase) {
-      strFindText = strFindText.toLowerCase();
+      if (searchStyle == SearchStyle.PATTERN) {
+        strFindText = "(?i)" + strFindText; // 正则表达式中，可用(?i)打开不区分大小写的属性
+      } else {
+        strFindText = strFindText.toLowerCase();
+      }
       strSourceAll = strSourceAll.toLowerCase();
     }
     String strSource = strSourceAll.substring(0, caretPos);
-    result = strSource.lastIndexOf(strFindText);
-    if (result < 0 && isWrap) {
-      result = strSourceAll.lastIndexOf(strFindText);
+    if (searchStyle == SearchStyle.PATTERN) {
+      try {
+        matcher = Pattern.compile(strFindText).matcher(strSource);
+      } catch (PatternSyntaxException x) {
+        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n"
+            + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
+        return result;
+      }
+      matcher_length = 0;
+      while (matcher.find()) {
+        result = matcher.start();
+        matcher_length = matcher.end() - matcher.start();
+      }
+      if (result < 0 && isWrap) {
+        matcher = Pattern.compile(strFindText).matcher(strSourceAll);
+        while (matcher.find()) {
+          result = matcher.start();
+          matcher_length = matcher.end() - matcher.start();
+        }
+      }
+    } else {
+      result = strSource.lastIndexOf(strFindText);
+      if (result < 0 && isWrap) {
+        result = strSourceAll.lastIndexOf(strFindText);
+      }
     }
     return result;
   }
