@@ -826,3 +826,10 @@ res/help.res
 1.在“搜索”菜单中添加“定位匹配括号”功能
 src/SnowPadFrame.java
 res/help.res
+
+2014-01-12
+1.在“查找/替换”对话框中添加“正则表达式”模式支持
+src/SearchStyle.java（添加）
+src/FindReplaceDialog.java
+src/SnowPadFrame.java
+src/Util.java
