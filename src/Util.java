@@ -40,7 +40,7 @@ import javax.swing.text.JTextComponent;
  */
 public final class Util {
   public static final String SOFTWARE = "冰雪记事本"; // 软件名称
-  public static final String VERSION = "V3.2"; // 软件版本号
+  public static final String VERSION = "V3.3"; // 软件版本号
   public static final String NEW_FILE_NAME = "新建"; // 新建文件的默认名称
   public static final String HELP_TITLE = "帮助主题"; // 帮助主题界面的默认标题
   public static final String OS_NAME = System.getProperty("os.name", "Windows"); // 当前操作系统的名称
