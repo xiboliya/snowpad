@@ -248,6 +248,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemRmHighlight5 = new JMenuItem("格式(5)", '5');
   private JMenuItem itemRmHighlightAll = new JMenuItem("所有格式(0)", '0');
   private JMenu menuLookAndFeel = new JMenu("切换外观(K)");
+  private JMenuItem itemInformation = new JMenuItem("统计信息(N)...", 'N');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -320,6 +321,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private BatchInsertDialog batchInsertDialog = null; // 批处理"插入"对话框
   private BatchSeparateDialog batchSeparateDialog = null; // 批处理"分割行"对话框
   private SignIdentifierDialog signIdentifierDialog = null; // 项目符号与编号对话框
+  private InformationDialog informationDialog = null; // 统计信息对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
@@ -496,6 +498,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemRmHighlight4.addActionListener(this);
     this.itemRmHighlight5.addActionListener(this);
     this.itemRmHighlightAll.addActionListener(this);
+    this.itemInformation.addActionListener(this);
     this.itemNew.addActionListener(this);
     this.itemOpen.addActionListener(this);
     this.itemOpenByEncoding.addActionListener(this);
@@ -835,6 +838,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuRmHighlight.addSeparator();
     this.menuRmHighlight.add(this.itemRmHighlightAll);
     this.menuView.add(this.menuLookAndFeel);
+    this.menuView.addSeparator();
+    this.menuView.add(this.itemInformation);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1527,6 +1532,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemRmHighlightAll.equals(e.getSource())
         || this.itemPopRmHighlightAll.equals(e.getSource())) {
       this.rmHighlight(0);
+    } else if (this.itemInformation.equals(e.getSource())) {
+      this.openInformationDialog();
     } else if (this.itemCommentForLine.equals(e.getSource())
         || this.itemPopCommentForLine.equals(e.getSource())) {
       this.setCommentForLine();
@@ -1545,6 +1552,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) e.getSource();
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
+    }
+  }
+
+  /**
+   * "统计信息"的处理方法
+   */
+  private void openInformationDialog() {
+    if (this.informationDialog == null) {
+      this.informationDialog = new InformationDialog(this, true, this.txaMain);
+    } else {
+      this.informationDialog.setTextArea(this.txaMain);
+      this.informationDialog.setVisible(true);
     }
   }
 
@@ -1745,6 +1764,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.signIdentifierDialog != null) {
       this.signIdentifierDialog.dispose();
       this.signIdentifierDialog = null;
+    }
+    if (this.informationDialog != null) {
+      this.informationDialog.dispose();
+      this.informationDialog = null;
     }
     if (this.helpFrame != null) {
       this.helpFrame.dispose();

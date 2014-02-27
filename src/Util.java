@@ -79,6 +79,12 @@ public final class Util {
   public static final String IDENTIFIER_CHARS = "0123"; // 列表编号类型标识符
   public static final String IDENTIFIER_TIANGAN = "甲乙丙丁戊己庚辛壬癸"; // 十天干
   public static final String IDENTIFIER_DIZHI = "子丑寅卯辰巳午未申酉戌亥"; // 十二地支
+  public static final String INFO_FILE_PATH = "文件路径："; // 统计信息窗口中使用的字符串
+  public static final String INFO_FILE_MODIFY_TIME = "修改时间："; // 统计信息窗口中使用的字符串
+  public static final String INFO_FILE_SIZE = "文件大小："; // 统计信息窗口中使用的字符串
+  public static final String INFO_DOC_CHARS = "总字数："; // 统计信息窗口中使用的字符串
+  public static final String INFO_DOC_LINES = "总行数："; // 统计信息窗口中使用的字符串
+  public static final String INFO_DOC_BLANKS = "空格数："; // 统计信息窗口中使用的字符串
   public static final String SYSTEM_LOOK_AND_FEEL_CLASS_NAME = UIManager
       .getSystemLookAndFeelClassName(); // 当前系统默认外观的完整类名
   public static final String[] FONT_FAMILY_NAMES = java.awt.GraphicsEnvironment
