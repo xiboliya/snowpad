@@ -127,6 +127,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemLineDel = new JMenuItem("删除当前行");
   private JMenuItem itemLineDelToStart = new JMenuItem("删除至行首");
   private JMenuItem itemLineDelToEnd = new JMenuItem("删除至行尾");
+  private JMenuItem itemLineDelToFileStart = new JMenuItem("删除至文件首");
+  private JMenuItem itemLineDelToFileEnd = new JMenuItem("删除至文件尾");
   private JMenuItem itemLineToUp = new JMenuItem("上移当前行");
   private JMenuItem itemLineToDown = new JMenuItem("下移当前行");
   private JMenuItem itemLineToCopy = new JMenuItem("复制当前行");
@@ -430,6 +432,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineDel.addActionListener(this);
     this.itemLineDelToStart.addActionListener(this);
     this.itemLineDelToEnd.addActionListener(this);
+    this.itemLineDelToFileStart.addActionListener(this);
+    this.itemLineDelToFileEnd.addActionListener(this);
     this.itemLineToUp.addActionListener(this);
     this.itemLineToDown.addActionListener(this);
     this.itemLineToCopy.addActionListener(this);
@@ -725,6 +729,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLine.addSeparator();
     this.menuLine.add(this.itemLineDelToStart);
     this.menuLine.add(this.itemLineDelToEnd);
+    this.menuLine.addSeparator();
+    this.menuLine.add(this.itemLineDelToFileStart);
+    this.menuLine.add(this.itemLineDelToFileEnd);
     this.menuLine.addSeparator();
     this.menuLine.add(this.itemLineToUp);
     this.menuLine.add(this.itemLineToDown);
@@ -1239,6 +1246,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineDelToEnd.setAccelerator(KeyStroke
         .getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK
             + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+向右方向键
+    this.itemLineDelToFileStart.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK
+            + InputEvent.SHIFT_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Shift+Alt+向左方向键
+    this.itemLineDelToFileEnd.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK
+            + InputEvent.SHIFT_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Shift+Alt+向右方向键
     this.itemLineToUp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向上方向键
     this.itemLineToDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
@@ -1326,6 +1339,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.deleteLineToStart();
     } else if (this.itemLineDelToEnd.equals(e.getSource())) {
       this.deleteLineToEnd();
+    } else if (this.itemLineDelToFileStart.equals(e.getSource())) {
+      this.deleteLineToFileStart();
+    } else if (this.itemLineDelToFileEnd.equals(e.getSource())) {
+      this.deleteLineToFileEnd();
     } else if (this.itemLineToUp.equals(e.getSource())) {
       this.moveLineToUp();
     } else if (this.itemLineToDown.equals(e.getSource())) {
@@ -2538,6 +2555,29 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         endIndex--;
       }
       this.txaMain.replaceRange("", currentIndex, endIndex);
+    }
+  }
+
+  /**
+   * "删除至文件首"的处理方法
+   */
+  private void deleteLineToFileStart() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int currentIndex = currentLine.getCurrentIndex();
+    if (currentIndex > 0) {
+      this.txaMain.replaceRange("", 0, currentIndex);
+    }
+  }
+
+  /**
+   * "删除至文件尾"的处理方法
+   */
+  private void deleteLineToFileEnd() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int currentIndex = currentLine.getCurrentIndex();
+    int length = this.txaMain.getText().length();
+    if (currentIndex < length) {
+      this.txaMain.replaceRange("", currentIndex, length);
     }
   }
 
