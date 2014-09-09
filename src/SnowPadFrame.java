@@ -215,6 +215,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JCheckBoxMenuItem itemTabPolicy = new JCheckBoxMenuItem("多行标签(P)");
   private JCheckBoxMenuItem itemClickToClose = new JCheckBoxMenuItem(
       "双击关闭标签(D)");
+  private JCheckBoxMenuItem itemTabIcon = new JCheckBoxMenuItem("指示图标(I)");
   private JMenu menuFontSize = new JMenu("字体缩放(F)");
   private JMenuItem itemFontSizePlus = new JMenuItem("放大(B)", 'B');
   private JMenuItem itemFontSizeMinus = new JMenuItem("缩小(S)", 'S');
@@ -304,6 +305,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private UndoManager undoManager = null; // 撤销管理器
   private Setting setting = new Setting(); // 文本域参数配置类
   private boolean clickToClose = true; // 是否双击关闭当前标签
+  private boolean isTabIconView = true; // 是否显示标签的文件状态指示图标
   private static boolean checking = false; // 是否正在检测所有文件的状态
   private int targetBracketIndex = -1; // 匹配括号的索引值
 
@@ -471,6 +473,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemResizable.addActionListener(this);
     this.itemTabPolicy.addActionListener(this);
     this.itemClickToClose.addActionListener(this);
+    this.itemTabIcon.addActionListener(this);
     this.itemFontSizePlus.addActionListener(this);
     this.itemFontSizeMinus.addActionListener(this);
     this.itemFontSizeReset.addActionListener(this);
@@ -802,6 +805,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.add(this.menuTab);
     this.menuTab.add(this.itemTabPolicy);
     this.menuTab.add(this.itemClickToClose);
+    this.menuTab.add(this.itemTabIcon);
     this.menuView.add(this.menuFontSize);
     this.menuFontSize.add(this.itemFontSizePlus);
     this.menuFontSize.add(this.itemFontSizeMinus);
@@ -979,6 +983,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemResizable.setSelected(false);
     this.itemTabPolicy.setSelected(true);
     this.itemClickToClose.setSelected(true);
+    this.itemTabIcon.setSelected(true);
     this.toolButtonList.get(15).setSelected(true);
     this.setLineWrap();
     this.setLineWrapStyle(true);
@@ -1128,6 +1133,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTab.setMnemonic('B');
     this.itemTabPolicy.setMnemonic('P');
     this.itemClickToClose.setMnemonic('D');
+    this.itemTabIcon.setMnemonic('I');
     this.menuColor.setMnemonic('C');
     this.menuFontSize.setMnemonic('F');
     this.menuColorStyle.setMnemonic('Y');
@@ -1465,6 +1471,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setTabLayoutPolicy();
     } else if (this.itemClickToClose.equals(e.getSource())) {
       this.setClickToClose();
+    } else if (this.itemTabIcon.equals(e.getSource())) {
+      this.setTabIcon();
     } else if (this.itemFontSizePlus.equals(e.getSource())
         || this.toolButtonList.get(13).equals(e.getSource())) {
       this.setFontSizePlus();
@@ -1633,6 +1641,34 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setClickToClose() {
     this.clickToClose = this.itemClickToClose.isSelected();
+  }
+
+  /**
+   * "指示图标"的处理方法
+   */
+  private void setTabIcon() {
+    this.isTabIconView = this.itemTabIcon.isSelected();
+    int tabCount = this.tpnMain.getTabCount();
+    ImageIcon tabIcon = null;
+    if (!this.isTabIconView) {
+      for (int i = 0; i < tabCount; i++) {
+        this.tpnMain.setIconAt(i, tabIcon);
+      }
+    } else {
+      for (int i = 0; i < tabCount; i++) {
+        File fileTemp = this.textAreaList.get(i).getFile();
+        if (fileTemp == null) {
+          tabIcon = Util.TAB_NEW_FILE_ICON;
+        } else if (!fileTemp.exists()) {
+          tabIcon = Util.TAB_NOT_EXIST_ICON;
+        } else if (!fileTemp.canWrite()) {
+          tabIcon = Util.TAB_EXIST_READONLY_ICON;
+        } else {
+          tabIcon = Util.TAB_EXIST_CURRENT_ICON;
+        }
+        this.tpnMain.setIconAt(i, tabIcon);
+      }
+    }
   }
 
   /**
@@ -3336,6 +3372,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       title = Util.NEW_FILE_NAME + index;
       txaNew.setNewFileIndex(index);
     }
+    if (!this.isTabIconView) {
+      tabIcon = null;
+    }
     txaNew.setTitle(title);
     txaNew.addCaretListener(this);
     txaNew.getDocument().addUndoableEditListener(this);
@@ -3870,12 +3909,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.setNewFileIndex(0);
       this.txaMain.setFileExt(this.getFileExtByName(file.getName()));
       this.setMenuStateComment();
-      if (file.canWrite()) {
-        this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-            Util.TAB_EXIST_CURRENT_ICON);
-      } else {
-        this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-            Util.TAB_EXIST_READONLY_ICON);
+      if (this.isTabIconView) {
+        if (file.canWrite()) {
+          this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+              Util.TAB_EXIST_CURRENT_ICON);
+        } else {
+          this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+              Util.TAB_EXIST_READONLY_ICON);
+        }
       }
     } catch (Exception x) {
       x.printStackTrace();
@@ -3945,8 +3986,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           JOptionPane.CANCEL_OPTION);
     }
     this.txaMain.setNewFileIndex(0);
-    this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-        Util.TAB_EXIST_CURRENT_ICON);
+    if (this.isTabIconView) {
+      this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+          Util.TAB_EXIST_CURRENT_ICON);
+    }
     return true;
   }
 
@@ -4370,7 +4413,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     checking = true;
     for (int i = 0; i < this.textAreaList.size(); i++) { // 循环检测所有文件的状态，如果文件不存在则弹出提示
       File fileTemp = this.textAreaList.get(i).getFile();
-      if (fileTemp != null && !fileTemp.exists()) {
+      if (fileTemp == null) {
+        continue;
+      }
+      if (!fileTemp.exists()) {
         if (this.textAreaList.get(i).getFileExistsLabel()) {
           this.tpnMain.setSelectedIndex(i);
         } else {
@@ -4385,8 +4431,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             this.toSaveFile(this.file);
           } catch (Exception x) {
             this.showSaveErrorDialog(this.file);
-            this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-                Util.TAB_NOT_EXIST_ICON);
+            if (this.isTabIconView) {
+              this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+                  Util.TAB_NOT_EXIST_ICON);
+            }
             continue; // 如果保存出现异常，则继续下一个文件的检测
           }
           this.setAfterSaveFile();
@@ -4394,11 +4442,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           this.setStylePrefix();
         } else {
           this.txaMain.setFileExistsLabel(false);
-          this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-              Util.TAB_NOT_EXIST_ICON);
+          if (this.isTabIconView) {
+            this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
+                Util.TAB_NOT_EXIST_ICON);
+          }
         }
-      } else if (fileTemp != null && fileTemp.exists() && !fileTemp.canWrite()) {
-        this.tpnMain.setIconAt(i, Util.TAB_EXIST_READONLY_ICON);
+      } else {
+        this.textAreaList.get(i).setFileExistsLabel(true);
+        if (this.isTabIconView) {
+          if (fileTemp.canWrite()) {
+            this.tpnMain.setIconAt(i, Util.TAB_EXIST_CURRENT_ICON);
+          } else {
+            this.tpnMain.setIconAt(i, Util.TAB_EXIST_READONLY_ICON);
+          }
+        }
       }
     }
     checking = false;
