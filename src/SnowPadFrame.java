@@ -252,6 +252,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemRmHighlightAll = new JMenuItem("所有格式(0)", '0');
   private JMenu menuLookAndFeel = new JMenu("切换外观(K)");
   private JMenuItem itemInformation = new JMenuItem("统计信息(N)...", 'N');
+  private JMenuItem itemWindowManage = new JMenuItem("窗口管理(W)...", 'W');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -326,6 +327,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private BatchSeparateDialog batchSeparateDialog = null; // 批处理"分割行"对话框
   private SignIdentifierDialog signIdentifierDialog = null; // 项目符号与编号对话框
   private InformationDialog informationDialog = null; // 统计信息对话框
+  private WindowManageDialog windowManageDialog = null; // 窗口管理对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
@@ -506,6 +508,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemRmHighlight5.addActionListener(this);
     this.itemRmHighlightAll.addActionListener(this);
     this.itemInformation.addActionListener(this);
+    this.itemWindowManage.addActionListener(this);
     this.itemNew.addActionListener(this);
     this.itemOpen.addActionListener(this);
     this.itemOpenByEncoding.addActionListener(this);
@@ -851,6 +854,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.add(this.menuLookAndFeel);
     this.menuView.addSeparator();
     this.menuView.add(this.itemInformation);
+    this.menuView.add(this.itemWindowManage);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1270,6 +1274,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+M
     this.itemLineBatchRewrite.setAccelerator(KeyStroke.getKeyStroke('W',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+W
+    this.itemWindowManage.setAccelerator(KeyStroke.getKeyStroke('W',
+        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+W
   }
 
   /**
@@ -1559,6 +1565,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.rmHighlight(0);
     } else if (this.itemInformation.equals(e.getSource())) {
       this.openInformationDialog();
+    } else if (this.itemWindowManage.equals(e.getSource())) {
+      this.openWindowManageDialog();
     } else if (this.itemCommentForLine.equals(e.getSource())
         || this.itemPopCommentForLine.equals(e.getSource())) {
       this.setCommentForLine();
@@ -1589,6 +1597,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       this.informationDialog.setTextArea(this.txaMain);
       this.informationDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "窗口管理"的处理方法
+   */
+  private void openWindowManageDialog() {
+    if (this.windowManageDialog == null) {
+      this.windowManageDialog = new WindowManageDialog(this, true,
+          this.txaMain, this.tpnMain);
+    } else {
+      this.windowManageDialog.setTextArea(this.txaMain);
+      this.windowManageDialog.refresh();
+      this.windowManageDialog.setVisible(true);
     }
   }
 
@@ -1822,6 +1844,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.informationDialog.dispose();
       this.informationDialog = null;
     }
+    if (this.windowManageDialog != null) {
+      this.windowManageDialog.dispose();
+      this.windowManageDialog = null;
+    }
     if (this.helpFrame != null) {
       this.helpFrame.dispose();
       this.helpFrame = null;
@@ -1917,6 +1943,42 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.createNew(null);
     }
     return true;
+  }
+
+  /**
+   * "窗口管理"界面中"关闭"的处理方法
+   * 
+   * @param indexs
+   *          需要关闭的文件在选项卡组件中的索引值数组
+   */
+  public void windowManageToCloseFile(int[] indexs) {
+    int i = 0; // 记录已经关闭的文件数，以调整索引值
+    for (int index : indexs) {
+      index -= i;
+      this.tpnMain.setSelectedIndex(index);
+      if (!this.saveFileBeforeAct()) {
+        continue;
+      }
+      this.tpnMain.remove(index);
+      this.textAreaList.remove(index);
+      if (this.textAreaList.size() == 0) {
+        this.createNew(null);
+      }
+      i++;
+    }
+  }
+
+  /**
+   * "窗口管理"界面中"保存"的处理方法
+   * 
+   * @param indexs
+   *          需要保存的文件在选项卡组件中的索引值数组
+   */
+  public void windowManageToSaveFile(int[] indexs) {
+    for (int index : indexs) {
+      this.tpnMain.setSelectedIndex(index);
+      this.saveFile(false);
+    }
   }
 
   /**
