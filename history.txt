@@ -851,3 +851,10 @@ git tag SnowPad-V3.3-20140227
 src/SnowPadFrame.java
 2.在“操作行”中添加“删除至文件首”和“删除至文件尾”的功能
 src/SnowPadFrame.java
+
+2014-10-10
+1.在“查看”菜单中添加“窗口管理”功能
+src/SnowPadFrame.java
+src/Util.java
+src/BaseDefaultTableModel.java（添加）
+src/WindowManageDialog.java（添加）
