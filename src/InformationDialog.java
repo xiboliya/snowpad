@@ -58,7 +58,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
     this.setTitle("统计信息");
     this.init();
     this.addListeners();
-    this.setSize(400, 260);
+    this.setSize(400, 300);
     this.setVisible(true);
   }
 
@@ -117,15 +117,22 @@ public class InformationDialog extends BaseDialog implements ActionListener {
       this.txaFile.setVisible(false);
     }
     String strText = this.txaSource.getText();
-    int index = strText.indexOf(" ");
-    int times = 0;
-    while (index >= 0) {
-      index = strText.indexOf(" ", index + 1);
-      times++;
+    int blanks = 0; // 空格
+    int digits = 0; // 数字
+    int letters = 0; // 字母
+    for (char ch : strText.toCharArray()) {
+      if (Character.isDigit(ch)) {
+        digits++;
+      } else if (Character.isLetter(ch)) {
+        letters++;
+      } else if (ch == ' ') {
+        blanks++;
+      }
     }
     this.txaDoc.setText(Util.INFO_DOC_CHARS + strText.length() + "\n"
         + Util.INFO_DOC_LINES + this.txaSource.getLineCount() + "\n"
-        + Util.INFO_DOC_BLANKS + times);
+        + Util.INFO_DOC_DIGITS + digits + "\n" + Util.INFO_DOC_LETTERS
+        + letters + "\n" + Util.INFO_DOC_BLANKS + blanks);
   }
 
   /**

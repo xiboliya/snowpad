@@ -84,6 +84,8 @@ public final class Util {
   public static final String INFO_FILE_SIZE = "文件大小："; // 统计信息窗口中使用的字符串
   public static final String INFO_DOC_CHARS = "总字数："; // 统计信息窗口中使用的字符串
   public static final String INFO_DOC_LINES = "总行数："; // 统计信息窗口中使用的字符串
+  public static final String INFO_DOC_DIGITS = "数字数："; // 统计信息窗口中使用的字符串
+  public static final String INFO_DOC_LETTERS = "字母数："; // 统计信息窗口中使用的字符串
   public static final String INFO_DOC_BLANKS = "空格数："; // 统计信息窗口中使用的字符串
   public static final String SYSTEM_LOOK_AND_FEEL_CLASS_NAME = UIManager
       .getSystemLookAndFeelClassName(); // 当前系统默认外观的完整类名
@@ -106,7 +108,8 @@ public final class Util {
   public static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "新建", "打开",
       "保存", "另存为", "关闭", "关闭全部", "剪切", "复制", "粘贴", "撤销", "重做", "查找", "替换",
       "字体放大", "字体缩小", "自动换行" }; // 工具栏提示信息
-  public static final String[] WINDOW_MANAGE_TABLE_TITLE_TEXTS = new String[] { "文件名", "路径", "类型"}; // 窗口管理界面的表格标题
+  public static final String[] WINDOW_MANAGE_TABLE_TITLE_TEXTS = new String[] {
+      "文件名", "路径", "类型" }; // 窗口管理界面的表格标题
   public static final int DEFAULT_CARET_INDEX = 0; // 文本域默认插入点位置
   public static final int INPUT_HEIGHT = 22; // 单行输入框的高度
   public static final int VIEW_HEIGHT = 18; // 标签、单选按钮、复选框的高度
