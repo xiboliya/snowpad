@@ -863,3 +863,7 @@ src/WindowManageDialog.java（添加）
 1.在“统计信息”界面中添加数字和字母个数的显示
 src/InformationDialog.java
 src/Util.java
+
+2014-10-13
+1.修改“统计信息”界面中显示的字母数会将汉字也计算在内的问题
+src/InformationDialog.java
