@@ -123,7 +123,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
     for (char ch : strText.toCharArray()) {
       if (Character.isDigit(ch)) {
         digits++;
-      } else if (Character.isLetter(ch)) {
+      } else if (Character.isLowerCase(ch) || Character.isUpperCase(ch)) { // 此处不可用Character.isLetter(ch)，因为会将汉字也计算在内
         letters++;
       } else if (ch == ' ') {
         blanks++;
