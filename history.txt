@@ -867,3 +867,7 @@ src/Util.java
 2014-10-13
 1.修改“统计信息”界面中显示的字母数会将汉字也计算在内的问题
 src/InformationDialog.java
+
+2014-10-15
+1.在“查看”菜单中添加“文档切换”功能
+src/SnowPadFrame.java
