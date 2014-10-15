@@ -253,6 +253,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuLookAndFeel = new JMenu("切换外观(K)");
   private JMenuItem itemInformation = new JMenuItem("统计信息(N)...", 'N');
   private JMenuItem itemWindowManage = new JMenuItem("窗口管理(W)...", 'W');
+  private JMenuItem itemTextAreaSwitch = new JMenuItem("文档切换");
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -509,6 +510,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemRmHighlightAll.addActionListener(this);
     this.itemInformation.addActionListener(this);
     this.itemWindowManage.addActionListener(this);
+    this.itemTextAreaSwitch.addActionListener(this);
     this.itemNew.addActionListener(this);
     this.itemOpen.addActionListener(this);
     this.itemOpenByEncoding.addActionListener(this);
@@ -855,6 +857,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.addSeparator();
     this.menuView.add(this.itemInformation);
     this.menuView.add(this.itemWindowManage);
+    this.menuView.add(this.itemTextAreaSwitch);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1274,7 +1277,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+M
     this.itemLineBatchRewrite.setAccelerator(KeyStroke.getKeyStroke('W',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+W
-    this.itemWindowManage.setAccelerator(KeyStroke.getKeyStroke('W',
+    this.itemTextAreaSwitch.setAccelerator(KeyStroke.getKeyStroke('W',
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+W
   }
 
@@ -1567,6 +1570,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openInformationDialog();
     } else if (this.itemWindowManage.equals(e.getSource())) {
       this.openWindowManageDialog();
+    } else if (this.itemTextAreaSwitch.equals(e.getSource())) {
+      this.textAreaSwitch();
     } else if (this.itemCommentForLine.equals(e.getSource())
         || this.itemPopCommentForLine.equals(e.getSource())) {
       this.setCommentForLine();
@@ -1612,6 +1617,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.windowManageDialog.refresh();
       this.windowManageDialog.setVisible(true);
     }
+  }
+
+  /**
+   * "文档切换"的处理方法
+   */
+  private void textAreaSwitch() {
+    int index = this.tpnMain.getSelectedIndex();
+    int tabCount = this.tpnMain.getTabCount();
+    if (index + 1 == tabCount) {
+      index = 0;
+    } else {
+      index++;
+    }
+    this.tpnMain.setSelectedIndex(index);
   }
 
   /**
