@@ -253,7 +253,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuLookAndFeel = new JMenu("切换外观(K)");
   private JMenuItem itemInformation = new JMenuItem("统计信息(N)...", 'N');
   private JMenuItem itemWindowManage = new JMenuItem("窗口管理(W)...", 'W');
-  private JMenuItem itemTextAreaSwitch = new JMenuItem("文档切换");
+  private JMenu menuTextAreaSwitch = new JMenu("文档切换(T)");
+  private JMenuItem itemTextAreaSwitchNext = new JMenuItem("向后切换(N)", 'N');
+  private JMenuItem itemTextAreaSwitchPrevious = new JMenuItem("向前切换(P)", 'P');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -510,7 +512,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemRmHighlightAll.addActionListener(this);
     this.itemInformation.addActionListener(this);
     this.itemWindowManage.addActionListener(this);
-    this.itemTextAreaSwitch.addActionListener(this);
+    this.itemTextAreaSwitchNext.addActionListener(this);
+    this.itemTextAreaSwitchPrevious.addActionListener(this);
     this.itemNew.addActionListener(this);
     this.itemOpen.addActionListener(this);
     this.itemOpenByEncoding.addActionListener(this);
@@ -854,10 +857,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuRmHighlight.addSeparator();
     this.menuRmHighlight.add(this.itemRmHighlightAll);
     this.menuView.add(this.menuLookAndFeel);
+    this.menuView.add(this.menuTextAreaSwitch);
+    this.menuTextAreaSwitch.add(this.itemTextAreaSwitchNext);
+    this.menuTextAreaSwitch.add(this.itemTextAreaSwitchPrevious);
     this.menuView.addSeparator();
     this.menuView.add(this.itemInformation);
     this.menuView.add(this.itemWindowManage);
-    this.menuView.add(this.itemTextAreaSwitch);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1148,6 +1153,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTabPolicy.setMnemonic('P');
     this.itemClickToClose.setMnemonic('D');
     this.itemTabIcon.setMnemonic('I');
+    this.menuTextAreaSwitch.setMnemonic('T');
     this.menuColor.setMnemonic('C');
     this.menuFontSize.setMnemonic('F');
     this.menuColorStyle.setMnemonic('Y');
@@ -1277,8 +1283,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+M
     this.itemLineBatchRewrite.setAccelerator(KeyStroke.getKeyStroke('W',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+W
-    this.itemTextAreaSwitch.setAccelerator(KeyStroke.getKeyStroke('W',
+    this.itemTextAreaSwitchNext.setAccelerator(KeyStroke.getKeyStroke('W',
         InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+W
+    this.itemTextAreaSwitchPrevious.setAccelerator(KeyStroke.getKeyStroke('W',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+W
   }
 
   /**
@@ -1570,8 +1578,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openInformationDialog();
     } else if (this.itemWindowManage.equals(e.getSource())) {
       this.openWindowManageDialog();
-    } else if (this.itemTextAreaSwitch.equals(e.getSource())) {
-      this.textAreaSwitch();
+    } else if (this.itemTextAreaSwitchNext.equals(e.getSource())) {
+      this.textAreaSwitch(true);
+    } else if (this.itemTextAreaSwitchPrevious.equals(e.getSource())) {
+      this.textAreaSwitch(false);
     } else if (this.itemCommentForLine.equals(e.getSource())
         || this.itemPopCommentForLine.equals(e.getSource())) {
       this.setCommentForLine();
@@ -1621,14 +1631,25 @@ public class SnowPadFrame extends JFrame implements ActionListener,
 
   /**
    * "文档切换"的处理方法
+   * 
+   * @param isNext
+   *          切换文档的方向，true表示向后，false表示向前。
    */
-  private void textAreaSwitch() {
+  private void textAreaSwitch(boolean isNext) {
     int index = this.tpnMain.getSelectedIndex();
     int tabCount = this.tpnMain.getTabCount();
-    if (index + 1 == tabCount) {
-      index = 0;
+    if (isNext) {
+      if (index + 1 == tabCount) {
+        index = 0;
+      } else {
+        index++;
+      }
     } else {
-      index++;
+      if (index == 0) {
+        index = tabCount - 1;
+      } else {
+        index--;
+      }
     }
     this.tpnMain.setSelectedIndex(index);
   }
