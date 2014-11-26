@@ -875,3 +875,7 @@ src/SnowPadFrame.java
 2014-10-17
 1.在“文档切换”菜单下添加“向后切换”和“向前切换”功能
 src/SnowPadFrame.java
+
+2014-11-26
+1.因快捷键定义重复，更改“逐行复写”的快捷键
+src/SnowPadFrame.java
