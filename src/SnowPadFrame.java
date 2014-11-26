@@ -1281,8 +1281,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // ¿ì½Ý¼ü£ºCtrl+Shift+P
     this.itemLineBatchMerge.setAccelerator(KeyStroke.getKeyStroke('M',
         InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // ¿ì½Ý¼ü£ºCtrl+Shift+M
-    this.itemLineBatchRewrite.setAccelerator(KeyStroke.getKeyStroke('W',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // ¿ì½Ý¼ü£ºCtrl+Shift+W
+    this.itemLineBatchRewrite.setAccelerator(KeyStroke.getKeyStroke('V',
+        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // ¿ì½Ý¼ü£ºCtrl+Shift+V
     this.itemTextAreaSwitchNext.setAccelerator(KeyStroke.getKeyStroke('W',
         InputEvent.CTRL_DOWN_MASK)); // ¿ì½Ý¼ü£ºCtrl+W
     this.itemTextAreaSwitchPrevious.setAccelerator(KeyStroke.getKeyStroke('W',
