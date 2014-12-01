@@ -64,9 +64,9 @@ public class BaseTextArea extends JTextArea {
     this.init();
   }
 
-  public BaseTextArea(Setting setting) {
+  public BaseTextArea(TextAreaSetting textAreaSetting) {
     this();
-    this.loadSetting(setting);
+    this.loadSetting(textAreaSetting);
   }
 
   private void init() {
@@ -90,25 +90,25 @@ public class BaseTextArea extends JTextArea {
     };
   }
 
-  public void loadSetting(Setting setting) {
-    if (setting == null) {
+  public void loadSetting(TextAreaSetting textAreaSetting) {
+    if (textAreaSetting == null) {
       return;
     }
-    this.setLineWrap(setting.isLineWrap);
-    this.setWrapStyleWord(setting.isWrapStyleWord);
-    this.setLineSeparator(setting.lineSeparator);
-    this.setCharEncoding(setting.charEncoding);
-    this.setFont(setting.font);
-    this.setDragEnabled(setting.textDrag);
-    this.setAutoIndent(setting.autoIndent);
-    this.setTabReplaceBySpace(setting.tabReplaceBySpace);
-    this.setColorStyle(setting.colorStyle);
-    this.setTabSize(setting.tabSize);
-    this.setSaved(setting.isSaved);
-    this.setTextChanged(setting.isTextChanged);
-    this.setStyleChanged(setting.isStyleChanged);
-    this.setFileExistsLabel(setting.fileExistsLabel);
-    this.setLineNumberView(setting.isLineNumberView);
+    this.setLineWrap(textAreaSetting.isLineWrap);
+    this.setWrapStyleWord(textAreaSetting.isWrapStyleWord);
+    this.setLineSeparator(textAreaSetting.lineSeparator);
+    this.setCharEncoding(textAreaSetting.charEncoding);
+    this.setFont(textAreaSetting.font);
+    this.setDragEnabled(textAreaSetting.textDrag);
+    this.setAutoIndent(textAreaSetting.autoIndent);
+    this.setTabReplaceBySpace(textAreaSetting.tabReplaceBySpace);
+    this.setColorStyle(textAreaSetting.colorStyle);
+    this.setTabSize(textAreaSetting.tabSize);
+    this.setSaved(textAreaSetting.isSaved);
+    this.setTextChanged(textAreaSetting.isTextChanged);
+    this.setStyleChanged(textAreaSetting.isStyleChanged);
+    this.setFileExistsLabel(textAreaSetting.fileExistsLabel);
+    this.setLineNumberView(textAreaSetting.isLineNumberView);
   }
 
   private void disableShortcut() {

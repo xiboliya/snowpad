@@ -43,6 +43,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   private JButton btnCancel = new JButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
+  private int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数
   private boolean isReplaceBySpace = false; // 以空格代替Tab键
 
   public TabSetDialog(JFrame owner, boolean modal, JTextArea txaSource) {
@@ -52,7 +53,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
     }
     this.txaSource = txaSource;
     this.init();
-    this.initTabSize();
+    this.initView();
     this.addListeners();
     this.setSize(240, 130);
     this.setVisible(true);
@@ -82,7 +83,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
    */
   public void setVisible(boolean visible) {
     if (visible) {
-      this.initTabSize();
+      this.initView();
     }
     super.setVisible(visible);
   }
@@ -90,9 +91,12 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   /**
    * 初始化文本框
    */
-  private void initTabSize() {
-    this.txtTabSize.setText(String.valueOf(this.txaSource.getTabSize()));
+  private void initView() {
+    this.tabSize = this.txaSource.getTabSize();
+    this.txtTabSize.setText(String.valueOf(this.tabSize));
     this.txtTabSize.selectAll();
+    this.chkReplaceBySpace.setSelected(((BaseTextArea) this.txaSource)
+        .getTabReplaceBySpace());
   }
 
   /**
@@ -125,7 +129,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
    * 设置Tab所占字符数
    */
   private void setTabSize() {
-    int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数
+    int tabSize = Util.DEFAULT_TABSIZE;
     try {
       tabSize = Integer.parseInt(this.txtTabSize.getText().trim());
     } catch (NumberFormatException x) {
@@ -144,9 +148,16 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
           Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
       this.txtTabSize.setText(String.valueOf(Util.MAX_TABSIZE));
     } else {
-      this.txaSource.setTabSize(tabSize);
+      this.tabSize = tabSize;
       this.dispose();
     }
+  }
+
+  /**
+   * 获取Tab键所占字符数
+   */
+  public int getTabSize() {
+    return this.tabSize;
   }
 
   /**

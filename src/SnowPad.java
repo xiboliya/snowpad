@@ -38,14 +38,29 @@ public class SnowPad {
   public static void main(final String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
+        Setting setting = new Setting();
+        SettingAdapter settingAdapter = SettingAdapter.getInstance(setting);
+        settingAdapter.parse();
         try {
-          UIManager.setLookAndFeel(Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME);
+          if (setting.viewLookAndFeel < 0) {
+            UIManager.setLookAndFeel(Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME);
+          } else {
+            UIManager
+                .setLookAndFeel(Util.LOOK_AND_FEEL_INFOS[setting.viewLookAndFeel]
+                    .getClassName());
+          }
         } catch (Exception x) {
           x.printStackTrace();
         }
         Util.setDefaultFont();
         System.setProperty("java.awt.im.style", "on-the-spot"); // 去掉文本框输入中文时所弹出的输入窗口
-        new SnowPadFrame(args); // 初始化界面的同时打开文件
+        for (String arg : args) {
+          int index = setting.fileHistoryList.indexOf(arg);
+          if (index < 0) {
+            setting.fileHistoryList.add(arg);
+          }
+        }
+        new SnowPadFrame(setting); // 初始化界面和设置的同时打开文件
       }
     });
   }

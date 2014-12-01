@@ -48,6 +48,7 @@ public final class Util {
       "file.separator", "/"); // 当前操作系统的文件分隔符
   public static final String LINE_SEPARATOR = System.getProperty(
       "line.separator", "\n"); // 当前操作系统的行分隔符
+  public static final String SETTING_XML = "snowpad.xml"; // 用来保存软件设置的配置文件名
   public static final String FILE_HISTORY = "FileHistory"; // 用于标识最近编辑的文件
   public static final String LOOK_AND_FEEL = "LookAndFeel"; // 用于标识当前系统可用的外观
   public static final String PARAM_SPLIT = "#"; // 用于分隔前后文本标识的字符串
@@ -390,7 +391,7 @@ public final class Util {
    *          文本组件
    * @param isFindDown
    *          是否向下查找
-   * @param isIgnoreCase
+   * @param isMatchCase
    *          是否区分大小写
    * @param isWrap
    *          是否循环查找
@@ -399,13 +400,13 @@ public final class Util {
    * @return 查找的字符串位于文本组件中的索引
    */
   public static int findText(String strFindText, JTextComponent txcSource,
-      boolean isFindDown, boolean isIgnoreCase, boolean isWrap,
+      boolean isFindDown, boolean isMatchCase, boolean isWrap,
       SearchStyle searchStyle) {
     if (isFindDown) {
-      return findDownText(strFindText, txcSource, isIgnoreCase, isWrap,
+      return findDownText(strFindText, txcSource, isMatchCase, isWrap,
           searchStyle);
     } else {
-      return findUpText(strFindText, txcSource, isIgnoreCase, isWrap,
+      return findUpText(strFindText, txcSource, isMatchCase, isWrap,
           searchStyle);
     }
   }
@@ -417,7 +418,7 @@ public final class Util {
    *          查找的字符串
    * @param txcSource
    *          文本组件
-   * @param isIgnoreCase
+   * @param isMatchCase
    *          是否区分大小写
    * @param isWrap
    *          是否循环查找
@@ -426,7 +427,7 @@ public final class Util {
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findDownText(String strFindText, JTextComponent txcSource,
-      boolean isIgnoreCase, boolean isWrap, SearchStyle searchStyle) {
+      boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
     if (strFindText == null || txcSource == null || strFindText.isEmpty()
         || txcSource.getText().isEmpty()) {
       return -1;
@@ -439,7 +440,7 @@ public final class Util {
     }
     int result = -1;
     String strSourceAll = txcSource.getText();
-    if (isIgnoreCase) {
+    if (!isMatchCase) {
       if (searchStyle == SearchStyle.PATTERN) {
         strFindText = "(?i)" + strFindText; // 正则表达式中，可用(?i)打开不区分大小写的属性
       } else {
@@ -490,7 +491,7 @@ public final class Util {
    *          查找的字符串
    * @param txcSource
    *          文本组件
-   * @param isIgnoreCase
+   * @param isMatchCase
    *          是否区分大小写
    * @param isWrap
    *          是否循环查找
@@ -499,7 +500,7 @@ public final class Util {
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findUpText(String strFindText, JTextComponent txcSource,
-      boolean isIgnoreCase, boolean isWrap, SearchStyle searchStyle) {
+      boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
     if (strFindText == null || txcSource == null || strFindText.isEmpty()
         || txcSource.getText().isEmpty()) {
       return -1;
@@ -514,7 +515,7 @@ public final class Util {
     int caretPos = txcSource.getCaretPosition();
     String strSel = txcSource.getSelectedText();
     if (strSel != null) {
-      if (isIgnoreCase) {
+      if (!isMatchCase) {
         if (searchStyle == SearchStyle.PATTERN) {
           if (strSel.matches("(?i)" + strFindText)) { // 正则表达式中，可用(?i)打开不区分大小写的属性
             caretPos -= strSel.length();
@@ -533,7 +534,7 @@ public final class Util {
       }
     }
     String strSourceAll = txcSource.getText();
-    if (isIgnoreCase) {
+    if (!isMatchCase) {
       if (searchStyle == SearchStyle.PATTERN) {
         strFindText = "(?i)" + strFindText; // 正则表达式中，可用(?i)打开不区分大小写的属性
       } else {
