@@ -892,3 +892,10 @@ src/Util.java
 res/snowpad.xml（添加）
 src/SettingAdapter.java（添加）
 src/TextAreaSetting.java（添加）
+
+2014-12-02
+1.在“格式”菜单中添加“恢复默认设置”功能
+src/SettingAdapter.java
+src/SnowPad.java
+src/SnowPadFrame.java
+src/Util.java
