@@ -162,6 +162,17 @@ public final class Util {
       new Color(221, 212, 195), new Color(58, 57, 53) };
   public static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1,
       COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
+  public static final Color[] COLOR_STYLE_DEFAULT = new Color[] {
+      (Color) UIManager.getLookAndFeelDefaults()
+          .getColor("TextArea.foreground"),
+      (Color) UIManager.getLookAndFeelDefaults()
+          .getColor("TextArea.background"),
+      (Color) UIManager.getLookAndFeelDefaults().getColor(
+          "TextArea.caretForeground"),
+      (Color) UIManager.getLookAndFeelDefaults().getColor(
+          "TextArea.selectionForeground"),
+      (Color) UIManager.getLookAndFeelDefaults().getColor(
+          "TextArea.selectionBackground") }; // 文本域默认配色方案
   public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager
       .getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
   public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader

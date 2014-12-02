@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.LinkedList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -46,32 +45,18 @@ import org.w3c.dom.NodeList;
  */
 public final class SettingAdapter {
   private Setting setting = null; // 软件参数配置类
-  private static SettingAdapter settingAdapter = null; // 本类的私有实例
   private URI uri = null; // XML配置文件的URI
   private File file = null; // XML配置文件
 
   /**
-   * 带参数的私有构造方法，以便于使用单例模式
+   * 带参数的构造方法
    * 
    * @param setting
    *          软件参数配置类
    */
-  private SettingAdapter(Setting setting) {
-    this.setting = setting;
+  public SettingAdapter(Setting setting) {
+    this.setSetting(setting);
     this.initSettingFile();
-  }
-
-  /**
-   * 获取本类的唯一实例。本类实现了单例模式，只能通过此方法获取到本类的实例
-   * 
-   * @param setting
-   *          软件参数配置类
-   */
-  public static SettingAdapter getInstance(Setting setting) {
-    if (settingAdapter == null) {
-      settingAdapter = new SettingAdapter(setting);
-    }
-    return settingAdapter;
   }
 
   /**
@@ -81,13 +66,23 @@ public final class SettingAdapter {
     String dir = SettingAdapter.class.getResource("").getPath();
     dir = dir.substring(5, dir.length() - 26);
     dir = new File(dir).getParent();
-    dir = dir.replace(Util.FILE_SEPARATOR, "/"); // 将当前操作系统的文件分隔符统一替换为Unix/Linux风格。以避免在Windows系统下出现URI语法错误的问题。
+    dir = dir.replace(Util.FILE_SEPARATOR, "/"); // 将当前操作系统的文件分隔符统一替换为Unix/Linux风格，以避免在Windows系统下出现URI语法错误的问题。
     try {
       this.uri = new URI("file:///" + dir + "/" + Util.SETTING_XML); // 使用URI来构建文件，避免出现由于路径中存在空格或中文所导致的错误
     } catch (URISyntaxException x) {
       x.printStackTrace();
     }
     this.file = new File(this.uri);
+  }
+
+  /**
+   * 设置软件参数配置类
+   * 
+   * @param setting
+   *          软件参数配置类
+   */
+  public void setSetting(Setting setting) {
+    this.setting = setting;
   }
 
   /**

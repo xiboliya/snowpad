@@ -186,6 +186,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
   private JCheckBoxMenuItem itemTextDrag = new JCheckBoxMenuItem("文本拖拽(D)");
   private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
+  private JMenuItem itemReset = new JMenuItem("恢复默认设置(R)...", 'R');
   private JMenu menuLineStyle = new JMenu("换行符格式(S)");
   private JRadioButtonMenuItem itemLineStyleWin = new JRadioButtonMenuItem(
       LineSeparator.WINDOWS.getName() + "格式");
@@ -300,7 +301,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private ButtonGroup bgpCharset = new ButtonGroup(); // 用于存放字符编码格式的按钮组
   private ButtonGroup bgpLookAndFeel = new ButtonGroup(); // 用于存放外观的按钮组
   private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
-  private Color[] defColorStyle = null; // 文本域默认配色方案
   private File file = null; // 当前编辑的文件
   private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
   private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // 存放界面中所有文本域的链表
@@ -339,10 +339,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 带参数的构造方法，通过配置文件进行设置
    * 
    * @param setting
-   *          软件参数配置类。
+   *          软件参数配置类
+   * @param settingAdapter
+   *          用于解析和保存软件配置文件的工具类
    */
-  public SnowPadFrame(Setting setting) {
+  public SnowPadFrame(Setting setting, SettingAdapter settingAdapter) {
     this.setting = setting;
+    this.settingAdapter = settingAdapter;
     this.initTextAreaSetting();
     this.setTitle(this.stbTitle.toString());
     this.setSize(600, 500);
@@ -491,6 +494,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSignIdentifier.addActionListener(this);
     this.itemTextDrag.addActionListener(this);
     this.itemAutoIndent.addActionListener(this);
+    this.itemReset.addActionListener(this);
     this.itemAlwaysOnTop.addActionListener(this);
     this.itemLockResizable.addActionListener(this);
     this.itemTabPolicy.addActionListener(this);
@@ -645,9 +649,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.tpnMain.setFont(Util.GLOBAL_FONT);
     this.tpnMain.addChangeListener(this);
     this.createNew(null);
-    this.defColorStyle = new Color[] { this.txaMain.getForeground(),
-        this.txaMain.getBackground(), this.txaMain.getCaretColor(),
-        this.txaMain.getSelectedTextColor(), this.txaMain.getSelectionColor() };
   }
 
   /**
@@ -823,6 +824,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStyle.add(this.itemLineWrap);
     this.menuStyle.add(this.itemTextDrag);
     this.menuStyle.add(this.itemAutoIndent);
+    this.menuStyle.addSeparator();
+    this.menuStyle.add(this.itemReset);
     this.menuBar.add(this.menuView);
     this.menuView.add(this.itemToolBar);
     this.menuView.add(this.itemStateBar);
@@ -1004,6 +1007,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 界面初始化时，设置有关菜单的初始状态与功能
    */
   private void setMenuDefaultInit() {
+    this.setMenuReset();
+    this.setLineStyleString(LineSeparator.DEFAULT, true);
+    this.setCharEncoding(CharEncoding.BASE, true);
+  }
+
+  /**
+   * 设置部分菜单的状态与功能
+   */
+  private void setMenuReset() {
     this.itemLineWrap.setSelected(this.textAreaSetting.isLineWrap);
     this.itemLineWrapByWord.setSelected(this.textAreaSetting.isWrapStyleWord);
     this.itemLineWrapByChar.setSelected(!this.textAreaSetting.isWrapStyleWord);
@@ -1028,8 +1040,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setTabLayoutPolicy();
     this.setClickToClose();
     this.setTabIcon();
-    this.setLineStyleString(LineSeparator.DEFAULT, true);
-    this.setCharEncoding(CharEncoding.BASE, true);
+  }
+
+  /**
+   * 恢复默认设置时，设置有关菜单的默认状态与功能
+   */
+  private void setMenuDefaultSetting() {
+    this.setLookAndFeel(Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME);
+    this.setMenuReset();
+    for (BaseTextArea textArea : this.textAreaList) {
+      textArea.setTabSize(this.textAreaSetting.tabSize);
+      textArea.setTabReplaceBySpace(this.textAreaSetting.tabReplaceBySpace);
+    }
+    this.setTextAreaFont();
+    this.setColorStyle(0);
   }
 
   /**
@@ -1456,6 +1480,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setTextDrag();
     } else if (this.itemAutoIndent.equals(e.getSource())) {
       this.setAutoIndent();
+    } else if (this.itemReset.equals(e.getSource())) {
+      this.resetSetting();
     } else if (this.itemNew.equals(e.getSource())
         || this.toolButtonList.get(0).equals(e.getSource())) {
       this.createNew(null);
@@ -1619,6 +1645,23 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
     }
+  }
+
+  /**
+   * "恢复默认设置"的处理方法
+   */
+  private void resetSetting() {
+    int result = JOptionPane.showConfirmDialog(this, Util
+        .convertToMsg("此操作将恢复所有的设置，并将覆盖" + Util.SETTING_XML + "配置文件！\n是否继续？"),
+        Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
+    if (result != JOptionPane.YES_OPTION) {
+      return;
+    }
+    this.setting = new Setting();
+    this.initTextAreaSetting();
+    this.settingAdapter.setSetting(this.setting);
+    this.settingAdapter.createSettingFile();
+    this.setMenuDefaultSetting();
   }
 
   /**
@@ -2375,7 +2418,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (style > 0 && style <= Util.COLOR_STYLES.length) {
       this.setting.colorStyle = this.textAreaSetting.colorStyle = Util.COLOR_STYLES[style - 1];
     } else {
-      this.setting.colorStyle = this.textAreaSetting.colorStyle = this.defColorStyle;
+      this.setting.colorStyle = this.textAreaSetting.colorStyle = Util.COLOR_STYLE_DEFAULT;
     }
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(this.textAreaSetting.colorStyle);
@@ -2864,7 +2907,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (color != null) {
       Color[] colorStyle = this.txaMain.getColorStyle();
       if (colorStyle == null) {
-        colorStyle = this.defColorStyle;
+        colorStyle = Util.COLOR_STYLE_DEFAULT;
       }
       colorStyle[index] = color;
       for (BaseTextArea textArea : this.textAreaList) {
@@ -3451,7 +3494,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         break;
       }
     }
-    this.settingAdapter = SettingAdapter.getInstance(this.setting);
     this.settingAdapter.save();
     if (toExit) {
       System.exit(0);

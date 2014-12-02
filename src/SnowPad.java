@@ -39,7 +39,7 @@ public class SnowPad {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         Setting setting = new Setting();
-        SettingAdapter settingAdapter = SettingAdapter.getInstance(setting);
+        SettingAdapter settingAdapter = new SettingAdapter(setting);
         settingAdapter.parse();
         try {
           if (setting.viewLookAndFeel < 0) {
@@ -60,7 +60,7 @@ public class SnowPad {
             setting.fileHistoryList.add(arg);
           }
         }
-        new SnowPadFrame(setting); // 初始化界面和设置的同时打开文件
+        new SnowPadFrame(setting, settingAdapter); // 初始化界面和设置的同时打开文件
       }
     });
   }
