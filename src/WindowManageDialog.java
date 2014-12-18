@@ -132,7 +132,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
       cellsLine = new Vector<String>();
       cellsLine.add(this.tpnMain.getTitleAt(i));
       cellsLine.add(path);
-      cellsLine.add(textArea.getFileExt().toString());
+      cellsLine.add(textArea.getFileExt().toString().substring(1));
       this.cells.add(cellsLine);
     }
   }
