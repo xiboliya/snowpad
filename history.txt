@@ -899,3 +899,7 @@ src/SettingAdapter.java
 src/SnowPad.java
 src/SnowPadFrame.java
 src/Util.java
+
+2014-12-18
+1.“窗口管理”界面的“类型”一列中，去掉扩展名前面的“.”
+src/WindowManageDialog.java
