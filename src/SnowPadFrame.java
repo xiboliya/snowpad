@@ -3505,7 +3505,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void showAbout() {
     if (this.aboutDialog == null) {
-      final String strBaiduSpace = "http://hi.baidu.com/xiboliya";
+      final String strQQ = "155222113";
+      final String strEmail = "chenzhengfeng@163.com";
       final String strGithubCode = "https://github.com/xiboliya/snowpad";
       final String strCsdnCode = "https://code.csdn.net/chenzhengfeng/snowpad";
       final String strGoogleCode = "http://code.google.com/p/snowpad";
@@ -3513,8 +3514,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           "软件名称：" + Util.SOFTWARE,
           "软件版本：" + Util.VERSION,
           "软件作者：冰原",
-          "<html>百度空间：<a href='" + strBaiduSpace + "'>" + strBaiduSpace
-              + "</a></html>",
+          "作者QQ：" + strQQ,
+          "作者邮箱：" + strEmail,
           "<html>GitHub：<a href='" + strGithubCode + "'>" + strGithubCode
               + "</a></html>",
           "<html>CSDN代码：<a href='" + strCsdnCode + "'>" + strCsdnCode
@@ -3522,10 +3523,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           "<html>谷歌代码：<a href='" + strGoogleCode + "'>" + strGoogleCode
               + "</a></html>", "软件版权：遵循GNU GPL第三版开源许可协议的相关条款" };
       this.aboutDialog = new AboutDialog(this, true, arrStrLabel, Util.SW_ICON);
-      this.aboutDialog.addLinkByIndex(3, strBaiduSpace);
-      this.aboutDialog.addLinkByIndex(4, strGithubCode);
-      this.aboutDialog.addLinkByIndex(5, strCsdnCode);
-      this.aboutDialog.addLinkByIndex(6, strGoogleCode);
+      this.aboutDialog.addLinkByIndex(5, strGithubCode);
+      this.aboutDialog.addLinkByIndex(6, strCsdnCode);
+      this.aboutDialog.addLinkByIndex(7, strGoogleCode);
       this.aboutDialog.pack(); // 自动调整窗口大小，以适应各组件
     }
     this.aboutDialog.setVisible(true);
