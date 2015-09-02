@@ -136,7 +136,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.pnlFindUpDownF.add(this.radFindUpF);
     this.pnlFindUpDownF.add(this.radFindDownF);
     this.pnlFind.add(this.pnlFindUpDownF);
-    this.pnlSearchStyleF.setBounds(130, 60, 130, 90);
+    this.pnlSearchStyleF.setBounds(130, 70, 130, 90);
     this.pnlSearchStyleF.setBorder(new TitledBorder("ģʽ"));
     this.pnlSearchStyleF.add(this.radDefaultF);
     this.pnlSearchStyleF.add(this.radTransferF);
@@ -175,7 +175,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.pnlFindUpDownR.add(this.radFindUpR);
     this.pnlFindUpDownR.add(this.radFindDownR);
     this.pnlReplace.add(this.pnlFindUpDownR);
-    this.pnlSearchStyleR.setBounds(130, 80, 130, 90);
+    this.pnlSearchStyleR.setBounds(130, 90, 130, 90);
     this.pnlSearchStyleR.setBorder(new TitledBorder("ģʽ"));
     this.pnlSearchStyleR.add(this.radDefaultR);
     this.pnlSearchStyleR.add(this.radTransferR);
