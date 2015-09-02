@@ -156,7 +156,7 @@ public final class Util {
       new Color(255, 251, 240), new Color(46, 52, 54) };
   public static final Color[] COLOR_STYLE_4 = new Color[] {
       new Color(51, 53, 49), new Color(204, 232, 207), new Color(51, 53, 49),
-      new Color(204, 232, 207), new Color(51, 53, 49) };
+      new Color(204, 232, 207), new Color(0, 60, 100) };
   public static final Color[] COLOR_STYLE_5 = new Color[] {
       new Color(58, 57, 53), new Color(221, 212, 195), new Color(58, 57, 53),
       new Color(221, 212, 195), new Color(58, 57, 53) };
