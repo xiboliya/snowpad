@@ -915,3 +915,6 @@ src/Util.java
 src/FindReplaceDialog.java
 3.在“时间/日期”界面中，当选择列表中预置的格式后，同步变更自定义格式的内容。并在下一次打开此界面时，刷新时间。
 src/InsertDateDialog.java
+4.调整“关于”界面的显示内容，去掉百度空间、添加QQ和Email。
+src/SnowPadFrame.java
+
