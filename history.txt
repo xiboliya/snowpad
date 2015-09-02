@@ -907,3 +907,11 @@ src/WindowManageDialog.java
 ******************************
 git tag SnowPad-V4.0-20141218
 ******************************
+
+2015-09-02
+1.调整配色方案4的颜色
+src/Util.java
+2.调整“查找/替换”对话框的界面显示
+src/FindReplaceDialog.java
+3.在“时间/日期”界面中，当选择列表中预置的格式后，同步变更自定义格式的内容。并在下一次打开此界面时，刷新时间。
+src/InsertDateDialog.java
