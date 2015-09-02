@@ -38,6 +38,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * "插入时间/日期"对话框
@@ -46,14 +48,14 @@ import javax.swing.event.CaretListener;
  * 
  */
 public class InsertDateDialog extends BaseDialog implements ActionListener,
-    CaretListener {
+    ListSelectionListener, CaretListener {
   private static final long serialVersionUID = 1L;
   private JRadioButton radSelect = new JRadioButton("使用选中的格式(S)", true);
   private JList listStyles = new JList();
   private JScrollPane srpStyles = new JScrollPane(this.listStyles);
   private JRadioButton radUser = new JRadioButton("使用自定义格式(U)", false);
   private JLabel lblWarning = new JLabel("");
-  private BaseTextField txtUser = new BaseTextField(Util.DATE_STYLES[1]);
+  private BaseTextField txtUser = new BaseTextField(Util.DATE_STYLES[0]);
   private JLabel lblView = new JLabel("");
   private JButton btnOk = new JButton("插入");
   private JButton btnCancel = new JButton("关闭");
@@ -63,6 +65,8 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   private BaseMouseAdapter baseMouseAdapter = new BaseMouseAdapter();
   private ButtonGroup bgpStyle = new ButtonGroup();
   private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+  private String[] arrStyles = new String[Util.DATE_STYLES.length];
+  private int currentIndex = 0;
 
   /**
    * 构造方法
@@ -83,7 +87,6 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
     this.setTitle("插入时间/日期");
     this.init();
     this.setMnemonic();
-    this.fillStyleList();
     this.setView();
     this.setComponentEnabledByRadioButton();
     this.addListeners();
@@ -116,6 +119,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
     this.pnlMain.add(this.btnCancel);
     this.bgpStyle.add(this.radSelect);
     this.bgpStyle.add(this.radUser);
+    this.listStyles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
   }
 
   /**
@@ -123,7 +127,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
    */
   public void setVisible(boolean visible) {
     if (visible) {
-      this.checkStyle();
+      this.fillStyleList();
     }
     super.setVisible(visible);
   }
@@ -151,30 +155,15 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
    * 填充"格式"列表
    */
   private void fillStyleList() {
-    String[] arrStyles = new String[Util.DATE_STYLES.length];
     Date date = new Date();
     for (int n = 0; n < Util.DATE_STYLES.length; n++) {
       this.simpleDateFormat.applyPattern(Util.DATE_STYLES[n]);
-      arrStyles[n] = this.simpleDateFormat.format(date);
+      this.arrStyles[n] = this.simpleDateFormat.format(date);
     }
-    this.listStyles.setListData(arrStyles);
-    this.listStyles.setSelectedIndex(0);
-    this.listStyles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-  }
-
-  /**
-   * 检测自定义输入框是否符合规范
-   */
-  private void checkStyle() {
-    if (this.txtUser.getText().isEmpty()) {
-      this.txtUser.setText(Util.DATE_STYLES[0]);
-    }
-    try {
-      this.simpleDateFormat.applyPattern(this.txtUser.getText());
-    } catch (IllegalArgumentException x) {
-      this.txtUser.setText(Util.DATE_STYLES[0]);
-      // x.printStackTrace();
-    }
+    this.listStyles.removeListSelectionListener(this); // 为了避免在重新填充列表框时，而产生的当前选择项索引为-1，而导致异常，所以先移除监听器。
+    this.listStyles.setListData(this.arrStyles);
+    this.listStyles.addListSelectionListener(this); // 重新添加监听器。
+    this.listStyles.setSelectedIndex(this.currentIndex);
   }
 
   /**
@@ -257,13 +246,14 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   public void onEnter() {
     String strStyles = "";
     if (this.radSelect.isSelected()) {
-      strStyles = Util.DATE_STYLES[this.listStyles.getSelectedIndex()];
+      strStyles = Util.DATE_STYLES[this.currentIndex];
     } else {
       strStyles = this.txtUser.getText();
     }
     if (strStyles.isEmpty()) {
       JOptionPane.showMessageDialog(this, "格式不能为空！", Util.SOFTWARE,
           JOptionPane.ERROR_MESSAGE);
+      return;
     }
     try {
       this.simpleDateFormat.applyPattern(strStyles);
@@ -288,6 +278,18 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
       this.setComponentEnabledByRadioButton();
     } else if (this.radUser.equals(e.getSource())) {
       this.setComponentEnabledByRadioButton();
+    }
+  }
+
+  /**
+   * 当列表框改变选择时，触发此事件
+   */
+  public void valueChanged(ListSelectionEvent e) {
+    if (this.listStyles.equals(e.getSource())) {
+      this.currentIndex = this.listStyles.getSelectedIndex();
+      this.txtUser.setText(Util.DATE_STYLES[this.currentIndex]);
+      this.lblView.setText(this.listStyles.getSelectedValue().toString());
+      this.updateWarning(false);
     }
   }
 
