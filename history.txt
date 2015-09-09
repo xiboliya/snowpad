@@ -921,3 +921,5 @@ src/SnowPadFrame.java
 2015-09-09
 1.“窗口管理”界面中的列表标题，修改为不可整列移动。
 src/WindowManageDialog.java
+2.解决当执行“以指定编码打开”功能，文件编码格式选择“自动检测”时，会覆盖当前的文本域而不会重新创建新文本域的问题。
+src/SnowPadFrame.java
