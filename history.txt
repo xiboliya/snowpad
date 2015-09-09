@@ -918,3 +918,6 @@ src/InsertDateDialog.java
 4.调整“关于”界面的显示内容，去掉百度空间、添加QQ和Email。
 src/SnowPadFrame.java
 
+2015-09-09
+1.“窗口管理”界面中的列表标题，修改为不可整列移动。
+src/WindowManageDialog.java
