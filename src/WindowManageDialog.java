@@ -113,6 +113,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     this.baseDefaultTableModel = new BaseDefaultTableModel(this.cells,
         this.cellsTitle);
     this.tabMain = new JTable(this.baseDefaultTableModel);
+    this.tabMain.getTableHeader().setReorderingAllowed(false); // 不可整列移动
     this.spnMain = new JScrollPane(this.tabMain);
     this.pnlLeft.add(this.spnMain, BorderLayout.CENTER);
   }
