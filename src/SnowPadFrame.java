@@ -4045,10 +4045,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (file != null && file.exists()) {
       boolean toCreateNew = this.checkToCreateNew(file);
       int index = this.getCurrentIndexBySameFile(file);
+      if (toCreateNew) {
+        this.createNew(file);
+      }
       if (charEncoding != null) {
-        if (toCreateNew) {
-          this.createNew(file);
-        }
         this.setCharEncoding(charEncoding, true);
         this.toOpenFile(file, false, false);
       } else {
