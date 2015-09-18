@@ -130,7 +130,7 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
     try {
       offset = Integer.parseInt(this.txtOffset.getText().trim());
     } catch (NumberFormatException x) {
-      x.printStackTrace();
+      // x.printStackTrace();
       JOptionPane.showMessageDialog(this, "格式错误，请输入数字！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtOffset.requestFocus();

@@ -70,7 +70,7 @@ public final class SettingAdapter {
     try {
       this.uri = new URI("file:///" + dir + "/" + Util.SETTING_XML); // 使用URI来构建文件，避免出现由于路径中存在空格或中文所导致的错误
     } catch (URISyntaxException x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
     this.file = new File(this.uri);
   }
@@ -106,7 +106,7 @@ public final class SettingAdapter {
       nodeList = root.getElementsByTagName("Files");
       parseFiles(nodeList);
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
   }
 
@@ -145,7 +145,7 @@ public final class SettingAdapter {
             try {
               size = Integer.parseInt(value);
             } catch (NumberFormatException x) {
-              x.printStackTrace();
+              // x.printStackTrace();
             }
             if (size < Util.MIN_TABSIZE || size > Util.MAX_TABSIZE) {
               size = Util.DEFAULT_TABSIZE;
@@ -163,7 +163,7 @@ public final class SettingAdapter {
           try {
             style = Integer.parseInt(strStyle);
           } catch (NumberFormatException x) {
-            x.printStackTrace();
+            // x.printStackTrace();
           }
           if (style < 0 || style > 3) {
             style = Util.TEXT_FONT.getStyle();
@@ -171,7 +171,7 @@ public final class SettingAdapter {
           try {
             size = Integer.parseInt(strSize);
           } catch (NumberFormatException x) {
-            x.printStackTrace();
+            // x.printStackTrace();
           }
           if (size < Util.MIN_FONT_SIZE || size > Util.MAX_FONT_SIZE) {
             size = Util.TEXT_FONT.getSize();
@@ -192,7 +192,7 @@ public final class SettingAdapter {
             this.setting.colorStyle = new Color[] { color1, color2, color3,
                 color4, color5 };
           } catch (NumberFormatException x) {
-            x.printStackTrace();
+            // x.printStackTrace();
           }
         }
       }
@@ -230,7 +230,7 @@ public final class SettingAdapter {
             try {
               style = Integer.parseInt(value);
             } catch (NumberFormatException x) {
-              x.printStackTrace();
+              // x.printStackTrace();
             }
             switch (style) {
             case 1:
@@ -291,7 +291,7 @@ public final class SettingAdapter {
             try {
               id = Integer.parseInt(value);
             } catch (NumberFormatException x) {
-              x.printStackTrace();
+              // x.printStackTrace();
             }
             if (id >= Util.LOOK_AND_FEEL_INFOS.length) {
               id = -1;
@@ -357,7 +357,7 @@ public final class SettingAdapter {
       StreamResult sr = new StreamResult(this.file);
       tf.transform(ds, sr);
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
   }
 
@@ -541,14 +541,14 @@ public final class SettingAdapter {
       fileOutputStream = new FileOutputStream(this.file);
       fileOutputStream.write(byteStr);
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     } finally {
       try {
         inputStreamReader.close();
         fileOutputStream.flush();
         fileOutputStream.close();
       } catch (IOException x) {
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     }
   }

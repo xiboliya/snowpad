@@ -385,7 +385,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     try {
       this.setIconImage(Util.SW_ICON.getImage());
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
   }
 
@@ -1882,7 +1882,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.destroyAllDialogs();
       this.txaMain.select(start, end);
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
     int index = -1;
     for (int n = 0; n < Util.LOOK_AND_FEEL_INFOS.length; n++) {
@@ -2299,7 +2299,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.txaMain.getHighlighterList().add(
             new PartnerBean(arrHighlight[arrHighlight.length - 1], style));
       } catch (BadLocationException x) {
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     }
   }
@@ -3485,7 +3485,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
               this.setting.fileHistoryList.add(strFile);
             }
           } catch (Exception x) {
-            x.printStackTrace();
+            // x.printStackTrace();
           }
         }
       }
@@ -3715,7 +3715,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     } catch (Exception x) {
       // ¼ôÌù°åÒì³£
-      x.printStackTrace();
+      // x.printStackTrace();
     }
   }
 
@@ -4077,12 +4077,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         charArr[i] = fileInputStream.read();
       }
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     } finally {
       try {
         fileInputStream.close();
       } catch (IOException x) {
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     }
     if (charArr[0] == 0xff && charArr[1] == 0xfe) {
@@ -4162,12 +4162,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
       }
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     } finally {
       try {
         inputStreamReader.close();
       } catch (IOException x) {
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     }
   }
@@ -4301,13 +4301,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.setFileExt(this.getFileExtByName(file.getName()));
       this.setMenuStateComment();
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     } finally {
       try {
         fileOutputStream.flush();
         fileOutputStream.close();
       } catch (IOException x) {
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     }
   }
@@ -4599,7 +4599,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           new PartnerBean(arrHighlight[arrHighlight.length - 1],
               Util.BRACKET_COLOR_STYLE));
     } catch (BadLocationException x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
   }
 

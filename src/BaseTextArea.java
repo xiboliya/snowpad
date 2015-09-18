@@ -184,7 +184,7 @@ public class BaseTextArea extends JTextArea {
         this.file = file.getCanonicalFile(); // 获取此抽象路径名的规范形式
         this.setTitle(this.file.getName());
       } catch (IOException x) {
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     } else {
       this.file = file;

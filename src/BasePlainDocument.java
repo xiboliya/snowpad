@@ -90,7 +90,7 @@ public class BasePlainDocument extends PlainDocument {
         this.remove(0, this.getLength());
       }
     } catch (BadLocationException x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
   }
 

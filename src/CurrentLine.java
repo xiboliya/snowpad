@@ -65,7 +65,7 @@ public class CurrentLine {
       this.strLine = this.txaSource.getText().substring(this.startIndex,
           this.endIndex);
     } catch (BadLocationException x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
   }
 

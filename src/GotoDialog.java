@@ -212,7 +212,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     try {
       target = Integer.parseInt(str);
     } catch (NumberFormatException x) {
-      x.printStackTrace();
+      // x.printStackTrace();
       JOptionPane.showMessageDialog(this, "格式错误，请输入数值！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtGotoLine.requestFocus();
@@ -231,7 +231,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
         int offset = this.txaSource.getLineStartOffset(target - 1);
         this.txaSource.setCaretPosition(offset);
       } catch (BadLocationException x) {
-        x.printStackTrace();
+        // x.printStackTrace();
       }
       this.cancelGoto();
     }
@@ -255,7 +255,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     try {
       target = Integer.parseInt(str);
     } catch (NumberFormatException x) {
-      x.printStackTrace();
+      // x.printStackTrace();
       JOptionPane.showMessageDialog(this, "格式错误，请输入数值！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtGotoOffset.requestFocus();

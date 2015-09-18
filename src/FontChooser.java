@@ -328,7 +328,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
         }
       } catch (NumberFormatException x) {
         // 被转化的字符串不是数字
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     }
     this.setView();
@@ -350,7 +350,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
         }
       } catch (NumberFormatException x) {
         // 被转化的字符串不是数字
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     }
   }

@@ -148,7 +148,7 @@ public class CurrentLines {
         }
       }
     } catch (BadLocationException x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
   }
 

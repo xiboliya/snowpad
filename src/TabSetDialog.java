@@ -133,7 +133,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
     try {
       tabSize = Integer.parseInt(this.txtTabSize.getText().trim());
     } catch (NumberFormatException x) {
-      x.printStackTrace();
+      // x.printStackTrace();
       JOptionPane.showMessageDialog(this, "格式错误，请输入数字！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtTabSize.setText("");

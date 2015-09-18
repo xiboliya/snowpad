@@ -194,7 +194,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
           }
         } catch (Exception x) {
           // 如果操作系统不支持上述命令，将抛出异常
-          x.printStackTrace();
+          // x.printStackTrace();
         }
       }
     });
@@ -218,7 +218,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
       } catch (Exception x) {
         // 如果未能正常打开链接，则递归调用本方法，试图使用上述数组中的下一个浏览器打开
         this.openLinkByBrowser(++index, strLink);
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     }
   }

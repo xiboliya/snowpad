@@ -127,12 +127,12 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
         line = reader.readLine();
       }
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     } finally {
       try {
         reader.close();
       } catch (IOException x) {
-        x.printStackTrace();
+        // x.printStackTrace();
       }
     }
   }
@@ -144,7 +144,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
     try {
       this.setIconImage(Util.SW_ICON.getImage());
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
   }
 
