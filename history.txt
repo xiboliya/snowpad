@@ -940,3 +940,13 @@ src/SettingAdapter.java
 src/SnowPad.java
 src/SnowPadFrame.java
 src/TabSetDialog.java
+2.在“格式”菜单中添加“快捷键管理”功能
+res/help.res
+res/snowpad.xml
+src/BaseDialog.java
+src/Setting.java
+src/SettingAdapter.java
+src/SnowPadFrame.java
+src/Util.java
+src/ShortcutManageDialog.java（添加）
+src/ShortcutSetDialog.java（添加）
