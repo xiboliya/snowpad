@@ -19,6 +19,8 @@ package com.xiboliya.snowpad;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.regex.Matcher;
@@ -28,6 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.JTextComponent;
@@ -60,6 +63,10 @@ public final class Util {
   public static final String INSERT_PINYIN = "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡ"; // 拼音符号
   public static final String BRACKETS_LEFT = "([{<"; // 在文本域中可以进行高亮匹配的左括号
   public static final String BRACKETS_RIGHT = ")]}>"; // 在文本域中可以进行高亮匹配的右括号
+  public static final String CTRL = "Ctrl"; // Ctrl键的名称
+  public static final String SHIFT = "Shift"; // Shift键的名称
+  public static final String ALT = "Alt"; // Alt键的名称
+  public static final String KEY_UNDEFINED = "[未定义]"; // 未定义按键
   public static final String CTRL_C = "Ctrl+C"; // 组合键Ctrl+C的字符串
   public static final String CTRL_H = "Ctrl+H"; // 组合键Ctrl+H的字符串
   public static final String CTRL_V = "Ctrl+V"; // 组合键Ctrl+V的字符串
@@ -111,6 +118,15 @@ public final class Util {
       "字体放大", "字体缩小", "自动换行" }; // 工具栏提示信息
   public static final String[] WINDOW_MANAGE_TABLE_TITLE_TEXTS = new String[] {
       "文件名", "路径", "类型" }; // 窗口管理界面的表格标题
+  public static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] {
+      "功能", "快捷键" }; // 快捷键管理界面的表格标题
+  public static final String[] SHORTCUT_NAMES = new String[] {
+      "新建","打开","以指定编码打开","保存","另存为","重命名","重新载入文件","删除当前文件","关闭当前","关闭其它","关闭全部","清空最近编辑列表","退出","撤销","重做","剪切","复制","粘贴","全选","删除","切换为大写","切换为小写","复制当前文件名到剪贴板","复制当前文件路径到剪贴板","复制当前目录路径到剪贴板","复制所有文本到剪贴板","复写当前行","删除当前行","删除至行首","删除至行尾","删除至文件首","删除至文件尾","上移当前行","下移当前行","复制当前行","剪切当前行","批量切除行","批量插入行","批量分割行","批量合并行","逐行复写","升序排序","降序排序","缩进","退格","清除行首空白","清除行尾空白","清除行首和行尾空白","清除选区内空白","删除全文空行","删除选区空行","添加单行注释","添加区块注释","插入特殊字符","插入时间和日期","复写选区字符","反转选区字符","查找","查找下一个","查找上一个","选定查找下一个","选定查找上一个","快速向下查找","快速向上查找","替换","转到","定位匹配括号","单词边界换行","字符边界换行","Windows换行符格式","Unix/Linux换行符格式","Macintosh换行符格式","默认GB18030编码格式","ANSI编码格式","UTF-8编码格式","UTF-8 No BOM编码格式","Unicode Little Endian编码格式","Unicode Big Endian编码格式","列表符号与编号","字体","Tab键设置","自动换行","文本拖拽","自动缩进","恢复默认设置","显示/隐藏工具类","显示/隐藏状态栏","显示/隐藏行号栏","前端显示","锁定窗口","多行标签","双击关闭标签","显示/隐藏指示图标","字体放大","字体缩小","字体恢复初始大小","字体颜色","背景颜色","光标颜色","选区字体颜色","选区背景颜色","全部反色","全部补色","配色方案1","配色方案2","配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4","高亮显示格式5","清除高亮格式1","清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向后切换文档","向前切换文档","统计信息","窗口管理","帮助主题","关于" }; // 快捷键的名称
+  public static final String[] SHORTCUT_VALUES = new String[] {
+      "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","","","","Ctrl+81","Ctrl+90","Ctrl+89","Ctrl+88","Ctrl+67","Ctrl+86","Ctrl+65","127","Ctrl+Shift+85","Ctrl+85","","","","Ctrl+Shift+65","Ctrl+68","Ctrl+Shift+68","Ctrl+Alt+37","Ctrl+Alt+39","Ctrl+Alt+Shift+37","Ctrl+Alt+Shift+39","Ctrl+Shift+38","Ctrl+Shift+40","Ctrl+Shift+67","Ctrl+Shift+88","Ctrl+Shift+82","Ctrl+Shift+73","Ctrl+Shift+80","Ctrl+Shift+77","Ctrl+Shift+86","Alt+38","Alt+40","Ctrl+Alt+84","Ctrl+Alt+Shift+84","Ctrl+Shift+83","Ctrl+Shift+69","Ctrl+Shift+76","Ctrl+Shift+84","Ctrl+Alt+65","Ctrl+Alt+83","Ctrl+76","Ctrl+77","","116","Ctrl+82","Ctrl+73","Ctrl+70","114","Shift+114","Ctrl+114","Ctrl+Shift+114","Ctrl+75","Ctrl+Shift+75","Ctrl+72","Ctrl+71","Ctrl+66","","","","","","","","","","","","","","","","","","","","","","","","","","","Ctrl+38","Ctrl+40","Ctrl+47","","","","","","","","","","","","","","","","","","","","","","","","","Ctrl+87","Ctrl+Shift+87","","","","112" }; // 快捷键的值
+  public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
+  public static final int[] ALL_KEY_CODES = new int[] { KeyEvent.VK_0 ,KeyEvent.VK_1 ,KeyEvent.VK_2 ,KeyEvent.VK_3 ,KeyEvent.VK_4 ,KeyEvent.VK_5 ,KeyEvent.VK_6 ,KeyEvent.VK_7 ,KeyEvent.VK_8 ,KeyEvent.VK_9 ,KeyEvent.VK_A ,KeyEvent.VK_B ,KeyEvent.VK_C ,KeyEvent.VK_D ,KeyEvent.VK_E ,KeyEvent.VK_F ,KeyEvent.VK_G ,KeyEvent.VK_H ,KeyEvent.VK_I ,KeyEvent.VK_J ,KeyEvent.VK_K ,KeyEvent.VK_L ,KeyEvent.VK_M ,KeyEvent.VK_N ,KeyEvent.VK_O ,KeyEvent.VK_P ,KeyEvent.VK_Q ,KeyEvent.VK_R ,KeyEvent.VK_S ,KeyEvent.VK_T ,KeyEvent.VK_U ,KeyEvent.VK_V ,KeyEvent.VK_W ,KeyEvent.VK_X ,KeyEvent.VK_Y ,KeyEvent.VK_Z ,KeyEvent.VK_F1 ,KeyEvent.VK_F2 ,KeyEvent.VK_F3 ,KeyEvent.VK_F4 ,KeyEvent.VK_F5 ,KeyEvent.VK_F6 ,KeyEvent.VK_F7 ,KeyEvent.VK_F8 ,KeyEvent.VK_F9 ,KeyEvent.VK_F10 ,KeyEvent.VK_F11 ,KeyEvent.VK_F12 ,KeyEvent.VK_NUMPAD0 ,KeyEvent.VK_NUMPAD1 ,KeyEvent.VK_NUMPAD2 ,KeyEvent.VK_NUMPAD3 ,KeyEvent.VK_NUMPAD4 ,KeyEvent.VK_NUMPAD5 ,KeyEvent.VK_NUMPAD6 ,KeyEvent.VK_NUMPAD7 ,KeyEvent.VK_NUMPAD8 ,KeyEvent.VK_NUMPAD9 ,KeyEvent.VK_NUM_LOCK ,KeyEvent.VK_ADD ,KeyEvent.VK_SUBTRACT ,KeyEvent.VK_MULTIPLY ,KeyEvent.VK_DIVIDE ,KeyEvent.VK_DECIMAL ,KeyEvent.VK_ESCAPE ,KeyEvent.VK_TAB ,KeyEvent.VK_SPACE ,KeyEvent.VK_BACK_SPACE ,KeyEvent.VK_BACK_QUOTE ,KeyEvent.VK_SLASH ,KeyEvent.VK_BACK_SLASH ,KeyEvent.VK_OPEN_BRACKET ,KeyEvent.VK_CLOSE_BRACKET ,KeyEvent.VK_COMMA ,KeyEvent.VK_PAGE_UP ,KeyEvent.VK_PAGE_DOWN ,KeyEvent.VK_PERIOD ,KeyEvent.VK_QUOTE ,KeyEvent.VK_SEMICOLON ,KeyEvent.VK_INSERT ,KeyEvent.VK_DELETE ,KeyEvent.VK_HOME ,KeyEvent.VK_END ,KeyEvent.VK_UP ,KeyEvent.VK_DOWN ,KeyEvent.VK_LEFT ,KeyEvent.VK_RIGHT ,KeyEvent.VK_ENTER ,KeyEvent.VK_EQUALS ,KeyEvent.VK_MINUS ,KeyEvent.VK_CAPS_LOCK ,KeyEvent.VK_WINDOWS ,KeyEvent.VK_CONTEXT_MENU ,KeyEvent.VK_SCROLL_LOCK ,KeyEvent.VK_PAUSE }; // 所有可以用作快捷键的按键常量
+  public static final int[] SINGLE_KEY_CODES = new int[] { KeyEvent.VK_F1 ,KeyEvent.VK_F2 ,KeyEvent.VK_F3 ,KeyEvent.VK_F4 ,KeyEvent.VK_F5 ,KeyEvent.VK_F6 ,KeyEvent.VK_F7 ,KeyEvent.VK_F8 ,KeyEvent.VK_F9 ,KeyEvent.VK_F10 ,KeyEvent.VK_F11 ,KeyEvent.VK_F12 }; // 可以单独用作快捷键的按键常量
   public static final int DEFAULT_CARET_INDEX = 0; // 文本域默认插入点位置
   public static final int INPUT_HEIGHT = 22; // 单行输入框的高度
   public static final int VIEW_HEIGHT = 18; // 标签、单选按钮、复选框的高度
@@ -593,4 +609,101 @@ public final class Util {
   public static String transfer(String strSource) {
     return strSource.replace("\\n", "\n").replace("\\t", "\t"); // 将字符串中的\n替换为换行符，\t替换为tab字符
   }
+
+  /**
+   * 将给定的快捷键组合的常量字符串形式转换为快捷键描述
+   * 
+   * @param shortcut
+   *          表示快捷键组合的常量字符串
+   * @return 表示快捷键描述的字符串
+   */
+  public static String transferShortcut(String shortcut) {
+    String value = "";
+    if (shortcut.isEmpty()) {
+      return value;
+    }
+    boolean hasCtrl = false; // 是否含有Ctrl键
+    boolean hasAlt = false; // 是否含有Alt键
+    boolean hasShift = false; // 是否含有Shift键
+    String[] arrKeys = shortcut.split("\\+");
+    for (String str : arrKeys) {
+      if (CTRL.equalsIgnoreCase(str)) {
+        hasCtrl = true;
+      } else if (ALT.equalsIgnoreCase(str)) {
+        hasAlt = true;
+      } else if (SHIFT.equalsIgnoreCase(str)) {
+        hasShift = true;
+      } else { // 除控制键之外的按键
+        String strKey = transferKeyCode(str);
+        if (!strKey.isEmpty()) {
+          value = strKey;
+        }
+      }
+    }
+    if (!value.isEmpty()) {
+      if (hasShift) {
+        value = SHIFT + "+" + value;
+      }
+      if (hasAlt) {
+        value = ALT + "+" + value;
+      }
+      if (hasCtrl) {
+        value = CTRL + "+" + value;
+      }
+    }
+    return value;
+  }
+
+  /**
+   * 将给定的字符串形式的按键常量转换为按键描述
+   * 
+   * @param strKeyCode
+   *          表示按键常量的字符串
+   * @return 表示按键描述的字符串
+   */
+  public static String transferKeyCode(String strKeyCode) {
+    String strKey = "";
+    try {
+      strKey = KeyEvent.getKeyText(Integer.parseInt(strKeyCode));
+    } catch (Exception x) {
+      return "";
+    }
+    return strKey;
+  }
+
+  /**
+   * 将给定的快捷键组合的常量字符串形式转换为可用于快捷键设置的对象
+   * 
+   * @param shortcut
+   *          表示快捷键组合的常量字符串
+   * @return 表示可用于快捷键设置的对象
+   */
+  public static KeyStroke transferKeyStroke(String shortcut) {
+    KeyStroke keyStroke = null;
+    if (shortcut.isEmpty()) {
+      return keyStroke;
+    }
+    int modifiers = 0; // 控制键的扩展修饰符常量，0表示没有控制键
+    int keyCode = -1; // 除控制键之外的按键常量
+    String[] arrKeys = shortcut.split("\\+");
+    for (String str : arrKeys) {
+      if (CTRL.equalsIgnoreCase(str)) {
+        modifiers += InputEvent.CTRL_DOWN_MASK;
+      } else if (ALT.equalsIgnoreCase(str)) {
+        modifiers += InputEvent.ALT_DOWN_MASK;
+      } else if (SHIFT.equalsIgnoreCase(str)) {
+        modifiers += InputEvent.SHIFT_DOWN_MASK;
+      } else { // 除控制键之外的按键
+        try {
+          keyCode = Integer.parseInt(str);
+        } catch (Exception x) {
+        }
+      }
+    }
+    if (keyCode >= 0) {
+      keyStroke = KeyStroke.getKeyStroke(keyCode, modifiers);
+    }
+    return keyStroke;
+  }
+
 }

@@ -19,6 +19,7 @@ package com.xiboliya.snowpad;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -54,4 +55,6 @@ public class Setting {
   public int viewLookAndFeel = -1; // 当前外观的索引号
   // 所有已打开的文件
   public LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放所有已打开的文件名的链表
+  // 所有快捷键的设置
+  public HashMap<String, String> shortcutMap = new HashMap<String, String>(); // 存放所有快捷键的设置的哈希表
 }

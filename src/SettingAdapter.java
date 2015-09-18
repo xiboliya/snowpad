@@ -105,6 +105,8 @@ public final class SettingAdapter {
       parseView(nodeList);
       nodeList = root.getElementsByTagName("Files");
       parseFiles(nodeList);
+      nodeList = root.getElementsByTagName("Shortcuts");
+      parseShortcuts(nodeList);
     } catch (Exception x) {
       // x.printStackTrace();
     }
@@ -331,6 +333,41 @@ public final class SettingAdapter {
   }
 
   /**
+   * Shortcuts节点的解析方法
+   * 
+   * @param nodeList
+   *          节点列表
+   */
+  private void parseShortcuts(NodeList nodeList) {
+    this.initShortcuts();
+    for (int i = 0; i < nodeList.getLength(); i++) {
+      Node node = nodeList.item(i);
+      if (node.hasChildNodes()) {
+        NodeList list = node.getChildNodes();
+        parseShortcuts(list); // 递归调用
+      } else {
+        if (node.getNodeName().equalsIgnoreCase("shortcut")) {
+          String strName = ((Element) node).getAttribute("name").trim();
+          String strValue = ((Element) node).getAttribute("value").trim();
+          if (!strName.isEmpty() && !strValue.isEmpty()) {
+            this.setting.shortcutMap.put(strName, strValue);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 初始化存放所有快捷键的设置的哈希表
+   */
+  public void initShortcuts() {
+    int length = Util.SHORTCUT_NAMES.length;
+    for (int i = 0; i < length; i++) {
+      this.setting.shortcutMap.put(Util.SHORTCUT_NAMES[i], Util.SHORTCUT_VALUES[i]);
+    }
+  }
+
+  /**
    * 将软件设置保存到XML配置文件的方法
    */
   public void save() {
@@ -350,6 +387,8 @@ public final class SettingAdapter {
       saveView(nodeList);
       nodeList = root.getElementsByTagName("file");
       saveFiles(nodeList, root, document);
+      nodeList = root.getElementsByTagName("shortcut");
+      saveShortcuts(nodeList, root, document);
       // 以下操作最终将数据写入到硬盘文件中
       TransformerFactory tff = TransformerFactory.newInstance();
       Transformer tf = tff.newTransformer();
@@ -516,6 +555,42 @@ public final class SettingAdapter {
       nodeList.item(0).appendChild(document.createTextNode(str));
       e = document.createElement("file");
       e.setTextContent(strFile);
+      nodeList.item(0).appendChild(e);
+    }
+    nodeList.item(0).appendChild(document.createTextNode("\n  "));
+  }
+
+  /**
+   * Shortcuts节点的保存方法
+   * 
+   * @param nodeList
+   *          节点列表
+   * @param element
+   *          父级标签元素
+   * @param document
+   *          整个XML文档
+   */
+  private void saveShortcuts(NodeList nodeList, Element element, Document document) {
+    String str = "\n    ";
+    int length = nodeList.getLength();
+    for (int i = 0; i < length; i++) {
+      Node node = nodeList.item(0);
+      node.getParentNode().removeChild(node);
+    }
+    nodeList = element.getElementsByTagName("Shortcuts");
+    nodeList.item(0).setTextContent("");
+    Element e = null;
+    int size = Util.SHORTCUT_NAMES.length;
+    for ( int i = 0; i < size; i++) {
+      String name = Util.SHORTCUT_NAMES[i];
+      String value = this.setting.shortcutMap.get(name).toString();
+      if (Util.SHORTCUT_VALUES[i].equalsIgnoreCase(value)) { // 快捷键与默认统一的话，最终不写入XML配置文件
+        continue;
+      }
+      nodeList.item(0).appendChild(document.createTextNode(str));
+      e = document.createElement("shortcut");
+      e.setAttribute("name", name);
+      e.setAttribute("value", value);
       nodeList.item(0).appendChild(e);
     }
     nodeList.item(0).appendChild(document.createTextNode("\n  "));

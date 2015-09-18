@@ -183,6 +183,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       "字符边界换行(C)");
   private JMenuItem itemFont = new JMenuItem("字体(F)...", 'F');
   private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
+  private JMenuItem itemShortcutManage = new JMenuItem("快捷键管理(H)...", 'H');
   private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
   private JCheckBoxMenuItem itemTextDrag = new JCheckBoxMenuItem("文本拖拽(D)");
   private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
@@ -305,6 +306,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
   private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // 存放界面中所有文本域的链表
   private LinkedList<AbstractButton> toolButtonList = new LinkedList<AbstractButton>(); // 存放工具栏中所有按钮的链表
+  private LinkedList<JMenuItem> menuItemList = new LinkedList<JMenuItem>(); // 存放所有可用于快捷键设置的菜单项的链表
   private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // 标题栏字符串
   private String strLookAndFeel = Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME; // 当前外观的完整类名
   private StatePanel pnlState = new StatePanel(4); // 状态栏面板
@@ -324,6 +326,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private GotoDialog gotoDialog = null; // 转到对话框
   private AboutDialog aboutDialog = null; // 关于对话框
   private TabSetDialog tabSetDialog = null; // Tab字符设置对话框
+  private ShortcutManageDialog shortcutManageDialog = null; // 快捷键管理对话框
   private InsertCharDialog insertCharDialog = null; // 插入字符对话框
   private InsertDateDialog insertDateDialog = null; // 插入时间/日期对话框
   private FileEncodingDialog fileEncodingDialog = null; // 文件编码格式对话框
@@ -418,6 +421,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setMenuDefault();
     this.setMenuDefaultInit();
     this.setMenuMnemonic();
+    this.setMenuAccelerator();
     this.addListeners();
   }
 
@@ -443,6 +447,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelFindPrevious.addActionListener(this);
     this.itemFont.addActionListener(this);
     this.itemTabSet.addActionListener(this);
+    this.itemShortcutManage.addActionListener(this);
     this.itemGoto.addActionListener(this);
     this.itemFindBracket.addActionListener(this);
     this.itemToCopyFileName.addActionListener(this);
@@ -821,6 +826,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStyle.add(this.itemSignIdentifier);
     this.menuStyle.add(this.itemFont);
     this.menuStyle.add(this.itemTabSet);
+    this.menuStyle.add(this.itemShortcutManage);
     this.menuStyle.add(this.itemLineWrap);
     this.menuStyle.add(this.itemTextDrag);
     this.menuStyle.add(this.itemAutoIndent);
@@ -895,8 +901,142 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.bgpCharset.add(this.itemCharsetUTF8_NO_BOM);
     this.bgpCharset.add(this.itemCharsetULE);
     this.bgpCharset.add(this.itemCharsetUBE);
+    this.initMenuItemList();
   }
 
+  /**
+   * 初始化可用于快捷键设置的菜单项的链表
+   */
+  private void initMenuItemList() {
+    this.menuItemList.clear();
+    this.menuItemList.add(this.itemNew);
+    this.menuItemList.add(this.itemOpen);
+    this.menuItemList.add(this.itemOpenByEncoding);
+    this.menuItemList.add(this.itemSave);
+    this.menuItemList.add(this.itemSaveAs);
+    this.menuItemList.add(this.itemReName);
+    this.menuItemList.add(this.itemReOpen);
+    this.menuItemList.add(this.itemDelFile);
+    this.menuItemList.add(this.itemClose);
+    this.menuItemList.add(this.itemCloseOther);
+    this.menuItemList.add(this.itemCloseAll);
+    this.menuItemList.add(this.itemClearFileHistory);
+    this.menuItemList.add(this.itemExit);
+    this.menuItemList.add(this.itemUnDo);
+    this.menuItemList.add(this.itemReDo);
+    this.menuItemList.add(this.itemCut);
+    this.menuItemList.add(this.itemCopy);
+    this.menuItemList.add(this.itemPaste);
+    this.menuItemList.add(this.itemSelAll);
+    this.menuItemList.add(this.itemDel);
+    this.menuItemList.add(this.itemCaseUp);
+    this.menuItemList.add(this.itemCaseLow);
+    this.menuItemList.add(this.itemToCopyFileName);
+    this.menuItemList.add(this.itemToCopyFilePath);
+    this.menuItemList.add(this.itemToCopyDirPath);
+    this.menuItemList.add(this.itemToCopyAllText);
+    this.menuItemList.add(this.itemLineCopy);
+    this.menuItemList.add(this.itemLineDel);
+    this.menuItemList.add(this.itemLineDelToStart);
+    this.menuItemList.add(this.itemLineDelToEnd);
+    this.menuItemList.add(this.itemLineDelToFileStart);
+    this.menuItemList.add(this.itemLineDelToFileEnd);
+    this.menuItemList.add(this.itemLineToUp);
+    this.menuItemList.add(this.itemLineToDown);
+    this.menuItemList.add(this.itemLineToCopy);
+    this.menuItemList.add(this.itemLineToCut);
+    this.menuItemList.add(this.itemLineBatchRemove);
+    this.menuItemList.add(this.itemLineBatchInsert);
+    this.menuItemList.add(this.itemLineBatchSeparate);
+    this.menuItemList.add(this.itemLineBatchMerge);
+    this.menuItemList.add(this.itemLineBatchRewrite);
+    this.menuItemList.add(this.itemSortUp);
+    this.menuItemList.add(this.itemSortDown);
+    this.menuItemList.add(this.itemIndentAdd);
+    this.menuItemList.add(this.itemIndentBack);
+    this.menuItemList.add(this.itemTrimStart);
+    this.menuItemList.add(this.itemTrimEnd);
+    this.menuItemList.add(this.itemTrimAll);
+    this.menuItemList.add(this.itemTrimSelected);
+    this.menuItemList.add(this.itemDelNullLineAll);
+    this.menuItemList.add(this.itemDelNullLineSelected);
+    this.menuItemList.add(this.itemCommentForLine);
+    this.menuItemList.add(this.itemCommentForBlock);
+    this.menuItemList.add(this.itemInsertChar);
+    this.menuItemList.add(this.itemInsertDateTime);
+    this.menuItemList.add(this.itemSelCopy);
+    this.menuItemList.add(this.itemSelInvert);
+    this.menuItemList.add(this.itemFind);
+    this.menuItemList.add(this.itemFindNext);
+    this.menuItemList.add(this.itemFindPrevious);
+    this.menuItemList.add(this.itemSelFindNext);
+    this.menuItemList.add(this.itemSelFindPrevious);
+    this.menuItemList.add(this.itemQuickFindDown);
+    this.menuItemList.add(this.itemQuickFindUp);
+    this.menuItemList.add(this.itemReplace);
+    this.menuItemList.add(this.itemGoto);
+    this.menuItemList.add(this.itemFindBracket);
+    this.menuItemList.add(this.itemLineWrapByWord);
+    this.menuItemList.add(this.itemLineWrapByChar);
+    this.menuItemList.add(this.itemLineStyleWin);
+    this.menuItemList.add(this.itemLineStyleUnix);
+    this.menuItemList.add(this.itemLineStyleMac);
+    this.menuItemList.add(this.itemCharsetBASE);
+    this.menuItemList.add(this.itemCharsetANSI);
+    this.menuItemList.add(this.itemCharsetUTF8);
+    this.menuItemList.add(this.itemCharsetUTF8_NO_BOM);
+    this.menuItemList.add(this.itemCharsetULE);
+    this.menuItemList.add(this.itemCharsetUBE);
+    this.menuItemList.add(this.itemSignIdentifier);
+    this.menuItemList.add(this.itemFont);
+    this.menuItemList.add(this.itemTabSet);
+    this.menuItemList.add(this.itemLineWrap);
+    this.menuItemList.add(this.itemTextDrag);
+    this.menuItemList.add(this.itemAutoIndent);
+    this.menuItemList.add(this.itemReset);
+    this.menuItemList.add(this.itemToolBar);
+    this.menuItemList.add(this.itemStateBar);
+    this.menuItemList.add(this.itemLineNumber);
+    this.menuItemList.add(this.itemAlwaysOnTop);
+    this.menuItemList.add(this.itemLockResizable);
+    this.menuItemList.add(this.itemTabPolicy);
+    this.menuItemList.add(this.itemClickToClose);
+    this.menuItemList.add(this.itemTabIcon);
+    this.menuItemList.add(this.itemFontSizePlus);
+    this.menuItemList.add(this.itemFontSizeMinus);
+    this.menuItemList.add(this.itemFontSizeReset);
+    this.menuItemList.add(this.itemColorFont);
+    this.menuItemList.add(this.itemColorBack);
+    this.menuItemList.add(this.itemColorCaret);
+    this.menuItemList.add(this.itemColorSelFont);
+    this.menuItemList.add(this.itemColorSelBack);
+    this.menuItemList.add(this.itemColorAnti);
+    this.menuItemList.add(this.itemColorComplementary);
+    this.menuItemList.add(this.itemColorStyle1);
+    this.menuItemList.add(this.itemColorStyle2);
+    this.menuItemList.add(this.itemColorStyle3);
+    this.menuItemList.add(this.itemColorStyle4);
+    this.menuItemList.add(this.itemColorStyle5);
+    this.menuItemList.add(this.itemColorStyleDefault);
+    this.menuItemList.add(this.itemHighlight1);
+    this.menuItemList.add(this.itemHighlight2);
+    this.menuItemList.add(this.itemHighlight3);
+    this.menuItemList.add(this.itemHighlight4);
+    this.menuItemList.add(this.itemHighlight5);
+    this.menuItemList.add(this.itemRmHighlight1);
+    this.menuItemList.add(this.itemRmHighlight2);
+    this.menuItemList.add(this.itemRmHighlight3);
+    this.menuItemList.add(this.itemRmHighlight4);
+    this.menuItemList.add(this.itemRmHighlight5);
+    this.menuItemList.add(this.itemRmHighlightAll);
+    this.menuItemList.add(this.itemTextAreaSwitchNext);
+    this.menuItemList.add(this.itemTextAreaSwitchPrevious);
+    this.menuItemList.add(this.itemInformation);
+    this.menuItemList.add(this.itemWindowManage);
+    this.menuItemList.add(this.itemHelp);
+    this.menuItemList.add(this.itemAbout);
+  }
+  
   /**
    * 初始化快捷菜单
    */
@@ -1157,7 +1297,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * 为各菜单项设置助记符和快捷键
+   * 为各菜单项设置助记符
    */
   private void setMenuMnemonic() {
     this.menuFile.setMnemonic('F');
@@ -1205,130 +1345,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuPopHighlight.setMnemonic('H');
     this.menuPopRmHighlight.setMnemonic('M');
     this.menuPopCopyToClip.setMnemonic('P');
-    this.itemNew.setAccelerator(KeyStroke.getKeyStroke('N',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+N
-    this.itemOpen.setAccelerator(KeyStroke.getKeyStroke('O',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+O
-    this.itemSave.setAccelerator(KeyStroke.getKeyStroke('S',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+S
-    this.itemExit.setAccelerator(KeyStroke.getKeyStroke('Q',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+Q
-    this.itemAbout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0)); // 快捷键：F1
-    this.itemClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0)); // 快捷键：F4
-    this.itemUnDo.setAccelerator(KeyStroke.getKeyStroke('Z',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+Z
-    this.itemReDo.setAccelerator(KeyStroke.getKeyStroke('Y',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+Y
-    this.itemCut.setAccelerator(KeyStroke.getKeyStroke('X',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+X
-    this.itemCopy.setAccelerator(KeyStroke.getKeyStroke('C',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+C
-    this.itemPaste.setAccelerator(KeyStroke.getKeyStroke('V',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+V
-    this.itemDel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0)); // 快捷键：Delete
-    this.itemCaseUp.setAccelerator(KeyStroke.getKeyStroke('U',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+U
-    this.itemCaseLow.setAccelerator(KeyStroke.getKeyStroke('U',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+U
-    this.itemFind.setAccelerator(KeyStroke.getKeyStroke('F',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+F
-    this.itemFindNext.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0)); // 快捷键：F3
-    this.itemFindPrevious.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
-        InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Shift+F3
-    this.itemSelFindNext.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+F3
-    this.itemSelFindPrevious
-        .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3,
-            InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+F3
-    this.itemQuickFindDown.setAccelerator(KeyStroke.getKeyStroke('K',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+K
-    this.itemQuickFindUp.setAccelerator(KeyStroke.getKeyStroke('K',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+K
-    this.itemReplace.setAccelerator(KeyStroke.getKeyStroke('H',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+H
-    this.itemGoto.setAccelerator(KeyStroke.getKeyStroke('G',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+G
-    this.itemFindBracket.setAccelerator(KeyStroke.getKeyStroke('B',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+B
-    this.itemToCopyAllText.setAccelerator(KeyStroke.getKeyStroke('A',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+A
-    this.itemLineCopy.setAccelerator(KeyStroke.getKeyStroke('D',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+D
-    this.itemLineDel.setAccelerator(KeyStroke.getKeyStroke('D',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+D
-    this.itemSortUp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
-        InputEvent.ALT_DOWN_MASK)); // 快捷键：Alt+向上方向键
-    this.itemSortDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
-        InputEvent.ALT_DOWN_MASK)); // 快捷键：Alt+向下方向键
-    this.itemIndentAdd.setAccelerator(KeyStroke.getKeyStroke('T',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+T
-    this.itemIndentBack.setAccelerator(KeyStroke.getKeyStroke('T',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK
-            + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Alt+Shift+T
-    this.itemSelCopy.setAccelerator(KeyStroke.getKeyStroke('R',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+R
-    this.itemSelInvert.setAccelerator(KeyStroke.getKeyStroke('I',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+I
-    this.itemTrimStart.setAccelerator(KeyStroke.getKeyStroke('S',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+S
-    this.itemTrimEnd.setAccelerator(KeyStroke.getKeyStroke('E',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+E
-    this.itemTrimAll.setAccelerator(KeyStroke.getKeyStroke('L',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+L
-    this.itemTrimSelected.setAccelerator(KeyStroke.getKeyStroke('T',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+T
-    this.itemDelNullLineAll.setAccelerator(KeyStroke.getKeyStroke('A',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+A
-    this.itemDelNullLineSelected.setAccelerator(KeyStroke.getKeyStroke('S',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+S
-    this.itemCommentForLine.setAccelerator(KeyStroke.getKeyStroke('L',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+L
-    this.itemCommentForBlock.setAccelerator(KeyStroke.getKeyStroke('M',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+M
-    this.itemSelAll.setAccelerator(KeyStroke.getKeyStroke('A',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+A
-    this.itemInsertDateTime.setAccelerator(KeyStroke.getKeyStroke(
-        KeyEvent.VK_F5, 0)); // 快捷键：F5
-    this.itemFontSizePlus.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+向上方向键
-    this.itemFontSizeMinus.setAccelerator(KeyStroke.getKeyStroke(
-        KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+向下方向键
-    this.itemFontSizeReset.setAccelerator(KeyStroke.getKeyStroke(
-        KeyEvent.VK_SLASH, InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+'/'键
-    this.itemLineDelToStart
-        .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,
-            InputEvent.CTRL_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+向左方向键
-    this.itemLineDelToEnd.setAccelerator(KeyStroke
-        .getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK
-            + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Alt+向右方向键
-    this.itemLineDelToFileStart.setAccelerator(KeyStroke.getKeyStroke(
-        KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK
-            + InputEvent.SHIFT_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Shift+Alt+向左方向键
-    this.itemLineDelToFileEnd.setAccelerator(KeyStroke.getKeyStroke(
-        KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK
-            + InputEvent.SHIFT_DOWN_MASK + InputEvent.ALT_DOWN_MASK)); // 快捷键：Ctrl+Shift+Alt+向右方向键
-    this.itemLineToUp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_UP,
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向上方向键
-    this.itemLineToDown.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+向下方向键
-    this.itemLineToCopy.setAccelerator(KeyStroke.getKeyStroke('C',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+C
-    this.itemLineToCut.setAccelerator(KeyStroke.getKeyStroke('X',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+X
-    this.itemLineBatchRemove.setAccelerator(KeyStroke.getKeyStroke('R',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+R
-    this.itemLineBatchInsert.setAccelerator(KeyStroke.getKeyStroke('I',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+I
-    this.itemLineBatchSeparate.setAccelerator(KeyStroke.getKeyStroke('P',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+P
-    this.itemLineBatchMerge.setAccelerator(KeyStroke.getKeyStroke('M',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+M
-    this.itemLineBatchRewrite.setAccelerator(KeyStroke.getKeyStroke('V',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+V
-    this.itemTextAreaSwitchNext.setAccelerator(KeyStroke.getKeyStroke('W',
-        InputEvent.CTRL_DOWN_MASK)); // 快捷键：Ctrl+W
-    this.itemTextAreaSwitchPrevious.setAccelerator(KeyStroke.getKeyStroke('W',
-        InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK)); // 快捷键：Ctrl+Shift+W
+  }
+
+  /**
+   * 为各菜单项设置快捷键
+   */
+  private void setMenuAccelerator() {
+    int size = this.menuItemList.size();
+    for (int i = 0; i < size; i++) {
+      JMenuItem item = this.menuItemList.get(i);
+      item.setAccelerator(Util.transferKeyStroke(this.setting.shortcutMap.get(Util.SHORTCUT_NAMES[i])));
+    }
   }
 
   /**
@@ -1634,6 +1661,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setCommentForBlock();
     } else if (this.itemTabSet.equals(e.getSource())) {
       this.openTabSetDialog();
+    } else if (this.itemShortcutManage.equals(e.getSource())) {
+      this.openShortcutManageDialog();
     } else if (this.itemClearFileHistory.equals(e.getSource())) {
       this.clearFileHistory();
     } else if (Util.FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
@@ -1661,7 +1690,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.initTextAreaSetting();
     this.settingAdapter.setSetting(this.setting);
     this.settingAdapter.createSettingFile();
+    this.settingAdapter.initShortcuts();
     this.setMenuDefaultSetting();
+    this.setMenuAccelerator();
   }
 
   /**
@@ -1924,6 +1955,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.tabSetDialog != null) {
       this.tabSetDialog.dispose();
       this.tabSetDialog = null;
+    }
+    if (this.shortcutManageDialog != null) {
+      this.shortcutManageDialog.dispose();
+      this.shortcutManageDialog = null;
     }
     if (this.insertCharDialog != null) {
       this.insertCharDialog.dispose();
@@ -2979,6 +3014,32 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.setting.tabSize = this.textAreaSetting.tabSize = tabSize;
     this.setting.tabReplaceBySpace = this.textAreaSetting.tabReplaceBySpace = enable;
+  }
+
+  /**
+   * "快捷键管理"的处理方法
+   */
+  private void openShortcutManageDialog() {
+    if (this.shortcutManageDialog == null) {
+      this.shortcutManageDialog = new ShortcutManageDialog(this, true,
+          this.txaMain, this.setting);
+    } else {
+      this.shortcutManageDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "快捷键管理"界面中修改快捷键的处理方法
+   * 
+   * @param index
+   *          需要修改快捷键的菜单项的索引值
+   */
+  public void shortcutManageToSetMenuAccelerator(int index) {
+    if (index < 0) {
+      return;
+    }
+    JMenuItem item = this.menuItemList.get(index);
+    item.setAccelerator(Util.transferKeyStroke(this.setting.shortcutMap.get(Util.SHORTCUT_NAMES[index])));
   }
 
   /**

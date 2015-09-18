@@ -30,4 +30,7 @@
   <Files note="所有已打开的文件">
     <file/>
   </Files>
+  <Shortcuts note="自定义快捷键的设置">
+    <shortcut/>
+  </Shortcuts>
 </Setting>
