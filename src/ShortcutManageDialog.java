@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -43,13 +44,15 @@ import javax.swing.event.ListSelectionListener;
 public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private Setting setting = null; // 软件参数配置类
+  private SettingAdapter settingAdapter = null; // 用于解析和保存软件配置文件的工具类
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
   private JPanel pnlRight = new JPanel(null);
   private JTable tabMain = null; // 显示数据的表格组件
   private JScrollPane spnMain = null;
-  private JButton btnEdit = new JButton("编辑");
-  private JButton btnRemove = new JButton("清除");
+  private JButton btnEdit = new JButton("编辑(E)");
+  private JButton btnRemove = new JButton("清除(D)");
+  private JButton btnReset = new JButton("恢复默认(R)");
   private JButton btnCancel = new JButton("关闭");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -69,19 +72,21 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
    * @param txaSource
    *          针对操作的文本域
    */
-  public ShortcutManageDialog(JFrame owner, boolean modal, JTextArea txaSource, Setting setting) {
+  public ShortcutManageDialog(JFrame owner, boolean modal, JTextArea txaSource, Setting setting, SettingAdapter settingAdapter) {
     super(owner, modal);
     if (txaSource == null) {
       return;
     }
     this.setting = setting;
+    this.settingAdapter = settingAdapter;
     this.txaSource = txaSource;
     this.init();
+    this.setMnemonic();
     this.addTable();
     this.refresh();
     this.addListeners();
     this.setSize(520, 275);
-    this.setMinimumSize(new Dimension(520, 275)); // 设置本窗口的最小尺寸
+    this.setMinimumSize(new Dimension(550, 275)); // 设置本窗口的最小尺寸
     this.setResizable(true);
     this.setVisible(true);
   }
@@ -93,13 +98,24 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.setTitle("快捷键管理");
     this.pnlMain.add(this.pnlLeft, BorderLayout.CENTER);
     this.pnlMain.add(this.pnlRight, BorderLayout.EAST);
-    this.btnEdit.setBounds(10, 20, 90, Util.BUTTON_HEIGHT);
-    this.btnRemove.setBounds(10, 55, 90, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(10, 200, 90, Util.BUTTON_HEIGHT);
-    this.pnlRight.setPreferredSize(new Dimension(110, 275)); // 设置面板的最适尺寸
+    this.btnEdit.setBounds(10, 20, 120, Util.BUTTON_HEIGHT);
+    this.btnRemove.setBounds(10, 55, 120, Util.BUTTON_HEIGHT);
+    this.btnReset.setBounds(10, 130, 120, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(10, 200, 120, Util.BUTTON_HEIGHT);
+    this.pnlRight.setPreferredSize(new Dimension(140, 275)); // 设置面板的最适尺寸
     this.pnlRight.add(this.btnEdit);
     this.pnlRight.add(this.btnRemove);
+    this.pnlRight.add(this.btnReset);
     this.pnlRight.add(this.btnCancel);
+  }
+
+  /**
+   * 为各组件设置助记符
+   */
+  private void setMnemonic() {
+    this.btnEdit.setMnemonic('E');
+    this.btnRemove.setMnemonic('D');
+    this.btnReset.setMnemonic('R');
   }
 
   /**
@@ -167,9 +183,11 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private void addListeners() {
     this.btnEdit.addActionListener(this);
     this.btnRemove.addActionListener(this);
+    this.btnReset.addActionListener(this);
     this.btnCancel.addActionListener(this);
     this.btnEdit.addKeyListener(this.buttonKeyAdapter);
     this.btnRemove.addKeyListener(this.buttonKeyAdapter);
+    this.btnReset.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addKeyListener(this.buttonKeyAdapter);
     this.tabMain.addKeyListener(this.keyAdapter);
   }
@@ -182,6 +200,8 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
       this.onEnter();
     } else if (this.btnRemove.equals(e.getSource())) {
       this.removeShortcut();
+    } else if (this.btnReset.equals(e.getSource())) {
+      this.resetShortcuts();
     } else if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
     }
@@ -195,6 +215,21 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.setting.shortcutMap.put(this.tabMain.getValueAt(index, 0).toString(), "");
     this.tabMain.setValueAt("", index, 1);
     ((SnowPadFrame) this.getOwner()).shortcutManageToSetMenuAccelerator(index);
+  }
+
+  /**
+   * "恢复默认"的操作方法
+   */
+  private void resetShortcuts() {
+    int result = JOptionPane.showConfirmDialog(this, 
+        "此操作将恢复所有的快捷键设置！\n是否继续？",
+        Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
+    if (result != JOptionPane.YES_OPTION) {
+      return;
+    }
+    this.settingAdapter.initShortcuts();
+    this.refresh();
+    ((SnowPadFrame) this.getOwner()).setMenuAccelerator();
   }
 
   /**

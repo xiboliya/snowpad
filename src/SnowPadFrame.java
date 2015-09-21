@@ -78,7 +78,7 @@ import java.util.LinkedList;
 /**
  * 冰雪记事本 打造一个与Windows的“记事本”功能相同的java版本。
  * 当然这只是最低要求，最终目标是实现一个可以同时在Windows和Linux下运行的增强型记事本。
- * 百度空间：http://hi.baidu.com/xiboliya GitHub：https://github.com/xiboliya/snowpad
+ * GitHub：https://github.com/xiboliya/snowpad
  * CSDN代码：https://code.csdn.net/chenzhengfeng/snowpad
  * 谷歌代码：http://code.google.com/p/snowpad
  * 
@@ -1350,7 +1350,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 为各菜单项设置快捷键
    */
-  private void setMenuAccelerator() {
+  public void setMenuAccelerator() {
     int size = this.menuItemList.size();
     for (int i = 0; i < size; i++) {
       JMenuItem item = this.menuItemList.get(i);
@@ -3022,7 +3022,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void openShortcutManageDialog() {
     if (this.shortcutManageDialog == null) {
       this.shortcutManageDialog = new ShortcutManageDialog(this, true,
-          this.txaMain, this.setting);
+          this.txaMain, this.setting, this.settingAdapter);
     } else {
       this.shortcutManageDialog.setVisible(true);
     }
