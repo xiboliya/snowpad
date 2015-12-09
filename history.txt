@@ -959,3 +959,16 @@ src/SnowPadFrame.java
 2015-12-09
 1.在“查找/替换”界面中添加“选区内统计”和“选区内替换”功能
 src/FindReplaceDialog.java
+2.优化判断字符串为空的处理
+src/AboutDialog.java
+src/BaseTextArea.java
+src/BatchInsertDialog.java
+src/FindReplaceDialog.java
+src/GotoDialog.java
+src/InsertCharDialog.java
+src/InsertDateDialog.java
+src/SettingAdapter.java
+src/ShortcutSetDialog.java
+src/SignIdentifierDialog.java
+src/SnowPadFrame.java
+src/Util.java
