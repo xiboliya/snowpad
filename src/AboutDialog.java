@@ -178,7 +178,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
    *          Á´½Ó×Ö·û´®
    */
   public void addLinkByIndex(int index, final String strLink) {
-    if (index < 0 || index >= lines || strLink == null || strLink.isEmpty()) {
+    if (index < 0 || index >= lines || Util.isTextEmpty(strLink)) {
       return;
     }
     JLabel lblTemp = this.labelList.get(index);

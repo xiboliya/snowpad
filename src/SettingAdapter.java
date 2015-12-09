@@ -127,7 +127,7 @@ public final class SettingAdapter {
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         String value = node.getTextContent().trim();
-        if (!value.isEmpty()) {
+        if (!Util.isTextEmpty(value)) {
           boolean logic = false;
           if (value.equalsIgnoreCase("true")) {
             logic = true;
@@ -216,7 +216,7 @@ public final class SettingAdapter {
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         String value = node.getTextContent().trim();
-        if (!value.isEmpty()) {
+        if (!Util.isTextEmpty(value)) {
           boolean logic = false;
           if (value.equalsIgnoreCase("true")) {
             logic = true;
@@ -267,7 +267,7 @@ public final class SettingAdapter {
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         String value = node.getTextContent().trim();
-        if (!value.isEmpty()) {
+        if (!Util.isTextEmpty(value)) {
           boolean logic = false;
           if (value.equalsIgnoreCase("true")) {
             logic = true;
@@ -320,7 +320,7 @@ public final class SettingAdapter {
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         String value = node.getTextContent().trim();
-        if (!value.isEmpty()) {
+        if (!Util.isTextEmpty(value)) {
           if (key.equalsIgnoreCase("file")) {
             int index = this.setting.fileHistoryList.indexOf(value);
             if (index < 0) {
@@ -349,7 +349,7 @@ public final class SettingAdapter {
         if (node.getNodeName().equalsIgnoreCase("shortcut")) {
           String strName = ((Element) node).getAttribute("name").trim();
           String strValue = ((Element) node).getAttribute("value").trim();
-          if (!strName.isEmpty() && !strValue.isEmpty()) {
+          if (!Util.isTextEmpty(strName) && !Util.isTextEmpty(strValue)) {
             this.setting.shortcutMap.put(strName, strValue);
           }
         }

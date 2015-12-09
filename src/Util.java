@@ -261,6 +261,16 @@ public final class Util {
   }
 
   /**
+   * 判断给定的字符串是否为空
+   * 
+   * @param str
+   *          待判断的字符串
+   */
+  public static boolean isTextEmpty(String str) {
+    return (str == null || str.isEmpty());
+  }
+
+  /**
    * 为文件选择器添加预定义的文件过滤器
    * 
    * @param fileChooser
@@ -382,8 +392,8 @@ public final class Util {
    */
   public static File checkFileName(String strFileName,
       BaseFileFilter fileFilter, String strExt) {
-    if (strFileName == null || strFileName.isEmpty() || fileFilter == null
-        || strExt == null || strExt.isEmpty()) {
+    if (isTextEmpty(strFileName) || fileFilter == null
+        || isTextEmpty(strExt)) {
       return null;
     }
     if (fileFilter.getExt().equalsIgnoreCase(strExt)) {
@@ -455,8 +465,8 @@ public final class Util {
    */
   private static int findDownText(String strFindText, JTextComponent txcSource,
       boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
-    if (strFindText == null || txcSource == null || strFindText.isEmpty()
-        || txcSource.getText().isEmpty()) {
+    if (isTextEmpty(strFindText) || txcSource == null
+        || isTextEmpty(txcSource.getText())) {
       return -1;
     }
     if (searchStyle == SearchStyle.TRANSFER) {
@@ -528,8 +538,8 @@ public final class Util {
    */
   private static int findUpText(String strFindText, JTextComponent txcSource,
       boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
-    if (strFindText == null || txcSource == null || strFindText.isEmpty()
-        || txcSource.getText().isEmpty()) {
+    if (isTextEmpty(strFindText) || txcSource == null
+        || isTextEmpty(txcSource.getText())) {
       return -1;
     }
     if (searchStyle == SearchStyle.TRANSFER) {
@@ -619,7 +629,7 @@ public final class Util {
    */
   public static String transferShortcut(String shortcut) {
     String value = "";
-    if (shortcut.isEmpty()) {
+    if (isTextEmpty(shortcut)) {
       return value;
     }
     boolean hasCtrl = false; // 是否含有Ctrl键
@@ -635,12 +645,12 @@ public final class Util {
         hasShift = true;
       } else { // 除控制键之外的按键
         String strKey = transferKeyCode(str);
-        if (!strKey.isEmpty()) {
+        if (!isTextEmpty(strKey)) {
           value = strKey;
         }
       }
     }
-    if (!value.isEmpty()) {
+    if (!isTextEmpty(value)) {
       if (hasShift) {
         value = SHIFT + "+" + value;
       }
@@ -680,7 +690,7 @@ public final class Util {
    */
   public static KeyStroke transferKeyStroke(String shortcut) {
     KeyStroke keyStroke = null;
-    if (shortcut.isEmpty()) {
+    if (isTextEmpty(shortcut)) {
       return keyStroke;
     }
     int modifiers = 0; // 控制键的扩展修饰符常量，0表示没有控制键

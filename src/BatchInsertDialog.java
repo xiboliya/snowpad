@@ -127,7 +127,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
    */
   private void insertText() {
     String strInsert = this.txtInsert.getText();
-    if (strInsert == null || strInsert.isEmpty()) {
+    if (Util.isTextEmpty(strInsert)) {
       JOptionPane.showMessageDialog(this, "请输入插入的文本！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtInsert.requestFocus();

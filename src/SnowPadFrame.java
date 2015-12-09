@@ -363,7 +363,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     boolean toCreateNew = false; // 用于标识新打开的文件，是要在当前文本域中打开，还是要新建文本域
     for (String strFile : this.setting.fileHistoryList) {
-      if (strFile != null && !strFile.isEmpty()) {
+      if (!Util.isTextEmpty(strFile)) {
         File file = new File(strFile);
         if (file.exists()) {
           if (!toCreateNew) {
@@ -1214,7 +1214,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setMenuStateByTextArea() {
     boolean isExist = true;
-    if (this.txaMain == null || this.txaMain.getText().isEmpty()) {
+    if (this.txaMain == null || Util.isTextEmpty(this.txaMain.getText())) {
       isExist = false;
     }
     this.menuSort.setEnabled(isExist);
@@ -2269,7 +2269,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       this.findReplaceDialog.setTextArea(this.txaMain);
     }
-    if (strSel != null && !strSel.isEmpty()) {
+    if (!Util.isTextEmpty(strSel)) {
       this.findReplaceDialog.setFindText(strSel, true);
     }
     this.findReplaceDialog.findText(isFindDown);
@@ -2307,7 +2307,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setHighlight(int style) {
     String strSelText = this.txaMain.getSelectedText();
-    if (strSelText == null || strSelText.isEmpty()) {
+    if (Util.isTextEmpty(strSelText)) {
       return;
     }
     String strText = this.txaMain.getText();
@@ -2467,7 +2467,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          排序的顺序，升序为true，降序为false
    */
   private void sortLines(boolean order) {
-    if (this.txaMain.getText().isEmpty()) {
+    if (Util.isTextEmpty(this.txaMain.getText())) {
       return;
     }
     CurrentLines currentLines = new CurrentLines(this.txaMain);
@@ -2598,7 +2598,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void trimSelected() {
     StringBuilder stbSelected = new StringBuilder(this.txaMain
         .getSelectedText());
-    if (stbSelected.toString().isEmpty()) {
+    if (Util.isTextEmpty(stbSelected.toString())) {
       return;
     }
     boolean label = false; // 是否存在空白字符的标识符
@@ -2803,7 +2803,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          完整的文件路径
    */
   private void addFileHistoryItem(String strFile) {
-    if (strFile == null || strFile.isEmpty()) {
+    if (Util.isTextEmpty(strFile)) {
       return;
     }
     int index = this.checkFileInHistory(strFile);
@@ -2829,7 +2829,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @return 将要添加到最近编辑的索引，-1表示产生异常
    */
   private int checkFileInHistory(String strFile) {
-    if (strFile == null || strFile.isEmpty()) {
+    if (Util.isTextEmpty(strFile)) {
       return -1;
     }
     int index = -1;
@@ -2856,7 +2856,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          最近编辑的完整文件路径
    */
   private void openFileHistory(String strFile) {
-    if (strFile == null || strFile.isEmpty()) {
+    if (Util.isTextEmpty(strFile)) {
       return;
     }
     File file = new File(strFile);
@@ -3098,14 +3098,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void trimLines(int position) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
     String strContent = currentLines.getStrContent();
-    if (strContent == null || strContent.isEmpty()) {
+    if (Util.isTextEmpty(strContent)) {
       return;
     }
     String arrContents[] = strContent.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
     StringBuilder stbContent = new StringBuilder(); // 用于存放处理后的文本
     for (int n = 0; n < arrContents.length; n++) {
       String strLine = arrContents[n];
-      if (strLine.isEmpty()) {
+      if (Util.isTextEmpty(strLine)) {
         stbContent.append("\n");
         continue;
       }
@@ -3137,7 +3137,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @return 清除指定空白后的文本
    */
   private String trimLine(String strLine, boolean position) {
-    if (strLine == null || strLine.isEmpty()) {
+    if (Util.isTextEmpty(strLine)) {
       return strLine;
     }
     int blank = 0; // 空白字符的个数
@@ -3250,7 +3250,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          要存入剪贴板的文本
    */
   private void setClipboardContents(String strText) {
-    if (strText == null || strText.isEmpty()) {
+    if (Util.isTextEmpty(strText)) {
       return;
     }
     StringSelection ss = new StringSelection(strText);
@@ -3404,7 +3404,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void quickFindText(boolean isFindDown) {
     String strFindText = this.txaMain.getSelectedText();
-    if (strFindText != null && !strFindText.isEmpty()) {
+    if (!Util.isTextEmpty(strFindText)) {
       int index = Util.findText(strFindText, this.txaMain, isFindDown, true,
           true, SearchStyle.DEFAULT);
       if (index >= 0) {
@@ -3421,7 +3421,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void switchCase(boolean isCaseUp) {
     String strSel = this.txaMain.getSelectedText();
-    if (strSel.isEmpty()) {
+    if (Util.isTextEmpty(strSel)) {
       return;
     }
     int start = this.txaMain.getSelectionStart();
@@ -3853,7 +3853,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
     String strSel = this.checkSelText();
-    if (strSel != null && !strSel.isEmpty()) {
+    if (!Util.isTextEmpty(strSel)) {
       this.findReplaceDialog.setFindText(strSel, true);
     } else {
       this.findReplaceDialog.setFindTextSelect();
@@ -3876,12 +3876,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain,
           this.setting, true);
       this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
-      if (strSel != null && !strSel.isEmpty()) {
+      if (!Util.isTextEmpty(strSel)) {
         this.findReplaceDialog.setFindText(strSel, true);
       }
-    } else if (this.findReplaceDialog.getFindText().isEmpty()) {
+    } else if (Util.isTextEmpty(this.findReplaceDialog.getFindText())) {
       this.findReplaceDialog.setTextArea(this.txaMain);
-      if (strSel != null && !strSel.isEmpty()) {
+      if (!Util.isTextEmpty(strSel)) {
         this.findReplaceDialog.setFindText(strSel, true);
       }
       this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
@@ -3909,7 +3909,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.findReplaceDialog.setTabbedIndex(1); // 打开替换选项卡
     String strSel = this.checkSelText();
-    if (strSel != null && !strSel.isEmpty()) {
+    if (!Util.isTextEmpty(strSel)) {
       this.findReplaceDialog.setFindText(strSel, true);
     } else {
       this.findReplaceDialog.setFindTextSelect();

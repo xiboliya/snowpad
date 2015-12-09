@@ -250,7 +250,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
     } else {
       strStyles = this.txtUser.getText();
     }
-    if (strStyles.isEmpty()) {
+    if (Util.isTextEmpty(strStyles)) {
       JOptionPane.showMessageDialog(this, "格式不能为空！", Util.SOFTWARE,
           JOptionPane.ERROR_MESSAGE);
       return;

@@ -138,8 +138,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
    *          标签页标题
    */
   private void fillElements(String strElement, String strTitle) {
-    if (strElement == null || strTitle == null || strElement.isEmpty()
-        || strTitle.isEmpty()) {
+    if (Util.isTextEmpty(strElement) || Util.isTextEmpty(strTitle)) {
       return;
     }
     JPanel pnlTemp = new JPanel(this.gridLayout);
@@ -169,7 +168,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
    */
   private JLabel createElement(String strElement) {
     JLabel lblElement = new JLabel(strElement);
-    if (!strElement.isEmpty()) {
+    if (!Util.isTextEmpty(strElement)) {
       lblElement.setHorizontalAlignment(SwingConstants.CENTER);
       lblElement.setFocusable(true); // 设置标签可以获得焦点
       lblElement.setOpaque(true); // 设置标签可以绘制背景

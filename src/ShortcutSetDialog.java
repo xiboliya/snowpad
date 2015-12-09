@@ -119,14 +119,14 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
    * 刷新功能名称和快捷键的显示
    */
   private void refreshKeyView() {
-    if (this.keyName != null && !this.keyName.isEmpty()) {
+    if (!Util.isTextEmpty(this.keyName)) {
       this.lblNameView.setText(this.keyName);
       String keyValue = this.setting.shortcutMap.get(this.keyName);
       boolean hasCtrl = false;
       boolean hasAlt = false;
       boolean hasShift = false;
       String value = Util.KEY_UNDEFINED;
-      if (!keyValue.isEmpty()) {
+      if (!Util.isTextEmpty(keyValue)) {
         String[] arrKeys = keyValue.split("\\+");
         for (String str : arrKeys) {
           if (Util.CTRL.equalsIgnoreCase(str)) {
@@ -137,7 +137,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
             hasShift = true;
           } else { // 除控制键之外的按键
             String strKey = Util.transferKeyCode(str);
-            if (!strKey.isEmpty()) {
+            if (!Util.isTextEmpty(strKey)) {
               value = strKey;
             }
           }
@@ -208,7 +208,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
    * @return 是否与其他快捷键重复，如重复返回true，不重复返回false
    */
   private boolean isRepeatedShortcut(String shortcut) {
-    if (shortcut == null || shortcut.isEmpty()) {
+    if (Util.isTextEmpty(shortcut)) {
       return false;
     }
     boolean label = false;

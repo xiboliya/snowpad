@@ -202,7 +202,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   private void gotoLine() {
     int total = this.txaSource.getLineCount(); // 文本域总行数
     String str = this.txtGotoLine.getText().trim();
-    if (str.isEmpty()) {
+    if (Util.isTextEmpty(str)) {
       JOptionPane.showMessageDialog(this, "行号不能为空！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtGotoLine.requestFocus();
@@ -245,7 +245,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   private void gotoOffset() {
     int total = this.txaSource.getText().length(); // 文本域总偏移量
     String str = this.txtGotoOffset.getText().trim();
-    if (str.isEmpty()) {
+    if (Util.isTextEmpty(str)) {
       JOptionPane.showMessageDialog(this, "偏移量不能为空！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtGotoOffset.requestFocus();

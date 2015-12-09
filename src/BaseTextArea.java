@@ -157,7 +157,7 @@ public class BaseTextArea extends JTextArea {
         break;
       }
     }
-    if (!strSpace.isEmpty()) {
+    if (!Util.isTextEmpty(strSpace)) {
       this.insert(strSpace, this.getCaretPosition());
     }
   }

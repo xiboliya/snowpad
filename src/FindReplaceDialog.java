@@ -522,7 +522,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    * @return 查找结果，如果查找成功返回true，反之则为false
    */
   public boolean findText(boolean isFindDown) {
-    if (this.strFind != null && !this.strFind.isEmpty()) {
+    if (!Util.isTextEmpty(this.strFind)) {
       int index = Util.findText(this.strFind, this.txaSource, isFindDown,
           this.isMatchCase, this.isWrap, this.searchStyle);
       if (index >= 0) {
@@ -619,7 +619,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       strReplaceText = Util.transfer(strReplaceText);
     }
     StringBuilder stbFindTextTemp = new StringBuilder(strFindText);
-    if (strFindText != null && !strFindText.isEmpty()) {
+    if (!Util.isTextEmpty(strFindText)) {
       int caretPos = 0; // 当前从哪个索引值开始搜索字符串
       int times = 0; // 循环次数
       int oldPos = this.txaSource.getCaretPosition(); // 替换之前文本域的插入点位置
@@ -716,7 +716,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    */
   private void getTextCount(String strText) {
     int times = 0; // 字符串出现次数
-    if (this.strFind == null || this.strFind.isEmpty() || strText == null || strText.isEmpty()) {
+    if (Util.isTextEmpty(this.strFind) || Util.isTextEmpty(strText)) {
       JOptionPane.showMessageDialog(this, "共找到 " + times + " 处。", Util.SOFTWARE,
           JOptionPane.NO_OPTION);
       return;
@@ -760,15 +760,15 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    */
   private void setBtnSelEnabled() {
     String strSel = this.txaSource.getSelectedText();
-    boolean isSelEmpty = (strSel == null || strSel.isEmpty());
+    boolean isSelEmpty = Util.isTextEmpty(strSel);
     if (this.tpnMain.getSelectedIndex() == 0) {
-      if (isSelEmpty || this.txtFindTextF.getText().isEmpty()){
+      if (isSelEmpty || Util.isTextEmpty(this.txtFindTextF.getText())){
         this.btnCountSelF.setEnabled(false);
       } else {
         this.btnCountSelF.setEnabled(true);
       }
     } else {
-      if (isSelEmpty || this.txtFindTextR.getText().isEmpty()){
+      if (isSelEmpty || Util.isTextEmpty(this.txtFindTextR.getText())){
         this.btnReplaceSelR.setEnabled(false);
       } else {
         this.btnReplaceSelR.setEnabled(true);
@@ -783,7 +783,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     // 查找
     if (this.txtFindTextF.equals(e.getSource())) {
       this.strFind = this.txtFindTextF.getText();
-      if (this.strFind.isEmpty()) {
+      if (Util.isTextEmpty(this.strFind)) {
         this.btnFindF.setEnabled(false);
         this.btnCountAllF.setEnabled(false);
       } else {
@@ -794,7 +794,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     // 替换
     else if (this.txtFindTextR.equals(e.getSource())) {
       this.strFind = this.txtFindTextR.getText();
-      if (this.strFind.isEmpty()) {
+      if (Util.isTextEmpty(this.strFind)) {
         this.btnFindR.setEnabled(false);
         this.btnReplaceR.setEnabled(false);
         this.btnReplaceAllR.setEnabled(false);
