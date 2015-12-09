@@ -955,3 +955,7 @@ src/ShortcutSetDialog.java（添加）
 1.在“快捷键管理”界面中添加“恢复默认”按钮，使用户可以恢复所有的快捷键设置，并同时调整界面
 src/ShortcutManageDialog.java
 src/SnowPadFrame.java
+
+2015-12-09
+1.在“查找/替换”界面中添加“选区内统计”和“选区内替换”功能
+src/FindReplaceDialog.java
