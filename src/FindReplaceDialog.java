@@ -21,6 +21,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -47,7 +49,7 @@ import javax.swing.event.ChangeListener;
  * 
  */
 public class FindReplaceDialog extends BaseDialog implements ActionListener,
-    CaretListener, ChangeListener {
+    CaretListener, ChangeListener, WindowFocusListener {
   private static final long serialVersionUID = 1L;
   private Setting setting = null; // 软件参数配置类
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -72,7 +74,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private JRadioButton radFindUpF = new JRadioButton("向上(U)", false);
   private JRadioButton radFindDownF = new JRadioButton("向下(D)", true);
   private JButton btnFindF = new JButton("查找(F)");
-  private JButton btnCountF = new JButton("统计次数(N)");
+  private JButton btnCountAllF = new JButton("全部统计(N)");
+  private JButton btnCountSelF = new JButton("选区内统计(S)");
   private JButton btnCancelF = new JButton("取消");
   private ButtonGroup bgpSearchStyleF = new ButtonGroup();
   private ButtonGroup bgpFindUpDownF = new ButtonGroup();
@@ -94,6 +97,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private JButton btnFindR = new JButton("查找(F)");
   private JButton btnReplaceR = new JButton("替换(R)");
   private JButton btnReplaceAllR = new JButton("全部替换(A)");
+  private JButton btnReplaceSelR = new JButton("选区内替换(S)");
   private JButton btnCancelR = new JButton("取消");
   private ButtonGroup bgpSearchStyleR = new ButtonGroup();
   private ButtonGroup bgpFindUpDownR = new ButtonGroup();
@@ -113,7 +117,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.initView();
     this.setMnemonic();
     this.addListeners();
-    this.setSize(390, 255);
+    this.setSize(400, 255);
     this.setVisible(visible);
   }
 
@@ -144,12 +148,15 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.radTransferF.setToolTipText("可使用\\n、\\t转义字符");
     this.pnlFind.add(this.pnlSearchStyleF);
     this.btnFindF.setEnabled(false);
-    this.btnFindF.setBounds(270, 10, 100, Util.BUTTON_HEIGHT);
-    this.btnCountF.setEnabled(false);
-    this.btnCountF.setBounds(270, 48, 100, Util.BUTTON_HEIGHT);
-    this.btnCancelF.setBounds(270, 86, 100, Util.BUTTON_HEIGHT);
+    this.btnCountAllF.setEnabled(false);
+    this.btnCountSelF.setEnabled(false);
+    this.btnFindF.setBounds(270, 10, 110, Util.BUTTON_HEIGHT);
+    this.btnCountAllF.setBounds(270, 45, 110, Util.BUTTON_HEIGHT);
+    this.btnCountSelF.setBounds(270, 80, 110, Util.BUTTON_HEIGHT);
+    this.btnCancelF.setBounds(270, 115, 110, Util.BUTTON_HEIGHT);
     this.pnlFind.add(this.btnFindF);
-    this.pnlFind.add(this.btnCountF);
+    this.pnlFind.add(this.btnCountAllF);
+    this.pnlFind.add(this.btnCountSelF);
     this.pnlFind.add(this.btnCancelF);
     this.bgpSearchStyleF.add(this.radDefaultF);
     this.bgpSearchStyleF.add(this.radTransferF);
@@ -185,13 +192,16 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnFindR.setEnabled(false);
     this.btnReplaceR.setEnabled(false);
     this.btnReplaceAllR.setEnabled(false);
-    this.btnFindR.setBounds(270, 10, 100, Util.BUTTON_HEIGHT);
-    this.btnReplaceR.setBounds(270, 45, 100, Util.BUTTON_HEIGHT);
-    this.btnReplaceAllR.setBounds(270, 80, 100, Util.BUTTON_HEIGHT);
-    this.btnCancelR.setBounds(270, 115, 100, Util.BUTTON_HEIGHT);
+    this.btnReplaceSelR.setEnabled(false);
+    this.btnFindR.setBounds(270, 10, 110, Util.BUTTON_HEIGHT);
+    this.btnReplaceR.setBounds(270, 45, 110, Util.BUTTON_HEIGHT);
+    this.btnReplaceAllR.setBounds(270, 80, 110, Util.BUTTON_HEIGHT);
+    this.btnReplaceSelR.setBounds(270, 115, 110, Util.BUTTON_HEIGHT);
+    this.btnCancelR.setBounds(270, 150, 110, Util.BUTTON_HEIGHT);
     this.pnlReplace.add(this.btnFindR);
     this.pnlReplace.add(this.btnReplaceR);
     this.pnlReplace.add(this.btnReplaceAllR);
+    this.pnlReplace.add(this.btnReplaceSelR);
     this.pnlReplace.add(this.btnCancelR);
     this.bgpSearchStyleR.add(this.radDefaultR);
     this.bgpSearchStyleR.add(this.radTransferR);
@@ -332,7 +342,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.radTransferF.setMnemonic('T');
     this.radPatternF.setMnemonic('P');
     this.btnFindF.setMnemonic('F');
-    this.btnCountF.setMnemonic('N');
+    this.btnCountAllF.setMnemonic('N');
+    this.btnCountSelF.setMnemonic('S');
     this.radFindUpF.setMnemonic('U');
     this.radFindDownF.setMnemonic('D');
     // 替换
@@ -344,6 +355,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnFindR.setMnemonic('F');
     this.btnReplaceR.setMnemonic('R');
     this.btnReplaceAllR.setMnemonic('A');
+    this.btnReplaceSelR.setMnemonic('S');
     this.radFindUpR.setMnemonic('U');
     this.radFindDownR.setMnemonic('D');
   }
@@ -356,7 +368,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     // 查找
     this.txtFindTextF.addCaretListener(this);
     this.btnFindF.addActionListener(this);
-    this.btnCountF.addActionListener(this);
+    this.btnCountAllF.addActionListener(this);
+    this.btnCountSelF.addActionListener(this);
     this.btnCancelF.addActionListener(this);
     this.radFindDownF.addActionListener(this);
     this.radFindUpF.addActionListener(this);
@@ -375,12 +388,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.radFindUpF.addKeyListener(this.keyAdapter);
     this.btnCancelF.addKeyListener(this.buttonKeyAdapter);
     this.btnFindF.addKeyListener(this.buttonKeyAdapter);
-    this.btnCountF.addKeyListener(this.buttonKeyAdapter);
+    this.btnCountAllF.addKeyListener(this.buttonKeyAdapter);
+    this.btnCountSelF.addKeyListener(this.buttonKeyAdapter);
     // 替换
     this.txtFindTextR.addCaretListener(this);
     this.btnFindR.addActionListener(this);
     this.btnReplaceR.addActionListener(this);
     this.btnReplaceAllR.addActionListener(this);
+    this.btnReplaceSelR.addActionListener(this);
     this.btnCancelR.addActionListener(this);
     this.radFindDownR.addActionListener(this);
     this.radFindUpR.addActionListener(this);
@@ -402,6 +417,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnReplaceR.addKeyListener(this.buttonKeyAdapter);
     this.btnFindR.addKeyListener(this.buttonKeyAdapter);
     this.btnReplaceAllR.addKeyListener(this.buttonKeyAdapter);
+    this.btnReplaceSelR.addKeyListener(this.buttonKeyAdapter);
+    // 为窗口添加焦点监听器
+    this.addWindowFocusListener(this);
   }
 
   /**
@@ -413,8 +431,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       this.onCancel();
     } else if (this.btnFindF.equals(e.getSource())) {
       this.onEnter();
-    } else if (this.btnCountF.equals(e.getSource())) {
-      this.getTextCount();
+    } else if (this.btnCountAllF.equals(e.getSource())) {
+      this.getTextCountAll();
+    } else if (this.btnCountSelF.equals(e.getSource())) {
+      this.getTextCountSel();
     } else if (this.chkMatchCaseF.equals(e.getSource())) {
       this.setting.matchCase = this.isMatchCase = this.chkMatchCaseF
           .isSelected();
@@ -448,6 +468,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       this.onEnter();
     } else if (this.btnReplaceAllR.equals(e.getSource())) {
       this.replaceAllText();
+    } else if (this.btnReplaceSelR.equals(e.getSource())) {
+      this.replaceSelText();
     } else if (this.chkMatchCaseR.equals(e.getSource())) {
       this.setting.matchCase = this.isMatchCase = this.chkMatchCaseR
           .isSelected();
@@ -522,7 +544,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * 替换字符串
+   * 单次替换字符串
    */
   private void replaceText() {
     boolean isEquals = false;
@@ -564,10 +586,32 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    * 替换所有字符串
    */
   private void replaceAllText() {
+    this.replaceText(false);
+  }
+
+  /**
+   * 替换选区字符串
+   */
+  private void replaceSelText() {
+    this.replaceText(true);
+  }
+
+  /**
+   * 多次替换字符串
+   * 
+   * @param isSel
+   *          是否针对选区操作，true表示选区操作，false表示全文操作
+   */
+  private void replaceText(boolean isSel) {
+    String str = this.txaSource.getText();
+    int selStart = this.txaSource.getSelectionStart();
+    if (isSel) {
+      str = this.txaSource.getSelectedText();
+    }
     String strFindText = this.txtFindTextR.getText();
     String strReplaceText = this.txtReplaceTextR.getText();
-    StringBuilder stbTextAll = new StringBuilder(this.txaSource.getText()); //
-    StringBuilder stbTextAllTemp = new StringBuilder(stbTextAll); //
+    StringBuilder stbTextAll = new StringBuilder(str);
+    StringBuilder stbTextAllTemp = new StringBuilder(stbTextAll);
     if (this.searchStyle == SearchStyle.PATTERN) {
       strReplaceText = Util.transfer(strReplaceText);
     } else if (this.searchStyle == SearchStyle.TRANSFER) {
@@ -575,7 +619,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       strReplaceText = Util.transfer(strReplaceText);
     }
     StringBuilder stbFindTextTemp = new StringBuilder(strFindText);
-    if (strFindText != null && strFindText.length() > 0) {
+    if (strFindText != null && !strFindText.isEmpty()) {
       int caretPos = 0; // 当前从哪个索引值开始搜索字符串
       int times = 0; // 循环次数
       int oldPos = this.txaSource.getCaretPosition(); // 替换之前文本域的插入点位置
@@ -633,9 +677,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         }
       }
       if (times > 0) {
-        this.txaSource.setText(stbTextAll.toString());
-        this.txaSource.setCaretPosition(Util.checkCaretPosition(this.txaSource,
-            newPos));
+        if (isSel) {
+          this.txaSource.replaceSelection(stbTextAll.toString());
+          this.txaSource.select(selStart, selStart + stbTextAll.length());
+        } else {
+          this.txaSource.setText(stbTextAll.toString());
+          this.txaSource.setCaretPosition(Util.checkCaretPosition(this.txaSource,
+              newPos));
+        }
         JOptionPane.showMessageDialog(this, "共替换 " + times + " 处。",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       } else {
@@ -646,13 +695,32 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * "统计次数"的处理方法
+   * "全部统计"的处理方法
    */
-  private void getTextCount() {
-    if (this.strFind == null || this.strFind.isEmpty()) {
+  private void getTextCountAll() {
+    this.getTextCount(this.txaSource.getText());
+  }
+
+  /**
+   * "选区内统计"的处理方法
+   */
+  private void getTextCountSel() {
+    this.getTextCount(this.txaSource.getSelectedText());
+  }
+
+  /**
+   * 在给定的文本中统计字符串次数
+   * 
+   * @param strText
+   *          给定的文本
+   */
+  private void getTextCount(String strText) {
+    int times = 0; // 字符串出现次数
+    if (this.strFind == null || this.strFind.isEmpty() || strText == null || strText.isEmpty()) {
+      JOptionPane.showMessageDialog(this, "共找到 " + times + " 处。", Util.SOFTWARE,
+          JOptionPane.NO_OPTION);
       return;
     }
-    String strText = this.txaSource.getText();
     String strFindTemp = this.strFind;
     if (this.searchStyle == SearchStyle.TRANSFER) {
       strFindTemp = Util.transfer(strFindTemp);
@@ -665,7 +733,6 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       }
       strText = strText.toLowerCase();
     }
-    int times = 0; // 字符串出现次数
     if (this.searchStyle == SearchStyle.PATTERN) {
       try {
         this.matcher = Pattern.compile(strFindTemp).matcher(strText);
@@ -689,6 +756,27 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
+   * 设置选区操作按钮的状态
+   */
+  private void setBtnSelEnabled() {
+    String strSel = this.txaSource.getSelectedText();
+    boolean isSelEmpty = (strSel == null || strSel.isEmpty());
+    if (this.tpnMain.getSelectedIndex() == 0) {
+      if (isSelEmpty || this.txtFindTextF.getText().isEmpty()){
+        this.btnCountSelF.setEnabled(false);
+      } else {
+        this.btnCountSelF.setEnabled(true);
+      }
+    } else {
+      if (isSelEmpty || this.txtFindTextR.getText().isEmpty()){
+        this.btnReplaceSelR.setEnabled(false);
+      } else {
+        this.btnReplaceSelR.setEnabled(true);
+      }
+    }
+  }
+
+  /**
    * 当文本框的光标发生变化时，触发此事件
    */
   public void caretUpdate(CaretEvent e) {
@@ -697,10 +785,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       this.strFind = this.txtFindTextF.getText();
       if (this.strFind.isEmpty()) {
         this.btnFindF.setEnabled(false);
-        this.btnCountF.setEnabled(false);
+        this.btnCountAllF.setEnabled(false);
       } else {
         this.btnFindF.setEnabled(true);
-        this.btnCountF.setEnabled(true);
+        this.btnCountAllF.setEnabled(true);
       }
     }
     // 替换
@@ -716,6 +804,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         this.btnReplaceAllR.setEnabled(true);
       }
     }
+    this.setBtnSelEnabled();
   }
 
   /**
@@ -731,5 +820,19 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       this.txtFindTextR.setText(this.strFind);
       this.txtFindTextR.selectAll();
     }
+    this.setBtnSelEnabled();
+  }
+
+  /**
+   * 当窗口获得焦点时，将触发此事件
+   */
+  public void windowGainedFocus(WindowEvent e) {
+    this.setBtnSelEnabled();
+  }
+
+  /**
+   * 当窗口失去焦点时，将触发此事件
+   */
+  public void windowLostFocus(WindowEvent e) {
   }
 }
