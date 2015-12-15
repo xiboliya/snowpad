@@ -972,3 +972,7 @@ src/ShortcutSetDialog.java
 src/SignIdentifierDialog.java
 src/SnowPadFrame.java
 src/Util.java
+
+2015-12-15
+1.在打开文件时，添加自动识别UTF-8无BOM编码格式的功能。
+src/SnowPadFrame.java
