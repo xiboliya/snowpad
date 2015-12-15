@@ -4124,7 +4124,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 根据文件开头的BOM（如果存在的话），判断文件的编码格式。 文本文件有各种不同的编码格式，如果判断有误，则会导致显示或保存错误。
    * 为了标识文件的编码格式，便于编辑和保存，则在文件开头加入了BOM，用以标识编码格式。 UTF-8格式：0xef 0xbb 0xbf， Unicode
    * Little Endian格式：0xff 0xfe， Unicode Big Endian格式：0xfe
-   * 0xff。而ANSI格式是没有BOM的。另有一种不含BOM的UTF-8格式的文件，则不易与ANSI相区分，因此未能识别此类格式。
+   * 0xff。而ANSI格式是没有BOM的。另有一种不含BOM的UTF-8格式的文件，则不易与ANSI相区分，因此需要进一步检测。
    * 
    * @param file
    *          待判断的文件
@@ -4153,7 +4153,88 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (charArr[0] == 0xef && charArr[1] == 0xbb && charArr[2] == 0xbf) {
       this.setCharEncoding(CharEncoding.UTF8, true);
     } else {
-      this.setCharEncoding(CharEncoding.BASE, true);
+      if (this.isUTF8NoBom(file)) {
+        this.setCharEncoding(CharEncoding.UTF8_NO_BOM, true);
+      } else {
+        this.setCharEncoding(CharEncoding.BASE, true);
+      }
+    }
+  }
+
+  /**
+   * 判断文件是否为UTF8无BOM格式。
+   * UTF-8的编码规则很简单，只有2条：
+   * 1.对于单字节的字符，字节的第一位设为0，后面7位为这个符号的unicode码。因此对于英语字母，UTF-8编码和ASCII码是相同的。
+   * 2.对于n字节的字符(n>1 && n<=6)，第一个字节的前n位都为1，第n+1位为0，后面字节的前两位都为10。剩下的其他位，即为此字符的unicode码。
+   * 
+   * @param file
+   *          待判断的文件
+   * @return 是否为UTF8无BOM格式，是UTF8无BOM格式返回true，反之返回false
+   */
+  private boolean isUTF8NoBom(File file) {
+    FileInputStream fileInputStream = null;
+    int maxLength = 1024 * 1024;
+    byte rawtext[] = new byte[maxLength];
+    try {
+      fileInputStream = new FileInputStream(file);
+      fileInputStream.read(rawtext);
+    } catch (Exception x) {
+      // x.printStackTrace();
+    } finally {
+      try {
+        fileInputStream.close();
+      } catch (IOException x) {
+        // x.printStackTrace();
+        return false;
+      }
+    }
+    int score = 0;
+    int goodbytes = 0;
+    int asciibytes = 0;
+    int rawtextlen = rawtext.length;
+    for (int i = 0; i < rawtextlen; i++) {
+      // 单字节字符
+      if ((rawtext[i] & (byte) 0x7F) == rawtext[i]) {
+        asciibytes++;
+      }
+      // 双字节字符
+      else if (-64 <= rawtext[i] && rawtext[i] <= -33
+        && i + 1 < rawtextlen
+        && -128 <= rawtext[i + 1]
+        && rawtext[i + 1] <= -65) {
+        goodbytes += 2;
+        i++;
+      }
+      // 三字节字符
+      else if (-32 <= rawtext[i] && rawtext[i] <= -17
+        && i + 2 < rawtextlen
+        && -128 <= rawtext[i + 1] && rawtext[i + 1] <= -65
+        && -128 <= rawtext[i + 2] && rawtext[i + 2] <= -65) {
+        goodbytes += 3;
+        i += 2;
+      }
+      // 四字节字符
+      else if (-16 <= rawtext[i] && rawtext[i] <= -9
+        && i + 3 < rawtextlen
+        && -128 <= rawtext[i + 1] && rawtext[i + 1] <= -65
+        && -128 <= rawtext[i + 2] && rawtext[i + 2] <= -65
+        && -128 <= rawtext[i + 3] && rawtext[i + 3] <= -65) {
+        goodbytes += 4;
+        i += 3;
+      }
+    }
+    if (asciibytes == rawtextlen) {
+      return false;
+    }
+    score = 100 * goodbytes / (rawtextlen - asciibytes);
+    // If not above 98, reduce to zero to prevent coincidental matches
+    // Allows for some (few) bad formed sequences
+    if (score > 98) {
+      return true;
+    } else if (score > 95 && goodbytes > 30) {
+      return true;
+    } else {
+      return false;
     }
   }
 
