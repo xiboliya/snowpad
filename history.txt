@@ -976,3 +976,9 @@ src/Util.java
 2015-12-15
 1.在打开文件时，添加自动识别UTF-8无BOM编码格式的功能。
 src/SnowPadFrame.java
+
+2015-12-23
+1.在文本域中绘制光标所在行的背景，以优化视觉效果
+src/BaseTextArea.java
+src/SnowPadFrame.java
+src/Util.java
