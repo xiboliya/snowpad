@@ -156,6 +156,7 @@ public final class Util {
   public static final Font INSERT_VIEW_FONT = new Font("宋体", Font.PLAIN, 80); // 插入字符界面中预览标签的字体
   public static final Font SIGN_VIEW_FONT = new Font("宋体", Font.PLAIN, 28); // 列表符号与编号界面中预览区域的字体
   public static final Color COLOR_BRACKET = new Color(20, 20, 20, 30); // 在文本域中进行高亮匹配括号的背景颜色
+  public static final Color COLOR_CURRENT_LINE = new Color(0, 100, 200, 30); // 在文本域中用于标识当前行的背景颜色
   public static final Color[] COLOR_HIGHLIGHTS = new Color[] {
       new Color(255, 0, 0, 40), new Color(0, 255, 0, 40),
       new Color(0, 0, 255, 40), new Color(0, 255, 255, 40),

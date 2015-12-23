@@ -22,6 +22,8 @@ import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.undo.UndoManager;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -176,6 +178,27 @@ public class BaseTextArea extends JTextArea {
       strSpace += " ";
     }
     this.replaceRange(strSpace, currentIndex - 1, currentIndex);
+  }
+
+  /**
+   * 绘制组件
+   */
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics graphics = g.create(); // 使用Graphics的副本进行绘制
+    graphics.setColor(Util.COLOR_CURRENT_LINE);
+    try {
+      Rectangle rectangle = this.modelToView(this.getCaretPosition());
+      if (rectangle != null) {
+        double x = rectangle.getX();
+        double y = rectangle.getY();
+        graphics.fillRect(0, (int)y, this.getWidth(), this.getFont().getSize());
+      }
+    } catch (Exception x) {
+      // x.printStackTrace();
+    } finally {
+      graphics.dispose();
+    }
   }
 
   public void setFile(File file) {

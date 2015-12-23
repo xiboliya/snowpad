@@ -4749,6 +4749,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 当文本域中的光标变化时，将触发此事件
    */
   public void caretUpdate(CaretEvent e) {
+    this.txaMain.repaint(); // 重绘当前文本域，以解决在特定情况下绘制当前行背景错乱的问题
     this.updateStateCur();
     this.setMenuStateBySelectedText();
     this.searchTargetBracket();
