@@ -1,7 +1,6 @@
 
 软件名称：冰雪记事本
 软件作者：冰原
-作者百度空间：http://hi.baidu.com/xiboliya
 
 代码仓库（皆采用git进行管理）：
 GitHub：https://github.com/xiboliya/snowpad
@@ -15,9 +14,12 @@ CSDN代码：https://code.csdn.net/chenzhengfeng/snowpad
 本项目采用ant进行编译和打包。ant是目前java环境下最好用的打包部署工具，其采用xml的格式进行编写，功能非常强大。
 现介绍一下如何安装和使用ant进行java程序的编译打包。
 1.下载并安装ant。
-到官方主页http://ant.apache.org下载新版（目前为Ant1.8.1）的ant，得到的是一个apache-ant-1.8.1-bin.zip的压缩包。将其解压到你的硬盘上，例如：D:\apache-ant-1.8.1。
+到官方主页http://ant.apache.org下载新版（撰写本文档时为Ant1.8.1）的ant，得到的是一个apache-ant-1.8.1-bin.zip的压缩包。将其解压到你的硬盘上，例如：D:\apache-ant-1.8.1。
 2.配置环境变量。
-依次选择：我的电脑->属性->高级->环境变量->系统变量->Path->编辑->变量值，在最前面添加如下内容：
+不同系统打开环境变量的方式有所不同：
+Windows XP系统下依次选择：我的电脑->属性->高级->环境变量。
+Windows 7系统下依次选择：计算机->属性->高级系统设置->环境变量。
+打开环境变量对话框之后，再依次选择：系统变量->Path->编辑->变量值，在最前面添加如下内容：
 D:\apache-ant-1.8.1\bin;
 然后点击“确定”，完成环境变量的配置。
 3.验证ant。
@@ -32,4 +34,4 @@ Build failed
 4.编译项目
 假设本项目的路径为：D:\SnowPad，我们在命令行中cd到此路径下，然后输入如下命令：
 ant
-开始编译。编译完成后，当前目录下会产生一个ant目录。其中ant\bin目录存放编译产生的class文件和所需的资源文件（图片和配置文件等）。而ant\jar\SnowPad.jar文件即是我们需要的可运行的jar包。此jar文件可以直接双击运行，或者使用命令行：java -jar ant\jar\SnowPad.jar来运行。
+开始编译。编译完成后，当前目录下会产生一个ant目录。其中ant\bin目录存放编译产生的class文件和所需的资源文件（图片和配置文件等）。而ant\jar\SnowPad.jar文件即是我们需要的可运行的jar包。此jar文件可以直接双击运行，或者直接双击本项目根目录下的SnowPad.bat脚本文件运行，或者使用命令行：java -jar ant\jar\SnowPad.jar来运行。
