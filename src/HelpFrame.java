@@ -73,6 +73,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
         TreeSelectionModel.SINGLE_TREE_SELECTION); // 设置JTree组件一次只能选择一个节点
     this.txaMain.setEditable(false);
     this.txaMain.setLineWrap(true);
+    this.txaMain.setWrapStyleWord(true);
     this.txaMain.setTabSize(2);
   }
 

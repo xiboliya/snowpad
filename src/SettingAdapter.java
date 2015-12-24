@@ -180,24 +180,54 @@ public final class SettingAdapter {
           }
           this.setting.font = new Font(strName, style, size);
         } else if (node.getNodeName().equalsIgnoreCase("colorStyle")) {
-          String strColor1 = ((Element) node).getAttribute("color1");
-          String strColor2 = ((Element) node).getAttribute("color2");
-          String strColor3 = ((Element) node).getAttribute("color3");
-          String strColor4 = ((Element) node).getAttribute("color4");
-          String strColor5 = ((Element) node).getAttribute("color5");
-          try {
-            Color color1 = new Color(Integer.parseInt(strColor1, 16), false); // 将一个字符串转换为十六进制数字，第二个参数false表示不使用透明度
-            Color color2 = new Color(Integer.parseInt(strColor2, 16), false);
-            Color color3 = new Color(Integer.parseInt(strColor3, 16), false);
-            Color color4 = new Color(Integer.parseInt(strColor4, 16), false);
-            Color color5 = new Color(Integer.parseInt(strColor5, 16), false);
-            this.setting.colorStyle = new Color[] { color1, color2, color3,
-                color4, color5 };
-          } catch (NumberFormatException x) {
-            // x.printStackTrace();
-          }
+          String[] arrColor1 = ((Element) node).getAttribute("color1").trim().split(",");
+          String[] arrColor2 = ((Element) node).getAttribute("color2").trim().split(",");
+          String[] arrColor3 = ((Element) node).getAttribute("color3").trim().split(",");
+          String[] arrColor4 = ((Element) node).getAttribute("color4").trim().split(",");
+          String[] arrColor5 = ((Element) node).getAttribute("color5").trim().split(",");
+          String[] arrColor6 = ((Element) node).getAttribute("color6").trim().split(",");
+          String[] arrColor7 = ((Element) node).getAttribute("color7").trim().split(",");
+          Color color1 = this.transferToColor(arrColor1, 0);
+          Color color2 = this.transferToColor(arrColor2, 1);
+          Color color3 = this.transferToColor(arrColor3, 2);
+          Color color4 = this.transferToColor(arrColor4, 3);
+          Color color5 = this.transferToColor(arrColor5, 4);
+          Color color6 = this.transferToColor(arrColor6, 5);
+          Color color7 = this.transferToColor(arrColor7, 6);
+          this.setting.colorStyle = new Color[] { color1, color2, color3,
+              color4, color5, color6, color7 };
         }
       }
+    }
+  }
+
+  /**
+   * 将red、green、blue、alpha各颜色分量组成的字符串数组，转化为颜色
+   * 
+   * @param arrColor
+   *          各颜色分量的字符串数组
+   * @param index
+   *          当前颜色在配色方案中的索引值
+   */
+  private Color transferToColor(String[] arrColor, int index) {
+    int red = -1;
+    int green = -1;
+    int blue = -1;
+    int alpha = 255;
+    int length = arrColor.length;
+    try {
+      if (length >= 3) {
+        red = Integer.parseInt(arrColor[0]);
+        green = Integer.parseInt(arrColor[1]);
+        blue = Integer.parseInt(arrColor[2]);
+        if (length >= 4) {
+          alpha = Integer.parseInt(arrColor[3]);
+        }
+      }
+      return new Color(red, green, blue, alpha);
+    } catch (Exception x) {
+      // x.printStackTrace();
+      return Util.COLOR_STYLE_DEFAULT[index];
     }
   }
 
@@ -438,16 +468,27 @@ public final class SettingAdapter {
         } else if (node.getNodeName().equalsIgnoreCase("colorStyle")) {
           if (this.setting.colorStyle != null) {
             Element element = (Element) node;
-            element.setAttribute("color1", Integer.toHexString(
-                this.setting.colorStyle[0].getRGB()).substring(2)); // 保存颜色的十六进制数时，需要将开头表示透明度的2位数字去掉，以避免解析时超出int数据范围，而出现格式错误的问题
-            element.setAttribute("color2", Integer.toHexString(
-                this.setting.colorStyle[1].getRGB()).substring(2));
-            element.setAttribute("color3", Integer.toHexString(
-                this.setting.colorStyle[2].getRGB()).substring(2));
-            element.setAttribute("color4", Integer.toHexString(
-                this.setting.colorStyle[3].getRGB()).substring(2));
-            element.setAttribute("color5", Integer.toHexString(
-                this.setting.colorStyle[4].getRGB()).substring(2));
+            Color color1 = this.setting.colorStyle[0];
+            Color color2 = this.setting.colorStyle[1];
+            Color color3 = this.setting.colorStyle[2];
+            Color color4 = this.setting.colorStyle[3];
+            Color color5 = this.setting.colorStyle[4];
+            Color color6 = this.setting.colorStyle[5];
+            Color color7 = this.setting.colorStyle[6];
+            element.setAttribute("color1", 
+                color1.getRed() + "," + color1.getGreen() + "," + color1.getBlue() + "," + color1.getAlpha());
+            element.setAttribute("color2", 
+                color2.getRed() + "," + color2.getGreen() + "," + color2.getBlue() + "," + color2.getAlpha());
+            element.setAttribute("color3", 
+                color3.getRed() + "," + color3.getGreen() + "," + color3.getBlue() + "," + color3.getAlpha());
+            element.setAttribute("color4", 
+                color4.getRed() + "," + color4.getGreen() + "," + color4.getBlue() + "," + color4.getAlpha());
+            element.setAttribute("color5", 
+                color5.getRed() + "," + color5.getGreen() + "," + color5.getBlue() + "," + color5.getAlpha());
+            element.setAttribute("color6", 
+                color6.getRed() + "," + color6.getGreen() + "," + color6.getBlue() + "," + color6.getAlpha());
+            element.setAttribute("color7", 
+                color7.getRed() + "," + color7.getGreen() + "," + color7.getBlue() + "," + color7.getAlpha());
           }
         }
       }

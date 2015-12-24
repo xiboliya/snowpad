@@ -230,6 +230,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemColorCaret = new JMenuItem("光标颜色(C)...", 'C');
   private JMenuItem itemColorSelFont = new JMenuItem("选区字体颜色(T)...", 'T');
   private JMenuItem itemColorSelBack = new JMenuItem("选区背景颜色(K)...", 'K');
+  private JMenuItem itemColorBracketBack = new JMenuItem("匹配括号背景颜色(E)...", 'E');
+  private JMenuItem itemColorLineBack = new JMenuItem("当前行背景颜色(L)...", 'L');
   private JMenuItem itemColorAnti = new JMenuItem("全部反色(A)", 'A');
   private JMenuItem itemColorComplementary = new JMenuItem("全部补色(R)", 'R');
   private JMenu menuColorStyle = new JMenu("配色方案(Y)");
@@ -513,6 +515,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemColorCaret.addActionListener(this);
     this.itemColorSelFont.addActionListener(this);
     this.itemColorSelBack.addActionListener(this);
+    this.itemColorBracketBack.addActionListener(this);
+    this.itemColorLineBack.addActionListener(this);
     this.itemColorAnti.addActionListener(this);
     this.itemColorComplementary.addActionListener(this);
     this.itemColorStyle1.addActionListener(this);
@@ -853,6 +857,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuColor.add(this.itemColorCaret);
     this.menuColor.add(this.itemColorSelFont);
     this.menuColor.add(this.itemColorSelBack);
+    this.menuColor.add(this.itemColorBracketBack);
+    this.menuColor.add(this.itemColorLineBack);
     this.menuColor.addSeparator();
     this.menuColor.add(this.itemColorAnti);
     this.menuColor.add(this.itemColorComplementary);
@@ -1010,6 +1016,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemColorCaret);
     this.menuItemList.add(this.itemColorSelFont);
     this.menuItemList.add(this.itemColorSelBack);
+    this.menuItemList.add(this.itemColorBracketBack);
+    this.menuItemList.add(this.itemColorLineBack);
     this.menuItemList.add(this.itemColorAnti);
     this.menuItemList.add(this.itemColorComplementary);
     this.menuItemList.add(this.itemColorStyle1);
@@ -1596,6 +1604,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setSelFontColor();
     } else if (this.itemColorSelBack.equals(e.getSource())) {
       this.setSelBackColor();
+    } else if (this.itemColorBracketBack.equals(e.getSource())) {
+      this.setBracketBackColor();
+    } else if (this.itemColorLineBack.equals(e.getSource())) {
+      this.setLineBackColor();
     } else if (this.itemColorAnti.equals(e.getSource())) {
       this.setColorTransform(true);
     } else if (this.itemColorComplementary.equals(e.getSource())) {
@@ -2458,6 +2470,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(this.textAreaSetting.colorStyle);
     }
+    this.searchTargetBracket();
   }
 
   /**
@@ -2995,6 +3008,25 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     Color color = JColorChooser.showDialog(this, "选区背景颜色", this.txaMain
         .getSelectionColor());
     this.changeColorStyle(color, 4);
+  }
+
+  /**
+   * "匹配括号背景颜色"的处理方法
+   */
+  private void setBracketBackColor() {
+    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", this.txaMain
+        .getBracketBackColor());
+    this.changeColorStyle(color, 5);
+  }
+
+  /**
+   * "当前行背景颜色"的处理方法
+   */
+  private void setLineBackColor() {
+    Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.txaMain
+        .getLineBackColor());
+    this.changeColorStyle(color, 6);
+    this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
   }
 
   /**
@@ -4728,14 +4760,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     try {
       this.txaMain.getHighlighter().addHighlight(currentIndex,
           currentIndex + 1,
-          new DefaultHighlighter.DefaultHighlightPainter(Util.COLOR_BRACKET));
+          new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
       Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter()
           .getHighlights();
       this.txaMain.getHighlighterList().add(
           new PartnerBean(arrHighlight[arrHighlight.length - 1],
               Util.BRACKET_COLOR_STYLE));
       this.txaMain.getHighlighter().addHighlight(targetIndex, targetIndex + 1,
-          new DefaultHighlighter.DefaultHighlightPainter(Util.COLOR_BRACKET));
+          new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
       arrHighlight = this.txaMain.getHighlighter().getHighlights();
       this.txaMain.getHighlighterList().add(
           new PartnerBean(arrHighlight[arrHighlight.length - 1],

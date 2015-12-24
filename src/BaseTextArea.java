@@ -57,6 +57,8 @@ public class BaseTextArea extends JTextArea {
   private boolean isLineNumberView = false; // 是否显示行号栏
   private UndoManager undoManager = new UndoManager(); // 撤销管理器
   private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
+  private Color bracketBackColor = Util.COLOR_BRACKET; // 需绘制的匹配括号的背景颜色
+  private Color lineBackColor = Util.COLOR_CURRENT_LINE; // 需绘制的当前行的背景颜色
 
   /**
    * 默认的构造方法
@@ -186,7 +188,7 @@ public class BaseTextArea extends JTextArea {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics graphics = g.create(); // 使用Graphics的副本进行绘制
-    graphics.setColor(Util.COLOR_CURRENT_LINE);
+    graphics.setColor(this.lineBackColor);
     try {
       Rectangle rectangle = this.modelToView(this.getCaretPosition());
       if (rectangle != null) {
@@ -305,6 +307,8 @@ public class BaseTextArea extends JTextArea {
     this.setCaretColor(colorStyle[2]);
     this.setSelectedTextColor(colorStyle[3]);
     this.setSelectionColor(colorStyle[4]);
+    this.setBracketBackColor(colorStyle[5]);
+    this.setLineBackColor(colorStyle[6]);
   }
 
   public Color[] getColorStyle() {
@@ -363,5 +367,21 @@ public class BaseTextArea extends JTextArea {
 
   public void setLineNumberView(boolean isLineNumberView) {
     this.isLineNumberView = isLineNumberView;
+  }
+
+  public Color getBracketBackColor() {
+    return this.bracketBackColor;
+  }
+
+  public void setBracketBackColor(Color bracketBackColor) {
+    this.bracketBackColor = bracketBackColor;
+  }
+
+  public Color getLineBackColor() {
+    return this.lineBackColor;
+  }
+
+  public void setLineBackColor(Color lineBackColor) {
+    this.lineBackColor = lineBackColor;
   }
 }
