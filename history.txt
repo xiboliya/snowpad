@@ -982,3 +982,16 @@ src/SnowPadFrame.java
 src/BaseTextArea.java
 src/SnowPadFrame.java
 src/Util.java
+
+2015-12-24
+1.在“颜色设置”菜单下添加“匹配括号背景颜色”和“当前行背景颜色”设置功能。并将此2种颜色纳入配色方案中。
+res/help.res
+res/snowpad.xml
+src/BaseTextArea.java
+src/HelpFrame.java
+src/SettingAdapter.java
+src/SnowPadFrame.java
+src/Util.java
+2.将“最近编辑”的文件数由10个增加到15个。
+res/help.res
+src/Util.java
