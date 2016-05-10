@@ -58,6 +58,12 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -73,7 +79,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 冰雪记事本 打造一个与Windows的“记事本”功能相同的java版本。
@@ -86,7 +94,7 @@ import java.util.LinkedList;
  * 
  */
 public class SnowPadFrame extends JFrame implements ActionListener,
-    CaretListener, UndoableEditListener, WindowFocusListener, ChangeListener {
+    CaretListener, UndoableEditListener, WindowFocusListener, ChangeListener, DropTargetListener {
   private static final long serialVersionUID = 1L; // 序列化运行时使用的一个版本号，以与当前可序列化类相关联
   private BaseTextArea txaMain = null; // 当前编辑的文本域
   private JTabbedPane tpnMain = new JTabbedPane(); // 显示文本域的选项卡组件
@@ -658,6 +666,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.tpnMain.setFont(Util.GLOBAL_FONT);
     this.tpnMain.addChangeListener(this);
     this.createNew(null);
+    new DropTarget(this.tpnMain, this); // 创建拖放目标，即设置某个组件接收drop操作
   }
 
   /**
@@ -4912,6 +4921,64 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setMenuStateByTextArea();
         this.setMenuStateBySelectedText();
       }
+    }
+  }
+
+  /**
+   * 当用户拖动鼠标，并进入到可放置的区域时，调用此方法。
+   */
+  public void dragEnter(DropTargetDragEvent e) {
+    e.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE); // 使用“拷贝、移动”方式发起拖动操作
+  }
+
+  /**
+   * 当用户拖动鼠标，并从可放置的区域移出时，调用此方法。
+   */
+  public void dragExit(DropTargetEvent e) {
+  }
+
+  /**
+   * 当用户拖动鼠标，并在可放置的区域内移动时，调用此方法。
+   */
+  public void dragOver(DropTargetDragEvent e) {
+  }
+
+  /**
+   * 当用户修改了当前放置操作后，调用此方法。
+   */
+  public void dropActionChanged(DropTargetDragEvent e) {
+  }
+
+  /**
+   * 当用户拖动鼠标，并在可放置的区域内放置时，调用此方法。
+   */
+  public synchronized void drop(DropTargetDropEvent e) {
+    try {
+      Transferable tr = e.getTransferable();
+      if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) { // 如果Transferable对象拖放，则进行处理
+        e.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE); // 使用“拷贝、移动”方式接收放置操作
+        List fileList = (List) tr.getTransferData(DataFlavor.javaFileListFlavor); // 从Transferable对象中获取文件列表
+        Iterator iterator = fileList.iterator(); // 获取文件列表的迭代器
+        while (iterator.hasNext()) {
+          File file = (File) iterator.next();
+          if (file != null && file.exists()) {
+            boolean toCreateNew = this.checkToCreateNew(file);
+            if (!toCreateNew && !this.saveFileBeforeAct()) {
+              break;
+            }
+            int index = this.getCurrentIndexBySameFile(file);
+            this.toOpenFile(file, true, toCreateNew);
+            this.setAfterOpenFile(index);
+            this.setFileNameAndPath(file);
+          }
+        }
+        e.getDropTargetContext().dropComplete(true); // 设置放置操作成功结束
+      } else {
+        e.rejectDrop(); // Transferable对象不支持拖放，则拒绝操作
+      }
+    } catch (Exception x) {
+      // x.printStackTrace();
+      e.rejectDrop(); // 如果放置过程中出现异常，则拒绝操作
     }
   }
 
