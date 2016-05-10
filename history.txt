@@ -1003,3 +1003,7 @@ git tag SnowPad-V4.1-20151224
 2015-12-24
 1.更新readme说明文档。
 readme.txt
+
+2016-05-10
+1.添加功能：当拖拽文件管理器中的文件到选项卡组件时，即可打开文件。
+src/SnowPadFrame.java
