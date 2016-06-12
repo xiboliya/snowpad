@@ -145,6 +145,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemLineBatchRemove = new JMenuItem("切除(R)...", 'R');
   private JMenuItem itemLineBatchInsert = new JMenuItem("插入(I)...", 'I');
   private JMenuItem itemLineBatchSeparate = new JMenuItem("分割行(S)...", 'S');
+  private JMenuItem itemLineBatchJoin = new JMenuItem("拼接行(J)...", 'J');
   private JMenuItem itemLineBatchMerge = new JMenuItem("合并行(M)", 'M');
   private JMenuItem itemLineBatchRewrite = new JMenuItem("逐行复写(C)", 'C');
   private JMenu menuSort = new JMenu("排序");
@@ -343,6 +344,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private BatchRemoveDialog batchRemoveDialog = null; // 批处理"切除"对话框
   private BatchInsertDialog batchInsertDialog = null; // 批处理"插入"对话框
   private BatchSeparateDialog batchSeparateDialog = null; // 批处理"分割行"对话框
+  private BatchJoinDialog batchJoinDialog = null; // 批处理"拼接行"对话框
   private SignIdentifierDialog signIdentifierDialog = null; // 项目符号与编号对话框
   private InformationDialog informationDialog = null; // 统计信息对话框
   private WindowManageDialog windowManageDialog = null; // 窗口管理对话框
@@ -483,6 +485,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineBatchRemove.addActionListener(this);
     this.itemLineBatchInsert.addActionListener(this);
     this.itemLineBatchSeparate.addActionListener(this);
+    this.itemLineBatchJoin.addActionListener(this);
     this.itemLineBatchMerge.addActionListener(this);
     this.itemLineBatchRewrite.addActionListener(this);
     this.itemTrimStart.addActionListener(this);
@@ -782,6 +785,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLineBatch.add(this.itemLineBatchRemove);
     this.menuLineBatch.add(this.itemLineBatchInsert);
     this.menuLineBatch.add(this.itemLineBatchSeparate);
+    this.menuLineBatch.add(this.itemLineBatchJoin);
     this.menuLineBatch.add(this.itemLineBatchMerge);
     this.menuLineBatch.add(this.itemLineBatchRewrite);
     this.menuEdit.add(this.menuSort);
@@ -963,6 +967,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemLineBatchRemove);
     this.menuItemList.add(this.itemLineBatchInsert);
     this.menuItemList.add(this.itemLineBatchSeparate);
+    this.menuItemList.add(this.itemLineBatchJoin);
     this.menuItemList.add(this.itemLineBatchMerge);
     this.menuItemList.add(this.itemLineBatchRewrite);
     this.menuItemList.add(this.itemSortUp);
@@ -1131,6 +1136,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineBatchRemove.setEnabled(false);
     this.itemLineBatchInsert.setEnabled(false);
     this.itemLineBatchSeparate.setEnabled(false);
+    this.itemLineBatchJoin.setEnabled(false);
     this.itemLineBatchMerge.setEnabled(false);
     this.itemLineBatchRewrite.setEnabled(false);
     this.itemReplace.setEnabled(false);
@@ -1238,6 +1244,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineBatchRemove.setEnabled(isExist);
     this.itemLineBatchInsert.setEnabled(isExist);
     this.itemLineBatchSeparate.setEnabled(isExist);
+    this.itemLineBatchJoin.setEnabled(isExist);
     this.itemLineBatchMerge.setEnabled(isExist);
     this.itemLineBatchRewrite.setEnabled(isExist);
     this.itemFind.setEnabled(isExist);
@@ -1460,6 +1467,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openBatchInsertDialog();
     } else if (this.itemLineBatchSeparate.equals(e.getSource())) {
       this.openBatchSeparateDialog();
+    } else if (this.itemLineBatchJoin.equals(e.getSource())) {
+      this.openBatchJoinDialog();
     } else if (this.itemLineBatchMerge.equals(e.getSource())) {
       this.mergeLines();
     } else if (this.itemLineBatchRewrite.equals(e.getSource())) {
@@ -2005,6 +2014,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.batchSeparateDialog.dispose();
       this.batchSeparateDialog = null;
     }
+    if (this.batchJoinDialog != null) {
+      this.batchJoinDialog.dispose();
+      this.batchJoinDialog = null;
+    }
     if (this.signIdentifierDialog != null) {
       this.signIdentifierDialog.dispose();
       this.signIdentifierDialog = null;
@@ -2167,6 +2180,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       this.batchSeparateDialog.setTextArea(this.txaMain);
       this.batchSeparateDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * 批处理"拼接行"的处理方法
+   */
+  private void openBatchJoinDialog() {
+    if (this.batchJoinDialog == null) {
+      this.batchJoinDialog = new BatchJoinDialog(this, true,
+          this.txaMain);
+    } else {
+      this.batchJoinDialog.setTextArea(this.txaMain);
+      this.batchJoinDialog.setVisible(true);
     }
   }
 
