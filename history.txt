@@ -1007,3 +1007,9 @@ readme.txt
 2016-05-10
 1.添加功能：当拖拽文件管理器中的文件到选项卡组件时，即可打开文件。
 src/SnowPadFrame.java
+
+2016-06-12
+1.在“编辑”->“批处理行”菜单下添加“拼接行”功能
+src/BatchJoinDialog.java（添加）
+src/SnowPadFrame.java
+src/Util.java
