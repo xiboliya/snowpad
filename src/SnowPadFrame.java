@@ -4473,7 +4473,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @param file
    *          保存的文件
    */
-  private void toSaveFile(File file) {
+  private void toSaveFile(File file) throws Exception {
     FileOutputStream fileOutputStream = null;
     try {
       fileOutputStream = new FileOutputStream(file);
@@ -4511,6 +4511,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setMenuStateComment();
     } catch (Exception x) {
       // x.printStackTrace();
+      throw x; // 将捕获的异常抛出，以便调用处可以进行异常处理
     } finally {
       try {
         fileOutputStream.flush();
@@ -4529,7 +4530,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void showSaveErrorDialog(File file) {
     JOptionPane.showMessageDialog(this, Util.convertToMsg("文件："
-        + file.getAbsolutePath() + "\n保存失败！请确认是否有写权限！"), Util.SOFTWARE,
+        + file.getAbsolutePath() + "\n保存失败！请确认文件名是否有非法字符或是否有写权限！"), Util.SOFTWARE,
         JOptionPane.CANCEL_OPTION);
   }
 
