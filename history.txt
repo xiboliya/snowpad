@@ -1013,3 +1013,7 @@ src/SnowPadFrame.java
 src/BatchJoinDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
+
+2016-07-29
+1.解决在保存新文件时，如果输入的文件名含有非法字符，而导致保存失败，却没有弹出保存失败提示框的问题。
+src/SnowPadFrame.java
