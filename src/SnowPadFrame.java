@@ -110,6 +110,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemSaveAs = new JMenuItem("另存为(A)...", 'A');
   private JMenuItem itemClose = new JMenuItem("关闭当前(C)", 'C');
   private JMenuItem itemCloseOther = new JMenuItem("关闭其它(T)", 'T');
+  private JMenuItem itemCloseLeft = new JMenuItem("关闭左侧(F)", 'F');
+  private JMenuItem itemCloseRight = new JMenuItem("关闭右侧(G)", 'G');
   private JMenuItem itemCloseAll = new JMenuItem("关闭全部(Q)", 'Q');
   private JMenuItem itemDelFile = new JMenuItem("删除当前文件(D)", 'D');
   private JMenu menuFileHistory = new JMenu("最近编辑(H)");
@@ -298,6 +300,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JPopupMenu popMenuTabbed = new JPopupMenu();
   private JMenuItem itemPopCloseCurrent = new JMenuItem("关闭当前(C)", 'C');
   private JMenuItem itemPopCloseOthers = new JMenuItem("关闭其它(O)", 'O');
+  private JMenuItem itemPopCloseLeft = new JMenuItem("关闭左侧(F)", 'F');
+  private JMenuItem itemPopCloseRight = new JMenuItem("关闭右侧(G)", 'G');
   private JMenuItem itemPopSave = new JMenuItem("保存(S)", 'S');
   private JMenuItem itemPopSaveAs = new JMenuItem("另存为(A)...", 'A');
   private JMenuItem itemPopReName = new JMenuItem("重命名(N)...", 'N');
@@ -579,6 +583,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopCommentForBlock.addActionListener(this);
     this.itemPopCloseCurrent.addActionListener(this);
     this.itemPopCloseOthers.addActionListener(this);
+    this.itemPopCloseLeft.addActionListener(this);
+    this.itemPopCloseRight.addActionListener(this);
     this.itemPopSave.addActionListener(this);
     this.itemPopSaveAs.addActionListener(this);
     this.itemPopReName.addActionListener(this);
@@ -592,6 +598,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSaveAs.addActionListener(this);
     this.itemClose.addActionListener(this);
     this.itemCloseOther.addActionListener(this);
+    this.itemCloseLeft.addActionListener(this);
+    this.itemCloseRight.addActionListener(this);
     this.itemCloseAll.addActionListener(this);
     this.itemDelFile.addActionListener(this);
     this.itemClearFileHistory.addActionListener(this);
@@ -741,6 +749,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemClose);
     this.menuFile.add(this.itemCloseOther);
+    this.menuFile.add(this.itemCloseLeft);
+    this.menuFile.add(this.itemCloseRight);
     this.menuFile.add(this.itemCloseAll);
     this.menuFile.addSeparator();
     this.menuFile.add(this.menuFileHistory);
@@ -938,6 +948,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemDelFile);
     this.menuItemList.add(this.itemClose);
     this.menuItemList.add(this.itemCloseOther);
+    this.menuItemList.add(this.itemCloseLeft);
+    this.menuItemList.add(this.itemCloseRight);
     this.menuItemList.add(this.itemCloseAll);
     this.menuItemList.add(this.itemClearFileHistory);
     this.menuItemList.add(this.itemExit);
@@ -1095,6 +1107,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
 
     this.popMenuTabbed.add(this.itemPopCloseCurrent);
     this.popMenuTabbed.add(this.itemPopCloseOthers);
+    this.popMenuTabbed.add(this.itemPopCloseLeft);
+    this.popMenuTabbed.add(this.itemPopCloseRight);
     this.popMenuTabbed.addSeparator();
     this.popMenuTabbed.add(this.itemPopSave);
     this.popMenuTabbed.add(this.itemPopSaveAs);
@@ -1582,6 +1596,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemCloseOther.equals(e.getSource())
         || this.itemPopCloseOthers.equals(e.getSource())) {
       this.closeOthers();
+    } else if (this.itemCloseLeft.equals(e.getSource())
+        || this.itemPopCloseLeft.equals(e.getSource())) {
+      this.closeLeft();
+    } else if (this.itemCloseRight.equals(e.getSource())
+        || this.itemPopCloseRight.equals(e.getSource())) {
+      this.closeRight();
     } else if (this.itemCloseAll.equals(e.getSource())
         || this.toolButtonList.get(5).equals(e.getSource())) {
       this.closeAll();
@@ -1891,6 +1911,37 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         if (!this.closeFile(true)) { // 关闭当前的文件
           break;
         }
+      }
+    }
+  }
+
+  /**
+   * "关闭左侧"的处理方法
+   */
+  private void closeLeft() {
+    int index = this.tpnMain.getSelectedIndex();
+    this.tpnMain.setSelectedIndex(0);
+    for (int i = 0; i < index; i++) {
+      if (!this.closeFile(true)) { // 关闭当前的文件
+        break;
+      }
+    }
+  }
+
+  /**
+   * "关闭右侧"的处理方法
+   */
+  private void closeRight() {
+    int index = this.tpnMain.getSelectedIndex();
+    int size = this.textAreaList.size();
+    index++;
+    if (index >= size) {
+      return;
+    }
+    this.tpnMain.setSelectedIndex(index);
+    for (int i = index; i < size; i++) {
+      if (!this.closeFile(true)) { // 关闭当前的文件
+        break;
       }
     }
   }
