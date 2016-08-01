@@ -1020,3 +1020,7 @@ src/SnowPadFrame.java
 2.在“文件”菜单下添加“关闭左侧”和“关闭右侧”功能。
 src/SnowPadFrame.java
 src/Util.java
+
+2016-08-01
+1.添加功能：当拖拽文件管理器中的文件到选项卡组件中任何一个文本域时，即可打开文件。
+src/SnowPadFrame.java
