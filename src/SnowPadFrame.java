@@ -3803,6 +3803,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setLineNumberForNew();
     this.addTextAreaMouseListener();
     this.setMenuStateComment();
+    new DropTarget(txaNew, this); // 创建拖放目标，即设置某个组件接收drop操作
   }
 
   /**
@@ -5033,7 +5034,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   public synchronized void drop(DropTargetDropEvent e) {
     try {
       Transferable tr = e.getTransferable();
-      if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) { // 如果Transferable对象拖放，则进行处理
+      if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) { // 如果Transferable对象支持拖放，则进行处理
         e.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE); // 使用“拷贝、移动”方式接收放置操作
         List fileList = (List) tr.getTransferData(DataFlavor.javaFileListFlavor); // 从Transferable对象中获取文件列表
         Iterator iterator = fileList.iterator(); // 获取文件列表的迭代器
@@ -5052,7 +5053,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
         e.getDropTargetContext().dropComplete(true); // 设置放置操作成功结束
       } else {
-        e.rejectDrop(); // Transferable对象不支持拖放，则拒绝操作
+        e.rejectDrop(); // 如果Transferable对象不支持拖放，则拒绝操作
       }
     } catch (Exception x) {
       // x.printStackTrace();
