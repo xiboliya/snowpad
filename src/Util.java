@@ -111,8 +111,14 @@ public final class Util {
       "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "yyyy.MM.dd",
       "yy/MM/dd", "HH:mm:ss", "KK:mm:ss a", "HH:mm:ss:SSS" }; // 时间/日期格式字符串
   public static final String[] SIGN_IDENTIFIER_NAMES = new String[] {
-      "十进制数(1.2..10.11.)", "小写十六进制数(1.2..a.b.)", "大写十六进制数(1.2..A.B.)",
-      "干支计数(甲子.乙丑..癸酉.甲戌.)" }; // 列表编号类型的显示名称
+      "数字格式", "汉字格式", "干支格式", "字母格式" }; // 列表编号类型的显示名称
+  public static final String HALF_WIDTH_NUMBERS = "0123456789"; // 半角数字
+  public static final char[] FULL_WIDTH_NUMBERS = new char[] { '０', '１', '２', '３', '４', '５', '６', '７', '８', '９' }; // 全角数字
+  public static final String[] SIMPLIFIED_CHINESE_NUMBERS = new String[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" }; // 简体数字
+  public static final String[] SIMPLIFIED_CHINESE_UNITS = new String[] { "", "十", "百", "千", "万", "十", "百", "千", "亿", "十" }; // 简体数字单位
+  public static final String[] TRADITIONAL_CHINESE_NUMBERS = new String[] { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" }; // 繁体数字
+  public static final String[] TRADITIONAL_CHINESE_UNITS = new String[] { "", "拾", "佰", "仟", "万", "拾", "佰", "仟", "亿", "拾" }; // 繁体数字单位
+  public static final String LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz"; // 小写英文字母
   public static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "新建", "打开",
       "保存", "另存为", "关闭", "关闭全部", "剪切", "复制", "粘贴", "撤销", "重做", "查找", "替换",
       "字体放大", "字体缩小", "自动换行" }; // 工具栏提示信息
@@ -749,6 +755,157 @@ public final class Util {
       keyStroke = KeyStroke.getKeyStroke(keyCode, modifiers);
     }
     return keyStroke;
+  }
+
+  /**
+   * 将给定的数字转换为汉字格式
+   * 
+   * @param number
+   *          待转换的数字
+   * @param isTraditional
+   *          是否转换为繁体汉字，为true表示转换为繁体，反之转换为简体
+   * @return 转换后的字符串
+   */
+  public static String intToChinese(int number, boolean isTraditional) {
+    String str = "";
+    StringBuffer sb = new StringBuffer(String.valueOf(number));
+    sb = sb.reverse();
+    String[] arrChineseNumbers = SIMPLIFIED_CHINESE_NUMBERS;
+    String[] arrChineseUnits = SIMPLIFIED_CHINESE_UNITS;
+    if (isTraditional) {
+      arrChineseNumbers = TRADITIONAL_CHINESE_NUMBERS;
+      arrChineseUnits = TRADITIONAL_CHINESE_UNITS;
+    }
+    int r = 0;
+    int l = 0;
+    for (int j = 0; j < sb.length(); j++) {
+      r = Integer.valueOf(sb.substring(j, j + 1)); // 当前数字
+      if (j != 0) {
+        l = Integer.valueOf(sb.substring(j - 1, j)); // 上一个数字
+			}
+      if (j == 0) {
+        if (r != 0 || sb.length() == 1) {
+          str = arrChineseNumbers[r];
+        }
+        continue;
+      }
+      if (j == 1 || j == 2 || j == 3 || j == 5 || j == 6 || j == 7 || j == 9) {
+        if (r != 0) {
+          str = arrChineseNumbers[r] + arrChineseUnits[j] + str;
+        } else if (l != 0) {
+          str = arrChineseNumbers[r] + str;
+        }
+        continue;
+      }
+      if (j == 4 || j == 8) {
+        str =  arrChineseUnits[j] + str;
+        if ((l != 0 && r == 0) || r != 0) {
+          str = arrChineseNumbers[r] + str;
+        }
+        continue;
+      }
+    }
+    // 为了解决数值为：10~19时，会在开头多“一”的问题
+    if (number >= 10 && number <= 19) {
+      str = str.substring(1);
+    }
+    return str;
+  }
+
+  /**
+   * 将给定的数字转换为全角数字
+   * 
+   * @param number
+   *          待转换的数字
+   * @return 转换后的字符串
+   */
+  public static String intToFullWidth(int number) {
+    char[] arrChar = String.valueOf(number).toCharArray();
+    for (int i = 0; i < arrChar.length; i++) {
+      char ch = arrChar[i];
+      switch (ch) {
+        case '0':
+          arrChar[i] = FULL_WIDTH_NUMBERS[0];
+          break;
+        case '1':
+          arrChar[i] = FULL_WIDTH_NUMBERS[1];
+          break;
+        case '2':
+          arrChar[i] = FULL_WIDTH_NUMBERS[2];
+          break;
+        case '3':
+          arrChar[i] = FULL_WIDTH_NUMBERS[3];
+          break;
+        case '4':
+          arrChar[i] = FULL_WIDTH_NUMBERS[4];
+          break;
+        case '5':
+          arrChar[i] = FULL_WIDTH_NUMBERS[5];
+          break;
+        case '6':
+          arrChar[i] = FULL_WIDTH_NUMBERS[6];
+          break;
+        case '7':
+          arrChar[i] = FULL_WIDTH_NUMBERS[7];
+          break;
+        case '8':
+          arrChar[i] = FULL_WIDTH_NUMBERS[8];
+          break;
+        case '9':
+          arrChar[i] = FULL_WIDTH_NUMBERS[9];
+          break;
+      }
+    }
+    return new String(arrChar);
+  }
+
+  /**
+   * 将给定的数字转换为英文字母
+   * 
+   * @param number
+   *          待转换的数字
+   * @param isUpperCase
+   *          是否转换为大写，为true表示转换为大写，反之转换为小写
+   * @return 转换后的字符串
+   */
+  public static String intToLetter(int number, boolean isUpperCase) {
+    String strNumber = Integer.toString(number, LOWER_CASE_LETTERS.length()).toLowerCase();
+    char[] arrChar = strNumber.toCharArray();
+    for (int i = 0; i < arrChar.length; i++) {
+      char ch = arrChar[i];
+      int index = HALF_WIDTH_NUMBERS.indexOf(ch);
+      if (index >= 0) {
+        // 数字的最高位需要特殊处理
+        if (i == 0) {
+          arrChar[i] = LOWER_CASE_LETTERS.charAt(index - 1);
+        } else {
+          arrChar[i] = LOWER_CASE_LETTERS.charAt(index);
+        }
+      } else {
+        index = LOWER_CASE_LETTERS.indexOf(ch);
+        if (index >= 0) {
+          arrChar[i] = LOWER_CASE_LETTERS.charAt(index + HALF_WIDTH_NUMBERS.length());
+        }
+      }
+    }
+    String result = new String(arrChar);
+    if (isUpperCase) {
+      result = result.toUpperCase();
+    }
+    return result;
+  }
+
+  /**
+   * 将给定的数字转换为干支
+   * 
+   * @param number
+   *          待转换的数字
+   * @return 转换后的字符串
+   */
+  public static String intToGanZhi(int number) {
+    int len1 = IDENTIFIER_TIANGAN.length();
+    int len2 = IDENTIFIER_DIZHI.length();
+    return String.valueOf(IDENTIFIER_TIANGAN.charAt(number % len1)) + String.valueOf(IDENTIFIER_DIZHI.charAt(number % len2));
   }
 
 }

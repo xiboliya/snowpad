@@ -52,8 +52,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private JTabbedPane tpnMain = new JTabbedPane();
   private GridLayout gridLayout = new GridLayout(Util.SIGN_MAX_ROW,
       Util.SIGN_MAX_COLUMN, 5, 5);
-  private GridLayout specialGridLayout = new GridLayout(Util.SIGN_MAX_ROW, 1,
-      5, 5);
+  private GridLayout specialGridLayout = new GridLayout(Util.SIGN_MAX_ROW, 1, 5, 5);
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private JTextArea txaView = new JTextArea();
@@ -220,7 +219,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     } else {
       arrText = Util.getCurrentLinesArray(this.txaSource);
     }
-    if (arrText == null || arrText.length < 1) {
+    if (arrText == null || arrText.length <= 0) {
       return;
     }
     boolean isSpecial = false;
@@ -259,30 +258,24 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
         }
       }
       switch (index) {
-      case 0:
+      case 0: // 数字
         for (n = 0; n < arrText.length; n++) {
           arrText[n] = (n + 1) + "." + arrText[n];
         }
         break;
-      case 1:
+      case 1: // 汉字
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = Integer.toHexString(n + 1).toLowerCase() + "."
-              + arrText[n];
+          arrText[n] = Util.intToChinese(n + 1, false) + "." + arrText[n];
         }
         break;
-      case 2:
+      case 2: // 干支
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = Integer.toHexString(n + 1).toUpperCase() + "."
-              + arrText[n];
+          arrText[n] = Util.intToGanZhi(n) + "." + arrText[n];
         }
         break;
-      case 3:
-        int len1 = Util.IDENTIFIER_TIANGAN.length();
-        int len2 = Util.IDENTIFIER_DIZHI.length();
+      case 3: // 字母
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = String.valueOf(Util.IDENTIFIER_TIANGAN.charAt(n % len1))
-              + String.valueOf(Util.IDENTIFIER_DIZHI.charAt(n % len2)) + "."
-              + arrText[n];
+          arrText[n] = Util.intToLetter(n + 1, false) + "." + arrText[n];
         }
         break;
       }
