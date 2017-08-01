@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,6 +31,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JViewport;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * "窗口管理"对话框
@@ -47,12 +50,14 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
   private JButton btnOk = new JButton("激活");
   private JButton btnSave = new JButton("保存");
   private JButton btnClose = new JButton("关闭");
+  private JButton btnSort = new JButton("排序");
   private JButton btnCancel = new JButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Vector<Vector<String>> cells = new Vector<Vector<String>>();
   private Vector<String> cellsTitle = new Vector<String>();
   private BaseDefaultTableModel baseDefaultTableModel = null;
+  private TableRowSorter<TableModel> tableRowSorter = null;
   private JTabbedPane tpnMain = null; // 显示文本域的选项卡组件
 
   /**
@@ -67,8 +72,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
    * @param tpnMain
    *          显示文本域的选项卡组件
    */
-  public WindowManageDialog(JFrame owner, boolean modal, JTextArea txaSource,
-      JTabbedPane tpnMain) {
+  public WindowManageDialog(JFrame owner, boolean modal, JTextArea txaSource, JTabbedPane tpnMain) {
     super(owner, modal);
     if (txaSource == null) {
       return;
@@ -95,11 +99,13 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     this.btnOk.setBounds(10, 20, 90, Util.BUTTON_HEIGHT);
     this.btnSave.setBounds(10, 55, 90, Util.BUTTON_HEIGHT);
     this.btnClose.setBounds(10, 90, 90, Util.BUTTON_HEIGHT);
+    this.btnSort.setBounds(10, 125, 90, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(10, 200, 90, Util.BUTTON_HEIGHT);
     this.pnlRight.setPreferredSize(new Dimension(110, 275)); // 设置面板的最适尺寸
     this.pnlRight.add(this.btnOk);
     this.pnlRight.add(this.btnSave);
     this.pnlRight.add(this.btnClose);
+    this.pnlRight.add(this.btnSort);
     this.pnlRight.add(this.btnCancel);
   }
 
@@ -110,8 +116,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     for (String title : Util.WINDOW_MANAGE_TABLE_TITLE_TEXTS) {
       this.cellsTitle.add(title);
     }
-    this.baseDefaultTableModel = new BaseDefaultTableModel(this.cells,
-        this.cellsTitle);
+    this.baseDefaultTableModel = new BaseDefaultTableModel(this.cells, this.cellsTitle);
     this.tabMain = new JTable(this.baseDefaultTableModel);
     this.tabMain.getTableHeader().setReorderingAllowed(false); // 不可整列移动
     this.spnMain = new JScrollPane(this.tabMain);
@@ -125,13 +130,11 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     this.cells.clear();
     Vector<String> cellsLine = null;
     for (int i = 0; i < this.tpnMain.getTabCount(); i++) {
-      JViewport viewport = ((JScrollPane) this.tpnMain.getComponentAt(i))
-          .getViewport();
+      JViewport viewport = ((JScrollPane) this.tpnMain.getComponentAt(i)).getViewport();
       BaseTextArea textArea = (BaseTextArea) viewport.getView();
-      String path = textArea.getFile() == null ? "" : textArea.getFile()
-          .getParent();
+      String path = textArea.getFile() == null ? "" : textArea.getFile().getParent();
       cellsLine = new Vector<String>();
-      cellsLine.add(this.tpnMain.getTitleAt(i));
+      cellsLine.add(textArea.getPrefix() + textArea.getTitle());
       cellsLine.add(path);
       cellsLine.add(textArea.getFileExt().toString().substring(1));
       this.cells.add(cellsLine);
@@ -142,6 +145,8 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
    * 刷新表格中的数据
    */
   public void refresh() {
+    this.tableRowSorter = new TableRowSorter<TableModel>(this.baseDefaultTableModel);
+    this.tabMain.setRowSorter(this.tableRowSorter); // 设置排序过滤器
     this.getCells();
     this.tabMain.updateUI();
     int index = this.tpnMain.getSelectedIndex();
@@ -155,10 +160,12 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     this.btnOk.addActionListener(this);
     this.btnSave.addActionListener(this);
     this.btnClose.addActionListener(this);
+    this.btnSort.addActionListener(this);
     this.btnCancel.addActionListener(this);
     this.btnOk.addKeyListener(this.buttonKeyAdapter);
     this.btnSave.addKeyListener(this.buttonKeyAdapter);
     this.btnClose.addKeyListener(this.buttonKeyAdapter);
+    this.btnSort.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addKeyListener(this.buttonKeyAdapter);
     this.tabMain.addKeyListener(this.keyAdapter);
   }
@@ -173,6 +180,8 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
       this.saveFiles();
     } else if (this.btnClose.equals(e.getSource())) {
       this.closeFiles();
+    } else if (this.btnSort.equals(e.getSource())) {
+      this.sortFiles();
     } else if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
     }
@@ -194,6 +203,20 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     int[] indexs = this.tabMain.getSelectedRows();
     ((SnowPadFrame) this.getOwner()).windowManageToCloseFile(indexs);
     this.refresh();
+  }
+
+  /**
+   * "排序"的操作方法
+   */
+  private void sortFiles() {
+    this.tpnMain.removeAll();
+    int rowCount = this.tabMain.getRowCount();
+    int index = this.tabMain.getSelectedRow();
+    LinkedList<String> paths = new LinkedList<String>();
+    for (int i = 0; i < rowCount; i++) {
+      paths.add(this.tabMain.getValueAt(i, 1).toString() + this.tabMain.getValueAt(i, 0).toString());
+    }
+    ((SnowPadFrame) this.getOwner()).windowManageToSortFile(paths, index);
   }
 
   /**

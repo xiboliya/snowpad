@@ -183,6 +183,23 @@ public class BaseTextArea extends JTextArea {
   }
 
   /**
+   * 获取因文本或格式修改产生的标题栏前缀字符"*"和"※"
+   * 
+   * @return 标题栏前缀字符，可能为：""、"*"、"※"、"*※"
+   */
+  public String getPrefix() {
+    String prefix = "";
+    if (this.getTextChanged() && this.getStyleChanged()) {
+      prefix = Util.TEXT_PREFIX + Util.STYLE_PREFIX;
+    } else if (this.getTextChanged()) {
+      prefix = Util.TEXT_PREFIX;
+    } else if (this.getStyleChanged()) {
+      prefix = Util.STYLE_PREFIX;
+    }
+    return prefix;
+  }
+
+  /**
    * 绘制组件
    */
   protected void paintComponent(Graphics g) {

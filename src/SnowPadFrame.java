@@ -2222,6 +2222,50 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * "窗口管理"界面中"排序"的处理方法
+   * 
+   * @param sortedPaths
+   *          文件路径列表
+   * @param index
+   *          当前选择的文件索引值
+   */
+  public void windowManageToSortFile(LinkedList<String> sortedPaths, int index) {
+    if (sortedPaths == null) {
+      return;
+    }
+    LinkedList<BaseTextArea> sortedTextAreaList = new LinkedList<BaseTextArea>();
+    for (String sortedPath : sortedPaths) {
+      for (BaseTextArea textArea : this.textAreaList) {
+        File file = textArea.getFile();
+        String path = file == null ? "" : file.getParent();
+        String title = textArea.getPrefix() + textArea.getTitle();
+        if (sortedPath.equals(path + title)) {
+          ImageIcon tabIcon = Util.TAB_NEW_FILE_ICON;
+          if (file != null) {
+            if (file.canWrite()) {
+              tabIcon = Util.TAB_EXIST_CURRENT_ICON;
+            } else {
+              tabIcon = Util.TAB_EXIST_READONLY_ICON;
+            }
+          }
+          if (!this.isTabIconView) {
+            tabIcon = null;
+          }
+          sortedTextAreaList.add(textArea);
+          JScrollPane srpNew = new JScrollPane(textArea);
+          this.tpnMain.addTab(title, tabIcon, srpNew);
+          break;
+        }
+      }
+    }
+    if (index >= 0) {
+      this.tpnMain.setSelectedIndex(index);
+    }
+    this.textAreaList.clear();
+    this.textAreaList = sortedTextAreaList;
+  }
+
+  /**
    * 批处理"分割行"的处理方法
    */
   private void openBatchSeparateDialog() {
@@ -3312,7 +3356,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     }
     this.setTitle(this.stbTitle.toString());
-    this.tpnMain.setTitleAt(this.tpnMain.getSelectedIndex(), this.getPrefix()
+    this.tpnMain.setTitleAt(this.tpnMain.getSelectedIndex(), this.txaMain.getPrefix()
         + this.txaMain.getTitle());
   }
 
@@ -3340,25 +3384,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     }
     this.setTitle(this.stbTitle.toString());
-    this.tpnMain.setTitleAt(this.tpnMain.getSelectedIndex(), this.getPrefix()
+    this.tpnMain.setTitleAt(this.tpnMain.getSelectedIndex(), this.txaMain.getPrefix()
         + this.txaMain.getTitle());
-  }
-
-  /**
-   * 获取因文本或格式修改产生的标题栏前缀字符"*"和"※"
-   * 
-   * @return 标题栏前缀字符，可能为：""、"*"、"※"、"*※"
-   */
-  private String getPrefix() {
-    String prefix = "";
-    if (this.txaMain.getTextChanged() && this.txaMain.getStyleChanged()) {
-      prefix = Util.TEXT_PREFIX + Util.STYLE_PREFIX;
-    } else if (this.txaMain.getTextChanged()) {
-      prefix = Util.TEXT_PREFIX;
-    } else if (this.txaMain.getStyleChanged()) {
-      prefix = Util.STYLE_PREFIX;
-    }
-    return prefix;
   }
 
   /**
@@ -4627,10 +4654,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.stbTitle = new StringBuilder(Util.SOFTWARE);
     this.file = this.txaMain.getFile();
     if (this.file != null) {
-      this.stbTitle.insert(0, this.getPrefix() + this.file.getAbsolutePath()
+      this.stbTitle.insert(0, this.txaMain.getPrefix() + this.file.getAbsolutePath()
           + " - ");
     } else {
-      this.stbTitle.insert(0, this.getPrefix() + this.txaMain.getTitle()
+      this.stbTitle.insert(0, this.txaMain.getPrefix() + this.txaMain.getTitle()
           + " - ");
     }
     this.setTitle(this.stbTitle.toString());
