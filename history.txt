@@ -1029,3 +1029,10 @@ src/SnowPadFrame.java
 1.优化调整“列表符号与编号”功能，将“编号”功能下改为4个分类：数字、汉字、干支、字母。
 src/SignIdentifierDialog.java
 src/Util.java
+
+2017-08-01
+1.在“窗口管理”界面中，添加“排序”功能
+res/help.res
+src/BaseTextArea.java
+src/SnowPadFrame.java
+src/WindowManageDialog.java
