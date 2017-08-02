@@ -188,11 +188,26 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
+   * 表格视图中待操作的行所表示的文件路径
+   * 
+   * @param index
+   *          表格视图中待操作的行索引
+   * @return 当前行所表示的文件路径
+   */
+  private String getFilePath(int index) {
+    return this.tabMain.getValueAt(index, 1).toString() + this.tabMain.getValueAt(index, 0).toString();
+  }
+
+  /**
    * "保存"的操作方法
    */
   private void saveFiles() {
     int[] indexs = this.tabMain.getSelectedRows();
-    ((SnowPadFrame) this.getOwner()).windowManageToSaveFile(indexs);
+    LinkedList<String> paths = new LinkedList<String>();
+    for (int index : indexs) {
+      paths.add(this.getFilePath(index));
+    }
+    ((SnowPadFrame) this.getOwner()).windowManageToSaveFile(paths);
     this.refresh();
   }
 
@@ -201,7 +216,11 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
    */
   private void closeFiles() {
     int[] indexs = this.tabMain.getSelectedRows();
-    ((SnowPadFrame) this.getOwner()).windowManageToCloseFile(indexs);
+    LinkedList<String> paths = new LinkedList<String>();
+    for (int index : indexs) {
+      paths.add(this.getFilePath(index));
+    }
+    ((SnowPadFrame) this.getOwner()).windowManageToCloseFile(paths);
     this.refresh();
   }
 
@@ -214,7 +233,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     int index = this.tabMain.getSelectedRow();
     LinkedList<String> paths = new LinkedList<String>();
     for (int i = 0; i < rowCount; i++) {
-      paths.add(this.tabMain.getValueAt(i, 1).toString() + this.tabMain.getValueAt(i, 0).toString());
+      paths.add(this.getFilePath(i));
     }
     ((SnowPadFrame) this.getOwner()).windowManageToSortFile(paths, index);
   }
@@ -225,7 +244,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
   public void onEnter() {
     int index = this.tabMain.getSelectedRow();
     if (index >= 0) {
-      this.tpnMain.setSelectedIndex(index);
+      ((SnowPadFrame) this.getOwner()).windowManageToSwitchFile(this.getFilePath(index));
     }
     this.dispose();
   }

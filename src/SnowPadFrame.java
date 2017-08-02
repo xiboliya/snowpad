@@ -2186,38 +2186,80 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "窗口管理"界面中"关闭"的处理方法
+   * 文本域的文件路径，用于窗口管理界面的相关操作
    * 
-   * @param indexs
-   *          需要关闭的文件在选项卡组件中的索引值数组
+   * @param textArea
+   *          文本域
+   * @return 当前文本域的文件路径
    */
-  public void windowManageToCloseFile(int[] indexs) {
-    int i = 0; // 记录已经关闭的文件数，以调整索引值
-    for (int index : indexs) {
-      index -= i;
-      this.tpnMain.setSelectedIndex(index);
-      if (!this.saveFileBeforeAct()) {
-        continue;
+  private String getFilePathForWindowManage(BaseTextArea textArea) {
+    File file = textArea.getFile();
+    String path = file == null ? "" : file.getParent();
+    String title = textArea.getPrefix() + textArea.getTitle();
+    return path + title;
+  }
+
+  /**
+   * "窗口管理"界面中"激活"的处理方法
+   * 
+   * @param switchPath
+   *          需要激活的文件路径
+   */
+  public void windowManageToSwitchFile(String switchPath) {
+    if (Util.isTextEmpty(switchPath)) {
+      return;
+    }
+    for (int i = 0; i < this.textAreaList.size(); i++) {
+      BaseTextArea textArea = this.textAreaList.get(i);
+      if (switchPath.equals(this.getFilePathForWindowManage(textArea))) {
+        this.tpnMain.setSelectedIndex(i);
+        break;
       }
-      this.tpnMain.remove(index);
-      this.textAreaList.remove(index);
-      if (this.textAreaList.size() == 0) {
-        this.createNew(null);
-      }
-      i++;
     }
   }
 
   /**
    * "窗口管理"界面中"保存"的处理方法
    * 
-   * @param indexs
-   *          需要保存的文件在选项卡组件中的索引值数组
+   * @param savePaths
+   *          需要保存的文件路径列表
    */
-  public void windowManageToSaveFile(int[] indexs) {
-    for (int index : indexs) {
-      this.tpnMain.setSelectedIndex(index);
-      this.saveFile(false);
+  public void windowManageToSaveFile(LinkedList<String> savePaths) {
+    for (String savePath : savePaths) {
+      for (int i = 0; i < this.textAreaList.size(); i++) {
+        BaseTextArea textArea = this.textAreaList.get(i);
+        if (savePath.equals(this.getFilePathForWindowManage(textArea))) {
+          this.tpnMain.setSelectedIndex(i);
+          this.saveFile(false);
+          break;
+        }
+      }
+    }
+  }
+
+  /**
+   * "窗口管理"界面中"关闭"的处理方法
+   * 
+   * @param closePaths
+   *          需要关闭的文件路径列表
+   */
+  public void windowManageToCloseFile(LinkedList<String> closePaths) {
+    for (String closePath : closePaths) {
+      for (int i = 0; i < this.textAreaList.size(); i++) {
+        BaseTextArea textArea = this.textAreaList.get(i);
+        if (closePath.equals(this.getFilePathForWindowManage(textArea))) {
+          this.tpnMain.setSelectedIndex(i);
+          if (!this.saveFileBeforeAct()) {
+            break;
+          }
+          this.tpnMain.remove(i);
+          this.textAreaList.remove(i);
+          if (this.textAreaList.size() == 0) {
+            this.createNew(null);
+          }
+          break;
+        }
+      }
     }
   }
 
@@ -2225,7 +2267,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "窗口管理"界面中"排序"的处理方法
    * 
    * @param sortedPaths
-   *          文件路径列表
+   *          需要排序的文件路径列表
    * @param index
    *          当前选择的文件索引值
    */
@@ -2236,10 +2278,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     LinkedList<BaseTextArea> sortedTextAreaList = new LinkedList<BaseTextArea>();
     for (String sortedPath : sortedPaths) {
       for (BaseTextArea textArea : this.textAreaList) {
-        File file = textArea.getFile();
-        String path = file == null ? "" : file.getParent();
-        String title = textArea.getPrefix() + textArea.getTitle();
-        if (sortedPath.equals(path + title)) {
+        if (sortedPath.equals(this.getFilePathForWindowManage(textArea))) {
           ImageIcon tabIcon = Util.TAB_NEW_FILE_ICON;
           if (file != null) {
             if (file.canWrite()) {
@@ -2253,7 +2292,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           }
           sortedTextAreaList.add(textArea);
           JScrollPane srpNew = new JScrollPane(textArea);
-          this.tpnMain.addTab(title, tabIcon, srpNew);
+          this.tpnMain.addTab(textArea.getPrefix() + textArea.getTitle(), tabIcon, srpNew);
           break;
         }
       }
@@ -3776,17 +3815,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       } else if (this.txaMain.getStyleChanged()) {
         strChanged = "格式";
       }
-      String str = "\"" + this.txaMain.getTitle() + "\"" + " 的" + strChanged
-          + "已经修改。\n想保存文件吗？";
+      String str = "\"" + this.txaMain.getTitle() + "\" 的" + strChanged + "已经修改。\n想保存文件吗？";
       if (this.file != null) {
         str = "文件：" + this.file + " 的" + strChanged + "已经修改。\n想保存文件吗？";
       }
-      int result = JOptionPane.showConfirmDialog(this, Util.convertToMsg(str),
-          Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+      int result = JOptionPane.showConfirmDialog(this, Util.convertToMsg(str), Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result == JOptionPane.YES_OPTION) {
         return this.saveFile(false);
-      } else if (result == JOptionPane.CANCEL_OPTION
-          || result == JOptionPane.CLOSED_OPTION) {
+      } else if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
         return false;
       }
     }
