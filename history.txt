@@ -1041,3 +1041,7 @@ src/WindowManageDialog.java
 1.解决在“窗口管理”界面中点击了列表头发生了文件顺便变化，还没有点击“排序”按钮的情况下，此时点击“激活”、“保存”、“关闭”按钮后，而产生的文件错乱问题
 src/SnowPadFrame.java
 src/WindowManageDialog.java
+
+2017-08-15
+1.修改编译部署文件，在javac中添加target和source选项，以将java编译器设置为jdk1.5。
+build.xml
