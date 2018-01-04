@@ -23,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EtchedBorder;
 
 /**
  * 自定义的状态栏
@@ -59,7 +58,6 @@ public class StatePanel extends JPanel {
    * 初始化状态栏
    */
   private void init() {
-    this.setBorder(new EtchedBorder());
     this.setLayout(this.layout);
     this.resetLabelList();
     this.setVisible(true);
