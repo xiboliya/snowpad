@@ -628,14 +628,12 @@ public final class Util {
    *          指定的起始索引
    * @param isMatchCase
    *          是否区分大小写
-   * @param isWrap
-   *          是否循环查找
    * @param searchStyle
    *          搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
   public static int findText(String strFindText, JTextComponent txcSource, int caretPos,
-      boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
+      boolean isMatchCase, SearchStyle searchStyle) {
     if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
       return -1;
     }
@@ -667,23 +665,11 @@ public final class Util {
       if (matcher.find()) {
         result = caretPos + matcher.start();
         matcher_length = matcher.end() - matcher.start();
-      } else {
-        if (isWrap) {
-          matcher = Pattern.compile(strFindText).matcher(strSourceAll);
-          if (matcher.find()) {
-            result = matcher.start();
-            matcher_length = matcher.end() - matcher.start();
-          }
-        }
       }
     } else {
       int index = strSource.indexOf(strFindText);
       if (index >= 0) {
         result = caretPos + index;
-      } else {
-        if (isWrap) {
-          result = strSourceAll.indexOf(strFindText);
-        }
       }
     }
     return result;

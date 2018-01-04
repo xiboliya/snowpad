@@ -776,7 +776,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       int index = 0;
       while (index >= 0) {
         index = Util.findText(this.strFind, this.txaSource, index,
-            this.isMatchCase, this.isWrap, this.searchStyle);
+            this.isMatchCase, this.searchStyle);
         if (index >= 0) {
           SearchBean searchBean = new SearchBean();
           searchBean.setStart(index);
