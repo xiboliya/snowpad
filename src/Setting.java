@@ -47,6 +47,7 @@ public class Setting {
   public boolean viewToolBar = true; // 是否显示工具栏
   public boolean viewStateBar = true; // 是否显示状态栏
   public boolean viewLineNumber = false; // 是否显示行号栏
+  public boolean viewSearchResult = false; // 是否显示查找结果面板
   public boolean viewAlwaysOnTop = false; // 是否前端显示
   public boolean viewLockResizable = false; // 是否锁定窗口
   public boolean viewTabPolicy = true; // 是否显示多行标签

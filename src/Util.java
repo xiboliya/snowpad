@@ -47,10 +47,8 @@ public final class Util {
   public static final String NEW_FILE_NAME = "新建"; // 新建文件的默认名称
   public static final String HELP_TITLE = "帮助主题"; // 帮助主题界面的默认标题
   public static final String OS_NAME = System.getProperty("os.name", "Windows"); // 当前操作系统的名称
-  public static final String FILE_SEPARATOR = System.getProperty(
-      "file.separator", "/"); // 当前操作系统的文件分隔符
-  public static final String LINE_SEPARATOR = System.getProperty(
-      "line.separator", "\n"); // 当前操作系统的行分隔符
+  public static final String FILE_SEPARATOR = System.getProperty("file.separator", "/"); // 当前操作系统的文件分隔符
+  public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n"); // 当前操作系统的行分隔符
   public static final String SETTING_XML = "snowpad.xml"; // 用来保存软件设置的配置文件名
   public static final String FILE_HISTORY = "FileHistory"; // 用于标识最近编辑的文件
   public static final String LOOK_AND_FEEL = "LookAndFeel"; // 用于标识当前系统可用的外观
@@ -95,8 +93,7 @@ public final class Util {
   public static final String INFO_DOC_DIGITS = "数字数："; // 统计信息窗口中使用的字符串
   public static final String INFO_DOC_LETTERS = "字母数："; // 统计信息窗口中使用的字符串
   public static final String INFO_DOC_BLANKS = "空格数："; // 统计信息窗口中使用的字符串
-  public static final String SYSTEM_LOOK_AND_FEEL_CLASS_NAME = UIManager
-      .getSystemLookAndFeelClassName(); // 当前系统默认外观的完整类名
+  public static final String SYSTEM_LOOK_AND_FEEL_CLASS_NAME = UIManager.getSystemLookAndFeelClassName(); // 当前系统默认外观的完整类名
   public static final String[] FONT_FAMILY_NAMES = java.awt.GraphicsEnvironment
       .getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // 获取系统所有字体的名称列表
   public static final String[] FILE_ENCODINGS = new String[] { "自动检测",
@@ -110,8 +107,7 @@ public final class Util {
       "G yyyy-MM-dd HH:mm:ss E zZ", "yy-M-d H:m:s", "yyyy/MM/dd HH:mm:ss",
       "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "yyyy.MM.dd",
       "yy/MM/dd", "HH:mm:ss", "KK:mm:ss a", "HH:mm:ss:SSS" }; // 时间/日期格式字符串
-  public static final String[] SIGN_IDENTIFIER_NAMES = new String[] {
-      "数字格式", "汉字格式", "干支格式", "字母格式" }; // 列表编号类型的显示名称
+  public static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "数字格式", "汉字格式", "干支格式", "字母格式" }; // 列表编号类型的显示名称
   public static final String HALF_WIDTH_NUMBERS = "0123456789"; // 半角数字
   public static final char[] FULL_WIDTH_NUMBERS = new char[] { '０', '１', '２', '３', '４', '５', '６', '７', '８', '９' }; // 全角数字
   public static final String[] SIMPLIFIED_CHINESE_NUMBERS = new String[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" }; // 简体数字
@@ -119,13 +115,10 @@ public final class Util {
   public static final String[] TRADITIONAL_CHINESE_NUMBERS = new String[] { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" }; // 繁体数字
   public static final String[] TRADITIONAL_CHINESE_UNITS = new String[] { "", "拾", "佰", "仟", "万", "拾", "佰", "仟", "亿", "拾" }; // 繁体数字单位
   public static final String LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz"; // 小写英文字母
-  public static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "新建", "打开",
-      "保存", "另存为", "关闭", "关闭全部", "剪切", "复制", "粘贴", "撤销", "重做", "查找", "替换",
-      "字体放大", "字体缩小", "自动换行" }; // 工具栏提示信息
-  public static final String[] WINDOW_MANAGE_TABLE_TITLE_TEXTS = new String[] {
-      "文件名", "路径", "类型" }; // 窗口管理界面的表格标题
-  public static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] {
-      "功能", "快捷键" }; // 快捷键管理界面的表格标题
+  public static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "新建", "打开", "保存", "另存为", "关闭", "关闭全部", "剪切", "复制", "粘贴",
+      "撤销", "重做", "查找", "替换", "字体放大", "字体缩小", "自动换行" }; // 工具栏提示信息
+  public static final String[] WINDOW_MANAGE_TABLE_TITLE_TEXTS = new String[] { "文件名", "路径", "类型" }; // 窗口管理界面的表格标题
+  public static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] { "功能", "快捷键" }; // 快捷键管理界面的表格标题
   public static final String[] SHORTCUT_NAMES = new String[] {
       "新建","打开","以指定编码打开","保存","另存为","重命名","重新载入文件","删除当前文件","关闭当前","关闭其它",
       "关闭左侧","关闭右侧","关闭全部","清空最近编辑列表","退出","撤销","重做","剪切","复制","粘贴",
@@ -136,7 +129,7 @@ public final class Util {
       "查找","查找下一个","查找上一个","选定查找下一个","选定查找上一个","快速向下查找","快速向上查找","替换","转到","定位匹配括号",
       "单词边界换行","字符边界换行","Windows换行符格式","Unix/Linux换行符格式","Macintosh换行符格式","默认GB18030编码格式","ANSI编码格式","UTF-8编码格式","UTF-8 No BOM编码格式","Unicode Little Endian编码格式",
       "Unicode Big Endian编码格式","列表符号与编号","字体","Tab键设置","自动换行","文本拖拽","自动缩进","恢复默认设置","显示/隐藏工具类","显示/隐藏状态栏",
-      "显示/隐藏行号栏","前端显示","锁定窗口","多行标签","双击关闭标签","显示/隐藏指示图标","字体放大","字体缩小","字体恢复初始大小","字体颜色",
+      "显示/隐藏行号栏","显示/隐藏查找结果面板","前端显示","锁定窗口","多行标签","双击关闭标签","显示/隐藏指示图标","字体放大","字体缩小","字体恢复初始大小","字体颜色",
       "背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","全部反色","全部补色","配色方案1","配色方案2",
       "配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4","高亮显示格式5","清除高亮格式1",
       "清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向后切换文档","向前切换文档","统计信息","窗口管理","帮助主题",
@@ -153,13 +146,25 @@ public final class Util {
       "","","","","","","","","","",
       "","","","","","","","","","",
       "","","","","","","Ctrl+38","Ctrl+40","Ctrl+47","",
-      "","","","","","","","","","",
+      "","","","","","","","","","","",
       "","","","","","","","","","",
       "","","","","","Ctrl+87","Ctrl+Shift+87","","","",
       "112"
       }; // 快捷键的值
   public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
-  public static final int[] ALL_KEY_CODES = new int[] { KeyEvent.VK_0 ,KeyEvent.VK_1 ,KeyEvent.VK_2 ,KeyEvent.VK_3 ,KeyEvent.VK_4 ,KeyEvent.VK_5 ,KeyEvent.VK_6 ,KeyEvent.VK_7 ,KeyEvent.VK_8 ,KeyEvent.VK_9 ,KeyEvent.VK_A ,KeyEvent.VK_B ,KeyEvent.VK_C ,KeyEvent.VK_D ,KeyEvent.VK_E ,KeyEvent.VK_F ,KeyEvent.VK_G ,KeyEvent.VK_H ,KeyEvent.VK_I ,KeyEvent.VK_J ,KeyEvent.VK_K ,KeyEvent.VK_L ,KeyEvent.VK_M ,KeyEvent.VK_N ,KeyEvent.VK_O ,KeyEvent.VK_P ,KeyEvent.VK_Q ,KeyEvent.VK_R ,KeyEvent.VK_S ,KeyEvent.VK_T ,KeyEvent.VK_U ,KeyEvent.VK_V ,KeyEvent.VK_W ,KeyEvent.VK_X ,KeyEvent.VK_Y ,KeyEvent.VK_Z ,KeyEvent.VK_F1 ,KeyEvent.VK_F2 ,KeyEvent.VK_F3 ,KeyEvent.VK_F4 ,KeyEvent.VK_F5 ,KeyEvent.VK_F6 ,KeyEvent.VK_F7 ,KeyEvent.VK_F8 ,KeyEvent.VK_F9 ,KeyEvent.VK_F10 ,KeyEvent.VK_F11 ,KeyEvent.VK_F12 ,KeyEvent.VK_NUMPAD0 ,KeyEvent.VK_NUMPAD1 ,KeyEvent.VK_NUMPAD2 ,KeyEvent.VK_NUMPAD3 ,KeyEvent.VK_NUMPAD4 ,KeyEvent.VK_NUMPAD5 ,KeyEvent.VK_NUMPAD6 ,KeyEvent.VK_NUMPAD7 ,KeyEvent.VK_NUMPAD8 ,KeyEvent.VK_NUMPAD9 ,KeyEvent.VK_NUM_LOCK ,KeyEvent.VK_ADD ,KeyEvent.VK_SUBTRACT ,KeyEvent.VK_MULTIPLY ,KeyEvent.VK_DIVIDE ,KeyEvent.VK_DECIMAL ,KeyEvent.VK_ESCAPE ,KeyEvent.VK_TAB ,KeyEvent.VK_SPACE ,KeyEvent.VK_BACK_SPACE ,KeyEvent.VK_BACK_QUOTE ,KeyEvent.VK_SLASH ,KeyEvent.VK_BACK_SLASH ,KeyEvent.VK_OPEN_BRACKET ,KeyEvent.VK_CLOSE_BRACKET ,KeyEvent.VK_COMMA ,KeyEvent.VK_PAGE_UP ,KeyEvent.VK_PAGE_DOWN ,KeyEvent.VK_PERIOD ,KeyEvent.VK_QUOTE ,KeyEvent.VK_SEMICOLON ,KeyEvent.VK_INSERT ,KeyEvent.VK_DELETE ,KeyEvent.VK_HOME ,KeyEvent.VK_END ,KeyEvent.VK_UP ,KeyEvent.VK_DOWN ,KeyEvent.VK_LEFT ,KeyEvent.VK_RIGHT ,KeyEvent.VK_ENTER ,KeyEvent.VK_EQUALS ,KeyEvent.VK_MINUS ,KeyEvent.VK_CAPS_LOCK ,KeyEvent.VK_WINDOWS ,KeyEvent.VK_CONTEXT_MENU ,KeyEvent.VK_SCROLL_LOCK ,KeyEvent.VK_PAUSE }; // 所有可以用作快捷键的按键常量
+  public static final int[] ALL_KEY_CODES = new int[] {
+    KeyEvent.VK_0, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_7,
+    KeyEvent.VK_8, KeyEvent.VK_9, KeyEvent.VK_A, KeyEvent.VK_B, KeyEvent.VK_C, KeyEvent.VK_D, KeyEvent.VK_E, KeyEvent.VK_F,
+    KeyEvent.VK_G, KeyEvent.VK_H, KeyEvent.VK_I, KeyEvent.VK_J, KeyEvent.VK_K, KeyEvent.VK_L, KeyEvent.VK_M, KeyEvent.VK_N,
+    KeyEvent.VK_O, KeyEvent.VK_P, KeyEvent.VK_Q, KeyEvent.VK_R, KeyEvent.VK_S, KeyEvent.VK_T, KeyEvent.VK_U, KeyEvent.VK_V,
+    KeyEvent.VK_W, KeyEvent.VK_X, KeyEvent.VK_Y, KeyEvent.VK_Z, KeyEvent.VK_F1, KeyEvent.VK_F2, KeyEvent.VK_F3, KeyEvent.VK_F4,
+    KeyEvent.VK_F5, KeyEvent.VK_F6, KeyEvent.VK_F7, KeyEvent.VK_F8, KeyEvent.VK_F9, KeyEvent.VK_F10, KeyEvent.VK_F11, KeyEvent.VK_F12,
+    KeyEvent.VK_NUMPAD0, KeyEvent.VK_NUMPAD1, KeyEvent.VK_NUMPAD2, KeyEvent.VK_NUMPAD3, KeyEvent.VK_NUMPAD4, KeyEvent.VK_NUMPAD5, KeyEvent.VK_NUMPAD6, KeyEvent.VK_NUMPAD7,
+    KeyEvent.VK_NUMPAD8, KeyEvent.VK_NUMPAD9, KeyEvent.VK_NUM_LOCK, KeyEvent.VK_ADD, KeyEvent.VK_SUBTRACT, KeyEvent.VK_MULTIPLY, KeyEvent.VK_DIVIDE, KeyEvent.VK_DECIMAL,
+    KeyEvent.VK_ESCAPE, KeyEvent.VK_TAB, KeyEvent.VK_SPACE, KeyEvent.VK_BACK_SPACE, KeyEvent.VK_BACK_QUOTE, KeyEvent.VK_SLASH, KeyEvent.VK_BACK_SLASH, KeyEvent.VK_OPEN_BRACKET,
+    KeyEvent.VK_CLOSE_BRACKET, KeyEvent.VK_COMMA, KeyEvent.VK_PAGE_UP, KeyEvent.VK_PAGE_DOWN, KeyEvent.VK_PERIOD, KeyEvent.VK_QUOTE, KeyEvent.VK_SEMICOLON, KeyEvent.VK_INSERT,
+    KeyEvent.VK_DELETE, KeyEvent.VK_HOME, KeyEvent.VK_END, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER,
+    KeyEvent.VK_EQUALS, KeyEvent.VK_MINUS, KeyEvent.VK_CAPS_LOCK, KeyEvent.VK_WINDOWS, KeyEvent.VK_CONTEXT_MENU, KeyEvent.VK_SCROLL_LOCK, KeyEvent.VK_PAUSE }; // 所有可以用作快捷键的按键常量
   public static final int[] SINGLE_KEY_CODES = new int[] { KeyEvent.VK_F1 ,KeyEvent.VK_F2 ,KeyEvent.VK_F3 ,KeyEvent.VK_F4 ,KeyEvent.VK_F5 ,KeyEvent.VK_F6 ,KeyEvent.VK_F7 ,KeyEvent.VK_F8 ,KeyEvent.VK_F9 ,KeyEvent.VK_F10 ,KeyEvent.VK_F11 ,KeyEvent.VK_F12 }; // 可以单独用作快捷键的按键常量
   public static final int DEFAULT_CARET_INDEX = 0; // 文本域默认插入点位置
   public static final int INPUT_HEIGHT = 22; // 单行输入框的高度
@@ -175,8 +180,7 @@ public final class Util {
   public static final int DEFAULT_UNDO_INDEX = 0; // 撤销标识符的默认值
   public static final int INSERT_MAX_ROW = 10; // 插入字符界面的最大行数
   public static final int INSERT_MAX_COLUMN = 10; // 插入字符界面的最大列数
-  public static final int INSERT_MAX_ELEMENT = INSERT_MAX_ROW
-      * INSERT_MAX_COLUMN; // 插入字符界面的最大元素数
+  public static final int INSERT_MAX_ELEMENT = INSERT_MAX_ROW * INSERT_MAX_COLUMN; // 插入字符界面的最大元素数
   public static final int SIGN_MAX_ROW = 5; // 列表符号与编号界面的最大行数
   public static final int SIGN_MAX_COLUMN = 4; // 列表符号与编号界面的最大列数
   public static final int SIGN_MAX_ELEMENT = SIGN_MAX_ROW * SIGN_MAX_COLUMN; // 列表符号与编号界面的最大元素数
@@ -216,80 +220,56 @@ public final class Util {
       new Color(189, 174, 157), new Color(42, 33, 28), new Color(5, 165, 245),
       new Color(189, 174, 157), new Color(130, 100, 90),
       new Color(255, 255, 0, 35), new Color(240, 200, 180, 25) };
-  public static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1,
-      COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
+  public static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1, COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
   public static final Color[] COLOR_STYLE_DEFAULT = new Color[] {
-      (Color) UIManager.getLookAndFeelDefaults()
-          .getColor("TextArea.foreground"),
-      (Color) UIManager.getLookAndFeelDefaults()
-          .getColor("TextArea.background"),
-      (Color) UIManager.getLookAndFeelDefaults().getColor(
-          "TextArea.caretForeground"),
-      (Color) UIManager.getLookAndFeelDefaults().getColor(
-          "TextArea.selectionForeground"),
-      (Color) UIManager.getLookAndFeelDefaults().getColor(
-          "TextArea.selectionBackground"),
+      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.foreground"),
+      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.background"),
+      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.caretForeground"),
+      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionForeground"),
+      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionBackground"),
       COLOR_BRACKET, COLOR_CURRENT_LINE }; // 文本域默认配色方案
-  public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager
-      .getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
-  public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader
-      .getSystemResource("res/icon.gif")); // 主程序图标
-  public static final ImageIcon TAB_EXIST_READONLY_ICON = new ImageIcon(
-      ClassLoader.getSystemResource("res/tab_exist_readonly.png")); // 只读文件图标
-  public static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(
-      ClassLoader.getSystemResource("res/tab_exist_current.png")); // 普通文件图标
-  public static final ImageIcon TAB_NEW_FILE_ICON = new ImageIcon(ClassLoader
-      .getSystemResource("res/tab_new_file.png")); // 新建文件图标
-  public static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader
-      .getSystemResource("res/tab_not_exist.png")); // 丢失文件图标
-  public static final ImageIcon HELP_ICON = new ImageIcon(ClassLoader
-      .getSystemResource("res/help.png")); // 帮助图标
+  public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager.getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
+  public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif")); // 主程序图标
+  public static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // 查找结果面板关闭图标
+  public static final ImageIcon TAB_EXIST_READONLY_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly.png")); // 只读文件图标
+  public static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current.png")); // 普通文件图标
+  public static final ImageIcon TAB_NEW_FILE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_new_file.png")); // 新建文件图标
+  public static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_not_exist.png")); // 丢失文件图标
+  public static final ImageIcon HELP_ICON = new ImageIcon(ClassLoader.getSystemResource("res/help.png")); // 帮助图标
   public static final ImageIcon[] TOOL_ENABLE_ICONS = new ImageIcon[] {
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_new.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_open.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_save.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/enable/tool_save_as.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_save_as.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_close.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/enable/tool_close_all.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_close_all.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_cut.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_copy.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_paste.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_undo.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_redo.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_find.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/enable/tool_replace.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/enable/tool_font_size_plus.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/enable/tool_font_size_minus.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/enable/tool_line_wrap.png")) }; // 工具栏可用状态的图标
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_replace.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_font_size_plus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_font_size_minus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_line_wrap.png")) }; // 工具栏可用状态的图标
   public static final ImageIcon[] TOOL_DISABLE_ICONS = new ImageIcon[] {
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_new.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_open.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_save.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/disable/tool_save_as.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_save_as.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_close.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/disable/tool_close_all.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_close_all.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_cut.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_copy.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_paste.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_undo.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_redo.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_find.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/disable/tool_replace.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/disable/tool_font_size_plus.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/disable/tool_font_size_minus.png")),
-      new ImageIcon(ClassLoader
-          .getSystemResource("res/disable/tool_line_wrap.png")) }; // 工具栏禁用状态的图标
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_replace.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_font_size_plus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_font_size_minus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_line_wrap.png")) }; // 工具栏禁用状态的图标
 
   public static int transfer_count = 0; // 查找或替换时，启用“转义扩展”后被转义的字符个数
   public static int matcher_length = 0; // 通过正则表达式成功匹配的字符个数
@@ -322,8 +302,7 @@ public final class Util {
     BaseFileFilter fileFilter = null;
     BaseFileFilter defFileFilter = null; // 默认选择的文件过滤器
     for (FileExt fileExt : arrFileExt) { // 遍历枚举的所有成员
-      fileFilter = new BaseFileFilter(fileExt.toString(), fileExt
-          .getDescription());
+      fileFilter = new BaseFileFilter(fileExt.toString(), fileExt.getDescription());
       fileChooser.addChoosableFileFilter(fileFilter);
       if (fileExt.equals(FileExt.TXT)) {
         defFileFilter = fileFilter;
@@ -372,9 +351,7 @@ public final class Util {
         int lines = arrContents[n].length() / MSG_LINE_SIZE;
         int remain = arrContents[n].length() % MSG_LINE_SIZE;
         for (int i = 0; i < lines; i++) {
-          content = content
-              + arrContents[n].substring(MSG_LINE_SIZE * i, MSG_LINE_SIZE
-                  * (i + 1)) + "\n";
+          content = content + arrContents[n].substring(MSG_LINE_SIZE * i, MSG_LINE_SIZE * (i + 1)) + "\n";
         }
         if (remain > 0) {
           content += arrContents[n].substring(MSG_LINE_SIZE * lines);
@@ -407,9 +384,7 @@ public final class Util {
     int endLineNum = currentLines.getEndLineNum() + 1;
     String strContent = currentLines.getStrContent();
     String strText = txaSource.getText();
-    if (strContent.endsWith("\n")
-        && (endIndex != strText.length() || (endLineNum == lineCount - 1 && strText
-            .endsWith("\n")))) {
+    if (strContent.endsWith("\n") && (endIndex != strText.length() || (endLineNum == lineCount - 1 && strText.endsWith("\n")))) {
       endIndex--;
     }
     txaSource.select(startIndex, endIndex);
@@ -433,8 +408,7 @@ public final class Util {
    */
   public static File checkFileName(String strFileName,
       BaseFileFilter fileFilter, String strExt) {
-    if (isTextEmpty(strFileName) || fileFilter == null
-        || isTextEmpty(strExt)) {
+    if (isTextEmpty(strFileName) || fileFilter == null || isTextEmpty(strExt)) {
       return null;
     }
     if (fileFilter.getExt().equalsIgnoreCase(strExt)) {
@@ -478,14 +452,11 @@ public final class Util {
    * @return 查找的字符串位于文本组件中的索引
    */
   public static int findText(String strFindText, JTextComponent txcSource,
-      boolean isFindDown, boolean isMatchCase, boolean isWrap,
-      SearchStyle searchStyle) {
+    boolean isFindDown, boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
     if (isFindDown) {
-      return findDownText(strFindText, txcSource, isMatchCase, isWrap,
-          searchStyle);
+      return findDownText(strFindText, txcSource, isMatchCase, isWrap, searchStyle);
     } else {
-      return findUpText(strFindText, txcSource, isMatchCase, isWrap,
-          searchStyle);
+      return findUpText(strFindText, txcSource, isMatchCase, isWrap, searchStyle);
     }
   }
 
@@ -506,8 +477,7 @@ public final class Util {
    */
   private static int findDownText(String strFindText, JTextComponent txcSource,
       boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
-    if (isTextEmpty(strFindText) || txcSource == null
-        || isTextEmpty(txcSource.getText())) {
+    if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
       return -1;
     }
     if (searchStyle == SearchStyle.TRANSFER) {
@@ -532,8 +502,7 @@ public final class Util {
       try {
         matcher = Pattern.compile(strFindText).matcher(strSource);
       } catch (PatternSyntaxException x) {
-        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n"
-            + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
+        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n" + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
         return result;
       }
       matcher_length = 0;
@@ -579,8 +548,7 @@ public final class Util {
    */
   private static int findUpText(String strFindText, JTextComponent txcSource,
       boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
-    if (isTextEmpty(strFindText) || txcSource == null
-        || isTextEmpty(txcSource.getText())) {
+    if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
       return -1;
     }
     if (searchStyle == SearchStyle.TRANSFER) {
@@ -625,8 +593,7 @@ public final class Util {
       try {
         matcher = Pattern.compile(strFindText).matcher(strSource);
       } catch (PatternSyntaxException x) {
-        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n"
-            + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
+        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n" + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
         return result;
       }
       matcher_length = 0;
@@ -645,6 +612,78 @@ public final class Util {
       result = strSource.lastIndexOf(strFindText);
       if (result < 0 && isWrap) {
         result = strSourceAll.lastIndexOf(strFindText);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * 以给定的起始索引在文本组件中查找字符串
+   * 
+   * @param strFindText
+   *          查找的字符串
+   * @param txcSource
+   *          文本组件
+   * @param caretPos
+   *          指定的起始索引
+   * @param isMatchCase
+   *          是否区分大小写
+   * @param isWrap
+   *          是否循环查找
+   * @param searchStyle
+   *          搜索模式
+   * @return 查找的字符串位于文本组件中的索引
+   */
+  public static int findText(String strFindText, JTextComponent txcSource, int caretPos,
+      boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
+    if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
+      return -1;
+    }
+    if (searchStyle == SearchStyle.TRANSFER) {
+      int len1 = strFindText.length();
+      strFindText = transfer(strFindText);
+      int len2 = strFindText.length();
+      transfer_count = len1 - len2;
+    }
+    int result = -1;
+    String strSourceAll = txcSource.getText();
+    if (!isMatchCase) {
+      if (searchStyle == SearchStyle.PATTERN) {
+        strFindText = "(?i)" + strFindText; // 正则表达式中，可用(?i)打开不区分大小写的属性
+      } else {
+        strFindText = strFindText.toLowerCase();
+      }
+      strSourceAll = strSourceAll.toLowerCase();
+    }
+    String strSource = strSourceAll.substring(caretPos);
+    if (searchStyle == SearchStyle.PATTERN) {
+      try {
+        matcher = Pattern.compile(strFindText).matcher(strSource);
+      } catch (PatternSyntaxException x) {
+        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n" + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
+        return result;
+      }
+      matcher_length = 0;
+      if (matcher.find()) {
+        result = caretPos + matcher.start();
+        matcher_length = matcher.end() - matcher.start();
+      } else {
+        if (isWrap) {
+          matcher = Pattern.compile(strFindText).matcher(strSourceAll);
+          if (matcher.find()) {
+            result = matcher.start();
+            matcher_length = matcher.end() - matcher.start();
+          }
+        }
+      }
+    } else {
+      int index = strSource.indexOf(strFindText);
+      if (index >= 0) {
+        result = caretPos + index;
+      } else {
+        if (isWrap) {
+          result = strSourceAll.indexOf(strFindText);
+        }
       }
     }
     return result;

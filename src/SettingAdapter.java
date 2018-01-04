@@ -308,6 +308,8 @@ public final class SettingAdapter {
             this.setting.viewStateBar = logic;
           } else if (key.equalsIgnoreCase("viewLineNumber")) {
             this.setting.viewLineNumber = logic;
+          } else if (key.equalsIgnoreCase("viewSearchResult")) {
+            this.setting.viewSearchResult = logic;
           } else if (key.equalsIgnoreCase("viewAlwaysOnTop")) {
             this.setting.viewAlwaysOnTop = logic;
           } else if (key.equalsIgnoreCase("viewLockResizable")) {
@@ -555,6 +557,8 @@ public final class SettingAdapter {
           node.setTextContent(String.valueOf(this.setting.viewStateBar));
         } else if (key.equalsIgnoreCase("viewLineNumber")) {
           node.setTextContent(String.valueOf(this.setting.viewLineNumber));
+        } else if (key.equalsIgnoreCase("viewSearchResult")) {
+          node.setTextContent(String.valueOf(this.setting.viewSearchResult));
         } else if (key.equalsIgnoreCase("viewAlwaysOnTop")) {
           node.setTextContent(String.valueOf(this.setting.viewAlwaysOnTop));
         } else if (key.equalsIgnoreCase("viewLockResizable")) {
