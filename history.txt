@@ -1045,3 +1045,7 @@ src/WindowManageDialog.java
 2017-08-15
 1.修改编译部署文件，在javac中添加target和source选项，以将java编译器设置为jdk1.5。
 build.xml
+
+2018-01-04
+1.去掉状态栏的边框。
+src/StatePanel.java
