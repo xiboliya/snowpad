@@ -36,6 +36,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 
 /**
  * "列表符号与编号"对话框
@@ -44,7 +48,7 @@ import javax.swing.border.EtchedBorder;
  * 
  */
 public class SignIdentifierDialog extends BaseDialog implements ActionListener,
-    FocusListener {
+    FocusListener, ChangeListener, UndoableEditListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
@@ -55,6 +59,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private GridLayout specialGridLayout = new GridLayout(Util.SIGN_MAX_ROW, 1, 5, 5);
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
+  private JLabel lblStart = new JLabel("起始编号：");
+  private BaseTextField txtStart = new BaseTextField(true, "\\d*");
   private JTextArea txaView = new JTextArea();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
@@ -82,7 +88,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.txaSource = txaSource;
     this.init();
     this.addListeners();
-    this.setSize(320, 275);
+    this.setSize(330, 275);
     this.fillTabbedPane(hashtable);
     this.setVisible(true);
   }
@@ -94,19 +100,23 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.setTitle("列表符号与编号");
     this.pnlMain.setLayout(null);
     this.pnlLeft.setBounds(0, 0, 200, 245);
-    this.pnlRight.setBounds(200, 0, 110, 240);
+    this.pnlRight.setBounds(200, 0, 120, 240);
     this.pnlMain.add(this.pnlLeft);
     this.pnlMain.add(this.pnlRight);
     this.pnlLeft.add(this.tpnMain, BorderLayout.CENTER);
-    this.btnOk.setBounds(10, 30, 90, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(10, 70, 90, Util.BUTTON_HEIGHT);
-    this.txaView.setBounds(6, 120, 98, 110);
+    this.btnOk.setBounds(15, 30, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(15, 70, 90, Util.BUTTON_HEIGHT);
+    this.lblStart.setBounds(6, 120, 70, Util.VIEW_HEIGHT);
+    this.txtStart.setBounds(76, 120, 40, Util.INPUT_HEIGHT);
+    this.txaView.setBounds(12, 160, 98, 65);
     this.txaView.setBorder(new EtchedBorder());
     this.txaView.setOpaque(true);
     this.txaView.setEditable(false);
     this.txaView.setFocusable(false);
     this.pnlRight.add(this.btnOk);
     this.pnlRight.add(this.btnCancel);
+    this.pnlRight.add(this.lblStart);
+    this.pnlRight.add(this.txtStart);
     this.pnlRight.add(this.txaView);
     this.tpnMain.setFocusable(false);
     this.btnOk.setFocusable(false);
@@ -223,10 +233,17 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
       return;
     }
     boolean isSpecial = false;
-    if (this.tpnMain.getTitleAt(this.tpnMain.getSelectedIndex()).equals("编号")) {
+    if (this.tpnMain.getSelectedIndex() == 0) {
       isSpecial = true;
     }
-    this.toConvertArray(arrText, isSpecial);
+    String strStart = this.txtStart.getText().trim();
+    int start = 1;
+    try {
+      start = Integer.parseInt(strStart);
+    } catch (NumberFormatException x) {
+      // x.printStackTrace();
+    }
+    this.toConvertArray(arrText, isSpecial, start - 1);
     StringBuilder stbIndent = new StringBuilder();
     for (String str : arrText) {
       stbIndent.append(str + "\n");
@@ -247,8 +264,10 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    *          待处理的字符串数组
    * @param isSpecial
    *          是否为特殊格式
+   * @param start
+   *          起始编号
    */
-  private void toConvertArray(String[] arrText, boolean isSpecial) {
+  private void toConvertArray(String[] arrText, boolean isSpecial, int start) {
     int n = 0;
     if (isSpecial) {
       int index = 0;
@@ -260,22 +279,22 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
       switch (index) {
       case 0: // 数字
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = (n + 1) + "." + arrText[n];
+          arrText[n] = (n + start + 1) + "." + arrText[n];
         }
         break;
       case 1: // 汉字
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = Util.intToChinese(n + 1, false) + "." + arrText[n];
+          arrText[n] = Util.intToChinese(n + start + 1, false) + "." + arrText[n];
         }
         break;
       case 2: // 干支
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = Util.intToGanZhi(n) + "." + arrText[n];
+          arrText[n] = Util.intToGanZhi(n + start) + "." + arrText[n];
         }
         break;
       case 3: // 字母
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = Util.intToLetter(n + 1, false) + "." + arrText[n];
+          arrText[n] = Util.intToLetter(n + start + 1, false) + "." + arrText[n];
         }
         break;
       }
@@ -290,8 +309,11 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    * 添加和初始化事件监听器
    */
   private void addListeners() {
+    this.tpnMain.addChangeListener(this);
     this.btnOk.addActionListener(this);
     this.btnCancel.addActionListener(this);
+    this.txtStart.addKeyListener(this.keyAdapter);
+    this.txtStart.getDocument().addUndoableEditListener(this);
     this.mouseAdapter = new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         JLabel lblTemp = (JLabel) e.getSource();
@@ -345,5 +367,25 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   public void focusLost(FocusEvent e) {
     JLabel lblTemp = (JLabel) e.getSource();
     lblTemp.setBackground(Color.WHITE);
+  }
+
+  /**
+   * 当监听的组件状态变化时，将触发此事件
+   */
+  public void stateChanged(ChangeEvent e) {
+    if (this.tpnMain.getSelectedIndex() == 0) {
+      this.txtStart.setEnabled(true);
+      this.txtStart.setFocusable(true);
+    } else if (this.tpnMain.getSelectedIndex() == 1) {
+      this.txtStart.setEnabled(false);
+      this.txtStart.setFocusable(false);
+    }
+  }
+
+  /**
+   * 当本控件中的文本发生变化时，将触发此事件
+   */
+  public void undoableEditHappened(UndoableEditEvent e) {
+    this.signIdentifier(true); // 预览当前的列表符号或编号效果
   }
 }

@@ -80,7 +80,7 @@ public final class Util {
   public static final String STATE_CUR_SELECT = "Sel:"; // 状态栏显示信息-当前选择的字符数
   public static final String STATE_LINE_STYLE = "LineStyle:"; // 状态栏显示信息-当前换行符格式
   public static final String STATE_ENCODING = "Encoding:"; // 状态栏显示信息-当前编码格式
-  public static final String SIGN_CHARS_VIEW = "__________\n__________\n__________\n__________\n__________"; // 列表符号与编号窗口的预览界面的初始化字符串
+  public static final String SIGN_CHARS_VIEW = "__________\n__________\n__________"; // 列表符号与编号窗口的预览界面的初始化字符串
   public static final String SIGN_CHARS = "﹟·※＊§¤⊙◎○●△▲▽▼◇◆□■☆★"; // 列表符号
   public static final String IDENTIFIER_CHARS = "0123"; // 列表编号类型标识符
   public static final String IDENTIFIER_TIANGAN = "甲乙丙丁戊己庚辛壬癸"; // 十天干
