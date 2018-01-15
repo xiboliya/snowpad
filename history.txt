@@ -1064,3 +1064,10 @@ src/SearchResultPanel.java（添加）
 3.解决在查找对话框中选择“循环查找”时，点击“文件中查找”按钮进入死循环的问题。
 src/FindReplaceDialog.java
 src/Util.java
+
+2018-01-15
+1.解决当文本框控件不可用时，点击鼠标右键会弹出快捷菜单的问题。
+src/BaseTextField.java
+2.在“列表符号与编号”界面添加自定义“起始编号”的功能。
+src/SignIdentifierDialog.java
+src/Util.java
