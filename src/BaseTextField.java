@@ -271,7 +271,6 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 当本控件中的文本发生变化时，将触发此事件
    */
-
   public void undoableEditHappened(UndoableEditEvent e) {
     this.undoManager.addEdit(e.getEdit());
     this.setMenuStateUndoRedo();
@@ -311,7 +310,9 @@ public class BaseTextField extends JTextField implements ActionListener,
   public void mouseClicked(MouseEvent e) {
     this.requestFocus(); // 当鼠标点击时（左键或右键），获得焦点
     if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
-      this.popMenu.show(this, e.getX(), e.getY());
+      if (this.isEnabled() && this.isFocusable()) {
+        this.popMenu.show(this, e.getX(), e.getY());
+      }
     }
   }
 
