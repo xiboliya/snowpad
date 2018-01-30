@@ -1071,3 +1071,10 @@ src/BaseTextField.java
 2.在“列表符号与编号”界面添加自定义“起始编号”的功能。
 src/SignIdentifierDialog.java
 src/Util.java
+
+2018-01-30
+1.优化代码，解决在编译时会提示泛型警告的问题。
+src/FileEncodingDialog.java
+src/FontChooser.java
+src/InsertDateDialog.java
+src/ShortcutSetDialog.java
