@@ -52,9 +52,9 @@ public class FontChooser extends BaseDialog implements ActionListener,
   private BaseTextField txtFont = new BaseTextField();
   private BaseTextField txtStyle = new BaseTextField();
   private BaseTextField txtSize = new BaseTextField(true, "\\d{0,3}"); // 限制用户只能输入数字，并且不能超过3位
-  private JList listFont = new JList();
-  private JList listStyle = new JList();
-  private JList listSize = new JList();
+  private JList<String> listFont = new JList<String>();
+  private JList<String> listStyle = new JList<String>();
+  private JList<Integer> listSize = new JList<Integer>();
   private JScrollPane srpFont = new JScrollPane(this.listFont);
   private JScrollPane srpStyle = new JScrollPane(this.listStyle);
   private JScrollPane srpSize = new JScrollPane(this.listSize);

@@ -45,7 +45,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   private JCheckBox chkCtrl = new JCheckBox(Util.CTRL);
   private JCheckBox chkAlt = new JCheckBox(Util.ALT);
   private JCheckBox chkShift = new JCheckBox(Util.SHIFT);
-  private JComboBox cmbShortcuts = null;
+  private JComboBox<String> cmbShortcuts = null;
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private boolean isOk = false; // 用于标识是否点击了确定按钮
@@ -112,7 +112,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     for (int i = 0; i < Util.ALL_KEY_CODES.length; i++) {
       strKeys[i + 1] = KeyEvent.getKeyText(Util.ALL_KEY_CODES[i]);
     }
-    this.cmbShortcuts = new JComboBox(strKeys);
+    this.cmbShortcuts = new JComboBox<String>(strKeys);
   }
 
   /**

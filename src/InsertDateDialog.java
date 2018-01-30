@@ -51,7 +51,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
     ListSelectionListener, CaretListener {
   private static final long serialVersionUID = 1L;
   private JRadioButton radSelect = new JRadioButton("使用选中的格式(S)", true);
-  private JList listStyles = new JList();
+  private JList<String> listStyles = new JList<String>();
   private JScrollPane srpStyles = new JScrollPane(this.listStyles);
   private JRadioButton radUser = new JRadioButton("使用自定义格式(U)", false);
   private JLabel lblWarning = new JLabel("");

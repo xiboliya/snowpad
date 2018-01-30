@@ -35,7 +35,7 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblEncoding = new JLabel("文件编码格式：");
-  private JComboBox cmbEncoding = new JComboBox(Util.FILE_ENCODINGS);
+  private JComboBox<String> cmbEncoding = new JComboBox<String>(Util.FILE_ENCODINGS);
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private CharEncoding charEncoding = null;
