@@ -274,6 +274,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuTextAreaSwitch = new JMenu("文档切换(I)");
   private JMenuItem itemTextAreaSwitchNext = new JMenuItem("向后切换(N)", 'N');
   private JMenuItem itemTextAreaSwitchPrevious = new JMenuItem("向前切换(P)", 'P');
+  private JMenu menuTool = new JMenu("工具(T)");
+  private JMenuItem itemMD5 = new JMenuItem("MD5...", 'M');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -356,6 +358,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private SignIdentifierDialog signIdentifierDialog = null; // 项目符号与编号对话框
   private InformationDialog informationDialog = null; // 统计信息对话框
   private WindowManageDialog windowManageDialog = null; // 窗口管理对话框
+  private MD5Dialog md5Dialog = null; // MD5对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
@@ -504,6 +507,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemDelNullLineSelected.addActionListener(this);
     this.itemCommentForLine.addActionListener(this);
     this.itemCommentForBlock.addActionListener(this);
+    this.itemMD5.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -925,6 +929,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.addSeparator();
     this.menuView.add(this.itemInformation);
     this.menuView.add(this.itemWindowManage);
+    this.menuBar.add(this.menuTool);
+    this.menuTool.add(this.itemMD5);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1079,6 +1085,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemTextAreaSwitchPrevious);
     this.menuItemList.add(this.itemInformation);
     this.menuItemList.add(this.itemWindowManage);
+    this.menuItemList.add(this.itemMD5);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1354,6 +1361,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void setMenuMnemonic() {
     this.menuFile.setMnemonic('F');
     this.menuHelp.setMnemonic('H');
+    this.menuTool.setMnemonic('T');
     this.menuEdit.setMnemonic('E');
     this.menuFileHistory.setMnemonic('H');
     this.menuSearch.setMnemonic('S');
@@ -1528,6 +1536,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.delSelectedNullLines();
     } else if (this.itemHelp.equals(e.getSource())) {
       this.showHelpFrame();
+    } else if (this.itemMD5.equals(e.getSource())) {
+      this.openMD5Dialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
       this.toolButtonList.get(15).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -2099,6 +2109,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.windowManageDialog != null) {
       this.windowManageDialog.dispose();
       this.windowManageDialog = null;
+    }
+    if (this.md5Dialog != null) {
+      this.md5Dialog.dispose();
+      this.md5Dialog = null;
     }
     if (this.helpFrame != null) {
       this.helpFrame.dispose();
@@ -3857,6 +3871,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * "MD5"的处理方法
+   */
+  private void openMD5Dialog() {
+    if (this.md5Dialog == null) {
+      this.md5Dialog = new MD5Dialog(this, false, this.txaMain);
+    } else {
+      this.md5Dialog.setTextArea(this.txaMain);
+      this.md5Dialog.refreshView();
+      this.md5Dialog.setVisible(true);
+    }
+  }
+
+  /**
    * "帮助主题"的处理方法
    */
   private void showHelpFrame() {
@@ -4030,7 +4057,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
         if (str != null) {
           str = str.replaceAll(LineSeparator.WINDOWS.toString(),
-              LineSeparator.UNIX.toString()); // 将Windows格式的换行符\n\r，转换为UNIX/Linux格式
+              LineSeparator.UNIX.toString()); // 将Windows格式的换行符\r\n，转换为UNIX/Linux格式
           str = str.replaceAll(LineSeparator.MACINTOSH.toString(),
               LineSeparator.UNIX.toString()); // 为了容错，将可能残余的\r字符替换为\n
           this.txaMain.replaceSelection(str);

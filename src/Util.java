@@ -22,6 +22,9 @@ import java.awt.Font;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.Enumeration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -132,8 +135,8 @@ public final class Util {
       "显示/隐藏行号栏","显示/隐藏查找结果面板","前端显示","锁定窗口","多行标签","双击关闭标签","显示/隐藏指示图标","字体放大","字体缩小","字体恢复初始大小","字体颜色",
       "背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","全部反色","全部补色","配色方案1","配色方案2",
       "配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4","高亮显示格式5","清除高亮格式1",
-      "清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向后切换文档","向前切换文档","统计信息","窗口管理","帮助主题",
-      "关于"
+      "清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向后切换文档","向前切换文档","统计信息","窗口管理","MD5",
+      "帮助主题","关于"
       }; // 快捷键的名称
   public static final String[] SHORTCUT_VALUES = new String[] {
       "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","",
@@ -149,7 +152,7 @@ public final class Util {
       "","","","","","","","","","","",
       "","","","","","","","","","",
       "","","","","","Ctrl+87","Ctrl+Shift+87","","","",
-      "112"
+      "","112"
       }; // 快捷键的值
   public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
   public static final int[] ALL_KEY_CODES = new int[] {
@@ -933,4 +936,62 @@ public final class Util {
     return String.valueOf(IDENTIFIER_TIANGAN.charAt(number % len1)) + String.valueOf(IDENTIFIER_DIZHI.charAt(number % len2));
   }
 
+  /**
+   * 获取字符串的MD5值
+   * 
+   * @param string
+   *          字符串
+   * @return 字符串的MD5值
+   */
+  public static String getStringMD5(String string) {
+    if (isTextEmpty(string)) {
+      return "";
+    }
+    MessageDigest digest = null;
+    StringBuilder hex = new StringBuilder();
+    try {
+      digest = MessageDigest.getInstance("MD5");
+      byte[] bytes = digest.digest(string.getBytes("utf-8"));
+      String hexStr = "0123456789abcdef";
+      for (int i = 0; i < bytes.length; i++) {
+        // 字节高4位
+        hex.append(String.valueOf(hexStr.charAt((bytes[i] & 0xF0) >> 4)));
+        // 字节低4位
+        hex.append(String.valueOf(hexStr.charAt(bytes[i] & 0x0F)));
+      }
+    } catch (Exception x) {
+      x.printStackTrace();
+    }
+    return hex.toString();
+  }
+
+  /**
+   * 获取文件的MD5值
+   * 
+   * @param file
+   *          文件
+   * @return 文件的MD5值
+   */
+  public static String getFileMD5(File file) {
+    if (!file.isFile()) {
+      return "";
+    }
+    MessageDigest digest = null;
+    FileInputStream in = null;
+    byte[] buffer = new byte[1024];
+    int len;
+    try {
+      digest = MessageDigest.getInstance("MD5");
+      in = new FileInputStream(file);
+      while ((len = in.read(buffer)) != -1) {
+        digest.update(buffer, 0, len);
+      }
+      in.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return "";
+    }
+    BigInteger bigInt = new BigInteger(1, digest.digest());
+    return bigInt.toString(16);
+  }
 }
