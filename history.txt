@@ -1086,3 +1086,5 @@ src/BaseTextAreaSpecial.java（添加）
 src/MD5Dialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
+2.更新readme说明文档。
+readme.txt
