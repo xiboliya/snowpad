@@ -1078,3 +1078,11 @@ src/FileEncodingDialog.java
 src/FontChooser.java
 src/InsertDateDialog.java
 src/ShortcutSetDialog.java
+
+2018-02-01
+1.菜单栏中添加“工具”菜单，并添加“MD5”子菜单，可生成文本或文件的MD5值。
+res/help.res
+src/BaseTextAreaSpecial.java（添加）
+src/MD5Dialog.java（添加）
+src/SnowPadFrame.java
+src/Util.java
