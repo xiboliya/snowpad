@@ -1088,3 +1088,5 @@ src/SnowPadFrame.java
 src/Util.java
 2.更新readme说明文档。
 readme.txt
+3.将“关于”对话框中的“谷歌代码”以及地址改为“码云”。
+src/SnowPadFrame.java
