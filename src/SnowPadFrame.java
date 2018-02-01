@@ -3848,7 +3848,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       final String strEmail = "chenzhengfeng@163.com";
       final String strGithubCode = "https://github.com/xiboliya/snowpad";
       final String strCsdnCode = "https://code.csdn.net/chenzhengfeng/snowpad";
-      final String strGoogleCode = "http://code.google.com/p/snowpad";
+      final String strCodeCloud = "https://gitee.com/xiboliya/snowpad";
       String[] arrStrLabel = new String[] {
           "软件名称：" + Util.SOFTWARE,
           "软件版本：" + Util.VERSION,
@@ -3859,12 +3859,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
               + "</a></html>",
           "<html>CSDN代码：<a href='" + strCsdnCode + "'>" + strCsdnCode
               + "</a></html>",
-          "<html>谷歌代码：<a href='" + strGoogleCode + "'>" + strGoogleCode
+          "<html>码云：<a href='" + strCodeCloud + "'>" + strCodeCloud
               + "</a></html>", "软件版权：遵循GNU GPL第三版开源许可协议的相关条款" };
       this.aboutDialog = new AboutDialog(this, true, arrStrLabel, Util.SW_ICON);
       this.aboutDialog.addLinkByIndex(5, strGithubCode);
       this.aboutDialog.addLinkByIndex(6, strCsdnCode);
-      this.aboutDialog.addLinkByIndex(7, strGoogleCode);
+      this.aboutDialog.addLinkByIndex(7, strCodeCloud);
       this.aboutDialog.pack(); // 自动调整窗口大小，以适应各组件
     }
     this.aboutDialog.setVisible(true);
