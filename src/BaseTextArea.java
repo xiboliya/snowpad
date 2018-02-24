@@ -26,12 +26,14 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
- * 实现撤销管理器和右键快捷菜单的JTextArea控件
+ * 实现撤销管理器的JTextArea控件
  * 
  * @author 冰原
  * 
@@ -47,6 +49,7 @@ public class BaseTextArea extends JTextArea {
   private CharEncoding charEncoding = CharEncoding.BASE; // 字符编码格式
   private KeyAdapter autoIndentKeyAdapter = null; // 用于自动缩进的键盘适配器
   private KeyAdapter tabReplaceKeyAdapter = null; // 用于设置以空格代替Tab键的键盘适配器
+  private KeyAdapter autoCompleteKeyAdapter = null; // 用于设置自动完成的键盘适配器
   private Color[] colorStyle = null; // 配色方案
   private boolean isSaved = false; // 文件是否已保存，如果已保存则为true
   private boolean isTextChanged = false; // 文本内容是否已修改，如果已修改则为true
@@ -55,6 +58,7 @@ public class BaseTextArea extends JTextArea {
   private boolean tabReplaceBySpace = false; // 是否以空格代替Tab键
   private boolean autoIndent = false; // 是否可自动缩进
   private boolean isLineNumberView = false; // 是否显示行号栏
+  private boolean autoComplete = false; // 是否自动完成
   private UndoManager undoManager = new UndoManager(); // 撤销管理器
   private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
   private Color bracketBackColor = Util.COLOR_BRACKET; // 需绘制的匹配括号的背景颜色
@@ -92,9 +96,22 @@ public class BaseTextArea extends JTextArea {
         }
       }
     };
+    // 初始化用于设置自动完成的键盘适配器
+    this.autoCompleteKeyAdapter = new KeyAdapter() {
+      public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
+          case KeyEvent.VK_9:
+          case KeyEvent.VK_OPEN_BRACKET:
+          case KeyEvent.VK_COMMA:
+          case KeyEvent.VK_QUOTE:
+            toAutoComplete();
+            break;
+        }
+      }
+    };
   }
 
-  public void loadSetting(TextAreaSetting textAreaSetting) {
+  private void loadSetting(TextAreaSetting textAreaSetting) {
     if (textAreaSetting == null) {
       return;
     }
@@ -108,6 +125,7 @@ public class BaseTextArea extends JTextArea {
     this.setTabReplaceBySpace(textAreaSetting.tabReplaceBySpace);
     this.setColorStyle(textAreaSetting.colorStyle);
     this.setTabSize(textAreaSetting.tabSize);
+    this.setAutoComplete(textAreaSetting.autoComplete);
     this.setSaved(textAreaSetting.isSaved);
     this.setTextChanged(textAreaSetting.isTextChanged);
     this.setStyleChanged(textAreaSetting.isStyleChanged);
@@ -183,6 +201,21 @@ public class BaseTextArea extends JTextArea {
   }
 
   /**
+   * 自动完成
+   */
+  private void toAutoComplete() {
+    char currentChar = this.getText().charAt(this.getCaretPosition() - 1);
+    for (int i = 0; i < Util.AUTO_COMPLETE_BRACKETS_LEFT.length(); i++) {
+      char ch = Util.AUTO_COMPLETE_BRACKETS_LEFT.charAt(i);
+      if (currentChar == ch) {
+        this.insert(String.valueOf(Util.AUTO_COMPLETE_BRACKETS_RIGHT.charAt(i)), this.getCaretPosition());
+        this.setCaretPosition(this.getCaretPosition() - 1);
+        break;
+      }
+    }
+  }
+
+  /**
    * 获取因文本或格式修改产生的标题栏前缀字符"*"和"※"
    * 
    * @return 标题栏前缀字符，可能为：""、"*"、"※"、"*※"
@@ -218,6 +251,18 @@ public class BaseTextArea extends JTextArea {
     } finally {
       graphics.dispose();
     }
+  }
+
+  /**
+   * 判断当前是否已注册监听器
+   * 
+   * @param keyListener
+   *          键盘监听器
+   * @return 是否已注册过监听器，已注册返回true
+   */
+  public boolean hasKeyListener(KeyListener keyListener) {
+    KeyListener[] keyListeners = this.getKeyListeners();
+    return Arrays.asList(keyListeners).contains(keyListener);
   }
 
   public void setFile(File file) {
@@ -334,7 +379,9 @@ public class BaseTextArea extends JTextArea {
 
   public void setAutoIndent(boolean enable) {
     if (enable) {
-      this.addKeyListener(this.autoIndentKeyAdapter);
+      if (!this.hasKeyListener(this.autoIndentKeyAdapter)) {
+        this.addKeyListener(this.autoIndentKeyAdapter);
+      }
     } else {
       this.removeKeyListener(this.autoIndentKeyAdapter);
     }
@@ -347,7 +394,9 @@ public class BaseTextArea extends JTextArea {
 
   public void setTabReplaceBySpace(boolean enable) {
     if (enable) {
-      this.addKeyListener(this.tabReplaceKeyAdapter);
+      if (!this.hasKeyListener(this.tabReplaceKeyAdapter)) {
+        this.addKeyListener(this.tabReplaceKeyAdapter);
+      }
     } else {
       this.removeKeyListener(this.tabReplaceKeyAdapter);
     }
@@ -356,6 +405,21 @@ public class BaseTextArea extends JTextArea {
 
   public boolean getTabReplaceBySpace() {
     return this.tabReplaceBySpace;
+  }
+
+  public void setAutoComplete(boolean enable) {
+    if (enable) {
+      if (!this.hasKeyListener(this.autoCompleteKeyAdapter)) {
+        this.addKeyListener(this.autoCompleteKeyAdapter);
+      }
+    } else {
+      this.removeKeyListener(this.autoCompleteKeyAdapter);
+    }
+    this.autoComplete = enable;
+  }
+
+  public boolean getAutoComplete() {
+    return this.autoComplete;
   }
 
   public UndoManager getUndoManager() {

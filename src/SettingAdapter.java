@@ -153,6 +153,8 @@ public final class SettingAdapter {
               size = Util.DEFAULT_TABSIZE;
             }
             this.setting.tabSize = size;
+          } else if (key.equalsIgnoreCase("autoComplete")) {
+            this.setting.autoComplete = logic;
           }
         }
       } else {
@@ -458,6 +460,8 @@ public final class SettingAdapter {
           node.setTextContent(String.valueOf(this.setting.tabReplaceBySpace));
         } else if (key.equalsIgnoreCase("tabSize")) {
           node.setTextContent(String.valueOf(this.setting.tabSize));
+        } else if (key.equalsIgnoreCase("autoComplete")) {
+          node.setTextContent(String.valueOf(this.setting.autoComplete));
         }
       } else {
         if (node.getNodeName().equalsIgnoreCase("font")) {

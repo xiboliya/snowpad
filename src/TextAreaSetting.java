@@ -35,6 +35,7 @@ public class TextAreaSetting {
   public boolean textDrag = false; // 是否可拖拽文本
   public boolean autoIndent = false; // 是否可自动缩进
   public boolean tabReplaceBySpace = false; // 是否以空格代替Tab键
+  public boolean autoComplete = false; // 是否自动完成
   public Color[] colorStyle = null; // 配色方案
   public int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数
   public boolean isSaved = false; // 文件是否已保存，如果已保存则为true

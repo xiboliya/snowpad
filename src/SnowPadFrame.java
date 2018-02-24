@@ -196,6 +196,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       "字符边界换行(C)");
   private JMenuItem itemFont = new JMenuItem("字体(F)...", 'F');
   private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
+  private JMenuItem itemAutoComplete = new JMenuItem("自动完成(A)...", 'A');
   private JMenuItem itemShortcutManage = new JMenuItem("快捷键管理(H)...", 'H');
   private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
   private JCheckBoxMenuItem itemTextDrag = new JCheckBoxMenuItem("文本拖拽(D)");
@@ -347,6 +348,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private GotoDialog gotoDialog = null; // 转到对话框
   private AboutDialog aboutDialog = null; // 关于对话框
   private TabSetDialog tabSetDialog = null; // Tab字符设置对话框
+  private AutoCompleteDialog autoCompleteDialog = null; // 自动完成对话框
   private ShortcutManageDialog shortcutManageDialog = null; // 快捷键管理对话框
   private InsertCharDialog insertCharDialog = null; // 插入字符对话框
   private InsertDateDialog insertDateDialog = null; // 插入时间/日期对话框
@@ -426,6 +428,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.textAreaSetting.textDrag = this.setting.textDrag;
       this.textAreaSetting.autoIndent = this.setting.autoIndent;
       this.textAreaSetting.tabReplaceBySpace = this.setting.tabReplaceBySpace;
+      this.textAreaSetting.autoComplete = this.setting.autoComplete;
       this.textAreaSetting.colorStyle = this.setting.colorStyle;
       this.textAreaSetting.tabSize = this.setting.tabSize;
       this.textAreaSetting.isLineNumberView = this.setting.viewLineNumber;
@@ -470,6 +473,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelFindPrevious.addActionListener(this);
     this.itemFont.addActionListener(this);
     this.itemTabSet.addActionListener(this);
+    this.itemAutoComplete.addActionListener(this);
     this.itemShortcutManage.addActionListener(this);
     this.itemGoto.addActionListener(this);
     this.itemFindBracket.addActionListener(this);
@@ -867,7 +871,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStyle.add(this.itemSignIdentifier);
     this.menuStyle.add(this.itemFont);
     this.menuStyle.add(this.itemTabSet);
+    this.menuStyle.add(this.itemAutoComplete);
     this.menuStyle.add(this.itemShortcutManage);
+    this.menuStyle.addSeparator();
     this.menuStyle.add(this.itemLineWrap);
     this.menuStyle.add(this.itemTextDrag);
     this.menuStyle.add(this.itemAutoIndent);
@@ -1039,6 +1045,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemSignIdentifier);
     this.menuItemList.add(this.itemFont);
     this.menuItemList.add(this.itemTabSet);
+    this.menuItemList.add(this.itemAutoComplete);
     this.menuItemList.add(this.itemLineWrap);
     this.menuItemList.add(this.itemTextDrag);
     this.menuItemList.add(this.itemAutoIndent);
@@ -1249,6 +1256,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setTabSize(this.textAreaSetting.tabSize);
       textArea.setTabReplaceBySpace(this.textAreaSetting.tabReplaceBySpace);
+      textArea.setAutoIndent(this.textAreaSetting.autoIndent);
+      textArea.setAutoComplete(this.textAreaSetting.autoComplete);
     }
     this.setTextAreaFont();
     this.setColorStyle(0);
@@ -1740,6 +1749,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setCommentForBlock();
     } else if (this.itemTabSet.equals(e.getSource())) {
       this.openTabSetDialog();
+    } else if (this.itemAutoComplete.equals(e.getSource())) {
+      this.openAutoCompleteDialog();
     } else if (this.itemShortcutManage.equals(e.getSource())) {
       this.openShortcutManageDialog();
     } else if (this.itemClearFileHistory.equals(e.getSource())) {
@@ -2065,6 +2076,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.tabSetDialog != null) {
       this.tabSetDialog.dispose();
       this.tabSetDialog = null;
+    }
+    if (this.autoCompleteDialog != null) {
+      this.autoCompleteDialog.dispose();
+      this.autoCompleteDialog = null;
     }
     if (this.shortcutManageDialog != null) {
       this.shortcutManageDialog.dispose();
@@ -3309,6 +3324,22 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.setting.tabSize = this.textAreaSetting.tabSize = tabSize;
     this.setting.tabReplaceBySpace = this.textAreaSetting.tabReplaceBySpace = enable;
+  }
+
+  /**
+   * "自动完成"的处理方法
+   */
+  private void openAutoCompleteDialog() {
+    if (this.autoCompleteDialog == null) {
+      this.autoCompleteDialog = new AutoCompleteDialog(this, true, this.txaMain);
+    } else {
+      this.autoCompleteDialog.setVisible(true);
+    }
+    boolean enable = this.autoCompleteDialog.getAutoComplete();
+    for (BaseTextArea textArea : this.textAreaList) {
+      textArea.setAutoComplete(enable);
+    }
+    this.setting.autoComplete = this.textAreaSetting.autoComplete = enable;
   }
 
   /**
@@ -4834,6 +4865,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     if (this.tabSetDialog != null) {
       this.tabSetDialog.setTextArea(this.txaMain);
+    }
+    if (this.autoCompleteDialog != null) {
+      this.autoCompleteDialog.setTextArea(this.txaMain);
     }
     if (this.insertCharDialog != null) {
       this.insertCharDialog.setTextArea(this.txaMain);
