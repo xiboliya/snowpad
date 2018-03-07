@@ -138,7 +138,7 @@ public final class Util {
       "字体恢复初始大小","字体颜色","背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","全部反色","全部补色",
       "配色方案1","配色方案2","配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4",
       "高亮显示格式5","清除高亮格式1","清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向后切换文档","向前切换文档","统计信息",
-      "窗口管理","MD5","帮助主题","关于"
+      "窗口管理","MD5","进制转换","帮助主题","关于"
       }; // 快捷键的名称
   public static final String[] SHORTCUT_VALUES = new String[] {
       "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","",
@@ -154,7 +154,7 @@ public final class Util {
       "Ctrl+47","","","","","","","","","",
       "","","","","","","","","","",
       "","","","","","","","Ctrl+87","Ctrl+Shift+87","",
-      "","","","112"
+      "","","","","112"
       }; // 快捷键的值
   public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
   public static final int[] ALL_KEY_CODES = new int[] {
@@ -989,8 +989,8 @@ public final class Util {
         digest.update(buffer, 0, len);
       }
       in.close();
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception x) {
+      x.printStackTrace();
       return "";
     }
     BigInteger bigInt = new BigInteger(1, digest.digest());

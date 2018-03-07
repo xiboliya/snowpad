@@ -190,10 +190,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemFindBracket = new JMenuItem("定位匹配括号(B)", 'B');
   private JMenu menuStyle = new JMenu("格式(O)");
   private JMenu menuLineWrapStyle = new JMenu("换行方式(L)");
-  private JRadioButtonMenuItem itemLineWrapByWord = new JRadioButtonMenuItem(
-      "单词边界换行(W)");
-  private JRadioButtonMenuItem itemLineWrapByChar = new JRadioButtonMenuItem(
-      "字符边界换行(C)");
+  private JRadioButtonMenuItem itemLineWrapByWord = new JRadioButtonMenuItem("单词边界换行(W)");
+  private JRadioButtonMenuItem itemLineWrapByChar = new JRadioButtonMenuItem("字符边界换行(C)");
   private JMenuItem itemFont = new JMenuItem("字体(F)...", 'F');
   private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
   private JMenuItem itemAutoComplete = new JMenuItem("自动完成(A)...", 'A');
@@ -203,25 +201,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
   private JMenuItem itemReset = new JMenuItem("恢复默认设置(R)...", 'R');
   private JMenu menuLineStyle = new JMenu("换行符格式(S)");
-  private JRadioButtonMenuItem itemLineStyleWin = new JRadioButtonMenuItem(
-      LineSeparator.WINDOWS.getName() + "格式");
-  private JRadioButtonMenuItem itemLineStyleUnix = new JRadioButtonMenuItem(
-      LineSeparator.UNIX.getName() + "格式");
-  private JRadioButtonMenuItem itemLineStyleMac = new JRadioButtonMenuItem(
-      LineSeparator.MACINTOSH.getName() + "格式");
+  private JRadioButtonMenuItem itemLineStyleWin = new JRadioButtonMenuItem(LineSeparator.WINDOWS.getName() + "格式");
+  private JRadioButtonMenuItem itemLineStyleUnix = new JRadioButtonMenuItem(LineSeparator.UNIX.getName() + "格式");
+  private JRadioButtonMenuItem itemLineStyleMac = new JRadioButtonMenuItem(LineSeparator.MACINTOSH.getName() + "格式");
   private JMenu menuCharset = new JMenu("字符编码格式(C)");
-  private JRadioButtonMenuItem itemCharsetBASE = new JRadioButtonMenuItem(
-      "默认格式(" + CharEncoding.BASE.toString() + ")");
-  private JRadioButtonMenuItem itemCharsetANSI = new JRadioButtonMenuItem(
-      "ANSI格式");
-  private JRadioButtonMenuItem itemCharsetUTF8 = new JRadioButtonMenuItem(
-      "UTF-8格式");
-  private JRadioButtonMenuItem itemCharsetUTF8_NO_BOM = new JRadioButtonMenuItem(
-      "UTF-8 No BOM格式");
-  private JRadioButtonMenuItem itemCharsetULE = new JRadioButtonMenuItem(
-      "Unicode Little Endian格式");
-  private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem(
-      "Unicode Big Endian格式");
+  private JRadioButtonMenuItem itemCharsetBASE = new JRadioButtonMenuItem("默认格式(" + CharEncoding.BASE.toString() + ")");
+  private JRadioButtonMenuItem itemCharsetANSI = new JRadioButtonMenuItem("ANSI格式");
+  private JRadioButtonMenuItem itemCharsetUTF8 = new JRadioButtonMenuItem("UTF-8格式");
+  private JRadioButtonMenuItem itemCharsetUTF8_NO_BOM = new JRadioButtonMenuItem("UTF-8 No BOM格式");
+  private JRadioButtonMenuItem itemCharsetULE = new JRadioButtonMenuItem("Unicode Little Endian格式");
+  private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem("Unicode Big Endian格式");
   private JMenuItem itemSignIdentifier = new JMenuItem("列表符号与编号(G)...", 'G');
   private JMenu menuView = new JMenu("查看(V)");
   private JCheckBoxMenuItem itemToolBar = new JCheckBoxMenuItem("工具栏(T)");
@@ -232,8 +221,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JCheckBoxMenuItem itemLockResizable = new JCheckBoxMenuItem("锁定窗口(R)");
   private JMenu menuTab = new JMenu("标签设置(B)");
   private JCheckBoxMenuItem itemTabPolicy = new JCheckBoxMenuItem("多行标签(P)");
-  private JCheckBoxMenuItem itemClickToClose = new JCheckBoxMenuItem(
-      "双击关闭标签(D)");
+  private JCheckBoxMenuItem itemClickToClose = new JCheckBoxMenuItem("双击关闭标签(D)");
   private JCheckBoxMenuItem itemTabIcon = new JCheckBoxMenuItem("指示图标(I)");
   private JMenu menuFontSize = new JMenu("字体缩放(F)");
   private JMenuItem itemFontSizePlus = new JMenuItem("放大(B)", 'B');
@@ -277,6 +265,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemTextAreaSwitchPrevious = new JMenuItem("向前切换(P)", 'P');
   private JMenu menuTool = new JMenu("工具(T)");
   private JMenuItem itemMD5 = new JMenuItem("MD5...", 'M');
+  private JMenuItem itemNumberConvert = new JMenuItem("进制转换(N)...", 'N');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -361,6 +350,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private InformationDialog informationDialog = null; // 统计信息对话框
   private WindowManageDialog windowManageDialog = null; // 窗口管理对话框
   private MD5Dialog md5Dialog = null; // MD5对话框
+  private NumberConvertDialog numberConvertDialog = null; // 进制转换对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
@@ -512,6 +502,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCommentForLine.addActionListener(this);
     this.itemCommentForBlock.addActionListener(this);
     this.itemMD5.addActionListener(this);
+    this.itemNumberConvert.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -937,6 +928,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.add(this.itemWindowManage);
     this.menuBar.add(this.menuTool);
     this.menuTool.add(this.itemMD5);
+    this.menuTool.add(this.itemNumberConvert);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1093,6 +1085,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemInformation);
     this.menuItemList.add(this.itemWindowManage);
     this.menuItemList.add(this.itemMD5);
+    this.menuItemList.add(this.itemNumberConvert);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1547,6 +1540,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.showHelpFrame();
     } else if (this.itemMD5.equals(e.getSource())) {
       this.openMD5Dialog();
+    } else if (this.itemNumberConvert.equals(e.getSource())) {
+      this.openNumberConvertDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
       this.toolButtonList.get(15).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -2128,6 +2123,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.md5Dialog != null) {
       this.md5Dialog.dispose();
       this.md5Dialog = null;
+    }
+    if (this.numberConvertDialog != null) {
+      this.numberConvertDialog.dispose();
+      this.numberConvertDialog = null;
     }
     if (this.helpFrame != null) {
       this.helpFrame.dispose();
@@ -3911,6 +3910,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.md5Dialog.setTextArea(this.txaMain);
       this.md5Dialog.refreshView();
       this.md5Dialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "进制转换"的处理方法
+   */
+  private void openNumberConvertDialog() {
+    if (this.numberConvertDialog == null) {
+      this.numberConvertDialog = new NumberConvertDialog(this, false, this.txaMain);
+    } else {
+      this.numberConvertDialog.setVisible(true);
     }
   }
 
