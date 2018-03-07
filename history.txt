@@ -1110,3 +1110,10 @@ src/SettingAdapter.java
 src/SnowPadFrame.java
 src/TextAreaSetting.java
 src/Util.java
+
+2018-03-07
+1.在“工具”菜单中添加“进制转换”功能，可将数字在各种进制之间转换，范围包括：二进制~三十六进制。
+res/help.res
+src/NumberConvertDialog.java（添加）
+src/SnowPadFrame.java
+src/Util.java
