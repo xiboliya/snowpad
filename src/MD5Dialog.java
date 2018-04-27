@@ -210,6 +210,7 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
   private void selectFile() {
     if (this.openFileChooser == null) {
       this.openFileChooser = new OpenFileChooser();
+      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // 设置为默认过滤器
     }
     this.openFileChooser.setSelectedFile(null);
     this.openFileChooser.setMultiSelectionEnabled(false);
