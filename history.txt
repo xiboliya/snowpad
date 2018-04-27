@@ -1117,3 +1117,7 @@ res/help.res
 src/NumberConvertDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
+
+2018-04-27
+1.MD5界面中打开文件选择器时，设置为默认过滤器。
+src/MD5Dialog.java
