@@ -1121,3 +1121,8 @@ src/Util.java
 2018-04-27
 1.MD5界面中打开文件选择器时，设置为默认过滤器。
 src/MD5Dialog.java
+
+2018-05-11
+1.在“关于”对话框中添加“Coding”。
+readme.txt
+src/SnowPadFrame.java
