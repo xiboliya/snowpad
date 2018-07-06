@@ -1126,3 +1126,11 @@ src/MD5Dialog.java
 1.在“关于”对话框中添加“Coding”。
 readme.txt
 src/SnowPadFrame.java
+
+2018-07-05
+1.将“MD5”菜单改为“加密”，并扩展功能，增加SHA、SHA-224、SHA-256、SHA-384、SHA-512加密算法。
+res/help.res
+src/MD5Dialog.java（删除）
+src/EncryptDialog.java（添加）
+src/SnowPadFrame.java
+src/Util.java
