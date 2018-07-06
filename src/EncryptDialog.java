@@ -21,9 +21,12 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,12 +40,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- * "MD5"对话框
+ * "加密"对话框
  * 
  * @author 冰原
  * 
  */
-public class MD5Dialog extends BaseDialog implements ActionListener, CaretListener, ChangeListener {
+public class EncryptDialog extends BaseDialog implements ActionListener, CaretListener, ChangeListener, ItemListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
@@ -63,19 +66,21 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
   private JButton btnSelectFileF = new JButton("选择文件(S)");
 
   private JPanel pnlBottom = new JPanel();
-  private JLabel lblMD5 = new JLabel("MD5值：");
-  private BaseTextAreaSpecial txaMD5 = new BaseTextAreaSpecial();
-  private JScrollPane srpMD5 = new JScrollPane(this.txaMD5);
+  private JLabel lblDigestType = new JLabel("加密类型：");
+  private JComboBox<String> cmbDigestType = new JComboBox<String>(Util.DIGEST_TYPES);
+  private JLabel lblEncrypt = new JLabel("加密值：");
+  private BaseTextAreaSpecial txaEncrypt = new BaseTextAreaSpecial();
+  private JScrollPane srpEncrypt = new JScrollPane(this.txaEncrypt);
   private JButton btnCopy = new JButton("复制结果(C)");
   private JButton btnCancel = new JButton("取消");
 
-  public MD5Dialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public EncryptDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal);
     if (txaSource == null) {
       return;
     }
     this.txaSource = txaSource;
-    this.setTitle("MD5值生成");
+    this.setTitle("加密值生成");
     this.init();
     this.setMnemonic();
     this.addListeners();
@@ -108,13 +113,17 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
 
     this.pnlBottom.setLayout(null);
     this.pnlBottom.setBounds(0, 160, 420, 190);
-    this.lblMD5.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
-    this.srpMD5.setBounds(10, 35, 270, 80);
-    this.pnlBottom.add(this.lblMD5);
-    this.pnlBottom.add(this.srpMD5);
-    this.btnCopy.setBounds(290, 65, 110, Util.BUTTON_HEIGHT);
+    this.lblDigestType.setBounds(10, 10, 80, Util.VIEW_HEIGHT);
+    this.cmbDigestType.setBounds(90, 10, 80, Util.INPUT_HEIGHT);
+    this.lblEncrypt.setBounds(10, 35, 70, Util.VIEW_HEIGHT);
+    this.srpEncrypt.setBounds(10, 60, 270, 80);
+    this.pnlBottom.add(this.lblDigestType);
+    this.pnlBottom.add(this.cmbDigestType);
+    this.pnlBottom.add(this.lblEncrypt);
+    this.pnlBottom.add(this.srpEncrypt);
+    this.btnCopy.setBounds(290, 75, 110, Util.BUTTON_HEIGHT);
     this.pnlBottom.add(this.btnCopy);
-    this.btnCancel.setBounds(160, 125, 80, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(290, 115, 110, Util.BUTTON_HEIGHT);
     this.pnlBottom.add(this.btnCancel);
     // 主界面
     this.tpnMain.setBounds(0, 0, 420, 160);
@@ -124,7 +133,7 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
     this.setTabbedIndex(0);
     this.tpnMain.setFocusable(false);
     this.pnlMain.add(this.pnlBottom);
-    this.txaMD5.setEditable(false);
+    this.txaEncrypt.setEditable(false);
   }
 
   /**
@@ -171,7 +180,9 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
     this.txtPathF.addKeyListener(this.keyAdapter);
     this.btnSelectFileF.addKeyListener(this.buttonKeyAdapter);
 
-    this.txaMD5.addKeyListener(this.keyAdapter);
+    this.cmbDigestType.addItemListener(this);
+    this.cmbDigestType.addKeyListener(this.keyAdapter);
+    this.txaEncrypt.addKeyListener(this.keyAdapter);
     this.btnCopy.addActionListener(this);
     this.btnCopy.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addActionListener(this);
@@ -183,7 +194,7 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
    */
   public void actionPerformed(ActionEvent e) {
     if (this.chkEveryLinesT.equals(e.getSource())) {
-      this.showStringMD5();
+      this.showStringEncrypt();
     } else if (this.btnSelectFileF.equals(e.getSource())) {
       this.selectFile();
     } else if (this.btnCopy.equals(e.getSource())) {
@@ -201,7 +212,7 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
     if (!Util.isTextEmpty(str) && this.getTabbedIndex() == 0) {
       this.txaTextT.setText(str);
     }
-    this.showMD5();
+    this.showEncrypt();
   }
 
   /**
@@ -224,57 +235,59 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
   }
 
   /**
-   * 显示MD5值
+   * 显示加密值
    */
-  private void showMD5() {
+  private void showEncrypt() {
     if (this.getTabbedIndex() == 0) {
-      this.showStringMD5();
+      this.showStringEncrypt();
     } else {
-      this.showFileMD5();
+      this.showFileEncrypt();
     }
   }
 
   /**
-   * 显示字符串的MD5值
+   * 显示字符串的加密值
    */
-  private void showStringMD5() {
+  private void showStringEncrypt() {
     String text = this.txaTextT.getText();
     if (Util.isTextEmpty(text)) {
-      this.txaMD5.setText("");
+      this.txaEncrypt.setText("");
       return;
     }
-    String md5 = "";
+    String digestType = this.cmbDigestType.getSelectedItem().toString();
+    String encrypt = "";
     if (this.chkEveryLinesT.isSelected()) {
       String[] arrLines = text.split("\n", -1);
       for (String str : arrLines) {
-        md5 += (Util.getStringMD5(str) + "\n");
+        encrypt += (Util.getStringDigest(str, digestType) + "\n");
       }
     } else {
       // 根据不同的操作系统使用不同的换行符
       text = text.replaceAll(LineSeparator.UNIX.toString(), Util.LINE_SEPARATOR);
-      md5 = Util.getStringMD5(text);
+      encrypt = Util.getStringDigest(text, digestType);
     }
-    if (Util.isTextEmpty(md5)) {
-      this.txaMD5.setText("");
+    if (Util.isTextEmpty(encrypt)) {
+      this.txaEncrypt.setText("");
     } else {
-      this.txaMD5.setText(md5);
+      this.txaEncrypt.setText(encrypt);
     }
   }
 
   /**
-   * 显示文件的MD5值
+   * 显示文件的加密值
    */
-  private void showFileMD5() {
+  private void showFileEncrypt() {
     String path = this.txtPathF.getText();
     if (Util.isTextEmpty(path)) {
-      this.txaMD5.setText("");
+      this.txaEncrypt.setText("");
       return;
     }
-    String md5 = Util.getFileMD5(new File(path));
-    if (Util.isTextEmpty(md5)) {
-      this.txaMD5.setText("");
+    String digestType = this.cmbDigestType.getSelectedItem().toString();
+    String encrypt = Util.getFileDigest(new File(path), digestType);
+    if (Util.isTextEmpty(encrypt)) {
+      this.txaEncrypt.setText("");
     } else {
-      this.txaMD5.setText(md5);
+      this.txaEncrypt.setText(encrypt);
     }
   }
 
@@ -282,7 +295,7 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
    * "复制结果"的处理方法
    */
   private void toCopyResult() {
-    this.setClipboardContents(this.txaMD5.getText());
+    this.setClipboardContents(this.txaEncrypt.getText());
   }
 
   /**
@@ -317,9 +330,9 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
    */
   public void caretUpdate(CaretEvent e) {
     if (this.txaTextT.equals(e.getSource())) {
-      this.showStringMD5();
+      this.showStringEncrypt();
     } else if (this.txtPathF.equals(e.getSource())) {
-      this.showFileMD5();
+      this.showFileEncrypt();
     }
   }
 
@@ -327,7 +340,13 @@ public class MD5Dialog extends BaseDialog implements ActionListener, CaretListen
    * 当选项卡改变当前视图时调用
    */
   public void stateChanged(ChangeEvent e) {
-    this.showMD5();
+    this.showEncrypt();
   }
 
+  /**
+   * 当所选项更改时调用
+   */
+  public void itemStateChanged(ItemEvent e) {
+    this.showEncrypt();
+  }
 }

@@ -264,7 +264,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemTextAreaSwitchNext = new JMenuItem("向后切换(N)", 'N');
   private JMenuItem itemTextAreaSwitchPrevious = new JMenuItem("向前切换(P)", 'P');
   private JMenu menuTool = new JMenu("工具(T)");
-  private JMenuItem itemMD5 = new JMenuItem("MD5...", 'M');
+  private JMenuItem itemEncrypt = new JMenuItem("加密(E)...", 'E');
   private JMenuItem itemNumberConvert = new JMenuItem("进制转换(N)...", 'N');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
@@ -349,7 +349,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private SignIdentifierDialog signIdentifierDialog = null; // 项目符号与编号对话框
   private InformationDialog informationDialog = null; // 统计信息对话框
   private WindowManageDialog windowManageDialog = null; // 窗口管理对话框
-  private MD5Dialog md5Dialog = null; // MD5对话框
+  private EncryptDialog encryptDialog = null; // 加密对话框
   private NumberConvertDialog numberConvertDialog = null; // 进制转换对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
@@ -501,7 +501,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemDelNullLineSelected.addActionListener(this);
     this.itemCommentForLine.addActionListener(this);
     this.itemCommentForBlock.addActionListener(this);
-    this.itemMD5.addActionListener(this);
+    this.itemEncrypt.addActionListener(this);
     this.itemNumberConvert.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
@@ -927,7 +927,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.add(this.itemInformation);
     this.menuView.add(this.itemWindowManage);
     this.menuBar.add(this.menuTool);
-    this.menuTool.add(this.itemMD5);
+    this.menuTool.add(this.itemEncrypt);
     this.menuTool.add(this.itemNumberConvert);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
@@ -1084,7 +1084,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemTextAreaSwitchPrevious);
     this.menuItemList.add(this.itemInformation);
     this.menuItemList.add(this.itemWindowManage);
-    this.menuItemList.add(this.itemMD5);
+    this.menuItemList.add(this.itemEncrypt);
     this.menuItemList.add(this.itemNumberConvert);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
@@ -1538,8 +1538,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.delSelectedNullLines();
     } else if (this.itemHelp.equals(e.getSource())) {
       this.showHelpFrame();
-    } else if (this.itemMD5.equals(e.getSource())) {
-      this.openMD5Dialog();
+    } else if (this.itemEncrypt.equals(e.getSource())) {
+      this.openEncryptDialog();
     } else if (this.itemNumberConvert.equals(e.getSource())) {
       this.openNumberConvertDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
@@ -2120,9 +2120,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.windowManageDialog.dispose();
       this.windowManageDialog = null;
     }
-    if (this.md5Dialog != null) {
-      this.md5Dialog.dispose();
-      this.md5Dialog = null;
+    if (this.encryptDialog != null) {
+      this.encryptDialog.dispose();
+      this.encryptDialog = null;
     }
     if (this.numberConvertDialog != null) {
       this.numberConvertDialog.dispose();
@@ -3902,15 +3902,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "MD5"的处理方法
+   * "加密"的处理方法
    */
-  private void openMD5Dialog() {
-    if (this.md5Dialog == null) {
-      this.md5Dialog = new MD5Dialog(this, false, this.txaMain);
+  private void openEncryptDialog() {
+    if (this.encryptDialog == null) {
+      this.encryptDialog = new EncryptDialog(this, false, this.txaMain);
     } else {
-      this.md5Dialog.setTextArea(this.txaMain);
-      this.md5Dialog.refreshView();
-      this.md5Dialog.setVisible(true);
+      this.encryptDialog.setTextArea(this.txaMain);
+      this.encryptDialog.refreshView();
+      this.encryptDialog.setVisible(true);
     }
   }
 
