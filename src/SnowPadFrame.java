@@ -19,6 +19,7 @@ package com.xiboliya.snowpad;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -115,6 +116,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemCloseLeft = new JMenuItem("关闭左侧(F)", 'F');
   private JMenuItem itemCloseRight = new JMenuItem("关闭右侧(G)", 'G');
   private JMenuItem itemCloseAll = new JMenuItem("关闭全部(Q)", 'Q');
+  private JCheckBoxMenuItem itemFrozenFile = new JCheckBoxMenuItem("冻结文件(Z)");
   private JMenuItem itemDelFile = new JMenuItem("删除当前文件(D)", 'D');
   private JMenu menuFileHistory = new JMenu("最近编辑(H)");
   private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表(Y)", 'Y');
@@ -302,6 +304,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemPopReName = new JMenuItem("重命名(N)...", 'N');
   private JMenuItem itemPopDelFile = new JMenuItem("删除文件(D)", 'D');
   private JMenuItem itemPopReOpen = new JMenuItem("重新载入(R)", 'R');
+  private JCheckBoxMenuItem itemPopFrozenFile = new JCheckBoxMenuItem("冻结文件(Z)");
   private JMenu menuPopCopyToClip = new JMenu("复制到剪贴板(P)");
   private JMenuItem itemPopToCopyFileName = new JMenuItem("复制文件名(F)", 'F');
   private JMenuItem itemPopToCopyFilePath = new JMenuItem("复制文件路径(P)", 'P');
@@ -593,6 +596,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopReName.addActionListener(this);
     this.itemPopDelFile.addActionListener(this);
     this.itemPopReOpen.addActionListener(this);
+    this.itemPopFrozenFile.addActionListener(this);
     this.itemPopToCopyFileName.addActionListener(this);
     this.itemPopToCopyFilePath.addActionListener(this);
     this.itemPopToCopyDirPath.addActionListener(this);
@@ -604,6 +608,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCloseLeft.addActionListener(this);
     this.itemCloseRight.addActionListener(this);
     this.itemCloseAll.addActionListener(this);
+    this.itemFrozenFile.addActionListener(this);
     this.itemDelFile.addActionListener(this);
     this.itemClearFileHistory.addActionListener(this);
     this.itemSelAll.addActionListener(this);
@@ -761,6 +766,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuFile.add(this.itemCloseLeft);
     this.menuFile.add(this.itemCloseRight);
     this.menuFile.add(this.itemCloseAll);
+    this.menuFile.addSeparator();
+    this.menuFile.add(this.itemFrozenFile);
     this.menuFile.addSeparator();
     this.menuFile.add(this.menuFileHistory);
     this.menuFile.add(this.itemClearFileHistory);
@@ -966,6 +973,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemCloseLeft);
     this.menuItemList.add(this.itemCloseRight);
     this.menuItemList.add(this.itemCloseAll);
+    this.menuItemList.add(this.itemFrozenFile);
     this.menuItemList.add(this.itemClearFileHistory);
     this.menuItemList.add(this.itemExit);
     this.menuItemList.add(this.itemUnDo);
@@ -1134,6 +1142,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.popMenuTabbed.add(this.itemPopReName);
     this.popMenuTabbed.add(this.itemPopDelFile);
     this.popMenuTabbed.add(this.itemPopReOpen);
+    this.popMenuTabbed.addSeparator();
+    this.popMenuTabbed.add(this.itemPopFrozenFile);
     this.popMenuTabbed.addSeparator();
     this.popMenuTabbed.add(this.menuPopCopyToClip);
     this.menuPopCopyToClip.add(this.itemPopToCopyFileName);
@@ -1340,6 +1350,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * 设置“冻结文件”菜单项的状态
+   */
+  private void setMenuStateFrozen() {
+    boolean isFrozen = this.txaMain.getFrozen();
+    this.itemFrozenFile.setSelected(isFrozen);
+    this.itemPopFrozenFile.setSelected(isFrozen);
+  }
+
+  /**
    * 设置单行注释与区块注释菜单项的状态
    */
   private void setMenuStateComment() {
@@ -1408,6 +1427,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuPopHighlight.setMnemonic('H');
     this.menuPopRmHighlight.setMnemonic('M');
     this.menuPopCopyToClip.setMnemonic('P');
+    this.itemFrozenFile.setMnemonic('Z');
+    this.itemPopFrozenFile.setMnemonic('Z');
   }
 
   /**
@@ -1634,6 +1655,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemCloseAll.equals(e.getSource())
         || this.toolButtonList.get(5).equals(e.getSource())) {
       this.closeAll();
+    } else if (this.itemFrozenFile.equals(e.getSource())) {
+      this.itemPopFrozenFile.setSelected(this.itemFrozenFile.isSelected());
+      this.frozenFile();
+    } else if (this.itemPopFrozenFile.equals(e.getSource())) {
+      this.itemFrozenFile.setSelected(this.itemPopFrozenFile.isSelected());
+      this.frozenFile();
     } else if (this.itemDelFile.equals(e.getSource())
         || this.itemPopDelFile.equals(e.getSource())) {
       this.deleteFile();
@@ -1904,29 +1931,46 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "指示图标"的处理方法
    */
   private void setTabIcon() {
-    this.setting.viewTabIcon = this.isTabIconView = this.itemTabIcon
-        .isSelected();
+    this.setting.viewTabIcon = this.isTabIconView = this.itemTabIcon.isSelected();
     int tabCount = this.tpnMain.getTabCount();
-    ImageIcon tabIcon = null;
-    if (!this.isTabIconView) {
-      for (int i = 0; i < tabCount; i++) {
-        this.tpnMain.setIconAt(i, tabIcon);
-      }
-    } else {
-      for (int i = 0; i < tabCount; i++) {
-        File fileTemp = this.textAreaList.get(i).getFile();
-        if (fileTemp == null) {
+    for (int i = 0; i < tabCount; i++) {
+      this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
+    }
+  }
+
+  private ImageIcon getTabIcon(BaseTextArea textArea) {
+    if (this.isTabIconView) {
+      File fileTemp = textArea.getFile();
+      boolean isFrozen = textArea.getFrozen();
+      ImageIcon tabIcon = null;
+      if (fileTemp == null) {
+        if (isFrozen) {
+          tabIcon = Util.TAB_NEW_FILE_FROZEN_ICON;
+        } else {
           tabIcon = Util.TAB_NEW_FILE_ICON;
-        } else if (!fileTemp.exists()) {
+        }
+      } else if (!fileTemp.exists()) {
+        if (isFrozen) {
+          tabIcon = Util.TAB_NOT_EXIST_FROZEN_ICON;
+        } else {
           tabIcon = Util.TAB_NOT_EXIST_ICON;
-        } else if (!fileTemp.canWrite()) {
+        }
+      } else if (!fileTemp.canWrite()) {
+        if (isFrozen) {
+          tabIcon = Util.TAB_EXIST_READONLY_FROZEN_ICON;
+        } else {
           tabIcon = Util.TAB_EXIST_READONLY_ICON;
+        }
+      } else {
+        if (isFrozen) {
+          tabIcon = Util.TAB_EXIST_CURRENT_FROZEN_ICON;
         } else {
           tabIcon = Util.TAB_EXIST_CURRENT_ICON;
         }
-        this.tpnMain.setIconAt(i, tabIcon);
       }
+      return tabIcon;
     }
+    return null;
   }
 
   /**
@@ -1979,6 +2023,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         break;
       }
     }
+  }
+
+  /**
+   * "冻结文件"的处理方法
+   */
+  private void frozenFile() {
+    boolean isFrozen = this.itemFrozenFile.isSelected();
+    this.txaMain.setFrozen(isFrozen);
+    int index = this.tpnMain.getSelectedIndex();
+    this.tpnMain.setIconAt(index, this.getTabIcon(this.txaMain));
   }
 
   /**
@@ -2387,20 +2441,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (String sortedPath : sortedPaths) {
       for (BaseTextArea textArea : this.textAreaList) {
         if (sortedPath.equals(this.getFilePathForWindowManage(textArea))) {
-          ImageIcon tabIcon = Util.TAB_NEW_FILE_ICON;
-          if (file != null) {
-            if (file.canWrite()) {
-              tabIcon = Util.TAB_EXIST_CURRENT_ICON;
-            } else {
-              tabIcon = Util.TAB_EXIST_READONLY_ICON;
-            }
-          }
-          if (!this.isTabIconView) {
-            tabIcon = null;
-          }
           sortedTextAreaList.add(textArea);
           JScrollPane srpNew = new JScrollPane(textArea);
-          this.tpnMain.addTab(textArea.getPrefix() + textArea.getTitle(), tabIcon, srpNew);
+          this.tpnMain.addTab(textArea.getPrefix() + textArea.getTitle(), this.getTabIcon(textArea), srpNew);
           break;
         }
       }
@@ -2962,8 +3005,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @param isUpdateMenu
    *          是否更新菜单的选择
    */
-  private void setLineStyleString(LineSeparator lineSeparator,
-      boolean isUpdateMenu) {
+  private void setLineStyleString(LineSeparator lineSeparator, boolean isUpdateMenu) {
     if (isUpdateMenu) {
       this.txaMain.setLineSeparator(lineSeparator);
       this.setLineStyleSelected();
@@ -3791,6 +3833,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "撤销"的处理方法
    */
   private void undoAction() {
+    if (this.txaMain.getFrozen()) {
+      return;
+    }
     if (this.undoManager.canUndo()) { // 判断是否可以撤销
       this.undoManager.undo(); // 执行撤销操作
       this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() - 1); // 撤销标识符递减
@@ -3803,6 +3848,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "重做"的处理方法
    */
   private void redoAction() {
+    if (this.txaMain.getFrozen()) {
+      return;
+    }
     if (this.undoManager.canRedo()) { // 判断是否可以重做
       this.undoManager.redo(); // 执行重做操作
       this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // 撤销标识符递增
@@ -3988,28 +4036,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     BaseTextArea txaNew = new BaseTextArea(this.textAreaSetting);
     JScrollPane srpNew = new JScrollPane(txaNew);
     String title = null;
-    ImageIcon tabIcon = Util.TAB_NEW_FILE_ICON;
     if (file != null) {
       title = file.getName();
       txaNew.setFileExt(this.getFileExtByName(title));
       txaNew.setFile(file);
-      if (file.canWrite()) {
-        tabIcon = Util.TAB_EXIST_CURRENT_ICON;
-      } else {
-        tabIcon = Util.TAB_EXIST_READONLY_ICON;
-      }
     } else {
       int index = this.toSetNewFileIndex();
       title = Util.NEW_FILE_NAME + index;
       txaNew.setNewFileIndex(index);
     }
-    if (!this.isTabIconView) {
-      tabIcon = null;
-    }
     txaNew.setTitle(title);
     txaNew.addCaretListener(this);
     txaNew.getDocument().addUndoableEditListener(this);
-    this.tpnMain.addTab(title, tabIcon, srpNew);
+    this.tpnMain.addTab(title, this.getTabIcon(txaNew), srpNew);
     this.tpnMain.setSelectedComponent(srpNew);
     this.textAreaList.add(txaNew);
     this.setLineNumberForNew();
@@ -4580,8 +4619,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @param toCreateNew
    *          是否需要新建文本域
    */
-  private void toOpenFile(File file, boolean isAutoCheckEncoding,
-      boolean toCreateNew) {
+  private void toOpenFile(File file, boolean isAutoCheckEncoding, boolean toCreateNew) {
     InputStreamReader inputStreamReader = null;
     try {
       if (toCreateNew) {
@@ -4626,15 +4664,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.setNewFileIndex(0);
       this.txaMain.setFileExt(this.getFileExtByName(file.getName()));
       this.setMenuStateComment();
-      if (this.isTabIconView) {
-        if (file.canWrite()) {
-          this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-              Util.TAB_EXIST_CURRENT_ICON);
-        } else {
-          this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-              Util.TAB_EXIST_READONLY_ICON);
-        }
-      }
+      this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(), this.getTabIcon(txaMain));
     } catch (Exception x) {
       // x.printStackTrace();
     } finally {
@@ -4703,10 +4733,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           JOptionPane.CANCEL_OPTION);
     }
     this.txaMain.setNewFileIndex(0);
-    if (this.isTabIconView) {
-      this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-          Util.TAB_EXIST_CURRENT_ICON);
-    }
+    this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),this.getTabIcon(this.txaMain));
     return true;
   }
 
@@ -5153,10 +5180,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             this.toSaveFile(this.file);
           } catch (Exception x) {
             this.showSaveErrorDialog(this.file);
-            if (this.isTabIconView) {
-              this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-                  Util.TAB_NOT_EXIST_ICON);
-            }
+            this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
             continue; // 如果保存出现异常，则继续下一个文件的检测
           }
           this.setAfterSaveFile();
@@ -5164,20 +5188,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           this.setStylePrefix();
         } else {
           this.txaMain.setFileExistsLabel(false);
-          if (this.isTabIconView) {
-            this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),
-                Util.TAB_NOT_EXIST_ICON);
-          }
+          this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
         }
       } else {
         this.textAreaList.get(i).setFileExistsLabel(true);
-        if (this.isTabIconView) {
-          if (fileTemp.canWrite()) {
-            this.tpnMain.setIconAt(i, Util.TAB_EXIST_CURRENT_ICON);
-          } else {
-            this.tpnMain.setIconAt(i, Util.TAB_EXIST_READONLY_ICON);
-          }
-        }
+        this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
       }
     }
     checking = false;
@@ -5215,6 +5230,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setMenuStateComment();
         this.setMenuStateByTextArea();
         this.setMenuStateBySelectedText();
+        this.setMenuStateFrozen();
       }
     }
   }

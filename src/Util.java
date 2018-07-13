@@ -126,7 +126,7 @@ public final class Util {
   public static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] { "功能", "快捷键" }; // 快捷键管理界面的表格标题
   public static final String[] SHORTCUT_NAMES = new String[] {
       "新建","打开","以指定编码打开","保存","另存为","重命名","重新载入文件","删除当前文件","关闭当前","关闭其它",
-      "关闭左侧","关闭右侧","关闭全部","清空最近编辑列表","退出","撤销","重做","剪切","复制","粘贴",
+      "关闭左侧","关闭右侧","关闭全部","冻结文件","清空最近编辑列表","退出","撤销","重做","剪切","复制","粘贴",
       "全选","删除","切换为大写","切换为小写","复制当前文件名到剪贴板","复制当前文件路径到剪贴板","复制当前目录路径到剪贴板","复制所有文本到剪贴板","复写当前行","删除当前行",
       "删除至行首","删除至行尾","删除至文件首","删除至文件尾","上移当前行","下移当前行","复制当前行","剪切当前行","批量切除行","批量插入行",
       "批量分割行","批量拼接行","批量合并行","逐行复写","升序排序","降序排序","缩进","退格","清除行首空白","清除行尾空白",
@@ -142,7 +142,7 @@ public final class Util {
       }; // 快捷键的名称
   public static final String[] SHORTCUT_VALUES = new String[] {
       "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","",
-      "","","","","Ctrl+81","Ctrl+90","Ctrl+89","Ctrl+88","Ctrl+67","Ctrl+86",
+      "","","","","","Ctrl+81","Ctrl+90","Ctrl+89","Ctrl+88","Ctrl+67","Ctrl+86",
       "Ctrl+65","127","Ctrl+Shift+85","Ctrl+85","","","","Ctrl+Shift+65","Ctrl+68","Ctrl+Shift+68",
       "Ctrl+Alt+37","Ctrl+Alt+39","Ctrl+Alt+Shift+37","Ctrl+Alt+Shift+39","Ctrl+Shift+38","Ctrl+Shift+40","Ctrl+Shift+67","Ctrl+Shift+88","Ctrl+Shift+82","Ctrl+Shift+73",
       "Ctrl+Shift+80","Ctrl+Shift+74","Ctrl+Shift+77","Ctrl+Shift+86","Alt+38","Alt+40","Ctrl+Alt+84","Ctrl+Alt+Shift+84","Ctrl+Shift+83","Ctrl+Shift+69",
@@ -241,6 +241,10 @@ public final class Util {
   public static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current.png")); // 普通文件图标
   public static final ImageIcon TAB_NEW_FILE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_new_file.png")); // 新建文件图标
   public static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_not_exist.png")); // 丢失文件图标
+  public static final ImageIcon TAB_EXIST_READONLY_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly_frozen.png")); // 只读文件冻结图标
+  public static final ImageIcon TAB_EXIST_CURRENT_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current_frozen.png")); // 普通文件冻结图标
+  public static final ImageIcon TAB_NEW_FILE_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_new_file_frozen.png")); // 新建文件冻结图标
+  public static final ImageIcon TAB_NOT_EXIST_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_not_exist_frozen.png")); // 丢失文件冻结图标
   public static final ImageIcon HELP_ICON = new ImageIcon(ClassLoader.getSystemResource("res/help.png")); // 帮助图标
   public static final ImageIcon[] TOOL_ENABLE_ICONS = new ImageIcon[] {
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_new.png")),

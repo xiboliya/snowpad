@@ -59,6 +59,8 @@ public class BaseTextArea extends JTextArea {
   private boolean autoIndent = false; // 是否可自动缩进
   private boolean isLineNumberView = false; // 是否显示行号栏
   private boolean autoComplete = false; // 是否自动完成
+  private boolean isFrozen = false; // 是否被冻结
+  private BaseDocument document = new BaseDocument(); // 文本模型
   private UndoManager undoManager = new UndoManager(); // 撤销管理器
   private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
   private Color bracketBackColor = Util.COLOR_BRACKET; // 需绘制的匹配括号的背景颜色
@@ -109,6 +111,7 @@ public class BaseTextArea extends JTextArea {
         }
       }
     };
+    this.setDocument(this.document);
   }
 
   private void loadSetting(TextAreaSetting textAreaSetting) {
@@ -420,6 +423,16 @@ public class BaseTextArea extends JTextArea {
 
   public boolean getAutoComplete() {
     return this.autoComplete;
+  }
+
+  public void setFrozen(boolean isFrozen) {
+    this.isFrozen = isFrozen;
+    this.document.setFrozen(this.isFrozen);
+    this.setEditable(!this.isFrozen);
+  }
+
+  public boolean getFrozen() {
+    return this.isFrozen;
   }
 
   public UndoManager getUndoManager() {
