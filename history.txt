@@ -1134,3 +1134,15 @@ src/MD5Dialog.java（删除）
 src/EncryptDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
+
+2018-07-13
+1.在“文件”菜单和右键快捷菜单中添加“冻结文件”功能，可以禁止修改当前文件。
+res/help.res
+res/tab_exist_current_frozen.png（添加）
+res/tab_exist_readonly_frozen.png（添加）
+res/tab_new_file_frozen.png（添加）
+res/tab_not_exist_frozen.png（添加）
+src/BaseDocument.java（添加）
+src/BaseTextArea.java
+src/SnowPadFrame.java
+src/Util.java
