@@ -1146,3 +1146,12 @@ src/BaseDocument.java（添加）
 src/BaseTextArea.java
 src/SnowPadFrame.java
 src/Util.java
+
+2018-07-24
+1.在“工具”菜单中添加“计算器”功能，主要功能包括：整数和小数的＋－×÷四则运算，百分比%运算，圆周率π运算等。
+res/help.res
+src/BaseTextAreaSpecial.java
+src/BaseTextField.java
+src/CalculatorDialog.java（添加）
+src/SnowPadFrame.java
+src/Util.java
