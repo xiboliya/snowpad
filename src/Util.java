@@ -62,6 +62,7 @@ public final class Util {
   public static final String INSERT_UNIT = "°′″＄￥〒￠￡％℃℉﹩﹪‰﹫㏕㎜㎝㎞㏎㎡㎎㎏㏄¤"; // 单位符号
   public static final String INSERT_DIGIT = "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇①②③④⑤⑥⑦⑧⑨⑩㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ"; // 数字符号
   public static final String INSERT_PINYIN = "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡ"; // 拼音符号
+  public static final String CALCULATOR_ITEM = "C←%÷789×456－123＋π0.="; // 计算器按钮
   public static final String BRACKETS_LEFT = "([{<"; // 在文本域中可以进行高亮匹配的左括号
   public static final String BRACKETS_RIGHT = ")]}>"; // 在文本域中可以进行高亮匹配的右括号
   public static final String AUTO_COMPLETE_BRACKETS_LEFT = "([{<'\""; // 在文本域中可以自动完成的左符号
@@ -138,7 +139,7 @@ public final class Util {
       "字体恢复初始大小","字体颜色","背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","全部反色","全部补色",
       "配色方案1","配色方案2","配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4",
       "高亮显示格式5","清除高亮格式1","清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向后切换文档","向前切换文档","统计信息",
-      "窗口管理","加密","进制转换","帮助主题","关于"
+      "窗口管理","加密","进制转换","计算器","帮助主题","关于"
       }; // 快捷键的名称
   public static final String[] SHORTCUT_VALUES = new String[] {
       "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","",
@@ -154,7 +155,7 @@ public final class Util {
       "Ctrl+47","","","","","","","","","",
       "","","","","","","","","","",
       "","","","","","","","Ctrl+87","Ctrl+Shift+87","",
-      "","","","","112"
+      "","","","","","112"
       }; // 快捷键的值
   public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
   public static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // 加密的类型
@@ -199,6 +200,8 @@ public final class Util {
   public static final Font TEXT_FONT = new Font("宋体", Font.PLAIN, 14); // 文本域的默认字体
   public static final Font INSERT_VIEW_FONT = new Font("宋体", Font.PLAIN, 80); // 插入字符界面中预览标签的字体
   public static final Font SIGN_VIEW_FONT = new Font("宋体", Font.PLAIN, 28); // 列表符号与编号界面中预览区域的字体
+  public static final Font CALCULATOR_VIEW_FONT = new Font("宋体", Font.PLAIN, 16); // 计算器界面中计算区域的字体
+  public static final Font CALCULATOR_ITEM_FONT = new Font("宋体", Font.BOLD, 30); // 计算器界面中计算区域的字体
   public static final Color COLOR_BRACKET = new Color(20, 20, 20, 35); // 在文本域中进行高亮匹配括号的背景颜色
   public static final Color COLOR_CURRENT_LINE = new Color(0, 100, 200, 25); // 在文本域中用于标识当前行的背景颜色
   public static final Color[] COLOR_HIGHLIGHTS = new Color[] {

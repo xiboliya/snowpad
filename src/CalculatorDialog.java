@@ -1,0 +1,641 @@
+/**
+ * Copyright (C) 2018 冰原
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.xiboliya.snowpad;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+
+/**
+ * "计算器"对话框
+ * 
+ * @author 冰原
+ * 
+ */
+public class CalculatorDialog extends BaseDialog implements ActionListener {
+  private static final long serialVersionUID = 1L;
+  private JPanel pnlMain = (JPanel) this.getContentPane();
+  private BaseTextField txtView = new BaseTextField();
+  private JPanel pnlButton = new JPanel(new GridLayout(5, 4, 5, 5));
+  private Insets insets = new Insets(0, 0, 0, 0);
+  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
+  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
+  private LinkedList<String> list = new LinkedList<String>();
+
+  /**
+   * 构造方法
+   * 
+   * @param owner
+   *          用于显示该对话框的父组件
+   * @param modal
+   *          是否为模式对话框
+   */
+  public CalculatorDialog(JFrame owner, boolean modal) {
+    super(owner, modal);
+    this.init();
+    this.fillGridLayout();
+    this.addListeners();
+    this.setSize(300, 390);
+    this.setVisible(true);
+  }
+
+  /**
+   * 初始化界面
+   */
+  private void init() {
+    this.setTitle("计算器");
+    this.pnlMain.setLayout(null);
+    this.txtView.setBounds(3, 3, 290, 42);
+    this.txtView.setEditable(false);
+    this.txtView.setFont(Util.CALCULATOR_VIEW_FONT);
+    this.txtView.setHorizontalAlignment(SwingConstants.RIGHT);
+    this.pnlButton.setBounds(3, 50, 290, 290);
+    this.pnlMain.add(this.txtView);
+    this.pnlMain.add(this.pnlButton);
+  }
+
+  private void fillGridLayout() {
+    for (int i = 0; i < Util.CALCULATOR_ITEM.length(); i++) {
+      char item = Util.CALCULATOR_ITEM.charAt(i);
+      JButton btnItem = new JButton(String.valueOf(item));
+      btnItem.setActionCommand(String.valueOf(item));
+      btnItem.setFont(Util.CALCULATOR_ITEM_FONT);
+      btnItem.setMargin(this.insets);
+      btnItem.setFocusable(false);
+      btnItem.addActionListener(this);
+      btnItem.addKeyListener(this.buttonKeyAdapter);
+      this.pnlButton.add(btnItem);
+    }
+  }
+
+  /**
+   * 添加事件监听器
+   */
+  private void addListeners() {
+    this.txtView.addKeyListener(this.keyAdapter);
+  }
+
+  /**
+   * 为各组件添加事件的处理方法
+   */
+  public void actionPerformed(ActionEvent e) {
+    String actionCommand = e.getActionCommand();
+    if (Util.isTextEmpty(actionCommand)) {
+      return;
+    }
+    String text = this.txtView.getText();
+    if (actionCommand.equals("C")) {
+      this.clear();
+    } else if (actionCommand.equals("←")) {
+      this.backSpace(text);
+    } else if (actionCommand.equals("%")) {
+      this.percent(text);
+    } else if (actionCommand.equals("π")) {
+      this.pi(text);
+    } else if (actionCommand.equals(".")) {
+      this.dot(text);
+    } else if (actionCommand.equals("＋")) {
+      this.addition(text);
+    } else if (actionCommand.equals("－")) {
+      this.subduction(text);
+    } else if (actionCommand.equals("×")) {
+      this.multiplication(text);
+    } else if (actionCommand.equals("÷")) {
+      this.division(text);
+    } else if (actionCommand.equals("=")) {
+      this.onEnter();
+    } else {
+      this.digit(text, actionCommand);
+    }
+  }
+
+  /**
+   * 清除按钮的处理方法
+   */
+  private void clear() {
+    this.txtView.setText("");
+  }
+
+  /**
+   * 退格按钮的处理方法
+   * 
+   * @param text
+   *          算式
+   */
+  private void backSpace(String text) {
+    if (!Util.isTextEmpty(text)) {
+      this.txtView.setText(text.substring(0, text.length() - 1));
+    }
+  }
+
+  /**
+   * 百分号按钮的处理方法
+   * 
+   * @param text
+   *          算式
+   */
+  private void percent(String text) {
+    if (!Util.isTextEmpty(text)) {
+      char ch = text.charAt(text.length() - 1);
+      if (Character.isDigit(ch) || ch == 'π') {
+        this.txtView.setText(text + "%");
+      } else if (ch == '.') {
+        this.txtView.setText(text + "0%");
+      }
+    }
+  }
+
+  /**
+   * 圆周率按钮的处理方法
+   * 
+   * @param text
+   *          算式
+   */
+  private void pi(String text) {
+    if (!Util.isTextEmpty(text)) {
+      char ch = text.charAt(text.length() - 1);
+      if (Character.isDigit(ch) || ch == '%' || ch == 'π') {
+        this.txtView.setText(text + "×π");
+      } else if (ch == '.') {
+        this.txtView.setText(text + "0×π");
+      } else {
+        this.txtView.setText(text + "π");
+      }
+    } else {
+      this.txtView.setText("π");
+    }
+  }
+
+  /**
+   * 小数点按钮的处理方法
+   * 
+   * @param text
+   *          算式
+   */
+  private void dot(String text) {
+    if (!Util.isTextEmpty(text)) {
+      char ch = text.charAt(text.length() - 1);
+      if (ch == '%' || ch == 'π') {
+        this.txtView.setText(text + "×0.");
+      } else if (this.isOperator(String.valueOf(ch))) {
+        this.txtView.setText(text + "0.");
+      } else if (Character.isDigit(ch) && !this.hasDot(text)) {
+        this.txtView.setText(text + ".");
+      }
+    } else {
+      this.txtView.setText("0.");
+    }
+  }
+
+  /**
+   * 加号按钮的处理方法
+   * 
+   * @param text
+   *          算式
+   */
+  private void addition(String text) {
+    if (!Util.isTextEmpty(text)) {
+      char ch = text.charAt(text.length() - 1);
+      if (text.length() == 1 && ch == '－') {
+        this.txtView.setText("");
+      } else if (ch == '.') {
+        this.txtView.setText(text + "0＋");
+      } else if (Character.isDigit(ch) || ch == '%' || ch == 'π') {
+        this.txtView.setText(text + "＋");
+      }
+    }
+  }
+
+  /**
+   * 减号按钮的处理方法
+   * 
+   * @param text
+   *          算式
+   */
+  private void subduction(String text) {
+    if (!Util.isTextEmpty(text)) {
+      char ch = text.charAt(text.length() - 1);
+      if (ch == '.') {
+        this.txtView.setText(text + "0－");
+      } else if (Character.isDigit(ch) || ch == '%' || ch == 'π') {
+        this.txtView.setText(text + "－");
+      }
+    } else {
+      this.txtView.setText("－");
+    }
+  }
+
+  /**
+   * 乘号按钮的处理方法
+   * 
+   * @param text
+   *          算式
+   */
+  private void multiplication(String text) {
+    if (!Util.isTextEmpty(text)) {
+      char ch = text.charAt(text.length() - 1);
+      if (ch == '.') {
+        this.txtView.setText(text + "0×");
+      } else if (Character.isDigit(ch) || ch == '%' || ch == 'π') {
+        this.txtView.setText(text + "×");
+      }
+    }
+  }
+
+  /**
+   * 除号按钮的处理方法
+   * 
+   * @param text
+   *          算式
+   */
+  private void division(String text) {
+    if (!Util.isTextEmpty(text)) {
+      char ch = text.charAt(text.length() - 1);
+      if (ch == '.') {
+        this.txtView.setText(text + "0÷");
+      } else if (Character.isDigit(ch) || ch == '%' || ch == 'π') {
+        this.txtView.setText(text + "÷");
+      }
+    }
+  }
+
+  /**
+   * 数字按钮的处理方法
+   * 
+   * @param text
+   *          算式
+   * @param number
+   *          当前按钮的数字
+   */
+  private void digit(String text, String number) {
+    if (!Util.isTextEmpty(text)) {
+      char ch = text.charAt(text.length() - 1);
+      if (Character.isDigit(ch) || this.isOperator(String.valueOf(ch)) || ch == '.') {
+        this.txtView.setText(text + number);
+      } else if (ch == '%' || ch == 'π') {
+        this.txtView.setText(text + "×" + number);
+      }
+    } else {
+      this.txtView.setText(number);
+    }
+  }
+
+  /**
+   * 对算式进行计算
+   * 
+   * @param text
+   *          算式
+   */
+  private void equal(String text) {
+    this.list.clear();
+    // 匹配运算符、百分号、π、整数、小数
+    Pattern p = Pattern.compile("[＋－×÷%π]|-?\\d+\\.?\\d*");
+    Matcher m = p.matcher(text);
+    while (m.find()) {
+      String str = m.group();
+      if (str.equals("π")) {
+        str = String.valueOf(Math.PI);
+      }
+      this.list.add(str);
+    }
+    if (this.calculatePercent() && this.calculateFirst() && this.calculateSecond()) {
+      if (this.list.size() == 1) {
+        String result = this.list.get(0);
+        int index = this.getZeroIndex(result);
+        if (index >= 0) {
+          result = result.substring(0, index);
+        }
+        this.txtView.setText(result);
+      }
+    } else {
+      JOptionPane.showMessageDialog(this, "语法错误，请检查！", Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
+  /**
+   * 运算百分比
+   * 
+   * @return 是否运算成功，如果有语法错误则返回false
+   */
+  private boolean calculatePercent() {
+    int size = this.list.size();
+    for (int i = 0; i < size; i++) {
+      String current = this.list.get(i);
+      if (current.equals("%")) {
+        String previous = this.list.get(i - 1);
+        try {
+          BigDecimal number1 = new BigDecimal(previous);
+          BigDecimal number2 = new BigDecimal("0.01");
+          BigDecimal number = number1.multiply(number2);
+          this.list.set(i - 1, number.toString());
+          this.list.remove(i);
+          size--;
+        } catch (Exception x) {
+          // x.printStackTrace();
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  /**
+   * 运算第一优先级×÷
+   * 
+   * @return 是否运算成功，如果有语法错误则返回false
+   */
+  private boolean calculateFirst() {
+    int size = this.list.size();
+    for (int i = 0; i < size; i++) {
+      String current = this.list.get(i);
+      if (current.equals("×")) {
+        if (i == 0 || i == size - 1) {
+          this.list.remove(i);
+          size--;
+        } else if (this.calculateMultiplication(i, size)) {
+          this.list.remove(i);
+          this.list.remove(i);
+          size = size -2;
+          i--;
+        } else {
+          return false;
+        }
+      } else if (current.equals("÷")) {
+        if (i == 0 || i == size - 1) {
+          this.list.remove(i);
+          size--;
+        } else if (this.calculateDivision(i, size)) {
+          this.list.remove(i);
+          this.list.remove(i);
+          size = size -2;
+          i--;
+        } else {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  /**
+   * 运算第二优先级＋－
+   * 
+   * @return 是否运算成功，如果有语法错误则返回false
+   */
+  private boolean calculateSecond() {
+    int size = this.list.size();
+    for (int i = 0; i < size; i++) {
+      String current = this.list.get(i);
+      if (current.equals("＋")) {
+        if (i == 0 || i == size - 1) {
+          this.list.remove(i);
+          size--;
+        } else if (this.calculateAddition(i, size)) {
+          this.list.remove(i);
+          this.list.remove(i);
+          size = size -2;
+          i--;
+        } else {
+          return false;
+        }
+      } else if (current.equals("－")) {
+        if (i == size - 1) {
+          this.list.remove(i);
+          size--;
+        } else if (this.calculateSubduction(i, size)) {
+          if (i == 0) {
+            this.list.remove(i + 1);
+            size--;
+          } else {
+            this.list.remove(i);
+            this.list.remove(i);
+            size = size -2;
+            i--;
+          }
+        } else {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  /**
+   * 乘法
+   * 
+   * @param index
+   *          运算符位于算式中的索引值
+   * @param size
+   *          算式的元素总数
+   * @return 是否运算成功，如果有语法错误则返回false
+   */
+  private boolean calculateMultiplication(int index, int size) {
+    String previous = this.list.get(index - 1);
+    String next = this.list.get(index + 1);
+    try {
+      BigDecimal number1 = new BigDecimal(previous);
+      BigDecimal number2 = new BigDecimal(next);
+      BigDecimal number = number1.multiply(number2);
+      this.list.set(index - 1, number.toString());
+    } catch (Exception x) {
+      // x.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 除法
+   * 
+   * @param index
+   *          运算符位于算式中的索引值
+   * @param size
+   *          算式的元素总数
+   * @return 是否运算成功，如果有语法错误则返回false
+   */
+  private boolean calculateDivision(int index, int size) {
+    String previous = this.list.get(index - 1);
+    String next = this.list.get(index + 1);
+    try {
+      BigDecimal number1 = new BigDecimal(previous);
+      BigDecimal number2 = new BigDecimal(next);
+      BigDecimal number = number1.divide(number2, 10, BigDecimal.ROUND_HALF_UP);
+      this.list.set(index - 1, number.toString());
+    } catch (Exception x) {
+      // x.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 加法
+   * 
+   * @param index
+   *          运算符位于算式中的索引值
+   * @param size
+   *          算式的元素总数
+   * @return 是否运算成功，如果有语法错误则返回false
+   */
+  private boolean calculateAddition(int index, int size) {
+    String previous = this.list.get(index - 1);
+    String next = this.list.get(index + 1);
+    try {
+      BigDecimal number1 = new BigDecimal(previous);
+      BigDecimal number2 = new BigDecimal(next);
+      BigDecimal number = number1.add(number2);
+      this.list.set(index - 1, number.toString());
+    } catch (Exception x) {
+      // x.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 减法
+   * 
+   * @param index
+   *          运算符位于算式中的索引值
+   * @param size
+   *          算式的元素总数
+   * @return 是否运算成功，如果有语法错误则返回false
+   */
+  private boolean calculateSubduction(int index, int size) {
+    String next = this.list.get(index + 1);
+    if (index == 0) {
+      try {
+        BigDecimal number = new BigDecimal(next);
+        this.list.set(index, "-" + number.toString());
+      } catch (Exception x) {
+        // x.printStackTrace();
+        return false;
+      }
+      return true;
+    }
+    String previous = this.list.get(index - 1);
+    try {
+      BigDecimal number1 = new BigDecimal(previous);
+      BigDecimal number2 = new BigDecimal(next);
+      BigDecimal number = number1.subtract(number2);
+      this.list.set(index - 1, number.toString());
+    } catch (Exception x) {
+      // x.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 字符串是否为运算符
+   * 
+   * @param str
+   *          字符串
+   * @return 字符串是否为运算符
+   */
+  private boolean isOperator(String str) {
+    if (Util.isTextEmpty(str)) {
+      return false;
+    } else if (str.equals("＋") || str.equals("－") || str.equals("×") || str.equals("÷")) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * 算式中最后一个元素是否是数字，并且含有小数点
+   * 
+   * @param text
+   *          算式
+   * @return 最后一个元素是否是数字，并且含有小数点为true
+   */
+  private boolean hasDot(String text) {
+    int length = text.length();
+    for (int i = length - 1; i >= 0; i--) {
+      char ch = text.charAt(i);
+      if (ch == '.') {
+        return true;
+      } else if (Character.isDigit(ch)) {
+        continue;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * 获取运算结果的补位0或小数点的索引值
+   * 
+   * @param result
+   *          运算结果
+   * @return 运算结果的补位0或小数点的索引值
+   */
+  private int getZeroIndex(String result) {
+    if (Util.isTextEmpty(result) || !result.contains(".")) {
+      return -1;
+    }
+    int length = result.length();
+    int index = -1;
+    for (int i = length - 1; i >= 0; i--) {
+      char ch = result.charAt(i);
+      if (ch == '.') {
+        return i;
+      } else if (ch == '0') {
+        index = i;
+        continue;
+      } else {
+        if (index > -1) {
+          return index;
+        } else {
+          return -1;
+        }
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * 默认的"确定"操作方法
+   */
+  public void onEnter() {
+    this.equal(this.txtView.getText());
+  }
+
+  /**
+   * 默认的"取消"操作方法
+   */
+  public void onCancel() {
+    this.dispose();
+  }
+
+}

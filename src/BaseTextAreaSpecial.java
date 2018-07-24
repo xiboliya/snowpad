@@ -224,6 +224,9 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
 
   @Override
   public void paste() {
+    if (!this.isEditable()) {
+      return;
+    }
     try {
       Transferable tf = this.clip.getContents(this);
       if (tf != null) {
@@ -253,6 +256,9 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
    * "撤销"的处理方法
    */
   private void undoAction() {
+    if (!this.isEditable()) {
+      return;
+    }
     if (this.undoManager.canUndo()) { // 判断是否可以撤销
       this.undoManager.undo(); // 执行撤销操作
     }
@@ -263,6 +269,9 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
    * "重做"的处理方法
    */
   private void redoAction() {
+    if (!this.isEditable()) {
+      return;
+    }
     if (this.undoManager.canRedo()) { // 判断是否可以重做
       this.undoManager.redo(); // 执行重做操作
     }
@@ -329,8 +338,8 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
         this.itemPopPaste.setEnabled(false);
       } else {
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
-        if (str != null && str.length() > 0 && this.isEditable()) {
-          this.itemPopPaste.setEnabled(true);
+        if (str != null && str.length() > 0) {
+          this.itemPopPaste.setEnabled(this.isEditable());
         }
       }
     } catch (Exception x) {

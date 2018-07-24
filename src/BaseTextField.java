@@ -52,6 +52,7 @@ public class BaseTextField extends JTextField implements ActionListener,
     CaretListener, UndoableEditListener, MouseListener, FocusListener {
   private static final long serialVersionUID = 1L;
   private UndoManager undoManager = new UndoManager(); // 撤销管理器
+  private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private JPopupMenu popMenu = new JPopupMenu();
   private JMenuItem itemPopUnDo = new JMenuItem("撤销(U)", 'U');
   private JMenuItem itemPopReDo = new JMenuItem("重做(Y)", 'Y');
@@ -108,6 +109,18 @@ public class BaseTextField extends JTextField implements ActionListener,
     this();
     if (isSetDocument) {
       this.setDocument(new BasePlainDocument(pattern));
+    }
+  }
+
+  @Override
+  public void setEditable(boolean editable) {
+    super.setEditable(editable);
+    if (!editable) {
+      this.itemPopUnDo.setEnabled(false);
+      this.itemPopReDo.setEnabled(false);
+      this.itemPopCut.setEnabled(false);
+      this.itemPopPaste.setEnabled(false);
+      this.itemPopDel.setEnabled(false);
     }
   }
 
@@ -220,6 +233,9 @@ public class BaseTextField extends JTextField implements ActionListener,
    * "撤销"的处理方法
    */
   private void undoAction() {
+    if (!this.isEditable()) {
+      return;
+    }
     if (this.undoManager.canUndo()) { // 判断是否可以撤销
       this.undoManager.undo(); // 执行撤销操作
     }
@@ -230,6 +246,9 @@ public class BaseTextField extends JTextField implements ActionListener,
    * "重做"的处理方法
    */
   private void redoAction() {
+    if (!this.isEditable()) {
+      return;
+    }
     if (this.undoManager.canRedo()) { // 判断是否可以重做
       this.undoManager.redo(); // 执行重做操作
     }
@@ -240,8 +259,13 @@ public class BaseTextField extends JTextField implements ActionListener,
    * 设置撤销和重做菜单的状态
    */
   private void setMenuStateUndoRedo() {
-    this.itemPopUnDo.setEnabled(this.undoManager.canUndo());
-    this.itemPopReDo.setEnabled(this.undoManager.canRedo());
+    if (!this.isEditable()) {
+      this.itemPopUnDo.setEnabled(false);
+      this.itemPopReDo.setEnabled(false);
+    } else {
+      this.itemPopUnDo.setEnabled(this.undoManager.canUndo());
+      this.itemPopReDo.setEnabled(this.undoManager.canRedo());
+    }
   }
 
   /**
@@ -251,9 +275,14 @@ public class BaseTextField extends JTextField implements ActionListener,
    *          选择是否为空
    */
   private void setMenuStateBySelectedText(boolean isNull) {
+    if (!this.isEditable()) {
+      this.itemPopCut.setEnabled(false);
+      this.itemPopDel.setEnabled(false);
+    } else {
+      this.itemPopCut.setEnabled(isNull);
+      this.itemPopDel.setEnabled(isNull);
+    }
     this.itemPopCopy.setEnabled(isNull);
-    this.itemPopCut.setEnabled(isNull);
-    this.itemPopDel.setEnabled(isNull);
   }
 
   /**
@@ -281,14 +310,13 @@ public class BaseTextField extends JTextField implements ActionListener,
    */
   public void focusGained(FocusEvent e) {
     try {
-      Clipboard clip = this.getToolkit().getSystemClipboard(); // 系统剪贴板
-      Transferable tf = clip.getContents(this);
+      Transferable tf = this.clip.getContents(this);
       if (tf == null) {
         this.itemPopPaste.setEnabled(false);
       } else {
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
         if (str != null && str.length() > 0) {
-          this.itemPopPaste.setEnabled(true);
+          this.itemPopPaste.setEnabled(this.isEditable());
         }
       }
     } catch (Exception x) {
