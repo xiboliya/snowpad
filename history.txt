@@ -1155,3 +1155,7 @@ src/BaseTextField.java
 src/CalculatorDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
+
+2018-07-27
+1.切换外观后，及时销毁计算器界面。
+src/SnowPadFrame.java
