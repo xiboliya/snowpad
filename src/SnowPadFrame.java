@@ -89,6 +89,8 @@ import java.util.List;
  * 冰雪记事本 打造一个与Windows的“记事本”功能相同的java版本。
  * 当然这只是最低要求，最终目标是实现一个可以同时在Windows和Linux下运行的增强型记事本。
  * GitHub：https://github.com/xiboliya/snowpad
+ * 码云：https://gitee.com/xiboliya/snowpad
+ * Coding：https://coding.net/u/xiboliya/p/SnowPad
  * CSDN代码：https://code.csdn.net/chenzhengfeng/snowpad
  * 谷歌代码：http://code.google.com/p/snowpad
  * 
@@ -673,8 +675,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private BaseTextArea getCurrentTextArea() {
     try {
-      JViewport viewport = ((JScrollPane) this.tpnMain.getSelectedComponent())
-          .getViewport();
+      JViewport viewport = ((JScrollPane) this.tpnMain.getSelectedComponent()).getViewport();
       return (BaseTextArea) viewport.getView();
     } catch (Exception x) {
       return null;
@@ -739,10 +740,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     String strStateCurSel = Util.STATE_CUR_SELECT + "0";
     String strStateLineStyle = Util.STATE_LINE_STYLE;
     String strStateEncoding = Util.STATE_ENCODING;
-    this.pnlState.setStringByIndex(0, strStateChars + ", " + strStateLines,
-        StatePanelAlignment.X_CENTER);
-    this.pnlState.setStringByIndex(1, strStateCurLn + ", " + strStateCurCol
-        + ", " + strStateCurSel);
+    this.pnlState.setStringByIndex(0, strStateChars + ", " + strStateLines,StatePanelAlignment.X_CENTER);
+    this.pnlState.setStringByIndex(1, strStateCurLn + ", " + strStateCurCol + ", " + strStateCurSel);
     this.pnlState.setStringByIndex(2, strStateLineStyle);
     this.pnlState.setStringByIndex(3, strStateEncoding);
     this.getContentPane().add(this.pnlState, BorderLayout.SOUTH);
@@ -1799,8 +1798,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "恢复默认设置"的处理方法
    */
   private void resetSetting() {
-    int result = JOptionPane.showConfirmDialog(this, Util
-        .convertToMsg("此操作将恢复所有的设置，并将覆盖" + Util.SETTING_XML + "配置文件！\n是否继续？"),
+    int result = JOptionPane.showConfirmDialog(this,
+        Util.convertToMsg("此操作将恢复所有的设置，并将覆盖" + Util.SETTING_XML + "配置文件！\n是否继续？"),
         Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
     if (result != JOptionPane.YES_OPTION) {
       return;
@@ -1831,8 +1830,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openWindowManageDialog() {
     if (this.windowManageDialog == null) {
-      this.windowManageDialog = new WindowManageDialog(this, true,
-          this.txaMain, this.tpnMain);
+      this.windowManageDialog = new WindowManageDialog(this, true, this.txaMain, this.tpnMain);
     } else {
       this.windowManageDialog.setTextArea(this.txaMain);
       this.windowManageDialog.refresh();
@@ -1895,8 +1893,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (label) {
       strContent = strContent + "\n";
     }
-    this.txaMain.replaceRange(strContent, startIndex, currentLines
-        .getEndIndex());
+    this.txaMain.replaceRange(strContent, startIndex, currentLines.getEndIndex());
     this.txaMain.select(startIndex, startIndex + strContent.length());
   }
 
@@ -1921,8 +1918,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (label) {
       strContent = strContent + "\n";
     }
-    this.txaMain.replaceRange(strContent, startIndex, currentLines
-        .getEndIndex());
+    this.txaMain.replaceRange(strContent, startIndex, currentLines.getEndIndex());
     this.txaMain.select(startIndex, startIndex + strContent.length());
   }
 
@@ -1930,8 +1926,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "双击关闭标签"的处理方法
    */
   private void setClickToClose() {
-    this.setting.viewClickToClose = this.clickToClose = this.itemClickToClose
-        .isSelected();
+    this.setting.viewClickToClose = this.clickToClose = this.itemClickToClose.isSelected();
   }
 
   /**
@@ -2189,6 +2184,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.numberConvertDialog.dispose();
       this.numberConvertDialog = null;
     }
+    if (this.calculatorDialog != null) {
+      this.calculatorDialog.dispose();
+      this.calculatorDialog = null;
+    }
     if (this.helpFrame != null) {
       this.helpFrame.dispose();
       this.helpFrame = null;
@@ -2204,16 +2203,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (UIManager.LookAndFeelInfo info : infos) {
       JRadioButtonMenuItem itemInfo = new JRadioButtonMenuItem(info.getName());
       String className = info.getClassName();
-      itemInfo.setActionCommand(Util.LOOK_AND_FEEL + Util.PARAM_SPLIT
-          + className);
+      itemInfo.setActionCommand(Util.LOOK_AND_FEEL + Util.PARAM_SPLIT + className);
       itemInfo.addActionListener(this);
       this.menuLookAndFeel.add(itemInfo);
       this.bgpLookAndFeel.add(itemInfo);
-      if (this.setting.viewLookAndFeel < 0
-          && Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME.equals(className)) {
+      if (this.setting.viewLookAndFeel < 0 && Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME.equals(className)) {
         itemInfo.setSelected(true);
-      } else if (this.setting.viewLookAndFeel >= 0
-          && this.setting.viewLookAndFeel == index) {
+      } else if (this.setting.viewLookAndFeel >= 0 && this.setting.viewLookAndFeel == index) {
         itemInfo.setSelected(true);
       }
       index++;
@@ -2246,12 +2242,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 在开启"行号栏"设置的情况下，新建或打开新文件时，添加行号栏的显示
    */
   private void setLineNumberForNew() {
-    if (this.textAreaSetting.isLineNumberView
-        && this.itemLineNumber.isEnabled()) {
-      LineNumberView lineNumberView = new LineNumberView(this.textAreaList
-          .getLast());
-      JScrollPane srp = ((JScrollPane) this.tpnMain.getComponentAt(this.tpnMain
-          .getTabCount() - 1));
+    if (this.textAreaSetting.isLineNumberView && this.itemLineNumber.isEnabled()) {
+      LineNumberView lineNumberView = new LineNumberView(this.textAreaList.getLast());
+      JScrollPane srp = ((JScrollPane) this.tpnMain.getComponentAt(this.tpnMain.getTabCount() - 1));
       srp.setRowHeaderView(lineNumberView);
     }
   }
@@ -2480,8 +2473,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openBatchJoinDialog() {
     if (this.batchJoinDialog == null) {
-      this.batchJoinDialog = new BatchJoinDialog(this, true,
-          this.txaMain);
+      this.batchJoinDialog = new BatchJoinDialog(this, true, this.txaMain);
     } else {
       this.batchJoinDialog.setTextArea(this.txaMain);
       this.batchJoinDialog.setVisible(true);
@@ -2520,8 +2512,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (String str : arrText) {
       stbLines.append(str + str + "\n");
     }
-    this.txaMain.replaceSelection(stbLines.deleteCharAt(stbLines.length() - 1)
-        .toString());
+    this.txaMain.replaceSelection(stbLines.deleteCharAt(stbLines.length() - 1).toString());
     this.txaMain.select(startIndex, startIndex + stbLines.length());
   }
 
@@ -2533,8 +2524,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       Hashtable<String, String> hashtable = new Hashtable<String, String>();
       hashtable.put("符号", Util.SIGN_CHARS);
       hashtable.put("编号", Util.IDENTIFIER_CHARS);
-      this.signIdentifierDialog = new SignIdentifierDialog(this, true,
-          this.txaMain, hashtable);
+      this.signIdentifierDialog = new SignIdentifierDialog(this, true, this.txaMain, hashtable);
     } else {
       this.signIdentifierDialog.setVisible(true);
     }
@@ -2589,8 +2579,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         return;
       }
     }
-    this.txaMain.replaceSelection(stbIndent
-        .deleteCharAt(stbIndent.length() - 1).toString()); // 删除字符串末尾多余的换行符
+    this.txaMain.replaceSelection(stbIndent.deleteCharAt(stbIndent.length() - 1).toString()); // 删除字符串末尾多余的换行符
     this.txaMain.select(startIndex, startIndex + stbIndent.length());
   }
 
@@ -2665,13 +2654,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     Color color = Util.COLOR_HIGHLIGHTS[style - 1];
     for (Integer startIndex : linkedList) {
       try {
-        this.txaMain.getHighlighter().addHighlight(startIndex,
-            startIndex + strSelText.length(),
+        this.txaMain.getHighlighter().addHighlight(startIndex, startIndex + strSelText.length(),
             new DefaultHighlighter.DefaultHighlightPainter(color));
-        Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter()
-            .getHighlights();
-        this.txaMain.getHighlighterList().add(
-            new PartnerBean(arrHighlight[arrHighlight.length - 1], style));
+        Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter().getHighlights();
+        this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1], style));
       } catch (BadLocationException x) {
         // x.printStackTrace();
       }
@@ -2693,8 +2679,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (int n = 0; n < this.txaMain.getHighlighterList().size(); n++) {
       partnerBean = this.txaMain.getHighlighterList().get(n);
       if (partnerBean.getIndex() == style) {
-        this.txaMain.getHighlighter().removeHighlight(
-            (Highlighter.Highlight) partnerBean.getObject());
+        this.txaMain.getHighlighter().removeHighlight((Highlighter.Highlight) partnerBean.getObject());
         this.txaMain.getHighlighterList().remove(n);
         n--;
       }
@@ -2709,8 +2694,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (int n = 0; n < this.txaMain.getHighlighterList().size(); n++) {
       partnerBean = this.txaMain.getHighlighterList().get(n);
       if (partnerBean.getIndex() >= 1 && partnerBean.getIndex() <= 5) {
-        this.txaMain.getHighlighter().removeHighlight(
-            (Highlighter.Highlight) partnerBean.getObject());
+        this.txaMain.getHighlighter().removeHighlight((Highlighter.Highlight) partnerBean.getObject());
         this.txaMain.getHighlighterList().remove(n);
         n--;
       }
@@ -2727,12 +2711,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     Color colorFont = this.getConvertColor(this.txaMain.getForeground(), mode);
     Color colorBack = this.getConvertColor(this.txaMain.getBackground(), mode);
     Color colorCaret = this.getConvertColor(this.txaMain.getCaretColor(), mode);
-    Color colorSelFont = this.getConvertColor(this.txaMain
-        .getSelectedTextColor(), mode);
-    Color colorSelBack = this.getConvertColor(this.txaMain.getSelectionColor(),
-        mode);
-    Color[] colorStyle = new Color[] { colorFont, colorBack, colorCaret,
-        colorSelFont, colorSelBack };
+    Color colorSelFont = this.getConvertColor(this.txaMain.getSelectedTextColor(), mode);
+    Color colorSelBack = this.getConvertColor(this.txaMain.getSelectionColor(), mode);
+    Color[] colorStyle = new Color[] { colorFont, colorBack, colorCaret, colorSelFont, colorSelBack };
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(colorStyle);
     }
@@ -2815,8 +2796,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (lineCount < 2) {
       this.txaMain.selectAll();
     } else {
-      this.txaMain.select(currentLines.getStartIndex(), currentLines
-          .getEndIndex());
+      this.txaMain.select(currentLines.getStartIndex(), currentLines.getEndIndex());
     }
     String strSelText = this.txaMain.getSelectedText();
     String[] arrText = strSelText.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
@@ -2847,8 +2827,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       for (String str : arrText) {
         stbSorted.insert(0, str + "\n");
       }
-      this.txaMain.replaceSelection(stbSorted.deleteCharAt(
-          stbSorted.length() - 1).toString()); // 删除字符串末尾多余的换行符
+      this.txaMain.replaceSelection(stbSorted.deleteCharAt(stbSorted.length() - 1).toString()); // 删除字符串末尾多余的换行符
     }
   }
 
@@ -2867,8 +2846,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "上移当前行"的处理方法
    */
   private void moveLineToUp() {
-    CurrentLines currentLines = new CurrentLines(this.txaMain,
-        CurrentLines.LineExtend.EXTEND_UP);
+    CurrentLines currentLines = new CurrentLines(this.txaMain, CurrentLines.LineExtend.EXTEND_UP);
     String strContentExtend = currentLines.getStrContentExtend();
     if (strContentExtend == null) {
       return;
@@ -2880,21 +2858,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (endLineNum == this.txaMain.getLineCount() - 1) {
       // 如果当前实际选区的末行为文本域末行，应作一定处理
       strContentCurrent += "\n";
-      strContentExtend = strContentExtend.substring(0, strContentExtend
-          .length() - 1);
+      strContentExtend = strContentExtend.substring(0, strContentExtend.length() - 1);
     }
     String strMoved = strContentCurrent + strContentExtend;
     this.txaMain.replaceRange(strMoved, startIndex, endIndex);
-    this.txaMain
-        .select(startIndex, startIndex + strContentCurrent.length() - 1);
+    this.txaMain.select(startIndex, startIndex + strContentCurrent.length() - 1);
   }
 
   /**
    * "下移当前行"的处理方法
    */
   private void moveLineToDown() {
-    CurrentLines currentLines = new CurrentLines(this.txaMain,
-        CurrentLines.LineExtend.EXTEND_DOWN);
+    CurrentLines currentLines = new CurrentLines(this.txaMain, CurrentLines.LineExtend.EXTEND_DOWN);
     String strContentExtend = currentLines.getStrContentExtend();
     if (strContentExtend == null) {
       return;
@@ -2907,8 +2882,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     boolean isReachEnd = false;
     if (endLineNum == this.txaMain.getLineCount() - 1) {
       // 如果扩展行为文本域末行，应作一定处理
-      strContentCurrent = strContentCurrent.substring(0, strContentCurrent
-          .length() - 1);
+      strContentCurrent = strContentCurrent.substring(0, strContentCurrent.length() - 1);
       strContentExtend += "\n";
       isReachEnd = true;
     }
@@ -2936,8 +2910,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 清除"选区内空白"的处理方法
    */
   private void trimSelected() {
-    StringBuilder stbSelected = new StringBuilder(this.txaMain
-        .getSelectedText());
+    StringBuilder stbSelected = new StringBuilder(this.txaMain.getSelectedText());
     if (Util.isTextEmpty(stbSelected.toString())) {
       return;
     }
@@ -3039,14 +3012,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.itemLineStyleWin.setSelected(true);
       break;
     case DEFAULT:
-      if (LineSeparator.DEFAULT.toString().equals(
-          LineSeparator.WINDOWS.toString())) {
+      if (LineSeparator.DEFAULT.toString().equals(LineSeparator.WINDOWS.toString())) {
         this.itemLineStyleWin.setSelected(true);
-      } else if (LineSeparator.DEFAULT.toString().equals(
-          LineSeparator.UNIX.toString())) {
+      } else if (LineSeparator.DEFAULT.toString().equals(LineSeparator.UNIX.toString())) {
         this.itemLineStyleUnix.setSelected(true);
-      } else if (LineSeparator.DEFAULT.toString().equals(
-          LineSeparator.MACINTOSH.toString())) {
+      } else if (LineSeparator.DEFAULT.toString().equals(LineSeparator.MACINTOSH.toString())) {
         this.itemLineStyleMac.setSelected(true);
       }
     }
@@ -3064,8 +3034,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       hashtable.put("单位符号", Util.INSERT_UNIT);
       hashtable.put("数字符号", Util.INSERT_DIGIT);
       hashtable.put("拼音符号", Util.INSERT_PINYIN);
-      this.insertCharDialog = new InsertCharDialog(this, false, this.txaMain,
-          hashtable);
+      this.insertCharDialog = new InsertCharDialog(this, false, this.txaMain, hashtable);
     } else if (!this.insertCharDialog.isVisible()) {
       this.insertCharDialog.setTextArea(this.txaMain);
       this.insertCharDialog.setVisible(true);
@@ -3209,8 +3178,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setAfterOpenFile(index);
       this.setFileNameAndPath(file);
     } else {
-      JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + file
-          + " 不存在！"), Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + file + " 不存在！"),
+          Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -3295,8 +3264,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "字体颜色"的处理方法
    */
   private void setFontColor() {
-    Color color = JColorChooser.showDialog(this, "字体颜色", this.txaMain
-        .getForeground());
+    Color color = JColorChooser.showDialog(this, "字体颜色", this.txaMain.getForeground());
     this.changeColorStyle(color, 0);
   }
 
@@ -3304,8 +3272,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "背景颜色"的处理方法
    */
   private void setBackColor() {
-    Color color = JColorChooser.showDialog(this, "背景颜色", this.txaMain
-        .getBackground());
+    Color color = JColorChooser.showDialog(this, "背景颜色", this.txaMain.getBackground());
     this.changeColorStyle(color, 1);
   }
 
@@ -3313,8 +3280,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "光标颜色"的处理方法
    */
   private void setCaretColor() {
-    Color color = JColorChooser.showDialog(this, "光标颜色", this.txaMain
-        .getCaretColor());
+    Color color = JColorChooser.showDialog(this, "光标颜色", this.txaMain.getCaretColor());
     this.changeColorStyle(color, 2);
   }
 
@@ -3322,8 +3288,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "选区字体颜色"的处理方法
    */
   private void setSelFontColor() {
-    Color color = JColorChooser.showDialog(this, "选区字体颜色", this.txaMain
-        .getSelectedTextColor());
+    Color color = JColorChooser.showDialog(this, "选区字体颜色", this.txaMain.getSelectedTextColor());
     this.changeColorStyle(color, 3);
   }
 
@@ -3331,8 +3296,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "选区背景颜色"的处理方法
    */
   private void setSelBackColor() {
-    Color color = JColorChooser.showDialog(this, "选区背景颜色", this.txaMain
-        .getSelectionColor());
+    Color color = JColorChooser.showDialog(this, "选区背景颜色", this.txaMain.getSelectionColor());
     this.changeColorStyle(color, 4);
   }
 
@@ -3340,8 +3304,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "匹配括号背景颜色"的处理方法
    */
   private void setBracketBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", this.txaMain
-        .getBracketBackColor());
+    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", this.txaMain.getBracketBackColor());
     this.changeColorStyle(color, 5);
   }
 
@@ -3349,8 +3312,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "当前行背景颜色"的处理方法
    */
   private void setLineBackColor() {
-    Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.txaMain
-        .getLineBackColor());
+    Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.txaMain.getLineBackColor());
     this.changeColorStyle(color, 6);
     this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
   }
@@ -3577,8 +3539,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setStylePrefix() {
     if (this.txaMain.getStyleChanged()) {
-      if (this.stbTitle.toString().startsWith(
-          Util.TEXT_PREFIX + Util.STYLE_PREFIX)) {
+      if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX + Util.STYLE_PREFIX)) {
       } else if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
         this.stbTitle.insert(1, Util.STYLE_PREFIX);
       } else if (this.stbTitle.toString().startsWith(Util.STYLE_PREFIX)) {
@@ -3586,8 +3547,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.stbTitle.insert(0, Util.STYLE_PREFIX);
       }
     } else {
-      if (this.stbTitle.toString().startsWith(
-          Util.TEXT_PREFIX + Util.STYLE_PREFIX)) {
+      if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX + Util.STYLE_PREFIX)) {
         this.stbTitle.deleteCharAt(1);
       } else if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
       } else if (this.stbTitle.toString().startsWith(Util.STYLE_PREFIX)) {
@@ -3795,8 +3755,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "删除当前文件"的处理方法
    */
   private void deleteFile() {
-    int result = JOptionPane.showConfirmDialog(this, Util
-        .convertToMsg("此操作将删除磁盘文件：" + this.file + "\n是否继续？"), Util.SOFTWARE,
+    int result = JOptionPane.showConfirmDialog(this,
+        Util.convertToMsg("此操作将删除磁盘文件：" + this.file + "\n是否继续？"), Util.SOFTWARE,
         JOptionPane.YES_NO_CANCEL_OPTION);
     if (result != JOptionPane.YES_OPTION) {
       return;
@@ -3804,8 +3764,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.file.delete()) {
       this.closeFile(false);
     } else {
-      JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + this.file
-          + "删除失败！"), Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + this.file + "删除失败！"),
+          Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -3818,8 +3778,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.saveFileChooser.setSelectedFile(this.file);
     this.saveFileChooser.setDialogTitle("重命名");
-    if (JFileChooser.APPROVE_OPTION != this.saveFileChooser
-        .showSaveDialog(this)) {
+    if (JFileChooser.APPROVE_OPTION != this.saveFileChooser.showSaveDialog(this)) {
       return;
     }
     File fileReName = this.saveFileChooser.getSelectedFile();
@@ -4348,9 +4307,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       } else if (this.txaMain.getStyleChanged()) {
         strTemp = "格式";
       }
-      int result = JOptionPane.showConfirmDialog(this, Util.convertToMsg("文件："
-          + this.file + " 的" + strTemp + "已经修改。\n想放弃修改重新载入吗？"), Util.SOFTWARE,
-          JOptionPane.YES_NO_CANCEL_OPTION);
+      int result = JOptionPane.showConfirmDialog(this,
+          Util.convertToMsg("文件：" + this.file + " 的" + strTemp + "已经修改。\n想放弃修改重新载入吗？"),
+          Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result != JOptionPane.YES_OPTION) {
         return;
       }
@@ -4362,9 +4321,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setTextPrefix();
       this.setStylePrefix();
     } else {
-      int result = JOptionPane.showConfirmDialog(this, Util.convertToMsg("文件："
-          + this.file + "不存在。\n要重新创建吗？"), Util.SOFTWARE,
-          JOptionPane.YES_NO_CANCEL_OPTION);
+      int result = JOptionPane.showConfirmDialog(this,
+          Util.convertToMsg("文件：" + this.file + "不存在。\n要重新创建吗？"),
+          Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result == JOptionPane.YES_OPTION) {
         this.checkFile(this.file);
         try {
@@ -4410,8 +4369,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openFileChooser = new OpenFileChooser();
     }
     this.openFileChooser.setSelectedFile(null);
-    if (JFileChooser.APPROVE_OPTION != this.openFileChooser
-        .showOpenDialog(this)) {
+    if (JFileChooser.APPROVE_OPTION != this.openFileChooser.showOpenDialog(this)) {
       return;
     }
     File[] files = this.openFileChooser.getSelectedFiles();
@@ -4448,8 +4406,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
       }
     }
-    if (this.file == null && !this.txaMain.getTextChanged()
-        && !this.txaMain.getStyleChanged()) {
+    if (this.file == null && !this.txaMain.getTextChanged() && !this.txaMain.getStyleChanged()) {
       toCreateNew = false;
     }
     return toCreateNew;
@@ -4487,8 +4444,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openFileChooser = new OpenFileChooser();
     }
     this.openFileChooser.setSelectedFile(null);
-    if (JFileChooser.APPROVE_OPTION != this.openFileChooser
-        .showOpenDialog(this)) {
+    if (JFileChooser.APPROVE_OPTION != this.openFileChooser.showOpenDialog(this)) {
       return;
     }
     File file = this.openFileChooser.getSelectedFile();
@@ -4647,8 +4603,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.checkFileEncoding(file);
       }
       String strCharset = this.txaMain.getCharEncoding().toString();
-      inputStreamReader = new InputStreamReader(new FileInputStream(file),
-          strCharset);
+      inputStreamReader = new InputStreamReader(new FileInputStream(file), strCharset);
       char chrBuf[] = new char[Util.BUFFER_LENGTH];
       int len = 0;
       StringBuilder stbTemp = new StringBuilder();
@@ -4713,8 +4668,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.saveFileChooser.setDialogTitle("保存");
       }
       this.saveFileChooser.setSelectedFile(null);
-      if (JFileChooser.APPROVE_OPTION != this.saveFileChooser
-          .showSaveDialog(this)) {
+      if (JFileChooser.APPROVE_OPTION != this.saveFileChooser.showSaveDialog(this)) {
         return false;
       }
       File file = this.saveFileChooser.getSelectedFile();
@@ -4746,9 +4700,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setTextPrefix();
     this.setStylePrefix();
     if (!isFileExist) {
-      JOptionPane.showMessageDialog(this, Util.convertToMsg("丢失的文件："
-          + this.file.getAbsolutePath() + "\n已重新创建！"), Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      JOptionPane.showMessageDialog(this,
+          Util.convertToMsg("丢失的文件：" + this.file.getAbsolutePath() + "\n已重新创建！"),
+          Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
     }
     this.txaMain.setNewFileIndex(0);
     this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),this.getTabIcon(this.txaMain));
@@ -4788,8 +4742,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     try {
       fileOutputStream = new FileOutputStream(file);
       String strText = this.txaMain.getText();
-      strText = strText.replaceAll(LineSeparator.UNIX.toString(), this.txaMain
-          .getLineSeparator().toString());
+      strText = strText.replaceAll(LineSeparator.UNIX.toString(),
+          this.txaMain.getLineSeparator().toString());
       byte byteStr[];
       int charBOM[] = new int[] { -1, -1, -1 }; // 根据当前的字符编码，存放BOM的数组
       switch (this.txaMain.getCharEncoding()) {
@@ -4839,9 +4793,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          当前编辑的文件
    */
   private void showSaveErrorDialog(File file) {
-    JOptionPane.showMessageDialog(this, Util.convertToMsg("文件："
-        + file.getAbsolutePath() + "\n保存失败！请确认文件名是否有非法字符或是否有写权限！"), Util.SOFTWARE,
-        JOptionPane.CANCEL_OPTION);
+    JOptionPane.showMessageDialog(this,
+        Util.convertToMsg("文件：" + file.getAbsolutePath() + "\n保存失败！请确认文件名是否有非法字符或是否有写权限！"),
+        Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
   }
 
   /**
@@ -4874,8 +4828,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.stbTitle.insert(0, this.file.getAbsolutePath() + " - ");
     }
     this.setTitle(this.stbTitle.toString());
-    this.tpnMain.setTitleAt(this.tpnMain.getSelectedIndex(), this.txaMain
-        .getTitle());
+    this.tpnMain.setTitleAt(this.tpnMain.getSelectedIndex(), this.txaMain.getTitle());
   }
 
   /**
@@ -4885,11 +4838,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.stbTitle = new StringBuilder(Util.SOFTWARE);
     this.file = this.txaMain.getFile();
     if (this.file != null) {
-      this.stbTitle.insert(0, this.txaMain.getPrefix() + this.file.getAbsolutePath()
-          + " - ");
+      this.stbTitle.insert(0, this.txaMain.getPrefix() + this.file.getAbsolutePath() + " - ");
     } else {
-      this.stbTitle.insert(0, this.txaMain.getPrefix() + this.txaMain.getTitle()
-          + " - ");
+      this.stbTitle.insert(0, this.txaMain.getPrefix() + this.txaMain.getTitle() + " - ");
     }
     this.setTitle(this.stbTitle.toString());
   }
@@ -4967,8 +4918,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     String strStateCurLn = Util.STATE_CUR_LINE + curLn;
     String strStateCurCol = Util.STATE_CUR_COLUMN + curCol;
     String strStateCurSel = Util.STATE_CUR_SELECT + curSel;
-    this.pnlState.setStringByIndex(1, strStateCurLn + ", " + strStateCurCol
-        + ", " + strStateCurSel);
+    this.pnlState.setStringByIndex(1, strStateCurLn + ", " + strStateCurCol + ", " + strStateCurSel);
   }
 
   /**
@@ -5098,8 +5048,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     targetIndex = this.getBracketTargetIndex(charLeft, currentIndex, strMain);
     if (targetIndex < 0) {
-      targetIndex = this.getBracketTargetIndex(charRight, ++currentIndex,
-          strMain);
+      targetIndex = this.getBracketTargetIndex(charRight, ++currentIndex, strMain);
       if (targetIndex < 0) {
         this.itemFindBracket.setEnabled(false);
         return;
@@ -5107,19 +5056,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.itemFindBracket.setEnabled(true);
     try {
-      this.txaMain.getHighlighter().addHighlight(currentIndex,
-          currentIndex + 1,
+      this.txaMain.getHighlighter().addHighlight(currentIndex, currentIndex + 1,
           new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
-      Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter()
-          .getHighlights();
-      this.txaMain.getHighlighterList().add(
-          new PartnerBean(arrHighlight[arrHighlight.length - 1],
+      Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter().getHighlights();
+      this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1],
               Util.BRACKET_COLOR_STYLE));
       this.txaMain.getHighlighter().addHighlight(targetIndex, targetIndex + 1,
           new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
       arrHighlight = this.txaMain.getHighlighter().getHighlights();
-      this.txaMain.getHighlighterList().add(
-          new PartnerBean(arrHighlight[arrHighlight.length - 1],
+      this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1],
               Util.BRACKET_COLOR_STYLE));
     } catch (BadLocationException x) {
       // x.printStackTrace();
@@ -5189,9 +5134,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         } else {
           continue; // 如果用户已选择过了“否”或者“取消”，则继续下一个文件的检测
         }
-        int result = JOptionPane.showConfirmDialog(this, Util
-            .convertToMsg("文件：" + this.file + "不存在。\n要重新创建吗？"), Util.SOFTWARE,
-            JOptionPane.YES_NO_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(this,
+            Util.convertToMsg("文件：" + this.file + "不存在。\n要重新创建吗？"),
+            Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
         if (result == JOptionPane.YES_OPTION) {
           this.checkFile(this.file);
           try {
