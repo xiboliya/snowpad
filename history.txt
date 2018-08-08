@@ -1159,3 +1159,14 @@ src/Util.java
 2018-07-27
 1.切换外观后，及时销毁计算器界面。
 src/SnowPadFrame.java
+
+2018-08-08
+1.在“查看”菜单中添加“后退”和“前进”功能，可以后退或前进到当前文本域中光标所在的某一个历史位置。
+res/disable/tool_back.png（添加）
+res/disable/tool_forward.png（添加）
+res/enable/tool_back.png（添加）
+res/enable/tool_forward.png（添加）
+res/help.res
+src/BaseTextArea.java
+src/SnowPadFrame.java
+src/Util.java
