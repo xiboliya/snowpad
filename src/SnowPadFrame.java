@@ -217,6 +217,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem("Unicode Big Endian格式");
   private JMenuItem itemSignIdentifier = new JMenuItem("列表符号与编号(G)...", 'G');
   private JMenu menuView = new JMenu("查看(V)");
+  private JMenuItem itemBack = new JMenuItem("后退(O)", 'O');
+  private JMenuItem itemForward = new JMenuItem("前进(Q)", 'Q');
   private JCheckBoxMenuItem itemToolBar = new JCheckBoxMenuItem("工具栏(T)");
   private JCheckBoxMenuItem itemStateBar = new JCheckBoxMenuItem("状态栏(S)");
   private JCheckBoxMenuItem itemLineNumber = new JCheckBoxMenuItem("行号栏(L)");
@@ -530,6 +532,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemReset.addActionListener(this);
     this.itemAlwaysOnTop.addActionListener(this);
     this.itemLockResizable.addActionListener(this);
+    this.itemBack.addActionListener(this);
+    this.itemForward.addActionListener(this);
     this.itemTabPolicy.addActionListener(this);
     this.itemClickToClose.addActionListener(this);
     this.itemTabIcon.addActionListener(this);
@@ -723,6 +727,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       case 10:
       case 12:
       case 14:
+      case 16:
         this.tlbMain.addSeparator();
         break;
       }
@@ -880,6 +885,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStyle.addSeparator();
     this.menuStyle.add(this.itemReset);
     this.menuBar.add(this.menuView);
+    this.menuView.add(this.itemBack);
+    this.menuView.add(this.itemForward);
+    this.menuView.addSeparator();
     this.menuView.add(this.itemToolBar);
     this.menuView.add(this.itemStateBar);
     this.menuView.add(this.itemLineNumber);
@@ -1053,6 +1061,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemTextDrag);
     this.menuItemList.add(this.itemAutoIndent);
     this.menuItemList.add(this.itemReset);
+    this.menuItemList.add(this.itemBack);
+    this.menuItemList.add(this.itemForward);
     this.menuItemList.add(this.itemToolBar);
     this.menuItemList.add(this.itemStateBar);
     this.menuItemList.add(this.itemLineNumber);
@@ -1192,6 +1202,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTrimSelected.setEnabled(false);
     this.itemDelNullLineSelected.setEnabled(false);
     this.itemSignIdentifier.setEnabled(false);
+    this.itemBack.setEnabled(false);
+    this.itemForward.setEnabled(false);
     this.itemLineNumber.setEnabled(false);
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
@@ -1210,6 +1222,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.toolButtonList.get(10).setEnabled(false);
     this.toolButtonList.get(11).setEnabled(false);
     this.toolButtonList.get(12).setEnabled(false);
+    this.toolButtonList.get(15).setEnabled(false);
+    this.toolButtonList.get(16).setEnabled(false);
     this.setFileHistoryMenuEnabled();
   }
 
@@ -1240,7 +1254,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTabPolicy.setSelected(this.setting.viewTabPolicy);
     this.itemClickToClose.setSelected(this.setting.viewClickToClose);
     this.itemTabIcon.setSelected(this.setting.viewTabIcon);
-    this.toolButtonList.get(15).setSelected(this.textAreaSetting.isLineWrap);
+    this.toolButtonList.get(17).setSelected(this.textAreaSetting.isLineWrap);
     this.setLineWrap();
     this.setLineWrapStyle();
     this.setTextDrag();
@@ -1351,6 +1365,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopReDo.setEnabled(canRedo);
     this.toolButtonList.get(9).setEnabled(canUndo);
     this.toolButtonList.get(10).setEnabled(canRedo);
+  }
+
+  /**
+   * 设置后退和前进菜单的状态
+   */
+  private void setMenuStateBackForward() {
+    LinkedList<PartnerBean> backForwardList = this.txaMain.getBackForwardList();
+    int size = backForwardList.size();
+    int backForwardIndex = this.txaMain.getBackForwardIndex();
+    boolean canBack = backForwardIndex < (size - 1);
+    boolean canForward = backForwardIndex > Util.DEFAULT_BACK_FORWARD_INDEX;
+    this.itemBack.setEnabled(canBack);
+    this.toolButtonList.get(15).setEnabled(canBack);
+    this.itemForward.setEnabled(canForward);
+    this.toolButtonList.get(16).setEnabled(canForward);
   }
 
   /**
@@ -1570,10 +1599,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemCalculator.equals(e.getSource())) {
       this.openCalculatorDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
-      this.toolButtonList.get(15).setSelected(this.itemLineWrap.isSelected());
+      this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
-    } else if (this.toolButtonList.get(15).equals(e.getSource())) {
-      this.itemLineWrap.setSelected(this.toolButtonList.get(15).isSelected());
+    } else if (this.toolButtonList.get(17).equals(e.getSource())) {
+      this.itemLineWrap.setSelected(this.toolButtonList.get(17).isSelected());
       this.setLineWrap();
     } else if (this.itemLineWrapByWord.equals(e.getSource())) {
       this.setLineWrapStyle();
@@ -1670,6 +1699,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemDelFile.equals(e.getSource())
         || this.itemPopDelFile.equals(e.getSource())) {
       this.deleteFile();
+    } else if (this.itemBack.equals(e.getSource())
+        || this.toolButtonList.get(15).equals(e.getSource())) {
+      this.back();
+    } else if (this.itemForward.equals(e.getSource())
+        || this.toolButtonList.get(16).equals(e.getSource())) {
+      this.forward();
     } else if (this.itemToolBar.equals(e.getSource())) {
       this.setToolBar();
     } else if (this.itemStateBar.equals(e.getSource())) {
@@ -3840,6 +3875,46 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * "后退"的处理方法
+   */
+  private void back() {
+    LinkedList<PartnerBean> backForwardList = this.txaMain.getBackForwardList();
+    if (backForwardList.size() >= 2) {
+      int backForwardIndex = this.txaMain.getBackForwardIndex();
+      int length = this.txaMain.getText().length();
+      Integer cursorIndex = (Integer)backForwardList.get(backForwardIndex + 1).getObject();
+      if (length <= 0) {
+        cursorIndex = 0;
+      } else if (length <= cursorIndex) {
+        cursorIndex = length - 1;
+      }
+      this.txaMain.setBackForwardIndex(backForwardIndex + 1);
+      this.txaMain.setCaretPosition(cursorIndex);
+    }
+    this.setMenuStateBackForward();
+  }
+
+  /**
+   * "前进"的处理方法
+   */
+  private void forward() {
+    LinkedList<PartnerBean> backForwardList = this.txaMain.getBackForwardList();
+    if (backForwardList.size() >= 2) {
+      int backForwardIndex = this.txaMain.getBackForwardIndex();
+      int length = this.txaMain.getText().length();
+      Integer cursorIndex = (Integer)backForwardList.get(backForwardIndex - 1).getObject();
+      if (length <= 0) {
+        cursorIndex = 0;
+      } else if (length <= cursorIndex) {
+        cursorIndex = length - 1;
+      }
+      this.txaMain.setBackForwardIndex(backForwardIndex - 1);
+      this.txaMain.setCaretPosition(cursorIndex);
+    }
+    this.setMenuStateBackForward();
+  }
+
+  /**
    * "时间/日期"的处理方法
    */
   private void openInsertDateDialog() {
@@ -4353,6 +4428,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.undoManager.discardAllEdits();
     this.txaMain.setUndoIndex(Util.DEFAULT_UNDO_INDEX); // 撤销标识符恢复默认值
     this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
+    this.setMenuStateBackForward(); // 设置后退和前进菜单的状态
     this.itemReOpen.setEnabled(true);
     this.itemReName.setEnabled(true);
     this.itemDelFile.setEnabled(true);
@@ -5072,6 +5148,46 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * 刷新光标历史位置的链表
+   */
+  private void refreshBackForwardList() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int currentIndex = currentLine.getCurrentIndex();
+    int lineNum = currentLine.getLineNum();
+    LinkedList<PartnerBean> backForwardList = this.txaMain.getBackForwardList();
+    int backForwardIndex = this.txaMain.getBackForwardIndex();
+    int size = backForwardList.size();
+    boolean exist = false;
+    for (int i = 0; i < size; i++) {
+      PartnerBean bean = backForwardList.get(i);
+      if (bean.getIndex() == lineNum) {
+        bean.setObject(currentIndex);
+        if (backForwardIndex == Util.DEFAULT_BACK_FORWARD_INDEX) {
+          backForwardList.remove(i);
+          backForwardList.addFirst(bean);
+        }
+        exist = true;
+        break;
+      }
+    }
+    if (!exist) {
+      // 如果处于已后退的状态下，如果当前光标所在行不在历史记录里，则将后退的历史位置进行反转。
+      if (backForwardIndex != Util.DEFAULT_BACK_FORWARD_INDEX) {
+        for (int i = 0; i <= backForwardIndex; i++) {
+          PartnerBean bean = backForwardList.remove(i);
+          backForwardList.addFirst(bean);
+        }
+        this.txaMain.setBackForwardIndex(Util.DEFAULT_BACK_FORWARD_INDEX);
+      }
+      if (size >= Util.BACK_FORWARD_MAX) {
+        backForwardList.removeLast();
+      }
+      backForwardList.addFirst(new PartnerBean(currentIndex, lineNum));
+    }
+    this.setMenuStateBackForward();
+  }
+
+  /**
    * 当文本域中的光标变化时，将触发此事件
    */
   public void caretUpdate(CaretEvent e) {
@@ -5079,6 +5195,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.updateStateCur();
     this.setMenuStateBySelectedText();
     this.searchTargetBracket();
+    this.refreshBackForwardList();
   }
 
   /**
@@ -5190,6 +5307,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setTextAreaInDialogs();
         this.undoManager = this.txaMain.getUndoManager();
         this.setMenuStateUndoRedo();
+        this.setMenuStateBackForward();
         this.setMenuStateComment();
         this.setMenuStateByTextArea();
         this.setMenuStateBySelectedText();

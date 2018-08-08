@@ -65,6 +65,8 @@ public class BaseTextArea extends JTextArea {
   private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
   private Color bracketBackColor = Util.COLOR_BRACKET; // 需绘制的匹配括号的背景颜色
   private Color lineBackColor = Util.COLOR_CURRENT_LINE; // 需绘制的当前行的背景颜色
+  private LinkedList<PartnerBean> backForwardList = new LinkedList<PartnerBean>(); // 存放光标在文本域中历史位置的链表
+  private int backForwardIndex = Util.DEFAULT_BACK_FORWARD_INDEX; // 光标历史位置，初始化为默认值
 
   /**
    * 默认的构造方法
@@ -139,18 +141,10 @@ public class BaseTextArea extends JTextArea {
   private void disableShortcut() {
     // 屏蔽JTextArea组件的默认热键：Ctrl+C、Ctrl+H、Ctrl+V、Ctrl+X
     InputMap inputMap = this.getInputMap();
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK),
-        "CTRL_C");
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK),
-        "CTRL_H");
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK),
-        "CTRL_V");
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK),
-        "CTRL_X");
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), "CTRL_C");
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK), "CTRL_H");
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), "CTRL_V");
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), "CTRL_X");
   }
 
   /**
@@ -477,5 +471,17 @@ public class BaseTextArea extends JTextArea {
 
   public void setLineBackColor(Color lineBackColor) {
     this.lineBackColor = lineBackColor;
+  }
+
+  public LinkedList<PartnerBean> getBackForwardList() {
+    return this.backForwardList;
+  }
+
+  public int getBackForwardIndex() {
+    return this.backForwardIndex;
+  }
+
+  public void setBackForwardIndex(int backForwardIndex) {
+    this.backForwardIndex = backForwardIndex;
   }
 }

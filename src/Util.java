@@ -122,7 +122,7 @@ public final class Util {
   public static final String[] TRADITIONAL_CHINESE_UNITS = new String[] { "", "拾", "佰", "仟", "万", "拾", "佰", "仟", "亿", "拾" }; // 繁体数字单位
   public static final String LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz"; // 小写英文字母
   public static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "新建", "打开", "保存", "另存为", "关闭", "关闭全部", "剪切", "复制", "粘贴",
-      "撤销", "重做", "查找", "替换", "字体放大", "字体缩小", "自动换行" }; // 工具栏提示信息
+      "撤销", "重做", "查找", "替换", "字体放大", "字体缩小", "后退", "前进", "自动换行" }; // 工具栏提示信息
   public static final String[] WINDOW_MANAGE_TABLE_TITLE_TEXTS = new String[] { "文件名", "路径", "类型" }; // 窗口管理界面的表格标题
   public static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] { "功能", "快捷键" }; // 快捷键管理界面的表格标题
   public static final String[] SHORTCUT_NAMES = new String[] {
@@ -134,7 +134,7 @@ public final class Util {
       "清除行首和行尾空白","清除选区内空白","删除全文空行","删除选区空行","添加单行注释","添加区块注释","插入特殊字符","插入时间和日期","复写选区字符","反转选区字符",
       "查找","查找下一个","查找上一个","选定查找下一个","选定查找上一个","快速向下查找","快速向上查找","替换","转到","定位匹配括号",
       "单词边界换行","字符边界换行","Windows换行符格式","Unix/Linux换行符格式","Macintosh换行符格式","默认GB18030编码格式","ANSI编码格式","UTF-8编码格式","UTF-8 No BOM编码格式","Unicode Little Endian编码格式",
-      "Unicode Big Endian编码格式","列表符号与编号","字体","Tab键设置","自动完成","自动换行","文本拖拽","自动缩进","恢复默认设置","显示/隐藏工具类",
+      "Unicode Big Endian编码格式","列表符号与编号","字体","Tab键设置","自动完成","自动换行","文本拖拽","自动缩进","恢复默认设置","后退","前进","显示/隐藏工具栏",
       "显示/隐藏状态栏","显示/隐藏行号栏","显示/隐藏查找结果面板","前端显示","锁定窗口","多行标签","双击关闭标签","显示/隐藏指示图标","字体放大","字体缩小",
       "字体恢复初始大小","字体颜色","背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","全部反色","全部补色",
       "配色方案1","配色方案2","配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4",
@@ -150,7 +150,7 @@ public final class Util {
       "Ctrl+Shift+76","Ctrl+Shift+84","Ctrl+Alt+65","Ctrl+Alt+83","Ctrl+76","Ctrl+77","","116","Ctrl+82","Ctrl+73",
       "Ctrl+70","114","Shift+114","Ctrl+114","Ctrl+Shift+114","Ctrl+75","Ctrl+Shift+75","Ctrl+72","Ctrl+71","Ctrl+66",
       "","","","","","","","","","",
-      "","","","","","","","","","",
+      "","","","","","","","","","","","",
       "","","","","","","","","Ctrl+38","Ctrl+40",
       "Ctrl+47","","","","","","","","","",
       "","","","","","","","","","",
@@ -184,7 +184,9 @@ public final class Util {
   public static final int MAX_TABSIZE = 99; // Tab字符最大值
   public static final int DEFAULT_TABSIZE = 4; // Tab字符默认值
   public static final int FILE_HISTORY_MAX = 15; // 最近编辑文件的最大存储个数
+  public static final int BACK_FORWARD_MAX = 10; // 光标历史位置的最大存储个数
   public static final int DEFAULT_UNDO_INDEX = 0; // 撤销标识符的默认值
+  public static final int DEFAULT_BACK_FORWARD_INDEX = 0; // 光标历史位置的默认值
   public static final int INSERT_MAX_ROW = 10; // 插入字符界面的最大行数
   public static final int INSERT_MAX_COLUMN = 10; // 插入字符界面的最大列数
   public static final int INSERT_MAX_ELEMENT = INSERT_MAX_ROW * INSERT_MAX_COLUMN; // 插入字符界面的最大元素数
@@ -265,6 +267,8 @@ public final class Util {
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_replace.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_font_size_plus.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_font_size_minus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_back.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_forward.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_line_wrap.png")) }; // 工具栏可用状态的图标
   public static final ImageIcon[] TOOL_DISABLE_ICONS = new ImageIcon[] {
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_new.png")),
@@ -282,6 +286,8 @@ public final class Util {
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_replace.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_font_size_plus.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_font_size_minus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_back.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_forward.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_line_wrap.png")) }; // 工具栏禁用状态的图标
 
   public static int transfer_count = 0; // 查找或替换时，启用“转义扩展”后被转义的字符个数
@@ -419,8 +425,7 @@ public final class Util {
    *          欲保存文件的扩展名
    * @return 格式化后的文件
    */
-  public static File checkFileName(String strFileName,
-      BaseFileFilter fileFilter, String strExt) {
+  public static File checkFileName(String strFileName, BaseFileFilter fileFilter, String strExt) {
     if (isTextEmpty(strFileName) || fileFilter == null || isTextEmpty(strExt)) {
       return null;
     }
