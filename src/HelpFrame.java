@@ -54,9 +54,9 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
     this.setLocationRelativeTo(null); // 使窗口居中显示
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.init();
+    this.addListeners();
     this.initTree();
     this.setIcon();
-    this.addListeners();
     this.setVisible(true);
   }
 
@@ -69,8 +69,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
     this.spnMain.setRightComponent(new JScrollPane(this.txaMain));
     this.spnMain.setDividerLocation(120);
     this.spnMain.setResizeWeight(0.3);
-    this.treeMain.getSelectionModel().setSelectionMode(
-        TreeSelectionModel.SINGLE_TREE_SELECTION); // 设置JTree组件一次只能选择一个节点
+    this.treeMain.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); // 设置JTree组件一次只能选择一个节点
     this.txaMain.setEditable(false);
     this.txaMain.setLineWrap(true);
     this.txaMain.setWrapStyleWord(true);
@@ -87,8 +86,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
     URL url = ClassLoader.getSystemResource("res/help.res");
     BufferedReader reader = null;
     try {
-      reader = new BufferedReader(new InputStreamReader(url.openStream(),
-          "GB18030"));
+      reader = new BufferedReader(new InputStreamReader(url.openStream(), "GB18030"));
       String line = reader.readLine();
       while (line != null) {
         if (line.trim().length() < 3) {
@@ -102,31 +100,29 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
           this.treeNode.setContent(Util.transfer(splitLine[0]));
           break;
         case '1':
-          treeNodeLevel1 = new BaseTreeNode(splitLine[0], Util
-              .transfer(splitLine[1]));
+          treeNodeLevel1 = new BaseTreeNode(splitLine[0], Util.transfer(splitLine[1]));
           this.treeNode.add(treeNodeLevel1);
           break;
         case '2':
           if (treeNodeLevel1 != null) {
-            treeNodeLevel1.add(treeNodeLevel2 = new BaseTreeNode(splitLine[0],
-                Util.transfer(splitLine[1])));
+            treeNodeLevel1.add(treeNodeLevel2 = new BaseTreeNode(splitLine[0], Util.transfer(splitLine[1])));
           }
           break;
         case '3':
           if (treeNodeLevel2 != null) {
-            treeNodeLevel2.add(treeNodeLevel3 = new BaseTreeNode(splitLine[0],
-                Util.transfer(splitLine[1])));
+            treeNodeLevel2.add(treeNodeLevel3 = new BaseTreeNode(splitLine[0], Util.transfer(splitLine[1])));
           }
           break;
         case '4':
           if (treeNodeLevel3 != null) {
-            treeNodeLevel3.add(new BaseTreeNode(splitLine[0], Util
-                .transfer(splitLine[1])));
+            treeNodeLevel3.add(new BaseTreeNode(splitLine[0], Util.transfer(splitLine[1])));
           }
           break;
         }
         line = reader.readLine();
       }
+    this.treeMain.expandRow(0); // 展开第一级节点
+    this.treeMain.setSelectionRow(0); // 选择首行节点
     } catch (Exception x) {
       // x.printStackTrace();
     } finally {
@@ -160,13 +156,11 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
    * 当监听的JTree组件选择发生变化时，将触发此事件
    */
   public void valueChanged(TreeSelectionEvent e) {
-    BaseTreeNode treeNode = (BaseTreeNode) this.treeMain
-        .getLastSelectedPathComponent();
+    BaseTreeNode treeNode = (BaseTreeNode) this.treeMain.getLastSelectedPathComponent();
     if (treeNode == null) {
       return;
     }
-    this.stbTitle = new StringBuilder(Util.HELP_TITLE + " - "
-        + treeNode.toString());
+    this.stbTitle = new StringBuilder(Util.HELP_TITLE + " - " + treeNode.toString());
     this.setTitle(this.stbTitle.toString());
     this.txaMain.setText(treeNode.getContent());
   }
