@@ -1170,3 +1170,11 @@ res/help.res
 src/BaseTextArea.java
 src/SnowPadFrame.java
 src/Util.java
+
+2018-08-10
+1.帮助主题界面打开时，默认展开第一级节点。
+res/help.res
+src/HelpFrame.java
+2.修改编译部署文件，在javac中修改target和source选项，以将java编译器设置为jdk1.6。
+build.xml
+
