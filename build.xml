@@ -23,7 +23,7 @@
     </copy>
   </target>
   <target name="compile" depends="init" description="编译代码">
-    <javac target="1.5" source="1.5" srcdir="${srcDir}" destdir="${binDir}" includeAntRuntime="false" encoding="GB18030">
+    <javac target="1.6" source="1.6" srcdir="${srcDir}" destdir="${binDir}" includeAntRuntime="false" encoding="GB18030">
       <compilerarg value="-Xlint:unchecked"/>
       <compilerarg value="-Xlint:deprecation"/>
     </javac>
