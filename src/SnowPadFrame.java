@@ -119,6 +119,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemCloseRight = new JMenuItem("关闭右侧(G)", 'G');
   private JMenuItem itemCloseAll = new JMenuItem("关闭全部(Q)", 'Q');
   private JCheckBoxMenuItem itemFrozenFile = new JCheckBoxMenuItem("冻结文件(Z)");
+  private JMenuItem itemPrint = new JMenuItem("打印(P)...");
   private JMenuItem itemDelFile = new JMenuItem("删除当前文件(D)", 'D');
   private JMenu menuFileHistory = new JMenu("最近编辑(H)");
   private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表(Y)", 'Y');
@@ -618,6 +619,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCloseRight.addActionListener(this);
     this.itemCloseAll.addActionListener(this);
     this.itemFrozenFile.addActionListener(this);
+    this.itemPrint.addActionListener(this);
     this.itemDelFile.addActionListener(this);
     this.itemClearFileHistory.addActionListener(this);
     this.itemSelAll.addActionListener(this);
@@ -775,6 +777,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuFile.add(this.itemCloseAll);
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemFrozenFile);
+    this.menuFile.addSeparator();
+    this.menuFile.add(this.itemPrint);
     this.menuFile.addSeparator();
     this.menuFile.add(this.menuFileHistory);
     this.menuFile.add(this.itemClearFileHistory);
@@ -985,6 +989,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemCloseRight);
     this.menuItemList.add(this.itemCloseAll);
     this.menuItemList.add(this.itemFrozenFile);
+    this.menuItemList.add(this.itemPrint);
     this.menuItemList.add(this.itemClearFileHistory);
     this.menuItemList.add(this.itemExit);
     this.menuItemList.add(this.itemUnDo);
@@ -1696,6 +1701,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemPopFrozenFile.equals(e.getSource())) {
       this.itemFrozenFile.setSelected(this.itemPopFrozenFile.isSelected());
       this.frozenFile();
+    } else if (this.itemPrint.equals(e.getSource())) {
+      this.print();
     } else if (this.itemDelFile.equals(e.getSource())
         || this.itemPopDelFile.equals(e.getSource())) {
       this.deleteFile();
@@ -2070,6 +2077,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.txaMain.setFrozen(isFrozen);
     int index = this.tpnMain.getSelectedIndex();
     this.tpnMain.setIconAt(index, this.getTabIcon(this.txaMain));
+  }
+
+  /**
+   * "打印"的处理方法
+   */
+  private void print() {
+    try {
+      this.txaMain.print();
+    } catch (Exception x) {
+      x.printStackTrace();
+    }
   }
 
   /**
