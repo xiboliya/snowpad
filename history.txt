@@ -1184,3 +1184,6 @@ res/help.res
 src/SnowPadFrame.java
 src/Util.java
 
+2018-08-16
+1.修改“帮助主题”内容。
+res/help.res
