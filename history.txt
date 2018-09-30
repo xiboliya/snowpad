@@ -1195,3 +1195,7 @@ src/Setting.java
 src/SettingAdapter.java
 src/SnowPadFrame.java
 src/Util.java
+
+******************************
+git tag SnowPad-V4.3-20180930
+******************************
