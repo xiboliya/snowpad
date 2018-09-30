@@ -28,6 +28,7 @@
     <viewClickToClose note="是否双击关闭标签">true</viewClickToClose>
     <viewTabIcon note="是否显示指示图标">true</viewTabIcon>
     <viewLookAndFeel note="当前外观">-1</viewLookAndFeel>
+    <viewFrameSize width="600" height="500" note="窗口大小"/>
   </View>
   <Files note="所有已打开的文件">
     <file/>

@@ -68,6 +68,8 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -98,7 +100,7 @@ import java.util.List;
  * 
  */
 public class SnowPadFrame extends JFrame implements ActionListener,
-    CaretListener, UndoableEditListener, WindowFocusListener, ChangeListener, DropTargetListener {
+    CaretListener, UndoableEditListener, WindowFocusListener, ChangeListener, DropTargetListener, ComponentListener {
   private static final long serialVersionUID = 1L; // 序列化运行时使用的一个版本号，以与当前可序列化类相关联
   private BaseTextArea txaMain = null; // 当前编辑的文本域
   private JTabbedPane tpnMain = new JTabbedPane(); // 显示文本域的选项卡组件
@@ -376,7 +378,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.settingAdapter = settingAdapter;
     this.initTextAreaSetting();
     this.setTitle(this.stbTitle.toString());
-    this.setSize(600, 500);
+    this.setSize();
     this.setMinimumSize(new Dimension(300, 300)); // 设置主界面的最小尺寸
     this.setLocationRelativeTo(null); // 使窗口居中显示
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // 设置默认关闭操作为空，以便添加窗口监听事件
@@ -404,6 +406,30 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
         this.setting, false);
+  }
+
+  /**
+   * 设置窗口的大小
+   */
+  private void setSize() {
+    int width = Util.DEFAULT_FRAME_WIDTH;
+    int height = Util.DEFAULT_FRAME_HEIGHT;
+    if (this.setting.viewFrameSize != null) {
+      width = this.setting.viewFrameSize[0];
+      height = this.setting.viewFrameSize[1];
+    }
+    if (width > 0 && height > 0) {
+      this.setSize(width, height);
+    } else if (width <= 0 && height <= 0) {
+      this.setSize(Util.DEFAULT_FRAME_WIDTH, Util.DEFAULT_FRAME_HEIGHT);
+      this.setExtendedState(MAXIMIZED_BOTH);
+    } else if (width <= 0) {
+      this.setSize(Util.DEFAULT_FRAME_WIDTH, height);
+      this.setExtendedState(MAXIMIZED_HORIZ);
+    } else {
+      this.setSize(width, Util.DEFAULT_FRAME_HEIGHT);
+      this.setExtendedState(MAXIMIZED_VERT);
+    }
   }
 
   /**
@@ -637,6 +663,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     });
     // 为窗口添加焦点监听器
     this.addWindowFocusListener(this);
+    // 为窗口添加组件监听器
+    this.addComponentListener(this);
     this.addTabbedPaneMouseListener();
     this.pnlSearchResult.getCloseButton().addActionListener(this);
   }
@@ -5390,6 +5418,47 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       // x.printStackTrace();
       e.rejectDrop(); // 如果放置过程中出现异常，则拒绝操作
     }
+  }
+
+  /**
+   * 窗口大小更改时，调用此方法。
+   */
+  public void componentResized(ComponentEvent e) {
+    int width = this.getWidth();
+    int height = this.getHeight();
+    int state = this.getExtendedState();
+    if (state == MAXIMIZED_BOTH) {
+      width = 0;
+      height = 0;
+    } else if (state == MAXIMIZED_HORIZ) {
+      width = 0;
+    } else if (state == MAXIMIZED_VERT) {
+      height = 0;
+    }
+    if (this.setting.viewFrameSize == null) {
+      this.setting.viewFrameSize = new int[] { width, height };
+    } else {
+      this.setting.viewFrameSize[0] = width;
+      this.setting.viewFrameSize[1] = height;
+    }
+  }
+
+  /**
+   * 窗口位置更改时，调用此方法。
+   */
+  public void componentMoved(ComponentEvent e) {
+  }
+
+  /**
+   * 窗口变得可见时，调用此方法。
+   */
+  public void componentShown(ComponentEvent e) {
+  }
+
+  /**
+   * 窗口变得不可见时，调用此方法。
+   */
+  public void componentHidden(ComponentEvent e) {
   }
 
 }

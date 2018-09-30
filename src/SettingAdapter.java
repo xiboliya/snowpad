@@ -335,6 +335,24 @@ public final class SettingAdapter {
             this.setting.viewLookAndFeel = id;
           }
         }
+      } else {
+        if (node.getNodeName().equalsIgnoreCase("viewFrameSize")) {
+          String strWidth = ((Element) node).getAttribute("width");
+          String strHeight = ((Element) node).getAttribute("height");
+          int width = Util.DEFAULT_FRAME_WIDTH;
+          int height = Util.DEFAULT_FRAME_HEIGHT;
+          try {
+            width = Integer.parseInt(strWidth);
+          } catch (NumberFormatException x) {
+            // x.printStackTrace();
+          }
+          try {
+            height = Integer.parseInt(strHeight);
+          } catch (NumberFormatException x) {
+            // x.printStackTrace();
+          }
+          this.setting.viewFrameSize = new int[] { width, height };
+        }
       }
     }
   }
@@ -467,10 +485,8 @@ public final class SettingAdapter {
         if (node.getNodeName().equalsIgnoreCase("font")) {
           Element element = (Element) node;
           element.setAttribute("name", this.setting.font.getFamily());
-          element.setAttribute("style", String.valueOf(this.setting.font
-              .getStyle()));
-          element.setAttribute("size", String.valueOf(this.setting.font
-              .getSize()));
+          element.setAttribute("style", String.valueOf(this.setting.font.getStyle()));
+          element.setAttribute("size", String.valueOf(this.setting.font.getSize()));
         } else if (node.getNodeName().equalsIgnoreCase("colorStyle")) {
           if (this.setting.colorStyle != null) {
             Element element = (Element) node;
@@ -575,6 +591,12 @@ public final class SettingAdapter {
           node.setTextContent(String.valueOf(this.setting.viewTabIcon));
         } else if (key.equalsIgnoreCase("viewLookAndFeel")) {
           node.setTextContent(String.valueOf(this.setting.viewLookAndFeel));
+        }
+      } else {
+        if (node.getNodeName().equalsIgnoreCase("viewFrameSize")) {
+          Element element = (Element) node;
+          element.setAttribute("width", String.valueOf(this.setting.viewFrameSize[0]));
+          element.setAttribute("height", String.valueOf(this.setting.viewFrameSize[1]));
         }
       }
     }
