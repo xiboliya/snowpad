@@ -1187,3 +1187,11 @@ src/Util.java
 2018-08-16
 1.修改“帮助主题”内容。
 res/help.res
+
+2018-09-30
+1.添加保存上次关闭程序时窗口的大小，下次启动程序时恢复窗口大小。
+res/snowpad.xml
+src/Setting.java
+src/SettingAdapter.java
+src/SnowPadFrame.java
+src/Util.java
