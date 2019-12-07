@@ -91,6 +91,7 @@ public final class Util {
   public static final String IDENTIFIER_CHARS = "0123"; // 列表编号类型标识符
   public static final String IDENTIFIER_TIANGAN = "甲乙丙丁戊己庚辛壬癸"; // 十天干
   public static final String IDENTIFIER_DIZHI = "子丑寅卯辰巳午未申酉戌亥"; // 十二地支
+  public static final String TEST_QUESTION_MATH = "01234"; // 数学题库
   public static final String INFO_FILE_PATH = "文件路径："; // 统计信息窗口中使用的字符串
   public static final String INFO_FILE_MODIFY_TIME = "修改时间："; // 统计信息窗口中使用的字符串
   public static final String INFO_FILE_SIZE = "文件大小："; // 统计信息窗口中使用的字符串
@@ -114,6 +115,8 @@ public final class Util {
       "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "yyyy.MM.dd",
       "yy/MM/dd", "HH:mm:ss", "KK:mm:ss a", "HH:mm:ss:SSS" }; // 时间/日期格式字符串
   public static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "数字格式", "汉字格式", "干支格式", "字母格式" }; // 列表编号类型的显示名称
+  public static final String[] TEST_QUESTION_MATH_NAMES = new String[] { "0~10加减法【初级】", "0~10加减法【中级】", "0~10加减法【高级】", "0~20加减法【初级】", "0~20加减法【中级】" }; // 数学题库类型的显示名称
+  public static final String[] TEST_QUESTION_MATH_PATHS = new String[] { "0_10_level_1.txt", "0_10_level_2.txt", "0_10_level_3.txt", "0_20_level_1.txt", "0_20_level_2.txt" }; // 数学题库的配置文件名
   public static final String HALF_WIDTH_NUMBERS = "0123456789"; // 半角数字
   public static final char[] FULL_WIDTH_NUMBERS = new char[] { '０', '１', '２', '３', '４', '５', '６', '７', '８', '９' }; // 全角数字
   public static final String[] SIMPLIFIED_CHINESE_NUMBERS = new String[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" }; // 简体数字
@@ -139,7 +142,7 @@ public final class Util {
       "字体恢复初始大小","字体颜色","背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","全部反色","全部补色",
       "配色方案1","配色方案2","配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4",
       "高亮显示格式5","清除高亮格式1","清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向后切换文档","向前切换文档","统计信息",
-      "窗口管理","加密","进制转换","计算器","帮助主题","关于"
+      "窗口管理","加密","进制转换","计算器","题库","帮助主题","关于"
       }; // 快捷键的名称
   public static final String[] SHORTCUT_VALUES = new String[] {
       "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","",
@@ -155,7 +158,7 @@ public final class Util {
       "Ctrl+47","","","","","","","","","",
       "","","","","","","","","","",
       "","","","","","","","Ctrl+87","Ctrl+Shift+87","",
-      "","","","","","112"
+      "","","","","","","112"
       }; // 快捷键的值
   public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
   public static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // 加密的类型
