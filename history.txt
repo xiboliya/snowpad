@@ -1199,3 +1199,15 @@ src/Util.java
 ******************************
 git tag SnowPad-V4.3-20180930
 ******************************
+
+2019-12-07
+1.在“工具”菜单中添加“题库”功能。
+res/help.res
+res/study/0_10_level_1.txt（添加）
+res/study/0_10_level_2.txt（添加）
+res/study/0_10_level_3.txt（添加）
+res/study/0_20_level_1.txt（添加）
+res/study/0_20_level_2.txt（添加）
+src/SnowPadFrame.java
+src/TestQuestionDialog.java（添加）
+src/Util.java
