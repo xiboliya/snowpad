@@ -4088,9 +4088,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openTestQuestionDialog() {
     if (this.testQuestionDialog == null) {
-      Hashtable<String, String> hashtable = new Hashtable<String, String>();
-      hashtable.put("สýัง", Util.TEST_QUESTION_MATH);
-      this.testQuestionDialog = new TestQuestionDialog(this, true, this.txaMain, hashtable);
+      this.testQuestionDialog = new TestQuestionDialog(this, true, this.txaMain);
     } else {
       this.testQuestionDialog.setTextArea(this.txaMain);
       this.testQuestionDialog.setVisible(true);
