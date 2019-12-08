@@ -1211,3 +1211,15 @@ res/study/0_20_level_2.txt（添加）
 src/SnowPadFrame.java
 src/TestQuestionDialog.java（添加）
 src/Util.java
+
+2019-12-08
+1.调整“题库”界面，更新题库文件。
+res/study/0_10_level_1.txt
+res/study/0_10_level_2.txt
+res/study/0_10_level_3.txt
+res/study/0_20_level_1.txt
+res/study/0_20_level_2.txt
+res/study/0_20_level_3.txt（添加）
+src/SnowPadFrame.java
+src/TestQuestionDialog.java
+src/Util.java
