@@ -19,10 +19,6 @@ package com.xiboliya.snowpad;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import javax.swing.JButton;
@@ -100,48 +96,197 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener {
    */
   private void testQuestion() {
     int index = this.cmbMath.getSelectedIndex();
-    URL url = ClassLoader.getSystemResource("res/study/" + Util.TEST_QUESTION_MATH_PATHS[index]);
-    BufferedReader reader = null;
+    switch (index) {
+    case 0:
+      this.getListLevel1(0, 10);
+      break;
+    case 1:
+      this.getListLevel2(0, 10);
+      break;
+    case 2:
+      this.getListLevel3(0, 10);
+      break;
+    case 3:
+      this.getListLevel4(0, 10);
+      break;
+    case 4:
+      this.getListLevel1(0, 20);
+      break;
+    case 5:
+      this.getListLevel2(0, 20);
+      break;
+    case 6:
+      this.getListLevel3(0, 20);
+      break;
+    case 7:
+      this.getListLevel4(0, 20);
+      break;
+    }
+    Collections.shuffle(testList); // 随机打乱List内元素顺序
+    StringBuilder stbTest = new StringBuilder();
+    int size = testList.size();
+    String strCount = this.txtCount.getText().trim();
+    int count = 0;
     try {
-      reader = new BufferedReader(new InputStreamReader(url.openStream(), "GB18030"));
-      String line = reader.readLine();
-      testList.clear();
-      while (line != null) {
-        testList.add(line);
-        line = reader.readLine();
+      count = Integer.parseInt(strCount);
+    } catch (NumberFormatException x) {
+      // x.printStackTrace();
+    }
+    if (count <= 0) {
+      count = size;
+    } else if (count > size) {
+      count = size;
+    }
+    for (int i = 0; i < count; i++) {
+      String str = testList.get(i);
+      stbTest.append(str);
+      if ((i+1)%4 == 0) {
+        stbTest.append("\n");
+      } else {
+        stbTest.append("\t\t");
       }
-      Collections.shuffle(testList);
-      StringBuilder stbTest = new StringBuilder();
-      int size = testList.size();
-      String strCount = this.txtCount.getText().trim();
-      int count = 0;
-      try {
-        count = Integer.parseInt(strCount);
-      } catch (NumberFormatException x) {
-        // x.printStackTrace();
-      }
-      if (count <= 0) {
-        count = size;
-      } else if (count > size) {
-        count = size;
-      }
-      for (int i = 0; i < count; i++) {
-        String str = testList.get(i);
-        stbTest.append(str);
-        if ((i+1)%4 == 0) {
-          stbTest.append("\n");
-        } else {
-          stbTest.append("\t\t");
+    }
+    this.txaSource.replaceSelection(stbTest.toString());
+  }
+
+  /**
+   * 数学题目初级
+   * 
+   * @param start
+   *          最小值
+   * @param end
+   *          最大值
+   */
+  private void getListLevel1(int start, int end) {
+    this.testList.clear();
+    for (int i = 0; i <= end; i++) {
+      for (int j = 0; j <= end; j++) {
+        int result1 = i + j;
+        int result2 = i - j;
+        // +
+        if (result1 >= start && result1 <= end) {
+          this.testList.add(i + "+" + j + "=");
+        }
+        // -
+        if (result2 >= start  && result2 <= end) {
+          this.testList.add(i + "-" + j + "=");
         }
       }
-      this.txaSource.replaceSelection(stbTest.toString());
-    } catch (Exception x) {
-      // x.printStackTrace();
-    } finally {
-      try {
-        reader.close();
-      } catch (IOException x) {
-        // x.printStackTrace();
+    }
+  }
+
+  /**
+   * 数学题目中级
+   * 
+   * @param start
+   *          最小值
+   * @param end
+   *          最大值
+   */
+  private void getListLevel2(int start, int end) {
+    this.testList.clear();
+    for (int i = 0; i <= end; i++) {
+      for (int j = 0; j <= end; j++) {
+        int result1 = i + j;
+        int result2 = i - j;
+        // +
+        if (result1 >= start && result1 <= end) {
+          this.testList.add("(  )" + "+" + j + "=" + result1);
+          this.testList.add(i + "+" + "(  )" + "=" + result1);
+        }
+        // -
+        if (result2 >= start  && result2 <= end) {
+          this.testList.add("(  )" + "-" + j + "=" + result2);
+          this.testList.add(i + "-" + "(  )" + "=" + result2);
+        }
+      }
+    }
+  }
+
+  /**
+   * 数学题目高级
+   * 
+   * @param start
+   *          最小值
+   * @param end
+   *          最大值
+   */
+  private void getListLevel3(int start, int end) {
+    this.testList.clear();
+    for (int i = 0; i <= end; i++) {
+      for (int j = 0; j <= end; j++) {
+        for (int k = 0; k <= end; k++) {
+          int temp1 = i + j;
+          int temp2 = i - j;
+          int result1 = i + j + k;
+          int result2 = i + j - k;
+          int result3 = i - j + k;
+          int result4 = i - j - k;
+          // ++
+          if (temp1 <= end && result1 >= start && result1 <= end) {
+            this.testList.add(i + "+" + j + "+" + k + "=");
+          }
+          // +-
+          if (temp1 <= end && result2 >= start && result2 <= end) {
+            this.testList.add(i + "+" + j + "-" + k + "=");
+          }
+          // -+
+          if (temp2 >= start && result3 >= start && result3 <= end) {
+            this.testList.add(i + "-" + j + "+" + k + "=");
+          }
+          // --
+          if (temp2 >= start && result4 >= start && result4 <= end) {
+            this.testList.add(i + "-" + j + "-" + k + "=");
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 数学题目特级
+   * 
+   * @param start
+   *          最小值
+   * @param end
+   *          最大值
+   */
+  private void getListLevel4(int start, int end) {
+    this.testList.clear();
+    for (int i = 0; i <= end; i++) {
+      for (int j = 0; j <= end; j++) {
+        for (int k = 0; k <= end; k++) {
+          int temp1 = i + j;
+          int temp2 = i - j;
+          int result1 = i + j + k;
+          int result2 = i + j - k;
+          int result3 = i - j + k;
+          int result4 = i - j - k;
+          // ++
+          if (temp1 <= end && result1 >= start && result1 <= end) {
+            this.testList.add("(  )" + "+" + j + "+" + k + "=" + result1);
+            this.testList.add(i + "+" + "(  )" + "+" + k + "=" + result1);
+            this.testList.add(i + "+" + j + "+" + "(  )" + "=" + result1);
+          }
+          // +-
+          if (temp1 <= end && result2 >= start && result2 <= end) {
+            this.testList.add("(  )" + "+" + j + "-" + k + "=" + result2);
+            this.testList.add(i + "+" + "(  )" + "-" + k + "=" + result2);
+            this.testList.add(i + "+" + j + "-" + "(  )" + "=" + result2);
+          }
+          // -+
+          if (temp2 >= start && result3 >= start && result3 <= end) {
+            this.testList.add("(  )" + "-" + j + "+" + k + "=" + result3);
+            this.testList.add(i + "-" + "(  )" + "+" + k + "=" + result3);
+            this.testList.add(i + "-" + j + "+" + "(  )" + "=" + result3);
+          }
+          // --
+          if (temp2 >= start && result4 >= start && result4 <= end) {
+            this.testList.add("(  )" + "-" + j + "-" + k + "=" + result4);
+            this.testList.add(i + "-" + "(  )" + "-" + k + "=" + result4);
+            this.testList.add(i + "-" + j + "-" + "(  )" + "=" + result4);
+          }
+        }
       }
     }
   }
