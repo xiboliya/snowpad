@@ -1234,3 +1234,8 @@ res/study/0_20_level_2.txt（删除）
 res/study/0_20_level_3.txt（删除）
 src/TestQuestionDialog.java
 src/Util.java
+
+2019-12-31
+1.优化题库的出题方式，支持任意整数的出题范围。
+src/TestQuestionDialog.java
+src/Util.java
