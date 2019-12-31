@@ -114,7 +114,7 @@ public final class Util {
       "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "yyyy.MM.dd",
       "yy/MM/dd", "HH:mm:ss", "KK:mm:ss a", "HH:mm:ss:SSS" }; // 时间/日期格式字符串
   public static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "数字格式", "汉字格式", "干支格式", "字母格式" }; // 列表编号类型的显示名称
-  public static final String[] TEST_QUESTION_MATH_NAMES = new String[] { "0~10加减法【初级】", "0~10加减法【中级】", "0~10加减法【高级】", "0~10加减法【特级】", "0~20加减法【初级】", "0~20加减法【中级】", "0~20加减法【高级】", "0~20加减法【特级】" }; // 数学题库类型的显示名称
+  public static final String[] TEST_QUESTION_MATH_LEVELS = new String[] { "加减法【初级】", "加减法【中级】", "加减法【高级】", "加减法【特级】" }; // 数学题库难度等级的显示名称
   public static final String HALF_WIDTH_NUMBERS = "0123456789"; // 半角数字
   public static final char[] FULL_WIDTH_NUMBERS = new char[] { '０', '１', '２', '３', '４', '５', '６', '７', '８', '９' }; // 全角数字
   public static final String[] SIMPLIFIED_CHINESE_NUMBERS = new String[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" }; // 简体数字
