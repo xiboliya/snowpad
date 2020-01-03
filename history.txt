@@ -1239,3 +1239,8 @@ src/Util.java
 1.优化题库的出题方式，支持任意整数的出题范围。
 src/TestQuestionDialog.java
 src/Util.java
+
+2020-01-03
+1.题库中添加乘法。
+src/TestQuestionDialog.java
+src/Util.java
