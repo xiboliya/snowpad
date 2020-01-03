@@ -19,6 +19,8 @@ package com.xiboliya.snowpad;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Collections;
 import java.util.LinkedList;
 import javax.swing.JButton;
@@ -35,7 +37,7 @@ import javax.swing.JTextArea;
  * @author 冰原
  * 
  */
-public class TestQuestionDialog extends BaseDialog implements ActionListener {
+public class TestQuestionDialog extends BaseDialog implements ActionListener, ItemListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblLevel = new JLabel("难度等级：");
@@ -107,6 +109,22 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener {
   }
 
   /**
+   * 刷新标签的文本
+   * 
+   * @param isResult
+   *          是否显示“结果”
+   */
+  private void refreshLabelText(boolean isResult) {
+    if (isResult) {
+      this.lblMin.setText("结果最小值：");
+      this.lblMax.setText("结果最大值：");
+    } else {
+      this.lblMin.setText("运算最小值：");
+      this.lblMax.setText("运算最大值：");
+    }
+  }
+
+  /**
    * 使用当前选中的出题方式
    */
   private void testQuestion() {
@@ -165,6 +183,18 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener {
     case 3:
       this.getListLevel4(min, max);
       break;
+    case 4:
+      this.getListLevel5(min, max);
+      break;
+    case 5:
+      this.getListLevel6(min, max);
+      break;
+    case 6:
+      this.getListLevel7(min, max);
+      break;
+    case 7:
+      this.getListLevel8(min, max);
+      break;
     }
     Collections.shuffle(testList); // 随机打乱List内元素顺序
     StringBuilder stbTest = new StringBuilder();
@@ -191,7 +221,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * 数学题目初级
+   * 数学题目加减法初级
    * 
    * @param start
    *          最小值
@@ -217,7 +247,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * 数学题目中级
+   * 数学题目加减法中级
    * 
    * @param start
    *          最小值
@@ -245,7 +275,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * 数学题目高级
+   * 数学题目加减法高级
    * 
    * @param start
    *          最小值
@@ -285,7 +315,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * 数学题目特级
+   * 数学题目加减法特级
    * 
    * @param start
    *          最小值
@@ -333,12 +363,107 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener {
   }
 
   /**
+   * 数学题目乘法初级
+   * 
+   * @param start
+   *          最小值
+   * @param end
+   *          最大值
+   */
+  private void getListLevel5(int start, int end) {
+    this.testList.clear();
+    for (int i = start; i <= end; i++) {
+      for (int j = start; j <= end; j++) {
+        this.testList.add(i + "×" + j + "=");
+      }
+    }
+  }
+
+  /**
+   * 数学题目乘法中级
+   * 
+   * @param start
+   *          最小值
+   * @param end
+   *          最大值
+   */
+  private void getListLevel6(int start, int end) {
+    this.testList.clear();
+    for (int i = start; i <= end; i++) {
+      for (int j = start; j <= end; j++) {
+        int result = i * j;
+        if (i == 0) {
+          this.testList.add("(  )" + "×" + j + "=" + result);
+        } else if (j == 0) {
+          this.testList.add(i + "×" + "(  )" + "=" + result);
+        } else {
+          this.testList.add("(  )" + "×" + j + "=" + result);
+          this.testList.add(i + "×" + "(  )" + "=" + result);
+        }
+      }
+    }
+  }
+
+  /**
+   * 数学题目乘法高级
+   * 
+   * @param start
+   *          最小值
+   * @param end
+   *          最大值
+   */
+  private void getListLevel7(int start, int end) {
+    this.testList.clear();
+    for (int i = start; i <= end; i++) {
+      for (int j = start; j <= end; j++) {
+        for (int k = start; k <= end; k++) {
+          this.testList.add(i + "×" + j + "×" + k + "=");
+        }
+      }
+    }
+  }
+
+  /**
+   * 数学题目乘法特级
+   * 
+   * @param start
+   *          最小值
+   * @param end
+   *          最大值
+   */
+  private void getListLevel8(int start, int end) {
+    this.testList.clear();
+    for (int i = start; i <= end; i++) {
+      for (int j = start; j <= end; j++) {
+        for (int k = start; k <= end; k++) {
+          if ((i == 0 && j == 0) || (i == 0 && k == 0) || (j == 0 && k == 0)) {
+            continue;
+          }
+          int result = i * j * k;
+          if (i == 0) {
+            this.testList.add("(  )" + "×" + j + "×" + k + "=" + result);
+          } else if (j == 0) {
+            this.testList.add(i + "×" + "(  )" + "×" + k + "=" + result);
+          } else if (k == 0) {
+            this.testList.add(i + "×" + j + "×" + "(  )" + "=" + result);
+          } else {
+            this.testList.add("(  )" + "×" + j + "×" + k + "=" + result);
+            this.testList.add(i + "×" + "(  )" + "×" + k + "=" + result);
+            this.testList.add(i + "×" + j + "×" + "(  )" + "=" + result);
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * 添加和初始化事件监听器
    */
   private void addListeners() {
     this.btnOk.addActionListener(this);
     this.btnCancel.addActionListener(this);
     this.cmbLevel.addKeyListener(this.keyAdapter);
+    this.cmbLevel.addItemListener(this);
     this.txtMin.addKeyListener(this.keyAdapter);
     this.txtMax.addKeyListener(this.keyAdapter);
     this.txtCount.addKeyListener(this.keyAdapter);
@@ -352,6 +477,18 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener {
       this.onEnter();
     } else if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
+    }
+  }
+
+  /**
+   * 当所选项更改时调用
+   */
+  public void itemStateChanged(ItemEvent e) {
+    int level = this.cmbLevel.getSelectedIndex();
+    if (level > 3) {
+      this.refreshLabelText(false);
+    } else {
+      this.refreshLabelText(true);
     }
   }
 
