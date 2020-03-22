@@ -106,10 +106,11 @@ public class BaseTextField extends JTextField implements ActionListener,
    *          限制用户输入的正则表达式
    */
   public BaseTextField(boolean isSetDocument, String pattern) {
-    this();
+    super();
     if (isSetDocument) {
       this.setDocument(new BasePlainDocument(pattern));
     }
+    this.init();
   }
 
   @Override
