@@ -1249,3 +1249,7 @@ src/Util.java
 1.题库中添加除法。
 src/TestQuestionDialog.java
 src/Util.java
+
+2020-03-22
+1.解决文本框中如果使用正则表达式来限制用户输入时，撤销、重做功能会失效的问题。
+src/BaseTextField.java
