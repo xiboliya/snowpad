@@ -39,12 +39,14 @@ import javax.swing.JTextArea;
  */
 public class TestQuestionDialog extends BaseDialog implements ActionListener, ItemListener {
   private static final long serialVersionUID = 1L;
+  private String strMinText = "结果最小值";
+  private String strMaxText = "结果最大值";
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblLevel = new JLabel("难度等级：");
   private JComboBox<String> cmbLevel = new JComboBox<String>(Util.TEST_QUESTION_MATH_LEVELS);
-  private JLabel lblMin = new JLabel("结果最小值：");
+  private JLabel lblMin = new JLabel(this.strMinText + "：");
   private BaseTextField txtMin = new BaseTextField(true, "\\d*");
-  private JLabel lblMax = new JLabel("结果最大值：");
+  private JLabel lblMax = new JLabel(this.strMaxText + "：");
   private BaseTextField txtMax = new BaseTextField(true, "\\d*");
   private JLabel lblCount = new JLabel("出题数目：");
   private BaseTextField txtCount = new BaseTextField(true, "\\d*");
@@ -116,12 +118,14 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
    */
   private void refreshLabelText(boolean isResult) {
     if (isResult) {
-      this.lblMin.setText("结果最小值：");
-      this.lblMax.setText("结果最大值：");
+      this.strMinText = "结果最小值";
+      this.strMaxText = "结果最大值";
     } else {
-      this.lblMin.setText("运算最小值：");
-      this.lblMax.setText("运算最大值：");
+      this.strMinText = "运算最小值";
+      this.strMaxText = "运算最大值";
     }
+    this.lblMin.setText(this.strMinText + "：");
+    this.lblMax.setText(this.strMaxText + "：");
   }
 
   /**
@@ -130,12 +134,12 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   private void testQuestion() {
     String strMin = this.txtMin.getText();
     if (Util.isTextEmpty(strMin)) {
-      JOptionPane.showMessageDialog(this, "请输入结果最小值！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      JOptionPane.showMessageDialog(this, "请输入" + this.strMinText + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
     }
     String strMax = this.txtMax.getText();
     if (Util.isTextEmpty(strMax)) {
-      JOptionPane.showMessageDialog(this, "请输入结果最大值！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      JOptionPane.showMessageDialog(this, "请输入" + this.strMaxText + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
     }
     String strCount = this.txtCount.getText();
@@ -156,7 +160,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
       // x.printStackTrace();
     }
     if (min > max) {
-      JOptionPane.showMessageDialog(this, "结果最小值不能超过结果最大值！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      JOptionPane.showMessageDialog(this, this.strMinText + "不能超过" + this.strMaxText + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
     }
     int count = 0;
