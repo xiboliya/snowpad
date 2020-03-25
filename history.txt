@@ -1257,3 +1257,8 @@ src/BaseTextField.java
 2020-03-23
 1.解决题库中部分异常提示语不准确的问题。
 src/TestQuestionDialog.java
+
+2020-03-25
+1.将现有的题库界面功能整合成“标准”类型，另外添加一个“专项”类型，添加：退位减法题目。
+src/TestQuestionDialog.java
+src/Util.java
