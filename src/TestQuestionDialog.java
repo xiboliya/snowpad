@@ -29,6 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 /**
@@ -39,17 +40,34 @@ import javax.swing.JTextArea;
  */
 public class TestQuestionDialog extends BaseDialog implements ActionListener, ItemListener {
   private static final long serialVersionUID = 1L;
-  private String strMinText = "结果最小值";
-  private String strMaxText = "结果最大值";
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblLevel = new JLabel("难度等级：");
-  private JComboBox<String> cmbLevel = new JComboBox<String>(Util.TEST_QUESTION_MATH_LEVELS);
-  private JLabel lblMin = new JLabel(this.strMinText + "：");
-  private BaseTextField txtMin = new BaseTextField(true, "\\d*");
-  private JLabel lblMax = new JLabel(this.strMaxText + "：");
-  private BaseTextField txtMax = new BaseTextField(true, "\\d*");
-  private JLabel lblCount = new JLabel("出题数目：");
-  private BaseTextField txtCount = new BaseTextField(true, "\\d*");
+  private JTabbedPane tpnMain = new JTabbedPane();
+  // 标准
+  private String strMinTextC = "结果最小值";
+  private String strMaxTextC = "结果最大值";
+  private JPanel pnlCommon = new JPanel();
+  private JLabel lblLevelC = new JLabel("难度等级：");
+  private JComboBox<String> cmbLevelC = new JComboBox<String>(Util.TEST_QUESTION_MATH_LEVELS);
+  private JLabel lblMinC = new JLabel(this.strMinTextC + "：");
+  private BaseTextField txtMinC = new BaseTextField(true, "\\d*");
+  private JLabel lblMaxC = new JLabel(this.strMaxTextC + "：");
+  private BaseTextField txtMaxC = new BaseTextField(true, "\\d*");
+  private JLabel lblCountC = new JLabel("出题数目：");
+  private BaseTextField txtCountC = new BaseTextField(true, "\\d*");
+  // 专项
+  private String strMinTextS = "结果最小值";
+  private String strMaxTextS = "结果最大值";
+  private JPanel pnlSpecial = new JPanel();
+  private JLabel lblLevelS = new JLabel("题目类型：");
+  private JComboBox<String> cmbLevelS = new JComboBox<String>(Util.TEST_QUESTION_MATH_SPECIAL_LEVELS);
+  private JLabel lblMinS = new JLabel(this.strMinTextS + "：");
+  private BaseTextField txtMinS = new BaseTextField(true, "\\d*");
+  private JLabel lblMaxS = new JLabel(this.strMaxTextS + "：");
+  private BaseTextField txtMaxS = new BaseTextField(true, "\\d*");
+  private JLabel lblCountS = new JLabel("出题数目：");
+  private BaseTextField txtCountS = new BaseTextField(true, "\\d*");
+  // 按钮
+  private JPanel pnlBottom = new JPanel();
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
@@ -73,7 +91,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     this.txaSource = txaSource;
     this.init();
     this.addListeners();
-    this.setSize(280, 245);
+    this.setSize(280, 280);
     this.setVisible(true);
   }
 
@@ -83,31 +101,79 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   private void init() {
     this.setTitle("题库");
     this.pnlMain.setLayout(null);
-    this.lblLevel.setBounds(20, 10, 110, Util.VIEW_HEIGHT);
-    this.cmbLevel.setBounds(110, 10, 130, Util.INPUT_HEIGHT);
-    this.lblMin.setBounds(20, 50, 110, Util.VIEW_HEIGHT);
-    this.txtMin.setBounds(110, 50, 60, Util.INPUT_HEIGHT);
-    this.lblMax.setBounds(20, 90, 110, Util.VIEW_HEIGHT);
-    this.txtMax.setBounds(110, 90, 60, Util.INPUT_HEIGHT);
-    this.lblCount.setBounds(20, 130, 110, Util.VIEW_HEIGHT);
-    this.txtCount.setBounds(110, 130, 60, Util.INPUT_HEIGHT);
-    this.btnOk.setBounds(30, 170, 85, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(150, 170, 85, Util.BUTTON_HEIGHT);
-    this.pnlMain.add(this.lblLevel);
-    this.pnlMain.add(this.cmbLevel);
-    this.pnlMain.add(this.lblMin);
-    this.pnlMain.add(this.txtMin);
-    this.pnlMain.add(this.lblMax);
-    this.pnlMain.add(this.txtMax);
-    this.pnlMain.add(this.lblCount);
-    this.pnlMain.add(this.txtCount);
-    this.pnlMain.add(this.btnOk);
-    this.pnlMain.add(this.btnCancel);
+    // 标准
+    this.pnlCommon.setLayout(null);
+    this.lblLevelC.setBounds(20, 10, 110, Util.VIEW_HEIGHT);
+    this.cmbLevelC.setBounds(110, 10, 130, Util.INPUT_HEIGHT);
+    this.lblMinC.setBounds(20, 50, 110, Util.VIEW_HEIGHT);
+    this.txtMinC.setBounds(110, 50, 60, Util.INPUT_HEIGHT);
+    this.lblMaxC.setBounds(20, 90, 110, Util.VIEW_HEIGHT);
+    this.txtMaxC.setBounds(110, 90, 60, Util.INPUT_HEIGHT);
+    this.lblCountC.setBounds(20, 130, 110, Util.VIEW_HEIGHT);
+    this.txtCountC.setBounds(110, 130, 60, Util.INPUT_HEIGHT);
+    this.pnlCommon.add(this.lblLevelC);
+    this.pnlCommon.add(this.cmbLevelC);
+    this.pnlCommon.add(this.lblMinC);
+    this.pnlCommon.add(this.txtMinC);
+    this.pnlCommon.add(this.lblMaxC);
+    this.pnlCommon.add(this.txtMaxC);
+    this.pnlCommon.add(this.lblCountC);
+    this.pnlCommon.add(this.txtCountC);
+    // 专项
+    this.pnlSpecial.setLayout(null);
+    this.lblLevelS.setBounds(20, 10, 110, Util.VIEW_HEIGHT);
+    this.cmbLevelS.setBounds(110, 10, 130, Util.INPUT_HEIGHT);
+    this.lblMinS.setBounds(20, 50, 110, Util.VIEW_HEIGHT);
+    this.txtMinS.setBounds(110, 50, 60, Util.INPUT_HEIGHT);
+    this.lblMaxS.setBounds(20, 90, 110, Util.VIEW_HEIGHT);
+    this.txtMaxS.setBounds(110, 90, 60, Util.INPUT_HEIGHT);
+    this.lblCountS.setBounds(20, 130, 110, Util.VIEW_HEIGHT);
+    this.txtCountS.setBounds(110, 130, 60, Util.INPUT_HEIGHT);
+    this.pnlSpecial.add(this.lblLevelS);
+    this.pnlSpecial.add(this.cmbLevelS);
+    this.pnlSpecial.add(this.lblMinS);
+    this.pnlSpecial.add(this.txtMinS);
+    this.pnlSpecial.add(this.lblMaxS);
+    this.pnlSpecial.add(this.txtMaxS);
+    this.pnlSpecial.add(this.lblCountS);
+    this.pnlSpecial.add(this.txtCountS);
+
+    this.tpnMain.setBounds(0, 0, 280, 195);
+    this.tpnMain.add(this.pnlCommon, "标准");
+    this.tpnMain.add(this.pnlSpecial, "专项");
+    this.pnlMain.add(this.tpnMain);
+    
+    // 按钮
+    this.pnlBottom.setLayout(null);
+    this.pnlBottom.setBounds(0, 195, 280, 85);
+    this.btnOk.setBounds(30, 10, 85, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(150, 10, 85, Util.BUTTON_HEIGHT);
+    this.pnlBottom.add(this.btnOk);
+    this.pnlBottom.add(this.btnCancel);
+    this.pnlMain.add(this.pnlBottom);
+    
+    this.initData();
+  }
+
+  private void initData() {
+    this.txtMinC.setText("0");
+    this.txtMaxC.setText("10");
+    this.txtCountC.setText("100");
+    this.txtMinS.setText("0");
+    this.txtMaxS.setText("100");
+    this.txtCountS.setText("100");
+    this.tpnMain.setFocusable(false);
     this.btnOk.setFocusable(false);
     this.btnCancel.setFocusable(false);
-    this.txtMin.setText("0");
-    this.txtMax.setText("10");
-    this.txtCount.setText("100");
+  }
+
+  /**
+   * 获取选项卡当前视图的索引号
+   * 
+   * @return 当前视图的索引号
+   */
+  private int getTabbedIndex() {
+    return this.tpnMain.getSelectedIndex();
   }
 
   /**
@@ -117,32 +183,45 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
    *          是否显示“结果”
    */
   private void refreshLabelText(boolean isResult) {
-    if (isResult) {
-      this.strMinText = "结果最小值";
-      this.strMaxText = "结果最大值";
+    int index = this.getTabbedIndex();
+    if (index == 0) {
+      if (isResult) {
+        this.strMinTextC = "结果最小值";
+        this.strMaxTextC = "结果最大值";
+      } else {
+        this.strMinTextC = "运算最小值";
+        this.strMaxTextC = "运算最大值";
+      }
+      this.lblMinC.setText(this.strMinTextC + "：");
+      this.lblMaxC.setText(this.strMaxTextC + "：");
     } else {
-      this.strMinText = "运算最小值";
-      this.strMaxText = "运算最大值";
+      if (isResult) {
+        this.strMinTextS = "结果最小值";
+        this.strMaxTextS = "结果最大值";
+      } else {
+        this.strMinTextS = "运算最小值";
+        this.strMaxTextS = "运算最大值";
+      }
+      this.lblMinS.setText(this.strMinTextS + "：");
+      this.lblMaxS.setText(this.strMaxTextS + "：");
     }
-    this.lblMin.setText(this.strMinText + "：");
-    this.lblMax.setText(this.strMaxText + "：");
   }
 
   /**
-   * 使用当前选中的出题方式
+   * 使用当前选中的标准出题方式
    */
-  private void testQuestion() {
-    String strMin = this.txtMin.getText();
+  private void testQuestionCommon() {
+    String strMin = this.txtMinC.getText();
     if (Util.isTextEmpty(strMin)) {
-      JOptionPane.showMessageDialog(this, "请输入" + this.strMinText + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      JOptionPane.showMessageDialog(this, "请输入" + this.strMinTextC + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
     }
-    String strMax = this.txtMax.getText();
+    String strMax = this.txtMaxC.getText();
     if (Util.isTextEmpty(strMax)) {
-      JOptionPane.showMessageDialog(this, "请输入" + this.strMaxText + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      JOptionPane.showMessageDialog(this, "请输入" + this.strMaxTextC + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
     }
-    String strCount = this.txtCount.getText();
+    String strCount = this.txtCountC.getText();
     if (Util.isTextEmpty(strCount)) {
       JOptionPane.showMessageDialog(this, "请输入出题数目！", Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
@@ -160,7 +239,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
       // x.printStackTrace();
     }
     if (min > max) {
-      JOptionPane.showMessageDialog(this, this.strMinText + "不能超过" + this.strMaxText + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      JOptionPane.showMessageDialog(this, this.strMinTextC + "不能超过" + this.strMaxTextC + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
     }
     int count = 0;
@@ -173,7 +252,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
       JOptionPane.showMessageDialog(this, "出题数目必须大于0！", Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
     }
-    int level = this.cmbLevel.getSelectedIndex();
+    int level = this.cmbLevelC.getSelectedIndex();
     switch (level) {
     case 0:
       this.getListLevel1(min, max);
@@ -237,6 +316,84 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
+   * 使用当前选中的专项出题方式
+   */
+  private void testQuestionSpecial() {
+    String strMin = this.txtMinS.getText();
+    if (Util.isTextEmpty(strMin)) {
+      JOptionPane.showMessageDialog(this, "请输入" + this.strMinTextS + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      return;
+    }
+    String strMax = this.txtMaxS.getText();
+    if (Util.isTextEmpty(strMax)) {
+      JOptionPane.showMessageDialog(this, "请输入" + this.strMaxTextS + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      return;
+    }
+    String strCount = this.txtCountS.getText();
+    if (Util.isTextEmpty(strCount)) {
+      JOptionPane.showMessageDialog(this, "请输入出题数目！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      return;
+    }
+    int min = 0;
+    try {
+      min = Integer.parseInt(strMin);
+    } catch (NumberFormatException x) {
+      // x.printStackTrace();
+    }
+    int max = 0;
+    try {
+      max = Integer.parseInt(strMax);
+    } catch (NumberFormatException x) {
+      // x.printStackTrace();
+    }
+    if (min > max) {
+      JOptionPane.showMessageDialog(this, this.strMinTextS + "不能超过" + this.strMaxTextC + "！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      return;
+    }
+    int count = 0;
+    try {
+      count = Integer.parseInt(strCount);
+    } catch (NumberFormatException x) {
+      // x.printStackTrace();
+    }
+    if (count <= 0) {
+      JOptionPane.showMessageDialog(this, "出题数目必须大于0！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      return;
+    }
+    int level = this.cmbLevelS.getSelectedIndex();
+    switch (level) {
+    case 0:
+      this.getListSpecial1(min, max);
+      break;
+    }
+    Collections.shuffle(testList); // 随机打乱List内元素顺序
+    StringBuilder stbTest = new StringBuilder();
+    int size = testList.size();
+    if (size == 0) {
+      JOptionPane.showMessageDialog(this, "实际题库数目为0个，请调整出题参数！", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      return;
+    } else if (count > size) {
+      int result = JOptionPane.showConfirmDialog(this, "实际题库数目只有：" + size + "个，将按照此数目出题，是否继续？",
+          Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
+      if (result != JOptionPane.YES_OPTION) {
+        return;
+      }
+      count = size;
+    }
+    for (int i = 0; i < count; i++) {
+      String str = testList.get(i);
+      stbTest.append(str);
+      if ((i+1)%4 == 0) {
+        stbTest.append("\n");
+      } else {
+        stbTest.append("\t\t");
+      }
+    }
+    this.txaSource.replaceSelection(stbTest.toString());
+    this.dispose();
+  }
+
+  /**
    * 数学题目加减法初级
    * 
    * @param start
@@ -255,7 +412,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
           this.testList.add(i + "+" + j + "=");
         }
         // -
-        if (result2 >= start  && result2 <= end) {
+        if (result2 >= start && result2 <= end) {
           this.testList.add(i + "-" + j + "=");
         }
       }
@@ -282,7 +439,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
           this.testList.add(i + "+" + "(  )" + "=" + result1);
         }
         // -
-        if (result2 >= start  && result2 <= end) {
+        if (result2 >= start && result2 <= end) {
           this.testList.add("(  )" + "-" + j + "=" + result2);
           this.testList.add(i + "-" + "(  )" + "=" + result2);
         }
@@ -576,16 +733,52 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
+   * 数学题目退位减法
+   * 
+   * @param start
+   *          最小值
+   * @param end
+   *          最大值
+   */
+  private void getListSpecial1(int start, int end) {
+    this.testList.clear();
+    for (int i = 11; i <= end; i++) {
+      for (int j = 0; j <= end; j++) {
+        int result1 = i - j;
+        int single1 = this.getSingle(i);
+        int single2 = this.getSingle(j);
+        // -
+        if (result1 >= start && result1 <= end && single1 < single2) {
+          this.testList.add(i + "-" + j + "=");
+        }
+      }
+    }
+  }
+
+  /**
+   * 获取数字的个位数
+   * 
+   * @param number
+   *          数字
+   * @return 数字的个位数
+   */
+  private int getSingle(int number) {
+    String str = String.valueOf(number);
+    int result = str.charAt(str.length() - 1);
+    return result;
+  }
+
+  /**
    * 添加和初始化事件监听器
    */
   private void addListeners() {
     this.btnOk.addActionListener(this);
     this.btnCancel.addActionListener(this);
-    this.cmbLevel.addKeyListener(this.keyAdapter);
-    this.cmbLevel.addItemListener(this);
-    this.txtMin.addKeyListener(this.keyAdapter);
-    this.txtMax.addKeyListener(this.keyAdapter);
-    this.txtCount.addKeyListener(this.keyAdapter);
+    this.cmbLevelC.addKeyListener(this.keyAdapter);
+    this.cmbLevelC.addItemListener(this);
+    this.txtMinC.addKeyListener(this.keyAdapter);
+    this.txtMaxC.addKeyListener(this.keyAdapter);
+    this.txtCountC.addKeyListener(this.keyAdapter);
   }
 
   /**
@@ -603,11 +796,21 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
    * 当所选项更改时调用
    */
   public void itemStateChanged(ItemEvent e) {
-    int level = this.cmbLevel.getSelectedIndex();
-    if (level > 3 && level < 8) {
-      this.refreshLabelText(false);
+    int index = this.getTabbedIndex();
+    if (index == 0) {
+      int level = this.cmbLevelC.getSelectedIndex();
+      if (level > 3 && level < 8) {
+        this.refreshLabelText(false);
+      } else {
+        this.refreshLabelText(true);
+      }
     } else {
-      this.refreshLabelText(true);
+      int level = this.cmbLevelS.getSelectedIndex();
+      if (level > 0) {
+        this.refreshLabelText(false);
+      } else {
+        this.refreshLabelText(true);
+      }
     }
   }
 
@@ -615,7 +818,11 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
    * 默认的"确定"操作方法
    */
   public void onEnter() {
-    this.testQuestion();
+    if (this.getTabbedIndex() == 0) {
+      this.testQuestionCommon();
+    } else if (this.getTabbedIndex() == 1) {
+      this.testQuestionSpecial();
+    }
   }
 
   /**
