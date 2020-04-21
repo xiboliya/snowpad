@@ -57,7 +57,7 @@ public class Setting {
   public int viewLookAndFeel = -1; // 当前外观的索引号
   public int[] viewFrameSize = null; // 窗口大小
   // 所有已打开的文件
-  public LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放所有已打开的文件名的链表
+  public LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // 存放所有已打开的文件名的链表
   // 所有快捷键的设置
   public HashMap<String, String> shortcutMap = new HashMap<String, String>(); // 存放所有快捷键的设置的哈希表
 }

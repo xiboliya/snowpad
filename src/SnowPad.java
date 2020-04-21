@@ -55,9 +55,15 @@ public class SnowPad {
         Util.setDefaultFont();
         System.setProperty("java.awt.im.style", "on-the-spot"); // 去掉文本框输入中文时所弹出的输入窗口
         for (String arg : args) {
-          int index = setting.fileHistoryList.indexOf(arg);
-          if (index < 0) {
-            setting.fileHistoryList.add(arg);
+          boolean isExist = false;
+          for (FileHistoryBean bean : setting.fileHistoryList) {
+            if (arg.equals(bean.getFileName())) {
+              isExist = true;
+              break;
+            }
+          }
+          if (!isExist) {
+            setting.fileHistoryList.add(new FileHistoryBean(arg, false));
           }
         }
         new SnowPadFrame(setting, settingAdapter); // 初始化界面和设置的同时打开文件

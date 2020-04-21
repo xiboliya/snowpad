@@ -374,9 +374,17 @@ public final class SettingAdapter {
         String value = node.getTextContent().trim();
         if (!Util.isTextEmpty(value)) {
           if (key.equalsIgnoreCase("file")) {
-            int index = this.setting.fileHistoryList.indexOf(value);
-            if (index < 0) {
-              this.setting.fileHistoryList.add(value);
+            String strFrozen = ((Element) node.getParentNode()).getAttribute("isFrozen");
+            boolean isFrozen = "true".equalsIgnoreCase(strFrozen);
+            boolean isExist = false;
+            for (FileHistoryBean bean : this.setting.fileHistoryList) {
+              if (value.equals(bean.getFileName())) {
+                isExist = true;
+                break;
+              }
+            }
+            if (!isExist) {
+              this.setting.fileHistoryList.add(new FileHistoryBean(value, isFrozen));
             }
           }
         }
@@ -622,10 +630,11 @@ public final class SettingAdapter {
     nodeList = element.getElementsByTagName("Files");
     nodeList.item(0).setTextContent("");
     Element e = null;
-    for (String strFile : this.setting.fileHistoryList) {
+    for (FileHistoryBean bean : this.setting.fileHistoryList) {
       nodeList.item(0).appendChild(document.createTextNode(str));
       e = document.createElement("file");
-      e.setTextContent(strFile);
+      e.setTextContent(bean.getFileName());
+      e.setAttribute("isFrozen", String.valueOf(bean.getFrozen()));
       nodeList.item(0).appendChild(e);
     }
     nodeList.item(0).appendChild(document.createTextNode("\n  "));

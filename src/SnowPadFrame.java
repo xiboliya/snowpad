@@ -324,7 +324,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private ButtonGroup bgpLookAndFeel = new ButtonGroup(); // 用于存放外观的按钮组
   private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private File file = null; // 当前编辑的文件
-  private LinkedList<String> fileHistoryList = new LinkedList<String>(); // 存放最近编辑的文件名的链表
+  private LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // 存放最近编辑的文件名的链表
   private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // 存放界面中所有文本域的链表
   private LinkedList<AbstractButton> toolButtonList = new LinkedList<AbstractButton>(); // 存放工具栏中所有按钮的链表
   private LinkedList<JMenuItem> menuItemList = new LinkedList<JMenuItem>(); // 存放所有可用于快捷键设置的菜单项的链表
@@ -389,9 +389,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     boolean toCreateNew = false; // 用于标识新打开的文件，是要在当前文本域中打开，还是要新建文本域
-    for (String strFile : this.setting.fileHistoryList) {
-      if (!Util.isTextEmpty(strFile)) {
-        File file = new File(strFile);
+    for (FileHistoryBean bean : this.setting.fileHistoryList) {
+      if (!Util.isTextEmpty(bean.getFileName())) {
+        File file = new File(bean.getFileName());
         if (file.exists()) {
           if (!toCreateNew) {
             this.toOpenFile(file, true, false);
@@ -399,6 +399,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           } else {
             this.toOpenFile(file, true, true);
           }
+          this.txaMain.setFrozen(bean.getFrozen());
+          this.itemFrozenFile.setSelected(bean.getFrozen());
+          this.itemPopFrozenFile.setSelected(bean.getFrozen());
           this.setAfterOpenFile(Util.DEFAULT_CARET_INDEX);
           this.setFileNameAndPath(file);
         }
@@ -2422,7 +2425,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     int index = this.tpnMain.getSelectedIndex();
     this.tpnMain.remove(index);
     this.textAreaList.remove(index);
-    if (this.textAreaList.size() == 0) {
+    if (this.textAreaList.isEmpty()) {
       this.createNew(null);
     }
     return true;
@@ -2497,7 +2500,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           }
           this.tpnMain.remove(i);
           this.textAreaList.remove(i);
-          if (this.textAreaList.size() == 0) {
+          if (this.textAreaList.isEmpty()) {
             this.createNew(null);
           }
           break;
@@ -3204,7 +3207,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.fileHistoryList.remove(index);
         this.menuFileHistory.remove(index);
       }
-      this.fileHistoryList.add(strFile);
+      this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen()));
       this.menuFileHistory.add(itemFile);
       this.setFileHistoryMenuEnabled();
     }
@@ -3226,7 +3229,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (listSize == 0) {
       index = 0;
     } else {
-      index = this.fileHistoryList.indexOf(strFile);
+      for (int i = 0; i < listSize; i++) {
+        FileHistoryBean bean = this.fileHistoryList.get(i);
+        if (strFile.equals(bean.getFileName())) {
+          index = i;
+          break;
+        }
+      }
       if (index < 0) {
         if (listSize >= Util.FILE_HISTORY_MAX) {
           index = 0;
@@ -3980,17 +3989,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setting.fileHistoryList.clear();
     for (int i = 0; i < this.textAreaList.size(); i++) {
       this.tpnMain.setSelectedIndex(i);
-      for (BaseTextArea textArea : this.textAreaList) {
-        File file = textArea.getFile();
-        if (file != null && file.exists()) {
-          try {
-            String strFile = file.getCanonicalPath();
-            if (this.setting.fileHistoryList.indexOf(strFile) < 0) {
-              this.setting.fileHistoryList.add(strFile);
-            }
-          } catch (Exception x) {
-            // x.printStackTrace();
-          }
+      BaseTextArea textArea = this.textAreaList.get(i);
+      File file = textArea.getFile();
+      if (file != null && file.exists()) {
+        try {
+          String strFile = file.getCanonicalPath();
+          this.setting.fileHistoryList.add(new FileHistoryBean(strFile, textArea.getFrozen()));
+        } catch (Exception x) {
+          // x.printStackTrace();
         }
       }
       if (!saveFileBeforeAct()) { // 关闭程序前检测文件是否已修改
