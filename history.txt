@@ -1211,3 +1211,7 @@ src/Setting.java
 src/SettingAdapter.java
 src/SnowPad.java
 src/SnowPadFrame.java
+
+2020-04-22
+1.进制转换界面中添加“互换进制”功能。
+src/NumberConvertDialog
