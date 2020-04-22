@@ -50,6 +50,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   private JComboBox<String> cmbNumber = new JComboBox<String>();
   private BaseTextField txtNumber = new BaseTextField();
   private JLabel lblWarning = new JLabel("警告：含有非法字符或超出范围！");
+  private JButton btnExchange = new JButton("互换进制");
   private JLabel lblResult = new JLabel("转换结果：");
   private JComboBox<String> cmbResult = new JComboBox<String>();
   private BaseTextField txtResult = new BaseTextField();
@@ -68,7 +69,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
     this.setMnemonic();
     this.addListeners();
     this.refreshView();
-    this.setSize(420, 210);
+    this.setSize(420, 240);
     this.setVisible(true);
   }
 
@@ -87,16 +88,19 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
     this.pnlMain.add(this.cmbNumber);
     this.pnlMain.add(this.txtNumber);
 
-    this.lblResult.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
-    this.cmbResult.setBounds(10, 95, 70, Util.INPUT_HEIGHT);
-    this.txtResult.setBounds(90, 95, 190, Util.INPUT_HEIGHT);
-    this.btnCopy.setBounds(290, 95, 110, Util.BUTTON_HEIGHT);
+    this.btnExchange.setBounds(10, 70, 90, Util.BUTTON_HEIGHT);
+    this.pnlMain.add(this.btnExchange);
+
+    this.lblResult.setBounds(10, 100, 70, Util.VIEW_HEIGHT);
+    this.cmbResult.setBounds(10, 125, 70, Util.INPUT_HEIGHT);
+    this.txtResult.setBounds(90, 125, 190, Util.INPUT_HEIGHT);
+    this.btnCopy.setBounds(290, 125, 110, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.lblResult);
     this.pnlMain.add(this.cmbResult);
     this.pnlMain.add(this.txtResult);
     this.pnlMain.add(this.btnCopy);
 
-    this.btnCancel.setBounds(160, 135, 80, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(160, 165, 80, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnCancel);
     this.txtResult.setEditable(false);
   }
@@ -137,6 +141,8 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
     this.btnCopy.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addActionListener(this);
     this.btnCancel.addKeyListener(this.buttonKeyAdapter);
+    this.btnExchange.addActionListener(this);
+    this.btnExchange.addKeyListener(this.buttonKeyAdapter);
   }
 
   /**
@@ -147,6 +153,8 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
       this.toCopyResult();
     } else if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
+    } else if (this.btnExchange.equals(e.getSource())) {
+      this.exchange();
     }
   }
 
@@ -186,6 +194,18 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
    */
   private void toCopyResult() {
     this.setClipboardContents(this.txtResult.getText());
+  }
+
+  /**
+   * "互换进制"的处理方法
+   */
+  private void exchange() {
+    int indexNumber = this.cmbNumber.getSelectedIndex();
+    int indexResult = this.cmbResult.getSelectedIndex();
+    if (indexNumber != indexResult) {
+      this.cmbNumber.setSelectedIndex(indexResult);
+      this.cmbResult.setSelectedIndex(indexNumber);
+    }
   }
 
   /**
