@@ -17,22 +17,20 @@
 
 package com.xiboliya.snowpad;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 /**
@@ -47,7 +45,6 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   private BaseTextField txtView = new BaseTextField();
   private JPanel pnlButton = new JPanel(new GridLayout(5, 4, 5, 5));
   private Insets insets = new Insets(0, 0, 0, 0);
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private LinkedList<String> list = new LinkedList<String>();
 
@@ -101,7 +98,79 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
    * Ìí¼ÓÊÂ¼þ¼àÌýÆ÷
    */
   private void addListeners() {
-    this.txtView.addKeyListener(this.keyAdapter);
+    this.txtView.addKeyListener(new KeyAdapter() {
+      public void keyPressed(KeyEvent e) {
+        String text = txtView.getText();
+        switch (e.getKeyCode()) {
+          case KeyEvent.VK_0:
+          case KeyEvent.VK_NUMPAD0:
+            digit(text, "0");
+            break;
+          case KeyEvent.VK_1:
+          case KeyEvent.VK_NUMPAD1:
+            digit(text, "1");
+            break;
+          case KeyEvent.VK_2:
+          case KeyEvent.VK_NUMPAD2:
+            digit(text, "2");
+            break;
+          case KeyEvent.VK_3:
+          case KeyEvent.VK_NUMPAD3:
+            digit(text, "3");
+            break;
+          case KeyEvent.VK_4:
+          case KeyEvent.VK_NUMPAD4:
+            digit(text, "4");
+            break;
+          case KeyEvent.VK_5:
+          case KeyEvent.VK_NUMPAD5:
+            digit(text, "5");
+            break;
+          case KeyEvent.VK_6:
+          case KeyEvent.VK_NUMPAD6:
+            digit(text, "6");
+            break;
+          case KeyEvent.VK_7:
+          case KeyEvent.VK_NUMPAD7:
+            digit(text, "7");
+            break;
+          case KeyEvent.VK_8:
+          case KeyEvent.VK_NUMPAD8:
+            digit(text, "8");
+            break;
+          case KeyEvent.VK_9:
+          case KeyEvent.VK_NUMPAD9:
+            digit(text, "9");
+            break;
+          case KeyEvent.VK_ADD:
+            addition(text);
+            break;
+          case KeyEvent.VK_SUBTRACT:
+            subduction(text);
+            break;
+          case KeyEvent.VK_MULTIPLY:
+            multiplication(text);
+            break;
+          case KeyEvent.VK_DIVIDE:
+            division(text);
+            break;
+          case KeyEvent.VK_DECIMAL:
+          case KeyEvent.VK_PERIOD:
+            dot(text);
+            break;
+          case KeyEvent.VK_BACK_SPACE:
+            backSpace(text);
+            break;
+          case KeyEvent.VK_EQUALS:
+          case KeyEvent.VK_ENTER:
+            onEnter();
+            break;
+          case KeyEvent.VK_ESCAPE:
+            onCancel();
+            break;
+        }
+      }
+    });
   }
 
   /**
