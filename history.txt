@@ -1215,3 +1215,7 @@ src/SnowPadFrame.java
 2020-04-22
 1.进制转换界面中添加“互换进制”功能。
 src/NumberConvertDialog
+
+2020-04-24
+1.扩充“插入特殊字符”界面的字符。
+src/Util.java
