@@ -56,12 +56,12 @@ public final class Util {
   public static final String FILE_HISTORY = "FileHistory"; // 用于标识最近编辑的文件
   public static final String LOOK_AND_FEEL = "LookAndFeel"; // 用于标识当前系统可用的外观
   public static final String PARAM_SPLIT = "#"; // 用于分隔前后文本标识的字符串
-  public static final String INSERT_SPECIAL = "﹟﹠﹡＃＠＆＊※§〃№♀♂㊣㈱℡℅⊙◎〓○●△▲▽▼◇◆□■☆★◢◣◤◥ˉ￣＿﹉﹊﹍﹎﹋﹌↑↓←→↖↗↙↘∥∣／＼∕﹨╋┳┻┫┣┃━┏┓┗┛╳╱╲"; // 特殊符号
-  public static final String INSERT_PUNCTUATION = "，、。．；：？！︰…‥′‵～‖ˇˉ﹐﹑﹒?﹔﹕﹖﹗｜–︱—︳︴﹏（）︵︶｛｝︷︸〔〕︹︺【】︻︼《》︽︾〈〉︿﹀「」﹁﹂『』﹃﹄﹙﹚﹛﹜﹝﹞‘’“”〝〞ˋˊ々"; // 标点符号
-  public static final String INSERT_MATH = "≈≡≠＝≤≥＜＞≮≯±＋－×÷／∫∮∝∞∧∨∑∏∪∩∈∵∴∷⊥∥∠⌒≌∽√≦≧≒﹢﹣﹤﹥﹦～∟⊿㏒㏑"; // 数学符号
-  public static final String INSERT_UNIT = "°′″＄￥〒￠￡％℃℉﹩﹪‰﹫㏕㎜㎝㎞㏎㎡㎎㎏㏄¤"; // 单位符号
+  public static final String INSERT_SPECIAL = "﹡＊♀♂㊣㈱卍卐℡⊕◎〓○●△▲▽▼◇◆□■☆★◢◣◤◥︳ˉ–—﹏﹋＿￣﹍﹉﹎﹊┄┆┅┇┈┊┉┋↑↓←→↖↗↙↘∥∣／＼∕﹨╳▂▃▄▅▆▇█▉▊▋▌▍▎▏▁▔▕┳┻┫┣┃━┏┓┗┛╋╱╲╮╭╯╰"; // 特殊符号
+  public static final String INSERT_PUNCTUATION = "，、。．；：？﹖?！︰∶…‥′＇｀‵＂〃～~‖ˇ﹐﹑.﹒﹔﹕¨﹗（）︵︶｛｝︷︸〔〕︹︺【】︻︼〖〗［］《》︽︾〈〉︿﹀「」﹁﹂『』﹃﹄﹙﹚﹛﹜﹝﹞‘’“”〝〞ˋˊ§々"; // 标点符号
+  public static final String INSERT_MATH = "≈≡≠＝≒≤≥≦≧＜＞≮≯±＋－×÷／∫∮∝∞∧∨∑∏∪∩∈∵∴∷⊥∥∠⌒⊙≌∽√﹢﹣﹤﹥﹦∟⊿π℅﹟＃#＆﹠&※№㏒㏑"; // 数学符号
+  public static final String INSERT_UNIT = "°′″＄￥〒￠￡％℃℉﹩$﹪‰＠﹫㏕㎜㎝㎞㏎㎡㎎㎏㏄¤"; // 单位符号
   public static final String INSERT_DIGIT = "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇①②③④⑤⑥⑦⑧⑨⑩㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ"; // 数字符号
-  public static final String INSERT_PINYIN = "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡ"; // 拼音符号
+  public static final String INSERT_PINYIN = "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ"; // 拼音符号
   public static final String CALCULATOR_ITEM = "C←%÷789×456－123＋π0.="; // 计算器按钮
   public static final String BRACKETS_LEFT = "([{<"; // 在文本域中可以进行高亮匹配的左括号
   public static final String BRACKETS_RIGHT = ")]}>"; // 在文本域中可以进行高亮匹配的右括号
