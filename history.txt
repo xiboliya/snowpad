@@ -1219,3 +1219,5 @@ src/NumberConvertDialog
 2020-04-24
 1.扩充“插入特殊字符”界面的字符。
 src/Util.java
+2.计算器界面中添加键盘输入支持。
+src/CalculatorDialog.java
