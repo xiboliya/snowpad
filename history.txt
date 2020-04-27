@@ -1221,3 +1221,7 @@ src/NumberConvertDialog
 src/Util.java
 2.计算器界面中添加键盘输入支持。
 src/CalculatorDialog.java
+
+2020-04-27
+1.解决如果“以空格代替Tab键”功能已开启，打开“Tab键设置”界面，然后关闭界面，“以空格代替Tab键”功能会关闭的问题。
+src/TabSetDialog.java
