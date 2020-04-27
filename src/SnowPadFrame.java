@@ -692,13 +692,22 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     tpnMain.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         Rectangle rect = tpnMain.getBoundsAt(tpnMain.getSelectedIndex());
-        if (rect.contains(e.getX(), e.getY())) { // 当点击区域位于当前选项卡范围内时，执行相应的操作
+        int x = e.getX();
+        int y = e.getY();
+        if (rect.contains(x, y)) { // 当点击区域位于当前选项卡范围内时，执行相应的操作
           if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
-            popMenuTabbed.show(tpnMain, e.getX(), e.getY());
+            popMenuTabbed.show(tpnMain, x, y);
           } else if (e.getClickCount() == 2) { // 双击时，关闭当前标签
             if (clickToClose) {
               closeFile(true);
             }
+          }
+        } else if (e.getClickCount() == 2) { // 双击空白区域时，新建标签
+          rect = tpnMain.getBoundsAt(tpnMain.getTabCount() - 1); // 获取选项卡最后一个标签的显示区域
+          double lastX = rect.getX() + rect.getWidth();
+          double lastY = rect.getY() + rect.getHeight();
+          if (x > lastX && y > rect.getY() && y < lastY) {
+            createNew(null);
           }
         }
       }
