@@ -95,8 +95,8 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
     this.tabSize = this.txaSource.getTabSize();
     this.txtTabSize.setText(String.valueOf(this.tabSize));
     this.txtTabSize.selectAll();
-    this.chkReplaceBySpace.setSelected(((BaseTextArea) this.txaSource)
-        .getTabReplaceBySpace());
+    this.isReplaceBySpace = ((BaseTextArea) this.txaSource).getTabReplaceBySpace();
+    this.chkReplaceBySpace.setSelected(this.isReplaceBySpace);
   }
 
   /**
