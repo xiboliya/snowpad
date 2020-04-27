@@ -1214,7 +1214,7 @@ src/SnowPadFrame.java
 
 2020-04-22
 1.进制转换界面中添加“互换进制”功能。
-src/NumberConvertDialog
+src/NumberConvertDialog.java
 
 2020-04-24
 1.扩充“插入特殊字符”界面的字符。
@@ -1225,3 +1225,5 @@ src/CalculatorDialog.java
 2020-04-27
 1.解决如果“以空格代替Tab键”功能已开启，打开“Tab键设置”界面，然后关闭界面，“以空格代替Tab键”功能会关闭的问题。
 src/TabSetDialog.java
+2.双击选项卡空白区域时，新建文本域。
+src/SnowPadFrame.java
