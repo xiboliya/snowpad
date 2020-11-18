@@ -133,6 +133,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemCopy = new JMenuItem("复制(C)", 'C');
   private JMenuItem itemPaste = new JMenuItem("粘贴(P)", 'P');
   private JMenuItem itemDel = new JMenuItem("删除(L)", 'L');
+  private JMenuItem itemSlicing = new JMenuItem("切割文件(S)...", 'S');
   private JMenu menuCase = new JMenu("切换大小写");
   private JMenuItem itemCaseUp = new JMenuItem("切换为大写");
   private JMenuItem itemCaseLow = new JMenuItem("切换为小写");
@@ -353,6 +354,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private InsertCharDialog insertCharDialog = null; // 插入字符对话框
   private InsertDateDialog insertDateDialog = null; // 插入时间/日期对话框
   private FileEncodingDialog fileEncodingDialog = null; // 文件编码格式对话框
+  private SlicingFileDialog slicingFileDialog = null; // 切割文件对话框
   private BatchRemoveDialog batchRemoveDialog = null; // 批处理"切除"对话框
   private BatchInsertDialog batchInsertDialog = null; // 批处理"插入"对话框
   private BatchSeparateDialog batchSeparateDialog = null; // 批处理"分割行"对话框
@@ -490,6 +492,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemInsertChar.addActionListener(this);
     this.itemInsertDateTime.addActionListener(this);
     this.itemDel.addActionListener(this);
+    this.itemSlicing.addActionListener(this);
     this.itemCaseUp.addActionListener(this);
     this.itemCaseLow.addActionListener(this);
     this.itemQuickFindDown.addActionListener(this);
@@ -834,6 +837,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.itemSelAll);
     this.menuEdit.add(this.itemDel);
     this.menuEdit.addSeparator();
+    this.menuEdit.add(this.itemSlicing);
+    this.menuEdit.addSeparator();
     this.menuEdit.add(this.menuCase);
     this.menuCase.add(this.itemCaseUp);
     this.menuCase.add(this.itemCaseLow);
@@ -1039,6 +1044,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemPaste);
     this.menuItemList.add(this.itemSelAll);
     this.menuItemList.add(this.itemDel);
+    this.menuItemList.add(this.itemSlicing);
     this.menuItemList.add(this.itemCaseUp);
     this.menuItemList.add(this.itemCaseLow);
     this.menuItemList.add(this.itemToCopyFileName);
@@ -1227,6 +1233,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCopy.setEnabled(false);
     this.itemSelAll.setEnabled(false);
     this.itemDel.setEnabled(false);
+    this.itemSlicing.setEnabled(false);
     this.menuCase.setEnabled(false);
     this.itemFind.setEnabled(false);
     this.itemFindNext.setEnabled(false);
@@ -1541,6 +1548,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemDel.equals(e.getSource())
         || this.itemPopDel.equals(e.getSource())) {
       this.deleteText();
+    } else if (this.itemSlicing.equals(e.getSource())) {
+      this.openSlicingFileDialog();
     } else if (this.itemCaseUp.equals(e.getSource())) {
       this.switchCase(true);
     } else if (this.itemCaseLow.equals(e.getSource())) {
@@ -2240,6 +2249,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.fileEncodingDialog != null) {
       this.fileEncodingDialog.dispose();
       this.fileEncodingDialog = null;
+    }
+    if (this.slicingFileDialog != null) {
+      this.slicingFileDialog.dispose();
+      this.slicingFileDialog = null;
     }
     if (this.batchRemoveDialog != null) {
       this.batchRemoveDialog.dispose();
@@ -4227,6 +4240,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * "切割文件"的处理方法
+   */
+  private void openSlicingFileDialog() {
+    if (this.slicingFileDialog == null) {
+      this.slicingFileDialog = new SlicingFileDialog(this, true, this.txaMain);
+    } else {
+      this.slicingFileDialog.setVisible(true);
+    }
+  }
+
+  /**
    * "复制"的处理方法
    */
   private void copyText() {
@@ -4496,6 +4520,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopReName.setEnabled(true);
     this.itemPopDelFile.setEnabled(true);
     this.itemPopReOpen.setEnabled(true);
+    this.itemSlicing.setEnabled(true);
   }
 
   /**
@@ -4945,6 +4970,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopReName.setEnabled(true);
     this.itemPopDelFile.setEnabled(true);
     this.itemPopReOpen.setEnabled(true);
+    this.itemSlicing.setEnabled(true);
     this.txaMain.setTextChanged(false);
     this.txaMain.setStyleChanged(false);
     this.txaMain.setSaved(true);
@@ -4995,6 +5021,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopReName.setEnabled(enable);
     this.itemPopDelFile.setEnabled(enable);
     this.itemPopReOpen.setEnabled(enable);
+    this.itemSlicing.setEnabled(enable);
   }
 
   /**

@@ -67,6 +67,7 @@ public final class Util {
   public static final String BRACKETS_RIGHT = ")]}>"; // 在文本域中可以进行高亮匹配的右括号
   public static final String AUTO_COMPLETE_BRACKETS_LEFT = "([{<'\""; // 在文本域中可以自动完成的左符号
   public static final String AUTO_COMPLETE_BRACKETS_RIGHT = ")]}>'\""; // 在文本域中可以自动完成的右符号
+  public static final String PATTERN_META_CHARACTER = "$()*+.?[^{|"; // 正则表达式元字符
   public static final String CTRL = "Ctrl"; // Ctrl键的名称
   public static final String SHIFT = "Shift"; // Shift键的名称
   public static final String ALT = "Alt"; // Alt键的名称
@@ -128,7 +129,7 @@ public final class Util {
   public static final String[] SHORTCUT_NAMES = new String[] {
       "新建","打开","以指定编码打开","保存","另存为","重命名","重新载入文件","删除当前文件","关闭当前","关闭其它",
       "关闭左侧","关闭右侧","关闭全部","冻结文件","打印","清空最近编辑列表","退出","撤销","重做","剪切","复制","粘贴",
-      "全选","删除","切换为大写","切换为小写","复制当前文件名到剪贴板","复制当前文件路径到剪贴板","复制当前目录路径到剪贴板","复制所有文本到剪贴板","复写当前行","删除当前行",
+      "全选","删除","切割文件","切换为大写","切换为小写","复制当前文件名到剪贴板","复制当前文件路径到剪贴板","复制当前目录路径到剪贴板","复制所有文本到剪贴板","复写当前行","删除当前行",
       "删除至行首","删除至行尾","删除至文件首","删除至文件尾","上移当前行","下移当前行","复制当前行","剪切当前行","批量切除行","批量插入行",
       "批量分割行","批量拼接行","批量合并行","逐行复写","升序排序","降序排序","缩进","退格","清除行首空白","清除行尾空白",
       "清除行首和行尾空白","清除选区内空白","删除全文空行","删除选区空行","添加单行注释","添加区块注释","插入特殊字符","插入时间和日期","复写选区字符","反转选区字符",
@@ -144,7 +145,7 @@ public final class Util {
   public static final String[] SHORTCUT_VALUES = new String[] {
       "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","",
       "","","","","","","Ctrl+81","Ctrl+90","Ctrl+89","Ctrl+88","Ctrl+67","Ctrl+86",
-      "Ctrl+65","127","Ctrl+Shift+85","Ctrl+85","","","","Ctrl+Shift+65","Ctrl+68","Ctrl+Shift+68",
+      "Ctrl+65","127","","Ctrl+Shift+85","Ctrl+85","","","","Ctrl+Shift+65","Ctrl+68","Ctrl+Shift+68",
       "Ctrl+Alt+37","Ctrl+Alt+39","Ctrl+Alt+Shift+37","Ctrl+Alt+Shift+39","Ctrl+Shift+38","Ctrl+Shift+40","Ctrl+Shift+67","Ctrl+Shift+88","Ctrl+Shift+82","Ctrl+Shift+73",
       "Ctrl+Shift+80","Ctrl+Shift+74","Ctrl+Shift+77","Ctrl+Shift+86","Alt+38","Alt+40","Ctrl+Alt+84","Ctrl+Alt+Shift+84","Ctrl+Shift+83","Ctrl+Shift+69",
       "Ctrl+Shift+76","Ctrl+Shift+84","Ctrl+Alt+65","Ctrl+Alt+83","Ctrl+76","Ctrl+77","","116","Ctrl+82","Ctrl+73",
