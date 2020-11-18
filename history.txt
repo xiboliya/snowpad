@@ -1227,3 +1227,9 @@ src/CalculatorDialog.java
 src/TabSetDialog.java
 2.双击选项卡空白区域时，新建文本域。
 src/SnowPadFrame.java
+
+2020-11-18
+1.在“编辑”菜单中添加“切割文件”功能。
+src/SnowPadFrame.java
+src/Util.java
+src/SlicingFileDialog.java（添加）
