@@ -2427,7 +2427,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       JScrollPane srp = null;
       for (int i = 0; i < this.tpnMain.getTabCount(); i++) {
         srp = (JScrollPane) this.tpnMain.getComponentAt(i);
-        srp.getRowHeader().getView().setFont(this.textAreaSetting.font);
+        if (srp.getRowHeader() != null && srp.getRowHeader().getView() != null) {
+          srp.getRowHeader().getView().setFont(this.textAreaSetting.font);
+        }
       }
     }
   }
