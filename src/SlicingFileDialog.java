@@ -30,7 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
- * "切割文件"对话框
+ * "拆分文件"对话框
  * 
  * @author 冰原
  * 
@@ -38,7 +38,7 @@ import javax.swing.JTextArea;
 public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblKeyword = new JLabel("切割关键字：");
+  private JLabel lblKeyword = new JLabel("拆分关键字：");
   private BaseTextField txtKeyword = new BaseTextField();
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
@@ -62,7 +62,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
    * 初始化界面
    */
   private void init() {
-    this.setTitle("切割文件");
+    this.setTitle("拆分文件");
     this.pnlMain.setLayout(null);
     this.lblKeyword.setBounds(20, 10, 90, Util.VIEW_HEIGHT);
     this.txtKeyword.setBounds(110, 10, 105, Util.INPUT_HEIGHT);
@@ -118,12 +118,12 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * 按照关键字对文件进行切割
+   * 按照关键字对文件进行拆分
    */
   private void slicingFile() {
     String keyword = this.txtKeyword.getText();
     if (Util.isTextEmpty(keyword)) {
-      JOptionPane.showMessageDialog(this, "切割关键字不能为空，请输入！", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "拆分关键字不能为空，请输入！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -131,13 +131,13 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     BaseTextArea textArea = (BaseTextArea) this.txaSource;
     String strText = textArea.getText();
     if (Util.isTextEmpty(strText)) {
-      JOptionPane.showMessageDialog(this, "文件内容为空，无法切割！", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "文件内容为空，无法拆分！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     String[] arrText = strText.split(keyword);
     if (arrText.length <= 1) {
-      JOptionPane.showMessageDialog(this, "切割文件失败，请检查关键字是否正确！", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "拆分文件失败，请检查关键字是否正确！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -167,11 +167,11 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
           x.printStackTrace();
         }
       }
-      JOptionPane.showMessageDialog(this, "切割文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "拆分文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       onCancel();
     } else {
-      JOptionPane.showMessageDialog(this, "切割文件失败，请先保存文件！", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "拆分文件失败，请先保存文件！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     }
   }

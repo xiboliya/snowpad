@@ -133,7 +133,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemCopy = new JMenuItem("复制(C)", 'C');
   private JMenuItem itemPaste = new JMenuItem("粘贴(P)", 'P');
   private JMenuItem itemDel = new JMenuItem("删除(L)", 'L');
-  private JMenuItem itemSlicing = new JMenuItem("切割文件(S)...", 'S');
+  private JMenuItem itemSlicing = new JMenuItem("拆分文件(S)...", 'S');
   private JMenu menuCase = new JMenu("切换大小写");
   private JMenuItem itemCaseUp = new JMenuItem("切换为大写");
   private JMenuItem itemCaseLow = new JMenuItem("切换为小写");
@@ -354,7 +354,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private InsertCharDialog insertCharDialog = null; // 插入字符对话框
   private InsertDateDialog insertDateDialog = null; // 插入时间/日期对话框
   private FileEncodingDialog fileEncodingDialog = null; // 文件编码格式对话框
-  private SlicingFileDialog slicingFileDialog = null; // 切割文件对话框
+  private SlicingFileDialog slicingFileDialog = null; // 拆分文件对话框
   private BatchRemoveDialog batchRemoveDialog = null; // 批处理"切除"对话框
   private BatchInsertDialog batchInsertDialog = null; // 批处理"插入"对话框
   private BatchSeparateDialog batchSeparateDialog = null; // 批处理"分割行"对话框
@@ -4242,7 +4242,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "切割文件"的处理方法
+   * "拆分文件"的处理方法
    */
   private void openSlicingFileDialog() {
     if (this.slicingFileDialog == null) {
