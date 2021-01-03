@@ -1237,3 +1237,8 @@ src/SlicingFileDialog.java（添加）
 2020-11-30
 1.解决同时开启“自动换行”和“行号栏”时，设置字体大小时出现空指针异常的问题。
 src/SnowPadFrame.java
+
+2021-01-03
+1.“切割文件”更改为“拆分文件”。
+src/SlicingFileDialog.java
+src/SnowPadFrame.java
