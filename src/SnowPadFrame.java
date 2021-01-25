@@ -277,6 +277,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemEncrypt = new JMenuItem("加密(E)...", 'E');
   private JMenuItem itemNumberConvert = new JMenuItem("进制转换(N)...", 'N');
   private JMenuItem itemCalculator = new JMenuItem("计算器(C)...", 'C');
+  private JMenuItem itemCuttingFile = new JMenuItem("切割文件(T)...", 'T');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -365,6 +366,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private EncryptDialog encryptDialog = null; // 加密对话框
   private NumberConvertDialog numberConvertDialog = null; // 进制转换对话框
   private CalculatorDialog calculatorDialog = null; // 计算器对话框
+  private CuttingFileDialog cuttingFileDialog = null; // 切割文件对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
@@ -546,6 +548,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemEncrypt.addActionListener(this);
     this.itemNumberConvert.addActionListener(this);
     this.itemCalculator.addActionListener(this);
+    this.itemCuttingFile.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -996,6 +999,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTool.add(this.itemEncrypt);
     this.menuTool.add(this.itemNumberConvert);
     this.menuTool.add(this.itemCalculator);
+    this.menuTool.add(this.itemCuttingFile);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1159,6 +1163,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemEncrypt);
     this.menuItemList.add(this.itemNumberConvert);
     this.menuItemList.add(this.itemCalculator);
+    this.menuItemList.add(this.itemCuttingFile);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1652,6 +1657,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openNumberConvertDialog();
     } else if (this.itemCalculator.equals(e.getSource())) {
       this.openCalculatorDialog();
+    } else if (this.itemCuttingFile.equals(e.getSource())) {
+      this.openCuttingFileDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -2293,6 +2300,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.calculatorDialog != null) {
       this.calculatorDialog.dispose();
       this.calculatorDialog = null;
+    }
+    if (this.cuttingFileDialog != null) {
+      this.cuttingFileDialog.dispose();
+      this.cuttingFileDialog = null;
     }
     if (this.helpFrame != null) {
       this.helpFrame.dispose();
@@ -4098,6 +4109,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.calculatorDialog = new CalculatorDialog(this, false);
     } else {
       this.calculatorDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "切割文件"的处理方法
+   */
+  private void openCuttingFileDialog() {
+    if (this.cuttingFileDialog == null) {
+      this.cuttingFileDialog = new CuttingFileDialog(this, false);
+    } else {
+      this.cuttingFileDialog.setVisible(true);
     }
   }
 
