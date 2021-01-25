@@ -1242,3 +1242,9 @@ src/SnowPadFrame.java
 1.“切割文件”更改为“拆分文件”。
 src/SlicingFileDialog.java
 src/SnowPadFrame.java
+
+2021-01-25
+1.在“工具”菜单中添加“切割文件”功能。
+src/CuttingFileDialog.java（添加）
+src/SnowPadFrame.java
+src/Util.java
