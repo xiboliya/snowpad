@@ -1248,3 +1248,7 @@ src/SnowPadFrame.java
 src/CuttingFileDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
+
+2021-03-23
+1.解决“拆分文件”界面在切换文本域后不会随之刷新的问题。
+src/SnowPadFrame.java
