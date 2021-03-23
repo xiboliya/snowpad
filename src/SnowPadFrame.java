@@ -4270,6 +4270,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.slicingFileDialog == null) {
       this.slicingFileDialog = new SlicingFileDialog(this, true, this.txaMain);
     } else {
+      this.slicingFileDialog.setTextArea(this.txaMain);
       this.slicingFileDialog.setVisible(true);
     }
   }
@@ -5055,26 +5056,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.findReplaceDialog != null) {
       this.findReplaceDialog.setTextArea(this.txaMain);
     }
-    if (this.gotoDialog != null) {
-      this.gotoDialog.setTextArea(this.txaMain);
-    }
-    if (this.tabSetDialog != null) {
-      this.tabSetDialog.setTextArea(this.txaMain);
-    }
-    if (this.autoCompleteDialog != null) {
-      this.autoCompleteDialog.setTextArea(this.txaMain);
-    }
     if (this.insertCharDialog != null) {
       this.insertCharDialog.setTextArea(this.txaMain);
     }
     if (this.insertDateDialog != null) {
       this.insertDateDialog.setTextArea(this.txaMain);
-    }
-    if (this.batchRemoveDialog != null) {
-      this.batchRemoveDialog.setTextArea(this.txaMain);
-    }
-    if (this.signIdentifierDialog != null) {
-      this.signIdentifierDialog.setTextArea(this.txaMain);
     }
   }
 
