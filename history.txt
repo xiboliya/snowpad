@@ -1252,3 +1252,7 @@ src/Util.java
 2021-03-23
 1.解决“拆分文件”界面在切换文本域后不会随之刷新的问题。
 src/SnowPadFrame.java
+
+2021-03-29
+1.在“切割文件”界面中添加“按文件个数切割”功能。
+src/CuttingFileDialog.java
