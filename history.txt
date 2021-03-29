@@ -1256,3 +1256,7 @@ src/SnowPadFrame.java
 2021-03-29
 1.在“切割文件”界面中添加“按文件个数切割”功能。
 src/CuttingFileDialog.java
+2.解决“切割文件”和“拆分文件”界面在覆盖已有目录时，没有删除原有文件的问题。
+src/CuttingFileDialog.java
+src/SlicingFileDialog.java
+src/Util.java
