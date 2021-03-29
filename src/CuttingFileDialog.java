@@ -208,9 +208,9 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       return;
     }
     if (this.radCutSize.isSelected()) {
-      cuttingFileBySize(file, length);
+      this.cuttingFileBySize(file, length);
     } else {
-      cuttingFileByCount(file, length);
+      this.cuttingFileByCount(file, length);
     }
   }
 
@@ -257,6 +257,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       if (result != JOptionPane.YES_OPTION) {
         return;
       }
+      Util.deleteAllFiles(fileParent);
     } else {
       fileParent.mkdirs(); // 如果目录不存在，则创建之
     }
@@ -325,6 +326,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       if (result != JOptionPane.YES_OPTION) {
         return;
       }
+      Util.deleteAllFiles(fileParent);
     } else {
       fileParent.mkdirs(); // 如果目录不存在，则创建之
     }

@@ -698,6 +698,26 @@ public final class Util {
   }
 
   /**
+   * 删除目录下的所有文件
+   * 
+   * @param file
+   *          目录文件
+   */
+  public static void deleteAllFiles(File file) {
+    if (!file.exists()) {
+      return;
+    }
+    if (file.isFile()) {
+      file.delete();
+      return;
+    }
+    File[] files = file.listFiles();
+    for (int i = 0; i < files.length; i++) {
+      deleteAllFiles(files[i]);
+    }
+  }
+
+  /**
    * 将给定的字符串进行转义替换，即将字符串中的\n替换为换行符，\t替换为tab字符
    * 
    * @param strSource

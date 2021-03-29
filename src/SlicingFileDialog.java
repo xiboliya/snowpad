@@ -151,6 +151,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
         if (result != JOptionPane.YES_OPTION) {
           return;
         }
+        Util.deleteAllFiles(fileParent);
       } else {
         fileParent.mkdirs(); // 如果目录不存在，则创建之
       }
