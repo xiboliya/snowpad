@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -30,6 +31,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 /**
@@ -45,9 +47,13 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private JLabel lblPath = new JLabel("输入文件路径：");
   private BaseTextField txtPath = new BaseTextField();
   private JButton btnSelectFile = new JButton("选择文件(S)");
-  private JLabel lblCutSize = new JLabel("切割文件大小：");
+  private JRadioButton radCutSize = new JRadioButton("按文件大小切割：", true);
   private BaseTextField txtCutSize = new BaseTextField(true, "\\d{0,4}"); // 限制用户只能输入数字，并且不能超过4位
   private JComboBox<String> cmbCutUnit = new JComboBox<String>(Util.STORAGE_UNIT);
+  private JRadioButton radCutCount = new JRadioButton("按文件个数切割：", false);
+  private BaseTextField txtCutCount = new BaseTextField(true, "\\d{0,4}"); // 限制用户只能输入数字，并且不能超过4位
+  private JLabel lblCutCount = new JLabel("个");
+  private ButtonGroup bgpCut = new ButtonGroup();
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
@@ -57,8 +63,9 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     super(owner, modal);
     this.init();
     this.initView();
+    this.setComponentEnabledByRadioButton();
     this.addListeners();
-    this.setSize(420, 200);
+    this.setSize(420, 260);
     this.setVisible(true);
   }
 
@@ -74,16 +81,24 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     this.pnlMain.add(this.txtPath);
     this.btnSelectFile.setBounds(290, 37, 110, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnSelectFile);
-    this.lblCutSize.setBounds(10, 87, 100, Util.VIEW_HEIGHT);
-    this.txtCutSize.setBounds(110, 85, 50, 30);
-    this.cmbCutUnit.setBounds(170, 87, 100, Util.INPUT_HEIGHT);
-    this.pnlMain.add(this.lblCutSize);
+    this.radCutSize.setBounds(10, 87, 130, Util.VIEW_HEIGHT);
+    this.txtCutSize.setBounds(140, 85, 50, 30);
+    this.cmbCutUnit.setBounds(200, 87, 100, Util.INPUT_HEIGHT);
+    this.pnlMain.add(this.radCutSize);
     this.pnlMain.add(this.txtCutSize);
     this.pnlMain.add(this.cmbCutUnit);
-    this.btnOk.setBounds(90, 130, 90, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(240, 130, 90, Util.BUTTON_HEIGHT);
+    this.radCutCount.setBounds(10, 130, 130, Util.VIEW_HEIGHT);
+    this.txtCutCount.setBounds(140, 128, 50, 30);
+    this.lblCutCount.setBounds(200, 130, 100, Util.INPUT_HEIGHT);
+    this.pnlMain.add(this.radCutCount);
+    this.pnlMain.add(this.txtCutCount);
+    this.pnlMain.add(this.lblCutCount);
+    this.btnOk.setBounds(90, 180, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(240, 180, 90, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnOk);
     this.pnlMain.add(this.btnCancel);
+    this.bgpCut.add(this.radCutSize);
+    this.bgpCut.add(this.radCutCount);
   }
 
   /**
@@ -104,12 +119,27 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
+   * 根据单选按钮的选择，设置组件是否可用
+   */
+  private void setComponentEnabledByRadioButton() {
+    boolean selected = this.radCutSize.isSelected();
+    this.txtCutSize.setEnabled(selected);
+    this.cmbCutUnit.setEnabled(selected);
+    this.txtCutCount.setEnabled(!selected);
+    this.lblCutCount.setEnabled(!selected);
+  }
+
+  /**
    * 添加事件监听器
    */
   private void addListeners() {
     this.txtPath.addKeyListener(this.keyAdapter);
     this.btnSelectFile.addActionListener(this);
     this.btnSelectFile.addKeyListener(this.buttonKeyAdapter);
+    this.radCutSize.addActionListener(this);
+    this.radCutSize.addKeyListener(this.keyAdapter);
+    this.radCutCount.addActionListener(this);
+    this.radCutCount.addKeyListener(this.keyAdapter);
     this.txtCutSize.addKeyListener(this.keyAdapter);
     this.cmbCutUnit.addKeyListener(this.keyAdapter);
     this.btnOk.addActionListener(this);
@@ -128,6 +158,10 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       this.onCancel();
     } else if (this.btnSelectFile.equals(e.getSource())) {
       this.selectFile();
+    } else if (this.radCutSize.equals(e.getSource())) {
+      this.setComponentEnabledByRadioButton();
+    } else if (this.radCutCount.equals(e.getSource())) {
+      this.setComponentEnabledByRadioButton();
     }
   }
 
@@ -173,6 +207,14 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
           JOptionPane.CANCEL_OPTION);
       return;
     }
+    if (this.radCutSize.isSelected()) {
+      cuttingFileBySize(file, length);
+    } else {
+      cuttingFileByCount(file, length);
+    }
+  }
+
+  private void cuttingFileBySize(File file, long length) {
     String strCutSize = this.txtCutSize.getText();
     if (Util.isTextEmpty(strCutSize)) {
       JOptionPane.showMessageDialog(this, "切割文件大小不能为空，请输入！", Util.SOFTWARE,
@@ -207,6 +249,74 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
           JOptionPane.CANCEL_OPTION);
       return;
     }
+    File fileParent = new File(file.getParent() + "/" + file.getName() + "_cutting");
+    if (fileParent.exists()) {
+      int result = JOptionPane.showConfirmDialog(this,
+          Util.convertToMsg("此操作将覆盖已存在的" + fileParent + "目录！\n是否继续？"),
+          Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
+      if (result != JOptionPane.YES_OPTION) {
+        return;
+      }
+    } else {
+      fileParent.mkdirs(); // 如果目录不存在，则创建之
+    }
+    RandomAccessFile randomAccessFile = null;
+    byte byteArr[] = new byte[cutSize];
+    try {
+      randomAccessFile = new RandomAccessFile(file, "r");
+      randomAccessFile.seek(0);
+      byte buffer[] = new byte[cutSize];
+      int len = 0;
+      int count = 0;
+      while ((len = randomAccessFile.read(buffer)) != -1) {
+        File fileCutting = new File(fileParent + "/" + count);
+        toCuttingFile(fileCutting, buffer, len);
+        count++;
+        buffer = new byte[cutSize];
+      }
+      JOptionPane.showMessageDialog(this, "切割文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE,
+          JOptionPane.CANCEL_OPTION);
+      onCancel();
+    } catch (Exception x) {
+      // x.printStackTrace();
+      JOptionPane.showMessageDialog(this, "切割文件失败！", Util.SOFTWARE,
+          JOptionPane.CANCEL_OPTION);
+    } finally {
+      try {
+        randomAccessFile.close();
+      } catch (IOException x) {
+        // x.printStackTrace();
+      }
+    }
+  }
+
+  private void cuttingFileByCount(File file, long length) {
+    String strCutCount = this.txtCutCount.getText();
+    if (Util.isTextEmpty(strCutCount)) {
+      JOptionPane.showMessageDialog(this, "切割文件个数不能为空，请输入！", Util.SOFTWARE,
+          JOptionPane.CANCEL_OPTION);
+      return;
+    }
+    int cutCount = 0;
+    try {
+      cutCount = Integer.parseInt(strCutCount);
+    } catch (NumberFormatException x) {
+      // x.printStackTrace();
+      JOptionPane.showMessageDialog(this, "切割文件个数格式错误，请输入数字！", Util.SOFTWARE,
+          JOptionPane.CANCEL_OPTION);
+      return;
+    }
+    if (cutCount <= 1) {
+      JOptionPane.showMessageDialog(this, "切割文件个数必须大于1，请重新输入！", Util.SOFTWARE,
+          JOptionPane.CANCEL_OPTION);
+      return;
+    } else if (cutCount > length) {
+      JOptionPane.showMessageDialog(this, "要切割当前文件，切割文件个数不能大于" + length + "个，请重新输入！", Util.SOFTWARE,
+          JOptionPane.CANCEL_OPTION);
+      return;
+    }
+    int cutSize = 0;
+    cutSize = (int)Math.ceil(length / (double)cutCount); // 按照小数部分全部进位的方式返回整数，相对于四舍五入，小数部分1~4也进位
     File fileParent = new File(file.getParent() + "/" + file.getName() + "_cutting");
     if (fileParent.exists()) {
       int result = JOptionPane.showConfirmDialog(this,
