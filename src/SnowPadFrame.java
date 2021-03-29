@@ -4785,6 +4785,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     try {
       if (toCreateNew) {
         this.createNew(file);
+      } else if (file != null) {
+        this.txaMain.setFile(file);
       }
       if (isAutoCheckEncoding) {
         this.checkFileEncoding(file);
