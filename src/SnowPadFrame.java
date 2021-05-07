@@ -2645,6 +2645,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       hashtable.put("±àºÅ", Util.IDENTIFIER_CHARS);
       this.signIdentifierDialog = new SignIdentifierDialog(this, true, this.txaMain, hashtable);
     } else {
+      this.signIdentifierDialog.setTextArea(this.txaMain);
       this.signIdentifierDialog.setVisible(true);
     }
   }
@@ -3449,6 +3450,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.tabSetDialog == null) {
       this.tabSetDialog = new TabSetDialog(this, true, this.txaMain);
     } else {
+      this.tabSetDialog.setTextArea(this.txaMain);
       this.tabSetDialog.setVisible(true);
     }
     int tabSize = this.tabSetDialog.getTabSize();
@@ -3468,6 +3470,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.autoCompleteDialog == null) {
       this.autoCompleteDialog = new AutoCompleteDialog(this, true, this.txaMain);
     } else {
+      this.autoCompleteDialog.setTextArea(this.txaMain);
       this.autoCompleteDialog.setVisible(true);
     }
     boolean enable = this.autoCompleteDialog.getAutoComplete();
