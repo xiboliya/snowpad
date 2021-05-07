@@ -1262,3 +1262,7 @@ src/SlicingFileDialog.java
 src/Util.java
 3.解决当前文本域为新建状态，并且未编辑时，拖拽文件到主窗口打开文件时，选项卡上显示的文件状态指示图标未刷新的问题。
 src/SnowPadFrame.java
+
+2021-05-07
+1.解决“列表符号与编号”界面打开过，文本域切换后，再次打开此界面时，没有及时设置到当前文本域的问题。
+src/SnowPadFrame.java
