@@ -1266,3 +1266,7 @@ src/SnowPadFrame.java
 2021-05-07
 1.解决“列表符号与编号”界面打开过，文本域切换后，再次打开此界面时，没有及时设置到当前文本域的问题。
 src/SnowPadFrame.java
+
+2021-05-27
+1.解决“查找/替换”界面中“选区内统计”功能无法使用的问题。
+src/FindReplaceDialog.java
