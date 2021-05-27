@@ -719,7 +719,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    * "选区内统计"的处理方法
    */
   private void getTextCountSel() {
-    this.getTextCount(this.txaSource.getSelectedText());
+    int times = this.getTextCount(this.txaSource.getSelectedText());
+    if (times >= 0) {
+      JOptionPane.showMessageDialog(this, "共找到 " + times + " 处。", Util.SOFTWARE, JOptionPane.NO_OPTION);
+    }
   }
 
   /**
