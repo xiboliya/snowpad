@@ -1270,3 +1270,8 @@ src/SnowPadFrame.java
 2021-05-27
 1.解决“查找/替换”界面中“选区内统计”功能无法使用的问题。
 src/FindReplaceDialog.java
+
+2021-05-28
+1.修改“列表符号与编号”功能，在当前文本域未选择文本的情况下也可以使用，对全文进行编号。
+src/SignIdentifierDialog.java
+src/SnowPadFrame.java
