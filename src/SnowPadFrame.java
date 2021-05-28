@@ -1258,7 +1258,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFindBracket.setEnabled(false);
     this.itemTrimSelected.setEnabled(false);
     this.itemDelNullLineSelected.setEnabled(false);
-    this.itemSignIdentifier.setEnabled(false);
     this.itemBack.setEnabled(false);
     this.itemForward.setEnabled(false);
     this.itemLineNumber.setEnabled(false);
@@ -1386,28 +1385,27 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 根据文本域中选择的字符串是否为空，设置相关菜单的状态
    */
   private void setMenuStateBySelectedText() {
-    boolean isNull = false;
+    boolean isExist = false;
     String selText = this.txaMain.getSelectedText();
-    if (selText != null && selText.length() > 0) {
-      isNull = true;
+    if (!Util.isTextEmpty(selText)) {
+      isExist = true;
     }
-    this.itemCopy.setEnabled(isNull);
-    this.itemCut.setEnabled(isNull);
-    this.itemDel.setEnabled(isNull);
-    this.menuCase.setEnabled(isNull);
-    this.itemLineBatchMerge.setEnabled(isNull);
-    this.menuQuickFind.setEnabled(isNull);
-    this.menuSelection.setEnabled(isNull);
-    this.itemPopCopy.setEnabled(isNull);
-    this.itemPopCut.setEnabled(isNull);
-    this.itemPopDel.setEnabled(isNull);
-    this.itemTrimSelected.setEnabled(isNull);
-    this.itemDelNullLineSelected.setEnabled(isNull);
-    this.itemSignIdentifier.setEnabled(isNull);
-    this.menuHighlight.setEnabled(isNull);
-    this.menuPopHighlight.setEnabled(isNull);
-    this.toolButtonList.get(6).setEnabled(isNull);
-    this.toolButtonList.get(7).setEnabled(isNull);
+    this.itemCopy.setEnabled(isExist);
+    this.itemCut.setEnabled(isExist);
+    this.itemDel.setEnabled(isExist);
+    this.menuCase.setEnabled(isExist);
+    this.itemLineBatchMerge.setEnabled(isExist);
+    this.menuQuickFind.setEnabled(isExist);
+    this.menuSelection.setEnabled(isExist);
+    this.itemPopCopy.setEnabled(isExist);
+    this.itemPopCut.setEnabled(isExist);
+    this.itemPopDel.setEnabled(isExist);
+    this.itemTrimSelected.setEnabled(isExist);
+    this.itemDelNullLineSelected.setEnabled(isExist);
+    this.menuHighlight.setEnabled(isExist);
+    this.menuPopHighlight.setEnabled(isExist);
+    this.toolButtonList.get(6).setEnabled(isExist);
+    this.toolButtonList.get(7).setEnabled(isExist);
   }
 
   /**

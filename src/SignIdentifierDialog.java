@@ -224,10 +224,17 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    */
   private void signIdentifier(boolean isView) {
     String[] arrText = null;
+    boolean isSelected = false;
     if (isView) {
       arrText = Util.SIGN_CHARS_VIEW.split("\n");
     } else {
-      arrText = Util.getCurrentLinesArray(this.txaSource);
+      String selText = this.txaSource.getSelectedText();
+      if (Util.isTextEmpty(selText)) {
+        arrText = this.txaSource.getText().split("\n");
+      } else {
+        isSelected = true;
+        arrText = Util.getCurrentLinesArray(this.txaSource);
+      }
     }
     if (arrText == null || arrText.length <= 0) {
       return;
@@ -251,8 +258,11 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     if (isView) {
       this.txaView.setText(stbIndent.deleteCharAt(stbIndent.length() - 1)
           .toString()); // É¾³ý×Ö·û´®Ä©Î²¶àÓàµÄ»»ÐÐ·û
-    } else {
+    } else if (isSelected) {
       this.txaSource.replaceSelection(stbIndent.deleteCharAt(
+          stbIndent.length() - 1).toString()); // É¾³ý×Ö·û´®Ä©Î²¶àÓàµÄ»»ÐÐ·û
+    } else {
+      this.txaSource.setText(stbIndent.deleteCharAt(
           stbIndent.length() - 1).toString()); // É¾³ý×Ö·û´®Ä©Î²¶àÓàµÄ»»ÐÐ·û
     }
   }
