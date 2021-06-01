@@ -63,8 +63,7 @@ public final class SettingAdapter {
    * 初始化XML配置文件
    */
   private void initSettingFile() {
-    String dir = SettingAdapter.class.getResource("").getPath();
-    dir = dir.substring(5, dir.length() - 26);
+    String dir = SettingAdapter.class.getProtectionDomain().getCodeSource().getLocation().getPath();
     dir = new File(dir).getParent();
     dir = dir.replace(Util.FILE_SEPARATOR, "/"); // 将当前操作系统的文件分隔符统一替换为Unix/Linux风格，以避免在Windows系统下出现URI语法错误的问题。
     try {
