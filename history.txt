@@ -1275,3 +1275,10 @@ src/FindReplaceDialog.java
 1.修改“列表符号与编号”功能，在当前文本域未选择文本的情况下也可以使用，对全文进行编号。
 src/SignIdentifierDialog.java
 src/SnowPadFrame.java
+
+2021-06-01
+1.在“工具”菜单中添加“拼接文件”功能。
+src/CuttingFileDialog.java
+src/MergeFileDialog.java（添加）
+src/SnowPadFrame.java
+src/Util.java
