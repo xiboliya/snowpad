@@ -140,7 +140,7 @@ public final class Util {
       "字体恢复初始大小","字体颜色","背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","全部反色","全部补色",
       "配色方案1","配色方案2","配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4",
       "高亮显示格式5","清除高亮格式1","清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向后切换文档","向前切换文档","统计信息",
-      "窗口管理","加密","进制转换","计算器","切割文件","帮助主题","关于"
+      "窗口管理","加密","进制转换","计算器","切割文件","拼接文件","帮助主题","关于"
       }; // 快捷键的名称
   public static final String[] SHORTCUT_VALUES = new String[] {
       "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","",
@@ -156,7 +156,7 @@ public final class Util {
       "Ctrl+47","","","","","","","","","",
       "","","","","","","","","","",
       "","","","","","","","Ctrl+87","Ctrl+Shift+87","",
-      "","","","","","","112"
+      "","","","","","","","112"
       }; // 快捷键的值
   public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
   public static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // 加密的类型
@@ -182,6 +182,7 @@ public final class Util {
   public static final int VIEW_HEIGHT = 18; // 标签、单选按钮、复选框的高度
   public static final int BUTTON_HEIGHT = 23; // 按钮的高度
   public static final int BUFFER_LENGTH = 1024; // 缓冲区的大小
+  public static final int BIG_BUFFER_LENGTH = 1024 * 1024; // 大缓冲区的大小
   public static final int MIN_FONT_SIZE = 8; // 字体最小值
   public static final int MAX_FONT_SIZE = 100; // 字体最大值
   public static final int MIN_TABSIZE = 1; // Tab字符最小值
@@ -1036,5 +1037,20 @@ public final class Util {
     }
     BigInteger bigInt = new BigInteger(1, digest.digest());
     return bigInt.toString(16);
+  }
+
+  /**
+   * 检测文件以及所在的目录是否存在
+   * 
+   * @param file
+   *          被检测的文件
+   * @return 被检测文件是否存在，如果存在返回true，反之则为false
+   */
+  public static boolean checkFile(File file) {
+    File fileParent = new File(file.getParent()); // 获取文件的父目录
+    if (!fileParent.exists()) {
+      fileParent.mkdirs(); // 如果父目录不存在，则创建之
+    }
+    return file.exists();
   }
 }

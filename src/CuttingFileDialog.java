@@ -262,7 +262,6 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       fileParent.mkdirs(); // 如果目录不存在，则创建之
     }
     RandomAccessFile randomAccessFile = null;
-    byte byteArr[] = new byte[cutSize];
     try {
       randomAccessFile = new RandomAccessFile(file, "r");
       randomAccessFile.seek(0);
@@ -331,7 +330,6 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       fileParent.mkdirs(); // 如果目录不存在，则创建之
     }
     RandomAccessFile randomAccessFile = null;
-    byte byteArr[] = new byte[cutSize];
     try {
       randomAccessFile = new RandomAccessFile(file, "r");
       randomAccessFile.seek(0);

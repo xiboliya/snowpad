@@ -278,6 +278,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemNumberConvert = new JMenuItem("进制转换(N)...", 'N');
   private JMenuItem itemCalculator = new JMenuItem("计算器(C)...", 'C');
   private JMenuItem itemCuttingFile = new JMenuItem("切割文件(T)...", 'T');
+  private JMenuItem itemMergeFile = new JMenuItem("拼接文件(M)...", 'M');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -367,6 +368,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private NumberConvertDialog numberConvertDialog = null; // 进制转换对话框
   private CalculatorDialog calculatorDialog = null; // 计算器对话框
   private CuttingFileDialog cuttingFileDialog = null; // 切割文件对话框
+  private MergeFileDialog mergeFileDialog = null; // 拼接文件对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
@@ -549,6 +551,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemNumberConvert.addActionListener(this);
     this.itemCalculator.addActionListener(this);
     this.itemCuttingFile.addActionListener(this);
+    this.itemMergeFile.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1000,6 +1003,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTool.add(this.itemNumberConvert);
     this.menuTool.add(this.itemCalculator);
     this.menuTool.add(this.itemCuttingFile);
+    this.menuTool.add(this.itemMergeFile);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1164,6 +1168,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemNumberConvert);
     this.menuItemList.add(this.itemCalculator);
     this.menuItemList.add(this.itemCuttingFile);
+    this.menuItemList.add(this.itemMergeFile);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1657,6 +1662,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openCalculatorDialog();
     } else if (this.itemCuttingFile.equals(e.getSource())) {
       this.openCuttingFileDialog();
+    } else if (this.itemMergeFile.equals(e.getSource())) {
+      this.openMergeFileDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -2302,6 +2309,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.cuttingFileDialog != null) {
       this.cuttingFileDialog.dispose();
       this.cuttingFileDialog = null;
+    }
+    if (this.mergeFileDialog != null) {
+      this.mergeFileDialog.dispose();
+      this.mergeFileDialog = null;
     }
     if (this.helpFrame != null) {
       this.helpFrame.dispose();
@@ -4125,6 +4136,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * "拼接文件"的处理方法
+   */
+  private void openMergeFileDialog() {
+    if (this.mergeFileDialog == null) {
+      this.mergeFileDialog = new MergeFileDialog(this, false);
+    } else {
+      this.mergeFileDialog.setVisible(true);
+    }
+  }
+
+  /**
    * "帮助主题"的处理方法
    */
   private void showHelpFrame() {
@@ -4511,7 +4533,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           Util.convertToMsg("文件：" + this.file + "不存在。\n要重新创建吗？"),
           Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result == JOptionPane.YES_OPTION) {
-        this.checkFile(this.file);
+        Util.checkFile(this.file);
         try {
           this.toSaveFile(this.file);
         } catch (Exception x) {
@@ -4875,7 +4897,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     } else {
       if (this.file != null) {
-        isFileExist = this.checkFile(this.file);
+        isFileExist = Util.checkFile(this.file);
         try {
           this.toSaveFile(this.file);
         } catch (Exception x) {
@@ -4897,21 +4919,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.txaMain.setNewFileIndex(0);
     this.tpnMain.setIconAt(this.tpnMain.getSelectedIndex(),this.getTabIcon(this.txaMain));
     return true;
-  }
-
-  /**
-   * 检测文件以及所在的目录是否存在
-   * 
-   * @param file
-   *          被检测的文件
-   * @return 被检测文件是否存在，如果存在返回true，反之则为false
-   */
-  private boolean checkFile(File file) {
-    File fileParent = new File(file.getParent()); // 获取文件的父目录
-    if (!fileParent.exists()) {
-      fileParent.mkdirs(); // 如果父目录不存在，则创建之
-    }
-    return file.exists();
   }
 
   /**
@@ -5356,7 +5363,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             Util.convertToMsg("文件：" + this.file + "不存在。\n要重新创建吗？"),
             Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
         if (result == JOptionPane.YES_OPTION) {
-          this.checkFile(this.file);
+          Util.checkFile(this.file);
           try {
             this.toSaveFile(this.file);
           } catch (Exception x) {
