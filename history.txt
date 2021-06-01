@@ -1282,3 +1282,5 @@ src/CuttingFileDialog.java
 src/MergeFileDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
+2.优化获取snowpad.xml配置文件路径的方法。
+src/SettingAdapter.java
