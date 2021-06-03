@@ -189,7 +189,7 @@ public final class Util {
   public static final int MAX_TABSIZE = 99; // Tab字符最大值
   public static final int DEFAULT_TABSIZE = 4; // Tab字符默认值
   public static final int FILE_HISTORY_MAX = 15; // 最近编辑文件的最大存储个数
-  public static final int BACK_FORWARD_MAX = 10; // 光标历史位置的最大存储个数
+  public static final int BACK_FORWARD_MAX = 15; // 光标历史位置的最大存储个数
   public static final int DEFAULT_UNDO_INDEX = 0; // 撤销标识符的默认值
   public static final int DEFAULT_BACK_FORWARD_INDEX = 0; // 光标历史位置的默认值
   public static final int INSERT_MAX_ROW = 10; // 插入字符界面的最大行数
