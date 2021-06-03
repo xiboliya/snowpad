@@ -1284,3 +1284,7 @@ src/SnowPadFrame.java
 src/Util.java
 2.优化获取snowpad.xml配置文件路径的方法。
 src/SettingAdapter.java
+
+2021-06-03
+1.调整“查看”菜单中的“前进”、“后退”功能的最大记录条数。
+src/Util.java
