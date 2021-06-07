@@ -2216,12 +2216,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 将所有窗口设置为null，以便于将切换后的新外观完整应用于各窗口
    */
   private void destroyAllDialogs() {
-    if (this.openFileChooser != null) {
-      this.openFileChooser = null;
-    }
-    if (this.saveFileChooser != null) {
-      this.saveFileChooser = null;
-    }
+    this.openFileChooser = null;
+    this.saveFileChooser = null;
     if (this.fontChooser != null) {
       this.fontChooser.dispose();
       this.fontChooser = null;
@@ -3574,7 +3570,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (Util.isTextEmpty(strContent)) {
       return;
     }
-    String arrContents[] = strContent.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
+    String[] arrContents = strContent.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
     StringBuilder stbContent = new StringBuilder(); // 用于存放处理后的文本
     for (int n = 0; n < arrContents.length; n++) {
       String strLine = arrContents[n];
@@ -3676,20 +3672,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setStylePrefix() {
     if (this.txaMain.getStyleChanged()) {
-      if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX + Util.STYLE_PREFIX)) {
-      } else if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
-        this.stbTitle.insert(1, Util.STYLE_PREFIX);
-      } else if (this.stbTitle.toString().startsWith(Util.STYLE_PREFIX)) {
-      } else {
-        this.stbTitle.insert(0, Util.STYLE_PREFIX);
+      if (!this.stbTitle.toString().startsWith(Util.TEXT_PREFIX + Util.STYLE_PREFIX)) {
+        if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
+          this.stbTitle.insert(1, Util.STYLE_PREFIX);
+        } else if (!this.stbTitle.toString().startsWith(Util.STYLE_PREFIX)) {
+          this.stbTitle.insert(0, Util.STYLE_PREFIX);
+        }
       }
     } else {
       if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX + Util.STYLE_PREFIX)) {
         this.stbTitle.deleteCharAt(1);
-      } else if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
       } else if (this.stbTitle.toString().startsWith(Util.STYLE_PREFIX)) {
         this.stbTitle.deleteCharAt(0);
-      } else {
       }
     }
     this.setTitle(this.stbTitle.toString());
@@ -4686,7 +4680,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void checkFileEncoding(File file) {
     FileInputStream fileInputStream = null;
-    int charArr[] = new int[3];
+    int[] charArr = new int[3];
     try {
       fileInputStream = new FileInputStream(file);
       for (int i = 0; i < charArr.length; i++) {
@@ -4729,7 +4723,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private boolean isUTF8NoBom(File file) {
     FileInputStream fileInputStream = null;
     int maxLength = 1024 * 1024;
-    byte rawtext[] = new byte[maxLength];
+    byte[] rawtext = new byte[maxLength];
     try {
       fileInputStream = new FileInputStream(file);
       fileInputStream.read(rawtext);
@@ -4748,32 +4742,25 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     int asciibytes = 0;
     int rawtextlen = rawtext.length;
     for (int i = 0; i < rawtextlen; i++) {
-      // 单字节字符
-      if ((rawtext[i] & (byte) 0x7F) == rawtext[i]) {
+      if ((rawtext[i] & (byte) 0x7F) == rawtext[i]) { // 单字节字符
         asciibytes++;
-      }
-      // 双字节字符
-      else if (-64 <= rawtext[i] && rawtext[i] <= -33
+      } else if (-64 <= rawtext[i] && rawtext[i] <= -33
         && i + 1 < rawtextlen
         && -128 <= rawtext[i + 1]
-        && rawtext[i + 1] <= -65) {
+        && rawtext[i + 1] <= -65) { // 双字节字符
         goodbytes += 2;
         i++;
-      }
-      // 三字节字符
-      else if (-32 <= rawtext[i] && rawtext[i] <= -17
+      } else if (-32 <= rawtext[i] && rawtext[i] <= -17
         && i + 2 < rawtextlen
         && -128 <= rawtext[i + 1] && rawtext[i + 1] <= -65
-        && -128 <= rawtext[i + 2] && rawtext[i + 2] <= -65) {
+        && -128 <= rawtext[i + 2] && rawtext[i + 2] <= -65) { // 三字节字符
         goodbytes += 3;
         i += 2;
-      }
-      // 四字节字符
-      else if (-16 <= rawtext[i] && rawtext[i] <= -9
+      } else if (-16 <= rawtext[i] && rawtext[i] <= -9
         && i + 3 < rawtextlen
         && -128 <= rawtext[i + 1] && rawtext[i + 1] <= -65
         && -128 <= rawtext[i + 2] && rawtext[i + 2] <= -65
-        && -128 <= rawtext[i + 3] && rawtext[i + 3] <= -65) {
+        && -128 <= rawtext[i + 3] && rawtext[i + 3] <= -65) { // 四字节字符
         goodbytes += 4;
         i += 3;
       }
@@ -4816,7 +4803,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
       String strCharset = this.txaMain.getCharEncoding().toString();
       inputStreamReader = new InputStreamReader(new FileInputStream(file), strCharset);
-      char chrBuf[] = new char[Util.BUFFER_LENGTH];
+      char[] chrBuf = new char[Util.BUFFER_LENGTH];
       int len = 0;
       StringBuilder stbTemp = new StringBuilder();
       switch (this.txaMain.getCharEncoding()) {
@@ -4941,8 +4928,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       String strText = this.txaMain.getText();
       strText = strText.replaceAll(LineSeparator.UNIX.toString(),
           this.txaMain.getLineSeparator().toString());
-      byte byteStr[];
-      int charBOM[] = new int[] { -1, -1, -1 }; // 根据当前的字符编码，存放BOM的数组
+      byte[] byteStr;
+      int[] charBOM = new int[] { -1, -1, -1 }; // 根据当前的字符编码，存放BOM的数组
       switch (this.txaMain.getCharEncoding()) {
       case UTF8:
         charBOM[0] = 0xef;

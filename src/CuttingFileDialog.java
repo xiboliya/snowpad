@@ -265,7 +265,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     try {
       randomAccessFile = new RandomAccessFile(file, "r");
       randomAccessFile.seek(0);
-      byte buffer[] = new byte[cutSize];
+      byte[] buffer = new byte[cutSize];
       int len = 0;
       int count = 0;
       while ((len = randomAccessFile.read(buffer)) != -1) {
@@ -333,7 +333,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     try {
       randomAccessFile = new RandomAccessFile(file, "r");
       randomAccessFile.seek(0);
-      byte buffer[] = new byte[cutSize];
+      byte[] buffer = new byte[cutSize];
       int len = 0;
       int count = 0;
       while ((len = randomAccessFile.read(buffer)) != -1) {
@@ -358,7 +358,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     }
   }
 
-  private void toCuttingFile(File file, byte buffer[], int len) {
+  private void toCuttingFile(File file, byte[] buffer, int len) {
     RandomAccessFile randomAccessFile = null;
     try {
       randomAccessFile = new RandomAccessFile(file, "rw");

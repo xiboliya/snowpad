@@ -87,7 +87,7 @@ public class CurrentLines {
   }
 
   /**
-   * 初始化各个属性值。 其中所有行号的取值范围均为：x>=0 && x<文本域总行数
+   * 初始化各个属性值。其中所有行号的取值范围均为：x>=0 && x<文本域总行数
    */
   private void init() {
     if (this.txaSource == null) {

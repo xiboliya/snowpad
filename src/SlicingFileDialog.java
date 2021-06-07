@@ -199,8 +199,8 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       BaseTextArea textArea = (BaseTextArea) this.txaSource;
       strText = strText.replaceAll(LineSeparator.UNIX.toString(),
           textArea.getLineSeparator().toString());
-      byte byteStr[];
-      int charBOM[] = new int[] { -1, -1, -1 }; // 根据当前的字符编码，存放BOM的数组
+      byte[] byteStr;
+      int[] charBOM = new int[] { -1, -1, -1 }; // 根据当前的字符编码，存放BOM的数组
       switch (textArea.getCharEncoding()) {
       case UTF8:
         charBOM[0] = 0xef;

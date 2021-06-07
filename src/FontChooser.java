@@ -152,8 +152,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
    * 填充"大小"列表
    */
   private void fillSizeList() {
-    Integer[] fontSizes = new Integer[Util.MAX_FONT_SIZE - Util.MIN_FONT_SIZE
-        + 1];
+    Integer[] fontSizes = new Integer[Util.MAX_FONT_SIZE - Util.MIN_FONT_SIZE + 1];
     for (int i = 0; i < fontSizes.length; i++) {
       fontSizes[i] = Util.MIN_FONT_SIZE + i; // Integer类的自动装箱
     }

@@ -367,7 +367,7 @@ public final class Util {
    * @return 处理过的字符串
    */
   public static String convertToMsg(String str) {
-    String arrContents[] = str.split("\n", -1);
+    String[] arrContents = str.split("\n", -1);
     StringBuilder stbContent = new StringBuilder(); // 用于存放处理后的文本
     for (int n = 0; n < arrContents.length; n++) {
       String content = "";
@@ -525,6 +525,7 @@ public final class Util {
       try {
         matcher = Pattern.compile(strFindText).matcher(strSource);
       } catch (PatternSyntaxException x) {
+        // x.printStackTrace();
         JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n" + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
         return result;
       }
@@ -616,6 +617,7 @@ public final class Util {
       try {
         matcher = Pattern.compile(strFindText).matcher(strSource);
       } catch (PatternSyntaxException x) {
+        // x.printStackTrace();
         JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n" + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
         return result;
       }
@@ -681,6 +683,7 @@ public final class Util {
       try {
         matcher = Pattern.compile(strFindText).matcher(strSource);
       } catch (PatternSyntaxException x) {
+        // x.printStackTrace();
         JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n" + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
         return result;
       }
@@ -785,6 +788,7 @@ public final class Util {
     try {
       strKey = KeyEvent.getKeyText(Integer.parseInt(strKeyCode));
     } catch (Exception x) {
+      // x.printStackTrace();
       return "";
     }
     return strKey;
@@ -816,6 +820,7 @@ public final class Util {
         try {
           keyCode = Integer.parseInt(str);
         } catch (Exception x) {
+          // x.printStackTrace();
         }
       }
     }
@@ -850,7 +855,7 @@ public final class Util {
       r = Integer.valueOf(sb.substring(j, j + 1)); // 当前数字
       if (j != 0) {
         l = Integer.valueOf(sb.substring(j - 1, j)); // 上一个数字
-			}
+      }
       if (j == 0) {
         if (r != 0 || sb.length() == 1) {
           str = arrChineseNumbers[r];
@@ -1002,7 +1007,7 @@ public final class Util {
         hex.append(String.valueOf(hexStr.charAt(bytes[i] & 0x0F)));
       }
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
     }
     return hex.toString();
   }
@@ -1032,7 +1037,7 @@ public final class Util {
       }
       in.close();
     } catch (Exception x) {
-      x.printStackTrace();
+      // x.printStackTrace();
       return "";
     }
     BigInteger bigInt = new BigInteger(1, digest.digest());

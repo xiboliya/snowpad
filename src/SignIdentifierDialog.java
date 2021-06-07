@@ -162,8 +162,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     }
     if (isSpecial) {
       pnlTemp = new JPanel(this.specialGridLayout); // 创建特殊格式的布局
-      gridTotal = this.specialGridLayout.getRows()
-          * this.specialGridLayout.getColumns();
+      gridTotal = this.specialGridLayout.getRows() *
+          this.specialGridLayout.getColumns();
     } else {
       pnlTemp = new JPanel(this.gridLayout); // 创建普通格式的布局
       gridTotal = this.gridLayout.getRows() * this.gridLayout.getColumns();

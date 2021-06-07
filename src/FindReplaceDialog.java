@@ -436,8 +436,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    * 为各组件添加事件的处理方法
    */
   public void actionPerformed(ActionEvent e) {
-    // 查找
-    if (this.btnCancelF.equals(e.getSource())) {
+    if (this.btnCancelF.equals(e.getSource())) { // 查找
       this.onCancel();
     } else if (this.btnFindF.equals(e.getSource())) {
       this.onEnter();
@@ -448,8 +447,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     } else if (this.btnSearchInFileF.equals(e.getSource())) {
       this.searchInFile();
     } else if (this.chkMatchCaseF.equals(e.getSource())) {
-      this.setting.matchCase = this.isMatchCase = this.chkMatchCaseF
-          .isSelected();
+      this.setting.matchCase = this.isMatchCase = this.chkMatchCaseF.isSelected();
       this.chkMatchCaseR.setSelected(this.isMatchCase);
     } else if (this.chkIsWrapF.equals(e.getSource())) {
       boolean selected = this.chkIsWrapF.isSelected();
@@ -470,9 +468,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     } else if (this.radFindUpF.equals(e.getSource())) {
       this.setting.findDown = this.isFindDown = false;
       this.radFindUpR.setSelected(true);
-    }
-    // 替换
-    else if (this.btnCancelR.equals(e.getSource())) {
+    } else if (this.btnCancelR.equals(e.getSource())) { // 替换
       this.onCancel();
     } else if (this.btnFindR.equals(e.getSource())) {
       this.findText(this.isFindDown);
@@ -483,8 +479,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     } else if (this.btnReplaceSelR.equals(e.getSource())) {
       this.replaceSelText();
     } else if (this.chkMatchCaseR.equals(e.getSource())) {
-      this.setting.matchCase = this.isMatchCase = this.chkMatchCaseR
-          .isSelected();
+      this.setting.matchCase = this.isMatchCase = this.chkMatchCaseR.isSelected();
       this.chkMatchCaseF.setSelected(this.isMatchCase);
     } else if (this.chkIsWrapR.equals(e.getSource())) {
       boolean selected = this.chkIsWrapR.isSelected();
@@ -594,20 +589,6 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * 替换所有字符串
-   */
-  private void replaceAllText() {
-    this.replaceText(false);
-  }
-
-  /**
-   * 替换选区字符串
-   */
-  private void replaceSelText() {
-    this.replaceText(true);
-  }
-
-  /**
    * 多次替换字符串
    * 
    * @param isSel
@@ -693,8 +674,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           this.txaSource.select(selStart, selStart + stbTextAll.length());
         } else {
           this.txaSource.setText(stbTextAll.toString());
-          this.txaSource.setCaretPosition(Util.checkCaretPosition(this.txaSource,
-              newPos));
+          this.txaSource.setCaretPosition(Util.checkCaretPosition(this.txaSource, newPos));
         }
         JOptionPane.showMessageDialog(this, "共替换 " + times + " 处。",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
@@ -703,6 +683,20 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
     }
+  }
+
+  /**
+   * 替换所有字符串
+   */
+  private void replaceAllText() {
+    this.replaceText(false);
+  }
+
+  /**
+   * 替换选区字符串
+   */
+  private void replaceSelText() {
+    this.replaceText(true);
   }
 
   /**
@@ -814,13 +808,13 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     String strSel = this.txaSource.getSelectedText();
     boolean isSelEmpty = Util.isTextEmpty(strSel);
     if (this.tpnMain.getSelectedIndex() == 0) {
-      if (isSelEmpty || Util.isTextEmpty(this.txtFindTextF.getText())){
+      if (isSelEmpty || Util.isTextEmpty(this.txtFindTextF.getText())) {
         this.btnCountSelF.setEnabled(false);
       } else {
         this.btnCountSelF.setEnabled(true);
       }
     } else {
-      if (isSelEmpty || Util.isTextEmpty(this.txtFindTextR.getText())){
+      if (isSelEmpty || Util.isTextEmpty(this.txtFindTextR.getText())) {
         this.btnReplaceSelR.setEnabled(false);
       } else {
         this.btnReplaceSelR.setEnabled(true);
@@ -832,8 +826,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    * 当文本框的光标发生变化时，触发此事件
    */
   public void caretUpdate(CaretEvent e) {
-    // 查找
-    if (this.txtFindTextF.equals(e.getSource())) {
+    if (this.txtFindTextF.equals(e.getSource())) { // 查找
       this.strFind = this.txtFindTextF.getText();
       if (Util.isTextEmpty(this.strFind)) {
         this.btnFindF.setEnabled(false);
@@ -844,9 +837,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         this.btnCountAllF.setEnabled(true);
         this.btnSearchInFileF.setEnabled(true);
       }
-    }
-    // 替换
-    else if (this.txtFindTextR.equals(e.getSource())) {
+    } else if (this.txtFindTextR.equals(e.getSource())) { // 替换
       this.strFind = this.txtFindTextR.getText();
       if (Util.isTextEmpty(this.strFind)) {
         this.btnFindR.setEnabled(false);

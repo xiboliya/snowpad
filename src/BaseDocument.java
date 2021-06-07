@@ -39,7 +39,7 @@ public class BaseDocument extends PlainDocument {
    * @param attr
    *          插入内容的属性
    */
-  public void	insertString(int offset, String str, AttributeSet attr) {
+  public void insertString(int offset, String str, AttributeSet attr) {
     if (this.isFrozen) {
       return;
     }
@@ -58,7 +58,7 @@ public class BaseDocument extends PlainDocument {
    * @param len
    *          要移除的字符数
    */
-  public void	remove(int offset, int len) {
+  public void remove(int offset, int len) {
     if (this.isFrozen) {
       return;
     }

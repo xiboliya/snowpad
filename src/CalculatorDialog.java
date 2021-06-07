@@ -446,26 +446,26 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
     int size = this.list.size();
     for (int i = 0; i < size; i++) {
       String current = this.list.get(i);
-      if (current.equals("б┴")) {
+      if ("б┴".equals(current)) {
         if (i == 0 || i == size - 1) {
           this.list.remove(i);
           size--;
         } else if (this.calculateMultiplication(i, size)) {
           this.list.remove(i);
           this.list.remove(i);
-          size = size -2;
+          size = size - 2;
           i--;
         } else {
           return false;
         }
-      } else if (current.equals("б┬")) {
+      } else if ("б┬".equals(current)) {
         if (i == 0 || i == size - 1) {
           this.list.remove(i);
           size--;
         } else if (this.calculateDivision(i, size)) {
           this.list.remove(i);
           this.list.remove(i);
-          size = size -2;
+          size = size - 2;
           i--;
         } else {
           return false;
@@ -484,19 +484,19 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
     int size = this.list.size();
     for (int i = 0; i < size; i++) {
       String current = this.list.get(i);
-      if (current.equals("гл")) {
+      if ("гл".equals(current)) {
         if (i == 0 || i == size - 1) {
           this.list.remove(i);
           size--;
         } else if (this.calculateAddition(i, size)) {
           this.list.remove(i);
           this.list.remove(i);
-          size = size -2;
+          size = size - 2;
           i--;
         } else {
           return false;
         }
-      } else if (current.equals("гн")) {
+      } else if ("гн".equals(current)) {
         if (i == size - 1) {
           this.list.remove(i);
           size--;
@@ -507,7 +507,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
           } else {
             this.list.remove(i);
             this.list.remove(i);
-            size = size -2;
+            size = size - 2;
             i--;
           }
         } else {

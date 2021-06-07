@@ -166,11 +166,11 @@ public class BatchSeparateDialog extends BaseDialog implements ActionListener {
       int strLen = arrText[n].length();
       if (strLen > offset) {
         if (isLineStart) {
-          arrText[n] = arrText[n].substring(0, offset) + "\n"
-              + arrText[n].substring(offset);
+          arrText[n] = arrText[n].substring(0, offset) + "\n" +
+              arrText[n].substring(offset);
         } else {
-          arrText[n] = arrText[n].substring(0, strLen - offset) + "\n"
-              + arrText[n].substring(strLen - offset);
+          arrText[n] = arrText[n].substring(0, strLen - offset) + "\n" +
+              arrText[n].substring(strLen - offset);
         }
       }
       stbText.append(arrText[n] + "\n");

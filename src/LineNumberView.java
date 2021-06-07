@@ -67,8 +67,8 @@ public class LineNumberView extends JComponent {
     int width = this.fontMetrics.stringWidth(String.valueOf(row));
     if (this.maxRowWidth < width) {
       this.maxRowWidth = width;
-      this.setPreferredSize(new Dimension(3 * Util.LINE_NUMBER_MARGIN
-          + this.maxRowWidth, Util.LINE_NUMBER_HEIGHT));
+      this.setPreferredSize(new Dimension(3 * Util.LINE_NUMBER_MARGIN +
+          this.maxRowWidth, Util.LINE_NUMBER_HEIGHT));
     }
   }
 
@@ -101,8 +101,8 @@ public class LineNumberView extends JComponent {
     Rectangle rect = g.getClipBounds();
     int startLineNum = (rect.y / this.lineHeight) + 1;
     int endLineNum = startLineNum + (rect.height / this.lineHeight);
-    int start = (rect.y / this.lineHeight) * this.lineHeight + this.lineHeight
-        - Util.LINE_NUMBER_START_OFFSET;
+    int start = (rect.y / this.lineHeight) * this.lineHeight + this.lineHeight -
+        Util.LINE_NUMBER_START_OFFSET;
     this.setPreferredLine(endLineNum);
     for (int i = startLineNum; i <= endLineNum; i++) {
       String lineNum = String.valueOf(i);

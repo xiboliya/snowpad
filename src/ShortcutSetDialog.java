@@ -189,7 +189,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
    *          下拉列表中当前选择项的索引
    * @return 是否支持单独设置为快捷键，如支持单独设置返回true，不支持返回false
    */
-  private boolean isSingleKey (int index) {
+  private boolean isSingleKey(int index) {
     boolean label = false;
     int keyCode = Util.ALL_KEY_CODES[index - 1];
     for (int tempCode : Util.SINGLE_KEY_CODES) {

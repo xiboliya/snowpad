@@ -683,7 +683,7 @@ public final class SettingAdapter {
     InputStreamReader inputStreamReader = null;
     StringBuilder stbTemp = new StringBuilder();
     FileOutputStream fileOutputStream = null;
-    char chrBuf[] = new char[Util.BUFFER_LENGTH];
+    char[] chrBuf = new char[Util.BUFFER_LENGTH];
     int len = 0;
     try {
       inputStreamReader = new InputStreamReader(url.openStream(), "UTF-8");
@@ -691,7 +691,7 @@ public final class SettingAdapter {
         stbTemp.append(chrBuf, 0, len);
       }
       String strText = stbTemp.toString();
-      byte byteStr[] = strText.getBytes("UTF-8");
+      byte[] byteStr = strText.getBytes("UTF-8");
       fileOutputStream = new FileOutputStream(this.file);
       fileOutputStream.write(byteStr);
     } catch (Exception x) {

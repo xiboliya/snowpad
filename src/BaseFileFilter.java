@@ -45,8 +45,8 @@ public class BaseFileFilter extends FileFilter {
   public boolean accept(File file) {
     if (this.isAcceptDirectory && file.isDirectory()) { // 显示目录
       return true;
-    } else if (file.isFile()
-        && file.getName().toLowerCase().endsWith(this.ext.toLowerCase())) { // 显示指定扩展名的文件
+    } else if (file.isFile() &&
+        file.getName().toLowerCase().endsWith(this.ext.toLowerCase())) { // 显示指定扩展名的文件
       return true;
     } else {
       return false;

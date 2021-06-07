@@ -261,7 +261,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
       int size = this.defaultListModel.getSize();
       int minSelectionIndex = this.listPath.getMinSelectionIndex();
       int maxSelectionIndex = this.listPath.getMaxSelectionIndex();
-      if (size == 1 || (minSelectionIndex == 0 && maxSelectionIndex == size -1)) { // 列表中只有一行数据或选中了所有行
+      if (size == 1 || (minSelectionIndex == 0 && maxSelectionIndex == size - 1)) { // 列表中只有一行数据或选中了所有行
         this.btnUpSource.setEnabled(false);
         this.btnDownSource.setEnabled(false);
       } else {
@@ -319,7 +319,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
           try {
             randomAccessFile = new RandomAccessFile(fileSource, "r");
             randomAccessFile.seek(0);
-            byte buffer[] = new byte[Util.BIG_BUFFER_LENGTH];
+            byte[] buffer = new byte[Util.BIG_BUFFER_LENGTH];
             int len = 0;
             while ((len = randomAccessFile.read(buffer)) != -1) {
               toSaveFile(file, buffer, len);
@@ -349,7 +349,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     }
   }
 
-  private void toSaveFile(File file, byte buffer[], int len) {
+  private void toSaveFile(File file, byte[] buffer, int len) {
     RandomAccessFile randomAccessFile = null;
     try {
       randomAccessFile = new RandomAccessFile(file, "rw");

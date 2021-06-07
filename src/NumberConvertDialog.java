@@ -247,7 +247,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   /**
    * 当用户已选定或取消选定某项时，触发此事件
    */
-  public void itemStateChanged(ItemEvent e){
+  public void itemStateChanged(ItemEvent e) {
     this.showResult();
   }
 }

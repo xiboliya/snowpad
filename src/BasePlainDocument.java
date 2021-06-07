@@ -106,8 +106,8 @@ public class BasePlainDocument extends PlainDocument {
    */
   public void insertString(int offset, String str, AttributeSet set)
       throws BadLocationException {
-    String targetStr = this.getText(0, offset) + str
-        + this.getText(offset, this.getLength() - offset);
+    String targetStr = this.getText(0, offset) + str +
+        this.getText(offset, this.getLength() - offset);
     if (this.matcher != null) {
       this.matcher.reset(targetStr);
       if (!this.matcher.matches()) {

@@ -76,11 +76,16 @@ public class InformationDialog extends BaseDialog implements ActionListener {
    * 初始化界面
    */
   private void init() {
-    this.gbc.fill = GridBagConstraints.BOTH; // 当组件的显示区域大于它所请求的显示区域大小时，如何调整组件大小。GridBagConstraints.BOTH表示组件完全填满显示区域。默认值为GridBagConstraints.NONE。
-    this.gbc.gridwidth = GridBagConstraints.REMAINDER; // 用来设置组件所占的单位长度，默认值为1。GridBagConstraints.REMAINDER表示此组件为此行的最后一个组件，而且会占据所有剩余空间。
-    this.gbc.gridheight = 2; // 用来设置组件所占的单位高度，默认值为1。
-    this.gbc.weightx = 1.0; // 用来设置窗口变大时，组件的水平缩放比例。数字越大，表示组件能得到更多的空间。默认值为0。
-    this.gbc.weighty = 1.0; // 用来设置窗口变大时，组件的垂直缩放比例。数字越大，表示组件能得到更多的空间。默认值为0。
+    // 当组件的显示区域大于它所请求的显示区域大小时，如何调整组件大小。GridBagConstraints.BOTH表示组件完全填满显示区域。默认值为GridBagConstraints.NONE。
+    this.gbc.fill = GridBagConstraints.BOTH;
+    // 用来设置组件所占的单位长度，默认值为1。GridBagConstraints.REMAINDER表示此组件为此行的最后一个组件，而且会占据所有剩余空间。
+    this.gbc.gridwidth = GridBagConstraints.REMAINDER;
+    // 用来设置组件所占的单位高度，默认值为1。
+    this.gbc.gridheight = 2;
+    // 用来设置窗口变大时，组件的水平缩放比例。数字越大，表示组件能得到更多的空间。默认值为0。
+    this.gbc.weightx = 1.0;
+    // 用来设置窗口变大时，组件的垂直缩放比例。数字越大，表示组件能得到更多的空间。默认值为0。
+    this.gbc.weighty = 1.0;
     this.gblMain.setConstraints(this.txaFile, this.gbc);
     this.pnlCenter.add(this.txaFile);
     this.gbc.gridheight = 1;
@@ -109,10 +114,9 @@ public class InformationDialog extends BaseDialog implements ActionListener {
     File file = ((BaseTextArea) this.txaSource).getFile();
     if (file != null) {
       this.txaFile.setVisible(true);
-      this.txaFile.setText(Util.INFO_FILE_PATH + file.getAbsolutePath() + "\n"
-          + Util.INFO_FILE_MODIFY_TIME
-          + this.simpleDateFormat.format(file.lastModified()) + "\n"
-          + Util.INFO_FILE_SIZE + file.length() + " 字节");
+      this.txaFile.setText(Util.INFO_FILE_PATH + file.getAbsolutePath() + "\n" +
+          Util.INFO_FILE_MODIFY_TIME + this.simpleDateFormat.format(file.lastModified()) + "\n" +
+          Util.INFO_FILE_SIZE + file.length() + " 字节");
     } else {
       this.txaFile.setVisible(false);
     }
@@ -129,10 +133,10 @@ public class InformationDialog extends BaseDialog implements ActionListener {
         blanks++;
       }
     }
-    this.txaDoc.setText(Util.INFO_DOC_CHARS + strText.length() + "\n"
-        + Util.INFO_DOC_LINES + this.txaSource.getLineCount() + "\n"
-        + Util.INFO_DOC_DIGITS + digits + "\n" + Util.INFO_DOC_LETTERS
-        + letters + "\n" + Util.INFO_DOC_BLANKS + blanks);
+    this.txaDoc.setText(Util.INFO_DOC_CHARS + strText.length() + "\n" +
+        Util.INFO_DOC_LINES + this.txaSource.getLineCount() + "\n" +
+        Util.INFO_DOC_DIGITS + digits + "\n" + Util.INFO_DOC_LETTERS +
+        letters + "\n" + Util.INFO_DOC_BLANKS + blanks);
   }
 
   /**
