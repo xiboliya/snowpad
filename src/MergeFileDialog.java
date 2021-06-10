@@ -146,6 +146,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     this.btnDownSource.addKeyListener(this.buttonKeyAdapter);
     this.listPath.addKeyListener(this.keyAdapter);
     this.listPath.addListSelectionListener(this);
+    this.txtTargetPath.addKeyListener(this.keyAdapter);
     this.btnTargetPath.addActionListener(this);
     this.btnTargetPath.addKeyListener(this.buttonKeyAdapter);
     this.btnOk.addActionListener(this);
@@ -342,7 +343,6 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     if (result) {
       JOptionPane.showMessageDialog(this, "拼接文件完成！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
-      onCancel();
     } else {
       JOptionPane.showMessageDialog(this, "拼接文件失败！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);

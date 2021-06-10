@@ -138,6 +138,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     this.radCurrentFile.addKeyListener(this.keyAdapter);
     this.radTargetFile.addActionListener(this);
     this.radTargetFile.addKeyListener(this.keyAdapter);
+    this.txtTargetFile.addKeyListener(this.keyAdapter);
     this.btnSelectFile.addActionListener(this);
     this.btnSelectFile.addKeyListener(this.buttonKeyAdapter);
     this.btnOk.addActionListener(this);
@@ -239,17 +240,16 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
         if (Util.isTextEmpty(text.trim())) {
           continue;
         }
-        File fileText = new File(fileSplit + "/" + count + textArea.getFileExt().toString());
         try {
-          toSaveFile(fileText, text, textArea.getCharEncoding(), textArea.getLineSeparator());
           count++;
+          File fileText = new File(fileSplit + "/" + count + ".txt");
+          toSaveFile(fileText, text, textArea.getCharEncoding(), textArea.getLineSeparator());
         } catch (Exception x) {
           // x.printStackTrace();
         }
       }
       JOptionPane.showMessageDialog(this, "拆分文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
-      onCancel();
     } else {
       JOptionPane.showMessageDialog(this, "拆分文件失败，请先保存文件！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
@@ -327,17 +327,16 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       if (Util.isTextEmpty(text.trim())) {
         continue;
       }
-      File fileText = new File(fileSplit + "/" + count + ".txt");
       try {
-        toSaveFile(fileText, text, charEncoding, lineSeparator);
         count++;
+        File fileText = new File(fileSplit + "/" + count + ".txt");
+        toSaveFile(fileText, text, charEncoding, lineSeparator);
       } catch (Exception x) {
         // x.printStackTrace();
       }
     }
     JOptionPane.showMessageDialog(this, "拆分文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE,
         JOptionPane.CANCEL_OPTION);
-    onCancel();
   }
 
   private String checkText(String strText) {

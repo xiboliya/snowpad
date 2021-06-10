@@ -142,6 +142,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     this.radCutCount.addKeyListener(this.keyAdapter);
     this.txtCutSize.addKeyListener(this.keyAdapter);
     this.cmbCutUnit.addKeyListener(this.keyAdapter);
+    this.txtCutCount.addKeyListener(this.keyAdapter);
     this.btnOk.addActionListener(this);
     this.btnOk.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addActionListener(this);
@@ -269,14 +270,13 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       int len = 0;
       int count = 0;
       while ((len = randomAccessFile.read(buffer)) != -1) {
+        count++;
         File fileCutting = new File(fileParent + "/" + count);
         toCuttingFile(fileCutting, buffer, len);
-        count++;
         buffer = new byte[cutSize];
       }
       JOptionPane.showMessageDialog(this, "切割文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
-      onCancel();
     } catch (Exception x) {
       // x.printStackTrace();
       JOptionPane.showMessageDialog(this, "切割文件失败！", Util.SOFTWARE,
@@ -337,14 +337,13 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       int len = 0;
       int count = 0;
       while ((len = randomAccessFile.read(buffer)) != -1) {
+        count++;
         File fileCutting = new File(fileParent + "/" + count);
         toCuttingFile(fileCutting, buffer, len);
-        count++;
         buffer = new byte[cutSize];
       }
       JOptionPane.showMessageDialog(this, "切割文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
-      onCancel();
     } catch (Exception x) {
       // x.printStackTrace();
       JOptionPane.showMessageDialog(this, "切割文件失败！", Util.SOFTWARE,
