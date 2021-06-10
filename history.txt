@@ -1316,3 +1316,9 @@ src/Util.java
 src/SlicingFileDialog.java
 src/SnowPadFrame.java
 src/Util.java
+
+2021-06-10
+1.调整“拆分文件”和“切割文件”中处理后的文件从1开始命名；并且包括“拼接文件”在内，处理完之后，不关闭当前界面，方便连续操作。
+src/CuttingFileDialog.java
+src/MergeFileDialog.java
+src/SlicingFileDialog.java
