@@ -271,8 +271,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemInformation = new JMenuItem("统计信息(N)...", 'N');
   private JMenuItem itemWindowManage = new JMenuItem("窗口管理(W)...", 'W');
   private JMenu menuTextAreaSwitch = new JMenu("文档切换(I)");
-  private JMenuItem itemTextAreaSwitchNext = new JMenuItem("向后切换(N)", 'N');
   private JMenuItem itemTextAreaSwitchPrevious = new JMenuItem("向前切换(P)", 'P');
+  private JMenuItem itemTextAreaSwitchNext = new JMenuItem("向后切换(N)", 'N');
+  private JMenuItem itemTextAreaHistoryBack = new JMenuItem("前一个文档(B)", 'B');
+  private JMenuItem itemTextAreaHistoryNext = new JMenuItem("后一个文档(X)", 'X');
   private JMenu menuTool = new JMenu("工具(T)");
   private JMenuItem itemEncrypt = new JMenuItem("加密(E)...", 'E');
   private JMenuItem itemNumberConvert = new JMenuItem("进制转换(N)...", 'N');
@@ -331,6 +333,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // 存放界面中所有文本域的链表
   private LinkedList<AbstractButton> toolButtonList = new LinkedList<AbstractButton>(); // 存放工具栏中所有按钮的链表
   private LinkedList<JMenuItem> menuItemList = new LinkedList<JMenuItem>(); // 存放所有可用于快捷键设置的菜单项的链表
+  private LinkedList<Integer> textAreaHashCodeList = new LinkedList<Integer>(); // 存放最近编辑的文本域hashCode的链表
   private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // 标题栏字符串
   private String strLookAndFeel = Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME; // 当前外观的完整类名
   private StatePanel pnlState = new StatePanel(4); // 状态栏面板
@@ -343,6 +346,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private boolean isTabIconView = true; // 是否显示标签的文件状态指示图标
   private static boolean checking = false; // 是否正在检测所有文件的状态
   private int targetBracketIndex = -1; // 匹配括号的索引值
+  private int textAreaHistoryIndex = 0; // 最近编辑的文本域在链表中的索引值
 
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private SaveFileChooser saveFileChooser = null; // "保存"文件选择器
@@ -607,8 +611,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemRmHighlightAll.addActionListener(this);
     this.itemInformation.addActionListener(this);
     this.itemWindowManage.addActionListener(this);
-    this.itemTextAreaSwitchNext.addActionListener(this);
     this.itemTextAreaSwitchPrevious.addActionListener(this);
+    this.itemTextAreaSwitchNext.addActionListener(this);
+    this.itemTextAreaHistoryBack.addActionListener(this);
+    this.itemTextAreaHistoryNext.addActionListener(this);
     this.itemNew.addActionListener(this);
     this.itemOpen.addActionListener(this);
     this.itemOpenByEncoding.addActionListener(this);
@@ -994,8 +1000,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuRmHighlight.add(this.itemRmHighlightAll);
     this.menuView.add(this.menuLookAndFeel);
     this.menuView.add(this.menuTextAreaSwitch);
-    this.menuTextAreaSwitch.add(this.itemTextAreaSwitchNext);
     this.menuTextAreaSwitch.add(this.itemTextAreaSwitchPrevious);
+    this.menuTextAreaSwitch.add(this.itemTextAreaSwitchNext);
+    this.menuTextAreaSwitch.add(this.itemTextAreaHistoryBack);
+    this.menuTextAreaSwitch.add(this.itemTextAreaHistoryNext);
     this.menuView.addSeparator();
     this.menuView.add(this.itemInformation);
     this.menuView.add(this.itemWindowManage);
@@ -1161,8 +1169,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemRmHighlight4);
     this.menuItemList.add(this.itemRmHighlight5);
     this.menuItemList.add(this.itemRmHighlightAll);
-    this.menuItemList.add(this.itemTextAreaSwitchNext);
     this.menuItemList.add(this.itemTextAreaSwitchPrevious);
+    this.menuItemList.add(this.itemTextAreaSwitchNext);
+    this.menuItemList.add(this.itemTextAreaHistoryBack);
+    this.menuItemList.add(this.itemTextAreaHistoryNext);
     this.menuItemList.add(this.itemInformation);
     this.menuItemList.add(this.itemWindowManage);
     this.menuItemList.add(this.itemEncrypt);
@@ -1868,10 +1878,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openInformationDialog();
     } else if (this.itemWindowManage.equals(e.getSource())) {
       this.openWindowManageDialog();
-    } else if (this.itemTextAreaSwitchNext.equals(e.getSource())) {
-      this.textAreaSwitch(true);
     } else if (this.itemTextAreaSwitchPrevious.equals(e.getSource())) {
       this.textAreaSwitch(false);
+    } else if (this.itemTextAreaSwitchNext.equals(e.getSource())) {
+      this.textAreaSwitch(true);
+    } else if (this.itemTextAreaHistoryBack.equals(e.getSource())) {
+      this.textAreaHistory(false);
+    } else if (this.itemTextAreaHistoryNext.equals(e.getSource())) {
+      this.textAreaHistory(true);
     } else if (this.itemCommentForLine.equals(e.getSource())
         || this.itemPopCommentForLine.equals(e.getSource())) {
       this.setCommentForLine();
@@ -1942,7 +1956,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "文档切换"的处理方法
+   * "文档切换-向后/向前"的处理方法
    * 
    * @param isNext
    *          切换文档的方向，true表示向后，false表示向前。
@@ -1964,6 +1978,56 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     }
     this.tpnMain.setSelectedIndex(index);
+  }
+
+  /**
+   * "文档切换-前一个/后一个"的处理方法
+   * 
+   * @param isNext
+   *          切换文档的方向，true表示后一个，false表示前一个。
+   */
+  private void textAreaHistory(boolean isNext) {
+    int size = this.textAreaHashCodeList.size();
+    if (size <= 1) {
+      return;
+    }
+    int index = this.tpnMain.getSelectedIndex();
+    int hashCode = 0;
+    if (isNext) {
+      if (this.textAreaHistoryIndex <= 0) {
+        return;
+      }
+      this.textAreaHistoryIndex--;
+      hashCode = this.textAreaHashCodeList.get(this.textAreaHistoryIndex);
+    } else {
+      if (this.textAreaHistoryIndex >= size - 1) {
+        return;
+      }
+      this.textAreaHistoryIndex++;
+      hashCode = this.textAreaHashCodeList.get(this.textAreaHistoryIndex);
+    }
+    index = this.getTextAreaIndex(hashCode);
+    this.tpnMain.setSelectedIndex(index);
+  }
+
+  /**
+   * 根据hashCode获取文本域所在选项卡组件的索引值
+   * 
+   * @param hashCode
+   *          文本域的hashCode
+   * @return 索引值
+   */
+  private int getTextAreaIndex(int hashCode) {
+    int result = -1;
+    for (int i = 0; i < this.textAreaList.size(); i++) {
+      BaseTextArea textArea = this.textAreaList.get(i);
+      int hash = textArea.hashCode();
+      if (hash == hashCode) {
+        result = i;
+        break;
+      }
+    }
+    return result;
   }
 
   /**
@@ -2462,6 +2526,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (check && !this.saveFileBeforeAct()) {
       return false;
     }
+    this.removeFromTextAreaHashCodeList();
     int index = this.tpnMain.getSelectedIndex();
     this.tpnMain.remove(index);
     this.textAreaList.remove(index);
@@ -2538,6 +2603,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           if (!this.saveFileBeforeAct()) {
             break;
           }
+          this.removeFromTextAreaHashCodeList();
           this.tpnMain.remove(i);
           this.textAreaList.remove(i);
           if (this.textAreaList.isEmpty()) {
@@ -5173,6 +5239,50 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * 刷新存放最近编辑的文本域hashCode的链表
+   */
+  private void refreshTextAreaHashCodeList() {
+    int hashCode = this.txaMain.hashCode();
+    int size = this.textAreaHashCodeList.size();
+    // 如果处于已后退的状态下，则不处理
+    if (size > 0) {
+      int value = this.textAreaHashCodeList.get(this.textAreaHistoryIndex);
+      if (value == hashCode) {
+        return;
+      }
+    }
+    // 删除历史记录里的值
+    for (int i = 0; i < size; i++) {
+      int value = this.textAreaHashCodeList.get(i);
+      if (value == hashCode) {
+        this.textAreaHashCodeList.remove(i);
+        size--;
+        break;
+      }
+    }
+    this.textAreaHashCodeList.addFirst(hashCode);
+    size++;
+    if (size > Util.TEXTAREA_HASHCODE_LIST_MAX) {
+      this.textAreaHashCodeList.removeLast();
+    }
+  }
+
+  /**
+   * 将当前文本域从hashCode的链表中删除
+   */
+  private void removeFromTextAreaHashCodeList() {
+    int hashCode = this.txaMain.hashCode();
+    int size = this.textAreaHashCodeList.size();
+    for (int i = 0; i < size; i++) {
+      int value = this.textAreaHashCodeList.get(i);
+      if (value == hashCode) {
+        this.textAreaHashCodeList.remove(i);
+        break;
+      }
+    }
+  }
+
+  /**
    * 当文本域中的光标变化时，将触发此事件
    */
   public void caretUpdate(CaretEvent e) {
@@ -5298,6 +5408,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setMenuStateByTextArea();
         this.setMenuStateBySelectedText();
         this.setMenuStateFrozen();
+        this.refreshTextAreaHashCodeList();
       }
     }
   }

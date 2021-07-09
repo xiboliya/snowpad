@@ -140,8 +140,8 @@ public final class Util {
       "显示/隐藏状态栏","显示/隐藏行号栏","显示/隐藏查找结果面板","前端显示","锁定窗口","多行标签","双击关闭标签","显示/隐藏指示图标","字体放大","字体缩小",
       "字体恢复初始大小","字体颜色","背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","全部反色","全部补色",
       "配色方案1","配色方案2","配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4",
-      "高亮显示格式5","清除高亮格式1","清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向后切换文档","向前切换文档","统计信息",
-      "窗口管理","加密","进制转换","计算器","切割文件","拼接文件","帮助主题","关于"
+      "高亮显示格式5","清除高亮格式1","清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向前切换文档","向后切换文档","前一个文档",
+      "后一个文档","统计信息","窗口管理","加密","进制转换","计算器","切割文件","拼接文件","帮助主题","关于"
       }; // 快捷键的名称
   public static final String[] SHORTCUT_VALUES = new String[] {
       "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","",
@@ -156,8 +156,8 @@ public final class Util {
       "","","","","","","","","Ctrl+38","Ctrl+40",
       "Ctrl+47","","","","","","","","","",
       "","","","","","","","","","",
-      "","","","","","","","Ctrl+87","Ctrl+Shift+87","",
-      "","","","","","","","112"
+      "","","","","","","","Ctrl+Shift+87","Ctrl+87","Alt+37",
+      "Alt+39","","","","","","","","","112"
       }; // 快捷键的值
   public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
   public static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // 加密的类型
@@ -191,8 +191,10 @@ public final class Util {
   public static final int DEFAULT_TABSIZE = 4; // Tab字符默认值
   public static final int FILE_HISTORY_MAX = 15; // 最近编辑文件的最大存储个数
   public static final int BACK_FORWARD_MAX = 15; // 光标历史位置的最大存储个数
+  public static final int TEXTAREA_HASHCODE_LIST_MAX = 15; // 最近编辑的文本域hashCode的最大存储个数
   public static final int DEFAULT_UNDO_INDEX = 0; // 撤销标识符的默认值
   public static final int DEFAULT_BACK_FORWARD_INDEX = 0; // 光标历史位置的默认值
+  public static final int DEFAULT_TEXTAREA_HASHCODE_LIST_INDEX = 0; // 最近编辑的文本域索引的默认值
   public static final int INSERT_MAX_ROW = 10; // 插入字符界面的最大行数
   public static final int INSERT_MAX_COLUMN = 10; // 插入字符界面的最大列数
   public static final int INSERT_MAX_ELEMENT = INSERT_MAX_ROW * INSERT_MAX_COLUMN; // 插入字符界面的最大元素数
