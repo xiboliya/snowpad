@@ -1322,3 +1322,8 @@ src/Util.java
 src/CuttingFileDialog.java
 src/MergeFileDialog.java
 src/SlicingFileDialog.java
+
+2021-07-09
+1.在“查看”->“文档切换”菜单中添加“前一个文档”和“后一个文档”功能。
+src/SnowPadFrame.java
+src/Util.java
