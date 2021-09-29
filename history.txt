@@ -1327,3 +1327,7 @@ src/SlicingFileDialog.java
 1.在“查看”->“文档切换”菜单中添加“前一个文档”和“后一个文档”功能。
 src/SnowPadFrame.java
 src/Util.java
+
+2021-09-29
+1.优化“前一个文档”和“后一个文档”功能。
+src/SnowPadFrame.java
