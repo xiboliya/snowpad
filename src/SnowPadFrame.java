@@ -5244,20 +5244,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void refreshTextAreaHashCodeList() {
     int hashCode = this.txaMain.hashCode();
     int size = this.textAreaHashCodeList.size();
-    // 如果处于已后退的状态下，则不处理
     if (size > 0) {
+      // 如果处于已后退的状态下，则不处理
       int value = this.textAreaHashCodeList.get(this.textAreaHistoryIndex);
       if (value == hashCode) {
         return;
       }
-    }
-    // 删除历史记录里的值
-    for (int i = 0; i < size; i++) {
-      int value = this.textAreaHashCodeList.get(i);
-      if (value == hashCode) {
-        this.textAreaHashCodeList.remove(i);
-        size--;
-        break;
+      // 如果当前文本域已处于链表开头，则不处理
+      if (this.textAreaHashCodeList.get(0) == hashCode) {
+        return;
       }
     }
     this.textAreaHashCodeList.addFirst(hashCode);
@@ -5273,12 +5268,46 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void removeFromTextAreaHashCodeList() {
     int hashCode = this.txaMain.hashCode();
     int size = this.textAreaHashCodeList.size();
-    for (int i = 0; i < size; i++) {
+    for (int i = size - 1; i >= 0; i--) {
       int value = this.textAreaHashCodeList.get(i);
       if (value == hashCode) {
         this.textAreaHashCodeList.remove(i);
-        break;
+        this.checkTextAreaHistoryIndex(i);
       }
+    }
+    this.checkTextAreaHashCodeList();
+  }
+
+  /**
+   * 检查并删除链表中连续的重复hashCode
+   */
+  private void checkTextAreaHashCodeList() {
+    int size = this.textAreaHashCodeList.size();
+    if (size <= 1) {
+      return;
+    }
+    int tempValue = this.textAreaHashCodeList.get(size - 1);
+    for (int i = size - 2; i >= 0; i--) {
+      int value = this.textAreaHashCodeList.get(i);
+      if (value == tempValue) {
+        this.textAreaHashCodeList.remove(i);
+        this.checkTextAreaHistoryIndex(i);
+      } else {
+        tempValue = value;
+      }
+    }
+  }
+
+  /**
+   * 检查并回退最近编辑的文本域的索引值
+   * 
+   * @param index
+   *          被删除的元素索引值
+   */
+  private void checkTextAreaHistoryIndex(int index) {
+    // 被删除的元素索引值小于等于最近编辑的索引值，则回退索引值
+    if (this.textAreaHistoryIndex > 0 && this.textAreaHistoryIndex >= index) {
+      this.textAreaHistoryIndex--;
     }
   }
 
