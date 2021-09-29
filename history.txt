@@ -1331,3 +1331,6 @@ src/Util.java
 2021-09-29
 1.优化“前一个文档”和“后一个文档”功能。
 src/SnowPadFrame.java
+2.在“编辑”->“排序”菜单下添加“反序”功能。
+src/SnowPadFrame.java
+src/Util.java
