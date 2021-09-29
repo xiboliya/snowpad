@@ -163,6 +163,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuSort = new JMenu("排序");
   private JMenuItem itemSortUp = new JMenuItem("升序");
   private JMenuItem itemSortDown = new JMenuItem("降序");
+  private JMenuItem itemSortReverse = new JMenuItem("反序");
   private JMenu menuIndent = new JMenu("缩进");
   private JMenuItem itemIndentAdd = new JMenuItem("缩进");
   private JMenuItem itemIndentBack = new JMenuItem("退格");
@@ -533,6 +534,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineToCut.addActionListener(this);
     this.itemSortUp.addActionListener(this);
     this.itemSortDown.addActionListener(this);
+    this.itemSortReverse.addActionListener(this);
     this.itemIndentAdd.addActionListener(this);
     this.itemIndentBack.addActionListener(this);
     this.itemSelCopy.addActionListener(this);
@@ -886,6 +888,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuSort);
     this.menuSort.add(this.itemSortUp);
     this.menuSort.add(this.itemSortDown);
+    this.menuSort.add(this.itemSortReverse);
     this.menuEdit.add(this.menuIndent);
     this.menuIndent.add(this.itemIndentAdd);
     this.menuIndent.add(this.itemIndentBack);
@@ -1086,6 +1089,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemLineBatchRewrite);
     this.menuItemList.add(this.itemSortUp);
     this.menuItemList.add(this.itemSortDown);
+    this.menuItemList.add(this.itemSortReverse);
     this.menuItemList.add(this.itemIndentAdd);
     this.menuItemList.add(this.itemIndentBack);
     this.menuItemList.add(this.itemTrimStart);
@@ -1642,6 +1646,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.sortLines(true);
     } else if (this.itemSortDown.equals(e.getSource())) {
       this.sortLines(false);
+    } else if (this.itemSortReverse.equals(e.getSource())) {
+      this.reverseLines();
     } else if (this.itemIndentAdd.equals(e.getSource())) {
       this.toIndent(true);
     } else if (this.itemIndentBack.equals(e.getSource())) {
@@ -3019,6 +3025,44 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         stbSorted.insert(0, str + "\n");
       }
       this.txaMain.replaceSelection(stbSorted.deleteCharAt(stbSorted.length() - 1).toString()); // 删除字符串末尾多余的换行符
+    }
+  }
+
+  /**
+   * "反序"的处理方法
+   */
+  private void reverseLines() {
+    if (Util.isTextEmpty(this.txaMain.getText())) {
+      return;
+    }
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int lineCount = currentLines.getLineCount();
+    int endLineNum = currentLines.getEndLineNum();
+    // 选区的末行是否不是文本域末行
+    boolean isNotEndLine = false;
+    // 如果当前实际选区的末行不是文本域末行，应作一定处理
+    if (endLineNum < this.txaMain.getLineCount() - 1) {
+      isNotEndLine = true;
+    }
+    if (lineCount < 2) {
+      this.txaMain.selectAll();
+      isNotEndLine = false;
+    } else {
+      this.txaMain.select(currentLines.getStartIndex(), currentLines.getEndIndex());
+    }
+    String strSelText = this.txaMain.getSelectedText();
+    String[] arrText = strSelText.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
+    if (arrText.length <= 1) {
+      return;
+    }
+    StringBuilder stbReversed = new StringBuilder();
+    for (String str : arrText) {
+      stbReversed.insert(0, str + "\n");
+    }
+    if (isNotEndLine) {
+      this.txaMain.replaceSelection(stbReversed.deleteCharAt(0).toString()); // 删除字符串开头多余的换行符
+    } else {
+      this.txaMain.replaceSelection(stbReversed.deleteCharAt(stbReversed.length() - 1).toString()); // 删除字符串末尾多余的换行符
     }
   }
 
