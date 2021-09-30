@@ -4469,18 +4469,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * 是否已经打开了查找或替换对话框
-   * 
-   * @return 如果已经打开了查找或替换对话框则返回false
-   */
-  private boolean canOpenDialog() {
-    if (this.findReplaceDialog != null && this.findReplaceDialog.isVisible()) {
-      return false;
-    }
-    return true;
-  }
-
-  /**
    * 预处理当前选中的文本，以便用于查找对话框的显示
    * 
    * @return 经处理之后的文本
@@ -4500,10 +4488,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "查找"的处理方法
    */
   private void openFindDialog() {
-    if (!this.canOpenDialog()) {
-      this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
-      return;
-    }
     if (this.findReplaceDialog == null) {
       this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
           this.setting, true);
@@ -4528,10 +4512,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          查找的方向，如果向下查找则为true，反之则为false
    */
   private void findNextText(boolean isFindDown) {
-    if (!this.canOpenDialog()) {
-      this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
-      return;
-    }
     String strSel = this.checkSelText();
     if (this.findReplaceDialog == null) {
       this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
@@ -4557,10 +4537,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "替换"的处理方法
    */
   private void openReplaceDialog() {
-    if (!this.canOpenDialog()) {
-      this.findReplaceDialog.setTabbedIndex(1); // 打开替换选项卡
-      return;
-    }
     if (this.findReplaceDialog == null) {
       this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
           this.setting, true);
