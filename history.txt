@@ -1334,3 +1334,8 @@ src/SnowPadFrame.java
 2.在“编辑”->“排序”菜单下添加“反序”功能。
 src/SnowPadFrame.java
 src/Util.java
+
+2021-09-30
+1.优化查找、替换对话框的显示逻辑：已打开对话框的状态下，再次通过菜单或快捷键的方式启动查找或替换功能，则按照新的关键字进行查找。
+src/BaseDialog.java
+src/SnowPadFrame.java
