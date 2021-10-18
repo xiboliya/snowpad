@@ -82,6 +82,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -145,6 +147,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuLine = new JMenu("操作行");
   private JMenuItem itemLineCopy = new JMenuItem("复写当前行");
   private JMenuItem itemLineDel = new JMenuItem("删除当前行");
+  private JMenuItem itemLineDelDuplicate = new JMenuItem("删除重复行");
   private JMenuItem itemLineDelToStart = new JMenuItem("删除至行首");
   private JMenuItem itemLineDelToEnd = new JMenuItem("删除至行尾");
   private JMenuItem itemLineDelToFileStart = new JMenuItem("删除至文件首");
@@ -524,6 +527,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemToCopyAllText.addActionListener(this);
     this.itemLineCopy.addActionListener(this);
     this.itemLineDel.addActionListener(this);
+    this.itemLineDelDuplicate.addActionListener(this);
     this.itemLineDelToStart.addActionListener(this);
     this.itemLineDelToEnd.addActionListener(this);
     this.itemLineDelToFileStart.addActionListener(this);
@@ -866,6 +870,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuLine);
     this.menuLine.add(this.itemLineCopy);
     this.menuLine.add(this.itemLineDel);
+    this.menuLine.add(this.itemLineDelDuplicate);
     this.menuLine.addSeparator();
     this.menuLine.add(this.itemLineDelToStart);
     this.menuLine.add(this.itemLineDelToEnd);
@@ -1073,6 +1078,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemToCopyAllText);
     this.menuItemList.add(this.itemLineCopy);
     this.menuItemList.add(this.itemLineDel);
+    this.menuItemList.add(this.itemLineDelDuplicate);
     this.menuItemList.add(this.itemLineDelToStart);
     this.menuItemList.add(this.itemLineDelToEnd);
     this.menuItemList.add(this.itemLineDelToFileStart);
@@ -1614,6 +1620,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.copyLines();
     } else if (this.itemLineDel.equals(e.getSource())) {
       this.deleteLines();
+    } else if (this.itemLineDelDuplicate.equals(e.getSource())) {
+      this.deleteDuplicateLines();
     } else if (this.itemLineDelToStart.equals(e.getSource())) {
       this.deleteLineToStart();
     } else if (this.itemLineDelToEnd.equals(e.getSource())) {
@@ -3952,6 +3960,49 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
       this.txaMain.replaceRange("", startIndex, endIndex);
     }
+  }
+
+  /**
+   * "删除重复行"的处理方法
+   */
+  private void deleteDuplicateLines() {
+    if (Util.isTextEmpty(this.txaMain.getText())) {
+      return;
+    }
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int lineCount = currentLines.getLineCount();
+    if (lineCount < 2) {
+      this.txaMain.selectAll();
+    } else {
+      this.txaMain.select(currentLines.getStartIndex(), currentLines.getEndIndex());
+    }
+    String strSelText = this.txaMain.getSelectedText();
+    String[] arrText = strSelText.split("\n", -1); // 将当前选区的文本分行处理，包括末尾的多处空行
+    int arrSize = arrText.length;
+    if (arrSize <= 1) {
+      return;
+    }
+    ArrayList<String> listText = new ArrayList<String>(arrSize);
+    Collections.addAll(listText, arrText);
+    arrSize = listText.size();
+    StringBuilder stbResult = new StringBuilder();
+    for (int i = 0; i < arrSize; i++) {
+      String str1 = listText.get(i);
+      stbResult.append(str1 + "\n");
+      if (Util.isTextEmpty(str1) || i >= (arrSize - 1)) {
+        continue;
+      }
+      for (int j = i + 1; j < arrSize; j++) {
+        String str2 = listText.get(j);
+        if (str1.equals(str2)) {
+          // 删除重复行
+          listText.remove(j);
+          j--;
+          arrSize--;
+        }
+      }
+    }
+    this.txaMain.replaceSelection(stbResult.deleteCharAt(stbResult.length() - 1).toString()); // 删除字符串末尾多余的换行符
   }
 
   /**
