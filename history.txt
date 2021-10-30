@@ -1344,3 +1344,8 @@ src/SnowPadFrame.java
 1.在“编辑”->“操作行”菜单中添加“删除重复行”功能。
 src/SnowPadFrame.java
 src/Util.java
+
+2021-10-30
+1.在查找、替换对话框中添加“复制结果行”功能。
+src/FindReplaceDialog.java
+src/SnowPadFrame.java
