@@ -3815,7 +3815,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @param strText
    *          要存入剪贴板的文本
    */
-  private void setClipboardContents(String strText) {
+  public void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {
       return;
     }

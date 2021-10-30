@@ -42,6 +42,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.BadLocationException;
 
 /**
  * "查找"和"替换"对话框
@@ -79,6 +80,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private JButton btnCountAllF = new JButton("全部统计(N)");
   private JButton btnCountSelF = new JButton("选区内统计(S)");
   private JButton btnSearchInFileF = new JButton("文件中查找(I)");
+  private JButton btnCopyResultLinesF = new JButton("复制结果行(L)");
   private JButton btnCancelF = new JButton("取消");
   private ButtonGroup bgpSearchStyleF = new ButtonGroup();
   private ButtonGroup bgpFindUpDownF = new ButtonGroup();
@@ -121,7 +123,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.initView();
     this.setMnemonic();
     this.addListeners();
-    this.setSize(400, 255);
+    this.setSize(400, 280);
     this.setVisible(visible);
   }
 
@@ -139,12 +141,12 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.pnlFind.add(this.chkMatchCaseF);
     this.chkIsWrapF.setBounds(10, 70, 110, Util.VIEW_HEIGHT);
     this.pnlFind.add(this.chkIsWrapF);
-    this.pnlFindUpDownF.setBounds(10, 90, 95, 70);
+    this.pnlFindUpDownF.setBounds(10, 100, 95, 70);
     this.pnlFindUpDownF.setBorder(new TitledBorder("方向"));
     this.pnlFindUpDownF.add(this.radFindUpF);
     this.pnlFindUpDownF.add(this.radFindDownF);
     this.pnlFind.add(this.pnlFindUpDownF);
-    this.pnlSearchStyleF.setBounds(130, 70, 130, 90);
+    this.pnlSearchStyleF.setBounds(130, 80, 130, 90);
     this.pnlSearchStyleF.setBorder(new TitledBorder("模式"));
     this.pnlSearchStyleF.add(this.radDefaultF);
     this.pnlSearchStyleF.add(this.radTransferF);
@@ -155,15 +157,18 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnCountAllF.setEnabled(false);
     this.btnCountSelF.setEnabled(false);
     this.btnSearchInFileF.setEnabled(false);
+    this.btnCopyResultLinesF.setEnabled(false);
     this.btnFindF.setBounds(270, 10, 110, Util.BUTTON_HEIGHT);
     this.btnCountAllF.setBounds(270, 45, 110, Util.BUTTON_HEIGHT);
     this.btnCountSelF.setBounds(270, 80, 110, Util.BUTTON_HEIGHT);
     this.btnSearchInFileF.setBounds(270, 115, 110, Util.BUTTON_HEIGHT);
-    this.btnCancelF.setBounds(270, 150, 110, Util.BUTTON_HEIGHT);
+    this.btnCopyResultLinesF.setBounds(270, 150, 110, Util.BUTTON_HEIGHT);
+    this.btnCancelF.setBounds(270, 185, 110, Util.BUTTON_HEIGHT);
     this.pnlFind.add(this.btnFindF);
     this.pnlFind.add(this.btnCountAllF);
     this.pnlFind.add(this.btnCountSelF);
     this.pnlFind.add(this.btnSearchInFileF);
+    this.pnlFind.add(this.btnCopyResultLinesF);
     this.pnlFind.add(this.btnCancelF);
     this.bgpSearchStyleF.add(this.radDefaultF);
     this.bgpSearchStyleF.add(this.radTransferF);
@@ -352,6 +357,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnCountAllF.setMnemonic('N');
     this.btnCountSelF.setMnemonic('S');
     this.btnSearchInFileF.setMnemonic('I');
+    this.btnCopyResultLinesF.setMnemonic('L');
     this.radFindUpF.setMnemonic('U');
     this.radFindDownF.setMnemonic('D');
     // 替换
@@ -379,6 +385,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnCountAllF.addActionListener(this);
     this.btnCountSelF.addActionListener(this);
     this.btnSearchInFileF.addActionListener(this);
+    this.btnCopyResultLinesF.addActionListener(this);
     this.btnCancelF.addActionListener(this);
     this.radFindDownF.addActionListener(this);
     this.radFindUpF.addActionListener(this);
@@ -400,6 +407,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnCountAllF.addKeyListener(this.buttonKeyAdapter);
     this.btnCountSelF.addKeyListener(this.buttonKeyAdapter);
     this.btnSearchInFileF.addKeyListener(this.buttonKeyAdapter);
+    this.btnCopyResultLinesF.addKeyListener(this.buttonKeyAdapter);
     // 替换
     this.txtFindTextR.addCaretListener(this);
     this.btnFindR.addActionListener(this);
@@ -446,6 +454,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       this.getTextCountSel();
     } else if (this.btnSearchInFileF.equals(e.getSource())) {
       this.searchInFile();
+    } else if (this.btnCopyResultLinesF.equals(e.getSource())) {
+      this.copyResultLines();
     } else if (this.chkMatchCaseF.equals(e.getSource())) {
       this.setting.matchCase = this.isMatchCase = this.chkMatchCaseF.isSelected();
       this.chkMatchCaseR.setSelected(this.isMatchCase);
@@ -802,6 +812,66 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
+   * “复制结果行”的处理方法
+   */
+  private void copyResultLines() {
+    LinkedList<SearchBean> listIndex = new LinkedList<SearchBean>();
+    if (!Util.isTextEmpty(this.strFind)) {
+      int index = 0;
+      while (index >= 0) {
+        index = Util.findText(this.strFind, this.txaSource, index,
+            this.isMatchCase, this.searchStyle);
+        if (index >= 0) {
+          SearchBean searchBean = new SearchBean();
+          searchBean.setStart(index);
+          if (this.searchStyle == SearchStyle.PATTERN) {
+            index = index + Util.matcher_length;
+          } else if (this.searchStyle == SearchStyle.TRANSFER) {
+            index = index + this.strFind.length() - Util.transfer_count;
+          } else {
+            index = index + this.strFind.length();
+          }
+          searchBean.setEnd(index);
+          listIndex.add(searchBean);
+        }
+      }
+    }
+    if (listIndex.isEmpty()) {
+      JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
+          Util.SOFTWARE, JOptionPane.NO_OPTION);
+    } else {
+      String strSource = this.txaSource.getText();
+      String strResult = ""; // 结果字符串
+      int lineNumUsed = -1; // 最近一次使用的行号
+      int times = 0; // 复制的行数
+      try {
+        for (SearchBean searchBean : listIndex) {
+          int lineNumStart = this.txaSource.getLineOfOffset(searchBean.getStart());
+          if (lineNumUsed >= lineNumStart) {
+            continue;
+          }
+          int lineNumEnd = this.txaSource.getLineOfOffset(searchBean.getEnd());
+          lineNumUsed = lineNumEnd;
+          int size = lineNumEnd - lineNumStart;
+          String strLine = "";
+          for (int i = 0; i <= size; i++) {
+            strLine += strSource.substring(this.txaSource.getLineStartOffset(lineNumStart + i), this.txaSource.getLineEndOffset(lineNumStart + i));
+            if (!strLine.endsWith("\n")) {
+              strLine += "\n";
+            }
+            times++;
+          }
+          strResult += strLine;
+        }
+        ((SnowPadFrame) this.getOwner()).setClipboardContents(strResult);
+        JOptionPane.showMessageDialog(this, "共复制 " + times + " 行。", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      } catch (BadLocationException x) {
+         x.printStackTrace();
+      }
+    }
+  }
+
+  /**
    * 设置选区操作按钮的状态
    */
   private void setBtnSelEnabled() {
@@ -832,10 +902,12 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         this.btnFindF.setEnabled(false);
         this.btnCountAllF.setEnabled(false);
         this.btnSearchInFileF.setEnabled(false);
+        this.btnCopyResultLinesF.setEnabled(false);
       } else {
         this.btnFindF.setEnabled(true);
         this.btnCountAllF.setEnabled(true);
         this.btnSearchInFileF.setEnabled(true);
+        this.btnCopyResultLinesF.setEnabled(true);
       }
     } else if (this.txtFindTextR.equals(e.getSource())) { // 替换
       this.strFind = this.txtFindTextR.getText();
