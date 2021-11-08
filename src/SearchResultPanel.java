@@ -37,7 +37,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-import javax.swing.text.BadLocationException;
 import java.util.LinkedList;
 
 /**
@@ -48,8 +47,7 @@ import java.util.LinkedList;
  */
 public class SearchResultPanel extends JPanel implements CaretListener {
   private static final long serialVersionUID = 1L;
-  private SearchResult searchResult;
-  private String filePath = "";
+  private LinkedList<SearchResult> searchResults = new LinkedList<SearchResult>();
   private JLabel lblTitleText = new JLabel("查找结果");
   private JButton btnTitleClose = new JButton();
   private BaseTextArea txaMain = new BaseTextArea();
@@ -109,37 +107,37 @@ public class SearchResultPanel extends JPanel implements CaretListener {
   /**
    * 刷新查找结果
    */
-  public void refreshResult() {
-    if (this.searchResult != null) {
-      BaseTextArea txaMain = this.searchResult.getTxaMain();
-      String strSearch = this.searchResult.getStrSearch();
-      LinkedList<SearchBean> listIndex = this.searchResult.getListIndex();
-      int count = -1;
-      if (!listIndex.isEmpty()) {
-        count = listIndex.size();
+  public void refreshResult(SearchResult searchResult) {
+    this.searchResults.add(searchResult);
+    BaseTextArea textArea = searchResult.getTextArea();
+    String strSearch = searchResult.getStrSearch();
+    LinkedList<SearchBean> listIndex = searchResult.getListIndex();
+    int count = -1;
+    if (!listIndex.isEmpty()) {
+      count = listIndex.size();
+    }
+    String filePath = "";
+    String strSource = "";
+    if (textArea != null) {
+      filePath = textArea.getFileName();
+      if (Util.isTextEmpty(filePath)) {
+        filePath = textArea.getTitle();
       }
-      String strSource = "";
-      if (txaMain != null) {
-        filePath = txaMain.getFileName();
-        if (Util.isTextEmpty(filePath)) {
-          filePath = txaMain.getTitle();
+      strSource = textArea.getText();
+    }
+    String strMain = "查找 " + "\"" + strSearch + "\" [" + count + " 处]\n" + filePath + "\n";
+    try {
+      for (SearchBean searchBean : listIndex) {
+        int lineNum = textArea.getLineOfOffset(searchBean.getStart());
+        String strLine = strSource.substring(textArea.getLineStartOffset(lineNum), textArea.getLineEndOffset(lineNum));
+        if (!strLine.endsWith("\n")) {
+          strLine += "\n";
         }
-        strSource = txaMain.getText();
+        strMain += "Line " + (lineNum + 1) + ":" + strLine;
       }
-      String strMain = "查找 " + "\"" + strSearch + "\" [" + count + " 处]\n" + filePath + "\n";
-      try {
-        for (SearchBean searchBean : listIndex) {
-          int lineNum = txaMain.getLineOfOffset(searchBean.getStart());
-          String strLine = strSource.substring(txaMain.getLineStartOffset(lineNum), txaMain.getLineEndOffset(lineNum));
-          if (!strLine.endsWith("\n")) {
-            strLine += "\n";
-          }
-          strMain += "Line " + (lineNum + 1) + ":" + strLine;
-        }
-        this.txaMain.setText(strMain);
-      } catch (BadLocationException x) {
-         x.printStackTrace();
-      }
+      this.txaMain.append(strMain);
+    } catch (Exception x) {
+       // x.printStackTrace();
     }
     this.txaMain.setSelectedTextColor(this.txaMain.getForeground());
     this.txaMain.setCaretPosition(Util.DEFAULT_CARET_INDEX);
@@ -151,20 +149,32 @@ public class SearchResultPanel extends JPanel implements CaretListener {
   private void gotoResult() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
     String strLine = currentLine.getStrLine();
-    int lineNum = currentLine.getLineNum();
     if (strLine.startsWith("Line ")) {
-      SearchBean searchBean = this.searchResult.getListIndex().get(lineNum - 2);
+      int lineNum = currentLine.getLineNum();
+      int size = this.searchResults.size();
+      int lineCount = 0;
+      SearchResult searchResult = null;
+      for (int i = 0; i < size; i++) {
+        SearchResult searchResultTemp = this.searchResults.get(i);
+        lineCount += (searchResultTemp.getListIndex().size() + 2);
+        if (lineNum < lineCount) {
+          searchResult = searchResultTemp;
+          lineNum = searchResultTemp.getListIndex().size() - (lineCount - lineNum);
+          break;
+        }
+      }
+      SearchBean searchBean = searchResult.getListIndex().get(lineNum);
       int start = searchBean.getStart();
       int end = searchBean.getEnd();
-      BaseTextArea textArea = this.searchResult.getTxaMain();
+      BaseTextArea textArea = searchResult.getTextArea();
       textArea.select(start, end);
       textArea.requestFocus();
+      String filePath = textArea.getFileName();
+      if (Util.isTextEmpty(filePath)) {
+        filePath = textArea.getTitle();
+      }
       this.owner.searchResultToSwitchFile(filePath);
     }
-  }
-
-  public void setSearchResult(SearchResult searchResult) {
-    this.searchResult = searchResult;
   }
 
   /**

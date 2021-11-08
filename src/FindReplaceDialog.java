@@ -804,8 +804,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           Util.SOFTWARE, JOptionPane.NO_OPTION);
     } else {
       SearchResult searchResult = new SearchResult((BaseTextArea)this.txaSource, this.strFind, listIndex);
-      this.searchResultPanel.setSearchResult(searchResult);
-      this.searchResultPanel.refreshResult();
+      this.searchResultPanel.refreshResult(searchResult);
       ((SnowPadFrame) this.getOwner()).viewSearchResult(true);
       this.dispose();
     }

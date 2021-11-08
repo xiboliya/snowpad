@@ -26,18 +26,18 @@ import java.util.LinkedList;
  * 
  */
 public class SearchResult {
-  private BaseTextArea txaMain;
+  private BaseTextArea textArea;
   private String strSearch = "";
   private LinkedList<SearchBean> listIndex;
 
-  public SearchResult(BaseTextArea txaMain, String strSearch, LinkedList<SearchBean> listIndex) {
-    this.txaMain = txaMain;
+  public SearchResult(BaseTextArea textArea, String strSearch, LinkedList<SearchBean> listIndex) {
+    this.textArea = textArea;
     this.strSearch = strSearch;
     this.listIndex = listIndex;
   }
 
-  public BaseTextArea getTxaMain() {
-    return this.txaMain;
+  public BaseTextArea getTextArea() {
+    return this.textArea;
   }
 
   public String getStrSearch() {
