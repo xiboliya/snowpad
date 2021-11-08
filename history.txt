@@ -1349,3 +1349,9 @@ src/Util.java
 1.在查找、替换对话框中添加“复制结果行”功能。
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
+
+2021-11-08
+1.查找结果面板中支持多文件结果显示。
+src/FindReplaceDialog.java
+src/SearchResult.java
+src/SearchResultPanel.java
