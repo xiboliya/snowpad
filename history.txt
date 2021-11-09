@@ -1355,3 +1355,7 @@ src/SnowPadFrame.java
 src/FindReplaceDialog.java
 src/SearchResult.java
 src/SearchResultPanel.java
+
+2021-11-09
+1.查找结果面板中添加右键快捷菜单，支持清空结果功能。
+src/SearchResultPanel.java
