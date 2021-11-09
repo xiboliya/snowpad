@@ -19,6 +19,7 @@ package com.xiboliya.snowpad;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,11 +29,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.CaretEvent;
@@ -45,7 +46,7 @@ import java.util.LinkedList;
  * @author 冰原
  * 
  */
-public class SearchResultPanel extends JPanel implements CaretListener {
+public class SearchResultPanel extends JPanel implements ActionListener, CaretListener {
   private static final long serialVersionUID = 1L;
   private LinkedList<SearchResult> searchResults = new LinkedList<SearchResult>();
   private JLabel lblTitleText = new JLabel("查找结果");
@@ -57,6 +58,8 @@ public class SearchResultPanel extends JPanel implements CaretListener {
   private BorderLayout layout = new BorderLayout();
   private SnowPadFrame owner;
   private Color color = new Color(0, 0, 0, 0);
+  private JPopupMenu popMenuMain = new JPopupMenu();
+  private JMenuItem itemPopClear = new JMenuItem("清空结果(C)", 'C');
 
   public SearchResultPanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -81,6 +84,17 @@ public class SearchResultPanel extends JPanel implements CaretListener {
     this.add(this.srpMain, BorderLayout.CENTER);
     this.txaMain.setSelectionColor(this.color);
     this.txaMain.setEditable(false);
+    this.addPopMenu();
+  }
+
+  /**
+   * 初始化快捷菜单
+   */
+  private void addPopMenu() {
+    this.popMenuMain.add(this.itemPopClear);
+    Dimension popSize = this.popMenuMain.getPreferredSize();
+    popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
+    this.popMenuMain.setPopupSize(popSize);
   }
 
   /**
@@ -92,6 +106,8 @@ public class SearchResultPanel extends JPanel implements CaretListener {
       public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) { // 双击
           gotoResult();
+        } else if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
+          popMenuMain.show(txaMain, e.getX(), e.getY());
         }
       }
     });
@@ -102,6 +118,7 @@ public class SearchResultPanel extends JPanel implements CaretListener {
         }
       }
     });
+    this.itemPopClear.addActionListener(this);
   }
 
   /**
@@ -187,10 +204,25 @@ public class SearchResultPanel extends JPanel implements CaretListener {
   }
 
   /**
+   * "清空结果"的处理方法
+   */
+  private void clear() {
+    this.txaMain.setText("");
+  }
+
+  /**
    * 当文本域中的光标变化时，将触发此事件
    */
   public void caretUpdate(CaretEvent e) {
     this.txaMain.repaint(); // 重绘当前文本域，以解决在特定情况下绘制当前行背景错乱的问题
   }
 
+  /**
+   * 为各菜单项添加事件的处理方法
+   */
+  public void actionPerformed(ActionEvent e) {
+    if (this.itemPopClear.equals(e.getSource())) {
+      clear();
+    }
+  }
 }
