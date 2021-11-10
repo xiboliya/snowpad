@@ -21,6 +21,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -48,6 +50,7 @@ import java.util.LinkedList;
  */
 public class SearchResultPanel extends JPanel implements ActionListener, CaretListener {
   private static final long serialVersionUID = 1L;
+  private static final String prefixLine = "Line ";
   private LinkedList<SearchResult> searchResults = new LinkedList<SearchResult>();
   private JLabel lblTitleText = new JLabel("查找结果");
   private JButton btnTitleClose = new JButton();
@@ -59,7 +62,9 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private SnowPadFrame owner;
   private Color color = new Color(0, 0, 0, 0);
   private JPopupMenu popMenuMain = new JPopupMenu();
-  private JMenuItem itemPopClear = new JMenuItem("清空结果(C)", 'C');
+  private JMenuItem itemPopClear = new JMenuItem("清空结果(L)", 'L');
+  private JMenuItem itemPopCopyCurrentLine = new JMenuItem("复制当前行(C)", 'C');
+  private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
 
   public SearchResultPanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -92,6 +97,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
    */
   private void addPopMenu() {
     this.popMenuMain.add(this.itemPopClear);
+    this.popMenuMain.add(this.itemPopCopyCurrentLine);
     Dimension popSize = this.popMenuMain.getPreferredSize();
     popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
     this.popMenuMain.setPopupSize(popSize);
@@ -119,6 +125,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
       }
     });
     this.itemPopClear.addActionListener(this);
+    this.itemPopCopyCurrentLine.addActionListener(this);
   }
 
   /**
@@ -150,7 +157,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
         if (!strLine.endsWith("\n")) {
           strLine += "\n";
         }
-        strMain += "Line " + (lineNum + 1) + ":" + strLine;
+        strMain += prefixLine + (lineNum + 1) + ":" + strLine;
       }
       this.txaMain.append(strMain);
     } catch (Exception x) {
@@ -166,7 +173,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private void gotoResult() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
     String strLine = currentLine.getStrLine();
-    if (strLine.startsWith("Line ")) {
+    if (strLine.startsWith(prefixLine)) {
       int lineNum = currentLine.getLineNum();
       int size = this.searchResults.size();
       int lineCount = 0;
@@ -211,6 +218,24 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
+   * "复制当前行"的处理方法
+   */
+  private void copyCurrentLine() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    String strLine = currentLine.getStrLine();
+    if (Util.isTextEmpty(strLine)) {
+      return;
+    }
+    if (strLine.startsWith(prefixLine)) {
+      int startIndex = currentLine.getStartIndex();
+      Util.findText(prefixLine + "\\d+:", this.txaMain, startIndex, true, SearchStyle.PATTERN);
+      strLine = strLine.substring(Util.matcher_length);
+    }
+    StringSelection ss = new StringSelection(strLine);
+    this.clip.setContents(ss, ss);
+  }
+
+  /**
    * 当文本域中的光标变化时，将触发此事件
    */
   public void caretUpdate(CaretEvent e) {
@@ -222,7 +247,9 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
    */
   public void actionPerformed(ActionEvent e) {
     if (this.itemPopClear.equals(e.getSource())) {
-      clear();
+      this.clear();
+    } else if (this.itemPopCopyCurrentLine.equals(e.getSource())) {
+      this.copyCurrentLine();
     }
   }
 }
