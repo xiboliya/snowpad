@@ -215,6 +215,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
    */
   private void clear() {
     this.txaMain.setText("");
+    this.searchResults.clear();
   }
 
   /**
