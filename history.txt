@@ -1363,3 +1363,5 @@ src/SearchResultPanel.java
 2021-11-10
 1.查找结果面板的右键快捷菜单中添加“复制当前行”功能。
 src/SearchResultPanel.java
+2.解决点击查找结果面板的右键快捷菜单中“清空结果”后，没有清空逻辑数据的问题。
+src/SearchResultPanel.java
