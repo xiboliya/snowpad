@@ -1365,3 +1365,11 @@ src/SearchResultPanel.java
 src/SearchResultPanel.java
 2.解决点击查找结果面板的右键快捷菜单中“清空结果”后，没有清空逻辑数据的问题。
 src/SearchResultPanel.java
+
+2021-11-11
+1.优化查找结果面板中跳转到查找结果行的逻辑。
+src/SearchResultPanel.java
+src/SnowPadFrame.java
+2.查找结果面板中添加按ESC键关闭面板的功能，优化点击关闭按钮的逻辑。
+src/SearchResultPanel.java
+src/SnowPadFrame.java
