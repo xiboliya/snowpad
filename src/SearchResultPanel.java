@@ -193,11 +193,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
       BaseTextArea textArea = searchResult.getTextArea();
       textArea.select(start, end);
       textArea.requestFocus();
-      String filePath = textArea.getFileName();
-      if (Util.isTextEmpty(filePath)) {
-        filePath = textArea.getTitle();
-      }
-      this.owner.searchResultToSwitchFile(filePath);
+      this.owner.searchResultToSwitchFile(textArea.hashCode());
     }
   }
 

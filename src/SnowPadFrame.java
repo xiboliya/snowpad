@@ -1193,7 +1193,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
-  
+
   /**
    * 初始化快捷菜单
    */
@@ -2490,23 +2490,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "查找结果"面板中双击跳转的处理方法
    * 
-   * @param switchPath
-   *          需要激活的文件路径
+   * @param hashCode
+   *          需要激活的文本域的hashCode
    */
-  public void searchResultToSwitchFile(String switchPath) {
-    if (Util.isTextEmpty(switchPath)) {
-      return;
-    }
-    for (int i = 0; i < this.textAreaList.size(); i++) {
-      BaseTextArea textArea = this.textAreaList.get(i);
-      String filePath = textArea.getFileName();
-      if (Util.isTextEmpty(filePath)) {
-        filePath = textArea.getTitle();
-      }
-      if (switchPath.equals(filePath)) {
-        this.tpnMain.setSelectedIndex(i);
-        break;
-      }
+  public void searchResultToSwitchFile(int hashCode) {
+    int index = this.getTextAreaIndex(hashCode);
+    if (index >= 0) {
+      this.tpnMain.setSelectedIndex(index);
     }
   }
 
