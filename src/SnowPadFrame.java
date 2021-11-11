@@ -690,7 +690,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     // 为窗口添加组件监听器
     this.addComponentListener(this);
     this.addTabbedPaneMouseListener();
-    this.pnlSearchResult.getCloseButton().addActionListener(this);
   }
 
   /**
@@ -1805,8 +1804,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setLineNumber(this.itemLineNumber.isSelected());
     } else if (this.itemSearchResult.equals(e.getSource())) {
       this.setSearchResult();
-    } else if (this.pnlSearchResult.getCloseButton().equals(e.getSource())) {
-      this.viewSearchResult(false);
     } else if (this.itemAlwaysOnTop.equals(e.getSource())) {
       this.setAlwaysOnTop();
     } else if (this.itemLockResizable.equals(e.getSource())) {

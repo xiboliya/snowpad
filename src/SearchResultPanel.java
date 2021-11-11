@@ -121,11 +121,14 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) { // 回车键
           gotoResult();
+        } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // ESC键
+          close();
         }
       }
     });
     this.itemPopClear.addActionListener(this);
     this.itemPopCopyCurrentLine.addActionListener(this);
+    this.btnTitleClose.addActionListener(this);
   }
 
   /**
@@ -198,12 +201,10 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * 获取关闭按钮
-   * 
-   * @return 关闭按钮
+   * 关闭面板
    */
-  public JButton getCloseButton() {
-    return this.btnTitleClose;
+  private void close() {
+    this.owner.viewSearchResult(false);
   }
 
   /**
@@ -247,6 +248,8 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
       this.clear();
     } else if (this.itemPopCopyCurrentLine.equals(e.getSource())) {
       this.copyCurrentLine();
+    } else if (this.btnTitleClose.equals(e.getSource())) {
+      this.close();
     }
   }
 }
