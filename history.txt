@@ -1377,3 +1377,5 @@ src/SnowPadFrame.java
 2021-11-12
 1.优化查找结果面板中复制当前行的逻辑，在点击右键时根据当前文本的情况设置菜单是否可用。
 src/SearchResultPanel.java
+2.每次新增查找时，自动跳转到查找结果面板中该次查找的首行。
+src/SearchResultPanel.java
