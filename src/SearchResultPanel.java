@@ -21,8 +21,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -64,7 +62,6 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private JPopupMenu popMenuMain = new JPopupMenu();
   private JMenuItem itemPopClear = new JMenuItem("清空结果(L)", 'L');
   private JMenuItem itemPopCopyCurrentLine = new JMenuItem("复制当前行(C)", 'C');
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
 
   public SearchResultPanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -113,6 +110,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
         if (e.getClickCount() == 2) { // 双击
           gotoResult();
         } else if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
+          setPopMenuEnabled();
           popMenuMain.show(txaMain, e.getX(), e.getY());
         }
       }
@@ -201,6 +199,15 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
+   * 设置快捷菜单是否可用
+   */
+  private void setPopMenuEnabled() {
+    this.itemPopClear.setEnabled(!Util.isTextEmpty(this.txaMain.getText()));
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    this.itemPopCopyCurrentLine.setEnabled(!Util.isTextEmpty(currentLine.getStrLine()));
+  }
+
+  /**
    * 关闭面板
    */
   private void close() {
@@ -229,8 +236,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
       Util.findText(prefixLine + "\\d+:", this.txaMain, startIndex, true, SearchStyle.PATTERN);
       strLine = strLine.substring(Util.matcher_length);
     }
-    StringSelection ss = new StringSelection(strLine);
-    this.clip.setContents(ss, ss);
+    this.owner.setClipboardContents(strLine);
   }
 
   /**
