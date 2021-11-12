@@ -1373,3 +1373,7 @@ src/SnowPadFrame.java
 2.查找结果面板中添加按ESC键关闭面板的功能，优化点击关闭按钮的逻辑。
 src/SearchResultPanel.java
 src/SnowPadFrame.java
+
+2021-11-12
+1.优化查找结果面板中复制当前行的逻辑，在点击右键时根据当前文本的情况设置菜单是否可用。
+src/SearchResultPanel.java
