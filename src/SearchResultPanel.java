@@ -150,6 +150,12 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
       }
       strSource = textArea.getText();
     }
+    int index = 0;
+    try {
+      index = this.txaMain.getLineEndOffset(this.txaMain.getLineCount() - 1);
+    } catch (Exception x) {
+      // x.printStackTrace();
+    }
     String strMain = "≤È’“ " + "\"" + strSearch + "\" [" + count + " ¥¶]\n" + filePath + "\n";
     try {
       for (SearchBean searchBean : listIndex) {
@@ -165,7 +171,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
        // x.printStackTrace();
     }
     this.txaMain.setSelectedTextColor(this.txaMain.getForeground());
-    this.txaMain.setCaretPosition(Util.DEFAULT_CARET_INDEX);
+    this.txaMain.setCaretPosition(index);
   }
 
   /**
