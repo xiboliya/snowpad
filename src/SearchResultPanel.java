@@ -60,8 +60,9 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private SnowPadFrame owner;
   private Color color = new Color(0, 0, 0, 0);
   private JPopupMenu popMenuMain = new JPopupMenu();
-  private JMenuItem itemPopClear = new JMenuItem("清空结果(L)", 'L');
   private JMenuItem itemPopCopyCurrentLine = new JMenuItem("复制当前行(C)", 'C');
+  private JMenuItem itemPopRemoveCurrent = new JMenuItem("移除当前结果(R)", 'R');
+  private JMenuItem itemPopClear = new JMenuItem("清空结果(L)", 'L');
 
   public SearchResultPanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -93,8 +94,9 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
    * 初始化快捷菜单
    */
   private void addPopMenu() {
-    this.popMenuMain.add(this.itemPopClear);
     this.popMenuMain.add(this.itemPopCopyCurrentLine);
+    this.popMenuMain.add(this.itemPopRemoveCurrent);
+    this.popMenuMain.add(this.itemPopClear);
     Dimension popSize = this.popMenuMain.getPreferredSize();
     popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
     this.popMenuMain.setPopupSize(popSize);
@@ -124,8 +126,9 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
         }
       }
     });
-    this.itemPopClear.addActionListener(this);
     this.itemPopCopyCurrentLine.addActionListener(this);
+    this.itemPopRemoveCurrent.addActionListener(this);
+    this.itemPopClear.addActionListener(this);
     this.btnTitleClose.addActionListener(this);
   }
 
@@ -208,9 +211,10 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
    * 设置快捷菜单是否可用
    */
   private void setPopMenuEnabled() {
-    this.itemPopClear.setEnabled(!Util.isTextEmpty(this.txaMain.getText()));
     CurrentLine currentLine = new CurrentLine(this.txaMain);
     this.itemPopCopyCurrentLine.setEnabled(!Util.isTextEmpty(currentLine.getStrLine()));
+    this.itemPopRemoveCurrent.setEnabled(!Util.isTextEmpty(currentLine.getStrLine()));
+    this.itemPopClear.setEnabled(!Util.isTextEmpty(this.txaMain.getText()));
   }
 
   /**
@@ -226,6 +230,32 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private void clear() {
     this.txaMain.setText("");
     this.searchResults.clear();
+  }
+
+  /**
+   * "移除当前结果"的处理方法
+   */
+  private void removeCurrent() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int lineNum = currentLine.getLineNum();
+    int size = this.searchResults.size();
+    int oldLineCount = 0;
+    int lineCount = 0;
+    for (int i = 0; i < size; i++) {
+      SearchResult searchResultTemp = this.searchResults.get(i);
+      oldLineCount = lineCount;
+      lineCount += (searchResultTemp.getListIndex().size() + 2);
+      if (lineNum < lineCount) {
+        try {
+          this.txaMain.replaceRange("", this.txaMain.getLineStartOffset(oldLineCount),
+              this.txaMain.getLineEndOffset(lineCount - 1));
+        } catch (Exception x) {
+          x.printStackTrace();
+        }
+        this.searchResults.remove(i);
+        break;
+      }
+    }
   }
 
   /**
@@ -258,6 +288,8 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   public void actionPerformed(ActionEvent e) {
     if (this.itemPopClear.equals(e.getSource())) {
       this.clear();
+    } else if (this.itemPopRemoveCurrent.equals(e.getSource())) {
+      this.removeCurrent();
     } else if (this.itemPopCopyCurrentLine.equals(e.getSource())) {
       this.copyCurrentLine();
     } else if (this.btnTitleClose.equals(e.getSource())) {
