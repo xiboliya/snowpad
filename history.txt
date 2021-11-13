@@ -1379,3 +1379,7 @@ src/SnowPadFrame.java
 src/SearchResultPanel.java
 2.每次新增查找时，自动跳转到查找结果面板中该次查找的首行。
 src/SearchResultPanel.java
+
+2021-11-13
+1.查找结果面板的右键快捷菜单中添加“移除当前结果”功能。
+src/SearchResultPanel.java
