@@ -1383,3 +1383,8 @@ src/SearchResultPanel.java
 2021-11-13
 1.查找结果面板的右键快捷菜单中添加“移除当前结果”功能。
 src/SearchResultPanel.java
+
+2021-11-16
+1.快捷键编辑界面添加“Cmd”控制键复选框，对应macOS键盘的command键。
+src/ShortcutSetDialog.java
+src/Util.java
