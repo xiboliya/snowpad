@@ -72,6 +72,7 @@ public final class Util {
   public static final String CTRL = "Ctrl"; // Ctrl键的名称
   public static final String SHIFT = "Shift"; // Shift键的名称
   public static final String ALT = "Alt"; // Alt键的名称
+  public static final String COMMAND = "Cmd"; // Command键的名称
   public static final String KEY_UNDEFINED = "[未定义]"; // 未定义按键
   public static final String CTRL_C = "Ctrl+C"; // 组合键Ctrl+C的字符串
   public static final String CTRL_H = "Ctrl+H"; // 组合键Ctrl+H的字符串
@@ -861,6 +862,7 @@ public final class Util {
     boolean hasCtrl = false; // 是否含有Ctrl键
     boolean hasAlt = false; // 是否含有Alt键
     boolean hasShift = false; // 是否含有Shift键
+    boolean hasCommand = false; // 是否含有Shift键
     String[] arrKeys = shortcut.split("\\+");
     for (String str : arrKeys) {
       if (CTRL.equalsIgnoreCase(str)) {
@@ -869,6 +871,8 @@ public final class Util {
         hasAlt = true;
       } else if (SHIFT.equalsIgnoreCase(str)) {
         hasShift = true;
+      } else if (COMMAND.equalsIgnoreCase(str)) {
+        hasCommand = true;
       } else { // 除控制键之外的按键
         String strKey = transferKeyCode(str);
         if (!isTextEmpty(strKey)) {
@@ -885,6 +889,9 @@ public final class Util {
       }
       if (hasCtrl) {
         value = CTRL + "+" + value;
+      }
+      if (hasCommand) {
+        value = COMMAND + "+" + value;
       }
     }
     return value;
@@ -930,6 +937,8 @@ public final class Util {
         modifiers += InputEvent.ALT_DOWN_MASK;
       } else if (SHIFT.equalsIgnoreCase(str)) {
         modifiers += InputEvent.SHIFT_DOWN_MASK;
+      } else if (COMMAND.equalsIgnoreCase(str)) {
+        modifiers += InputEvent.META_DOWN_MASK;
       } else { // 除控制键之外的按键
         try {
           keyCode = Integer.parseInt(str);

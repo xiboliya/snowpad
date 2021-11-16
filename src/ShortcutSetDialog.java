@@ -45,6 +45,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   private JCheckBox chkCtrl = new JCheckBox(Util.CTRL);
   private JCheckBox chkAlt = new JCheckBox(Util.ALT);
   private JCheckBox chkShift = new JCheckBox(Util.SHIFT);
+  private JCheckBox chkCommand = new JCheckBox(Util.COMMAND);
   private JComboBox<String> cmbShortcuts = null;
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
@@ -59,7 +60,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     this.keyName = keyName;
     this.init();
     this.addListeners();
-    this.setSize(370, 150);
+    this.setSize(380, 150);
     this.setVisible(true);
   }
 
@@ -89,12 +90,14 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     this.chkCtrl.setBounds(10, 42, 60, Util.VIEW_HEIGHT);
     this.chkAlt.setBounds(75, 42, 60, Util.VIEW_HEIGHT);
     this.chkShift.setBounds(140, 42, 60, Util.VIEW_HEIGHT);
-    this.cmbShortcuts.setBounds(205, 42, 140, Util.INPUT_HEIGHT);
+    this.chkCommand.setBounds(205, 42, 60, Util.VIEW_HEIGHT);
+    this.cmbShortcuts.setBounds(270, 42, 90, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblName);
     this.pnlMain.add(this.lblNameView);
     this.pnlMain.add(this.chkCtrl);
-    this.pnlMain.add(this.chkShift);
     this.pnlMain.add(this.chkAlt);
+    this.pnlMain.add(this.chkShift);
+    this.pnlMain.add(this.chkCommand);
     this.pnlMain.add(this.cmbShortcuts);
     this.btnOk.setBounds(60, 80, 85, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(225, 80, 85, Util.BUTTON_HEIGHT);
@@ -125,6 +128,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
       boolean hasCtrl = false;
       boolean hasAlt = false;
       boolean hasShift = false;
+      boolean hasCommand = false;
       String value = Util.KEY_UNDEFINED;
       if (!Util.isTextEmpty(keyValue)) {
         String[] arrKeys = keyValue.split("\\+");
@@ -135,6 +139,8 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
             hasAlt = true;
           } else if (Util.SHIFT.equalsIgnoreCase(str)) {
             hasShift = true;
+          } else if (Util.COMMAND.equalsIgnoreCase(str)) {
+            hasCommand = true;
           } else { // 除控制键之外的按键
             String strKey = Util.transferKeyCode(str);
             if (!Util.isTextEmpty(strKey)) {
@@ -146,6 +152,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
       this.chkCtrl.setSelected(hasCtrl);
       this.chkAlt.setSelected(hasAlt);
       this.chkShift.setSelected(hasShift);
+      this.chkCommand.setSelected(hasCommand);
       this.cmbShortcuts.setSelectedItem(value);
     }
   }
@@ -169,6 +176,9 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     boolean hasShift = false;
     String value = Util.KEY_UNDEFINED;
     String shortcut = "";
+    if (this.chkCommand.isSelected()) {
+      shortcut = Util.COMMAND + "+" + shortcut;
+    }
     if (this.chkShift.isSelected()) {
       shortcut = Util.SHIFT + "+" + shortcut;
     }
@@ -230,6 +240,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     this.chkCtrl.addKeyListener(this.keyAdapter);
     this.chkAlt.addKeyListener(this.keyAdapter);
     this.chkShift.addKeyListener(this.keyAdapter);
+    this.chkCommand.addKeyListener(this.keyAdapter);
     this.cmbShortcuts.addKeyListener(this.keyAdapter);
     this.btnOk.addActionListener(this);
     this.btnOk.addKeyListener(this.buttonKeyAdapter);
@@ -266,7 +277,8 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
       JOptionPane.showMessageDialog(this, "请在右侧的下拉列表中选择一个按键！",
           Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
-    } else if (!this.chkCtrl.isSelected() && !this.chkAlt.isSelected() && !this.chkShift.isSelected() && !this.isSingleKey(index)) {
+    } else if (!this.chkCtrl.isSelected() && !this.chkAlt.isSelected() && !this.chkShift.isSelected() && !this.chkCommand.isSelected()
+      && !this.isSingleKey(index)) {
       JOptionPane.showMessageDialog(this, "请在左侧选择一个或多个控制按键！",
           Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
