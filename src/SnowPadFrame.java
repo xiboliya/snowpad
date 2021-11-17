@@ -5431,11 +5431,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         if (this.textAreaList.get(i).getFileExistsLabel()) {
           this.tpnMain.setSelectedIndex(i);
         } else {
-          continue; // 如果用户已选择过了“否”或者“取消”，则继续下一个文件的检测
+          continue; // 如果用户已选择过了“保留”，则继续下一个文件的检测
         }
-        int result = JOptionPane.showConfirmDialog(this,
-            Util.convertToMsg("文件：" + this.file + "不存在。\n要重新创建吗？"),
-            Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+        int result = JOptionPane.showOptionDialog(this,
+            Util.convertToMsg("文件：" + this.file + "不存在。"),
+            Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE,
+            null, new String[] {"重建", "移除", "保留"}, null);
         if (result == JOptionPane.YES_OPTION) {
           Util.checkFile(this.file);
           try {
@@ -5449,6 +5450,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           this.setAfterSaveFile();
           this.setTextPrefix();
           this.setStylePrefix();
+        } else if (result == JOptionPane.NO_OPTION) {
+          this.closeFile(false);
         } else {
           this.txaMain.setFileExistsLabel(false);
           this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
