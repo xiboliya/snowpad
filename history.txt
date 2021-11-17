@@ -1388,3 +1388,7 @@ src/SearchResultPanel.java
 1.快捷键编辑界面添加“Cmd”控制键复选框，对应macOS键盘的command键。
 src/ShortcutSetDialog.java
 src/Util.java
+
+2021-11-17
+1.主窗口获得焦点时，当检测到打开的文件不存在时，优化弹出的提示框，改为：“重建”、“移除”、“保留”按钮。
+src/SnowPadFrame.java
