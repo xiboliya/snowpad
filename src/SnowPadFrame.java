@@ -1263,7 +1263,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCopy.setEnabled(false);
     this.itemSelAll.setEnabled(false);
     this.itemDel.setEnabled(false);
-    this.menuCase.setEnabled(false);
+    this.itemCaseUp.setEnabled(false);
+    this.itemCaseLow.setEnabled(false);
     this.itemFind.setEnabled(false);
     this.itemFindNext.setEnabled(false);
     this.itemFindPrevious.setEnabled(false);
@@ -1386,6 +1387,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       isExist = false;
     }
     this.menuSort.setEnabled(isExist);
+    this.itemCaseUp.setEnabled(isExist);
+    this.itemCaseLow.setEnabled(isExist);
     this.itemLineBatchRemove.setEnabled(isExist);
     this.itemLineBatchInsert.setEnabled(isExist);
     this.itemLineBatchSeparate.setEnabled(isExist);
@@ -1417,8 +1420,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCopy.setEnabled(isExist);
     this.itemCut.setEnabled(isExist);
     this.itemDel.setEnabled(isExist);
-    this.menuCase.setEnabled(isExist);
-    this.itemLineBatchMerge.setEnabled(isExist);
     this.menuQuickFind.setEnabled(isExist);
     this.menuSelection.setEnabled(isExist);
     this.itemPopCopy.setEnabled(isExist);
@@ -2675,11 +2676,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 批处理"合并行"的处理方法
    */
   private void mergeLines() {
+    if (this.txaMain.getLineCount() <= 1) {
+      return;
+    }
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    int lineCount = currentLines.getLineCount();
+    if (lineCount < 2) {
+      this.txaMain.selectAll();
+    } else {
+      this.txaMain.select(currentLines.getStartIndex(), currentLines.getEndIndex());
+    }
     String[] arrText = Util.getCurrentLinesArray(this.txaMain);
     if (arrText.length <= 1) {
       return;
     }
-    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    currentLines = new CurrentLines(this.txaMain);
     int startIndex = currentLines.getStartIndex();
     StringBuilder stbLines = new StringBuilder();
     for (String str : arrText) {
@@ -4018,7 +4029,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void switchCase(boolean isCaseUp) {
     String strSel = this.txaMain.getSelectedText();
     if (Util.isTextEmpty(strSel)) {
-      return;
+      this.txaMain.selectAll();
+      strSel = this.txaMain.getText();
     }
     int start = this.txaMain.getSelectionStart();
     int end = this.txaMain.getSelectionEnd();
