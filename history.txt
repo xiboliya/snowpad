@@ -1396,3 +1396,14 @@ src/SnowPadFrame.java
 2021-11-24
 1.切换大小写、批处理“合并行”功能，在未选择文本时可对全文操作。
 src/SnowPadFrame.java
+
+2021-11-25
+1.由于主界面的文本域已添加拖拽文件打开的处理，所以无法兼容文本域内部文本的拖拽操作，因此删除“格式”->“文本拖拽”功能。
+res/help.res
+res/snowpad.xml
+src/BaseTextArea.java
+src/Setting.java
+src/SettingAdapter.java
+src/SnowPadFrame.java
+src/TextAreaSetting.java
+src/Util.java
