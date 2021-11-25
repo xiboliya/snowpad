@@ -125,7 +125,6 @@ public class BaseTextArea extends JTextArea {
     this.setLineSeparator(textAreaSetting.lineSeparator);
     this.setCharEncoding(textAreaSetting.charEncoding);
     this.setFont(textAreaSetting.font);
-    this.setDragEnabled(textAreaSetting.textDrag);
     this.setAutoIndent(textAreaSetting.autoIndent);
     this.setTabReplaceBySpace(textAreaSetting.tabReplaceBySpace);
     this.setColorStyle(textAreaSetting.colorStyle);

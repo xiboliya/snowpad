@@ -135,8 +135,6 @@ public final class SettingAdapter {
             this.setting.isLineWrap = logic;
           } else if (key.equalsIgnoreCase("isWrapStyleWord")) {
             this.setting.isWrapStyleWord = logic;
-          } else if (key.equalsIgnoreCase("textDrag")) {
-            this.setting.textDrag = logic;
           } else if (key.equalsIgnoreCase("autoIndent")) {
             this.setting.autoIndent = logic;
           } else if (key.equalsIgnoreCase("tabReplaceBySpace")) {
@@ -477,8 +475,6 @@ public final class SettingAdapter {
           node.setTextContent(String.valueOf(this.setting.isLineWrap));
         } else if (key.equalsIgnoreCase("isWrapStyleWord")) {
           node.setTextContent(String.valueOf(this.setting.isWrapStyleWord));
-        } else if (key.equalsIgnoreCase("textDrag")) {
-          node.setTextContent(String.valueOf(this.setting.textDrag));
         } else if (key.equalsIgnoreCase("autoIndent")) {
           node.setTextContent(String.valueOf(this.setting.autoIndent));
         } else if (key.equalsIgnoreCase("tabReplaceBySpace")) {

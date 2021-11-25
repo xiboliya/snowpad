@@ -32,7 +32,6 @@ public class Setting {
   // 文本域的相关设置
   public boolean isLineWrap = true; // 是否自动换行
   public boolean isWrapStyleWord = true; // 是否单词边界换行
-  public boolean textDrag = false; // 是否可拖拽文本
   public boolean autoIndent = false; // 是否可自动缩进
   public boolean tabReplaceBySpace = false; // 是否以空格代替Tab键
   public boolean autoComplete = false; // 是否自动完成

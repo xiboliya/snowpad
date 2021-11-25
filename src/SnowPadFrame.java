@@ -209,7 +209,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemAutoComplete = new JMenuItem("自动完成(A)...", 'A');
   private JMenuItem itemShortcutManage = new JMenuItem("快捷键管理(H)...", 'H');
   private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
-  private JCheckBoxMenuItem itemTextDrag = new JCheckBoxMenuItem("文本拖拽(D)");
   private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
   private JMenuItem itemReset = new JMenuItem("恢复默认设置(R)...", 'R');
   private JMenu menuLineStyle = new JMenu("换行符格式(S)");
@@ -468,7 +467,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.textAreaSetting.isLineWrap = this.setting.isLineWrap;
       this.textAreaSetting.isWrapStyleWord = this.setting.isWrapStyleWord;
       this.textAreaSetting.font = this.setting.font;
-      this.textAreaSetting.textDrag = this.setting.textDrag;
       this.textAreaSetting.autoIndent = this.setting.autoIndent;
       this.textAreaSetting.tabReplaceBySpace = this.setting.tabReplaceBySpace;
       this.textAreaSetting.autoComplete = this.setting.autoComplete;
@@ -576,7 +574,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCharsetULE.addActionListener(this);
     this.itemCharsetUBE.addActionListener(this);
     this.itemSignIdentifier.addActionListener(this);
-    this.itemTextDrag.addActionListener(this);
     this.itemAutoIndent.addActionListener(this);
     this.itemReset.addActionListener(this);
     this.itemAlwaysOnTop.addActionListener(this);
@@ -949,7 +946,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStyle.add(this.itemShortcutManage);
     this.menuStyle.addSeparator();
     this.menuStyle.add(this.itemLineWrap);
-    this.menuStyle.add(this.itemTextDrag);
     this.menuStyle.add(this.itemAutoIndent);
     this.menuStyle.addSeparator();
     this.menuStyle.add(this.itemReset);
@@ -1135,7 +1131,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemTabSet);
     this.menuItemList.add(this.itemAutoComplete);
     this.menuItemList.add(this.itemLineWrap);
-    this.menuItemList.add(this.itemTextDrag);
     this.menuItemList.add(this.itemAutoIndent);
     this.menuItemList.add(this.itemReset);
     this.menuItemList.add(this.itemBack);
@@ -1271,7 +1266,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelFindNext.setEnabled(false);
     this.itemSelFindPrevious.setEnabled(false);
     this.menuQuickFind.setEnabled(false);
-    this.menuSelection.setEnabled(false);
+    this.itemSelCopy.setEnabled(false);
+    this.itemSelInvert.setEnabled(false);
     this.itemLineBatchRemove.setEnabled(false);
     this.itemLineBatchInsert.setEnabled(false);
     this.itemLineBatchSeparate.setEnabled(false);
@@ -1324,7 +1320,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineWrap.setSelected(this.textAreaSetting.isLineWrap);
     this.itemLineWrapByWord.setSelected(this.textAreaSetting.isWrapStyleWord);
     this.itemLineWrapByChar.setSelected(!this.textAreaSetting.isWrapStyleWord);
-    this.itemTextDrag.setSelected(this.textAreaSetting.textDrag);
     this.itemAutoIndent.setSelected(this.textAreaSetting.autoIndent);
     this.itemToolBar.setSelected(this.setting.viewToolBar);
     this.itemStateBar.setSelected(this.setting.viewStateBar);
@@ -1338,7 +1333,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.toolButtonList.get(17).setSelected(this.textAreaSetting.isLineWrap);
     this.setLineWrap();
     this.setLineWrapStyle();
-    this.setTextDrag();
     this.setToolBar();
     this.setStateBar();
     this.setSearchResult();
@@ -1421,7 +1415,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCut.setEnabled(isExist);
     this.itemDel.setEnabled(isExist);
     this.menuQuickFind.setEnabled(isExist);
-    this.menuSelection.setEnabled(isExist);
+    this.itemSelCopy.setEnabled(isExist);
+    this.itemSelInvert.setEnabled(isExist);
     this.itemPopCopy.setEnabled(isExist);
     this.itemPopCut.setEnabled(isExist);
     this.itemPopDel.setEnabled(isExist);
@@ -1518,7 +1513,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLineWrapStyle.setMnemonic('L');
     this.itemLineWrapByWord.setMnemonic('W');
     this.itemLineWrapByChar.setMnemonic('C');
-    this.itemTextDrag.setMnemonic('D');
     this.itemAutoIndent.setMnemonic('I');
     this.itemToolBar.setMnemonic('T');
     this.itemStateBar.setMnemonic('S');
@@ -1718,8 +1712,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setCharEncoding(CharEncoding.UBE, false);
     } else if (this.itemSignIdentifier.equals(e.getSource())) {
       this.openSignIdentifierDialog();
-    } else if (this.itemTextDrag.equals(e.getSource())) {
-      this.setTextDrag();
     } else if (this.itemAutoIndent.equals(e.getSource())) {
       this.setAutoIndent();
     } else if (this.itemReset.equals(e.getSource())) {
@@ -3625,17 +3617,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     JMenuItem item = this.menuItemList.get(index);
     item.setAccelerator(Util.transferKeyStroke(this.setting.shortcutMap.get(Util.SHORTCUT_NAMES[index])));
-  }
-
-  /**
-   * "文本拖拽"的处理方法
-   */
-  private void setTextDrag() {
-    boolean isTextDrag = this.itemTextDrag.isSelected();
-    for (BaseTextArea textArea : this.textAreaList) {
-      textArea.setDragEnabled(isTextDrag);
-    }
-    this.setting.textDrag = this.textAreaSetting.textDrag = isTextDrag;
   }
 
   /**

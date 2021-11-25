@@ -32,7 +32,6 @@ public class TextAreaSetting {
   public LineSeparator lineSeparator = LineSeparator.DEFAULT; // 换行符格式
   public CharEncoding charEncoding = CharEncoding.BASE; // 字符编码格式
   public Font font = Util.TEXT_FONT; // 文本域字体
-  public boolean textDrag = false; // 是否可拖拽文本
   public boolean autoIndent = false; // 是否可自动缩进
   public boolean tabReplaceBySpace = false; // 是否以空格代替Tab键
   public boolean autoComplete = false; // 是否自动完成

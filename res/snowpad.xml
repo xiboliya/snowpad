@@ -3,7 +3,6 @@
   <TextArea note="文本域的相关设置">
     <isLineWrap note="是否自动换行">true</isLineWrap>
     <isWrapStyleWord note="是否单词边界换行">true</isWrapStyleWord>
-    <textDrag note="是否可拖拽文本">false</textDrag>
     <autoIndent note="是否可自动缩进">false</autoIndent>
     <tabReplaceBySpace note="是否以空格代替Tab键">false</tabReplaceBySpace>
     <tabSize note="Tab键所占字符数">4</tabSize>
