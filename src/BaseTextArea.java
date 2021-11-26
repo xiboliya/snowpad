@@ -86,8 +86,10 @@ public class BaseTextArea extends JTextArea {
     this.disableShortcut();
     // 初始化用于自动缩进的键盘适配器
     this.autoIndentKeyAdapter = new KeyAdapter() {
-      public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+      // 为了解决某些功能，比如：通过按回车键转到某行时，会进行自动缩进的问题。改为监听keyTyped（按下和弹起按键）事件。
+      public void keyTyped(KeyEvent e) {
+        // keyTyped事件中如果用getKeyCode()方式，获取到的总是0，所以要使用getKeyChar()方式判断。
+        if (e.getKeyChar() == '\n') {
           toAutoIndent();
         }
       }
