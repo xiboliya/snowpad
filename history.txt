@@ -1407,3 +1407,7 @@ src/SettingAdapter.java
 src/SnowPadFrame.java
 src/TextAreaSetting.java
 src/Util.java
+
+2021-11-26
+1.解决自动缩进功能已开启，通过按回车键转到某行时，会进行自动缩进的问题。
+src/BaseTextArea.java
