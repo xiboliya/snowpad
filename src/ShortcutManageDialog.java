@@ -52,6 +52,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private JScrollPane spnMain = null;
   private JButton btnEdit = new JButton("编辑(E)");
   private JButton btnRemove = new JButton("清除(D)");
+  private JButton btnKeyCheck = new JButton("按键检测(K)");
   private JButton btnReset = new JButton("恢复默认(R)");
   private JButton btnCancel = new JButton("关闭");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
@@ -60,6 +61,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private Vector<String> cellsTitle = new Vector<String>();
   private BaseDefaultTableModel baseDefaultTableModel = null;
   private ShortcutSetDialog shortcutSetDialog = null;
+  private KeyCheckDialog keyCheckDialog = null;
   private boolean enabled = true; // 用于标识"编辑"和"清除"按钮是否可用
 
   /**
@@ -100,11 +102,13 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.pnlMain.add(this.pnlRight, BorderLayout.EAST);
     this.btnEdit.setBounds(10, 20, 120, Util.BUTTON_HEIGHT);
     this.btnRemove.setBounds(10, 55, 120, Util.BUTTON_HEIGHT);
-    this.btnReset.setBounds(10, 130, 120, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(10, 200, 120, Util.BUTTON_HEIGHT);
+    this.btnKeyCheck.setBounds(10, 105, 120, Util.BUTTON_HEIGHT);
+    this.btnReset.setBounds(10, 155, 120, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(10, 205, 120, Util.BUTTON_HEIGHT);
     this.pnlRight.setPreferredSize(new Dimension(140, 275)); // 设置面板的最适尺寸
     this.pnlRight.add(this.btnEdit);
     this.pnlRight.add(this.btnRemove);
+    this.pnlRight.add(this.btnKeyCheck);
     this.pnlRight.add(this.btnReset);
     this.pnlRight.add(this.btnCancel);
   }
@@ -115,6 +119,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private void setMnemonic() {
     this.btnEdit.setMnemonic('E');
     this.btnRemove.setMnemonic('D');
+    this.btnKeyCheck.setMnemonic('K');
     this.btnReset.setMnemonic('R');
   }
 
@@ -125,8 +130,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     for (String title : Util.SHORTCUT_MANAGE_TABLE_TITLE_TEXTS) {
       this.cellsTitle.add(title);
     }
-    this.baseDefaultTableModel = new BaseDefaultTableModel(this.cells,
-        this.cellsTitle);
+    this.baseDefaultTableModel = new BaseDefaultTableModel(this.cells, this.cellsTitle);
     this.tabMain = new JTable(this.baseDefaultTableModel);
     this.tabMain.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     this.tabMain.getTableHeader().setReorderingAllowed(false); // 不可整列移动
@@ -183,10 +187,12 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private void addListeners() {
     this.btnEdit.addActionListener(this);
     this.btnRemove.addActionListener(this);
+    this.btnKeyCheck.addActionListener(this);
     this.btnReset.addActionListener(this);
     this.btnCancel.addActionListener(this);
     this.btnEdit.addKeyListener(this.buttonKeyAdapter);
     this.btnRemove.addKeyListener(this.buttonKeyAdapter);
+    this.btnKeyCheck.addKeyListener(this.buttonKeyAdapter);
     this.btnReset.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addKeyListener(this.buttonKeyAdapter);
     this.tabMain.addKeyListener(this.keyAdapter);
@@ -200,6 +206,8 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
       this.onEnter();
     } else if (this.btnRemove.equals(e.getSource())) {
       this.removeShortcut();
+    } else if (this.btnKeyCheck.equals(e.getSource())) {
+      this.keyCheck();
     } else if (this.btnReset.equals(e.getSource())) {
       this.resetShortcuts();
     } else if (this.btnCancel.equals(e.getSource())) {
@@ -215,6 +223,17 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.setting.shortcutMap.put(this.tabMain.getValueAt(index, 0).toString(), "");
     this.tabMain.setValueAt("", index, 1);
     ((SnowPadFrame) this.getOwner()).shortcutManageToSetMenuAccelerator(index);
+  }
+
+  /**
+   * "按键检测"的操作方法
+   */
+  private void keyCheck() {
+    if (this.keyCheckDialog == null) {
+      this.keyCheckDialog = new KeyCheckDialog(this, true);
+    } else {
+      this.keyCheckDialog.setVisible(true);
+    }
   }
 
   /**
