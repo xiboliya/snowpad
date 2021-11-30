@@ -1411,3 +1411,8 @@ src/Util.java
 2021-11-26
 1.解决自动缩进功能已开启，通过按回车键转到某行时，会进行自动缩进的问题。
 src/BaseTextArea.java
+
+2021-11-30
+1.快捷键管理中添加“按键检测”功能。
+src/KeyCheckDialog.java（添加）
+src/ShortcutManageDialog.java
