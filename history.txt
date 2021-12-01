@@ -1422,3 +1422,5 @@ src/ShortcutManageDialog.java
 src/SnowPadFrame.java
 2.添加：鼠标点击行号栏时，选中文本域的所在行文本的功能。
 src/LineNumberView.java
+3.解决行号栏由于字体或行数变大而导致变宽后，当字体或行数变小时没有恢复宽度的问题。
+src/LineNumberView.java
