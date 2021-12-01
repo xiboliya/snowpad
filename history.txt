@@ -1416,3 +1416,7 @@ src/BaseTextArea.java
 1.快捷键管理中添加“按键检测”功能。
 src/KeyCheckDialog.java（添加）
 src/ShortcutManageDialog.java
+
+2021-12-01
+1.调整查找结果面板的默认显示大小。
+src/SnowPadFrame.java
