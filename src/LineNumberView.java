@@ -23,8 +23,11 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import javax.swing.JComponent;
 import javax.swing.JTextArea;
+import javax.swing.text.BadLocationException;
 
 /**
  * 文本域的行号组件
@@ -38,6 +41,7 @@ public class LineNumberView extends JComponent {
   private int maxRowWidth = 0; // 组件显示区域中，最宽一行的字符串宽度
   private FontMetrics fontMetrics = null; // 定义字体规格的对象，该对象封装将在屏幕上显示的字体的有关信息
   private JTextArea txaSource = null; // 想要显示行号的文本域
+  private MouseAdapter mouseAdapter = null; // 接收鼠标事件的适配器
 
   /**
    * 自定义的构造方法
@@ -55,6 +59,33 @@ public class LineNumberView extends JComponent {
       this.setPreferredLine(0);
     }
     this.setForeground(Color.GRAY);
+    this.addListeners();
+  }
+
+  /**
+   * 为本控件添加各种事件监听器
+   */
+  private void addListeners() {
+    this.mouseAdapter = new MouseAdapter() {
+      public void mouseClicked(MouseEvent e) {
+        if (txaSource != null) {
+          int y = e.getY();
+          int lineNumber = y / lineHeight + 1; // 当前点击的行号
+          int lineCount = txaSource.getLineCount(); // 文本域总行数
+          if (lineNumber > lineCount) {
+            return;
+          }
+          try {
+            int offsetStart = txaSource.getLineStartOffset(lineNumber - 1);
+            int offsetEnd = txaSource.getLineEndOffset(lineNumber - 1);
+            txaSource.select(offsetStart, offsetEnd); // 选中当前行号的文本
+          } catch (BadLocationException x) {
+            // x.printStackTrace();
+          }
+        }
+      }
+    };
+    this.addMouseListener(this.mouseAdapter);
   }
 
   /**
@@ -107,8 +138,7 @@ public class LineNumberView extends JComponent {
     for (int i = startLineNum; i <= endLineNum; i++) {
       String lineNum = String.valueOf(i);
       int width = this.fontMetrics.stringWidth(lineNum);
-      g.drawString(lineNum, Util.LINE_NUMBER_MARGIN + this.maxRowWidth - width,
-          start);
+      g.drawString(lineNum, Util.LINE_NUMBER_MARGIN + this.maxRowWidth - width, start);
       start += this.lineHeight;
     }
   }
