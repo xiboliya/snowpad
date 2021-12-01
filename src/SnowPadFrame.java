@@ -753,8 +753,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.getContentPane().add(this.spnMain, BorderLayout.CENTER);
     this.spnMain.setTopComponent(this.tpnMain);
     this.spnMain.setBottomComponent(this.pnlSearchResult);
-    this.spnMain.setDividerLocation(280);
-    this.spnMain.setResizeWeight(0.7);
+    this.spnMain.setResizeWeight(0.6);
     this.tpnMain.setFocusable(false);
     this.tpnMain.setFont(Util.GLOBAL_FONT);
     this.tpnMain.addChangeListener(this);
@@ -2447,11 +2446,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.pnlSearchResult.setVisible(enable);
     if (enable) {
       this.spnMain.setDividerSize(3);
+      this.spnMain.setDividerLocation(this.getDividerLocation());
     } else {
       this.spnMain.setDividerSize(0); // 隐藏分隔条
     }
-    this.spnMain.setDividerLocation(280);
     this.setting.viewSearchResult = enable;
+  }
+
+  /**
+   * 获取查找结果面板的位置
+   * 
+   * @return 查找结果面板的位置
+   */
+  private int getDividerLocation() {
+    int height = this.spnMain.getHeight();
+    if (height <= 0) {
+      height = 280;
+    } else {
+      height = height / 3 * 2;
+    }
+    return height;
   }
 
   /**
@@ -2471,10 +2485,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setting.viewSearchResult = isView;
     if (isView) {
       this.spnMain.setDividerSize(3);
+      this.spnMain.setDividerLocation(this.getDividerLocation());
     } else {
       this.spnMain.setDividerSize(0); // 隐藏分隔条
     }
-    this.spnMain.setDividerLocation(280);
   }
 
   /**
