@@ -96,7 +96,7 @@ public class LineNumberView extends JComponent {
    */
   private void setPreferredLine(int row) {
     int width = this.fontMetrics.stringWidth(String.valueOf(row));
-    if (this.maxRowWidth < width) {
+    if (this.maxRowWidth != width) {
       this.maxRowWidth = width;
       this.setPreferredSize(new Dimension(3 * Util.LINE_NUMBER_MARGIN +
           this.maxRowWidth, Util.LINE_NUMBER_HEIGHT));
