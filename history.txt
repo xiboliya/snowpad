@@ -1420,3 +1420,5 @@ src/ShortcutManageDialog.java
 2021-12-01
 1.调整查找结果面板的默认显示大小。
 src/SnowPadFrame.java
+2.添加：鼠标点击行号栏时，选中文本域的所在行文本的功能。
+src/LineNumberView.java
