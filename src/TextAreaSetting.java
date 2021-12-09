@@ -41,5 +41,6 @@ public class TextAreaSetting {
   public boolean isTextChanged = false; // 文本内容是否已修改，如果已修改则为true
   public boolean isStyleChanged = false; // 文本格式是否已修改，如果已修改则为true
   public boolean fileExistsLabel = false; // 当文件删除或移动后，用于标识是否已弹出过提示框
+  public boolean fileChangedLabel = false; // 当文件被其他程序修改后，用于标识是否已弹出过提示框
   public boolean isLineNumberView = false; // 是否显示行号栏
 }

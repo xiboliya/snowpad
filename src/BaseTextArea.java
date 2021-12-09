@@ -55,6 +55,7 @@ public class BaseTextArea extends JTextArea {
   private boolean isTextChanged = false; // 文本内容是否已修改，如果已修改则为true
   private boolean isStyleChanged = false; // 文本格式是否已修改，如果已修改则为true
   private boolean fileExistsLabel = false; // 当文件删除或移动后，用于标识是否已弹出过提示框
+  private boolean fileChangedLabel = false; // 当文件被其他程序修改后，用于标识是否已弹出过提示框
   private boolean tabReplaceBySpace = false; // 是否以空格代替Tab键
   private boolean autoIndent = false; // 是否可自动缩进
   private boolean isLineNumberView = false; // 是否显示行号栏
@@ -67,6 +68,7 @@ public class BaseTextArea extends JTextArea {
   private Color lineBackColor = Util.COLOR_CURRENT_LINE; // 需绘制的当前行的背景颜色
   private LinkedList<PartnerBean> backForwardList = new LinkedList<PartnerBean>(); // 存放光标在文本域中历史位置的链表
   private int backForwardIndex = Util.DEFAULT_BACK_FORWARD_INDEX; // 光标历史位置，初始化为默认值
+  private long fileLastModified = 0L; // 文件最后修改的时间戳，如果文件为空，则此值为0L
 
   /**
    * 默认的构造方法
@@ -136,6 +138,7 @@ public class BaseTextArea extends JTextArea {
     this.setTextChanged(textAreaSetting.isTextChanged);
     this.setStyleChanged(textAreaSetting.isStyleChanged);
     this.setFileExistsLabel(textAreaSetting.fileExistsLabel);
+    this.setFileChangedLabel(textAreaSetting.fileChangedLabel);
     this.setLineNumberView(textAreaSetting.isLineNumberView);
   }
 
@@ -287,6 +290,14 @@ public class BaseTextArea extends JTextArea {
     return null;
   }
 
+  public long getFileLastModified() {
+    return this.fileLastModified;
+  }
+
+  public void setFileLastModified(long fileLastModified) {
+    this.fileLastModified = fileLastModified;
+  }
+
   public void setTitle(String title) {
     if (title != null) {
       this.title = title;
@@ -355,6 +366,14 @@ public class BaseTextArea extends JTextArea {
 
   public boolean getFileExistsLabel() {
     return this.fileExistsLabel;
+  }
+
+  public void setFileChangedLabel(boolean fileChangedLabel) {
+    this.fileChangedLabel = fileChangedLabel;
+  }
+
+  public boolean getFileChangedLabel() {
+    return this.fileChangedLabel;
   }
 
   public void setColorStyle(Color[] colorStyle) {

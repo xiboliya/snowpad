@@ -4672,6 +4672,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setStylePrefix();
       }
     }
+    this.txaMain.setFileLastModified(this.file.lastModified()); // 设置文件最后修改的时间戳
   }
 
   /**
@@ -4914,6 +4915,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           this.showSaveErrorDialog(this.file);
           return false;
         }
+        this.txaMain.setFileLastModified(this.file.lastModified()); // 设置文件最后修改的时间戳
       } else {
         return false;
       }
@@ -5033,6 +5035,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (file != null && file.exists()) {
       this.file = this.txaMain.getFile();
       this.stbTitle.insert(0, this.file.getAbsolutePath() + " - ");
+      this.txaMain.setFileLastModified(file.lastModified()); // 设置文件最后修改的时间戳
     }
     this.setTitle(this.stbTitle.toString());
     this.tpnMain.setTitleAt(this.tpnMain.getSelectedIndex(), this.txaMain.getTitle());
@@ -5377,6 +5380,96 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * 检查剪贴板中的内容是不是文本。如果是文本，则使粘贴菜单可用；反之，不可用。
+   */
+  private void checkClipboard() {
+    try {
+      Transferable tf = this.clip.getContents(this);
+      if (tf == null) {
+        this.itemPaste.setEnabled(false);
+        this.itemPopPaste.setEnabled(false);
+        this.toolButtonList.get(8).setEnabled(false);
+      } else {
+        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板中的内容不是文本，则将抛出异常
+        if (!Util.isTextEmpty(str)) {
+          this.itemPaste.setEnabled(true);
+          this.itemPopPaste.setEnabled(true);
+          this.toolButtonList.get(8).setEnabled(true);
+        }
+      }
+    } catch (Exception x) {
+      // 剪贴板异常
+      // x.printStackTrace();
+      this.itemPaste.setEnabled(false);
+      this.itemPopPaste.setEnabled(false);
+      this.toolButtonList.get(8).setEnabled(false);
+    }
+  }
+
+  /**
+   * 检测所有文件的状态，如果文件不存在或被其他程序修改则弹出提示
+   */
+  private void checkFiles() {
+    for (int i = 0; i < this.textAreaList.size(); i++) { // 循环检测所有文件的状态，如果文件不存在或被其他程序修改则弹出提示
+      BaseTextArea txaTemp = this.textAreaList.get(i);
+      File fileTemp = txaTemp.getFile();
+      if (fileTemp == null) {
+        continue;
+      }
+      if (!fileTemp.exists()) {
+        if (txaTemp.getFileExistsLabel()) {
+          this.tpnMain.setSelectedIndex(i);
+        } else {
+          continue; // 如果用户已选择过了“保留”，则继续下一个文件的检测
+        }
+        int result = JOptionPane.showOptionDialog(this,
+            Util.convertToMsg("文件：" + this.file + "不存在。"),
+            Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE,
+            null, new String[] {"重建", "移除", "保留"}, null);
+        if (result == JOptionPane.YES_OPTION) {
+          Util.checkFile(this.file);
+          try {
+            this.toSaveFile(this.file);
+          } catch (Exception x) {
+            // x.printStackTrace();
+            this.showSaveErrorDialog(this.file);
+            this.tpnMain.setIconAt(i, this.getTabIcon(txaTemp));
+            continue; // 如果保存出现异常，则继续下一个文件的检测
+          }
+          this.setAfterSaveFile();
+          this.setTextPrefix();
+          this.setStylePrefix();
+        } else if (result == JOptionPane.NO_OPTION) {
+          this.closeFile(false);
+        } else {
+          this.txaMain.setFileExistsLabel(false);
+          this.tpnMain.setIconAt(i, this.getTabIcon(txaTemp));
+        }
+      } else {
+        txaTemp.setFileExistsLabel(true);
+        this.tpnMain.setIconAt(i, this.getTabIcon(txaTemp));
+        if (!txaTemp.getFileChangedLabel() && txaTemp.getFileLastModified() != fileTemp.lastModified()) {
+          this.tpnMain.setSelectedIndex(i);
+          String strMsg = "文件：" + this.file + "的内容已被其他程序修改。\n要重新加载吗？";
+          if (txaTemp.getFrozen()) {
+            strMsg = "文件：" + this.file + "的内容已被其他程序修改。\n要解除冻结，重新加载吗？";
+          }
+          int result = JOptionPane.showConfirmDialog(this,
+              Util.convertToMsg(strMsg), Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+          if (result == JOptionPane.YES_OPTION) {
+            if (txaTemp.getFrozen()) {
+              this.itemFrozenFile.setSelected(false);
+              this.frozenFile();
+            }
+            this.reOpenFile();
+          }
+          txaTemp.setFileChangedLabel(true);
+        }
+      }
+    }
+  }
+
+  /**
    * 当文本域中的光标变化时，将触发此事件
    */
   public void caretUpdate(CaretEvent e) {
@@ -5404,70 +5497,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 当主窗口获得焦点时，将触发此事件
    */
   public void windowGainedFocus(WindowEvent e) {
-    try {
-      Transferable tf = this.clip.getContents(this);
-      if (tf == null) {
-        this.itemPaste.setEnabled(false);
-        this.itemPopPaste.setEnabled(false);
-        this.toolButtonList.get(8).setEnabled(false);
-      } else {
-        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
-        if (str != null && str.length() > 0) {
-          this.itemPaste.setEnabled(true);
-          this.itemPopPaste.setEnabled(true);
-          this.toolButtonList.get(8).setEnabled(true);
-        }
-      }
-    } catch (Exception x) {
-      // 剪贴板异常
-      // x.printStackTrace();
-      this.itemPaste.setEnabled(false);
-      this.itemPopPaste.setEnabled(false);
-      this.toolButtonList.get(8).setEnabled(false);
-    }
+    this.checkClipboard();
     if (checking) {
       return;
     }
     checking = true;
-    for (int i = 0; i < this.textAreaList.size(); i++) { // 循环检测所有文件的状态，如果文件不存在则弹出提示
-      File fileTemp = this.textAreaList.get(i).getFile();
-      if (fileTemp == null) {
-        continue;
-      }
-      if (!fileTemp.exists()) {
-        if (this.textAreaList.get(i).getFileExistsLabel()) {
-          this.tpnMain.setSelectedIndex(i);
-        } else {
-          continue; // 如果用户已选择过了“保留”，则继续下一个文件的检测
-        }
-        int result = JOptionPane.showOptionDialog(this,
-            Util.convertToMsg("文件：" + this.file + "不存在。"),
-            Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE,
-            null, new String[] {"重建", "移除", "保留"}, null);
-        if (result == JOptionPane.YES_OPTION) {
-          Util.checkFile(this.file);
-          try {
-            this.toSaveFile(this.file);
-          } catch (Exception x) {
-            // x.printStackTrace();
-            this.showSaveErrorDialog(this.file);
-            this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
-            continue; // 如果保存出现异常，则继续下一个文件的检测
-          }
-          this.setAfterSaveFile();
-          this.setTextPrefix();
-          this.setStylePrefix();
-        } else if (result == JOptionPane.NO_OPTION) {
-          this.closeFile(false);
-        } else {
-          this.txaMain.setFileExistsLabel(false);
-          this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
-        }
-      } else {
-        this.textAreaList.get(i).setFileExistsLabel(true);
-        this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
-      }
-    }
+    this.checkFiles();
     checking = false;
   }
 
