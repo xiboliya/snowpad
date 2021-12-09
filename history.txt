@@ -1424,3 +1424,9 @@ src/SnowPadFrame.java
 src/LineNumberView.java
 3.解决行号栏由于字体或行数变大而导致变宽后，当字体或行数变小时没有恢复宽度的问题。
 src/LineNumberView.java
+
+2021-12-09
+1.当主窗口获得焦点时，检测所有文件的状态，如果文件被其他程序修改则弹出提示。
+src/BaseTextArea.java
+src/SnowPadFrame.java
+src/TextAreaSetting.java
