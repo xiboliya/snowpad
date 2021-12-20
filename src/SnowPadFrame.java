@@ -199,6 +199,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemQuickFindUp = new JMenuItem("快速向上查找");
   private JMenuItem itemReplace = new JMenuItem("替换(R)...", 'R');
   private JMenuItem itemGoto = new JMenuItem("转到(G)...", 'G');
+  private JMenu menuBookmark = new JMenu("书签(M)");
+  private JMenuItem itemBookmarkSwitch = new JMenuItem("设置/取消书签(S)", 'S');
+  private JMenuItem itemBookmarkNext = new JMenuItem("下一个书签(N)", 'N');
+  private JMenuItem itemBookmarkPrevious = new JMenuItem("上一个书签(P)", 'P');
+  private JMenuItem itemBookmarkClear = new JMenuItem("清除所有书签(C)", 'C');
   private JMenuItem itemFindBracket = new JMenuItem("定位匹配括号(B)", 'B');
   private JMenu menuStyle = new JMenu("格式(O)");
   private JMenu menuLineWrapStyle = new JMenu("换行方式(L)");
@@ -518,6 +523,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAutoComplete.addActionListener(this);
     this.itemShortcutManage.addActionListener(this);
     this.itemGoto.addActionListener(this);
+    this.itemBookmarkSwitch.addActionListener(this);
+    this.itemBookmarkNext.addActionListener(this);
+    this.itemBookmarkPrevious.addActionListener(this);
+    this.itemBookmarkClear.addActionListener(this);
     this.itemFindBracket.addActionListener(this);
     this.itemToCopyFileName.addActionListener(this);
     this.itemToCopyFilePath.addActionListener(this);
@@ -921,6 +930,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuQuickFind.add(this.itemQuickFindUp);
     this.menuSearch.add(this.itemReplace);
     this.menuSearch.add(this.itemGoto);
+    this.menuSearch.add(this.menuBookmark);
+    this.menuBookmark.add(this.itemBookmarkSwitch);
+    this.menuBookmark.add(this.itemBookmarkNext);
+    this.menuBookmark.add(this.itemBookmarkPrevious);
+    this.menuBookmark.add(this.itemBookmarkClear);
     this.menuSearch.add(this.itemFindBracket);
     this.menuBar.add(this.menuStyle);
     this.menuStyle.add(this.menuLineWrapStyle);
@@ -1113,6 +1127,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemQuickFindUp);
     this.menuItemList.add(this.itemReplace);
     this.menuItemList.add(this.itemGoto);
+    this.menuItemList.add(this.itemBookmarkSwitch);
+    this.menuItemList.add(this.itemBookmarkNext);
+    this.menuItemList.add(this.itemBookmarkPrevious);
+    this.menuItemList.add(this.itemBookmarkClear);
     this.menuItemList.add(this.itemFindBracket);
     this.menuItemList.add(this.itemLineWrapByWord);
     this.menuItemList.add(this.itemLineWrapByChar);
@@ -1264,7 +1282,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFindPrevious.setEnabled(false);
     this.itemSelFindNext.setEnabled(false);
     this.itemSelFindPrevious.setEnabled(false);
-    this.menuQuickFind.setEnabled(false);
+    this.itemQuickFindDown.setEnabled(false);
+    this.itemQuickFindUp.setEnabled(false);
     this.itemSelCopy.setEnabled(false);
     this.itemSelInvert.setEnabled(false);
     this.itemLineBatchRemove.setEnabled(false);
@@ -1413,7 +1432,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCopy.setEnabled(isExist);
     this.itemCut.setEnabled(isExist);
     this.itemDel.setEnabled(isExist);
-    this.menuQuickFind.setEnabled(isExist);
+    this.itemQuickFindDown.setEnabled(isExist);
+    this.itemQuickFindUp.setEnabled(isExist);
     this.itemSelCopy.setEnabled(isExist);
     this.itemSelInvert.setEnabled(isExist);
     this.itemPopCopy.setEnabled(isExist);
@@ -1596,6 +1616,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openFontChooser();
     } else if (this.itemGoto.equals(e.getSource())) {
       this.openGotoDialog();
+    } else if (this.itemBookmarkSwitch.equals(e.getSource())) {
+      this.bookmarkSwitch();
+    } else if (this.itemBookmarkNext.equals(e.getSource())) {
+      this.bookmarkNext();
+    } else if (this.itemBookmarkPrevious.equals(e.getSource())) {
+      this.bookmarkPrevious();
+    } else if (this.itemBookmarkClear.equals(e.getSource())) {
+      this.bookmarkClear();
     } else if (this.itemFindBracket.equals(e.getSource())) {
       this.findTargetBracket();
     } else if (this.itemToCopyFileName.equals(e.getSource())
@@ -4609,6 +4637,90 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.gotoDialog.setTextArea(this.txaMain);
       this.gotoDialog.setVisible(true);
     }
+  }
+
+  /**
+   * "设置/取消书签"的处理方法
+   */
+  private void bookmarkSwitch() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    this.txaMain.switchBookmark(currentLine.getLineNum());
+    this.repaintLineNumberView();
+  }
+
+  /**
+   * 重绘行号栏
+   */
+  private void repaintLineNumberView() {
+    JViewport viewport = ((JScrollPane) this.tpnMain.getSelectedComponent()).getRowHeader();
+    if (viewport != null) {
+      LineNumberView lineNumberView = (LineNumberView)viewport.getView();
+      if (lineNumberView != null) {
+        lineNumberView.repaint();
+      }
+    }
+  }
+
+  /**
+   * "下一个书签"的处理方法
+   */
+  private void bookmarkNext() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int lineNum = currentLine.getLineNum();
+    LinkedList<Integer> bookmarks = this.txaMain.getBookmarks();
+    int size = bookmarks.size();
+    if (size <= 0) {
+      return;
+    }
+    for (int bookmark : bookmarks) {
+      if (bookmark > lineNum) {
+        int total = this.txaMain.getLineCount(); // 文本域总行数
+        if (bookmark >= total) {
+          return;
+        }
+        try {
+          int offset = this.txaMain.getLineStartOffset(bookmark);
+          this.txaMain.setCaretPosition(offset);
+        } catch (BadLocationException x) {
+          // x.printStackTrace();
+        }
+        break;
+      }
+    }
+  }
+
+  /**
+   * "上一个书签"的处理方法
+   */
+  private void bookmarkPrevious() {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int lineNum = currentLine.getLineNum();
+    LinkedList<Integer> bookmarks = this.txaMain.getBookmarks();
+    int size = bookmarks.size();
+    if (size <= 0) {
+      return;
+    }
+    for (int i = size - 1; i >= 0; i--) {
+      int bookmark = bookmarks.get(i);
+      if (bookmark < lineNum) {
+        try {
+          int offset = this.txaMain.getLineStartOffset(bookmark);
+          this.txaMain.setCaretPosition(offset);
+        } catch (BadLocationException x) {
+          // x.printStackTrace();
+        }
+        break;
+      }
+    }
+  }
+
+  /**
+   * "清除所有书签"的处理方法
+   */
+  private void bookmarkClear() {
+    LinkedList<Integer> bookmarks = this.txaMain.getBookmarks();
+    bookmarks.clear();
+    this.repaintLineNumberView();
   }
 
   /**

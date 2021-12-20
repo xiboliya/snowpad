@@ -69,6 +69,7 @@ public class BaseTextArea extends JTextArea {
   private LinkedList<PartnerBean> backForwardList = new LinkedList<PartnerBean>(); // 存放光标在文本域中历史位置的链表
   private int backForwardIndex = Util.DEFAULT_BACK_FORWARD_INDEX; // 光标历史位置，初始化为默认值
   private long fileLastModified = 0L; // 文件最后修改的时间戳，如果文件为空，则此值为0L
+  private LinkedList<Integer> bookmarks = new LinkedList<Integer>(); // 书签列表，即为被记录的行号列表
 
   /**
    * 默认的构造方法
@@ -503,5 +504,34 @@ public class BaseTextArea extends JTextArea {
 
   public void setBackForwardIndex(int backForwardIndex) {
     this.backForwardIndex = backForwardIndex;
+  }
+
+  public LinkedList<Integer> getBookmarks() {
+    return this.bookmarks;
+  }
+
+  public void switchBookmark(int bookmark) {
+    int size = this.bookmarks.size();
+    if (size == 0) {
+      this.bookmarks.addFirst(bookmark);
+      return;
+    }
+    // 如果书签已存在，则删除
+    for (int i = 0; i < size; i++) {
+      int mark = this.bookmarks.get(i);
+      if (bookmark == mark) {
+        this.bookmarks.remove(i);
+        return;
+      }
+    }
+    // 如果书签不存在，则添加
+    for (int i = size - 1; i >= 0; i--) {
+      int mark = this.bookmarks.get(i);
+      if (bookmark > mark) {
+        this.bookmarks.add(i + 1, bookmark);
+        return;
+      }
+    }
+    this.bookmarks.addFirst(bookmark);
   }
 }

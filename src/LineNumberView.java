@@ -25,6 +25,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.util.LinkedList;
 import javax.swing.JComponent;
 import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
@@ -40,7 +41,7 @@ public class LineNumberView extends JComponent {
   private int lineHeight = 0; // 当前字体中文本行的标准高度。它是相邻文本行基线之间的距离，是leading、ascent和descent的总和。
   private int maxRowWidth = 0; // 组件显示区域中，最宽一行的字符串宽度
   private FontMetrics fontMetrics = null; // 定义字体规格的对象，该对象封装将在屏幕上显示的字体的有关信息
-  private JTextArea txaSource = null; // 想要显示行号的文本域
+  private BaseTextArea txaSource = null; // 想要显示行号的文本域
   private MouseAdapter mouseAdapter = null; // 接收鼠标事件的适配器
 
   /**
@@ -51,7 +52,7 @@ public class LineNumberView extends JComponent {
    */
   public LineNumberView(JTextArea txaSource) {
     if (txaSource != null) {
-      this.txaSource = txaSource;
+      this.txaSource = (BaseTextArea)txaSource;
       this.setFont(this.txaSource.getFont());
       this.setPreferredLine(this.txaSource.getLineCount());
     } else {
@@ -95,10 +96,14 @@ public class LineNumberView extends JComponent {
    *          最大显示行数
    */
   private void setPreferredLine(int row) {
+    // 为了解决不在前台的情况下初始化时，行号栏宽度较小的问题，最小设置两位数行号的宽度
+    if (row < 10) {
+      row = 10;
+    }
     int width = this.fontMetrics.stringWidth(String.valueOf(row));
     if (this.maxRowWidth != width) {
       this.maxRowWidth = width;
-      this.setPreferredSize(new Dimension(3 * Util.LINE_NUMBER_MARGIN +
+      this.setPreferredSize(new Dimension(Util.LINE_NUMBER_MARGIN + Util.LINE_NUMBER_MARGIN_RIGHT +
           this.maxRowWidth, Util.LINE_NUMBER_HEIGHT));
     }
   }
@@ -128,7 +133,7 @@ public class LineNumberView extends JComponent {
    *          Graphics类是所有图形上下文的抽象基类，允许应用程序在组件以及闭屏图像上进行绘制。
    */
   @Override
-  protected void paintComponent(Graphics g) {
+  protected synchronized void paintComponent(Graphics g) {
     Rectangle rect = g.getClipBounds();
     int startLineNum = (rect.y / this.lineHeight) + 1;
     int endLineNum = startLineNum + (rect.height / this.lineHeight);
@@ -137,9 +142,26 @@ public class LineNumberView extends JComponent {
     this.setPreferredLine(endLineNum);
     for (int i = startLineNum; i <= endLineNum; i++) {
       String lineNum = String.valueOf(i);
-      int width = this.fontMetrics.stringWidth(lineNum);
-      g.drawString(lineNum, Util.LINE_NUMBER_MARGIN + this.maxRowWidth - width, start);
+      int stringWidth = this.fontMetrics.stringWidth(lineNum);
+      // 绘制行号
+      g.drawString(lineNum, Util.LINE_NUMBER_MARGIN + this.maxRowWidth - stringWidth, start);
       start += this.lineHeight;
     }
+    LinkedList<Integer> bookmarks = txaSource.getBookmarks();
+    int size = bookmarks.size();
+    if (size <= 0) {
+      return;
+    }
+    Color color = g.getColor();
+    g.setColor(Util.COLOR_BOOKMARK);
+    int width = this.getWidth();
+    int bookmarkWidth = Util.LINE_NUMBER_MARGIN_RIGHT - 2;
+    for (int i = 0; i < size; i++) {
+      int height = bookmarks.get(i) * this.lineHeight + (this.lineHeight - bookmarkWidth) / 2 + Util.LINE_NUMBER_START_OFFSET;
+      // 绘制书签
+      g.fillOval(width - Util.LINE_NUMBER_MARGIN_RIGHT, height,
+          bookmarkWidth, bookmarkWidth);
+    }
+    g.setColor(color);
   }
 }
