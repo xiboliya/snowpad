@@ -1430,3 +1430,10 @@ src/LineNumberView.java
 src/BaseTextArea.java
 src/SnowPadFrame.java
 src/TextAreaSetting.java
+
+2021-12-20
+1.在“搜索”菜单中添加“书签”功能，包括：设置/取消书签、下一个书签、上一个书签、清除所有书签。
+src/BaseTextArea.java
+src/LineNumberView.java
+src/SnowPadFrame.java
+src/Util.java
