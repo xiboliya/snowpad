@@ -69,10 +69,17 @@ public class LineNumberView extends JComponent {
   private void addListeners() {
     this.mouseAdapter = new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
-        if (txaSource != null) {
-          int y = e.getY();
-          int lineNumber = y / lineHeight + 1; // 当前点击的行号
+        if (txaSource == null) {
+          return;
+        }
+        int y = e.getY();
+        int lineNumber = y / lineHeight; // 当前点击的行号
+        if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，设置/取消书签
+          txaSource.switchBookmark(lineNumber);
+          repaint();
+        } else { // 其他情况，选中当前行
           int lineCount = txaSource.getLineCount(); // 文本域总行数
+          lineNumber++;
           if (lineNumber > lineCount) {
             return;
           }
