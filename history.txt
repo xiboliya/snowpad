@@ -1437,3 +1437,7 @@ src/BaseTextArea.java
 src/LineNumberView.java
 src/SnowPadFrame.java
 src/Util.java
+
+2021-12-24
+1.在行号栏中点击鼠标右键，可以设置/取消书签。
+src/LineNumberView.java
