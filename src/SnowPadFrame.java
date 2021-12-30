@@ -1514,6 +1514,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuFileHistory.setMnemonic('H');
     this.menuSearch.setMnemonic('S');
     this.menuQuickFind.setMnemonic('Q');
+    this.menuBookmark.setMnemonic('M');
     this.menuStyle.setMnemonic('O');
     this.menuView.setMnemonic('V');
     this.menuLineStyle.setMnemonic('S');
@@ -4967,6 +4968,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.setText(strTemp);
       this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
       this.txaMain.setFileExistsLabel(true);
+      this.txaMain.setFileChangedLabel(false);
       this.txaMain.setNewFileIndex(0);
       this.txaMain.setFileExt(this.getFileExtByName(file.getName()));
       this.setMenuStateComment();
@@ -5092,6 +5094,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       fileOutputStream.write(byteStr);
       this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
       this.txaMain.setFileExistsLabel(true);
+      this.txaMain.setFileChangedLabel(false);
       this.txaMain.setFileExt(this.getFileExtByName(file.getName()));
       this.setMenuStateComment();
     } catch (Exception x) {
@@ -5574,8 +5577,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
               this.frozenFile();
             }
             this.reOpenFile();
+          } else {
+            txaTemp.setFileChangedLabel(true);
           }
-          txaTemp.setFileChangedLabel(true);
         }
       }
     }
