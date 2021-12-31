@@ -203,7 +203,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemBookmarkSwitch = new JMenuItem("设置/取消书签(S)", 'S');
   private JMenuItem itemBookmarkNext = new JMenuItem("下一个书签(N)", 'N');
   private JMenuItem itemBookmarkPrevious = new JMenuItem("上一个书签(P)", 'P');
-  private JMenuItem itemBookmarkClear = new JMenuItem("清除所有书签(C)", 'C');
+  private JMenuItem itemBookmarkCopy = new JMenuItem("复制书签行(C)", 'C');
+  private JMenuItem itemBookmarkClear = new JMenuItem("清除所有书签(L)", 'L');
   private JMenuItem itemFindBracket = new JMenuItem("定位匹配括号(B)", 'B');
   private JMenu menuStyle = new JMenu("格式(O)");
   private JMenu menuLineWrapStyle = new JMenu("换行方式(L)");
@@ -526,6 +527,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemBookmarkSwitch.addActionListener(this);
     this.itemBookmarkNext.addActionListener(this);
     this.itemBookmarkPrevious.addActionListener(this);
+    this.itemBookmarkCopy.addActionListener(this);
     this.itemBookmarkClear.addActionListener(this);
     this.itemFindBracket.addActionListener(this);
     this.itemToCopyFileName.addActionListener(this);
@@ -934,6 +936,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuBookmark.add(this.itemBookmarkSwitch);
     this.menuBookmark.add(this.itemBookmarkNext);
     this.menuBookmark.add(this.itemBookmarkPrevious);
+    this.menuBookmark.addSeparator();
+    this.menuBookmark.add(this.itemBookmarkCopy);
     this.menuBookmark.add(this.itemBookmarkClear);
     this.menuSearch.add(this.itemFindBracket);
     this.menuBar.add(this.menuStyle);
@@ -1130,6 +1134,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemBookmarkSwitch);
     this.menuItemList.add(this.itemBookmarkNext);
     this.menuItemList.add(this.itemBookmarkPrevious);
+    this.menuItemList.add(this.itemBookmarkCopy);
     this.menuItemList.add(this.itemBookmarkClear);
     this.menuItemList.add(this.itemFindBracket);
     this.menuItemList.add(this.itemLineWrapByWord);
@@ -1623,6 +1628,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.bookmarkNext();
     } else if (this.itemBookmarkPrevious.equals(e.getSource())) {
       this.bookmarkPrevious();
+    } else if (this.itemBookmarkCopy.equals(e.getSource())) {
+      this.bookmarkCopy();
     } else if (this.itemBookmarkClear.equals(e.getSource())) {
       this.bookmarkClear();
     } else if (this.itemFindBracket.equals(e.getSource())) {
@@ -4712,6 +4719,33 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
         break;
       }
+    }
+  }
+
+  /**
+   * "复制书签行"的处理方法
+   */
+  private void bookmarkCopy() {
+    LinkedList<Integer> bookmarks = this.txaMain.getBookmarks();
+    int size = bookmarks.size();
+    if (size <= 0) {
+      return;
+    }
+    int lineCount = this.txaMain.getLineCount(); // 文本域总行数
+    StringBuilder stbLines = new StringBuilder();
+    for (int bookmark : bookmarks) {
+      if (bookmark < lineCount) {
+        try {
+          int start = this.txaMain.getLineStartOffset(bookmark);
+          int end = this.txaMain.getLineEndOffset(bookmark);
+          stbLines.append(this.txaMain.getText(start, end - start));
+        } catch (BadLocationException x) {
+          // x.printStackTrace();
+        }
+      }
+    }
+    if (stbLines.length() > 0) {
+      this.setClipboardContents(stbLines.toString());
     }
   }
 
