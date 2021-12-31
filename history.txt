@@ -1445,3 +1445,8 @@ src/LineNumberView.java
 2021-12-30
 1.当主窗口获得焦点时，优化检测所有文件状态并弹出提示的逻辑。
 src/SnowPadFrame.java
+
+2021-12-31
+1.在“搜索”->“书签”菜单下添加："复制书签行"功能。
+src/SnowPadFrame.java
+src/Util.java
