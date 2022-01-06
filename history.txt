@@ -1450,3 +1450,8 @@ src/SnowPadFrame.java
 1.在“搜索”->“书签”菜单下添加："复制书签行"功能。
 src/SnowPadFrame.java
 src/Util.java
+
+2022-01-06
+1."查看"->"窗口管理"界面中添加：上移、下移功能。
+src/BaseDefaultTableModel.java
+src/WindowManageDialog.java
