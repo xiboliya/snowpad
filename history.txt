@@ -1455,3 +1455,7 @@ src/Util.java
 1."查看"->"窗口管理"界面中添加：上移、下移功能。
 src/BaseDefaultTableModel.java
 src/WindowManageDialog.java
+2.将部分频繁操作的String字符串对象改为缓冲类型的StringBuilder，以减少内存消耗。
+src/BaseTextArea.java
+src/FindReplaceDialog.java
+src/SearchResultPanel.java
