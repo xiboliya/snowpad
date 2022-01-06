@@ -1459,3 +1459,7 @@ src/WindowManageDialog.java
 src/BaseTextArea.java
 src/FindReplaceDialog.java
 src/SearchResultPanel.java
+
+******************************
+git tag SnowPad-V5.0-20220106
+******************************
