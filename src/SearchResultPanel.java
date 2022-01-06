@@ -159,17 +159,17 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
     } catch (Exception x) {
       // x.printStackTrace();
     }
-    String strMain = "查找 " + "\"" + strSearch + "\" [" + count + " 处]\n" + filePath + "\n";
+    StringBuilder stbMain = new StringBuilder("查找 \"" + strSearch + "\" [" + count + " 处]\n" + filePath + "\n");
     try {
       for (SearchBean searchBean : listIndex) {
         int lineNum = textArea.getLineOfOffset(searchBean.getStart());
-        String strLine = strSource.substring(textArea.getLineStartOffset(lineNum), textArea.getLineEndOffset(lineNum));
-        if (!strLine.endsWith("\n")) {
-          strLine += "\n";
+        StringBuilder stbLine = new StringBuilder(strSource.substring(textArea.getLineStartOffset(lineNum), textArea.getLineEndOffset(lineNum)));
+        if (stbLine.charAt(stbLine.length() - 1) != '\n') {
+          stbLine.append('\n');
         }
-        strMain += prefixLine + (lineNum + 1) + ":" + strLine;
+        stbMain.append(prefixLine + (lineNum + 1) + ":" + stbLine);
       }
-      this.txaMain.append(strMain);
+      this.txaMain.append(stbMain.toString());
     } catch (Exception x) {
        // x.printStackTrace();
     }

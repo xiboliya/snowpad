@@ -195,11 +195,11 @@ public class BaseTextArea extends JTextArea {
       return;
     }
     int tabSize = this.getTabSize();
-    String strSpace = "";
+    StringBuilder stbSpace = new StringBuilder();
     for (int i = 0; i < tabSize; i++) {
-      strSpace += " ";
+      stbSpace.append(" ");
     }
-    this.replaceRange(strSpace, currentIndex - 1, currentIndex);
+    this.replaceRange(stbSpace.toString(), currentIndex - 1, currentIndex);
   }
 
   /**

@@ -840,7 +840,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           Util.SOFTWARE, JOptionPane.NO_OPTION);
     } else {
       String strSource = this.txaSource.getText();
-      String strResult = ""; // 结果字符串
+      StringBuilder stbResult = new StringBuilder(); // 结果字符串
       int lineNumUsed = -1; // 最近一次使用的行号
       int times = 0; // 复制的行数
       try {
@@ -852,17 +852,17 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           int lineNumEnd = this.txaSource.getLineOfOffset(searchBean.getEnd());
           lineNumUsed = lineNumEnd;
           int size = lineNumEnd - lineNumStart;
-          String strLine = "";
+          StringBuilder stbLine = new StringBuilder();
           for (int i = 0; i <= size; i++) {
-            strLine += strSource.substring(this.txaSource.getLineStartOffset(lineNumStart + i), this.txaSource.getLineEndOffset(lineNumStart + i));
-            if (!strLine.endsWith("\n")) {
-              strLine += "\n";
+            stbLine.append(strSource.substring(this.txaSource.getLineStartOffset(lineNumStart + i), this.txaSource.getLineEndOffset(lineNumStart + i)));
+            if (stbLine.charAt(stbLine.length() - 1) != '\n') {
+              stbLine.append('\n');
             }
             times++;
           }
-          strResult += strLine;
+          stbResult.append(stbLine);
         }
-        ((SnowPadFrame) this.getOwner()).setClipboardContents(strResult);
+        ((SnowPadFrame) this.getOwner()).setClipboardContents(stbResult.toString());
         JOptionPane.showMessageDialog(this, "共复制 " + times + " 行。", Util.SOFTWARE, JOptionPane.NO_OPTION);
       } catch (BadLocationException x) {
          x.printStackTrace();
