@@ -29,6 +29,10 @@ import java.util.Vector;
 public class BaseDefaultTableModel extends DefaultTableModel {
   private static final long serialVersionUID = 1L;
 
+  public BaseDefaultTableModel() {
+    super();
+  }
+
   public BaseDefaultTableModel(Object[][] data, Object[] columnNames) {
     super(data, columnNames);
   }

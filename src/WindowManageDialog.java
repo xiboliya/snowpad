@@ -31,6 +31,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JViewport;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -40,7 +42,7 @@ import javax.swing.table.TableRowSorter;
  * @author 冰原
  * 
  */
-public class WindowManageDialog extends BaseDialog implements ActionListener {
+public class WindowManageDialog extends BaseDialog implements ActionListener, ListSelectionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
@@ -51,6 +53,8 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
   private JButton btnSave = new JButton("保存");
   private JButton btnClose = new JButton("关闭");
   private JButton btnSort = new JButton("排序");
+  private JButton btnMoveUp = new JButton("上移");
+  private JButton btnMoveDown = new JButton("下移");
   private JButton btnCancel = new JButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -83,8 +87,8 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     this.addTable();
     this.refresh();
     this.addListeners();
-    this.setSize(520, 275);
-    this.setMinimumSize(new Dimension(520, 275)); // 设置本窗口的最小尺寸
+    this.setSize(520, 310);
+    this.setMinimumSize(new Dimension(520, 310)); // 设置本窗口的最小尺寸
     this.setResizable(true);
     this.setVisible(true);
   }
@@ -100,12 +104,16 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     this.btnSave.setBounds(10, 55, 90, Util.BUTTON_HEIGHT);
     this.btnClose.setBounds(10, 90, 90, Util.BUTTON_HEIGHT);
     this.btnSort.setBounds(10, 125, 90, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(10, 200, 90, Util.BUTTON_HEIGHT);
+    this.btnMoveUp.setBounds(10, 160, 90, Util.BUTTON_HEIGHT);
+    this.btnMoveDown.setBounds(10, 195, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(10, 240, 90, Util.BUTTON_HEIGHT);
     this.pnlRight.setPreferredSize(new Dimension(110, 275)); // 设置面板的最适尺寸
     this.pnlRight.add(this.btnOk);
     this.pnlRight.add(this.btnSave);
     this.pnlRight.add(this.btnClose);
     this.pnlRight.add(this.btnSort);
+    this.pnlRight.add(this.btnMoveUp);
+    this.pnlRight.add(this.btnMoveDown);
     this.pnlRight.add(this.btnCancel);
   }
 
@@ -116,7 +124,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     for (String title : Util.WINDOW_MANAGE_TABLE_TITLE_TEXTS) {
       this.cellsTitle.add(title);
     }
-    this.baseDefaultTableModel = new BaseDefaultTableModel(this.cells, this.cellsTitle);
+    this.baseDefaultTableModel = new BaseDefaultTableModel();
     this.tabMain = new JTable(this.baseDefaultTableModel);
     this.tabMain.getTableHeader().setReorderingAllowed(false); // 不可整列移动
     this.spnMain = new JScrollPane(this.tabMain);
@@ -139,6 +147,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
       cellsLine.add(textArea.getFileExt().toString().substring(1));
       this.cells.add(cellsLine);
     }
+    this.baseDefaultTableModel.setDataVector(this.cells, this.cellsTitle);
   }
 
   /**
@@ -151,6 +160,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     this.tabMain.updateUI();
     int index = this.tpnMain.getSelectedIndex();
     this.tabMain.setRowSelectionInterval(index, index); // 自动选中当前激活的文件行
+    this.setBtnEnabled();
   }
 
   /**
@@ -161,18 +171,24 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     this.btnSave.addActionListener(this);
     this.btnClose.addActionListener(this);
     this.btnSort.addActionListener(this);
+    this.btnMoveUp.addActionListener(this);
+    this.btnMoveDown.addActionListener(this);
     this.btnCancel.addActionListener(this);
     this.btnOk.addKeyListener(this.buttonKeyAdapter);
     this.btnSave.addKeyListener(this.buttonKeyAdapter);
     this.btnClose.addKeyListener(this.buttonKeyAdapter);
     this.btnSort.addKeyListener(this.buttonKeyAdapter);
+    this.btnMoveUp.addKeyListener(this.buttonKeyAdapter);
+    this.btnMoveDown.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addKeyListener(this.buttonKeyAdapter);
     this.tabMain.addKeyListener(this.keyAdapter);
+    this.tabMain.getSelectionModel().addListSelectionListener(this);
   }
 
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
       this.onEnter();
@@ -182,6 +198,10 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
       this.closeFiles();
     } else if (this.btnSort.equals(e.getSource())) {
       this.sortFiles();
+    } else if (this.btnMoveUp.equals(e.getSource())) {
+      this.moveFiles(true);
+    } else if (this.btnMoveDown.equals(e.getSource())) {
+      this.moveFiles(false);
     } else if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
     }
@@ -239,6 +259,62 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
+   * "上移/下移"的操作方法
+   * 
+   * @param isUp
+   *          移动方向，true表示上移，false表示下移。
+   */
+  private void moveFiles(boolean isUp) {
+    int rowCount = this.tabMain.getRowCount();
+    int index = this.tabMain.getSelectedRow();
+    int newIndex = index + 1;
+    if (isUp) {
+      newIndex = index - 1;
+    }
+    int columnCount = this.tabMain.getColumnCount();
+    for (int i = 0; i < columnCount; i++) {
+      String value = this.tabMain.getValueAt(index, i).toString();
+      String newValue = this.tabMain.getValueAt(newIndex, i).toString();
+      this.tabMain.setValueAt(value, newIndex, i);
+      this.tabMain.setValueAt(newValue, index, i);
+    }
+    this.tabMain.setRowSelectionInterval(newIndex, newIndex);
+  }
+
+  /**
+   * 根据当前的选择，设置部分按钮是否可用
+   */
+  private void setBtnEnabled() {
+    int rowCount = this.tabMain.getRowCount();
+    if (rowCount <= 1) {
+      this.btnMoveUp.setEnabled(false);
+      this.btnMoveDown.setEnabled(false);
+      return;
+    }
+    int[] indexs = this.tabMain.getSelectedRows();
+    if (indexs == null || indexs.length == 0) {
+      return;
+    }
+    int firstIndex = indexs[0];
+    int lastIndex = indexs[indexs.length - 1];
+    if (firstIndex >= 0 && firstIndex == lastIndex) {
+      if (firstIndex <= 0) {
+        this.btnMoveUp.setEnabled(false);
+        this.btnMoveDown.setEnabled(true);
+      } else if (firstIndex >= rowCount - 1) {
+        this.btnMoveUp.setEnabled(true);
+        this.btnMoveDown.setEnabled(false);
+      } else {
+        this.btnMoveUp.setEnabled(true);
+        this.btnMoveDown.setEnabled(true);
+      }
+    } else {
+      this.btnMoveUp.setEnabled(false);
+      this.btnMoveDown.setEnabled(false);
+    }
+  }
+
+  /**
    * 默认的"确定"操作方法
    */
   public void onEnter() {
@@ -256,4 +332,11 @@ public class WindowManageDialog extends BaseDialog implements ActionListener {
     this.dispose();
   }
 
+  /**
+   * 组件选择值发生更改时调用
+   */
+  @Override
+  public void valueChanged(ListSelectionEvent e) {
+    this.setBtnEnabled();
+  }
 }
