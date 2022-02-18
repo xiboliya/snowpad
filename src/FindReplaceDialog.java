@@ -551,6 +551,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           this.txaSource.select(index, index + this.strFind.length());
         }
         return true;
+      } else if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
+        JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
+            Util.SOFTWARE, JOptionPane.NO_OPTION);
       } else {
         JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
@@ -642,7 +645,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           this.matcher = Pattern.compile(stbFindTextTemp.toString()).matcher(
               stbTextAll);
         } catch (PatternSyntaxException x) {
-          JOptionPane.showMessageDialog(this, "正则表达式语法错误：\n" + x.getMessage(),
+          JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
               Util.SOFTWARE, JOptionPane.NO_OPTION);
           return;
         }
@@ -757,7 +760,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       try {
         this.matcher = Pattern.compile(strFindTemp).matcher(strText);
       } catch (PatternSyntaxException x) {
-        JOptionPane.showMessageDialog(this, "正则表达式语法错误：\n" + x.getMessage(),
+        JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
         return -1;
       }
@@ -779,8 +782,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    */
   private void searchInFile() {
     LinkedList<SearchBean> listIndex = new LinkedList<SearchBean>();
+    int index = 0;
     if (!Util.isTextEmpty(this.strFind)) {
-      int index = 0;
       while (index >= 0) {
         index = Util.findText(this.strFind, this.txaSource, index,
             this.isMatchCase, this.searchStyle);
@@ -800,8 +803,13 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       }
     }
     if (listIndex.isEmpty()) {
-      JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
-          Util.SOFTWARE, JOptionPane.NO_OPTION);
+      if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
+        JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
+            Util.SOFTWARE, JOptionPane.NO_OPTION);
+      } else {
+        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
+            Util.SOFTWARE, JOptionPane.NO_OPTION);
+      }
     } else {
       SearchResult searchResult = new SearchResult((BaseTextArea)this.txaSource, this.strFind, listIndex);
       this.searchResultPanel.refreshResult(searchResult);
@@ -815,8 +823,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    */
   private void copyResultLines() {
     LinkedList<SearchBean> listIndex = new LinkedList<SearchBean>();
+    int index = 0;
     if (!Util.isTextEmpty(this.strFind)) {
-      int index = 0;
       while (index >= 0) {
         index = Util.findText(this.strFind, this.txaSource, index,
             this.isMatchCase, this.searchStyle);
@@ -836,8 +844,13 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       }
     }
     if (listIndex.isEmpty()) {
-      JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
-          Util.SOFTWARE, JOptionPane.NO_OPTION);
+      if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
+        JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
+            Util.SOFTWARE, JOptionPane.NO_OPTION);
+      } else {
+        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
+            Util.SOFTWARE, JOptionPane.NO_OPTION);
+      }
     } else {
       String strSource = this.txaSource.getText();
       StringBuilder stbResult = new StringBuilder(); // 结果字符串

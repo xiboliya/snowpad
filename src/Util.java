@@ -208,6 +208,7 @@ public final class Util {
   public static final int LINE_NUMBER_MARGIN_RIGHT = 12; // 行号组件的左边距
   public static final int LINE_NUMBER_START_OFFSET = 2; // 行号组件的起始垂直偏移量，用于对齐文本域的各行
   public static final int BRACKET_COLOR_STYLE = 11; // 在文本域中进行高亮匹配括号的颜色标识值
+  public static final int PATTERN_SYNTAX_ERROR_INDEX = -2; // 正则表达式语法错误的索引值
   public static final Font GLOBAL_FONT = new Font("宋体", Font.PLAIN, 12); // 全局的默认字体
   public static final Font TEXT_FONT = new Font("宋体", Font.PLAIN, 14); // 文本域的默认字体
   public static final Font INSERT_VIEW_FONT = new Font("宋体", Font.PLAIN, 80); // 插入字符界面中预览标签的字体
@@ -532,8 +533,7 @@ public final class Util {
         matcher = Pattern.compile(strFindText).matcher(strSource);
       } catch (PatternSyntaxException x) {
         // x.printStackTrace();
-        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n" + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
-        return result;
+        return PATTERN_SYNTAX_ERROR_INDEX;
       }
       matcher_length = 0;
       if (matcher.find()) {
@@ -624,8 +624,7 @@ public final class Util {
         matcher = Pattern.compile(strFindText).matcher(strSource);
       } catch (PatternSyntaxException x) {
         // x.printStackTrace();
-        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n" + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
-        return result;
+        return PATTERN_SYNTAX_ERROR_INDEX;
       }
       matcher_length = 0;
       while (matcher.find()) {
@@ -690,8 +689,7 @@ public final class Util {
         matcher = Pattern.compile(strFindText).matcher(strSource);
       } catch (PatternSyntaxException x) {
         // x.printStackTrace();
-        JOptionPane.showMessageDialog(txcSource, "正则表达式语法错误：\n" + x.getMessage(), Util.SOFTWARE, JOptionPane.NO_OPTION);
-        return result;
+        return PATTERN_SYNTAX_ERROR_INDEX;
       }
       matcher_length = 0;
       if (matcher.find()) {
