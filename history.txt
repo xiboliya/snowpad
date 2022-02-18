@@ -1463,3 +1463,8 @@ src/SearchResultPanel.java
 ******************************
 git tag SnowPad-V5.0-20220106
 ******************************
+
+2022-02-18
+1.解决在“查找/替换”对话框中，正则表达式输入错误时，会有2个提示框的问题。
+src/FindReplaceDialog.java
+src/Util.java
