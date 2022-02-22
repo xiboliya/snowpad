@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 ±ùÔ­
+ * Copyright (C) 2014 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,9 +37,9 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
- * "´°¿Ú¹ÜÀí"¶Ô»°¿ò
+ * "çª—å£ç®¡ç†"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class WindowManageDialog extends BaseDialog implements ActionListener, ListSelectionListener {
@@ -47,34 +47,34 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
   private JPanel pnlRight = new JPanel(null);
-  private JTable tabMain = null; // ÏÔÊ¾Êı¾İµÄ±í¸ñ×é¼ş
+  private JTable tabMain = null; // æ˜¾ç¤ºæ•°æ®çš„è¡¨æ ¼ç»„ä»¶
   private JScrollPane spnMain = null;
-  private JButton btnOk = new JButton("¼¤»î");
-  private JButton btnSave = new JButton("±£´æ");
-  private JButton btnClose = new JButton("¹Ø±Õ");
-  private JButton btnSort = new JButton("ÅÅĞò");
-  private JButton btnMoveUp = new JButton("ÉÏÒÆ");
-  private JButton btnMoveDown = new JButton("ÏÂÒÆ");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JButton btnOk = new JButton("æ¿€æ´»");
+  private JButton btnSave = new JButton("ä¿å­˜");
+  private JButton btnClose = new JButton("å…³é—­");
+  private JButton btnSort = new JButton("æ’åº");
+  private JButton btnMoveUp = new JButton("ä¸Šç§»");
+  private JButton btnMoveDown = new JButton("ä¸‹ç§»");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Vector<Vector<String>> cells = new Vector<Vector<String>>();
   private Vector<String> cellsTitle = new Vector<String>();
   private BaseDefaultTableModel baseDefaultTableModel = null;
   private TableRowSorter<TableModel> tableRowSorter = null;
-  private JTabbedPane tpnMain = null; // ÏÔÊ¾ÎÄ±¾ÓòµÄÑ¡Ïî¿¨×é¼ş
+  private JTabbedPane tpnMain = null; // æ˜¾ç¤ºæ–‡æœ¬åŸŸçš„é€‰é¡¹å¡ç»„ä»¶
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param owner
-   *          ÓÃÓÚÏÔÊ¾¸Ã¶Ô»°¿òµÄ¸¸×é¼ş
+   *          ç”¨äºæ˜¾ç¤ºè¯¥å¯¹è¯æ¡†çš„çˆ¶ç»„ä»¶
    * @param modal
-   *          ÊÇ·ñÎªÄ£Ê½¶Ô»°¿ò
+   *          æ˜¯å¦ä¸ºæ¨¡å¼å¯¹è¯æ¡†
    * @param txaSource
-   *          Õë¶Ô²Ù×÷µÄÎÄ±¾Óò
+   *          é’ˆå¯¹æ“ä½œçš„æ–‡æœ¬åŸŸ
    * @param tpnMain
-   *          ÏÔÊ¾ÎÄ±¾ÓòµÄÑ¡Ïî¿¨×é¼ş
+   *          æ˜¾ç¤ºæ–‡æœ¬åŸŸçš„é€‰é¡¹å¡ç»„ä»¶
    */
   public WindowManageDialog(JFrame owner, boolean modal, JTextArea txaSource, JTabbedPane tpnMain) {
     super(owner, modal);
@@ -88,16 +88,16 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
     this.refresh();
     this.addListeners();
     this.setSize(520, 310);
-    this.setMinimumSize(new Dimension(520, 310)); // ÉèÖÃ±¾´°¿ÚµÄ×îĞ¡³ß´ç
+    this.setMinimumSize(new Dimension(520, 310)); // è®¾ç½®æœ¬çª—å£çš„æœ€å°å°ºå¯¸
     this.setResizable(true);
     this.setVisible(true);
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("´°¿Ú¹ÜÀí");
+    this.setTitle("çª—å£ç®¡ç†");
     this.pnlMain.add(this.pnlLeft, BorderLayout.CENTER);
     this.pnlMain.add(this.pnlRight, BorderLayout.EAST);
     this.btnOk.setBounds(10, 20, 90, Util.BUTTON_HEIGHT);
@@ -107,7 +107,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
     this.btnMoveUp.setBounds(10, 160, 90, Util.BUTTON_HEIGHT);
     this.btnMoveDown.setBounds(10, 195, 90, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(10, 240, 90, Util.BUTTON_HEIGHT);
-    this.pnlRight.setPreferredSize(new Dimension(110, 275)); // ÉèÖÃÃæ°åµÄ×îÊÊ³ß´ç
+    this.pnlRight.setPreferredSize(new Dimension(110, 275)); // è®¾ç½®é¢æ¿çš„æœ€é€‚å°ºå¯¸
     this.pnlRight.add(this.btnOk);
     this.pnlRight.add(this.btnSave);
     this.pnlRight.add(this.btnClose);
@@ -118,7 +118,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * ÔÚÃæ°åÉÏÌí¼Ó±í¸ñÊÓÍ¼
+   * åœ¨é¢æ¿ä¸Šæ·»åŠ è¡¨æ ¼è§†å›¾
    */
   private void addTable() {
     for (String title : Util.WINDOW_MANAGE_TABLE_TITLE_TEXTS) {
@@ -126,13 +126,13 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
     }
     this.baseDefaultTableModel = new BaseDefaultTableModel();
     this.tabMain = new JTable(this.baseDefaultTableModel);
-    this.tabMain.getTableHeader().setReorderingAllowed(false); // ²»¿ÉÕûÁĞÒÆ¶¯
+    this.tabMain.getTableHeader().setReorderingAllowed(false); // ä¸å¯æ•´åˆ—ç§»åŠ¨
     this.spnMain = new JScrollPane(this.tabMain);
     this.pnlLeft.add(this.spnMain, BorderLayout.CENTER);
   }
 
   /**
-   * »ñÈ¡Êı¾İÏî
+   * è·å–æ•°æ®é¡¹
    */
   private void getCells() {
     this.cells.clear();
@@ -151,20 +151,20 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * Ë¢ĞÂ±í¸ñÖĞµÄÊı¾İ
+   * åˆ·æ–°è¡¨æ ¼ä¸­çš„æ•°æ®
    */
   public void refresh() {
     this.tableRowSorter = new TableRowSorter<TableModel>(this.baseDefaultTableModel);
-    this.tabMain.setRowSorter(this.tableRowSorter); // ÉèÖÃÅÅĞò¹ıÂËÆ÷
+    this.tabMain.setRowSorter(this.tableRowSorter); // è®¾ç½®æ’åºè¿‡æ»¤å™¨
     this.getCells();
     this.tabMain.updateUI();
     int index = this.tpnMain.getSelectedIndex();
-    this.tabMain.setRowSelectionInterval(index, index); // ×Ô¶¯Ñ¡ÖĞµ±Ç°¼¤»îµÄÎÄ¼şĞĞ
+    this.tabMain.setRowSelectionInterval(index, index); // è‡ªåŠ¨é€‰ä¸­å½“å‰æ¿€æ´»çš„æ–‡ä»¶è¡Œ
     this.setBtnEnabled();
   }
 
   /**
-   * Ìí¼ÓºÍ³õÊ¼»¯ÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ å’Œåˆå§‹åŒ–äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.btnOk.addActionListener(this);
@@ -186,7 +186,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   @Override
   public void actionPerformed(ActionEvent e) {
@@ -208,18 +208,18 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * ±í¸ñÊÓÍ¼ÖĞ´ı²Ù×÷µÄĞĞËù±íÊ¾µÄÎÄ¼şÂ·¾¶
+   * è¡¨æ ¼è§†å›¾ä¸­å¾…æ“ä½œçš„è¡Œæ‰€è¡¨ç¤ºçš„æ–‡ä»¶è·¯å¾„
    * 
    * @param index
-   *          ±í¸ñÊÓÍ¼ÖĞ´ı²Ù×÷µÄĞĞË÷Òı
-   * @return µ±Ç°ĞĞËù±íÊ¾µÄÎÄ¼şÂ·¾¶
+   *          è¡¨æ ¼è§†å›¾ä¸­å¾…æ“ä½œçš„è¡Œç´¢å¼•
+   * @return å½“å‰è¡Œæ‰€è¡¨ç¤ºçš„æ–‡ä»¶è·¯å¾„
    */
   private String getFilePath(int index) {
     return this.tabMain.getValueAt(index, 1).toString() + this.tabMain.getValueAt(index, 0).toString();
   }
 
   /**
-   * "±£´æ"µÄ²Ù×÷·½·¨
+   * "ä¿å­˜"çš„æ“ä½œæ–¹æ³•
    */
   private void saveFiles() {
     int[] indexs = this.tabMain.getSelectedRows();
@@ -232,7 +232,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * "¹Ø±Õ"µÄ²Ù×÷·½·¨
+   * "å…³é—­"çš„æ“ä½œæ–¹æ³•
    */
   private void closeFiles() {
     int[] indexs = this.tabMain.getSelectedRows();
@@ -245,7 +245,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * "ÅÅĞò"µÄ²Ù×÷·½·¨
+   * "æ’åº"çš„æ“ä½œæ–¹æ³•
    */
   private void sortFiles() {
     this.tpnMain.removeAll();
@@ -259,10 +259,10 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * "ÉÏÒÆ/ÏÂÒÆ"µÄ²Ù×÷·½·¨
+   * "ä¸Šç§»/ä¸‹ç§»"çš„æ“ä½œæ–¹æ³•
    * 
    * @param isUp
-   *          ÒÆ¶¯·½Ïò£¬true±íÊ¾ÉÏÒÆ£¬false±íÊ¾ÏÂÒÆ¡£
+   *          ç§»åŠ¨æ–¹å‘ï¼Œtrueè¡¨ç¤ºä¸Šç§»ï¼Œfalseè¡¨ç¤ºä¸‹ç§»ã€‚
    */
   private void moveFiles(boolean isUp) {
     int rowCount = this.tabMain.getRowCount();
@@ -282,7 +282,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * ¸ù¾İµ±Ç°µÄÑ¡Ôñ£¬ÉèÖÃ²¿·Ö°´Å¥ÊÇ·ñ¿ÉÓÃ
+   * æ ¹æ®å½“å‰çš„é€‰æ‹©ï¼Œè®¾ç½®éƒ¨åˆ†æŒ‰é’®æ˜¯å¦å¯ç”¨
    */
   private void setBtnEnabled() {
     int rowCount = this.tabMain.getRowCount();
@@ -315,7 +315,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     int index = this.tabMain.getSelectedRow();
@@ -326,14 +326,14 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();
   }
 
   /**
-   * ×é¼şÑ¡ÔñÖµ·¢Éú¸ü¸ÄÊ±µ÷ÓÃ
+   * ç»„ä»¶é€‰æ‹©å€¼å‘ç”Ÿæ›´æ”¹æ—¶è°ƒç”¨
    */
   @Override
   public void valueChanged(ListSelectionEvent e) {

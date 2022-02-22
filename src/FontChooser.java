@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,29 +37,29 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- * "×ÖÌå"¶Ô»°¿ò
+ * "å­—ä½“"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class FontChooser extends BaseDialog implements ActionListener,
     ListSelectionListener, CaretListener {
   private static final long serialVersionUID = 1L;
-  private JLabel lblFont = new JLabel("×ÖÌå£º");
-  private JLabel lblStyle = new JLabel("×ÖĞÎ£º");
-  private JLabel lblSize = new JLabel("´óĞ¡£º");
-  private JLabel lblView = new JLabel("A¡ùÎÄ");
+  private JLabel lblFont = new JLabel("å­—ä½“ï¼š");
+  private JLabel lblStyle = new JLabel("å­—å½¢ï¼š");
+  private JLabel lblSize = new JLabel("å¤§å°ï¼š");
+  private JLabel lblView = new JLabel("Aâ€»æ–‡");
   private BaseTextField txtFont = new BaseTextField();
   private BaseTextField txtStyle = new BaseTextField();
-  private BaseTextField txtSize = new BaseTextField(true, "\\d{0,3}"); // ÏŞÖÆÓÃ»§Ö»ÄÜÊäÈëÊı×Ö£¬²¢ÇÒ²»ÄÜ³¬¹ı3Î»
+  private BaseTextField txtSize = new BaseTextField(true, "\\d{0,3}"); // é™åˆ¶ç”¨æˆ·åªèƒ½è¾“å…¥æ•°å­—ï¼Œå¹¶ä¸”ä¸èƒ½è¶…è¿‡3ä½
   private JList<String> listFont = new JList<String>();
   private JList<String> listStyle = new JList<String>();
   private JList<Integer> listSize = new JList<Integer>();
   private JScrollPane srpFont = new JScrollPane(this.listFont);
   private JScrollPane srpStyle = new JScrollPane(this.listStyle);
   private JScrollPane srpSize = new JScrollPane(this.listSize);
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -67,12 +67,12 @@ public class FontChooser extends BaseDialog implements ActionListener,
   private boolean isOk = false;
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param owner
-   *          ¸¸´°¿Ú
+   *          çˆ¶çª—å£
    * @param modal
-   *          ÊÇ·ñÎªÄ£Ê½´°¿Ú
+   *          æ˜¯å¦ä¸ºæ¨¡å¼çª—å£
    */
   public FontChooser(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal);
@@ -80,7 +80,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
       return;
     }
     this.txaSource = txaSource;
-    this.setTitle("×ÖÌå");
+    this.setTitle("å­—ä½“");
     this.init();
     this.fillFontList();
     this.fillStyleList();
@@ -92,10 +92,10 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.lblView.setBorder(new TitledBorder("Ê¾Àı"));
+    this.lblView.setBorder(new TitledBorder("ç¤ºä¾‹"));
     this.lblView.setHorizontalAlignment(JLabel.CENTER);
     this.pnlMain.setLayout(null);
     this.lblFont.setBounds(10, 10, 140, Util.VIEW_HEIGHT);
@@ -125,10 +125,10 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìî³ä"×ÖÌå"ÁĞ±í
+   * å¡«å……"å­—ä½“"åˆ—è¡¨
    */
   private void fillFontList() {
-    String[] fontFamilys = Util.FONT_FAMILY_NAMES; // »ñÈ¡ÏµÍ³ËùÓĞ×ÖÌåµÄÃû³ÆÁĞ±í
+    String[] fontFamilys = Util.FONT_FAMILY_NAMES; // è·å–ç³»ç»Ÿæ‰€æœ‰å­—ä½“çš„åç§°åˆ—è¡¨
     this.listFont.setListData(fontFamilys);
     Font font = this.txaSource.getFont();
     this.listFont.setSelectedValue(font.getFamily(), true);
@@ -137,10 +137,10 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìî³ä"×ÖĞÎ"ÁĞ±í
+   * å¡«å……"å­—å½¢"åˆ—è¡¨
    */
   private void fillStyleList() {
-    String[] fontStyles = new String[] { "³£¹æ", "´ÖÌå", "Ğ±Ìå", "´ÖĞ±Ìå" };
+    String[] fontStyles = new String[] { "å¸¸è§„", "ç²—ä½“", "æ–œä½“", "ç²—æ–œä½“" };
     this.listStyle.setListData(fontStyles);
     Font font = this.txaSource.getFont();
     this.listStyle.setSelectedIndex(font.getStyle());
@@ -149,12 +149,12 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìî³ä"´óĞ¡"ÁĞ±í
+   * å¡«å……"å¤§å°"åˆ—è¡¨
    */
   private void fillSizeList() {
     Integer[] fontSizes = new Integer[Util.MAX_FONT_SIZE - Util.MIN_FONT_SIZE + 1];
     for (int i = 0; i < fontSizes.length; i++) {
-      fontSizes[i] = Util.MIN_FONT_SIZE + i; // IntegerÀàµÄ×Ô¶¯×°Ïä
+      fontSizes[i] = Util.MIN_FONT_SIZE + i; // Integerç±»çš„è‡ªåŠ¨è£…ç®±
     }
     this.listSize.setListData(fontSizes);
     Font font = this.txaSource.getFont();
@@ -164,7 +164,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ¸üĞÂÁĞ±íµÄÏÔÊ¾
+   * æ›´æ–°åˆ—è¡¨çš„æ˜¾ç¤º
    */
   public void updateListView() {
     Font font = this.txaSource.getFont();
@@ -174,7 +174,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ¸ù¾İµ±Ç°"×ÖÌå"ÁĞ±íµÄÑ¡Ôñ£¬¸üĞÂ¶¥²¿ÎÄ±¾¿òµÄÏÔÊ¾
+   * æ ¹æ®å½“å‰"å­—ä½“"åˆ—è¡¨çš„é€‰æ‹©ï¼Œæ›´æ–°é¡¶éƒ¨æ–‡æœ¬æ¡†çš„æ˜¾ç¤º
    */
   public void setFontView() {
     String strFont = this.listFont.getSelectedValue().toString();
@@ -184,7 +184,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ¸ù¾İµ±Ç°"×ÖĞÎ"ÁĞ±íµÄÑ¡Ôñ£¬¸üĞÂ¶¥²¿ÎÄ±¾¿òµÄÏÔÊ¾
+   * æ ¹æ®å½“å‰"å­—å½¢"åˆ—è¡¨çš„é€‰æ‹©ï¼Œæ›´æ–°é¡¶éƒ¨æ–‡æœ¬æ¡†çš„æ˜¾ç¤º
    */
   public void setStyleView() {
     String strStyle = this.listStyle.getSelectedValue().toString();
@@ -194,7 +194,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ¸ù¾İµ±Ç°"´óĞ¡"ÁĞ±íµÄÑ¡Ôñ£¬¸üĞÂ¶¥²¿ÎÄ±¾¿òµÄÏÔÊ¾
+   * æ ¹æ®å½“å‰"å¤§å°"åˆ—è¡¨çš„é€‰æ‹©ï¼Œæ›´æ–°é¡¶éƒ¨æ–‡æœ¬æ¡†çš„æ˜¾ç¤º
    */
   public void setSizeView() {
     String strSize = this.listSize.getSelectedValue().toString();
@@ -204,16 +204,16 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * »ñÈ¡ÉèÖÃºóµÄ×ÖÌå
+   * è·å–è®¾ç½®åçš„å­—ä½“
    * 
-   * @return ÉèÖÃºóµÄ×ÖÌå
+   * @return è®¾ç½®åçš„å­—ä½“
    */
   public Font getTextAreaFont() {
     return this.lblView.getFont();
   }
 
   /**
-   * ÉèÖÃÊ¾ÀıÎÄ×ÖºÍÎÄ±¾ÓòµÄ×ÖÌå
+   * è®¾ç½®ç¤ºä¾‹æ–‡å­—å’Œæ–‡æœ¬åŸŸçš„å­—ä½“
    */
   private void setView() {
     Font font = new Font(this.listFont.getSelectedValue().toString(),
@@ -223,9 +223,9 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ½ÓÊÕÊó±êÊÂ¼şµÄ³éÏóÊÊÅäÆ÷µÄ×Ô¶¨ÒåÀà
+   * æ¥æ”¶é¼ æ ‡äº‹ä»¶çš„æŠ½è±¡é€‚é…å™¨çš„è‡ªå®šä¹‰ç±»
    * 
-   * @author ±ùÔ­
+   * @author å†°åŸ
    * 
    */
   private class BaseMouseAdapter extends MouseAdapter {
@@ -237,14 +237,14 @@ public class FontChooser extends BaseDialog implements ActionListener,
       } else if (listSize.equals(e.getSource())) {
         txtSize.setText(listSize.getSelectedValue().toString());
       }
-      if (e.getClickCount() == 2) { // Êó±êË«»÷Ê±£¬Ö´ĞĞ²Ù×÷
+      if (e.getClickCount() == 2) { // é¼ æ ‡åŒå‡»æ—¶ï¼Œæ‰§è¡Œæ“ä½œ
         onEnter();
       }
     }
   }
 
   /**
-   * Ìí¼Ó¸÷×é¼şµÄÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ å„ç»„ä»¶çš„äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.btnCancel.addActionListener(this);
@@ -258,7 +258,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
     this.txtFont.addCaretListener(this);
     this.txtStyle.addCaretListener(this);
     this.txtSize.addCaretListener(this);
-    // ÒÔÏÂÎª¸÷¿É»ñµÃ½¹µãµÄ×é¼şÌí¼Ó¼üÅÌÊÂ¼ş£¬¼´µ±ÓÃ»§°´ÏÂEsc¼üÊ±¹Ø±Õ"×ÖÌå"¶Ô»°¿ò
+    // ä»¥ä¸‹ä¸ºå„å¯è·å¾—ç„¦ç‚¹çš„ç»„ä»¶æ·»åŠ é”®ç›˜äº‹ä»¶ï¼Œå³å½“ç”¨æˆ·æŒ‰ä¸‹Escé”®æ—¶å…³é—­"å­—ä½“"å¯¹è¯æ¡†
     this.txtFont.addKeyListener(this.keyAdapter);
     this.txtStyle.addKeyListener(this.keyAdapter);
     this.txtSize.addKeyListener(this.keyAdapter);
@@ -270,7 +270,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * "È¡Ïû"°´Å¥µÄ´¦Àí·½·¨
+   * "å–æ¶ˆ"æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    */
   public void onCancel() {
     this.dispose();
@@ -278,7 +278,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * "È·¶¨"°´Å¥µÄ´¦Àí·½·¨
+   * "ç¡®å®š"æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    */
   public void onEnter() {
     this.dispose();
@@ -286,16 +286,16 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * »ñÈ¡ÊÇ·ñÖ´ĞĞÁËÈ·¶¨
+   * è·å–æ˜¯å¦æ‰§è¡Œäº†ç¡®å®š
    * 
-   * @return ÊÇ·ñÖ´ĞĞÁËÈ·¶¨
+   * @return æ˜¯å¦æ‰§è¡Œäº†ç¡®å®š
    */
   public boolean getOk() {
     return this.isOk;
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnCancel.equals(e.getSource())) {
@@ -306,7 +306,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±ÁĞ±í¿ò¸Ä±äÑ¡ÔñÊ±£¬´¥·¢´ËÊÂ¼ş
+   * å½“åˆ—è¡¨æ¡†æ”¹å˜é€‰æ‹©æ—¶ï¼Œè§¦å‘æ­¤äº‹ä»¶
    */
   public void valueChanged(ListSelectionEvent e) {
     if (this.listFont.equals(e.getSource())) {
@@ -326,7 +326,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
           }
         }
       } catch (NumberFormatException x) {
-        // ±»×ª»¯µÄ×Ö·û´®²»ÊÇÊı×Ö
+        // è¢«è½¬åŒ–çš„å­—ç¬¦ä¸²ä¸æ˜¯æ•°å­—
         // x.printStackTrace();
       }
     }
@@ -334,7 +334,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±ÎÄ±¾¿òµÄ¹â±ê·¢Éú±ä»¯Ê±£¬´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬æ¡†çš„å…‰æ ‡å‘ç”Ÿå˜åŒ–æ—¶ï¼Œè§¦å‘æ­¤äº‹ä»¶
    */
   public void caretUpdate(CaretEvent e) {
     if (this.txtFont.equals(e.getSource())) {
@@ -348,7 +348,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
           this.listSize.setSelectedValue(new Integer(strSize), true);
         }
       } catch (NumberFormatException x) {
-        // ±»×ª»¯µÄ×Ö·û´®²»ÊÇÊı×Ö
+        // è¢«è½¬åŒ–çš„å­—ç¬¦ä¸²ä¸æ˜¯æ•°å­—
         // x.printStackTrace();
       }
     }

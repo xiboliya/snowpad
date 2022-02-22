@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 ±ùÔ­
+ * Copyright (C) 2016 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,18 +27,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
- * Åú´¦Àí"Æ´½ÓĞĞ"¶Ô»°¿ò
+ * æ‰¹å¤„ç†"æ‹¼æ¥è¡Œ"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BatchJoinDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblLines = new JLabel("Æ´½ÓĞĞÊı£º");
-  private BaseTextField txtLines = new BaseTextField(true, "\\d*"); // ÏŞÖÆÓÃ»§Ö»ÄÜÊäÈëÊı×Ö
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JLabel lblLines = new JLabel("æ‹¼æ¥è¡Œæ•°ï¼š");
+  private BaseTextField txtLines = new BaseTextField(true, "\\d*"); // é™åˆ¶ç”¨æˆ·åªèƒ½è¾“å…¥æ•°å­—
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
@@ -55,7 +55,7 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -65,10 +65,10 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("Æ´½ÓĞĞ");
+    this.setTitle("æ‹¼æ¥è¡Œ");
     this.pnlMain.setLayout(null);
     this.lblLines.setBounds(20, 10, 60, Util.VIEW_HEIGHT);
     this.txtLines.setBounds(80, 10, 100, Util.INPUT_HEIGHT);
@@ -81,7 +81,7 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.txtLines.addKeyListener(this.keyAdapter);
@@ -92,7 +92,7 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -103,7 +103,7 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Æ´½ÓĞĞ
+   * æ‹¼æ¥è¡Œ
    */
   private void joinText() {
     int lines = 0;
@@ -111,14 +111,14 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
       lines = Integer.parseInt(this.txtLines.getText().trim());
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "¸ñÊ½´íÎó£¬ÇëÊäÈëÊı×Ö£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥æ•°å­—ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtLines.requestFocus();
       this.txtLines.selectAll();
       return;
     }
     if (lines <= 0) {
-      JOptionPane.showMessageDialog(this, "ÊıÖµ±ØĞë´óÓÚ0£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ•°å€¼å¿…é¡»å¤§äº0ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtLines.requestFocus();
       this.txtLines.selectAll();
@@ -129,10 +129,10 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÒÔÖ¸¶¨µÄĞĞÊıÆ´½ÓĞĞ
+   * ä»¥æŒ‡å®šçš„è¡Œæ•°æ‹¼æ¥è¡Œ
    * 
    * @param lines
-   *          Æ´½ÓµÄĞĞÊı
+   *          æ‹¼æ¥çš„è¡Œæ•°
    */
   private void toJoinText(int lines) {
     CurrentLines currentLines = new CurrentLines(this.txaSource);
@@ -140,7 +140,7 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
     int startIndex = currentLines.getStartIndex();
     int endIndex = currentLines.getEndIndex();
     int endLineNum = currentLines.getEndLineNum() + 1;
-    String[] arrText = strContent.split("\n", -1); // ½«µ±Ç°Ñ¡ÇøµÄÎÄ±¾·ÖĞĞ´¦Àí£¬°üÀ¨Ä©Î²µÄ¶à´¦¿ÕĞĞ
+    String[] arrText = strContent.split("\n", -1); // å°†å½“å‰é€‰åŒºçš„æ–‡æœ¬åˆ†è¡Œå¤„ç†ï¼ŒåŒ…æ‹¬æœ«å°¾çš„å¤šå¤„ç©ºè¡Œ
     StringBuilder stbText = new StringBuilder();
     for (int n = 0; n < arrText.length; n++) {
       if (((n + 1) % lines) > 0) {
@@ -159,7 +159,7 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
       }
     }
     this.txaSource.replaceRange(stbText.toString(), startIndex, endIndex);
-    endIndex = startIndex + stbText.length() - 1; // Æ´½ÓĞĞºó£¬µ±Ç°Ñ¡ÇøÄÚÄ©ĞĞµÄĞĞÎ²Æ«ÒÆÁ¿
+    endIndex = startIndex + stbText.length() - 1; // æ‹¼æ¥è¡Œåï¼Œå½“å‰é€‰åŒºå†…æœ«è¡Œçš„è¡Œå°¾åç§»é‡
     if (this.txaSource.getText().length() == endIndex + 1) {
       endIndex++;
     }
@@ -167,14 +167,14 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.joinText();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

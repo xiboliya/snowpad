@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,25 +43,25 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * ÊµÏÖ³·Ïú¹ÜÀíÆ÷ºÍÓÒ¼ü¿ì½İ²Ëµ¥µÄJTextField¿Ø¼ş
+ * å®ç°æ’¤é”€ç®¡ç†å™¨å’Œå³é”®å¿«æ·èœå•çš„JTextFieldæ§ä»¶
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BaseTextField extends JTextField implements ActionListener,
     CaretListener, UndoableEditListener, MouseListener, FocusListener {
   private static final long serialVersionUID = 1L;
-  private UndoManager undoManager = new UndoManager(); // ³·Ïú¹ÜÀíÆ÷
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // ¼ôÌù°å
+  private UndoManager undoManager = new UndoManager(); // æ’¤é”€ç®¡ç†å™¨
+  private Clipboard clip = this.getToolkit().getSystemClipboard(); // å‰ªè´´æ¿
   private JPopupMenu popMenu = new JPopupMenu();
-  private JMenuItem itemPopUnDo = new JMenuItem("³·Ïú(U)", 'U');
-  private JMenuItem itemPopReDo = new JMenuItem("ÖØ×ö(Y)", 'Y');
-  private JMenuItem itemPopCut = new JMenuItem("¼ôÇĞ(T)", 'T');
-  private JMenuItem itemPopCopy = new JMenuItem("¸´ÖÆ(C)", 'C');
-  private JMenuItem itemPopPaste = new JMenuItem("Õ³Ìù(P)", 'P');
-  private JMenuItem itemPopDel = new JMenuItem("É¾³ı(D)", 'D');
-  private JMenuItem itemPopSelAll = new JMenuItem("È«Ñ¡(A)", 'A');
-  // ÓÃÓÚ³·ÏúµÄ¶¯×÷
+  private JMenuItem itemPopUnDo = new JMenuItem("æ’¤é”€(U)", 'U');
+  private JMenuItem itemPopReDo = new JMenuItem("é‡åš(Y)", 'Y');
+  private JMenuItem itemPopCut = new JMenuItem("å‰ªåˆ‡(T)", 'T');
+  private JMenuItem itemPopCopy = new JMenuItem("å¤åˆ¶(C)", 'C');
+  private JMenuItem itemPopPaste = new JMenuItem("ç²˜è´´(P)", 'P');
+  private JMenuItem itemPopDel = new JMenuItem("åˆ é™¤(D)", 'D');
+  private JMenuItem itemPopSelAll = new JMenuItem("å…¨é€‰(A)", 'A');
+  // ç”¨äºæ’¤é”€çš„åŠ¨ä½œ
   private Action actUndo = new AbstractAction() {
     private static final long serialVersionUID = 1L;
 
@@ -69,7 +69,7 @@ public class BaseTextField extends JTextField implements ActionListener,
       undoAction();
     }
   };
-  // ÓÃÓÚÖØ×öµÄ¶¯×÷
+  // ç”¨äºé‡åšçš„åŠ¨ä½œ
   private Action actRedo = new AbstractAction() {
     private static final long serialVersionUID = 1L;
 
@@ -79,7 +79,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   };
 
   /**
-   * Ä¬ÈÏµÄ¹¹Ôì·½·¨
+   * é»˜è®¤çš„æ„é€ æ–¹æ³•
    */
   public BaseTextField() {
     super();
@@ -87,10 +87,10 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * ´ø²ÎÊıµÄ¹¹Ôì·½·¨
+   * å¸¦å‚æ•°çš„æ„é€ æ–¹æ³•
    * 
    * @param str
-   *          ³õÊ¼»¯µÄ×Ö·û´®
+   *          åˆå§‹åŒ–çš„å­—ç¬¦ä¸²
    */
   public BaseTextField(String str) {
     super(str);
@@ -98,12 +98,12 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * ´ø²ÎÊıµÄ¹¹Ôì·½·¨
+   * å¸¦å‚æ•°çš„æ„é€ æ–¹æ³•
    * 
    * @param isSetDocument
-   *          ÊÇ·ñÖØĞÂÉèÖÃDocumentÎÄµµ
+   *          æ˜¯å¦é‡æ–°è®¾ç½®Documentæ–‡æ¡£
    * @param pattern
-   *          ÏŞÖÆÓÃ»§ÊäÈëµÄÕıÔò±í´ïÊ½
+   *          é™åˆ¶ç”¨æˆ·è¾“å…¥çš„æ­£åˆ™è¡¨è¾¾å¼
    */
   public BaseTextField(boolean isSetDocument, String pattern) {
     super();
@@ -126,7 +126,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯½çÃæºÍÉèÖÃ
+   * åˆå§‹åŒ–ç•Œé¢å’Œè®¾ç½®
    */
   private void init() {
     this.addPopMenu();
@@ -136,7 +136,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯¿ì½İ²Ëµ¥
+   * åˆå§‹åŒ–å¿«æ·èœå•
    */
   private void addPopMenu() {
     this.popMenu.add(this.itemPopUnDo);
@@ -149,17 +149,17 @@ public class BaseTextField extends JTextField implements ActionListener,
     this.popMenu.addSeparator();
     this.popMenu.add(this.itemPopSelAll);
     Dimension popSize = this.popMenu.getPreferredSize();
-    popSize.width += popSize.width / 5; // ÎªÁËÃÀ¹Û£¬ÊÊµ±¼Ó¿í²Ëµ¥µÄÏÔÊ¾
+    popSize.width += popSize.width / 5; // ä¸ºäº†ç¾è§‚ï¼Œé€‚å½“åŠ å®½èœå•çš„æ˜¾ç¤º
     this.popMenu.setPopupSize(popSize);
   }
 
   /**
-   * ÊµÏÖ¿ì½İ¼üÓë¶¯×÷µÄ°ó¶¨
+   * å®ç°å¿«æ·é”®ä¸åŠ¨ä½œçš„ç»‘å®š
    */
   private void setInputActionMap() {
     InputMap inputMap = this.getInputMap();
     ActionMap actionMap = this.getActionMap();
-    // ½«×éºÏ¼üÓëÌØ¶¨×Ö·û´®°ó¶¨£¨Èç¹ûÎ´½¨Á¢ÓëActionµÄÓ³Éä£¬Ôò»áÆÁ±Î¸Ã×éºÏ¼ü£©
+    // å°†ç»„åˆé”®ä¸ç‰¹å®šå­—ç¬¦ä¸²ç»‘å®šï¼ˆå¦‚æœæœªå»ºç«‹ä¸Actionçš„æ˜ å°„ï¼Œåˆ™ä¼šå±è”½è¯¥ç»„åˆé”®ï¼‰
     inputMap.put(
         KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK),
         Util.CTRL_Z);
@@ -169,13 +169,13 @@ public class BaseTextField extends JTextField implements ActionListener,
     inputMap.put(
         KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK),
         Util.CTRL_H);
-    // ½«ÌØ¶¨×Ö·û´®ÓëAction½¨Á¢Ó³Éä
+    // å°†ç‰¹å®šå­—ç¬¦ä¸²ä¸Actionå»ºç«‹æ˜ å°„
     actionMap.put(Util.CTRL_Z, this.actUndo);
     actionMap.put(Util.CTRL_Y, this.actRedo);
   }
 
   /**
-   * ÉèÖÃ¿ì½İ²Ëµ¥µÄ³õÊ¼×´Ì¬
+   * è®¾ç½®å¿«æ·èœå•çš„åˆå§‹çŠ¶æ€
    */
   private void setMenuDefault() {
     this.itemPopCopy.setEnabled(false);
@@ -186,7 +186,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * Îª±¾¿Ø¼şºÍ¿ì½İ²Ëµ¥Ìí¼Ó¸÷ÖÖÊÂ¼ş¼àÌıÆ÷
+   * ä¸ºæœ¬æ§ä»¶å’Œå¿«æ·èœå•æ·»åŠ å„ç§äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.addMouseListener(this);
@@ -203,7 +203,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * Îª¸÷²Ëµ¥ÏîÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„èœå•é¡¹æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.itemPopUnDo.equals(e.getSource())) {
@@ -224,40 +224,40 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * "É¾³ı"µÄ´¦Àí·½·¨
+   * "åˆ é™¤"çš„å¤„ç†æ–¹æ³•
    */
   private void deleteText() {
     this.replaceSelection("");
   }
 
   /**
-   * "³·Ïú"µÄ´¦Àí·½·¨
+   * "æ’¤é”€"çš„å¤„ç†æ–¹æ³•
    */
   private void undoAction() {
     if (!this.isEditable()) {
       return;
     }
-    if (this.undoManager.canUndo()) { // ÅĞ¶ÏÊÇ·ñ¿ÉÒÔ³·Ïú
-      this.undoManager.undo(); // Ö´ĞĞ³·Ïú²Ù×÷
+    if (this.undoManager.canUndo()) { // åˆ¤æ–­æ˜¯å¦å¯ä»¥æ’¤é”€
+      this.undoManager.undo(); // æ‰§è¡Œæ’¤é”€æ“ä½œ
     }
     this.setMenuStateUndoRedo();
   }
 
   /**
-   * "ÖØ×ö"µÄ´¦Àí·½·¨
+   * "é‡åš"çš„å¤„ç†æ–¹æ³•
    */
   private void redoAction() {
     if (!this.isEditable()) {
       return;
     }
-    if (this.undoManager.canRedo()) { // ÅĞ¶ÏÊÇ·ñ¿ÉÒÔÖØ×ö
-      this.undoManager.redo(); // Ö´ĞĞÖØ×ö²Ù×÷
+    if (this.undoManager.canRedo()) { // åˆ¤æ–­æ˜¯å¦å¯ä»¥é‡åš
+      this.undoManager.redo(); // æ‰§è¡Œé‡åšæ“ä½œ
     }
     this.setMenuStateUndoRedo();
   }
 
   /**
-   * ÉèÖÃ³·ÏúºÍÖØ×ö²Ëµ¥µÄ×´Ì¬
+   * è®¾ç½®æ’¤é”€å’Œé‡åšèœå•çš„çŠ¶æ€
    */
   private void setMenuStateUndoRedo() {
     if (!this.isEditable()) {
@@ -270,10 +270,10 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * ¸ù¾İ±¾¿Ø¼şÖĞÑ¡ÔñµÄ×Ö·û´®ÊÇ·ñÎª¿Õ£¬ÉèÖÃÏà¹Ø²Ëµ¥µÄ×´Ì¬
+   * æ ¹æ®æœ¬æ§ä»¶ä¸­é€‰æ‹©çš„å­—ç¬¦ä¸²æ˜¯å¦ä¸ºç©ºï¼Œè®¾ç½®ç›¸å…³èœå•çš„çŠ¶æ€
    * 
    * @param isNull
-   *          Ñ¡ÔñÊÇ·ñÎª¿Õ
+   *          é€‰æ‹©æ˜¯å¦ä¸ºç©º
    */
   private void setMenuStateBySelectedText(boolean isNull) {
     if (!this.isEditable()) {
@@ -287,7 +287,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * µ±±¾¿Ø¼şÖĞµÄ¹â±ê±ä»¯Ê±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æœ¬æ§ä»¶ä¸­çš„å…‰æ ‡å˜åŒ–æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void caretUpdate(CaretEvent e) {
     String selText = this.getSelectedText();
@@ -299,7 +299,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * µ±±¾¿Ø¼şÖĞµÄÎÄ±¾·¢Éú±ä»¯Ê±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æœ¬æ§ä»¶ä¸­çš„æ–‡æœ¬å‘ç”Ÿå˜åŒ–æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void undoableEditHappened(UndoableEditEvent e) {
     this.undoManager.addEdit(e.getEdit());
@@ -307,7 +307,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * ×é¼ş»ñµÃ¼üÅÌ½¹µãÊ±µ÷ÓÃ
+   * ç»„ä»¶è·å¾—é”®ç›˜ç„¦ç‚¹æ—¶è°ƒç”¨
    */
   public void focusGained(FocusEvent e) {
     try {
@@ -315,30 +315,30 @@ public class BaseTextField extends JTextField implements ActionListener,
       if (tf == null) {
         this.itemPopPaste.setEnabled(false);
       } else {
-        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // Èç¹û¼ôÌù°åÄÚµÄÄÚÈİ²»ÊÇÎÄ±¾£¬Ôò½«Å×³öÒì³£
+        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // å¦‚æœå‰ªè´´æ¿å†…çš„å†…å®¹ä¸æ˜¯æ–‡æœ¬ï¼Œåˆ™å°†æŠ›å‡ºå¼‚å¸¸
         if (str != null && str.length() > 0) {
           this.itemPopPaste.setEnabled(this.isEditable());
         }
       }
     } catch (Exception x) {
-      // ¼ôÌù°åÒì³£
+      // å‰ªè´´æ¿å¼‚å¸¸
       // x.printStackTrace();
       this.itemPopPaste.setEnabled(false);
     }
   }
 
   /**
-   * ×é¼şÊ§È¥¼üÅÌ½¹µãÊ±µ÷ÓÃ
+   * ç»„ä»¶å¤±å»é”®ç›˜ç„¦ç‚¹æ—¶è°ƒç”¨
    */
   public void focusLost(FocusEvent e) {
   }
 
   /**
-   * Êó±ê°´¼üÔÚ×é¼şÉÏµ¥»÷£¨°´ÏÂ²¢ÊÍ·Å£©Ê±µ÷ÓÃ
+   * é¼ æ ‡æŒ‰é”®åœ¨ç»„ä»¶ä¸Šå•å‡»ï¼ˆæŒ‰ä¸‹å¹¶é‡Šæ”¾ï¼‰æ—¶è°ƒç”¨
    */
   public void mouseClicked(MouseEvent e) {
-    this.requestFocus(); // µ±Êó±êµã»÷Ê±£¨×ó¼ü»òÓÒ¼ü£©£¬»ñµÃ½¹µã
-    if (e.getButton() == MouseEvent.BUTTON3) { // µã»÷ÓÒ¼üÊ±£¬ÏÔÊ¾¿ì½İ²Ëµ¥
+    this.requestFocus(); // å½“é¼ æ ‡ç‚¹å‡»æ—¶ï¼ˆå·¦é”®æˆ–å³é”®ï¼‰ï¼Œè·å¾—ç„¦ç‚¹
+    if (e.getButton() == MouseEvent.BUTTON3) { // ç‚¹å‡»å³é”®æ—¶ï¼Œæ˜¾ç¤ºå¿«æ·èœå•
       if (this.isEnabled() && this.isFocusable()) {
         this.popMenu.show(this, e.getX(), e.getY());
       }
@@ -346,25 +346,25 @@ public class BaseTextField extends JTextField implements ActionListener,
   }
 
   /**
-   * Êó±ê½øÈëµ½×é¼şÉÏÊ±µ÷ÓÃ
+   * é¼ æ ‡è¿›å…¥åˆ°ç»„ä»¶ä¸Šæ—¶è°ƒç”¨
    */
   public void mouseEntered(MouseEvent e) {
   }
 
   /**
-   * Êó±êÀë¿ª×é¼şÊ±µ÷ÓÃ
+   * é¼ æ ‡ç¦»å¼€ç»„ä»¶æ—¶è°ƒç”¨
    */
   public void mouseExited(MouseEvent e) {
   }
 
   /**
-   * Êó±ê°´¼üÔÚ×é¼şÉÏ°´ÏÂÊ±µ÷ÓÃ
+   * é¼ æ ‡æŒ‰é”®åœ¨ç»„ä»¶ä¸ŠæŒ‰ä¸‹æ—¶è°ƒç”¨
    */
   public void mousePressed(MouseEvent e) {
   }
 
   /**
-   * Êó±ê°´Å¥ÔÚ×é¼şÉÏÊÍ·ÅÊ±µ÷ÓÃ
+   * é¼ æ ‡æŒ‰é’®åœ¨ç»„ä»¶ä¸Šé‡Šæ”¾æ—¶è°ƒç”¨
    */
   public void mouseReleased(MouseEvent e) {
   }

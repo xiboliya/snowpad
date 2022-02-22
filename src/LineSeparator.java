@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,30 +18,30 @@
 package com.xiboliya.snowpad;
 
 /**
- * ÓÃÓÚ±êÊ¶»»ĞĞ·û¸ñÊ½µÄÃ¶¾Ù
+ * ç”¨äºæ ‡è¯†æ¢è¡Œç¬¦æ ¼å¼çš„æšä¸¾
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public enum LineSeparator {
   /**
-   * µ±Ç°²Ù×÷ÏµÍ³µÄĞĞ·Ö¸ô·û
+   * å½“å‰æ“ä½œç³»ç»Ÿçš„è¡Œåˆ†éš”ç¬¦
    */
   DEFAULT,
   /**
-   * Unix/Linux²Ù×÷ÏµÍ³µÄĞĞ·Ö¸ô·û
+   * Unix/Linuxæ“ä½œç³»ç»Ÿçš„è¡Œåˆ†éš”ç¬¦
    */
   UNIX,
   /**
-   * Macintosh²Ù×÷ÏµÍ³µÄĞĞ·Ö¸ô·û
+   * Macintoshæ“ä½œç³»ç»Ÿçš„è¡Œåˆ†éš”ç¬¦
    */
   MACINTOSH,
   /**
-   * Windows²Ù×÷ÏµÍ³µÄĞĞ·Ö¸ô·û
+   * Windowsæ“ä½œç³»ç»Ÿçš„è¡Œåˆ†éš”ç¬¦
    */
   WINDOWS;
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•
    */
   public String toString() {
     switch (this) {
@@ -58,9 +58,9 @@ public enum LineSeparator {
   }
 
   /**
-   * »ñÈ¡»»ĞĞ·û¸ñÊ½µÄÃû³Æ
+   * è·å–æ¢è¡Œç¬¦æ ¼å¼çš„åç§°
    * 
-   * @return »»ĞĞ·û¸ñÊ½µÄÃû³Æ
+   * @return æ¢è¡Œç¬¦æ ¼å¼çš„åç§°
    */
   public String getName() {
     switch (this) {

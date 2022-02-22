@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,14 +32,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * "¹ØÓÚ"¶Ô»°¿ò
+ * "å…³äº"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class AboutDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private int lines = 1; // ÏÔÊ¾±êÇ©µÄĞĞÊı
+  private int lines = 1; // æ˜¾ç¤ºæ ‡ç­¾çš„è¡Œæ•°
   private GridLayout layout = null;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlCenter = new JPanel();
@@ -50,9 +50,9 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   private JLabel lblWest = new JLabel(" ");
   private JLabel lblNorth = new JLabel();
   private JLabel lblEast = new JLabel(" ");
-  private JButton btnOk = new JButton(" È·¶¨ ");
+  private JButton btnOk = new JButton(" ç¡®å®š ");
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private LinkedList<JLabel> labelList = new LinkedList<JLabel>(); // ´æ·ÅÏÔÊ¾±êÇ©µÄÁ´±í
+  private LinkedList<JLabel> labelList = new LinkedList<JLabel>(); // å­˜æ”¾æ˜¾ç¤ºæ ‡ç­¾çš„é“¾è¡¨
 
   public AboutDialog(JFrame owner) {
     this(owner, true, 1);
@@ -87,10 +87,10 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("¹ØÓÚ");
+    this.setTitle("å…³äº");
     this.pnlWest.add(this.lblWest);
     this.pnlNorth.add(this.lblNorth);
     this.pnlEast.add(this.lblEast);
@@ -106,7 +106,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯Á´±í
+   * åˆå§‹åŒ–é“¾è¡¨
    */
   private void initLabelList() {
     for (int i = 0; i < this.lines; i++) {
@@ -115,9 +115,9 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ×·¼ÓÒ»¸ö¿ÕµÄÏÔÊ¾±êÇ©
+   * è¿½åŠ ä¸€ä¸ªç©ºçš„æ˜¾ç¤ºæ ‡ç­¾
    * 
-   * @return Èç¹û×·¼Ó³É¹¦Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+   * @return å¦‚æœè¿½åŠ æˆåŠŸåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
    */
   private boolean appendLabelList() {
     if (this.labelList.size() < this.lines) {
@@ -130,11 +130,11 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ¸ñÊ½»¯ÏÔÊ¾±êÇ©ĞĞÊı
+   * æ ¼å¼åŒ–æ˜¾ç¤ºæ ‡ç­¾è¡Œæ•°
    * 
    * @param lines
-   *          ÏÔÊ¾±êÇ©µÄĞĞÊı
-   * @return ¾­¹ı¸ñÊ½»¯ºóµÄÏÔÊ¾±êÇ©ĞĞÊı
+   *          æ˜¾ç¤ºæ ‡ç­¾çš„è¡Œæ•°
+   * @return ç»è¿‡æ ¼å¼åŒ–åçš„æ˜¾ç¤ºæ ‡ç­¾è¡Œæ•°
    */
   private int checkLines(int lines) {
     if (lines <= 0) {
@@ -146,11 +146,11 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ¸ñÊ½»¯ÏÂ±ê
+   * æ ¼å¼åŒ–ä¸‹æ ‡
    * 
    * @param index
-   *          ÏÂ±ê
-   * @return ¾­¹ı¸ñÊ½»¯ºóµÄÏÂ±ê
+   *          ä¸‹æ ‡
+   * @return ç»è¿‡æ ¼å¼åŒ–åçš„ä¸‹æ ‡
    */
   private int checkIndex(int index) {
     if (index < 0) {
@@ -162,7 +162,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.btnOk.addActionListener(this);
@@ -170,12 +170,12 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÎªÖ¸¶¨ÏÂ±êµÄ±êÇ©ÉèÖÃÁ´½Ó
+   * ä¸ºæŒ‡å®šä¸‹æ ‡çš„æ ‡ç­¾è®¾ç½®é“¾æ¥
    * 
    * @param index
-   *          ±êÇ©µÄÏÂ±ê
+   *          æ ‡ç­¾çš„ä¸‹æ ‡
    * @param strLink
-   *          Á´½Ó×Ö·û´®
+   *          é“¾æ¥å­—ç¬¦ä¸²
    */
   public void addLinkByIndex(int index, final String strLink) {
     if (index < 0 || index >= lines || Util.isTextEmpty(strLink)) {
@@ -187,13 +187,13 @@ public class AboutDialog extends BaseDialog implements ActionListener {
       public void mouseClicked(MouseEvent e) {
         try {
           if (Util.OS_NAME.indexOf("Windows") >= 0) {
-            // µ±ÓÃÊó±êµã»÷´Ë±êÇ©Ê±£¬½«µ÷ÓÃÏµÍ³ÃüÁî£¬´ò¿ªÍøÒ³
+            // å½“ç”¨é¼ æ ‡ç‚¹å‡»æ­¤æ ‡ç­¾æ—¶ï¼Œå°†è°ƒç”¨ç³»ç»Ÿå‘½ä»¤ï¼Œæ‰“å¼€ç½‘é¡µ
             Runtime.getRuntime().exec("cmd /c start " + strLink);
-          } else { // ÈçÎª·ÇWindowsÏµÍ³£¬ÔòÊÔÍ¼Ê¹ÓÃÌØ¶¨ä¯ÀÀÆ÷´ò¿ª
+          } else { // å¦‚ä¸ºéWindowsç³»ç»Ÿï¼Œåˆ™è¯•å›¾ä½¿ç”¨ç‰¹å®šæµè§ˆå™¨æ‰“å¼€
             openLinkByBrowser(0, strLink);
           }
         } catch (Exception x) {
-          // Èç¹û²Ù×÷ÏµÍ³²»Ö§³ÖÉÏÊöÃüÁî£¬½«Å×³öÒì³£
+          // å¦‚æœæ“ä½œç³»ç»Ÿä¸æ”¯æŒä¸Šè¿°å‘½ä»¤ï¼Œå°†æŠ›å‡ºå¼‚å¸¸
           // x.printStackTrace();
         }
       }
@@ -201,12 +201,12 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ê¹ÓÃÌØ¶¨µÄä¯ÀÀÆ÷´ò¿ªÁ´½Ó
+   * ä½¿ç”¨ç‰¹å®šçš„æµè§ˆå™¨æ‰“å¼€é“¾æ¥
    * 
    * @param index
-   *          ä¯ÀÀÆ÷Êı×éµÄË÷Òı
+   *          æµè§ˆå™¨æ•°ç»„çš„ç´¢å¼•
    * @param strLink
-   *          Á´½Ó×Ö·û´®
+   *          é“¾æ¥å­—ç¬¦ä¸²
    */
   private void openLinkByBrowser(int index, final String strLink) {
     String[] arrBrowser = new String[] { "firefox", "opera", "chrome" };
@@ -216,7 +216,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
       try {
         Runtime.getRuntime().exec(arrBrowser[index] + " " + strLink);
       } catch (Exception x) {
-        // Èç¹ûÎ´ÄÜÕı³£´ò¿ªÁ´½Ó£¬Ôòµİ¹éµ÷ÓÃ±¾·½·¨£¬ÊÔÍ¼Ê¹ÓÃÉÏÊöÊı×éÖĞµÄÏÂÒ»¸öä¯ÀÀÆ÷´ò¿ª
+        // å¦‚æœæœªèƒ½æ­£å¸¸æ‰“å¼€é“¾æ¥ï¼Œåˆ™é€’å½’è°ƒç”¨æœ¬æ–¹æ³•ï¼Œè¯•å›¾ä½¿ç”¨ä¸Šè¿°æ•°ç»„ä¸­çš„ä¸‹ä¸€ä¸ªæµè§ˆå™¨æ‰“å¼€
         this.openLinkByBrowser(++index, strLink);
         // x.printStackTrace();
       }
@@ -224,30 +224,30 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÎªÖ¸¶¨ÏÂ±êµÄ±êÇ©ÉèÖÃ×Ö·û´®
+   * ä¸ºæŒ‡å®šä¸‹æ ‡çš„æ ‡ç­¾è®¾ç½®å­—ç¬¦ä¸²
    * 
    * @param index
-   *          ±êÇ©µÄÏÂ±ê
+   *          æ ‡ç­¾çš„ä¸‹æ ‡
    * @param strLabel
-   *          ÉèÖÃµÄ×Ö·û´®
+   *          è®¾ç½®çš„å­—ç¬¦ä¸²
    */
   public void setStringByIndex(int index, String strLabel) {
     this.labelList.get(this.checkIndex(index)).setText(strLabel);
   }
 
   /**
-   * »ñÈ¡Ö¸¶¨ÏÂ±êµÄ±êÇ©µÄ×Ö·û´®
+   * è·å–æŒ‡å®šä¸‹æ ‡çš„æ ‡ç­¾çš„å­—ç¬¦ä¸²
    * 
    * @param index
-   *          ±êÇ©µÄÏÂ±ê
-   * @return ±êÇ©µÄ×Ö·û´®
+   *          æ ‡ç­¾çš„ä¸‹æ ‡
+   * @return æ ‡ç­¾çš„å­—ç¬¦ä¸²
    */
   public String getStringByIndex(int index) {
     return this.labelList.get(this.checkIndex(index)).getText();
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -256,14 +256,14 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.dispose();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

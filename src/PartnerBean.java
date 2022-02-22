@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 package com.xiboliya.snowpad;
 
 /**
- * ±£´æ¹ãÒå¼ü/Öµ¶ÔµÄ¼òµ¥Àà
+ * ä¿å­˜å¹¿ä¹‰é”®/å€¼å¯¹çš„ç®€å•ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class PartnerBean {
@@ -28,18 +28,18 @@ public class PartnerBean {
   private int index = -1;
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    */
   public PartnerBean() {
   }
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param object
-   *          ½«Òª±£´æµÄÖµ
+   *          å°†è¦ä¿å­˜çš„å€¼
    * @param index
-   *          ½«Òª±£´æµÄ¼ü
+   *          å°†è¦ä¿å­˜çš„é”®
    */
   public PartnerBean(Object object, int index) {
     this.setObject(object);
@@ -47,38 +47,38 @@ public class PartnerBean {
   }
 
   /**
-   * »ñÈ¡µ±Ç°Öµ
+   * è·å–å½“å‰å€¼
    * 
-   * @return µ±Ç°Öµ
+   * @return å½“å‰å€¼
    */
   public Object getObject() {
     return this.object;
   }
 
   /**
-   * »ñÈ¡µ±Ç°¼ü
+   * è·å–å½“å‰é”®
    * 
-   * @return µ±Ç°¼ü
+   * @return å½“å‰é”®
    */
   public int getIndex() {
     return this.index;
   }
 
   /**
-   * ÉèÖÃµ±Ç°Öµ
+   * è®¾ç½®å½“å‰å€¼
    * 
    * @param object
-   *          ½«Òª±£´æµÄÖµ
+   *          å°†è¦ä¿å­˜çš„å€¼
    */
   public void setObject(Object object) {
     this.object = object;
   }
 
   /**
-   * ÉèÖÃµ±Ç°¼ü
+   * è®¾ç½®å½“å‰é”®
    * 
    * @param index
-   *          ½«Òª±£´æµÄ¼ü
+   *          å°†è¦ä¿å­˜çš„é”®
    */
   public void setIndex(int index) {
     this.index = index;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,21 +31,21 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 /**
- * Åú´¦Àí"ÇĞ³ı"¶Ô»°¿ò
+ * æ‰¹å¤„ç†"åˆ‡é™¤"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BatchRemoveDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JRadioButton radLineStart = new JRadioButton("ĞĞÊ×(S)", false);
-  private JRadioButton radLineEnd = new JRadioButton("ĞĞÎ²(E)", true);
+  private JRadioButton radLineStart = new JRadioButton("è¡Œé¦–(S)", false);
+  private JRadioButton radLineEnd = new JRadioButton("è¡Œå°¾(E)", true);
   private JPanel pnlLineStartEnd = new JPanel(new GridLayout(2, 1));
-  private JLabel lblOffset = new JLabel("Æ«ÒÆÁ¿£º");
-  private BaseTextField txtOffset = new BaseTextField(true, "\\d*"); // ÏŞÖÆÓÃ»§Ö»ÄÜÊäÈëÊı×Ö
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JLabel lblOffset = new JLabel("åç§»é‡ï¼š");
+  private BaseTextField txtOffset = new BaseTextField(true, "\\d*"); // é™åˆ¶ç”¨æˆ·åªèƒ½è¾“å…¥æ•°å­—
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private ButtonGroup bgpLineStartEnd = new ButtonGroup();
@@ -63,7 +63,7 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -73,17 +73,17 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("ÇĞ³ıÎÄ±¾");
+    this.setTitle("åˆ‡é™¤æ–‡æœ¬");
     this.pnlMain.setLayout(null);
     this.lblOffset.setBounds(20, 10, 60, Util.VIEW_HEIGHT);
     this.txtOffset.setBounds(80, 10, 100, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblOffset);
     this.pnlMain.add(this.txtOffset);
     this.pnlLineStartEnd.setBounds(10, 40, 95, 70);
-    this.pnlLineStartEnd.setBorder(new TitledBorder("ÇĞ³ıÎ»ÖÃ"));
+    this.pnlLineStartEnd.setBorder(new TitledBorder("åˆ‡é™¤ä½ç½®"));
     this.pnlLineStartEnd.add(this.radLineStart);
     this.pnlLineStartEnd.add(this.radLineEnd);
     this.pnlMain.add(this.pnlLineStartEnd);
@@ -99,7 +99,7 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.radLineStart.addKeyListener(this.keyAdapter);
@@ -112,7 +112,7 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -123,7 +123,7 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÇĞ³ı×Ö·û
+   * åˆ‡é™¤å­—ç¬¦
    */
   private void removeText() {
     int offset = 0;
@@ -131,14 +131,14 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
       offset = Integer.parseInt(this.txtOffset.getText().trim());
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "¸ñÊ½´íÎó£¬ÇëÊäÈëÊı×Ö£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥æ•°å­—ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtOffset.requestFocus();
       this.txtOffset.selectAll();
       return;
     }
     if (offset <= 0) {
-      JOptionPane.showMessageDialog(this, "ÊıÖµ±ØĞë´óÓÚ0£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ•°å€¼å¿…é¡»å¤§äº0ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtOffset.requestFocus();
       this.txtOffset.selectAll();
@@ -149,17 +149,17 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ´ÓĞĞÊ×/ĞĞÎ²ÇĞ³ıÒ»¶¨ÊıÄ¿µÄ×Ö·û
+   * ä»è¡Œé¦–/è¡Œå°¾åˆ‡é™¤ä¸€å®šæ•°ç›®çš„å­—ç¬¦
    * 
    * @param offset
-   *          ´ÓĞĞÊ×/ĞĞÎ²ÇĞ³ı×Ö·ûµÄ¸öÊı
+   *          ä»è¡Œé¦–/è¡Œå°¾åˆ‡é™¤å­—ç¬¦çš„ä¸ªæ•°
    */
   private void toRemoveText(int offset) {
     CurrentLines currentLines = new CurrentLines(this.txaSource);
     String strContent = currentLines.getStrContent();
     int startIndex = currentLines.getStartIndex();
     int endIndex = currentLines.getEndIndex();
-    String[] arrText = strContent.split("\n", -1); // ½«µ±Ç°Ñ¡ÇøµÄÎÄ±¾·ÖĞĞ´¦Àí£¬°üÀ¨Ä©Î²µÄ¶à´¦¿ÕĞĞ
+    String[] arrText = strContent.split("\n", -1); // å°†å½“å‰é€‰åŒºçš„æ–‡æœ¬åˆ†è¡Œå¤„ç†ï¼ŒåŒ…æ‹¬æœ«å°¾çš„å¤šå¤„ç©ºè¡Œ
     boolean isLineStart = this.radLineStart.isSelected();
     StringBuilder stbText = new StringBuilder();
     for (int n = 0; n < arrText.length; n++) {
@@ -177,7 +177,7 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
     }
     this.txaSource.replaceRange(stbText.deleteCharAt(stbText.length() - 1)
         .toString(), startIndex, endIndex);
-    endIndex = startIndex + stbText.length() - 1; // ÇĞ³ı×Ö·ûºó£¬µ±Ç°Ñ¡ÇøÄÚÄ©ĞĞµÄĞĞÎ²Æ«ÒÆÁ¿
+    endIndex = startIndex + stbText.length() - 1; // åˆ‡é™¤å­—ç¬¦åï¼Œå½“å‰é€‰åŒºå†…æœ«è¡Œçš„è¡Œå°¾åç§»é‡
     if (this.txaSource.getText().length() == endIndex + 1) {
       endIndex++;
     }
@@ -185,14 +185,14 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.removeText();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

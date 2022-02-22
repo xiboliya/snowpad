@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@ package com.xiboliya.snowpad;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
- * Ó¦ÓÃÓÚJTreeÖĞµÄ×Ô¶¨Òå½Úµã
+ * åº”ç”¨äºJTreeä¸­çš„è‡ªå®šä¹‰èŠ‚ç‚¹
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BaseTreeNode extends DefaultMutableTreeNode {

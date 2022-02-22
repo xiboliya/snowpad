@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2020 ±ùÔ­
+ * Copyright (C) 2020 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,24 +36,24 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 /**
- * "²ğ·ÖÎÄ¼ş"¶Ô»°¿ò
+ * "æ‹†åˆ†æ–‡ä»¶"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private OpenFileChooser openFileChooser = null; // "´ò¿ª"ÎÄ¼şÑ¡ÔñÆ÷
+  private OpenFileChooser openFileChooser = null; // "æ‰“å¼€"æ–‡ä»¶é€‰æ‹©å™¨
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblKeyword = new JLabel("²ğ·Ö¹Ø¼ü×Ö£º");
+  private JLabel lblKeyword = new JLabel("æ‹†åˆ†å…³é”®å­—ï¼š");
   private BaseTextField txtKeyword = new BaseTextField();
-  private JRadioButton radCurrentFile = new JRadioButton("²ğ·Öµ±Ç°ÎÄ¼ş", true);
-  private JRadioButton radTargetFile = new JRadioButton("²ğ·ÖÖ¸¶¨ÎÄ¼ş£º", false);
+  private JRadioButton radCurrentFile = new JRadioButton("æ‹†åˆ†å½“å‰æ–‡ä»¶", true);
+  private JRadioButton radTargetFile = new JRadioButton("æ‹†åˆ†æŒ‡å®šæ–‡ä»¶ï¼š", false);
   private BaseTextField txtTargetFile = new BaseTextField();
   private JButton btnSelectFile = new JButton("...");
   private ButtonGroup bgpFile = new ButtonGroup();
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private Insets insets = new Insets(0, 0, 0, 0);
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -73,10 +73,10 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("²ğ·ÖÎÄ¼ş");
+    this.setTitle("æ‹†åˆ†æ–‡ä»¶");
     this.pnlMain.setLayout(null);
     this.lblKeyword.setBounds(30, 12, 90, Util.VIEW_HEIGHT);
     this.txtKeyword.setBounds(130, 10, 230, 30);
@@ -100,7 +100,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -110,7 +110,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯¸÷¿Ø¼şµÄ×´Ì¬
+   * åˆå§‹åŒ–å„æ§ä»¶çš„çŠ¶æ€
    */
   private void initView() {
     String strSel = this.txaSource.getSelectedText();
@@ -121,7 +121,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ¸ù¾İµ¥Ñ¡°´Å¥µÄÑ¡Ôñ£¬ÉèÖÃ×é¼şÊÇ·ñ¿ÉÓÃ
+   * æ ¹æ®å•é€‰æŒ‰é’®çš„é€‰æ‹©ï¼Œè®¾ç½®ç»„ä»¶æ˜¯å¦å¯ç”¨
    */
   private void setComponentEnabledByRadioButton() {
     boolean selected = this.radCurrentFile.isSelected();
@@ -130,7 +130,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.txtKeyword.addKeyListener(this.keyAdapter);
@@ -148,7 +148,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -165,12 +165,12 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * "Ñ¡ÔñÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "é€‰æ‹©æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void selectFile() {
     if (this.openFileChooser == null) {
       this.openFileChooser = new OpenFileChooser();
-      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // ÉèÖÃÎªÄ¬ÈÏ¹ıÂËÆ÷
+      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // è®¾ç½®ä¸ºé»˜è®¤è¿‡æ»¤å™¨
     }
     this.openFileChooser.setSelectedFile(null);
     this.openFileChooser.setMultiSelectionEnabled(false);
@@ -184,12 +184,12 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * °´ÕÕ¹Ø¼ü×Ö¶ÔÎÄ¼ş½øĞĞ²ğ·Ö
+   * æŒ‰ç…§å…³é”®å­—å¯¹æ–‡ä»¶è¿›è¡Œæ‹†åˆ†
    */
   private void slicingFile() {
     String keyword = this.txtKeyword.getText();
     if (Util.isTextEmpty(keyword)) {
-      JOptionPane.showMessageDialog(this, "²ğ·Ö¹Ø¼ü×Ö²»ÄÜÎª¿Õ£¬ÇëÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ‹†åˆ†å…³é”®å­—ä¸èƒ½ä¸ºç©ºï¼Œè¯·è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -202,22 +202,22 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ²ğ·Öµ±Ç°ÎÄ¼ş
+   * æ‹†åˆ†å½“å‰æ–‡ä»¶
    * 
    * @param keyword
-   *          ¹Ø¼ü×Ö
+   *          å…³é”®å­—
    */
   private void slicingCurrentFile(String keyword) {
     BaseTextArea textArea = (BaseTextArea) this.txaSource;
     String strText = textArea.getText();
     if (Util.isTextEmpty(strText)) {
-      JOptionPane.showMessageDialog(this, "ÎÄ¼şÄÚÈİÎª¿Õ£¬ÎŞ·¨²ğ·Ö£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ–‡ä»¶å†…å®¹ä¸ºç©ºï¼Œæ— æ³•æ‹†åˆ†ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     String[] arrText = strText.split(keyword);
     if (arrText.length <= 1) {
-      JOptionPane.showMessageDialog(this, "²ğ·ÖÎÄ¼şÊ§°Ü£¬Çë¼ì²é¹Ø¼ü×ÖÊÇ·ñÕıÈ·£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ‹†åˆ†æ–‡ä»¶å¤±è´¥ï¼Œè¯·æ£€æŸ¥å…³é”®å­—æ˜¯å¦æ­£ç¡®ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -226,14 +226,14 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       File fileSplit = new File(file + "_split");
       if (fileSplit.exists()) {
         int result = JOptionPane.showConfirmDialog(this,
-            Util.convertToMsg("´Ë²Ù×÷½«¸²¸ÇÒÑ´æÔÚµÄ" + fileSplit + "Ä¿Â¼£¡\nÊÇ·ñ¼ÌĞø£¿"),
+            Util.convertToMsg("æ­¤æ“ä½œå°†è¦†ç›–å·²å­˜åœ¨çš„" + fileSplit + "ç›®å½•ï¼\næ˜¯å¦ç»§ç»­ï¼Ÿ"),
             Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
         if (result != JOptionPane.YES_OPTION) {
           return;
         }
         Util.deleteAllFiles(fileSplit);
       } else {
-        fileSplit.mkdirs(); // Èç¹ûÄ¿Â¼²»´æÔÚ£¬Ôò´´½¨Ö®
+        fileSplit.mkdirs(); // å¦‚æœç›®å½•ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»ºä¹‹
       }
       int count = 0;
       for (String text : arrText) {
@@ -248,47 +248,47 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
           // x.printStackTrace();
         }
       }
-      JOptionPane.showMessageDialog(this, "²ğ·ÖÎÄ¼şÍê³É£¡\n³É¹¦Éú³ÉÎÄ¼ş£º" + count + "¸ö¡£", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ‹†åˆ†æ–‡ä»¶å®Œæˆï¼\næˆåŠŸç”Ÿæˆæ–‡ä»¶ï¼š" + count + "ä¸ªã€‚", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } else {
-      JOptionPane.showMessageDialog(this, "²ğ·ÖÎÄ¼şÊ§°Ü£¬ÇëÏÈ±£´æÎÄ¼ş£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ‹†åˆ†æ–‡ä»¶å¤±è´¥ï¼Œè¯·å…ˆä¿å­˜æ–‡ä»¶ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     }
   }
 
   /**
-   * ²ğ·ÖÖ¸¶¨ÎÄ¼ş
+   * æ‹†åˆ†æŒ‡å®šæ–‡ä»¶
    * 
    * @param keyword
-   *          ¹Ø¼ü×Ö
+   *          å…³é”®å­—
    */
   private void slicingTargetFile(String keyword) {
     String strPath = this.txtTargetFile.getText();
     if (Util.isTextEmpty(strPath)) {
-      JOptionPane.showMessageDialog(this, "ÎÄ¼şÂ·¾¶²»ÄÜÎª¿Õ£¬ÇëÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ–‡ä»¶è·¯å¾„ä¸èƒ½ä¸ºç©ºï¼Œè¯·è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     File file = new File(strPath);
     if (!file.exists()) {
-      JOptionPane.showMessageDialog(this, "ÎÄ¼ş²»´æÔÚ£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     } else if (file.isDirectory()) {
-      JOptionPane.showMessageDialog(this, "²»Ö§³ÖÄ¿Â¼²Ù×÷£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "ä¸æ”¯æŒç›®å½•æ“ä½œï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     long length = file.length();
     if (length == 0) {
-      JOptionPane.showMessageDialog(this, "µ±Ç°ÎÄ¼şÎª¿ÕÎÄ¼ş£¬ÎŞ·¨²ğ·Ö£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "å½“å‰æ–‡ä»¶ä¸ºç©ºæ–‡ä»¶ï¼Œæ— æ³•æ‹†åˆ†ï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     CharEncoding charEncoding = Util.checkFileEncoding(file);
     String strText = this.toReadFile(file, charEncoding);
     if (Util.isTextEmpty(strText)) {
-      JOptionPane.showMessageDialog(this, "²ğ·ÖÎÄ¼şÊ§°Ü£¬Ô´ÎÄ¼ş¶ÁÈ¡Òì³££¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ‹†åˆ†æ–‡ä»¶å¤±è´¥ï¼Œæºæ–‡ä»¶è¯»å–å¼‚å¸¸ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -306,21 +306,21 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     }
     String[] arrText = strText.split(keyword);
     if (arrText.length <= 1) {
-      JOptionPane.showMessageDialog(this, "²ğ·ÖÎÄ¼şÊ§°Ü£¬Çë¼ì²é¹Ø¼ü×ÖÊÇ·ñÕıÈ·£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ‹†åˆ†æ–‡ä»¶å¤±è´¥ï¼Œè¯·æ£€æŸ¥å…³é”®å­—æ˜¯å¦æ­£ç¡®ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     File fileSplit = new File(file + "_split");
     if (fileSplit.exists()) {
       int result = JOptionPane.showConfirmDialog(this,
-          Util.convertToMsg("´Ë²Ù×÷½«¸²¸ÇÒÑ´æÔÚµÄ" + fileSplit + "Ä¿Â¼£¡\nÊÇ·ñ¼ÌĞø£¿"),
+          Util.convertToMsg("æ­¤æ“ä½œå°†è¦†ç›–å·²å­˜åœ¨çš„" + fileSplit + "ç›®å½•ï¼\næ˜¯å¦ç»§ç»­ï¼Ÿ"),
           Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
       if (result != JOptionPane.YES_OPTION) {
         return;
       }
       Util.deleteAllFiles(fileSplit);
     } else {
-      fileSplit.mkdirs(); // Èç¹ûÄ¿Â¼²»´æÔÚ£¬Ôò´´½¨Ö®
+      fileSplit.mkdirs(); // å¦‚æœç›®å½•ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»ºä¹‹
     }
     int count = 0;
     for (String text : arrText) {
@@ -335,7 +335,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
         // x.printStackTrace();
       }
     }
-    JOptionPane.showMessageDialog(this, "²ğ·ÖÎÄ¼şÍê³É£¡\n³É¹¦Éú³ÉÎÄ¼ş£º" + count + "¸ö¡£", Util.SOFTWARE,
+    JOptionPane.showMessageDialog(this, "æ‹†åˆ†æ–‡ä»¶å®Œæˆï¼\næˆåŠŸç”Ÿæˆæ–‡ä»¶ï¼š" + count + "ä¸ªã€‚", Util.SOFTWARE,
         JOptionPane.CANCEL_OPTION);
   }
 
@@ -361,7 +361,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       case UTF8:
       case ULE:
       case UBE:
-        inputStreamReader.read(); // È¥µôÎÄ¼ş¿ªÍ·µÄBOM
+        inputStreamReader.read(); // å»æ‰æ–‡ä»¶å¼€å¤´çš„BOM
         break;
       }
       while ((len = inputStreamReader.read(chrBuf)) != -1) {
@@ -381,10 +381,10 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ½«ÎÄ±¾±£´æµ½ÎÄ¼ş
+   * å°†æ–‡æœ¬ä¿å­˜åˆ°æ–‡ä»¶
    * 
    * @param file
-   *          ±£´æµÄÎÄ¼ş
+   *          ä¿å­˜çš„æ–‡ä»¶
    */
   private void toSaveFile(File file, String strText, CharEncoding charEncoding, LineSeparator lineSeparator) throws Exception {
     FileOutputStream fileOutputStream = null;
@@ -392,7 +392,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       fileOutputStream = new FileOutputStream(file);
       strText = strText.replaceAll(LineSeparator.UNIX.toString(), lineSeparator.toString());
       byte[] byteStr;
-      int[] charBOM = new int[] { -1, -1, -1 }; // ¸ù¾İµ±Ç°µÄ×Ö·û±àÂë£¬´æ·ÅBOMµÄÊı×é
+      int[] charBOM = new int[] { -1, -1, -1 }; // æ ¹æ®å½“å‰çš„å­—ç¬¦ç¼–ç ï¼Œå­˜æ”¾BOMçš„æ•°ç»„
       switch (charEncoding) {
       case UTF8:
         charBOM[0] = 0xef;
@@ -418,7 +418,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       fileOutputStream.write(byteStr);
     } catch (Exception x) {
       // x.printStackTrace();
-      throw x; // ½«²¶»ñµÄÒì³£Å×³ö£¬ÒÔ±ãµ÷ÓÃ´¦¿ÉÒÔ½øĞĞÒì³£´¦Àí
+      throw x; // å°†æ•è·çš„å¼‚å¸¸æŠ›å‡ºï¼Œä»¥ä¾¿è°ƒç”¨å¤„å¯ä»¥è¿›è¡Œå¼‚å¸¸å¤„ç†
     } finally {
       try {
         fileOutputStream.flush();
@@ -430,14 +430,14 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.slicingFile();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

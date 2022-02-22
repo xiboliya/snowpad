@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,15 +21,15 @@ import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
 /**
- * ¿ÉÖØÓÃµÄÎÄ¼ş¹ıÂËÆ÷
+ * å¯é‡ç”¨çš„æ–‡ä»¶è¿‡æ»¤å™¨
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BaseFileFilter extends FileFilter {
-  private String ext = ""; // ÎÄ¼şÀ©Õ¹Ãû
-  private String description = ""; // ÎÄ×ÖÃèÊö
-  private boolean isAcceptDirectory = true; // ÊÇ·ñÏÔÊ¾Ä¿Â¼£¬Èç¹ûÏÔÊ¾ÔòÎªtrue
+  private String ext = ""; // æ–‡ä»¶æ‰©å±•å
+  private String description = ""; // æ–‡å­—æè¿°
+  private boolean isAcceptDirectory = true; // æ˜¯å¦æ˜¾ç¤ºç›®å½•ï¼Œå¦‚æœæ˜¾ç¤ºåˆ™ä¸ºtrue
 
   public BaseFileFilter(String ext, String description) {
     this(ext, description, true);
@@ -43,10 +43,10 @@ public class BaseFileFilter extends FileFilter {
   }
 
   public boolean accept(File file) {
-    if (this.isAcceptDirectory && file.isDirectory()) { // ÏÔÊ¾Ä¿Â¼
+    if (this.isAcceptDirectory && file.isDirectory()) { // æ˜¾ç¤ºç›®å½•
       return true;
     } else if (file.isFile() &&
-        file.getName().toLowerCase().endsWith(this.ext.toLowerCase())) { // ÏÔÊ¾Ö¸¶¨À©Õ¹ÃûµÄÎÄ¼ş
+        file.getName().toLowerCase().endsWith(this.ext.toLowerCase())) { // æ˜¾ç¤ºæŒ‡å®šæ‰©å±•åçš„æ–‡ä»¶
       return true;
     } else {
       return false;
@@ -54,7 +54,7 @@ public class BaseFileFilter extends FileFilter {
   }
 
   public String getDescription() {
-    return this.description; // ·µ»ØÎÄ¼şÑ¡ÔñÆ÷ÖĞÏÔÊ¾µÄÎÄ×ÖÃèÊö
+    return this.description; // è¿”å›æ–‡ä»¶é€‰æ‹©å™¨ä¸­æ˜¾ç¤ºçš„æ–‡å­—æè¿°
   }
 
   public void setDescription(String description) {

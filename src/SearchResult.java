@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 冰原
+ * Copyright (C) 2018 鍐板師
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@ package com.xiboliya.snowpad;
 import java.util.LinkedList;
 
 /**
- * 文件中查找的结果
+ * 鏂囦欢涓煡鎵剧殑缁撴灉
  * 
- * @author 冰原
+ * @author 鍐板師
  * 
  */
 public class SearchResult {

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 ±ùÔ­
+ * Copyright (C) 2015 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,25 +36,25 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- * "¿ì½İ¼ü¹ÜÀí"¶Ô»°¿ò
+ * "å¿«æ·é”®ç®¡ç†"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private Setting setting = null; // Èí¼ş²ÎÊıÅäÖÃÀà
-  private SettingAdapter settingAdapter = null; // ÓÃÓÚ½âÎöºÍ±£´æÈí¼şÅäÖÃÎÄ¼şµÄ¹¤¾ßÀà
+  private Setting setting = null; // è½¯ä»¶å‚æ•°é…ç½®ç±»
+  private SettingAdapter settingAdapter = null; // ç”¨äºè§£æå’Œä¿å­˜è½¯ä»¶é…ç½®æ–‡ä»¶çš„å·¥å…·ç±»
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
   private JPanel pnlRight = new JPanel(null);
-  private JTable tabMain = null; // ÏÔÊ¾Êı¾İµÄ±í¸ñ×é¼ş
+  private JTable tabMain = null; // æ˜¾ç¤ºæ•°æ®çš„è¡¨æ ¼ç»„ä»¶
   private JScrollPane spnMain = null;
-  private JButton btnEdit = new JButton("±à¼­(E)");
-  private JButton btnRemove = new JButton("Çå³ı(D)");
-  private JButton btnKeyCheck = new JButton("°´¼ü¼ì²â(K)");
-  private JButton btnReset = new JButton("»Ö¸´Ä¬ÈÏ(R)");
-  private JButton btnCancel = new JButton("¹Ø±Õ");
+  private JButton btnEdit = new JButton("ç¼–è¾‘(E)");
+  private JButton btnRemove = new JButton("æ¸…é™¤(D)");
+  private JButton btnKeyCheck = new JButton("æŒ‰é”®æ£€æµ‹(K)");
+  private JButton btnReset = new JButton("æ¢å¤é»˜è®¤(R)");
+  private JButton btnCancel = new JButton("å…³é—­");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Vector<Vector<String>> cells = new Vector<Vector<String>>();
@@ -62,17 +62,17 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private BaseDefaultTableModel baseDefaultTableModel = null;
   private ShortcutSetDialog shortcutSetDialog = null;
   private KeyCheckDialog keyCheckDialog = null;
-  private boolean enabled = true; // ÓÃÓÚ±êÊ¶"±à¼­"ºÍ"Çå³ı"°´Å¥ÊÇ·ñ¿ÉÓÃ
+  private boolean enabled = true; // ç”¨äºæ ‡è¯†"ç¼–è¾‘"å’Œ"æ¸…é™¤"æŒ‰é’®æ˜¯å¦å¯ç”¨
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param owner
-   *          ÓÃÓÚÏÔÊ¾¸Ã¶Ô»°¿òµÄ¸¸×é¼ş
+   *          ç”¨äºæ˜¾ç¤ºè¯¥å¯¹è¯æ¡†çš„çˆ¶ç»„ä»¶
    * @param modal
-   *          ÊÇ·ñÎªÄ£Ê½¶Ô»°¿ò
+   *          æ˜¯å¦ä¸ºæ¨¡å¼å¯¹è¯æ¡†
    * @param txaSource
-   *          Õë¶Ô²Ù×÷µÄÎÄ±¾Óò
+   *          é’ˆå¯¹æ“ä½œçš„æ–‡æœ¬åŸŸ
    */
   public ShortcutManageDialog(JFrame owner, boolean modal, JTextArea txaSource, Setting setting, SettingAdapter settingAdapter) {
     super(owner, modal);
@@ -88,16 +88,16 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.refresh();
     this.addListeners();
     this.setSize(520, 275);
-    this.setMinimumSize(new Dimension(550, 275)); // ÉèÖÃ±¾´°¿ÚµÄ×îĞ¡³ß´ç
+    this.setMinimumSize(new Dimension(550, 275)); // è®¾ç½®æœ¬çª—å£çš„æœ€å°å°ºå¯¸
     this.setResizable(true);
     this.setVisible(true);
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("¿ì½İ¼ü¹ÜÀí");
+    this.setTitle("å¿«æ·é”®ç®¡ç†");
     this.pnlMain.add(this.pnlLeft, BorderLayout.CENTER);
     this.pnlMain.add(this.pnlRight, BorderLayout.EAST);
     this.btnEdit.setBounds(10, 20, 120, Util.BUTTON_HEIGHT);
@@ -105,7 +105,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.btnKeyCheck.setBounds(10, 105, 120, Util.BUTTON_HEIGHT);
     this.btnReset.setBounds(10, 155, 120, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(10, 205, 120, Util.BUTTON_HEIGHT);
-    this.pnlRight.setPreferredSize(new Dimension(140, 275)); // ÉèÖÃÃæ°åµÄ×îÊÊ³ß´ç
+    this.pnlRight.setPreferredSize(new Dimension(140, 275)); // è®¾ç½®é¢æ¿çš„æœ€é€‚å°ºå¯¸
     this.pnlRight.add(this.btnEdit);
     this.pnlRight.add(this.btnRemove);
     this.pnlRight.add(this.btnKeyCheck);
@@ -114,7 +114,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÉèÖÃÖú¼Ç·û
+   * ä¸ºå„ç»„ä»¶è®¾ç½®åŠ©è®°ç¬¦
    */
   private void setMnemonic() {
     this.btnEdit.setMnemonic('E');
@@ -124,7 +124,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÔÚÃæ°åÉÏÌí¼Ó±í¸ñÊÓÍ¼
+   * åœ¨é¢æ¿ä¸Šæ·»åŠ è¡¨æ ¼è§†å›¾
    */
   private void addTable() {
     for (String title : Util.SHORTCUT_MANAGE_TABLE_TITLE_TEXTS) {
@@ -133,7 +133,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.baseDefaultTableModel = new BaseDefaultTableModel(this.cells, this.cellsTitle);
     this.tabMain = new JTable(this.baseDefaultTableModel);
     this.tabMain.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    this.tabMain.getTableHeader().setReorderingAllowed(false); // ²»¿ÉÕûÁĞÒÆ¶¯
+    this.tabMain.getTableHeader().setReorderingAllowed(false); // ä¸å¯æ•´åˆ—ç§»åŠ¨
     this.spnMain = new JScrollPane(this.tabMain);
     this.pnlLeft.add(this.spnMain, BorderLayout.CENTER);
     this.tabMain.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -157,7 +157,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * »ñÈ¡Êı¾İÏî
+   * è·å–æ•°æ®é¡¹
    */
   private void getCells() {
     this.cells.clear();
@@ -173,16 +173,16 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ë¢ĞÂ±í¸ñÖĞµÄÊı¾İ
+   * åˆ·æ–°è¡¨æ ¼ä¸­çš„æ•°æ®
    */
   public void refresh() {
     this.getCells();
     this.tabMain.updateUI();
-    this.tabMain.setRowSelectionInterval(0, 0); // ×Ô¶¯Ñ¡ÖĞµ±Ç°¼¤»îµÄÎÄ¼şĞĞ
+    this.tabMain.setRowSelectionInterval(0, 0); // è‡ªåŠ¨é€‰ä¸­å½“å‰æ¿€æ´»çš„æ–‡ä»¶è¡Œ
   }
 
   /**
-   * Ìí¼ÓºÍ³õÊ¼»¯ÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ å’Œåˆå§‹åŒ–äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.btnEdit.addActionListener(this);
@@ -199,7 +199,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnEdit.equals(e.getSource())) {
@@ -216,7 +216,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * "Çå³ı"µÄ²Ù×÷·½·¨
+   * "æ¸…é™¤"çš„æ“ä½œæ–¹æ³•
    */
   private void removeShortcut() {
     int index = this.tabMain.getSelectedRow();
@@ -226,7 +226,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * "°´¼ü¼ì²â"µÄ²Ù×÷·½·¨
+   * "æŒ‰é”®æ£€æµ‹"çš„æ“ä½œæ–¹æ³•
    */
   private void keyCheck() {
     if (this.keyCheckDialog == null) {
@@ -237,11 +237,11 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * "»Ö¸´Ä¬ÈÏ"µÄ²Ù×÷·½·¨
+   * "æ¢å¤é»˜è®¤"çš„æ“ä½œæ–¹æ³•
    */
   private void resetShortcuts() {
     int result = JOptionPane.showConfirmDialog(this, 
-        "´Ë²Ù×÷½«»Ö¸´ËùÓĞµÄ¿ì½İ¼üÉèÖÃ£¡\nÊÇ·ñ¼ÌĞø£¿",
+        "æ­¤æ“ä½œå°†æ¢å¤æ‰€æœ‰çš„å¿«æ·é”®è®¾ç½®ï¼\næ˜¯å¦ç»§ç»­ï¼Ÿ",
         Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
     if (result != JOptionPane.YES_OPTION) {
       return;
@@ -252,7 +252,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     int index = this.tabMain.getSelectedRow();
@@ -271,7 +271,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

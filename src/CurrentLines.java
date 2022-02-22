@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,64 +21,64 @@ import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
 
 /**
- * ±íÊ¾µ±Ç°¶àĞĞÎÄ±¾µÄÊôĞÔÀà
+ * è¡¨ç¤ºå½“å‰å¤šè¡Œæ–‡æœ¬çš„å±æ€§ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class CurrentLines {
-  private JTextArea txaSource = null; // µ±Ç°¶àĞĞËùÔÚµÄÎÄ±¾Óò
-  private int currentIndex = -1; // µ±Ç°¹â±êµÄÆ«ÒÆÁ¿
-  private int startLineNum = -1; // µ±Ç°Ê×ĞĞµÄĞĞºÅ
-  private int endLineNum = -1; // µ±Ç°Ä©ĞĞµÄĞĞºÅ
-  private int lineCount = 0; // µ±Ç°ËùÕ¼µÄĞĞÊı
-  private int startIndex = -1; // µ±Ç°Ê×ĞĞµÄĞĞÊ×Æ«ÒÆÁ¿
-  private int endIndex = -1; // µ±Ç°Ä©ĞĞµÄĞĞÎ²Æ«ÒÆÁ¿
-  private int startIndexCurrent = -1; // µ±Ç°Êµ¼ÊÑ¡ÇøÄÚÊ×ĞĞµÄĞĞÊ×Æ«ÒÆÁ¿
-  private int endIndexCurrent = -1; // µ±Ç°Êµ¼ÊÑ¡ÇøÄÚÄ©ĞĞµÄĞĞÎ²Æ«ÒÆÁ¿
-  private String strContent = null; // µ±Ç°¶àĞĞµÄÎÄ±¾
-  private String strContentCurrent = null; // µ±Ç°Êµ¼ÊÑ¡ÇøÄÚ¶àĞĞµÄÎÄ±¾
-  private String strContentExtend = null; // À©Õ¹ĞĞµÄÎÄ±¾
-  private LineExtend lineExtend = LineExtend.EXTEND_WITHOUT; // ÊÇ·ñÀ©Õ¹ÉÏÏÂĞĞ
+  private JTextArea txaSource = null; // å½“å‰å¤šè¡Œæ‰€åœ¨çš„æ–‡æœ¬åŸŸ
+  private int currentIndex = -1; // å½“å‰å…‰æ ‡çš„åç§»é‡
+  private int startLineNum = -1; // å½“å‰é¦–è¡Œçš„è¡Œå·
+  private int endLineNum = -1; // å½“å‰æœ«è¡Œçš„è¡Œå·
+  private int lineCount = 0; // å½“å‰æ‰€å çš„è¡Œæ•°
+  private int startIndex = -1; // å½“å‰é¦–è¡Œçš„è¡Œé¦–åç§»é‡
+  private int endIndex = -1; // å½“å‰æœ«è¡Œçš„è¡Œå°¾åç§»é‡
+  private int startIndexCurrent = -1; // å½“å‰å®é™…é€‰åŒºå†…é¦–è¡Œçš„è¡Œé¦–åç§»é‡
+  private int endIndexCurrent = -1; // å½“å‰å®é™…é€‰åŒºå†…æœ«è¡Œçš„è¡Œå°¾åç§»é‡
+  private String strContent = null; // å½“å‰å¤šè¡Œçš„æ–‡æœ¬
+  private String strContentCurrent = null; // å½“å‰å®é™…é€‰åŒºå†…å¤šè¡Œçš„æ–‡æœ¬
+  private String strContentExtend = null; // æ‰©å±•è¡Œçš„æ–‡æœ¬
+  private LineExtend lineExtend = LineExtend.EXTEND_WITHOUT; // æ˜¯å¦æ‰©å±•ä¸Šä¸‹è¡Œ
 
   /**
-   * ±êÊ¶À©Õ¹ÉÏÏÂĞĞ·½Ê½µÄÃ¶¾Ù
+   * æ ‡è¯†æ‰©å±•ä¸Šä¸‹è¡Œæ–¹å¼çš„æšä¸¾
    * 
-   * @author ±ùÔ­
+   * @author å†°åŸ
    * 
    */
   public static enum LineExtend {
     /**
-     * ²»½øĞĞÀ©Õ¹
+     * ä¸è¿›è¡Œæ‰©å±•
      */
     EXTEND_WITHOUT,
     /**
-     * ÏòÉÏÀ©Õ¹
+     * å‘ä¸Šæ‰©å±•
      */
     EXTEND_UP,
     /**
-     * ÏòÏÂÀ©Õ¹
+     * å‘ä¸‹æ‰©å±•
      */
     EXTEND_DOWN;
   }
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param txaSource
-   *          µ±Ç°µÄÎÄ±¾Óò
+   *          å½“å‰çš„æ–‡æœ¬åŸŸ
    */
   public CurrentLines(JTextArea txaSource) {
     this(txaSource, LineExtend.EXTEND_WITHOUT);
   }
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param txaSource
-   *          µ±Ç°µÄÎÄ±¾Óò
+   *          å½“å‰çš„æ–‡æœ¬åŸŸ
    * @param lineExtend
-   *          ÊÇ·ñÀ©Õ¹ÉÏÏÂĞĞ£¬Èç¹ûÎªtrueÔòÔÚµ±Ç°¶àĞĞµÄÇ°ºó¸÷À©Õ¹Ò»ĞĞ£¬¼´À©´ó¶àĞĞµÄ·¶Î§£»Èç¹ûÎªfalseÔò²»À©Õ¹
+   *          æ˜¯å¦æ‰©å±•ä¸Šä¸‹è¡Œï¼Œå¦‚æœä¸ºtrueåˆ™åœ¨å½“å‰å¤šè¡Œçš„å‰åå„æ‰©å±•ä¸€è¡Œï¼Œå³æ‰©å¤§å¤šè¡Œçš„èŒƒå›´ï¼›å¦‚æœä¸ºfalseåˆ™ä¸æ‰©å±•
    */
   public CurrentLines(JTextArea txaSource, LineExtend lineExtend) {
     this.txaSource = txaSource;
@@ -87,57 +87,57 @@ public class CurrentLines {
   }
 
   /**
-   * ³õÊ¼»¯¸÷¸öÊôĞÔÖµ¡£ÆäÖĞËùÓĞĞĞºÅµÄÈ¡Öµ·¶Î§¾ùÎª£ºx>=0 && x<ÎÄ±¾Óò×ÜĞĞÊı
+   * åˆå§‹åŒ–å„ä¸ªå±æ€§å€¼ã€‚å…¶ä¸­æ‰€æœ‰è¡Œå·çš„å–å€¼èŒƒå›´å‡ä¸ºï¼šx>=0 && x<æ–‡æœ¬åŸŸæ€»è¡Œæ•°
    */
   private void init() {
     if (this.txaSource == null) {
       return;
     }
     try {
-      // »ñÈ¡µ±Ç°¹â±êµÄÆ«ÒÆÁ¿
+      // è·å–å½“å‰å…‰æ ‡çš„åç§»é‡
       this.currentIndex = this.txaSource.getCaretPosition();
-      // »ñÈ¡Ñ¡ÇøÆğÊ¼´¦ËùÔÚµÄĞĞºÅ
+      // è·å–é€‰åŒºèµ·å§‹å¤„æ‰€åœ¨çš„è¡Œå·
       this.startLineNum = this.txaSource.getLineOfOffset(this.txaSource
           .getSelectionStart());
-      // »ñÈ¡Ñ¡Çø½áÎ²´¦ËùÔÚµÄĞĞºÅ
+      // è·å–é€‰åŒºç»“å°¾å¤„æ‰€åœ¨çš„è¡Œå·
       this.endLineNum = this.txaSource.getLineOfOffset(this.txaSource
           .getSelectionEnd());
-      // »ñÈ¡Êµ¼ÊÑ¡ÇøÆğÊ¼´¦ËùÔÚĞĞµÄĞĞÊ×Æ«ÒÆÁ¿
+      // è·å–å®é™…é€‰åŒºèµ·å§‹å¤„æ‰€åœ¨è¡Œçš„è¡Œé¦–åç§»é‡
       this.startIndexCurrent = this.txaSource
           .getLineStartOffset(this.startLineNum);
-      // »ñÈ¡Êµ¼ÊÑ¡Çø½áÎ²´¦ËùÔÚĞĞµÄĞĞÄ©Æ«ÒÆÁ¿
+      // è·å–å®é™…é€‰åŒºç»“å°¾å¤„æ‰€åœ¨è¡Œçš„è¡Œæœ«åç§»é‡
       this.endIndexCurrent = this.txaSource.getLineEndOffset(this.endLineNum);
-      boolean isExtend = false; // ÊÇ·ñ³É¹¦À©Õ¹ÁËÉÏÏÂĞĞ
+      boolean isExtend = false; // æ˜¯å¦æˆåŠŸæ‰©å±•äº†ä¸Šä¸‹è¡Œ
       switch (this.lineExtend) {
       case EXTEND_UP:
         if (this.startLineNum > 0) {
-          this.startLineNum--; // ½«µ±Ç°Ñ¡ÇøÏòÉÏÀ©Õ¹Ò»ĞĞ
+          this.startLineNum--; // å°†å½“å‰é€‰åŒºå‘ä¸Šæ‰©å±•ä¸€è¡Œ
           isExtend = true;
         }
         break;
       case EXTEND_DOWN:
-        int lineCounts = this.txaSource.getLineCount(); // ÎÄ±¾Óò×ÜĞĞÊı
+        int lineCounts = this.txaSource.getLineCount(); // æ–‡æœ¬åŸŸæ€»è¡Œæ•°
         if (this.endLineNum < lineCounts - 1) {
-          this.endLineNum++; // ½«µ±Ç°Ñ¡ÇøÏòÏÂÀ©Õ¹Ò»ĞĞ
+          this.endLineNum++; // å°†å½“å‰é€‰åŒºå‘ä¸‹æ‰©å±•ä¸€è¡Œ
           isExtend = true;
         }
         break;
       case EXTEND_WITHOUT:
         break;
       }
-      // »ñÈ¡Ñ¡ÇøÆğÊ¼´¦ËùÔÚĞĞµÄĞĞÊ×Æ«ÒÆÁ¿
+      // è·å–é€‰åŒºèµ·å§‹å¤„æ‰€åœ¨è¡Œçš„è¡Œé¦–åç§»é‡
       this.startIndex = this.txaSource.getLineStartOffset(this.startLineNum);
-      // »ñÈ¡Ñ¡Çø½áÎ²´¦ËùÔÚĞĞµÄĞĞÄ©Æ«ÒÆÁ¿
+      // è·å–é€‰åŒºç»“å°¾å¤„æ‰€åœ¨è¡Œçš„è¡Œæœ«åç§»é‡
       this.endIndex = this.txaSource.getLineEndOffset(this.endLineNum);
-      // »ñÈ¡µ±Ç°Ñ¡ÇøËùÕ¼µÄĞĞÊı
+      // è·å–å½“å‰é€‰åŒºæ‰€å çš„è¡Œæ•°
       this.lineCount = this.endLineNum - this.startLineNum + 1;
-      // »ñÈ¡µ±Ç°¶àĞĞµÄÎÄ±¾
+      // è·å–å½“å‰å¤šè¡Œçš„æ–‡æœ¬
       this.strContent = this.txaSource.getText().substring(this.startIndex,
           this.endIndex);
-      // »ñÈ¡µ±Ç°Êµ¼ÊÑ¡ÇøÄÚ¶àĞĞµÄÎÄ±¾
+      // è·å–å½“å‰å®é™…é€‰åŒºå†…å¤šè¡Œçš„æ–‡æœ¬
       this.strContentCurrent = this.txaSource.getText().substring(
           this.startIndexCurrent, this.endIndexCurrent);
-      // »ñÈ¡À©Õ¹ĞĞµÄÎÄ±¾
+      // è·å–æ‰©å±•è¡Œçš„æ–‡æœ¬
       if (isExtend) {
         if (this.startIndex < this.startIndexCurrent) {
           this.strContentExtend = this.txaSource.getText().substring(
@@ -153,108 +153,108 @@ public class CurrentLines {
   }
 
   /**
-   * »ñÈ¡À©Õ¹ÉÏÏÂĞĞµÄ·½Ê½
+   * è·å–æ‰©å±•ä¸Šä¸‹è¡Œçš„æ–¹å¼
    * 
-   * @return À©Õ¹ÉÏÏÂĞĞµÄ·½Ê½
+   * @return æ‰©å±•ä¸Šä¸‹è¡Œçš„æ–¹å¼
    */
   public LineExtend getLineExtend() {
     return this.lineExtend;
   }
 
   /**
-   * »ñÈ¡µ±Ç°Ê×ĞĞµÄĞĞÊ×Æ«ÒÆÁ¿
+   * è·å–å½“å‰é¦–è¡Œçš„è¡Œé¦–åç§»é‡
    * 
-   * @return Æ«ÒÆÁ¿
+   * @return åç§»é‡
    */
   public int getStartIndex() {
     return this.startIndex;
   }
 
   /**
-   * »ñÈ¡Êµ¼ÊÑ¡ÇøÄÚµ±Ç°Ê×ĞĞµÄĞĞÊ×Æ«ÒÆÁ¿
+   * è·å–å®é™…é€‰åŒºå†…å½“å‰é¦–è¡Œçš„è¡Œé¦–åç§»é‡
    * 
-   * @return Æ«ÒÆÁ¿
+   * @return åç§»é‡
    */
   public int getStartIndexCurrent() {
     return this.startIndexCurrent;
   }
 
   /**
-   * »ñÈ¡µ±Ç°Ä©ĞĞµÄĞĞÎ²Æ«ÒÆÁ¿
+   * è·å–å½“å‰æœ«è¡Œçš„è¡Œå°¾åç§»é‡
    * 
-   * @return Æ«ÒÆÁ¿
+   * @return åç§»é‡
    */
   public int getEndIndex() {
     return this.endIndex;
   }
 
   /**
-   * »ñÈ¡Êµ¼ÊÑ¡ÇøÄÚµ±Ç°Ä©ĞĞµÄĞĞÎ²Æ«ÒÆÁ¿
+   * è·å–å®é™…é€‰åŒºå†…å½“å‰æœ«è¡Œçš„è¡Œå°¾åç§»é‡
    * 
-   * @return Æ«ÒÆÁ¿
+   * @return åç§»é‡
    */
   public int getEndIndexCurrent() {
     return this.endIndexCurrent;
   }
 
   /**
-   * »ñÈ¡µ±Ç°¹â±êµÄÆ«ÒÆÁ¿
+   * è·å–å½“å‰å…‰æ ‡çš„åç§»é‡
    * 
-   * @return Æ«ÒÆÁ¿
+   * @return åç§»é‡
    */
   public int getCurrentIndex() {
     return this.currentIndex;
   }
 
   /**
-   * »ñÈ¡µ±Ç°Ê×ĞĞµÄĞĞºÅ
+   * è·å–å½“å‰é¦–è¡Œçš„è¡Œå·
    * 
-   * @return µ±Ç°Ê×ĞĞµÄĞĞºÅ
+   * @return å½“å‰é¦–è¡Œçš„è¡Œå·
    */
   public int getStartLineNum() {
     return this.startLineNum;
   }
 
   /**
-   * »ñÈ¡µ±Ç°Ä©ĞĞµÄĞĞºÅ
+   * è·å–å½“å‰æœ«è¡Œçš„è¡Œå·
    * 
-   * @return µ±Ç°Ä©ĞĞµÄĞĞºÅ
+   * @return å½“å‰æœ«è¡Œçš„è¡Œå·
    */
   public int getEndLineNum() {
     return this.endLineNum;
   }
 
   /**
-   * »ñÈ¡µ±Ç°ËùÕ¼µÄĞĞÊı
+   * è·å–å½“å‰æ‰€å çš„è¡Œæ•°
    * 
-   * @return µ±Ç°ËùÕ¼µÄĞĞÊı
+   * @return å½“å‰æ‰€å çš„è¡Œæ•°
    */
   public int getLineCount() {
     return this.lineCount;
   }
 
   /**
-   * »ñÈ¡µ±Ç°¶àĞĞµÄÎÄ±¾
+   * è·å–å½“å‰å¤šè¡Œçš„æ–‡æœ¬
    * 
-   * @return µ±Ç°ÎÄ±¾
+   * @return å½“å‰æ–‡æœ¬
    */
   public String getStrContent() {
     return this.strContent;
   }
 
   /**
-   * »ñÈ¡µ±Ç°Êµ¼ÊÑ¡ÇøÄÚ¶àĞĞµÄÎÄ±¾
+   * è·å–å½“å‰å®é™…é€‰åŒºå†…å¤šè¡Œçš„æ–‡æœ¬
    * 
-   * @return µ±Ç°ÎÄ±¾
+   * @return å½“å‰æ–‡æœ¬
    */
   public String getStrContentCurrent() {
     return this.strContentCurrent;
   }
 
   /**
-   * »ñÈ¡µ±Ç°À©Õ¹ĞĞµÄÎÄ±¾
+   * è·å–å½“å‰æ‰©å±•è¡Œçš„æ–‡æœ¬
    * 
-   * @return µ±Ç°ÎÄ±¾
+   * @return å½“å‰æ–‡æœ¬
    */
   public String getStrContentExtend() {
     return this.strContentExtend;

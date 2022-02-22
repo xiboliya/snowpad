@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,151 +18,151 @@
 package com.xiboliya.snowpad;
 
 /**
- * ÓÃÓÚ±êÊ¶ÎÄ¼şÀ©Õ¹ÃûÀàĞÍµÄÃ¶¾Ù
+ * ç”¨äºæ ‡è¯†æ–‡ä»¶æ‰©å±•åç±»å‹çš„æšä¸¾
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public enum FileExt {
   /**
-   * AdaÓïÑÔÔ´ÎÄ¼ş
+   * Adaè¯­è¨€æºæ–‡ä»¶
    */
   ADA,
   /**
-   * Active Server Page(¶¯Ì¬·şÎñÆ÷Ò³Ãæ)
+   * Active Server Page(åŠ¨æ€æœåŠ¡å™¨é¡µé¢)
    */
   ASP,
   /**
-   * Batch(Åú´¦ÀíÎÄ¼ş)
+   * Batch(æ‰¹å¤„ç†æ–‡ä»¶)
    */
   BAT,
   /**
-   * C Source(CÓïÑÔÔ´ÎÄ¼ş)
+   * C Source(Cè¯­è¨€æºæ–‡ä»¶)
    */
   C,
   /**
-   * C++ Source(C++ÓïÑÔÔ´ÎÄ¼ş)
+   * C++ Source(C++è¯­è¨€æºæ–‡ä»¶)
    */
   CPP,
   /**
-   * C# Source(C#ÓïÑÔÔ´ÎÄ¼ş)
+   * C# Source(C#è¯­è¨€æºæ–‡ä»¶)
    */
   CS,
   /**
-   * Cascading Style Sheet(²ãµşÑùÊ½±í)
+   * Cascading Style Sheet(å±‚å æ ·å¼è¡¨)
    */
   CSS,
   /**
-   * GoÓïÑÔÔ´ÎÄ¼ş
+   * Goè¯­è¨€æºæ–‡ä»¶
    */
   GO,
   /**
-   * C/C++ Head(C/C++ÓïÑÔÍ·ÎÄ¼ş)
+   * C/C++ Head(C/C++è¯­è¨€å¤´æ–‡ä»¶)
    */
   H,
   /**
-   * Hypertext Markup Language(³¬ÎÄ±¾±ê¼ÇÓïÑÔ)
+   * Hypertext Markup Language(è¶…æ–‡æœ¬æ ‡è®°è¯­è¨€)
    */
   HTM,
   /**
-   * Hypertext Markup Language(³¬ÎÄ±¾±ê¼ÇÓïÑÔ)
+   * Hypertext Markup Language(è¶…æ–‡æœ¬æ ‡è®°è¯­è¨€)
    */
   HTML,
   /**
-   * Device INFormation File(Çı¶¯³ÌĞòĞÅÏ¢ÎÄ¼ş)
+   * Device INFormation File(é©±åŠ¨ç¨‹åºä¿¡æ¯æ–‡ä»¶)
    */
   INF,
   /**
-   * Initialization File(³õÊ¼»¯ÉèÖÃÎÄ¼ş)
+   * Initialization File(åˆå§‹åŒ–è®¾ç½®æ–‡ä»¶)
    */
   INI,
   /**
-   * javaÓïÑÔÔ´ÎÄ¼ş
+   * javaè¯­è¨€æºæ–‡ä»¶
    */
   JAVA,
   /**
-   * javaScript½Å±¾ÓïÑÔÔ´ÎÄ¼ş
+   * javaScriptè„šæœ¬è¯­è¨€æºæ–‡ä»¶
    */
   JS,
   /**
-   * Java Server Page(java·şÎñÆ÷Ò³Ãæ)
+   * Java Server Page(javaæœåŠ¡å™¨é¡µé¢)
    */
   JSP,
   /**
-   * LISt Processor(ÁĞ±í´¦ÀíÓïÑÔ)
+   * LISt Processor(åˆ—è¡¨å¤„ç†è¯­è¨€)
    */
   LISP,
   /**
-   * ÈÕÖ¾ÎÄ¼ş
+   * æ—¥å¿—æ–‡ä»¶
    */
   LOG,
   /**
-   * Lua¿ÉÇ¶ÈëÊ½½Å±¾ÓïÑÔ
+   * Luaå¯åµŒå…¥å¼è„šæœ¬è¯­è¨€
    */
   LUA,
   /**
-   * Objective-CÓïÑÔÔ´ÎÄ¼ş
+   * Objective-Cè¯­è¨€æºæ–‡ä»¶
    */
   M,
   /**
-   * Makefile²¼ÊğÎÄ¼ş
+   * Makefileå¸ƒç½²æ–‡ä»¶
    */
   MK,
   /**
-   * PascalÓïÑÔÔ´ÎÄ¼ş
+   * Pascalè¯­è¨€æºæ–‡ä»¶
    */
   PAS,
   /**
-   * ²¹¶¡ÎÄ¼ş
+   * è¡¥ä¸æ–‡ä»¶
    */
   PATCH,
   /**
-   * PHP:Hypertext Preprocessor(³¬ÎÄ±¾Ô¤´¦ÀíÓïÑÔ)
+   * PHP:Hypertext Preprocessor(è¶…æ–‡æœ¬é¢„å¤„ç†è¯­è¨€)
    */
   PHP,
   /**
-   * Perl½Å±¾ÓïÑÔÔ´ÎÄ¼ş
+   * Perlè„šæœ¬è¯­è¨€æºæ–‡ä»¶
    */
   PL,
   /**
-   * Python½Å±¾ÓïÑÔÔ´ÎÄ¼ş
+   * Pythonè„šæœ¬è¯­è¨€æºæ–‡ä»¶
    */
   PY,
   /**
-   * Ruby½Å±¾ÓïÑÔÔ´ÎÄ¼ş
+   * Rubyè„šæœ¬è¯­è¨€æºæ–‡ä»¶
    */
   RB,
   /**
-   * ×¢²á±í²Ù×÷ÎÄ¼ş
+   * æ³¨å†Œè¡¨æ“ä½œæ–‡ä»¶
    */
   REG,
   /**
-   * Shell½Å±¾ÓïÑÔÔ´ÎÄ¼ş
+   * Shellè„šæœ¬è¯­è¨€æºæ–‡ä»¶
    */
   SH,
   /**
-   * Structured Query Language(½á¹¹»¯²éÑ¯ÓïÑÔ)
+   * Structured Query Language(ç»“æ„åŒ–æŸ¥è¯¢è¯­è¨€)
    */
   SQL,
   /**
-   * SmalltalkÓïÑÔÔ´ÎÄ¼ş
+   * Smalltalkè¯­è¨€æºæ–‡ä»¶
    */
   ST,
   /**
-   * ÆÕÍ¨ÎÄ±¾ÎÄ¼ş
+   * æ™®é€šæ–‡æœ¬æ–‡ä»¶
    */
   TXT,
   /**
-   * Visual Basic(VBÓïÑÔÔ´ÎÄ¼ş)
+   * Visual Basic(VBè¯­è¨€æºæ–‡ä»¶)
    */
   VB,
   /**
-   * Extensible Markup Language(¿ÉÀ©Õ¹±ê¼ÇÓïÑÔ)
+   * Extensible Markup Language(å¯æ‰©å±•æ ‡è®°è¯­è¨€)
    */
   XML;
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•
    */
   public String toString() {
     switch (this) {
@@ -240,89 +240,89 @@ public enum FileExt {
   }
 
   /**
-   * »ñÈ¡ÎÄ¼şÀ©Õ¹ÃûµÄÎÄ×ÖÃèÊö
+   * è·å–æ–‡ä»¶æ‰©å±•åçš„æ–‡å­—æè¿°
    * 
-   * @return ÎÄ¼şÀ©Õ¹ÃûµÄÎÄ×ÖÃèÊö
+   * @return æ–‡ä»¶æ‰©å±•åçš„æ–‡å­—æè¿°
    */
   public String getDescription() {
     switch (this) {
     case ADA:
-      return "AdaÓïÑÔÔ´ÎÄ¼ş(.ada)";
+      return "Adaè¯­è¨€æºæ–‡ä»¶(.ada)";
     case ASP:
-      return "¶¯Ì¬·şÎñÆ÷Ò³ÃæÎÄ¼ş(.asp)";
+      return "åŠ¨æ€æœåŠ¡å™¨é¡µé¢æ–‡ä»¶(.asp)";
     case BAT:
-      return "Åú´¦ÀíÎÄ¼ş(.bat)";
+      return "æ‰¹å¤„ç†æ–‡ä»¶(.bat)";
     case C:
-      return "CÓïÑÔÔ´ÎÄ¼ş(.c)";
+      return "Cè¯­è¨€æºæ–‡ä»¶(.c)";
     case CPP:
-      return "C++ÓïÑÔÔ´ÎÄ¼ş(.cpp)";
+      return "C++è¯­è¨€æºæ–‡ä»¶(.cpp)";
     case CS:
-      return "C#ÓïÑÔÔ´ÎÄ¼ş(.cs)";
+      return "C#è¯­è¨€æºæ–‡ä»¶(.cs)";
     case CSS:
-      return "²ãµşÑùÊ½±íÎÄ¼ş(.css)";
+      return "å±‚å æ ·å¼è¡¨æ–‡ä»¶(.css)";
     case GO:
-      return "GoÓïÑÔÔ´ÎÄ¼ş(.go)";
+      return "Goè¯­è¨€æºæ–‡ä»¶(.go)";
     case H:
-      return "C/C++ÓïÑÔÍ·ÎÄ¼ş(.h)";
+      return "C/C++è¯­è¨€å¤´æ–‡ä»¶(.h)";
     case HTM:
-      return "³¬ÎÄ±¾±ê¼ÇÓïÑÔÎÄ¼ş(.htm)";
+      return "è¶…æ–‡æœ¬æ ‡è®°è¯­è¨€æ–‡ä»¶(.htm)";
     case HTML:
-      return "³¬ÎÄ±¾±ê¼ÇÓïÑÔÎÄ¼ş(.html)";
+      return "è¶…æ–‡æœ¬æ ‡è®°è¯­è¨€æ–‡ä»¶(.html)";
     case INF:
-      return "Çı¶¯³ÌĞòĞÅÏ¢ÎÄ¼ş(.inf)";
+      return "é©±åŠ¨ç¨‹åºä¿¡æ¯æ–‡ä»¶(.inf)";
     case INI:
-      return "³õÊ¼»¯ÉèÖÃÎÄ¼ş(.ini)";
+      return "åˆå§‹åŒ–è®¾ç½®æ–‡ä»¶(.ini)";
     case JAVA:
-      return "javaÓïÑÔÔ´ÎÄ¼ş(.java)";
+      return "javaè¯­è¨€æºæ–‡ä»¶(.java)";
     case JS:
-      return "javaScript½Å±¾ÓïÑÔÔ´ÎÄ¼ş(.js)";
+      return "javaScriptè„šæœ¬è¯­è¨€æºæ–‡ä»¶(.js)";
     case JSP:
-      return "java·şÎñÆ÷Ò³ÃæÎÄ¼ş(.jsp)";
+      return "javaæœåŠ¡å™¨é¡µé¢æ–‡ä»¶(.jsp)";
     case LISP:
-      return "ÁĞ±í´¦ÀíÓïÑÔÎÄ¼ş(.lisp)";
+      return "åˆ—è¡¨å¤„ç†è¯­è¨€æ–‡ä»¶(.lisp)";
     case LOG:
-      return "ÈÕÖ¾ÎÄ¼ş(.log)";
+      return "æ—¥å¿—æ–‡ä»¶(.log)";
     case LUA:
-      return "Lua¿ÉÇ¶ÈëÊ½½Å±¾ÓïÑÔÎÄ¼ş(.lua)";
+      return "Luaå¯åµŒå…¥å¼è„šæœ¬è¯­è¨€æ–‡ä»¶(.lua)";
     case M:
-      return "Objective-CÓïÑÔÔ´ÎÄ¼ş(.m)";
+      return "Objective-Cè¯­è¨€æºæ–‡ä»¶(.m)";
     case MK:
-      return "Makefile²¼ÊğÎÄ¼ş(.mk)";
+      return "Makefileå¸ƒç½²æ–‡ä»¶(.mk)";
     case PAS:
-      return "PascalÓïÑÔÔ´ÎÄ¼ş(.pas)";
+      return "Pascalè¯­è¨€æºæ–‡ä»¶(.pas)";
     case PATCH:
-      return "²¹¶¡ÎÄ¼ş(.patch)";
+      return "è¡¥ä¸æ–‡ä»¶(.patch)";
     case PHP:
-      return "³¬ÎÄ±¾Ô¤´¦ÀíÓïÑÔÎÄ¼ş(.php)";
+      return "è¶…æ–‡æœ¬é¢„å¤„ç†è¯­è¨€æ–‡ä»¶(.php)";
     case PL:
-      return "Perl½Å±¾ÓïÑÔÔ´ÎÄ¼ş(.pl)";
+      return "Perlè„šæœ¬è¯­è¨€æºæ–‡ä»¶(.pl)";
     case PY:
-      return "Python½Å±¾ÓïÑÔÔ´ÎÄ¼ş(.py)";
+      return "Pythonè„šæœ¬è¯­è¨€æºæ–‡ä»¶(.py)";
     case RB:
-      return "Ruby½Å±¾ÓïÑÔÔ´ÎÄ¼ş(.rb)";
+      return "Rubyè„šæœ¬è¯­è¨€æºæ–‡ä»¶(.rb)";
     case REG:
-      return "×¢²á±í²Ù×÷ÎÄ¼ş(.reg)";
+      return "æ³¨å†Œè¡¨æ“ä½œæ–‡ä»¶(.reg)";
     case SH:
-      return "Shell½Å±¾ÓïÑÔÔ´ÎÄ¼ş(.sh)";
+      return "Shellè„šæœ¬è¯­è¨€æºæ–‡ä»¶(.sh)";
     case SQL:
-      return "½á¹¹»¯²éÑ¯ÓïÑÔÎÄ¼ş(.sql)";
+      return "ç»“æ„åŒ–æŸ¥è¯¢è¯­è¨€æ–‡ä»¶(.sql)";
     case ST:
-      return "SmalltalkÓïÑÔÔ´ÎÄ¼ş(.st)";
+      return "Smalltalkè¯­è¨€æºæ–‡ä»¶(.st)";
     case TXT:
-      return "ÆÕÍ¨ÎÄ±¾ÎÄ¼ş(.txt)";
+      return "æ™®é€šæ–‡æœ¬æ–‡ä»¶(.txt)";
     case VB:
-      return "VBÓïÑÔÔ´ÎÄ¼ş(.vb)";
+      return "VBè¯­è¨€æºæ–‡ä»¶(.vb)";
     case XML:
-      return "¿ÉÀ©Õ¹±ê¼ÇÓïÑÔÎÄ¼ş(.xml)";
+      return "å¯æ‰©å±•æ ‡è®°è¯­è¨€æ–‡ä»¶(.xml)";
     default:
-      return "ÆÕÍ¨ÎÄ±¾ÎÄ¼ş(.txt)";
+      return "æ™®é€šæ–‡æœ¬æ–‡ä»¶(.txt)";
     }
   }
 
   /**
-   * »ñÈ¡µ±Ç°ÎÄ¼şÀàĞÍµÄµ¥ĞĞ×¢ÊÍ×Ö·û´®
+   * è·å–å½“å‰æ–‡ä»¶ç±»å‹çš„å•è¡Œæ³¨é‡Šå­—ç¬¦ä¸²
    * 
-   * @return µ¥ĞĞ×¢ÊÍ×Ö·û´®
+   * @return å•è¡Œæ³¨é‡Šå­—ç¬¦ä¸²
    */
   public String getCommentForLine() {
     switch (this) {
@@ -372,9 +372,9 @@ public enum FileExt {
   }
 
   /**
-   * »ñÈ¡µ±Ç°ÎÄ¼şÀàĞÍµÄÇø¿é×¢ÊÍÊ×²¿×Ö·û´®
+   * è·å–å½“å‰æ–‡ä»¶ç±»å‹çš„åŒºå—æ³¨é‡Šé¦–éƒ¨å­—ç¬¦ä¸²
    * 
-   * @return Çø¿é×¢ÊÍÊ×²¿×Ö·û´®
+   * @return åŒºå—æ³¨é‡Šé¦–éƒ¨å­—ç¬¦ä¸²
    */
   public String getCommentForBlockBegin() {
     switch (this) {
@@ -427,9 +427,9 @@ public enum FileExt {
   }
 
   /**
-   * »ñÈ¡µ±Ç°ÎÄ¼şÀàĞÍµÄÇø¿é×¢ÊÍÎ²²¿×Ö·û´®
+   * è·å–å½“å‰æ–‡ä»¶ç±»å‹çš„åŒºå—æ³¨é‡Šå°¾éƒ¨å­—ç¬¦ä¸²
    * 
-   * @return Çø¿é×¢ÊÍÎ²²¿×Ö·û´®
+   * @return åŒºå—æ³¨é‡Šå°¾éƒ¨å­—ç¬¦ä¸²
    */
   public String getCommentForBlockEnd() {
     switch (this) {

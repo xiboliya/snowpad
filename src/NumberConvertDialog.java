@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 ±ùÔ­
+ * Copyright (C) 2018 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,9 +35,9 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 /**
- * "½øÖÆ×ª»»"¶Ô»°¿ò
+ * "è¿›åˆ¶è½¬æ¢"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class NumberConvertDialog extends BaseDialog implements ActionListener, CaretListener, ItemListener {
@@ -45,17 +45,17 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // ¼ôÌù°å
-  private JLabel lblNumber = new JLabel("×ª»»Êı×Ö£º");
+  private Clipboard clip = this.getToolkit().getSystemClipboard(); // å‰ªè´´æ¿
+  private JLabel lblNumber = new JLabel("è½¬æ¢æ•°å­—ï¼š");
   private JComboBox<String> cmbNumber = new JComboBox<String>();
   private BaseTextField txtNumber = new BaseTextField();
-  private JLabel lblWarning = new JLabel("¾¯¸æ£ºº¬ÓĞ·Ç·¨×Ö·û»ò³¬³ö·¶Î§£¡");
-  private JButton btnExchange = new JButton("»¥»»½øÖÆ");
-  private JLabel lblResult = new JLabel("×ª»»½á¹û£º");
+  private JLabel lblWarning = new JLabel("è­¦å‘Šï¼šå«æœ‰éæ³•å­—ç¬¦æˆ–è¶…å‡ºèŒƒå›´ï¼");
+  private JButton btnExchange = new JButton("äº’æ¢è¿›åˆ¶");
+  private JLabel lblResult = new JLabel("è½¬æ¢ç»“æœï¼š");
   private JComboBox<String> cmbResult = new JComboBox<String>();
   private BaseTextField txtResult = new BaseTextField();
-  private JButton btnCopy = new JButton("¸´ÖÆ½á¹û(C)");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JButton btnCopy = new JButton("å¤åˆ¶ç»“æœ(C)");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
 
   public NumberConvertDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal);
@@ -63,7 +63,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
       return;
     }
     this.txaSource = txaSource;
-    this.setTitle("Êı×Ö½øÖÆ×ª»»");
+    this.setTitle("æ•°å­—è¿›åˆ¶è½¬æ¢");
     this.init();
     this.initView();
     this.setMnemonic();
@@ -74,7 +74,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   }
 
   /**
-   * ½çÃæ³õÊ¼»¯
+   * ç•Œé¢åˆå§‹åŒ–
    */
   private void init() {
     this.lblWarning.setForeground(Color.RED);
@@ -106,12 +106,12 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   }
 
   /**
-   * ³õÊ¼»¯¿Ø¼şÏÔÊ¾
+   * åˆå§‹åŒ–æ§ä»¶æ˜¾ç¤º
    */
   private void initView() {
     String[] array = new String[35];
     for (int i = 2; i <= 36; i++) {
-      array[i - 2] = i + "½øÖÆ";
+      array[i - 2] = i + "è¿›åˆ¶";
     }
     this.cmbNumber.setModel(new DefaultComboBoxModel<String>(array));
     this.cmbNumber.setSelectedIndex(8);
@@ -120,14 +120,14 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   }
 
   /**
-   * Îª¸÷×é¼şÉèÖÃ¿ì½İ¼ü
+   * ä¸ºå„ç»„ä»¶è®¾ç½®å¿«æ·é”®
    */
   private void setMnemonic() {
     this.btnCopy.setMnemonic('C');
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼Ó¼àÌıÆ÷
+   * ä¸ºå„ç»„ä»¶æ·»åŠ ç›‘å¬å™¨
    */
   private void addListeners() {
     this.cmbNumber.addKeyListener(this.keyAdapter);
@@ -146,7 +146,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnCopy.equals(e.getSource())) {
@@ -159,14 +159,14 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   }
 
   /**
-   * Ë¢ĞÂ¸÷¿Ø¼şµÄÏÔÊ¾
+   * åˆ·æ–°å„æ§ä»¶çš„æ˜¾ç¤º
    */
   public void refreshView() {
     this.showResult();
   }
 
   /**
-   * ÏÔÊ¾½á¹û
+   * æ˜¾ç¤ºç»“æœ
    */
   private void showResult() {
     String strNumber = this.txtNumber.getText();
@@ -190,14 +190,14 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   }
 
   /**
-   * "¸´ÖÆ½á¹û"µÄ´¦Àí·½·¨
+   * "å¤åˆ¶ç»“æœ"çš„å¤„ç†æ–¹æ³•
    */
   private void toCopyResult() {
     this.setClipboardContents(this.txtResult.getText());
   }
 
   /**
-   * "»¥»»½øÖÆ"µÄ´¦Àí·½·¨
+   * "äº’æ¢è¿›åˆ¶"çš„å¤„ç†æ–¹æ³•
    */
   private void exchange() {
     int indexNumber = this.cmbNumber.getSelectedIndex();
@@ -209,10 +209,10 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   }
 
   /**
-   * ÉèÖÃÏµÍ³¼ôÌù°åµÄÄÚÈİ
+   * è®¾ç½®ç³»ç»Ÿå‰ªè´´æ¿çš„å†…å®¹
    * 
    * @param strText
-   *          Òª´æÈë¼ôÌù°åµÄÎÄ±¾
+   *          è¦å­˜å…¥å‰ªè´´æ¿çš„æ–‡æœ¬
    */
   private void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {
@@ -223,20 +223,20 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   }
 
   /**
-   * Ä¬ÈÏµÄ¡°È¡Ïû¡±²Ù×÷·½·¨
+   * é»˜è®¤çš„â€œå–æ¶ˆâ€æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();
   }
 
   /**
-   * Ä¬ÈÏµÄ¡°È·¶¨¡±²Ù×÷·½·¨
+   * é»˜è®¤çš„â€œç¡®å®šâ€æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
   }
 
   /**
-   * µ±ÎÄ±¾¿òµÄ¹â±ê·¢Éú±ä»¯Ê±£¬´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬æ¡†çš„å…‰æ ‡å‘ç”Ÿå˜åŒ–æ—¶ï¼Œè§¦å‘æ­¤äº‹ä»¶
    */
   public void caretUpdate(CaretEvent e) {
     if (this.txtNumber.equals(e.getSource())) {
@@ -245,7 +245,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   }
 
   /**
-   * µ±ÓÃ»§ÒÑÑ¡¶¨»òÈ¡ÏûÑ¡¶¨Ä³ÏîÊ±£¬´¥·¢´ËÊÂ¼ş
+   * å½“ç”¨æˆ·å·²é€‰å®šæˆ–å–æ¶ˆé€‰å®šæŸé¡¹æ—¶ï¼Œè§¦å‘æ­¤äº‹ä»¶
    */
   public void itemStateChanged(ItemEvent e) {
     this.showResult();

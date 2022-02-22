@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 ±ùÔ­
+ * Copyright (C) 2014 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,40 +23,40 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * Èí¼ş²ÎÊıÅäÖÃÀà
+ * è½¯ä»¶å‚æ•°é…ç½®ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class Setting {
-  // ÎÄ±¾ÓòµÄÏà¹ØÉèÖÃ
-  public boolean isLineWrap = true; // ÊÇ·ñ×Ô¶¯»»ĞĞ
-  public boolean isWrapStyleWord = true; // ÊÇ·ñµ¥´Ê±ß½ç»»ĞĞ
-  public boolean autoIndent = false; // ÊÇ·ñ¿É×Ô¶¯Ëõ½ø
-  public boolean tabReplaceBySpace = false; // ÊÇ·ñÒÔ¿Õ¸ñ´úÌæTab¼ü
-  public boolean autoComplete = false; // ÊÇ·ñ×Ô¶¯Íê³É
-  public int tabSize = Util.DEFAULT_TABSIZE; // Tab¼üËùÕ¼×Ö·ûÊı
-  public Font font = Util.TEXT_FONT; // ÎÄ±¾Óò×ÖÌå
-  public Color[] colorStyle = null; // ÅäÉ«·½°¸
-  // ²éÕÒ/Ìæ»»µÄÏà¹ØÉèÖÃ
-  public boolean matchCase = true; // ÊÇ·ñÇø·Ö´óĞ¡Ğ´
-  public boolean isWrap = false; // ÊÇ·ñÑ­»·²éÕÒ
-  public boolean findDown = true; // ÊÇ·ñÏòÏÂ²éÕÒ
-  public SearchStyle searchStyle = SearchStyle.DEFAULT; // ËÑË÷Ä£Ê½
-  // ÏÔÊ¾µÄÏà¹ØÉèÖÃ
-  public boolean viewToolBar = true; // ÊÇ·ñÏÔÊ¾¹¤¾ßÀ¸
-  public boolean viewStateBar = true; // ÊÇ·ñÏÔÊ¾×´Ì¬À¸
-  public boolean viewLineNumber = false; // ÊÇ·ñÏÔÊ¾ĞĞºÅÀ¸
-  public boolean viewSearchResult = false; // ÊÇ·ñÏÔÊ¾²éÕÒ½á¹ûÃæ°å
-  public boolean viewAlwaysOnTop = false; // ÊÇ·ñÇ°¶ËÏÔÊ¾
-  public boolean viewLockResizable = false; // ÊÇ·ñËø¶¨´°¿Ú
-  public boolean viewTabPolicy = true; // ÊÇ·ñÏÔÊ¾¶àĞĞ±êÇ©
-  public boolean viewClickToClose = true; // ÊÇ·ñË«»÷¹Ø±Õ±êÇ©
-  public boolean viewTabIcon = true; // ÊÇ·ñÏÔÊ¾Ö¸Ê¾Í¼±ê
-  public int viewLookAndFeel = -1; // µ±Ç°Íâ¹ÛµÄË÷ÒıºÅ
-  public int[] viewFrameSize = null; // ´°¿Ú´óĞ¡
-  // ËùÓĞÒÑ´ò¿ªµÄÎÄ¼ş
-  public LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // ´æ·ÅËùÓĞÒÑ´ò¿ªµÄÎÄ¼şÃûµÄÁ´±í
-  // ËùÓĞ¿ì½İ¼üµÄÉèÖÃ
-  public HashMap<String, String> shortcutMap = new HashMap<String, String>(); // ´æ·ÅËùÓĞ¿ì½İ¼üµÄÉèÖÃµÄ¹şÏ£±í
+  // æ–‡æœ¬åŸŸçš„ç›¸å…³è®¾ç½®
+  public boolean isLineWrap = true; // æ˜¯å¦è‡ªåŠ¨æ¢è¡Œ
+  public boolean isWrapStyleWord = true; // æ˜¯å¦å•è¯è¾¹ç•Œæ¢è¡Œ
+  public boolean autoIndent = false; // æ˜¯å¦å¯è‡ªåŠ¨ç¼©è¿›
+  public boolean tabReplaceBySpace = false; // æ˜¯å¦ä»¥ç©ºæ ¼ä»£æ›¿Tabé”®
+  public boolean autoComplete = false; // æ˜¯å¦è‡ªåŠ¨å®Œæˆ
+  public int tabSize = Util.DEFAULT_TABSIZE; // Tabé”®æ‰€å å­—ç¬¦æ•°
+  public Font font = Util.TEXT_FONT; // æ–‡æœ¬åŸŸå­—ä½“
+  public Color[] colorStyle = null; // é…è‰²æ–¹æ¡ˆ
+  // æŸ¥æ‰¾/æ›¿æ¢çš„ç›¸å…³è®¾ç½®
+  public boolean matchCase = true; // æ˜¯å¦åŒºåˆ†å¤§å°å†™
+  public boolean isWrap = false; // æ˜¯å¦å¾ªç¯æŸ¥æ‰¾
+  public boolean findDown = true; // æ˜¯å¦å‘ä¸‹æŸ¥æ‰¾
+  public SearchStyle searchStyle = SearchStyle.DEFAULT; // æœç´¢æ¨¡å¼
+  // æ˜¾ç¤ºçš„ç›¸å…³è®¾ç½®
+  public boolean viewToolBar = true; // æ˜¯å¦æ˜¾ç¤ºå·¥å…·æ 
+  public boolean viewStateBar = true; // æ˜¯å¦æ˜¾ç¤ºçŠ¶æ€æ 
+  public boolean viewLineNumber = false; // æ˜¯å¦æ˜¾ç¤ºè¡Œå·æ 
+  public boolean viewSearchResult = false; // æ˜¯å¦æ˜¾ç¤ºæŸ¥æ‰¾ç»“æœé¢æ¿
+  public boolean viewAlwaysOnTop = false; // æ˜¯å¦å‰ç«¯æ˜¾ç¤º
+  public boolean viewLockResizable = false; // æ˜¯å¦é”å®šçª—å£
+  public boolean viewTabPolicy = true; // æ˜¯å¦æ˜¾ç¤ºå¤šè¡Œæ ‡ç­¾
+  public boolean viewClickToClose = true; // æ˜¯å¦åŒå‡»å…³é—­æ ‡ç­¾
+  public boolean viewTabIcon = true; // æ˜¯å¦æ˜¾ç¤ºæŒ‡ç¤ºå›¾æ ‡
+  public int viewLookAndFeel = -1; // å½“å‰å¤–è§‚çš„ç´¢å¼•å·
+  public int[] viewFrameSize = null; // çª—å£å¤§å°
+  // æ‰€æœ‰å·²æ‰“å¼€çš„æ–‡ä»¶
+  public LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // å­˜æ”¾æ‰€æœ‰å·²æ‰“å¼€çš„æ–‡ä»¶åçš„é“¾è¡¨
+  // æ‰€æœ‰å¿«æ·é”®çš„è®¾ç½®
+  public HashMap<String, String> shortcutMap = new HashMap<String, String>(); // å­˜æ”¾æ‰€æœ‰å¿«æ·é”®çš„è®¾ç½®çš„å“ˆå¸Œè¡¨
 }

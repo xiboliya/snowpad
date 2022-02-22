@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -90,307 +90,307 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * ±ùÑ©¼ÇÊÂ±¾ ´òÔìÒ»¸öÓëWindowsµÄ¡°¼ÇÊÂ±¾¡±¹¦ÄÜÏàÍ¬µÄjava°æ±¾¡£
- * µ±È»ÕâÖ»ÊÇ×îµÍÒªÇó£¬×îÖÕÄ¿±êÊÇÊµÏÖÒ»¸ö¿ÉÒÔÍ¬Ê±ÔÚWindowsºÍLinuxÏÂÔËĞĞµÄÔöÇ¿ĞÍ¼ÇÊÂ±¾¡£
- * GitHub£ºhttps://github.com/xiboliya/snowpad
- * ÂëÔÆ£ºhttps://gitee.com/xiboliya/snowpad
- * Coding£ºhttps://coding.net/u/xiboliya/p/SnowPad
- * CSDN´úÂë£ºhttps://code.csdn.net/chenzhengfeng/snowpad
- * ¹È¸è´úÂë£ºhttp://code.google.com/p/snowpad
+ * å†°é›ªè®°äº‹æœ¬ æ‰“é€ ä¸€ä¸ªä¸Windowsçš„â€œè®°äº‹æœ¬â€åŠŸèƒ½ç›¸åŒçš„javaç‰ˆæœ¬ã€‚
+ * å½“ç„¶è¿™åªæ˜¯æœ€ä½è¦æ±‚ï¼Œæœ€ç»ˆç›®æ ‡æ˜¯å®ç°ä¸€ä¸ªå¯ä»¥åŒæ—¶åœ¨Windowså’ŒLinuxä¸‹è¿è¡Œçš„å¢å¼ºå‹è®°äº‹æœ¬ã€‚
+ * GitHubï¼šhttps://github.com/xiboliya/snowpad
+ * ç äº‘ï¼šhttps://gitee.com/xiboliya/snowpad
+ * Codingï¼šhttps://coding.net/u/xiboliya/p/SnowPad
+ * CSDNä»£ç ï¼šhttps://code.csdn.net/chenzhengfeng/snowpad
+ * è°·æ­Œä»£ç ï¼šhttp://code.google.com/p/snowpad
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class SnowPadFrame extends JFrame implements ActionListener,
     CaretListener, UndoableEditListener, WindowFocusListener, ChangeListener, DropTargetListener, ComponentListener {
-  private static final long serialVersionUID = 1L; // ĞòÁĞ»¯ÔËĞĞÊ±Ê¹ÓÃµÄÒ»¸ö°æ±¾ºÅ£¬ÒÔÓëµ±Ç°¿ÉĞòÁĞ»¯ÀàÏà¹ØÁª
-  private BaseTextArea txaMain = null; // µ±Ç°±à¼­µÄÎÄ±¾Óò
-  private JTabbedPane tpnMain = new JTabbedPane(); // ÏÔÊ¾ÎÄ±¾ÓòµÄÑ¡Ïî¿¨×é¼ş
-  private JSplitPane spnMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT); // ÓÃÓÚ·Ö¸ôÑ¡Ïî¿¨×é¼şÓë²éÕÒ½á¹ûÃæ°åµÄ×é¼ş
-  private JToolBar tlbMain = new JToolBar(); // ÏÔÊ¾³£ÓÃ°´Å¥µÄ¹¤¾ßÀ¸×é¼ş
+  private static final long serialVersionUID = 1L; // åºåˆ—åŒ–è¿è¡Œæ—¶ä½¿ç”¨çš„ä¸€ä¸ªç‰ˆæœ¬å·ï¼Œä»¥ä¸å½“å‰å¯åºåˆ—åŒ–ç±»ç›¸å…³è”
+  private BaseTextArea txaMain = null; // å½“å‰ç¼–è¾‘çš„æ–‡æœ¬åŸŸ
+  private JTabbedPane tpnMain = new JTabbedPane(); // æ˜¾ç¤ºæ–‡æœ¬åŸŸçš„é€‰é¡¹å¡ç»„ä»¶
+  private JSplitPane spnMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT); // ç”¨äºåˆ†éš”é€‰é¡¹å¡ç»„ä»¶ä¸æŸ¥æ‰¾ç»“æœé¢æ¿çš„ç»„ä»¶
+  private JToolBar tlbMain = new JToolBar(); // æ˜¾ç¤ºå¸¸ç”¨æŒ‰é’®çš„å·¥å…·æ ç»„ä»¶
   private JMenuBar menuBar = new JMenuBar();
-  private JMenu menuFile = new JMenu("ÎÄ¼ş(F)");
-  private JMenuItem itemNew = new JMenuItem("ĞÂ½¨(N)", 'N');
-  private JMenuItem itemOpen = new JMenuItem("´ò¿ª(O)...", 'O');
-  private JMenuItem itemOpenByEncoding = new JMenuItem("ÒÔÖ¸¶¨±àÂë´ò¿ª(E)...", 'E');
-  private JMenuItem itemReOpen = new JMenuItem("ÖØĞÂÔØÈëÎÄ¼ş(L)", 'L');
-  private JMenuItem itemReName = new JMenuItem("ÖØÃüÃû(R)...", 'R');
-  private JMenuItem itemSave = new JMenuItem("±£´æ(S)", 'S');
-  private JMenuItem itemSaveAs = new JMenuItem("Áí´æÎª(A)...", 'A');
-  private JMenuItem itemClose = new JMenuItem("¹Ø±Õµ±Ç°(C)", 'C');
-  private JMenuItem itemCloseOther = new JMenuItem("¹Ø±ÕÆäËü(T)", 'T');
-  private JMenuItem itemCloseLeft = new JMenuItem("¹Ø±Õ×ó²à(F)", 'F');
-  private JMenuItem itemCloseRight = new JMenuItem("¹Ø±ÕÓÒ²à(G)", 'G');
-  private JMenuItem itemCloseAll = new JMenuItem("¹Ø±ÕÈ«²¿(Q)", 'Q');
-  private JCheckBoxMenuItem itemFrozenFile = new JCheckBoxMenuItem("¶³½áÎÄ¼ş(Z)");
-  private JMenuItem itemPrint = new JMenuItem("´òÓ¡(P)...");
-  private JMenuItem itemDelFile = new JMenuItem("É¾³ıµ±Ç°ÎÄ¼ş(D)", 'D');
-  private JMenu menuFileHistory = new JMenu("×î½ü±à¼­(H)");
-  private JMenuItem itemClearFileHistory = new JMenuItem("Çå¿Õ×î½ü±à¼­ÁĞ±í(Y)", 'Y');
-  private JMenuItem itemExit = new JMenuItem("ÍË³ö(X)", 'X');
-  private JMenu menuEdit = new JMenu("±à¼­(E)");
-  private JMenuItem itemUnDo = new JMenuItem("³·Ïú(U)", 'U');
-  private JMenuItem itemReDo = new JMenuItem("ÖØ×ö(Y)", 'Y');
-  private JMenuItem itemCut = new JMenuItem("¼ôÇĞ(T)", 'T');
-  private JMenuItem itemCopy = new JMenuItem("¸´ÖÆ(C)", 'C');
-  private JMenuItem itemPaste = new JMenuItem("Õ³Ìù(P)", 'P');
-  private JMenuItem itemDel = new JMenuItem("É¾³ı(L)", 'L');
-  private JMenuItem itemSlicing = new JMenuItem("²ğ·ÖÎÄ¼ş(S)...", 'S');
-  private JMenu menuCase = new JMenu("ÇĞ»»´óĞ¡Ğ´");
-  private JMenuItem itemCaseUp = new JMenuItem("ÇĞ»»Îª´óĞ´");
-  private JMenuItem itemCaseLow = new JMenuItem("ÇĞ»»ÎªĞ¡Ğ´");
-  private JMenu menuCopyToClip = new JMenu("¸´ÖÆµ½¼ôÌù°å");
-  private JMenuItem itemToCopyFileName = new JMenuItem("µ±Ç°ÎÄ¼şÃû(F)", 'F');
-  private JMenuItem itemToCopyFilePath = new JMenuItem("µ±Ç°ÎÄ¼şÂ·¾¶(P)", 'P');
-  private JMenuItem itemToCopyDirPath = new JMenuItem("µ±Ç°Ä¿Â¼Â·¾¶(I)", 'I');
-  private JMenuItem itemToCopyAllText = new JMenuItem("ËùÓĞÎÄ±¾");
-  private JMenu menuLine = new JMenu("²Ù×÷ĞĞ");
-  private JMenuItem itemLineCopy = new JMenuItem("¸´Ğ´µ±Ç°ĞĞ");
-  private JMenuItem itemLineDel = new JMenuItem("É¾³ıµ±Ç°ĞĞ");
-  private JMenuItem itemLineDelDuplicate = new JMenuItem("É¾³ıÖØ¸´ĞĞ");
-  private JMenuItem itemLineDelToStart = new JMenuItem("É¾³ıÖÁĞĞÊ×");
-  private JMenuItem itemLineDelToEnd = new JMenuItem("É¾³ıÖÁĞĞÎ²");
-  private JMenuItem itemLineDelToFileStart = new JMenuItem("É¾³ıÖÁÎÄ¼şÊ×");
-  private JMenuItem itemLineDelToFileEnd = new JMenuItem("É¾³ıÖÁÎÄ¼şÎ²");
-  private JMenuItem itemLineToUp = new JMenuItem("ÉÏÒÆµ±Ç°ĞĞ");
-  private JMenuItem itemLineToDown = new JMenuItem("ÏÂÒÆµ±Ç°ĞĞ");
-  private JMenuItem itemLineToCopy = new JMenuItem("¸´ÖÆµ±Ç°ĞĞ");
-  private JMenuItem itemLineToCut = new JMenuItem("¼ôÇĞµ±Ç°ĞĞ");
-  private JMenu menuLineBatch = new JMenu("Åú´¦ÀíĞĞ");
-  private JMenuItem itemLineBatchRemove = new JMenuItem("ÇĞ³ı(R)...", 'R');
-  private JMenuItem itemLineBatchInsert = new JMenuItem("²åÈë(I)...", 'I');
-  private JMenuItem itemLineBatchSeparate = new JMenuItem("·Ö¸îĞĞ(S)...", 'S');
-  private JMenuItem itemLineBatchJoin = new JMenuItem("Æ´½ÓĞĞ(J)...", 'J');
-  private JMenuItem itemLineBatchMerge = new JMenuItem("ºÏ²¢ĞĞ(M)", 'M');
-  private JMenuItem itemLineBatchRewrite = new JMenuItem("ÖğĞĞ¸´Ğ´(C)", 'C');
-  private JMenu menuSort = new JMenu("ÅÅĞò");
-  private JMenuItem itemSortUp = new JMenuItem("ÉıĞò");
-  private JMenuItem itemSortDown = new JMenuItem("½µĞò");
-  private JMenuItem itemSortReverse = new JMenuItem("·´Ğò");
-  private JMenu menuIndent = new JMenu("Ëõ½ø");
-  private JMenuItem itemIndentAdd = new JMenuItem("Ëõ½ø");
-  private JMenuItem itemIndentBack = new JMenuItem("ÍË¸ñ");
-  private JMenu menuTrim = new JMenu("Çå³ı¿Õ°×");
-  private JMenuItem itemTrimStart = new JMenuItem("ĞĞÊ×");
-  private JMenuItem itemTrimEnd = new JMenuItem("ĞĞÎ²");
-  private JMenuItem itemTrimAll = new JMenuItem("ĞĞÊ×+ĞĞÎ²");
-  private JMenuItem itemTrimSelected = new JMenuItem("Ñ¡ÇøÄÚ");
-  private JMenu menuDelNullLine = new JMenu("É¾³ı¿ÕĞĞ");
-  private JMenuItem itemDelNullLineAll = new JMenuItem("È«ÎÄ·¶Î§");
-  private JMenuItem itemDelNullLineSelected = new JMenuItem("Ñ¡Çø·¶Î§");
-  private JMenu menuComment = new JMenu("Ìí¼Ó×¢ÊÍ(M)");
-  private JMenuItem itemCommentForLine = new JMenuItem("µ¥ĞĞ×¢ÊÍ(L)", 'L');
-  private JMenuItem itemCommentForBlock = new JMenuItem("Çø¿é×¢ÊÍ(B)", 'B');
-  private JMenuItem itemSelAll = new JMenuItem("È«Ñ¡(A)", 'A');
-  private JMenu menuInsert = new JMenu("²åÈë(I)");
-  private JMenuItem itemInsertDateTime = new JMenuItem("Ê±¼ä/ÈÕÆÚ(D)...", 'D');
-  private JMenuItem itemInsertChar = new JMenuItem("ÌØÊâ×Ö·û(S)...", 'S');
-  private JMenu menuSelection = new JMenu("Ñ¡Çø²Ù×÷");
-  private JMenuItem itemSelCopy = new JMenuItem("¸´Ğ´Ñ¡Çø×Ö·û(W)", 'W');
-  private JMenuItem itemSelInvert = new JMenuItem("·´×ªÑ¡Çø×Ö·û(I)", 'I');
-  private JMenu menuSearch = new JMenu("ËÑË÷(S)");
-  private JMenuItem itemFind = new JMenuItem("²éÕÒ(F)...", 'F');
-  private JMenuItem itemFindNext = new JMenuItem("²éÕÒÏÂÒ»¸ö(N)", 'N');
-  private JMenuItem itemFindPrevious = new JMenuItem("²éÕÒÉÏÒ»¸ö(P)", 'P');
-  private JMenuItem itemSelFindNext = new JMenuItem("Ñ¡¶¨²éÕÒÏÂÒ»¸ö(T)", 'T');
-  private JMenuItem itemSelFindPrevious = new JMenuItem("Ñ¡¶¨²éÕÒÉÏÒ»¸ö(S)", 'S');
-  private JMenu menuQuickFind = new JMenu("¿ìËÙ²éÕÒ(Q)");
-  private JMenuItem itemQuickFindDown = new JMenuItem("¿ìËÙÏòÏÂ²éÕÒ");
-  private JMenuItem itemQuickFindUp = new JMenuItem("¿ìËÙÏòÉÏ²éÕÒ");
-  private JMenuItem itemReplace = new JMenuItem("Ìæ»»(R)...", 'R');
-  private JMenuItem itemGoto = new JMenuItem("×ªµ½(G)...", 'G');
-  private JMenu menuBookmark = new JMenu("ÊéÇ©(M)");
-  private JMenuItem itemBookmarkSwitch = new JMenuItem("ÉèÖÃ/È¡ÏûÊéÇ©(S)", 'S');
-  private JMenuItem itemBookmarkNext = new JMenuItem("ÏÂÒ»¸öÊéÇ©(N)", 'N');
-  private JMenuItem itemBookmarkPrevious = new JMenuItem("ÉÏÒ»¸öÊéÇ©(P)", 'P');
-  private JMenuItem itemBookmarkCopy = new JMenuItem("¸´ÖÆÊéÇ©ĞĞ(C)", 'C');
-  private JMenuItem itemBookmarkClear = new JMenuItem("Çå³ıËùÓĞÊéÇ©(L)", 'L');
-  private JMenuItem itemFindBracket = new JMenuItem("¶¨Î»Æ¥ÅäÀ¨ºÅ(B)", 'B');
-  private JMenu menuStyle = new JMenu("¸ñÊ½(O)");
-  private JMenu menuLineWrapStyle = new JMenu("»»ĞĞ·½Ê½(L)");
-  private JRadioButtonMenuItem itemLineWrapByWord = new JRadioButtonMenuItem("µ¥´Ê±ß½ç»»ĞĞ(W)");
-  private JRadioButtonMenuItem itemLineWrapByChar = new JRadioButtonMenuItem("×Ö·û±ß½ç»»ĞĞ(C)");
-  private JMenuItem itemFont = new JMenuItem("×ÖÌå(F)...", 'F');
-  private JMenuItem itemTabSet = new JMenuItem("Tab¼üÉèÖÃ...", 'T');
-  private JMenuItem itemAutoComplete = new JMenuItem("×Ô¶¯Íê³É(A)...", 'A');
-  private JMenuItem itemShortcutManage = new JMenuItem("¿ì½İ¼ü¹ÜÀí(H)...", 'H');
-  private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("×Ô¶¯»»ĞĞ(W)");
-  private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("×Ô¶¯Ëõ½ø(I)");
-  private JMenuItem itemReset = new JMenuItem("»Ö¸´Ä¬ÈÏÉèÖÃ(R)...", 'R');
-  private JMenu menuLineStyle = new JMenu("»»ĞĞ·û¸ñÊ½(S)");
-  private JRadioButtonMenuItem itemLineStyleWin = new JRadioButtonMenuItem(LineSeparator.WINDOWS.getName() + "¸ñÊ½");
-  private JRadioButtonMenuItem itemLineStyleUnix = new JRadioButtonMenuItem(LineSeparator.UNIX.getName() + "¸ñÊ½");
-  private JRadioButtonMenuItem itemLineStyleMac = new JRadioButtonMenuItem(LineSeparator.MACINTOSH.getName() + "¸ñÊ½");
-  private JMenu menuCharset = new JMenu("×Ö·û±àÂë¸ñÊ½(C)");
-  private JRadioButtonMenuItem itemCharsetBASE = new JRadioButtonMenuItem("Ä¬ÈÏ¸ñÊ½(" + CharEncoding.BASE.toString() + ")");
-  private JRadioButtonMenuItem itemCharsetANSI = new JRadioButtonMenuItem("ANSI¸ñÊ½");
-  private JRadioButtonMenuItem itemCharsetUTF8 = new JRadioButtonMenuItem("UTF-8¸ñÊ½");
-  private JRadioButtonMenuItem itemCharsetUTF8_NO_BOM = new JRadioButtonMenuItem("UTF-8 No BOM¸ñÊ½");
-  private JRadioButtonMenuItem itemCharsetULE = new JRadioButtonMenuItem("Unicode Little Endian¸ñÊ½");
-  private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem("Unicode Big Endian¸ñÊ½");
-  private JMenuItem itemSignIdentifier = new JMenuItem("ÁĞ±í·ûºÅÓë±àºÅ(G)...", 'G');
-  private JMenu menuView = new JMenu("²é¿´(V)");
-  private JMenuItem itemBack = new JMenuItem("ºóÍË(O)", 'O');
-  private JMenuItem itemForward = new JMenuItem("Ç°½ø(Q)", 'Q');
-  private JCheckBoxMenuItem itemToolBar = new JCheckBoxMenuItem("¹¤¾ßÀ¸(T)");
-  private JCheckBoxMenuItem itemStateBar = new JCheckBoxMenuItem("×´Ì¬À¸(S)");
-  private JCheckBoxMenuItem itemLineNumber = new JCheckBoxMenuItem("ĞĞºÅÀ¸(L)");
-  private JCheckBoxMenuItem itemSearchResult = new JCheckBoxMenuItem("²éÕÒ½á¹û(E)");
-  private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("Ç°¶ËÏÔÊ¾(A)");
-  private JCheckBoxMenuItem itemLockResizable = new JCheckBoxMenuItem("Ëø¶¨´°¿Ú(R)");
-  private JMenu menuTab = new JMenu("±êÇ©ÉèÖÃ(B)");
-  private JCheckBoxMenuItem itemTabPolicy = new JCheckBoxMenuItem("¶àĞĞ±êÇ©(P)");
-  private JCheckBoxMenuItem itemClickToClose = new JCheckBoxMenuItem("Ë«»÷¹Ø±Õ±êÇ©(D)");
-  private JCheckBoxMenuItem itemTabIcon = new JCheckBoxMenuItem("Ö¸Ê¾Í¼±ê(I)");
-  private JMenu menuFontSize = new JMenu("×ÖÌåËõ·Å(F)");
-  private JMenuItem itemFontSizePlus = new JMenuItem("·Å´ó(B)", 'B');
-  private JMenuItem itemFontSizeMinus = new JMenuItem("ËõĞ¡(S)", 'S');
-  private JMenuItem itemFontSizeReset = new JMenuItem("»Ö¸´³õÊ¼(D)", 'D');
-  private JMenu menuColor = new JMenu("ÑÕÉ«ÉèÖÃ(C)");
-  private JMenuItem itemColorFont = new JMenuItem("×ÖÌåÑÕÉ«(F)...", 'F');
-  private JMenuItem itemColorBack = new JMenuItem("±³¾°ÑÕÉ«(B)...", 'B');
-  private JMenuItem itemColorCaret = new JMenuItem("¹â±êÑÕÉ«(C)...", 'C');
-  private JMenuItem itemColorSelFont = new JMenuItem("Ñ¡Çø×ÖÌåÑÕÉ«(T)...", 'T');
-  private JMenuItem itemColorSelBack = new JMenuItem("Ñ¡Çø±³¾°ÑÕÉ«(K)...", 'K');
-  private JMenuItem itemColorBracketBack = new JMenuItem("Æ¥ÅäÀ¨ºÅ±³¾°ÑÕÉ«(E)...", 'E');
-  private JMenuItem itemColorLineBack = new JMenuItem("µ±Ç°ĞĞ±³¾°ÑÕÉ«(L)...", 'L');
-  private JMenuItem itemColorAnti = new JMenuItem("È«²¿·´É«(A)", 'A');
-  private JMenuItem itemColorComplementary = new JMenuItem("È«²¿²¹É«(R)", 'R');
-  private JMenu menuColorStyle = new JMenu("ÅäÉ«·½°¸(Y)");
-  private JMenuItem itemColorStyle1 = new JMenuItem("ÅäÉ«·½°¸(1)", '1');
-  private JMenuItem itemColorStyle2 = new JMenuItem("ÅäÉ«·½°¸(2)", '2');
-  private JMenuItem itemColorStyle3 = new JMenuItem("ÅäÉ«·½°¸(3)", '3');
-  private JMenuItem itemColorStyle4 = new JMenuItem("ÅäÉ«·½°¸(4)", '4');
-  private JMenuItem itemColorStyle5 = new JMenuItem("ÅäÉ«·½°¸(5)", '5');
-  private JMenuItem itemColorStyleDefault = new JMenuItem("»Ö¸´Ä¬ÈÏÅäÉ«(0)", '0');
-  private JMenu menuHighlight = new JMenu("¸ßÁÁÏÔÊ¾(H)");
-  private JMenuItem itemHighlight1 = new JMenuItem("¸ñÊ½(1)", '1');
-  private JMenuItem itemHighlight2 = new JMenuItem("¸ñÊ½(2)", '2');
-  private JMenuItem itemHighlight3 = new JMenuItem("¸ñÊ½(3)", '3');
-  private JMenuItem itemHighlight4 = new JMenuItem("¸ñÊ½(4)", '4');
-  private JMenuItem itemHighlight5 = new JMenuItem("¸ñÊ½(5)", '5');
-  private JMenu menuRmHighlight = new JMenu("Çå³ı¸ßÁÁ(M)");
-  private JMenuItem itemRmHighlight1 = new JMenuItem("¸ñÊ½(1)", '1');
-  private JMenuItem itemRmHighlight2 = new JMenuItem("¸ñÊ½(2)", '2');
-  private JMenuItem itemRmHighlight3 = new JMenuItem("¸ñÊ½(3)", '3');
-  private JMenuItem itemRmHighlight4 = new JMenuItem("¸ñÊ½(4)", '4');
-  private JMenuItem itemRmHighlight5 = new JMenuItem("¸ñÊ½(5)", '5');
-  private JMenuItem itemRmHighlightAll = new JMenuItem("ËùÓĞ¸ñÊ½(0)", '0');
-  private JMenu menuLookAndFeel = new JMenu("ÇĞ»»Íâ¹Û(K)");
-  private JMenuItem itemInformation = new JMenuItem("Í³¼ÆĞÅÏ¢(N)...", 'N');
-  private JMenuItem itemWindowManage = new JMenuItem("´°¿Ú¹ÜÀí(W)...", 'W');
-  private JMenu menuTextAreaSwitch = new JMenu("ÎÄµµÇĞ»»(I)");
-  private JMenuItem itemTextAreaSwitchPrevious = new JMenuItem("ÏòÇ°ÇĞ»»(P)", 'P');
-  private JMenuItem itemTextAreaSwitchNext = new JMenuItem("ÏòºóÇĞ»»(N)", 'N');
-  private JMenuItem itemTextAreaHistoryBack = new JMenuItem("Ç°Ò»¸öÎÄµµ(B)", 'B');
-  private JMenuItem itemTextAreaHistoryNext = new JMenuItem("ºóÒ»¸öÎÄµµ(X)", 'X');
-  private JMenu menuTool = new JMenu("¹¤¾ß(T)");
-  private JMenuItem itemEncrypt = new JMenuItem("¼ÓÃÜ(E)...", 'E');
-  private JMenuItem itemNumberConvert = new JMenuItem("½øÖÆ×ª»»(N)...", 'N');
-  private JMenuItem itemCalculator = new JMenuItem("¼ÆËãÆ÷(C)...", 'C');
-  private JMenuItem itemCuttingFile = new JMenuItem("ÇĞ¸îÎÄ¼ş(T)...", 'T');
-  private JMenuItem itemMergeFile = new JMenuItem("Æ´½ÓÎÄ¼ş(M)...", 'M');
-  private JMenu menuHelp = new JMenu("°ïÖú(H)");
-  private JMenuItem itemHelp = new JMenuItem("°ïÖúÖ÷Ìâ(H)", 'H');
-  private JMenuItem itemAbout = new JMenuItem("¹ØÓÚ(A)", 'A');
+  private JMenu menuFile = new JMenu("æ–‡ä»¶(F)");
+  private JMenuItem itemNew = new JMenuItem("æ–°å»º(N)", 'N');
+  private JMenuItem itemOpen = new JMenuItem("æ‰“å¼€(O)...", 'O');
+  private JMenuItem itemOpenByEncoding = new JMenuItem("ä»¥æŒ‡å®šç¼–ç æ‰“å¼€(E)...", 'E');
+  private JMenuItem itemReOpen = new JMenuItem("é‡æ–°è½½å…¥æ–‡ä»¶(L)", 'L');
+  private JMenuItem itemReName = new JMenuItem("é‡å‘½å(R)...", 'R');
+  private JMenuItem itemSave = new JMenuItem("ä¿å­˜(S)", 'S');
+  private JMenuItem itemSaveAs = new JMenuItem("å¦å­˜ä¸º(A)...", 'A');
+  private JMenuItem itemClose = new JMenuItem("å…³é—­å½“å‰(C)", 'C');
+  private JMenuItem itemCloseOther = new JMenuItem("å…³é—­å…¶å®ƒ(T)", 'T');
+  private JMenuItem itemCloseLeft = new JMenuItem("å…³é—­å·¦ä¾§(F)", 'F');
+  private JMenuItem itemCloseRight = new JMenuItem("å…³é—­å³ä¾§(G)", 'G');
+  private JMenuItem itemCloseAll = new JMenuItem("å…³é—­å…¨éƒ¨(Q)", 'Q');
+  private JCheckBoxMenuItem itemFrozenFile = new JCheckBoxMenuItem("å†»ç»“æ–‡ä»¶(Z)");
+  private JMenuItem itemPrint = new JMenuItem("æ‰“å°(P)...");
+  private JMenuItem itemDelFile = new JMenuItem("åˆ é™¤å½“å‰æ–‡ä»¶(D)", 'D');
+  private JMenu menuFileHistory = new JMenu("æœ€è¿‘ç¼–è¾‘(H)");
+  private JMenuItem itemClearFileHistory = new JMenuItem("æ¸…ç©ºæœ€è¿‘ç¼–è¾‘åˆ—è¡¨(Y)", 'Y');
+  private JMenuItem itemExit = new JMenuItem("é€€å‡º(X)", 'X');
+  private JMenu menuEdit = new JMenu("ç¼–è¾‘(E)");
+  private JMenuItem itemUnDo = new JMenuItem("æ’¤é”€(U)", 'U');
+  private JMenuItem itemReDo = new JMenuItem("é‡åš(Y)", 'Y');
+  private JMenuItem itemCut = new JMenuItem("å‰ªåˆ‡(T)", 'T');
+  private JMenuItem itemCopy = new JMenuItem("å¤åˆ¶(C)", 'C');
+  private JMenuItem itemPaste = new JMenuItem("ç²˜è´´(P)", 'P');
+  private JMenuItem itemDel = new JMenuItem("åˆ é™¤(L)", 'L');
+  private JMenuItem itemSlicing = new JMenuItem("æ‹†åˆ†æ–‡ä»¶(S)...", 'S');
+  private JMenu menuCase = new JMenu("åˆ‡æ¢å¤§å°å†™");
+  private JMenuItem itemCaseUp = new JMenuItem("åˆ‡æ¢ä¸ºå¤§å†™");
+  private JMenuItem itemCaseLow = new JMenuItem("åˆ‡æ¢ä¸ºå°å†™");
+  private JMenu menuCopyToClip = new JMenu("å¤åˆ¶åˆ°å‰ªè´´æ¿");
+  private JMenuItem itemToCopyFileName = new JMenuItem("å½“å‰æ–‡ä»¶å(F)", 'F');
+  private JMenuItem itemToCopyFilePath = new JMenuItem("å½“å‰æ–‡ä»¶è·¯å¾„(P)", 'P');
+  private JMenuItem itemToCopyDirPath = new JMenuItem("å½“å‰ç›®å½•è·¯å¾„(I)", 'I');
+  private JMenuItem itemToCopyAllText = new JMenuItem("æ‰€æœ‰æ–‡æœ¬");
+  private JMenu menuLine = new JMenu("æ“ä½œè¡Œ");
+  private JMenuItem itemLineCopy = new JMenuItem("å¤å†™å½“å‰è¡Œ");
+  private JMenuItem itemLineDel = new JMenuItem("åˆ é™¤å½“å‰è¡Œ");
+  private JMenuItem itemLineDelDuplicate = new JMenuItem("åˆ é™¤é‡å¤è¡Œ");
+  private JMenuItem itemLineDelToStart = new JMenuItem("åˆ é™¤è‡³è¡Œé¦–");
+  private JMenuItem itemLineDelToEnd = new JMenuItem("åˆ é™¤è‡³è¡Œå°¾");
+  private JMenuItem itemLineDelToFileStart = new JMenuItem("åˆ é™¤è‡³æ–‡ä»¶é¦–");
+  private JMenuItem itemLineDelToFileEnd = new JMenuItem("åˆ é™¤è‡³æ–‡ä»¶å°¾");
+  private JMenuItem itemLineToUp = new JMenuItem("ä¸Šç§»å½“å‰è¡Œ");
+  private JMenuItem itemLineToDown = new JMenuItem("ä¸‹ç§»å½“å‰è¡Œ");
+  private JMenuItem itemLineToCopy = new JMenuItem("å¤åˆ¶å½“å‰è¡Œ");
+  private JMenuItem itemLineToCut = new JMenuItem("å‰ªåˆ‡å½“å‰è¡Œ");
+  private JMenu menuLineBatch = new JMenu("æ‰¹å¤„ç†è¡Œ");
+  private JMenuItem itemLineBatchRemove = new JMenuItem("åˆ‡é™¤(R)...", 'R');
+  private JMenuItem itemLineBatchInsert = new JMenuItem("æ’å…¥(I)...", 'I');
+  private JMenuItem itemLineBatchSeparate = new JMenuItem("åˆ†å‰²è¡Œ(S)...", 'S');
+  private JMenuItem itemLineBatchJoin = new JMenuItem("æ‹¼æ¥è¡Œ(J)...", 'J');
+  private JMenuItem itemLineBatchMerge = new JMenuItem("åˆå¹¶è¡Œ(M)", 'M');
+  private JMenuItem itemLineBatchRewrite = new JMenuItem("é€è¡Œå¤å†™(C)", 'C');
+  private JMenu menuSort = new JMenu("æ’åº");
+  private JMenuItem itemSortUp = new JMenuItem("å‡åº");
+  private JMenuItem itemSortDown = new JMenuItem("é™åº");
+  private JMenuItem itemSortReverse = new JMenuItem("ååº");
+  private JMenu menuIndent = new JMenu("ç¼©è¿›");
+  private JMenuItem itemIndentAdd = new JMenuItem("ç¼©è¿›");
+  private JMenuItem itemIndentBack = new JMenuItem("é€€æ ¼");
+  private JMenu menuTrim = new JMenu("æ¸…é™¤ç©ºç™½");
+  private JMenuItem itemTrimStart = new JMenuItem("è¡Œé¦–");
+  private JMenuItem itemTrimEnd = new JMenuItem("è¡Œå°¾");
+  private JMenuItem itemTrimAll = new JMenuItem("è¡Œé¦–+è¡Œå°¾");
+  private JMenuItem itemTrimSelected = new JMenuItem("é€‰åŒºå†…");
+  private JMenu menuDelNullLine = new JMenu("åˆ é™¤ç©ºè¡Œ");
+  private JMenuItem itemDelNullLineAll = new JMenuItem("å…¨æ–‡èŒƒå›´");
+  private JMenuItem itemDelNullLineSelected = new JMenuItem("é€‰åŒºèŒƒå›´");
+  private JMenu menuComment = new JMenu("æ·»åŠ æ³¨é‡Š(M)");
+  private JMenuItem itemCommentForLine = new JMenuItem("å•è¡Œæ³¨é‡Š(L)", 'L');
+  private JMenuItem itemCommentForBlock = new JMenuItem("åŒºå—æ³¨é‡Š(B)", 'B');
+  private JMenuItem itemSelAll = new JMenuItem("å…¨é€‰(A)", 'A');
+  private JMenu menuInsert = new JMenu("æ’å…¥(I)");
+  private JMenuItem itemInsertDateTime = new JMenuItem("æ—¶é—´/æ—¥æœŸ(D)...", 'D');
+  private JMenuItem itemInsertChar = new JMenuItem("ç‰¹æ®Šå­—ç¬¦(S)...", 'S');
+  private JMenu menuSelection = new JMenu("é€‰åŒºæ“ä½œ");
+  private JMenuItem itemSelCopy = new JMenuItem("å¤å†™é€‰åŒºå­—ç¬¦(W)", 'W');
+  private JMenuItem itemSelInvert = new JMenuItem("åè½¬é€‰åŒºå­—ç¬¦(I)", 'I');
+  private JMenu menuSearch = new JMenu("æœç´¢(S)");
+  private JMenuItem itemFind = new JMenuItem("æŸ¥æ‰¾(F)...", 'F');
+  private JMenuItem itemFindNext = new JMenuItem("æŸ¥æ‰¾ä¸‹ä¸€ä¸ª(N)", 'N');
+  private JMenuItem itemFindPrevious = new JMenuItem("æŸ¥æ‰¾ä¸Šä¸€ä¸ª(P)", 'P');
+  private JMenuItem itemSelFindNext = new JMenuItem("é€‰å®šæŸ¥æ‰¾ä¸‹ä¸€ä¸ª(T)", 'T');
+  private JMenuItem itemSelFindPrevious = new JMenuItem("é€‰å®šæŸ¥æ‰¾ä¸Šä¸€ä¸ª(S)", 'S');
+  private JMenu menuQuickFind = new JMenu("å¿«é€ŸæŸ¥æ‰¾(Q)");
+  private JMenuItem itemQuickFindDown = new JMenuItem("å¿«é€Ÿå‘ä¸‹æŸ¥æ‰¾");
+  private JMenuItem itemQuickFindUp = new JMenuItem("å¿«é€Ÿå‘ä¸ŠæŸ¥æ‰¾");
+  private JMenuItem itemReplace = new JMenuItem("æ›¿æ¢(R)...", 'R');
+  private JMenuItem itemGoto = new JMenuItem("è½¬åˆ°(G)...", 'G');
+  private JMenu menuBookmark = new JMenu("ä¹¦ç­¾(M)");
+  private JMenuItem itemBookmarkSwitch = new JMenuItem("è®¾ç½®/å–æ¶ˆä¹¦ç­¾(S)", 'S');
+  private JMenuItem itemBookmarkNext = new JMenuItem("ä¸‹ä¸€ä¸ªä¹¦ç­¾(N)", 'N');
+  private JMenuItem itemBookmarkPrevious = new JMenuItem("ä¸Šä¸€ä¸ªä¹¦ç­¾(P)", 'P');
+  private JMenuItem itemBookmarkCopy = new JMenuItem("å¤åˆ¶ä¹¦ç­¾è¡Œ(C)", 'C');
+  private JMenuItem itemBookmarkClear = new JMenuItem("æ¸…é™¤æ‰€æœ‰ä¹¦ç­¾(L)", 'L');
+  private JMenuItem itemFindBracket = new JMenuItem("å®šä½åŒ¹é…æ‹¬å·(B)", 'B');
+  private JMenu menuStyle = new JMenu("æ ¼å¼(O)");
+  private JMenu menuLineWrapStyle = new JMenu("æ¢è¡Œæ–¹å¼(L)");
+  private JRadioButtonMenuItem itemLineWrapByWord = new JRadioButtonMenuItem("å•è¯è¾¹ç•Œæ¢è¡Œ(W)");
+  private JRadioButtonMenuItem itemLineWrapByChar = new JRadioButtonMenuItem("å­—ç¬¦è¾¹ç•Œæ¢è¡Œ(C)");
+  private JMenuItem itemFont = new JMenuItem("å­—ä½“(F)...", 'F');
+  private JMenuItem itemTabSet = new JMenuItem("Tabé”®è®¾ç½®...", 'T');
+  private JMenuItem itemAutoComplete = new JMenuItem("è‡ªåŠ¨å®Œæˆ(A)...", 'A');
+  private JMenuItem itemShortcutManage = new JMenuItem("å¿«æ·é”®ç®¡ç†(H)...", 'H');
+  private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("è‡ªåŠ¨æ¢è¡Œ(W)");
+  private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("è‡ªåŠ¨ç¼©è¿›(I)");
+  private JMenuItem itemReset = new JMenuItem("æ¢å¤é»˜è®¤è®¾ç½®(R)...", 'R');
+  private JMenu menuLineStyle = new JMenu("æ¢è¡Œç¬¦æ ¼å¼(S)");
+  private JRadioButtonMenuItem itemLineStyleWin = new JRadioButtonMenuItem(LineSeparator.WINDOWS.getName() + "æ ¼å¼");
+  private JRadioButtonMenuItem itemLineStyleUnix = new JRadioButtonMenuItem(LineSeparator.UNIX.getName() + "æ ¼å¼");
+  private JRadioButtonMenuItem itemLineStyleMac = new JRadioButtonMenuItem(LineSeparator.MACINTOSH.getName() + "æ ¼å¼");
+  private JMenu menuCharset = new JMenu("å­—ç¬¦ç¼–ç æ ¼å¼(C)");
+  private JRadioButtonMenuItem itemCharsetBASE = new JRadioButtonMenuItem("é»˜è®¤æ ¼å¼(" + CharEncoding.BASE.toString() + ")");
+  private JRadioButtonMenuItem itemCharsetANSI = new JRadioButtonMenuItem("ANSIæ ¼å¼");
+  private JRadioButtonMenuItem itemCharsetUTF8 = new JRadioButtonMenuItem("UTF-8æ ¼å¼");
+  private JRadioButtonMenuItem itemCharsetUTF8_NO_BOM = new JRadioButtonMenuItem("UTF-8 No BOMæ ¼å¼");
+  private JRadioButtonMenuItem itemCharsetULE = new JRadioButtonMenuItem("Unicode Little Endianæ ¼å¼");
+  private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem("Unicode Big Endianæ ¼å¼");
+  private JMenuItem itemSignIdentifier = new JMenuItem("åˆ—è¡¨ç¬¦å·ä¸ç¼–å·(G)...", 'G');
+  private JMenu menuView = new JMenu("æŸ¥çœ‹(V)");
+  private JMenuItem itemBack = new JMenuItem("åé€€(O)", 'O');
+  private JMenuItem itemForward = new JMenuItem("å‰è¿›(Q)", 'Q');
+  private JCheckBoxMenuItem itemToolBar = new JCheckBoxMenuItem("å·¥å…·æ (T)");
+  private JCheckBoxMenuItem itemStateBar = new JCheckBoxMenuItem("çŠ¶æ€æ (S)");
+  private JCheckBoxMenuItem itemLineNumber = new JCheckBoxMenuItem("è¡Œå·æ (L)");
+  private JCheckBoxMenuItem itemSearchResult = new JCheckBoxMenuItem("æŸ¥æ‰¾ç»“æœ(E)");
+  private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("å‰ç«¯æ˜¾ç¤º(A)");
+  private JCheckBoxMenuItem itemLockResizable = new JCheckBoxMenuItem("é”å®šçª—å£(R)");
+  private JMenu menuTab = new JMenu("æ ‡ç­¾è®¾ç½®(B)");
+  private JCheckBoxMenuItem itemTabPolicy = new JCheckBoxMenuItem("å¤šè¡Œæ ‡ç­¾(P)");
+  private JCheckBoxMenuItem itemClickToClose = new JCheckBoxMenuItem("åŒå‡»å…³é—­æ ‡ç­¾(D)");
+  private JCheckBoxMenuItem itemTabIcon = new JCheckBoxMenuItem("æŒ‡ç¤ºå›¾æ ‡(I)");
+  private JMenu menuFontSize = new JMenu("å­—ä½“ç¼©æ”¾(F)");
+  private JMenuItem itemFontSizePlus = new JMenuItem("æ”¾å¤§(B)", 'B');
+  private JMenuItem itemFontSizeMinus = new JMenuItem("ç¼©å°(S)", 'S');
+  private JMenuItem itemFontSizeReset = new JMenuItem("æ¢å¤åˆå§‹(D)", 'D');
+  private JMenu menuColor = new JMenu("é¢œè‰²è®¾ç½®(C)");
+  private JMenuItem itemColorFont = new JMenuItem("å­—ä½“é¢œè‰²(F)...", 'F');
+  private JMenuItem itemColorBack = new JMenuItem("èƒŒæ™¯é¢œè‰²(B)...", 'B');
+  private JMenuItem itemColorCaret = new JMenuItem("å…‰æ ‡é¢œè‰²(C)...", 'C');
+  private JMenuItem itemColorSelFont = new JMenuItem("é€‰åŒºå­—ä½“é¢œè‰²(T)...", 'T');
+  private JMenuItem itemColorSelBack = new JMenuItem("é€‰åŒºèƒŒæ™¯é¢œè‰²(K)...", 'K');
+  private JMenuItem itemColorBracketBack = new JMenuItem("åŒ¹é…æ‹¬å·èƒŒæ™¯é¢œè‰²(E)...", 'E');
+  private JMenuItem itemColorLineBack = new JMenuItem("å½“å‰è¡ŒèƒŒæ™¯é¢œè‰²(L)...", 'L');
+  private JMenuItem itemColorAnti = new JMenuItem("å…¨éƒ¨åè‰²(A)", 'A');
+  private JMenuItem itemColorComplementary = new JMenuItem("å…¨éƒ¨è¡¥è‰²(R)", 'R');
+  private JMenu menuColorStyle = new JMenu("é…è‰²æ–¹æ¡ˆ(Y)");
+  private JMenuItem itemColorStyle1 = new JMenuItem("é…è‰²æ–¹æ¡ˆ(1)", '1');
+  private JMenuItem itemColorStyle2 = new JMenuItem("é…è‰²æ–¹æ¡ˆ(2)", '2');
+  private JMenuItem itemColorStyle3 = new JMenuItem("é…è‰²æ–¹æ¡ˆ(3)", '3');
+  private JMenuItem itemColorStyle4 = new JMenuItem("é…è‰²æ–¹æ¡ˆ(4)", '4');
+  private JMenuItem itemColorStyle5 = new JMenuItem("é…è‰²æ–¹æ¡ˆ(5)", '5');
+  private JMenuItem itemColorStyleDefault = new JMenuItem("æ¢å¤é»˜è®¤é…è‰²(0)", '0');
+  private JMenu menuHighlight = new JMenu("é«˜äº®æ˜¾ç¤º(H)");
+  private JMenuItem itemHighlight1 = new JMenuItem("æ ¼å¼(1)", '1');
+  private JMenuItem itemHighlight2 = new JMenuItem("æ ¼å¼(2)", '2');
+  private JMenuItem itemHighlight3 = new JMenuItem("æ ¼å¼(3)", '3');
+  private JMenuItem itemHighlight4 = new JMenuItem("æ ¼å¼(4)", '4');
+  private JMenuItem itemHighlight5 = new JMenuItem("æ ¼å¼(5)", '5');
+  private JMenu menuRmHighlight = new JMenu("æ¸…é™¤é«˜äº®(M)");
+  private JMenuItem itemRmHighlight1 = new JMenuItem("æ ¼å¼(1)", '1');
+  private JMenuItem itemRmHighlight2 = new JMenuItem("æ ¼å¼(2)", '2');
+  private JMenuItem itemRmHighlight3 = new JMenuItem("æ ¼å¼(3)", '3');
+  private JMenuItem itemRmHighlight4 = new JMenuItem("æ ¼å¼(4)", '4');
+  private JMenuItem itemRmHighlight5 = new JMenuItem("æ ¼å¼(5)", '5');
+  private JMenuItem itemRmHighlightAll = new JMenuItem("æ‰€æœ‰æ ¼å¼(0)", '0');
+  private JMenu menuLookAndFeel = new JMenu("åˆ‡æ¢å¤–è§‚(K)");
+  private JMenuItem itemInformation = new JMenuItem("ç»Ÿè®¡ä¿¡æ¯(N)...", 'N');
+  private JMenuItem itemWindowManage = new JMenuItem("çª—å£ç®¡ç†(W)...", 'W');
+  private JMenu menuTextAreaSwitch = new JMenu("æ–‡æ¡£åˆ‡æ¢(I)");
+  private JMenuItem itemTextAreaSwitchPrevious = new JMenuItem("å‘å‰åˆ‡æ¢(P)", 'P');
+  private JMenuItem itemTextAreaSwitchNext = new JMenuItem("å‘ååˆ‡æ¢(N)", 'N');
+  private JMenuItem itemTextAreaHistoryBack = new JMenuItem("å‰ä¸€ä¸ªæ–‡æ¡£(B)", 'B');
+  private JMenuItem itemTextAreaHistoryNext = new JMenuItem("åä¸€ä¸ªæ–‡æ¡£(X)", 'X');
+  private JMenu menuTool = new JMenu("å·¥å…·(T)");
+  private JMenuItem itemEncrypt = new JMenuItem("åŠ å¯†(E)...", 'E');
+  private JMenuItem itemNumberConvert = new JMenuItem("è¿›åˆ¶è½¬æ¢(N)...", 'N');
+  private JMenuItem itemCalculator = new JMenuItem("è®¡ç®—å™¨(C)...", 'C');
+  private JMenuItem itemCuttingFile = new JMenuItem("åˆ‡å‰²æ–‡ä»¶(T)...", 'T');
+  private JMenuItem itemMergeFile = new JMenuItem("æ‹¼æ¥æ–‡ä»¶(M)...", 'M');
+  private JMenu menuHelp = new JMenu("å¸®åŠ©(H)");
+  private JMenuItem itemHelp = new JMenuItem("å¸®åŠ©ä¸»é¢˜(H)", 'H');
+  private JMenuItem itemAbout = new JMenuItem("å…³äº(A)", 'A');
   private JPopupMenu popMenuMain = new JPopupMenu();
-  private JMenuItem itemPopUnDo = new JMenuItem("³·Ïú(U)", 'U');
-  private JMenuItem itemPopReDo = new JMenuItem("ÖØ×ö(Y)", 'Y');
-  private JMenuItem itemPopCut = new JMenuItem("¼ôÇĞ(T)", 'T');
-  private JMenuItem itemPopCopy = new JMenuItem("¸´ÖÆ(C)", 'C');
-  private JMenuItem itemPopPaste = new JMenuItem("Õ³Ìù(P)", 'P');
-  private JMenuItem itemPopDel = new JMenuItem("É¾³ı(D)", 'D');
-  private JMenuItem itemPopSelAll = new JMenuItem("È«Ñ¡(A)", 'A');
-  private JMenu menuPopHighlight = new JMenu("¸ßÁÁÏÔÊ¾(H)");
-  private JMenuItem itemPopHighlight1 = new JMenuItem("¸ñÊ½(1)", '1');
-  private JMenuItem itemPopHighlight2 = new JMenuItem("¸ñÊ½(2)", '2');
-  private JMenuItem itemPopHighlight3 = new JMenuItem("¸ñÊ½(3)", '3');
-  private JMenuItem itemPopHighlight4 = new JMenuItem("¸ñÊ½(4)", '4');
-  private JMenuItem itemPopHighlight5 = new JMenuItem("¸ñÊ½(5)", '5');
-  private JMenu menuPopRmHighlight = new JMenu("Çå³ı¸ßÁÁ(M)");
-  private JMenuItem itemPopRmHighlight1 = new JMenuItem("¸ñÊ½(1)", '1');
-  private JMenuItem itemPopRmHighlight2 = new JMenuItem("¸ñÊ½(2)", '2');
-  private JMenuItem itemPopRmHighlight3 = new JMenuItem("¸ñÊ½(3)", '3');
-  private JMenuItem itemPopRmHighlight4 = new JMenuItem("¸ñÊ½(4)", '4');
-  private JMenuItem itemPopRmHighlight5 = new JMenuItem("¸ñÊ½(5)", '5');
-  private JMenuItem itemPopRmHighlightAll = new JMenuItem("ËùÓĞ¸ñÊ½(0)", '0');
-  private JMenuItem itemPopCommentForLine = new JMenuItem("µ¥ĞĞ×¢ÊÍ(L)", 'L');
-  private JMenuItem itemPopCommentForBlock = new JMenuItem("Çø¿é×¢ÊÍ(B)", 'B');
+  private JMenuItem itemPopUnDo = new JMenuItem("æ’¤é”€(U)", 'U');
+  private JMenuItem itemPopReDo = new JMenuItem("é‡åš(Y)", 'Y');
+  private JMenuItem itemPopCut = new JMenuItem("å‰ªåˆ‡(T)", 'T');
+  private JMenuItem itemPopCopy = new JMenuItem("å¤åˆ¶(C)", 'C');
+  private JMenuItem itemPopPaste = new JMenuItem("ç²˜è´´(P)", 'P');
+  private JMenuItem itemPopDel = new JMenuItem("åˆ é™¤(D)", 'D');
+  private JMenuItem itemPopSelAll = new JMenuItem("å…¨é€‰(A)", 'A');
+  private JMenu menuPopHighlight = new JMenu("é«˜äº®æ˜¾ç¤º(H)");
+  private JMenuItem itemPopHighlight1 = new JMenuItem("æ ¼å¼(1)", '1');
+  private JMenuItem itemPopHighlight2 = new JMenuItem("æ ¼å¼(2)", '2');
+  private JMenuItem itemPopHighlight3 = new JMenuItem("æ ¼å¼(3)", '3');
+  private JMenuItem itemPopHighlight4 = new JMenuItem("æ ¼å¼(4)", '4');
+  private JMenuItem itemPopHighlight5 = new JMenuItem("æ ¼å¼(5)", '5');
+  private JMenu menuPopRmHighlight = new JMenu("æ¸…é™¤é«˜äº®(M)");
+  private JMenuItem itemPopRmHighlight1 = new JMenuItem("æ ¼å¼(1)", '1');
+  private JMenuItem itemPopRmHighlight2 = new JMenuItem("æ ¼å¼(2)", '2');
+  private JMenuItem itemPopRmHighlight3 = new JMenuItem("æ ¼å¼(3)", '3');
+  private JMenuItem itemPopRmHighlight4 = new JMenuItem("æ ¼å¼(4)", '4');
+  private JMenuItem itemPopRmHighlight5 = new JMenuItem("æ ¼å¼(5)", '5');
+  private JMenuItem itemPopRmHighlightAll = new JMenuItem("æ‰€æœ‰æ ¼å¼(0)", '0');
+  private JMenuItem itemPopCommentForLine = new JMenuItem("å•è¡Œæ³¨é‡Š(L)", 'L');
+  private JMenuItem itemPopCommentForBlock = new JMenuItem("åŒºå—æ³¨é‡Š(B)", 'B');
   private JPopupMenu popMenuTabbed = new JPopupMenu();
-  private JMenuItem itemPopCloseCurrent = new JMenuItem("¹Ø±Õµ±Ç°(C)", 'C');
-  private JMenuItem itemPopCloseOthers = new JMenuItem("¹Ø±ÕÆäËü(O)", 'O');
-  private JMenuItem itemPopCloseLeft = new JMenuItem("¹Ø±Õ×ó²à(F)", 'F');
-  private JMenuItem itemPopCloseRight = new JMenuItem("¹Ø±ÕÓÒ²à(G)", 'G');
-  private JMenuItem itemPopSave = new JMenuItem("±£´æ(S)", 'S');
-  private JMenuItem itemPopSaveAs = new JMenuItem("Áí´æÎª(A)...", 'A');
-  private JMenuItem itemPopReName = new JMenuItem("ÖØÃüÃû(N)...", 'N');
-  private JMenuItem itemPopDelFile = new JMenuItem("É¾³ıÎÄ¼ş(D)", 'D');
-  private JMenuItem itemPopReOpen = new JMenuItem("ÖØĞÂÔØÈë(R)", 'R');
-  private JCheckBoxMenuItem itemPopFrozenFile = new JCheckBoxMenuItem("¶³½áÎÄ¼ş(Z)");
-  private JMenu menuPopCopyToClip = new JMenu("¸´ÖÆµ½¼ôÌù°å(P)");
-  private JMenuItem itemPopToCopyFileName = new JMenuItem("¸´ÖÆÎÄ¼şÃû(F)", 'F');
-  private JMenuItem itemPopToCopyFilePath = new JMenuItem("¸´ÖÆÎÄ¼şÂ·¾¶(P)", 'P');
-  private JMenuItem itemPopToCopyDirPath = new JMenuItem("¸´ÖÆÄ¿Â¼Â·¾¶(I)", 'I');
+  private JMenuItem itemPopCloseCurrent = new JMenuItem("å…³é—­å½“å‰(C)", 'C');
+  private JMenuItem itemPopCloseOthers = new JMenuItem("å…³é—­å…¶å®ƒ(O)", 'O');
+  private JMenuItem itemPopCloseLeft = new JMenuItem("å…³é—­å·¦ä¾§(F)", 'F');
+  private JMenuItem itemPopCloseRight = new JMenuItem("å…³é—­å³ä¾§(G)", 'G');
+  private JMenuItem itemPopSave = new JMenuItem("ä¿å­˜(S)", 'S');
+  private JMenuItem itemPopSaveAs = new JMenuItem("å¦å­˜ä¸º(A)...", 'A');
+  private JMenuItem itemPopReName = new JMenuItem("é‡å‘½å(N)...", 'N');
+  private JMenuItem itemPopDelFile = new JMenuItem("åˆ é™¤æ–‡ä»¶(D)", 'D');
+  private JMenuItem itemPopReOpen = new JMenuItem("é‡æ–°è½½å…¥(R)", 'R');
+  private JCheckBoxMenuItem itemPopFrozenFile = new JCheckBoxMenuItem("å†»ç»“æ–‡ä»¶(Z)");
+  private JMenu menuPopCopyToClip = new JMenu("å¤åˆ¶åˆ°å‰ªè´´æ¿(P)");
+  private JMenuItem itemPopToCopyFileName = new JMenuItem("å¤åˆ¶æ–‡ä»¶å(F)", 'F');
+  private JMenuItem itemPopToCopyFilePath = new JMenuItem("å¤åˆ¶æ–‡ä»¶è·¯å¾„(P)", 'P');
+  private JMenuItem itemPopToCopyDirPath = new JMenuItem("å¤åˆ¶ç›®å½•è·¯å¾„(I)", 'I');
 
-  private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // ÓÃÓÚ´æ·Å»»ĞĞ·½Ê½µÄ°´Å¥×é
-  private ButtonGroup bgpLineStyle = new ButtonGroup(); // ÓÃÓÚ´æ·Å»»ĞĞ·û¸ñÊ½µÄ°´Å¥×é
-  private ButtonGroup bgpCharset = new ButtonGroup(); // ÓÃÓÚ´æ·Å×Ö·û±àÂë¸ñÊ½µÄ°´Å¥×é
-  private ButtonGroup bgpLookAndFeel = new ButtonGroup(); // ÓÃÓÚ´æ·ÅÍâ¹ÛµÄ°´Å¥×é
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // ¼ôÌù°å
-  private File file = null; // µ±Ç°±à¼­µÄÎÄ¼ş
-  private LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // ´æ·Å×î½ü±à¼­µÄÎÄ¼şÃûµÄÁ´±í
-  private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // ´æ·Å½çÃæÖĞËùÓĞÎÄ±¾ÓòµÄÁ´±í
-  private LinkedList<AbstractButton> toolButtonList = new LinkedList<AbstractButton>(); // ´æ·Å¹¤¾ßÀ¸ÖĞËùÓĞ°´Å¥µÄÁ´±í
-  private LinkedList<JMenuItem> menuItemList = new LinkedList<JMenuItem>(); // ´æ·ÅËùÓĞ¿ÉÓÃÓÚ¿ì½İ¼üÉèÖÃµÄ²Ëµ¥ÏîµÄÁ´±í
-  private LinkedList<Integer> textAreaHashCodeList = new LinkedList<Integer>(); // ´æ·Å×î½ü±à¼­µÄÎÄ±¾ÓòhashCodeµÄÁ´±í
-  private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // ±êÌâÀ¸×Ö·û´®
-  private String strLookAndFeel = Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME; // µ±Ç°Íâ¹ÛµÄÍêÕûÀàÃû
-  private StatePanel pnlState = new StatePanel(4); // ×´Ì¬À¸Ãæ°å
-  private SearchResultPanel pnlSearchResult = new SearchResultPanel(this); // ²éÕÒ½á¹ûÃæ°å
-  private UndoManager undoManager = null; // ³·Ïú¹ÜÀíÆ÷
-  private TextAreaSetting textAreaSetting = new TextAreaSetting(); // ÎÄ±¾Óò²ÎÊıÅäÖÃÀà
-  private Setting setting = null; // Èí¼ş²ÎÊıÅäÖÃÀà
-  private SettingAdapter settingAdapter = null; // ÓÃÓÚ½âÎöºÍ±£´æÈí¼şÅäÖÃÎÄ¼şµÄ¹¤¾ßÀà
-  private boolean clickToClose = true; // ÊÇ·ñË«»÷¹Ø±Õµ±Ç°±êÇ©
-  private boolean isTabIconView = true; // ÊÇ·ñÏÔÊ¾±êÇ©µÄÎÄ¼ş×´Ì¬Ö¸Ê¾Í¼±ê
-  private static boolean checking = false; // ÊÇ·ñÕıÔÚ¼ì²âËùÓĞÎÄ¼şµÄ×´Ì¬
-  private int targetBracketIndex = -1; // Æ¥ÅäÀ¨ºÅµÄË÷ÒıÖµ
-  private int textAreaHistoryIndex = 0; // ×î½ü±à¼­µÄÎÄ±¾ÓòÔÚÁ´±íÖĞµÄË÷ÒıÖµ
+  private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // ç”¨äºå­˜æ”¾æ¢è¡Œæ–¹å¼çš„æŒ‰é’®ç»„
+  private ButtonGroup bgpLineStyle = new ButtonGroup(); // ç”¨äºå­˜æ”¾æ¢è¡Œç¬¦æ ¼å¼çš„æŒ‰é’®ç»„
+  private ButtonGroup bgpCharset = new ButtonGroup(); // ç”¨äºå­˜æ”¾å­—ç¬¦ç¼–ç æ ¼å¼çš„æŒ‰é’®ç»„
+  private ButtonGroup bgpLookAndFeel = new ButtonGroup(); // ç”¨äºå­˜æ”¾å¤–è§‚çš„æŒ‰é’®ç»„
+  private Clipboard clip = this.getToolkit().getSystemClipboard(); // å‰ªè´´æ¿
+  private File file = null; // å½“å‰ç¼–è¾‘çš„æ–‡ä»¶
+  private LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // å­˜æ”¾æœ€è¿‘ç¼–è¾‘çš„æ–‡ä»¶åçš„é“¾è¡¨
+  private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // å­˜æ”¾ç•Œé¢ä¸­æ‰€æœ‰æ–‡æœ¬åŸŸçš„é“¾è¡¨
+  private LinkedList<AbstractButton> toolButtonList = new LinkedList<AbstractButton>(); // å­˜æ”¾å·¥å…·æ ä¸­æ‰€æœ‰æŒ‰é’®çš„é“¾è¡¨
+  private LinkedList<JMenuItem> menuItemList = new LinkedList<JMenuItem>(); // å­˜æ”¾æ‰€æœ‰å¯ç”¨äºå¿«æ·é”®è®¾ç½®çš„èœå•é¡¹çš„é“¾è¡¨
+  private LinkedList<Integer> textAreaHashCodeList = new LinkedList<Integer>(); // å­˜æ”¾æœ€è¿‘ç¼–è¾‘çš„æ–‡æœ¬åŸŸhashCodeçš„é“¾è¡¨
+  private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // æ ‡é¢˜æ å­—ç¬¦ä¸²
+  private String strLookAndFeel = Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME; // å½“å‰å¤–è§‚çš„å®Œæ•´ç±»å
+  private StatePanel pnlState = new StatePanel(4); // çŠ¶æ€æ é¢æ¿
+  private SearchResultPanel pnlSearchResult = new SearchResultPanel(this); // æŸ¥æ‰¾ç»“æœé¢æ¿
+  private UndoManager undoManager = null; // æ’¤é”€ç®¡ç†å™¨
+  private TextAreaSetting textAreaSetting = new TextAreaSetting(); // æ–‡æœ¬åŸŸå‚æ•°é…ç½®ç±»
+  private Setting setting = null; // è½¯ä»¶å‚æ•°é…ç½®ç±»
+  private SettingAdapter settingAdapter = null; // ç”¨äºè§£æå’Œä¿å­˜è½¯ä»¶é…ç½®æ–‡ä»¶çš„å·¥å…·ç±»
+  private boolean clickToClose = true; // æ˜¯å¦åŒå‡»å…³é—­å½“å‰æ ‡ç­¾
+  private boolean isTabIconView = true; // æ˜¯å¦æ˜¾ç¤ºæ ‡ç­¾çš„æ–‡ä»¶çŠ¶æ€æŒ‡ç¤ºå›¾æ ‡
+  private static boolean checking = false; // æ˜¯å¦æ­£åœ¨æ£€æµ‹æ‰€æœ‰æ–‡ä»¶çš„çŠ¶æ€
+  private int targetBracketIndex = -1; // åŒ¹é…æ‹¬å·çš„ç´¢å¼•å€¼
+  private int textAreaHistoryIndex = 0; // æœ€è¿‘ç¼–è¾‘çš„æ–‡æœ¬åŸŸåœ¨é“¾è¡¨ä¸­çš„ç´¢å¼•å€¼
 
-  private OpenFileChooser openFileChooser = null; // "´ò¿ª"ÎÄ¼şÑ¡ÔñÆ÷
-  private SaveFileChooser saveFileChooser = null; // "±£´æ"ÎÄ¼şÑ¡ÔñÆ÷
-  private FontChooser fontChooser = null; // ×ÖÌå¶Ô»°¿ò
-  private FindReplaceDialog findReplaceDialog = null; // ²éÕÒ¡¢Ìæ»»¶Ô»°¿ò
-  private GotoDialog gotoDialog = null; // ×ªµ½¶Ô»°¿ò
-  private AboutDialog aboutDialog = null; // ¹ØÓÚ¶Ô»°¿ò
-  private TabSetDialog tabSetDialog = null; // Tab×Ö·ûÉèÖÃ¶Ô»°¿ò
-  private AutoCompleteDialog autoCompleteDialog = null; // ×Ô¶¯Íê³É¶Ô»°¿ò
-  private ShortcutManageDialog shortcutManageDialog = null; // ¿ì½İ¼ü¹ÜÀí¶Ô»°¿ò
-  private InsertCharDialog insertCharDialog = null; // ²åÈë×Ö·û¶Ô»°¿ò
-  private InsertDateDialog insertDateDialog = null; // ²åÈëÊ±¼ä/ÈÕÆÚ¶Ô»°¿ò
-  private FileEncodingDialog fileEncodingDialog = null; // ÎÄ¼ş±àÂë¸ñÊ½¶Ô»°¿ò
-  private SlicingFileDialog slicingFileDialog = null; // ²ğ·ÖÎÄ¼ş¶Ô»°¿ò
-  private BatchRemoveDialog batchRemoveDialog = null; // Åú´¦Àí"ÇĞ³ı"¶Ô»°¿ò
-  private BatchInsertDialog batchInsertDialog = null; // Åú´¦Àí"²åÈë"¶Ô»°¿ò
-  private BatchSeparateDialog batchSeparateDialog = null; // Åú´¦Àí"·Ö¸îĞĞ"¶Ô»°¿ò
-  private BatchJoinDialog batchJoinDialog = null; // Åú´¦Àí"Æ´½ÓĞĞ"¶Ô»°¿ò
-  private SignIdentifierDialog signIdentifierDialog = null; // ÏîÄ¿·ûºÅÓë±àºÅ¶Ô»°¿ò
-  private InformationDialog informationDialog = null; // Í³¼ÆĞÅÏ¢¶Ô»°¿ò
-  private WindowManageDialog windowManageDialog = null; // ´°¿Ú¹ÜÀí¶Ô»°¿ò
-  private EncryptDialog encryptDialog = null; // ¼ÓÃÜ¶Ô»°¿ò
-  private NumberConvertDialog numberConvertDialog = null; // ½øÖÆ×ª»»¶Ô»°¿ò
-  private CalculatorDialog calculatorDialog = null; // ¼ÆËãÆ÷¶Ô»°¿ò
-  private CuttingFileDialog cuttingFileDialog = null; // ÇĞ¸îÎÄ¼ş¶Ô»°¿ò
-  private MergeFileDialog mergeFileDialog = null; // Æ´½ÓÎÄ¼ş¶Ô»°¿ò
-  private HelpFrame helpFrame = null; // °ïÖúÖ÷Ìâ´°¿Ú
+  private OpenFileChooser openFileChooser = null; // "æ‰“å¼€"æ–‡ä»¶é€‰æ‹©å™¨
+  private SaveFileChooser saveFileChooser = null; // "ä¿å­˜"æ–‡ä»¶é€‰æ‹©å™¨
+  private FontChooser fontChooser = null; // å­—ä½“å¯¹è¯æ¡†
+  private FindReplaceDialog findReplaceDialog = null; // æŸ¥æ‰¾ã€æ›¿æ¢å¯¹è¯æ¡†
+  private GotoDialog gotoDialog = null; // è½¬åˆ°å¯¹è¯æ¡†
+  private AboutDialog aboutDialog = null; // å…³äºå¯¹è¯æ¡†
+  private TabSetDialog tabSetDialog = null; // Tabå­—ç¬¦è®¾ç½®å¯¹è¯æ¡†
+  private AutoCompleteDialog autoCompleteDialog = null; // è‡ªåŠ¨å®Œæˆå¯¹è¯æ¡†
+  private ShortcutManageDialog shortcutManageDialog = null; // å¿«æ·é”®ç®¡ç†å¯¹è¯æ¡†
+  private InsertCharDialog insertCharDialog = null; // æ’å…¥å­—ç¬¦å¯¹è¯æ¡†
+  private InsertDateDialog insertDateDialog = null; // æ’å…¥æ—¶é—´/æ—¥æœŸå¯¹è¯æ¡†
+  private FileEncodingDialog fileEncodingDialog = null; // æ–‡ä»¶ç¼–ç æ ¼å¼å¯¹è¯æ¡†
+  private SlicingFileDialog slicingFileDialog = null; // æ‹†åˆ†æ–‡ä»¶å¯¹è¯æ¡†
+  private BatchRemoveDialog batchRemoveDialog = null; // æ‰¹å¤„ç†"åˆ‡é™¤"å¯¹è¯æ¡†
+  private BatchInsertDialog batchInsertDialog = null; // æ‰¹å¤„ç†"æ’å…¥"å¯¹è¯æ¡†
+  private BatchSeparateDialog batchSeparateDialog = null; // æ‰¹å¤„ç†"åˆ†å‰²è¡Œ"å¯¹è¯æ¡†
+  private BatchJoinDialog batchJoinDialog = null; // æ‰¹å¤„ç†"æ‹¼æ¥è¡Œ"å¯¹è¯æ¡†
+  private SignIdentifierDialog signIdentifierDialog = null; // é¡¹ç›®ç¬¦å·ä¸ç¼–å·å¯¹è¯æ¡†
+  private InformationDialog informationDialog = null; // ç»Ÿè®¡ä¿¡æ¯å¯¹è¯æ¡†
+  private WindowManageDialog windowManageDialog = null; // çª—å£ç®¡ç†å¯¹è¯æ¡†
+  private EncryptDialog encryptDialog = null; // åŠ å¯†å¯¹è¯æ¡†
+  private NumberConvertDialog numberConvertDialog = null; // è¿›åˆ¶è½¬æ¢å¯¹è¯æ¡†
+  private CalculatorDialog calculatorDialog = null; // è®¡ç®—å™¨å¯¹è¯æ¡†
+  private CuttingFileDialog cuttingFileDialog = null; // åˆ‡å‰²æ–‡ä»¶å¯¹è¯æ¡†
+  private MergeFileDialog mergeFileDialog = null; // æ‹¼æ¥æ–‡ä»¶å¯¹è¯æ¡†
+  private HelpFrame helpFrame = null; // å¸®åŠ©ä¸»é¢˜çª—å£
 
   /**
-   * ´ø²ÎÊıµÄ¹¹Ôì·½·¨£¬Í¨¹ıÅäÖÃÎÄ¼ş½øĞĞÉèÖÃ
+   * å¸¦å‚æ•°çš„æ„é€ æ–¹æ³•ï¼Œé€šè¿‡é…ç½®æ–‡ä»¶è¿›è¡Œè®¾ç½®
    * 
    * @param setting
-   *          Èí¼ş²ÎÊıÅäÖÃÀà
+   *          è½¯ä»¶å‚æ•°é…ç½®ç±»
    * @param settingAdapter
-   *          ÓÃÓÚ½âÎöºÍ±£´æÈí¼şÅäÖÃÎÄ¼şµÄ¹¤¾ßÀà
+   *          ç”¨äºè§£æå’Œä¿å­˜è½¯ä»¶é…ç½®æ–‡ä»¶çš„å·¥å…·ç±»
    */
   public SnowPadFrame(Setting setting, SettingAdapter settingAdapter) {
     this.setting = setting;
@@ -398,23 +398,23 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.initTextAreaSetting();
     this.setTitle(this.stbTitle.toString());
     this.setSize();
-    this.setMinimumSize(new Dimension(300, 300)); // ÉèÖÃÖ÷½çÃæµÄ×îĞ¡³ß´ç
-    this.setLocationRelativeTo(null); // Ê¹´°¿Ú¾ÓÖĞÏÔÊ¾
-    this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // ÉèÖÃÄ¬ÈÏ¹Ø±Õ²Ù×÷Îª¿Õ£¬ÒÔ±ãÌí¼Ó´°¿Ú¼àÌıÊÂ¼ş
+    this.setMinimumSize(new Dimension(300, 300)); // è®¾ç½®ä¸»ç•Œé¢çš„æœ€å°å°ºå¯¸
+    this.setLocationRelativeTo(null); // ä½¿çª—å£å±…ä¸­æ˜¾ç¤º
+    this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // è®¾ç½®é»˜è®¤å…³é—­æ“ä½œä¸ºç©ºï¼Œä»¥ä¾¿æ·»åŠ çª—å£ç›‘å¬äº‹ä»¶
     this.init();
     this.setIcon();
     this.setVisible(true);
     if (this.setting.fileHistoryList.isEmpty()) {
       return;
     }
-    boolean toCreateNew = false; // ÓÃÓÚ±êÊ¶ĞÂ´ò¿ªµÄÎÄ¼ş£¬ÊÇÒªÔÚµ±Ç°ÎÄ±¾ÓòÖĞ´ò¿ª£¬»¹ÊÇÒªĞÂ½¨ÎÄ±¾Óò
+    boolean toCreateNew = false; // ç”¨äºæ ‡è¯†æ–°æ‰“å¼€çš„æ–‡ä»¶ï¼Œæ˜¯è¦åœ¨å½“å‰æ–‡æœ¬åŸŸä¸­æ‰“å¼€ï¼Œè¿˜æ˜¯è¦æ–°å»ºæ–‡æœ¬åŸŸ
     for (FileHistoryBean bean : this.setting.fileHistoryList) {
       if (!Util.isTextEmpty(bean.getFileName())) {
         File file = new File(bean.getFileName());
         if (file.exists()) {
           if (!toCreateNew) {
             this.toOpenFile(file, true, false);
-            toCreateNew = true; // ±£Ö¤µÚÒ»¸ö±»´ò¿ªµÄÎÄ¼şÔÚµ±Ç°ÎÄ±¾ÓòÖĞÏÔÊ¾£¬ÆäºóµÄÎÄ¼ş¶¼ĞèÒªĞÂ½¨ÎÄ±¾Óò
+            toCreateNew = true; // ä¿è¯ç¬¬ä¸€ä¸ªè¢«æ‰“å¼€çš„æ–‡ä»¶åœ¨å½“å‰æ–‡æœ¬åŸŸä¸­æ˜¾ç¤ºï¼Œå…¶åçš„æ–‡ä»¶éƒ½éœ€è¦æ–°å»ºæ–‡æœ¬åŸŸ
           } else {
             this.toOpenFile(file, true, true);
           }
@@ -431,7 +431,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ´°¿ÚµÄ´óĞ¡
+   * è®¾ç½®çª—å£çš„å¤§å°
    */
   private void setSize() {
     int width = Util.DEFAULT_FRAME_WIDTH;
@@ -455,7 +455,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ×Ô¶¨ÒåµÄ´°¿ÚÍ¼±ê
+   * è®¾ç½®è‡ªå®šä¹‰çš„çª—å£å›¾æ ‡
    */
   private void setIcon() {
     try {
@@ -466,7 +466,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯ÎÄ±¾Óò²ÎÊıÅäÖÃÀà
+   * åˆå§‹åŒ–æ–‡æœ¬åŸŸå‚æ•°é…ç½®ç±»
    */
   private void initTextAreaSetting() {
     if (this.setting != null) {
@@ -483,7 +483,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯½çÃæºÍÌí¼Ó¼àÌıÆ÷
+   * åˆå§‹åŒ–ç•Œé¢å’Œæ·»åŠ ç›‘å¬å™¨
    */
   private void init() {
     this.addToolBar();
@@ -499,7 +499,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Ìí¼Ó¸÷×é¼şµÄÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ å„ç»„ä»¶çš„äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.itemAbout.addActionListener(this);
@@ -687,26 +687,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSearchResult.addActionListener(this);
     this.itemReDo.addActionListener(this);
     this.itemUnDo.addActionListener(this);
-    // Îª´°¿ÚÌí¼ÓÊÂ¼ş¼àÌıÆ÷
+    // ä¸ºçª—å£æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
     this.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
         exit();
       }
     });
-    // Îª´°¿ÚÌí¼Ó½¹µã¼àÌıÆ÷
+    // ä¸ºçª—å£æ·»åŠ ç„¦ç‚¹ç›‘å¬å™¨
     this.addWindowFocusListener(this);
-    // Îª´°¿ÚÌí¼Ó×é¼ş¼àÌıÆ÷
+    // ä¸ºçª—å£æ·»åŠ ç»„ä»¶ç›‘å¬å™¨
     this.addComponentListener(this);
     this.addTabbedPaneMouseListener();
   }
 
   /**
-   * ÎªÎÄ±¾ÓòÌí¼ÓÊó±êÊÂ¼ş¼àÌıÆ÷
+   * ä¸ºæ–‡æœ¬åŸŸæ·»åŠ é¼ æ ‡äº‹ä»¶ç›‘å¬å™¨
    */
   private void addTextAreaMouseListener() {
     this.txaMain.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON3) { // µã»÷ÓÒ¼üÊ±£¬ÏÔÊ¾¿ì½İ²Ëµ¥
+        if (e.getButton() == MouseEvent.BUTTON3) { // ç‚¹å‡»å³é”®æ—¶ï¼Œæ˜¾ç¤ºå¿«æ·èœå•
           popMenuMain.show(txaMain, e.getX(), e.getY());
         }
       }
@@ -714,7 +714,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÎªÑ¡Ïî¿¨×é¼şÌí¼ÓÊó±êÊÂ¼ş¼àÌıÆ÷
+   * ä¸ºé€‰é¡¹å¡ç»„ä»¶æ·»åŠ é¼ æ ‡äº‹ä»¶ç›‘å¬å™¨
    */
   private void addTabbedPaneMouseListener() {
     tpnMain.addMouseListener(new MouseAdapter() {
@@ -722,16 +722,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         Rectangle rect = tpnMain.getBoundsAt(tpnMain.getSelectedIndex());
         int x = e.getX();
         int y = e.getY();
-        if (rect.contains(x, y)) { // µ±µã»÷ÇøÓòÎ»ÓÚµ±Ç°Ñ¡Ïî¿¨·¶Î§ÄÚÊ±£¬Ö´ĞĞÏàÓ¦µÄ²Ù×÷
-          if (e.getButton() == MouseEvent.BUTTON3) { // µã»÷ÓÒ¼üÊ±£¬ÏÔÊ¾¿ì½İ²Ëµ¥
+        if (rect.contains(x, y)) { // å½“ç‚¹å‡»åŒºåŸŸä½äºå½“å‰é€‰é¡¹å¡èŒƒå›´å†…æ—¶ï¼Œæ‰§è¡Œç›¸åº”çš„æ“ä½œ
+          if (e.getButton() == MouseEvent.BUTTON3) { // ç‚¹å‡»å³é”®æ—¶ï¼Œæ˜¾ç¤ºå¿«æ·èœå•
             popMenuTabbed.show(tpnMain, x, y);
-          } else if (e.getClickCount() == 2) { // Ë«»÷Ê±£¬¹Ø±Õµ±Ç°±êÇ©
+          } else if (e.getClickCount() == 2) { // åŒå‡»æ—¶ï¼Œå…³é—­å½“å‰æ ‡ç­¾
             if (clickToClose) {
               closeFile(true);
             }
           }
-        } else if (e.getClickCount() == 2) { // Ë«»÷¿Õ°×ÇøÓòÊ±£¬ĞÂ½¨±êÇ©
-          rect = tpnMain.getBoundsAt(tpnMain.getTabCount() - 1); // »ñÈ¡Ñ¡Ïî¿¨×îºóÒ»¸ö±êÇ©µÄÏÔÊ¾ÇøÓò
+        } else if (e.getClickCount() == 2) { // åŒå‡»ç©ºç™½åŒºåŸŸæ—¶ï¼Œæ–°å»ºæ ‡ç­¾
+          rect = tpnMain.getBoundsAt(tpnMain.getTabCount() - 1); // è·å–é€‰é¡¹å¡æœ€åä¸€ä¸ªæ ‡ç­¾çš„æ˜¾ç¤ºåŒºåŸŸ
           double lastX = rect.getX() + rect.getWidth();
           double lastY = rect.getY() + rect.getHeight();
           if (x > lastX && y > rect.getY() && y < lastY) {
@@ -743,9 +743,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * »ñÈ¡µ±Ç°±à¼­µÄÎÄ±¾Óò
+   * è·å–å½“å‰ç¼–è¾‘çš„æ–‡æœ¬åŸŸ
    * 
-   * @return µ±Ç°±à¼­µÄÎÄ±¾Óò£¬Èç¹û²»´æÔÚÔò·µ»Ønull
+   * @return å½“å‰ç¼–è¾‘çš„æ–‡æœ¬åŸŸï¼Œå¦‚æœä¸å­˜åœ¨åˆ™è¿”å›null
    */
   private BaseTextArea getCurrentTextArea() {
     try {
@@ -758,7 +758,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Ö÷Ãæ°åÉÏÌí¼ÓÑ¡Ïî¿¨ÊÓÍ¼
+   * ä¸»é¢æ¿ä¸Šæ·»åŠ é€‰é¡¹å¡è§†å›¾
    */
   private void addTabbedPane() {
     this.getContentPane().add(this.spnMain, BorderLayout.CENTER);
@@ -769,11 +769,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.tpnMain.setFont(Util.GLOBAL_FONT);
     this.tpnMain.addChangeListener(this);
     this.createNew(null);
-    new DropTarget(this.tpnMain, this); // ´´½¨ÍÏ·ÅÄ¿±ê£¬¼´ÉèÖÃÄ³¸ö×é¼ş½ÓÊÕdrop²Ù×÷
+    new DropTarget(this.tpnMain, this); // åˆ›å»ºæ‹–æ”¾ç›®æ ‡ï¼Œå³è®¾ç½®æŸä¸ªç»„ä»¶æ¥æ”¶dropæ“ä½œ
   }
 
   /**
-   * Ö÷Ãæ°åÉÏÌí¼Ó¹¤¾ßÀ¸ÊÓÍ¼
+   * ä¸»é¢æ¿ä¸Šæ·»åŠ å·¥å…·æ è§†å›¾
    */
   private void addToolBar() {
     this.getContentPane().add(this.tlbMain, BorderLayout.NORTH);
@@ -805,7 +805,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Ö÷Ãæ°åÉÏÌí¼Ó×´Ì¬À¸
+   * ä¸»é¢æ¿ä¸Šæ·»åŠ çŠ¶æ€æ 
    */
   private void addStatePanel() {
     String strStateChars = Util.STATE_CHARS + "0";
@@ -823,7 +823,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Ö÷Ãæ°åÉÏÌí¼Ó²Ëµ¥À¸
+   * ä¸»é¢æ¿ä¸Šæ·»åŠ èœå•æ 
    */
   private void addMenuItem() {
     this.setJMenuBar(this.menuBar);
@@ -1053,7 +1053,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯¿ÉÓÃÓÚ¿ì½İ¼üÉèÖÃµÄ²Ëµ¥ÏîµÄÁ´±í
+   * åˆå§‹åŒ–å¯ç”¨äºå¿«æ·é”®è®¾ç½®çš„èœå•é¡¹çš„é“¾è¡¨
    */
   private void initMenuItemList() {
     this.menuItemList.clear();
@@ -1211,7 +1211,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯¿ì½İ²Ëµ¥
+   * åˆå§‹åŒ–å¿«æ·èœå•
    */
   private void addPopMenu() {
     this.popMenuMain.add(this.itemPopUnDo);
@@ -1241,7 +1241,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.popMenuMain.add(this.itemPopCommentForLine);
     this.popMenuMain.add(this.itemPopCommentForBlock);
     Dimension popSize = this.popMenuMain.getPreferredSize();
-    popSize.width += popSize.width / 5; // ÎªÁËÃÀ¹Û£¬ÊÊµ±¼Ó¿í²Ëµ¥µÄÏÔÊ¾
+    popSize.width += popSize.width / 5; // ä¸ºäº†ç¾è§‚ï¼Œé€‚å½“åŠ å®½èœå•çš„æ˜¾ç¤º
     this.popMenuMain.setPopupSize(popSize);
 
     this.popMenuTabbed.add(this.itemPopCloseCurrent);
@@ -1262,12 +1262,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuPopCopyToClip.add(this.itemPopToCopyFilePath);
     this.menuPopCopyToClip.add(this.itemPopToCopyDirPath);
     popSize = this.popMenuTabbed.getPreferredSize();
-    popSize.width += popSize.width / 5; // ÎªÁËÃÀ¹Û£¬ÊÊµ±¼Ó¿í²Ëµ¥µÄÏÔÊ¾
+    popSize.width += popSize.width / 5; // ä¸ºäº†ç¾è§‚ï¼Œé€‚å½“åŠ å®½èœå•çš„æ˜¾ç¤º
     this.popMenuTabbed.setPopupSize(popSize);
   }
 
   /**
-   * ÉèÖÃ¸÷²Ëµ¥ÏîµÄ³õÊ¼×´Ì¬£¬¼´ÊÇ·ñ¿ÉÓÃ
+   * è®¾ç½®å„èœå•é¡¹çš„åˆå§‹çŠ¶æ€ï¼Œå³æ˜¯å¦å¯ç”¨
    */
   private void setMenuDefault() {
     this.menuSort.setEnabled(false);
@@ -1328,7 +1328,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ½çÃæ³õÊ¼»¯Ê±£¬ÉèÖÃÓĞ¹Ø²Ëµ¥µÄ³õÊ¼×´Ì¬Óë¹¦ÄÜ
+   * ç•Œé¢åˆå§‹åŒ–æ—¶ï¼Œè®¾ç½®æœ‰å…³èœå•çš„åˆå§‹çŠ¶æ€ä¸åŠŸèƒ½
    */
   private void setMenuDefaultInit() {
     this.setMenuReset();
@@ -1337,7 +1337,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ²¿·Ö²Ëµ¥µÄ×´Ì¬Óë¹¦ÄÜ
+   * è®¾ç½®éƒ¨åˆ†èœå•çš„çŠ¶æ€ä¸åŠŸèƒ½
    */
   private void setMenuReset() {
     this.itemLineWrap.setSelected(this.textAreaSetting.isLineWrap);
@@ -1367,7 +1367,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * »Ö¸´Ä¬ÈÏÉèÖÃÊ±£¬ÉèÖÃÓĞ¹Ø²Ëµ¥µÄÄ¬ÈÏ×´Ì¬Óë¹¦ÄÜ
+   * æ¢å¤é»˜è®¤è®¾ç½®æ—¶ï¼Œè®¾ç½®æœ‰å…³èœå•çš„é»˜è®¤çŠ¶æ€ä¸åŠŸèƒ½
    */
   private void setMenuDefaultSetting() {
     this.setLookAndFeel(Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME);
@@ -1383,7 +1383,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ"×î½ü±à¼­"²Ëµ¥ÊÇ·ñ¿ÉÓÃ
+   * è®¾ç½®"æœ€è¿‘ç¼–è¾‘"èœå•æ˜¯å¦å¯ç”¨
    */
   private void setFileHistoryMenuEnabled() {
     if (this.menuFileHistory.getItemCount() == 0) {
@@ -1396,7 +1396,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸ù¾İÎÄ±¾ÓòÖĞµÄ×Ö·ûÊÇ·ñÎª¿Õ£¬ÉèÖÃÏà¹Ø²Ëµ¥µÄ×´Ì¬
+   * æ ¹æ®æ–‡æœ¬åŸŸä¸­çš„å­—ç¬¦æ˜¯å¦ä¸ºç©ºï¼Œè®¾ç½®ç›¸å…³èœå•çš„çŠ¶æ€
    */
   private void setMenuStateByTextArea() {
     boolean isExist = true;
@@ -1426,7 +1426,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸ù¾İÎÄ±¾ÓòÖĞÑ¡ÔñµÄ×Ö·û´®ÊÇ·ñÎª¿Õ£¬ÉèÖÃÏà¹Ø²Ëµ¥µÄ×´Ì¬
+   * æ ¹æ®æ–‡æœ¬åŸŸä¸­é€‰æ‹©çš„å­—ç¬¦ä¸²æ˜¯å¦ä¸ºç©ºï¼Œè®¾ç½®ç›¸å…³èœå•çš„çŠ¶æ€
    */
   private void setMenuStateBySelectedText() {
     boolean isExist = false;
@@ -1453,7 +1453,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ³·ÏúÓëÖØ×ö²Ëµ¥ÏîµÄ×´Ì¬
+   * è®¾ç½®æ’¤é”€ä¸é‡åšèœå•é¡¹çš„çŠ¶æ€
    */
   private void setMenuStateUndoRedo() {
     boolean canRedo = this.undoManager.canRedo();
@@ -1467,7 +1467,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃºóÍËºÍÇ°½ø²Ëµ¥µÄ×´Ì¬
+   * è®¾ç½®åé€€å’Œå‰è¿›èœå•çš„çŠ¶æ€
    */
   private void setMenuStateBackForward() {
     LinkedList<PartnerBean> backForwardList = this.txaMain.getBackForwardList();
@@ -1482,7 +1482,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ¡°¶³½áÎÄ¼ş¡±²Ëµ¥ÏîµÄ×´Ì¬
+   * è®¾ç½®â€œå†»ç»“æ–‡ä»¶â€èœå•é¡¹çš„çŠ¶æ€
    */
   private void setMenuStateFrozen() {
     boolean isFrozen = this.txaMain.getFrozen();
@@ -1491,7 +1491,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃµ¥ĞĞ×¢ÊÍÓëÇø¿é×¢ÊÍ²Ëµ¥ÏîµÄ×´Ì¬
+   * è®¾ç½®å•è¡Œæ³¨é‡Šä¸åŒºå—æ³¨é‡Šèœå•é¡¹çš„çŠ¶æ€
    */
   private void setMenuStateComment() {
     boolean hasLine = true;
@@ -1509,7 +1509,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Îª¸÷²Ëµ¥ÏîÉèÖÃÖú¼Ç·û
+   * ä¸ºå„èœå•é¡¹è®¾ç½®åŠ©è®°ç¬¦
    */
   private void setMenuMnemonic() {
     this.menuFile.setMnemonic('F');
@@ -1564,7 +1564,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Îª¸÷²Ëµ¥ÏîÉèÖÃ¿ì½İ¼ü
+   * ä¸ºå„èœå•é¡¹è®¾ç½®å¿«æ·é”®
    */
   public void setMenuAccelerator() {
     int size = this.menuItemList.size();
@@ -1575,7 +1575,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Îª¸÷²Ëµ¥ÏîÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„èœå•é¡¹æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.itemAbout.equals(e.getSource())) {
@@ -1939,11 +1939,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openShortcutManageDialog();
     } else if (this.itemClearFileHistory.equals(e.getSource())) {
       this.clearFileHistory();
-    } else if (Util.FILE_HISTORY.equals(e.getActionCommand())) { // ×î½ü±à¼­µÄÎÄ¼ş²Ëµ¥
+    } else if (Util.FILE_HISTORY.equals(e.getActionCommand())) { // æœ€è¿‘ç¼–è¾‘çš„æ–‡ä»¶èœå•
       JMenuItem itemFile = (JMenuItem) e.getSource();
       this.openFileHistory(itemFile.getText());
     } else if (e.getActionCommand() != null
-        && e.getActionCommand().startsWith(Util.LOOK_AND_FEEL)) { // µ±Ç°ÏµÍ³Ö§³ÖµÄÍâ¹Û²Ëµ¥
+        && e.getActionCommand().startsWith(Util.LOOK_AND_FEEL)) { // å½“å‰ç³»ç»Ÿæ”¯æŒçš„å¤–è§‚èœå•
       JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) e.getSource();
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
@@ -1951,11 +1951,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "»Ö¸´Ä¬ÈÏÉèÖÃ"µÄ´¦Àí·½·¨
+   * "æ¢å¤é»˜è®¤è®¾ç½®"çš„å¤„ç†æ–¹æ³•
    */
   private void resetSetting() {
     int result = JOptionPane.showConfirmDialog(this,
-        Util.convertToMsg("´Ë²Ù×÷½«»Ö¸´ËùÓĞµÄÉèÖÃ£¬²¢½«¸²¸Ç" + Util.SETTING_XML + "ÅäÖÃÎÄ¼ş£¡\nÊÇ·ñ¼ÌĞø£¿"),
+        Util.convertToMsg("æ­¤æ“ä½œå°†æ¢å¤æ‰€æœ‰çš„è®¾ç½®ï¼Œå¹¶å°†è¦†ç›–" + Util.SETTING_XML + "é…ç½®æ–‡ä»¶ï¼\næ˜¯å¦ç»§ç»­ï¼Ÿ"),
         Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
     if (result != JOptionPane.YES_OPTION) {
       return;
@@ -1970,7 +1970,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Í³¼ÆĞÅÏ¢"µÄ´¦Àí·½·¨
+   * "ç»Ÿè®¡ä¿¡æ¯"çš„å¤„ç†æ–¹æ³•
    */
   private void openInformationDialog() {
     if (this.informationDialog == null) {
@@ -1982,7 +1982,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "´°¿Ú¹ÜÀí"µÄ´¦Àí·½·¨
+   * "çª—å£ç®¡ç†"çš„å¤„ç†æ–¹æ³•
    */
   private void openWindowManageDialog() {
     if (this.windowManageDialog == null) {
@@ -1995,10 +1995,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÎÄµµÇĞ»»-Ïòºó/ÏòÇ°"µÄ´¦Àí·½·¨
+   * "æ–‡æ¡£åˆ‡æ¢-å‘å/å‘å‰"çš„å¤„ç†æ–¹æ³•
    * 
    * @param isNext
-   *          ÇĞ»»ÎÄµµµÄ·½Ïò£¬true±íÊ¾Ïòºó£¬false±íÊ¾ÏòÇ°¡£
+   *          åˆ‡æ¢æ–‡æ¡£çš„æ–¹å‘ï¼Œtrueè¡¨ç¤ºå‘åï¼Œfalseè¡¨ç¤ºå‘å‰ã€‚
    */
   private void textAreaSwitch(boolean isNext) {
     int index = this.tpnMain.getSelectedIndex();
@@ -2020,10 +2020,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÎÄµµÇĞ»»-Ç°Ò»¸ö/ºóÒ»¸ö"µÄ´¦Àí·½·¨
+   * "æ–‡æ¡£åˆ‡æ¢-å‰ä¸€ä¸ª/åä¸€ä¸ª"çš„å¤„ç†æ–¹æ³•
    * 
    * @param isNext
-   *          ÇĞ»»ÎÄµµµÄ·½Ïò£¬true±íÊ¾ºóÒ»¸ö£¬false±íÊ¾Ç°Ò»¸ö¡£
+   *          åˆ‡æ¢æ–‡æ¡£çš„æ–¹å‘ï¼Œtrueè¡¨ç¤ºåä¸€ä¸ªï¼Œfalseè¡¨ç¤ºå‰ä¸€ä¸ªã€‚
    */
   private void textAreaHistory(boolean isNext) {
     int size = this.textAreaHashCodeList.size();
@@ -2050,11 +2050,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸ù¾İhashCode»ñÈ¡ÎÄ±¾ÓòËùÔÚÑ¡Ïî¿¨×é¼şµÄË÷ÒıÖµ
+   * æ ¹æ®hashCodeè·å–æ–‡æœ¬åŸŸæ‰€åœ¨é€‰é¡¹å¡ç»„ä»¶çš„ç´¢å¼•å€¼
    * 
    * @param hashCode
-   *          ÎÄ±¾ÓòµÄhashCode
-   * @return Ë÷ÒıÖµ
+   *          æ–‡æœ¬åŸŸçš„hashCode
+   * @return ç´¢å¼•å€¼
    */
   private int getTextAreaIndex(int hashCode) {
     int result = -1;
@@ -2070,7 +2070,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¶¨Î»Æ¥ÅäÀ¨ºÅ"µÄ´¦Àí·½·¨
+   * "å®šä½åŒ¹é…æ‹¬å·"çš„å¤„ç†æ–¹æ³•
    */
   private void findTargetBracket() {
     if (this.targetBracketIndex < 0) {
@@ -2080,7 +2080,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "µ¥ĞĞ×¢ÊÍ"µÄ´¦Àí·½·¨
+   * "å•è¡Œæ³¨é‡Š"çš„å¤„ç†æ–¹æ³•
    */
   private void setCommentForLine() {
     String comment = this.txaMain.getFileExt().getCommentForLine();
@@ -2104,7 +2104,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Çø¿é×¢ÊÍ"µÄ´¦Àí·½·¨
+   * "åŒºå—æ³¨é‡Š"çš„å¤„ç†æ–¹æ³•
    */
   private void setCommentForBlock() {
     String commentBegin = this.txaMain.getFileExt().getCommentForBlockBegin();
@@ -2129,14 +2129,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Ë«»÷¹Ø±Õ±êÇ©"µÄ´¦Àí·½·¨
+   * "åŒå‡»å…³é—­æ ‡ç­¾"çš„å¤„ç†æ–¹æ³•
    */
   private void setClickToClose() {
     this.setting.viewClickToClose = this.clickToClose = this.itemClickToClose.isSelected();
   }
 
   /**
-   * "Ö¸Ê¾Í¼±ê"µÄ´¦Àí·½·¨
+   * "æŒ‡ç¤ºå›¾æ ‡"çš„å¤„ç†æ–¹æ³•
    */
   private void setTabIcon() {
     this.setting.viewTabIcon = this.isTabIconView = this.itemTabIcon.isSelected();
@@ -2182,7 +2182,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¹Ø±ÕÆäËü"µÄ´¦Àí·½·¨
+   * "å…³é—­å…¶å®ƒ"çš„å¤„ç†æ–¹æ³•
    */
   private void closeOthers() {
     int index = this.tpnMain.getSelectedIndex();
@@ -2195,7 +2195,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
         continue;
       } else {
-        if (!this.closeFile(true)) { // ¹Ø±Õµ±Ç°µÄÎÄ¼ş
+        if (!this.closeFile(true)) { // å…³é—­å½“å‰çš„æ–‡ä»¶
           break;
         }
       }
@@ -2203,20 +2203,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¹Ø±Õ×ó²à"µÄ´¦Àí·½·¨
+   * "å…³é—­å·¦ä¾§"çš„å¤„ç†æ–¹æ³•
    */
   private void closeLeft() {
     int index = this.tpnMain.getSelectedIndex();
     this.tpnMain.setSelectedIndex(0);
     for (int i = 0; i < index; i++) {
-      if (!this.closeFile(true)) { // ¹Ø±Õµ±Ç°µÄÎÄ¼ş
+      if (!this.closeFile(true)) { // å…³é—­å½“å‰çš„æ–‡ä»¶
         break;
       }
     }
   }
 
   /**
-   * "¹Ø±ÕÓÒ²à"µÄ´¦Àí·½·¨
+   * "å…³é—­å³ä¾§"çš„å¤„ç†æ–¹æ³•
    */
   private void closeRight() {
     int index = this.tpnMain.getSelectedIndex();
@@ -2227,14 +2227,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.tpnMain.setSelectedIndex(index);
     for (int i = index; i < size; i++) {
-      if (!this.closeFile(true)) { // ¹Ø±Õµ±Ç°µÄÎÄ¼ş
+      if (!this.closeFile(true)) { // å…³é—­å½“å‰çš„æ–‡ä»¶
         break;
       }
     }
   }
 
   /**
-   * "¶³½áÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "å†»ç»“æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void frozenFile() {
     boolean isFrozen = this.itemFrozenFile.isSelected();
@@ -2244,7 +2244,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "´òÓ¡"µÄ´¦Àí·½·¨
+   * "æ‰“å°"çš„å¤„ç†æ–¹æ³•
    */
   private void print() {
     try {
@@ -2255,20 +2255,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "È«²¿¹Ø±Õ"µÄ´¦Àí·½·¨
+   * "å…¨éƒ¨å…³é—­"çš„å¤„ç†æ–¹æ³•
    */
   private void closeAll() {
     int size = this.textAreaList.size();
     for (int i = 0; i < size; i++) {
       this.tpnMain.setSelectedIndex(0);
-      if (!this.closeFile(true)) { // ¹Ø±Õµ±Ç°µÄÎÄ¼ş
+      if (!this.closeFile(true)) { // å…³é—­å½“å‰çš„æ–‡ä»¶
         break;
       }
     }
   }
 
   /**
-   * "¶àĞĞ±êÇ©"µÄ´¦Àí·½·¨
+   * "å¤šè¡Œæ ‡ç­¾"çš„å¤„ç†æ–¹æ³•
    */
   private void setTabLayoutPolicy() {
     if (this.itemTabPolicy.isSelected()) {
@@ -2280,10 +2280,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃÎª"ÇĞ»»Íâ¹Û"ÏÂÄ³¸öÍâ¹ÛµÄ´¦Àí·½·¨
+   * è®¾ç½®ä¸º"åˆ‡æ¢å¤–è§‚"ä¸‹æŸä¸ªå¤–è§‚çš„å¤„ç†æ–¹æ³•
    * 
    * @param className
-   *          ½«ÒªÉèÖÃµÄÍâ¹ÛÍêÕûÀàÃû
+   *          å°†è¦è®¾ç½®çš„å¤–è§‚å®Œæ•´ç±»å
    */
   private void setLookAndFeel(String className) {
     if (this.strLookAndFeel.equals(className)) {
@@ -2316,7 +2316,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ½«ËùÓĞ´°¿ÚÉèÖÃÎªnull£¬ÒÔ±ãÓÚ½«ÇĞ»»ºóµÄĞÂÍâ¹ÛÍêÕûÓ¦ÓÃÓÚ¸÷´°¿Ú
+   * å°†æ‰€æœ‰çª—å£è®¾ç½®ä¸ºnullï¼Œä»¥ä¾¿äºå°†åˆ‡æ¢åçš„æ–°å¤–è§‚å®Œæ•´åº”ç”¨äºå„çª—å£
    */
   private void destroyAllDialogs() {
     this.openFileChooser = null;
@@ -2420,7 +2420,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÔÚ"ÇĞ»»Íâ¹Û"²Ëµ¥ÏÂ£¬Ìí¼Óµ±Ç°ÏµÍ³¿ÉÓÃµÄÍâ¹Û
+   * åœ¨"åˆ‡æ¢å¤–è§‚"èœå•ä¸‹ï¼Œæ·»åŠ å½“å‰ç³»ç»Ÿå¯ç”¨çš„å¤–è§‚
    */
   private void addLookAndFeelItem() {
     UIManager.LookAndFeelInfo[] infos = Util.LOOK_AND_FEEL_INFOS;
@@ -2442,10 +2442,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ĞĞºÅÀ¸"µÄ´¦Àí·½·¨
+   * "è¡Œå·æ "çš„å¤„ç†æ–¹æ³•
    * 
    * @param enable
-   *          ÊÇ·ñÏÔÊ¾ĞĞºÅÀ¸
+   *          æ˜¯å¦æ˜¾ç¤ºè¡Œå·æ 
    */
   private void setLineNumber(boolean enable) {
     LineNumberView lineNumberView = null;
@@ -2464,7 +2464,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÔÚ¿ªÆô"ĞĞºÅÀ¸"ÉèÖÃµÄÇé¿öÏÂ£¬ĞÂ½¨»ò´ò¿ªĞÂÎÄ¼şÊ±£¬Ìí¼ÓĞĞºÅÀ¸µÄÏÔÊ¾
+   * åœ¨å¼€å¯"è¡Œå·æ "è®¾ç½®çš„æƒ…å†µä¸‹ï¼Œæ–°å»ºæˆ–æ‰“å¼€æ–°æ–‡ä»¶æ—¶ï¼Œæ·»åŠ è¡Œå·æ çš„æ˜¾ç¤º
    */
   private void setLineNumberForNew() {
     if (this.textAreaSetting.isLineNumberView && this.itemLineNumber.isEnabled()) {
@@ -2475,7 +2475,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "²éÕÒ½á¹û"µÄ´¦Àí·½·¨
+   * "æŸ¥æ‰¾ç»“æœ"çš„å¤„ç†æ–¹æ³•
    */
   private void setSearchResult() {
     boolean enable = this.itemSearchResult.isSelected();
@@ -2484,15 +2484,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.spnMain.setDividerSize(3);
       this.spnMain.setDividerLocation(this.getDividerLocation());
     } else {
-      this.spnMain.setDividerSize(0); // Òş²Ø·Ö¸ôÌõ
+      this.spnMain.setDividerSize(0); // éšè—åˆ†éš”æ¡
     }
     this.setting.viewSearchResult = enable;
   }
 
   /**
-   * »ñÈ¡²éÕÒ½á¹ûÃæ°åµÄÎ»ÖÃ
+   * è·å–æŸ¥æ‰¾ç»“æœé¢æ¿çš„ä½ç½®
    * 
-   * @return ²éÕÒ½á¹ûÃæ°åµÄÎ»ÖÃ
+   * @return æŸ¥æ‰¾ç»“æœé¢æ¿çš„ä½ç½®
    */
   private int getDividerLocation() {
     int height = this.spnMain.getHeight();
@@ -2505,10 +2505,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÏÔÊ¾»ò¹Ø±Õ²éÕÒ½á¹ûÃæ°å
+   * æ˜¾ç¤ºæˆ–å…³é—­æŸ¥æ‰¾ç»“æœé¢æ¿
    * 
    * @param isView
-   *          ÊÇ·ñÏÔÊ¾²éÕÒ½á¹ûÃæ°å£¬true±íÊ¾ÏÔÊ¾£¬false±íÊ¾¹Ø±Õ¡£
+   *          æ˜¯å¦æ˜¾ç¤ºæŸ¥æ‰¾ç»“æœé¢æ¿ï¼Œtrueè¡¨ç¤ºæ˜¾ç¤ºï¼Œfalseè¡¨ç¤ºå…³é—­ã€‚
    */
   public void viewSearchResult(boolean isView) {
     if (isView && this.pnlSearchResult.isVisible()) {
@@ -2523,15 +2523,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.spnMain.setDividerSize(3);
       this.spnMain.setDividerLocation(this.getDividerLocation());
     } else {
-      this.spnMain.setDividerSize(0); // Òş²Ø·Ö¸ôÌõ
+      this.spnMain.setDividerSize(0); // éšè—åˆ†éš”æ¡
     }
   }
 
   /**
-   * "²éÕÒ½á¹û"Ãæ°åÖĞË«»÷Ìø×ªµÄ´¦Àí·½·¨
+   * "æŸ¥æ‰¾ç»“æœ"é¢æ¿ä¸­åŒå‡»è·³è½¬çš„å¤„ç†æ–¹æ³•
    * 
    * @param hashCode
-   *          ĞèÒª¼¤»îµÄÎÄ±¾ÓòµÄhashCode
+   *          éœ€è¦æ¿€æ´»çš„æ–‡æœ¬åŸŸçš„hashCode
    */
   public void searchResultToSwitchFile(int hashCode) {
     int index = this.getTextAreaIndex(hashCode);
@@ -2541,7 +2541,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ¸÷ÎÄ±¾Óò×ÖÌå¡£Èç¹ûÒÑÏÔÊ¾"ĞĞºÅÀ¸"£¬ÔòÍ¬²½ÉèÖÃÆä×ÖÌå¡£
+   * è®¾ç½®å„æ–‡æœ¬åŸŸå­—ä½“ã€‚å¦‚æœå·²æ˜¾ç¤º"è¡Œå·æ "ï¼Œåˆ™åŒæ­¥è®¾ç½®å…¶å­—ä½“ã€‚
    */
   private void setTextAreaFont() {
     for (BaseTextArea textArea : this.textAreaList) {
@@ -2559,12 +2559,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¹Ø±Õ"µÄ´¦Àí·½·¨
+   * "å…³é—­"çš„å¤„ç†æ–¹æ³•
    * 
    * @param check
-   *          ÊÇ·ñ¼ì²éµ±Ç°ÎÄ¼şµÄĞŞ¸Ä×´Ì¬£¬Èç¹ûÎªtrue±íÊ¾ĞèÒª¼ì²é£¬·´Ö®Ôò²»ĞèÒª¼ì²é¡£
+   *          æ˜¯å¦æ£€æŸ¥å½“å‰æ–‡ä»¶çš„ä¿®æ”¹çŠ¶æ€ï¼Œå¦‚æœä¸ºtrueè¡¨ç¤ºéœ€è¦æ£€æŸ¥ï¼Œåä¹‹åˆ™ä¸éœ€è¦æ£€æŸ¥ã€‚
    * 
-   * @return ³É¹¦¹Ø±ÕÎÄ¼şÊ±·µ»Øtrue£¬Î´ÄÜ¹Ø±ÕÊ±·µ»Øfalse
+   * @return æˆåŠŸå…³é—­æ–‡ä»¶æ—¶è¿”å›trueï¼Œæœªèƒ½å…³é—­æ—¶è¿”å›false
    */
   private boolean closeFile(boolean check) {
     if (check && !this.saveFileBeforeAct()) {
@@ -2581,11 +2581,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÎÄ±¾ÓòµÄÎÄ¼şÂ·¾¶£¬ÓÃÓÚ´°¿Ú¹ÜÀí½çÃæµÄÏà¹Ø²Ù×÷
+   * æ–‡æœ¬åŸŸçš„æ–‡ä»¶è·¯å¾„ï¼Œç”¨äºçª—å£ç®¡ç†ç•Œé¢çš„ç›¸å…³æ“ä½œ
    * 
    * @param textArea
-   *          ÎÄ±¾Óò
-   * @return µ±Ç°ÎÄ±¾ÓòµÄÎÄ¼şÂ·¾¶
+   *          æ–‡æœ¬åŸŸ
+   * @return å½“å‰æ–‡æœ¬åŸŸçš„æ–‡ä»¶è·¯å¾„
    */
   private String getFilePathForWindowManage(BaseTextArea textArea) {
     File file = textArea.getFile();
@@ -2595,10 +2595,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "´°¿Ú¹ÜÀí"½çÃæÖĞ"¼¤»î"µÄ´¦Àí·½·¨
+   * "çª—å£ç®¡ç†"ç•Œé¢ä¸­"æ¿€æ´»"çš„å¤„ç†æ–¹æ³•
    * 
    * @param switchPath
-   *          ĞèÒª¼¤»îµÄÎÄ¼şÂ·¾¶
+   *          éœ€è¦æ¿€æ´»çš„æ–‡ä»¶è·¯å¾„
    */
   public void windowManageToSwitchFile(String switchPath) {
     if (Util.isTextEmpty(switchPath)) {
@@ -2614,10 +2614,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "´°¿Ú¹ÜÀí"½çÃæÖĞ"±£´æ"µÄ´¦Àí·½·¨
+   * "çª—å£ç®¡ç†"ç•Œé¢ä¸­"ä¿å­˜"çš„å¤„ç†æ–¹æ³•
    * 
    * @param savePaths
-   *          ĞèÒª±£´æµÄÎÄ¼şÂ·¾¶ÁĞ±í
+   *          éœ€è¦ä¿å­˜çš„æ–‡ä»¶è·¯å¾„åˆ—è¡¨
    */
   public void windowManageToSaveFile(LinkedList<String> savePaths) {
     for (String savePath : savePaths) {
@@ -2633,10 +2633,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "´°¿Ú¹ÜÀí"½çÃæÖĞ"¹Ø±Õ"µÄ´¦Àí·½·¨
+   * "çª—å£ç®¡ç†"ç•Œé¢ä¸­"å…³é—­"çš„å¤„ç†æ–¹æ³•
    * 
    * @param closePaths
-   *          ĞèÒª¹Ø±ÕµÄÎÄ¼şÂ·¾¶ÁĞ±í
+   *          éœ€è¦å…³é—­çš„æ–‡ä»¶è·¯å¾„åˆ—è¡¨
    */
   public void windowManageToCloseFile(LinkedList<String> closePaths) {
     for (String closePath : closePaths) {
@@ -2660,12 +2660,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "´°¿Ú¹ÜÀí"½çÃæÖĞ"ÅÅĞò"µÄ´¦Àí·½·¨
+   * "çª—å£ç®¡ç†"ç•Œé¢ä¸­"æ’åº"çš„å¤„ç†æ–¹æ³•
    * 
    * @param sortedPaths
-   *          ĞèÒªÅÅĞòµÄÎÄ¼şÂ·¾¶ÁĞ±í
+   *          éœ€è¦æ’åºçš„æ–‡ä»¶è·¯å¾„åˆ—è¡¨
    * @param index
-   *          µ±Ç°Ñ¡ÔñµÄÎÄ¼şË÷ÒıÖµ
+   *          å½“å‰é€‰æ‹©çš„æ–‡ä»¶ç´¢å¼•å€¼
    */
   public void windowManageToSortFile(LinkedList<String> sortedPaths, int index) {
     if (sortedPaths == null) {
@@ -2690,7 +2690,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Åú´¦Àí"·Ö¸îĞĞ"µÄ´¦Àí·½·¨
+   * æ‰¹å¤„ç†"åˆ†å‰²è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void openBatchSeparateDialog() {
     if (this.batchSeparateDialog == null) {
@@ -2703,7 +2703,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Åú´¦Àí"Æ´½ÓĞĞ"µÄ´¦Àí·½·¨
+   * æ‰¹å¤„ç†"æ‹¼æ¥è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void openBatchJoinDialog() {
     if (this.batchJoinDialog == null) {
@@ -2715,7 +2715,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Åú´¦Àí"ºÏ²¢ĞĞ"µÄ´¦Àí·½·¨
+   * æ‰¹å¤„ç†"åˆå¹¶è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void mergeLines() {
     if (this.txaMain.getLineCount() <= 1) {
@@ -2743,7 +2743,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Åú´¦Àí"ÖğĞĞ¸´Ğ´"µÄ´¦Àí·½·¨
+   * æ‰¹å¤„ç†"é€è¡Œå¤å†™"çš„å¤„ç†æ–¹æ³•
    */
   private void rewriteLines() {
     String[] arrText = Util.getCurrentLinesArray(this.txaMain);
@@ -2761,13 +2761,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÁĞ±í·ûºÅÓë±àºÅ"µÄ´¦Àí·½·¨
+   * "åˆ—è¡¨ç¬¦å·ä¸ç¼–å·"çš„å¤„ç†æ–¹æ³•
    */
   private void openSignIdentifierDialog() {
     if (this.signIdentifierDialog == null) {
       Hashtable<String, String> hashtable = new Hashtable<String, String>();
-      hashtable.put("·ûºÅ", Util.SIGN_CHARS);
-      hashtable.put("±àºÅ", Util.IDENTIFIER_CHARS);
+      hashtable.put("ç¬¦å·", Util.SIGN_CHARS);
+      hashtable.put("ç¼–å·", Util.IDENTIFIER_CHARS);
       this.signIdentifierDialog = new SignIdentifierDialog(this, true, this.txaMain, hashtable);
     } else {
       this.signIdentifierDialog.setTextArea(this.txaMain);
@@ -2776,26 +2776,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Ëõ½ø"µÄ´¦Àí·½·¨
+   * "ç¼©è¿›"çš„å¤„ç†æ–¹æ³•
    * 
    * @param indent
-   *          Ëõ½øµÄ·½Ïò£¬Ëõ½øÎªtrue£¬ÍË¸ñÎªfalse
+   *          ç¼©è¿›çš„æ–¹å‘ï¼Œç¼©è¿›ä¸ºtrueï¼Œé€€æ ¼ä¸ºfalse
    */
   private void toIndent(boolean indent) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
     int startIndex = currentLines.getStartIndex();
     String[] arrText = Util.getCurrentLinesArray(this.txaMain);
-    String strIndent = "\t"; // ÓÃÓÚËõ½øµÄ×Ö·û£¬Ä¬ÈÏÎªTAB×Ö·û
-    String strIndentBlanks = ""; // µ±Ç°µÈ¼ÛÓÚTab¼üµÄ¶à¸ö¿Õ¸ñ
+    String strIndent = "\t"; // ç”¨äºç¼©è¿›çš„å­—ç¬¦ï¼Œé»˜è®¤ä¸ºTABå­—ç¬¦
+    String strIndentBlanks = ""; // å½“å‰ç­‰ä»·äºTabé”®çš„å¤šä¸ªç©ºæ ¼
     int tabSize = this.txaMain.getTabSize();
     for (int i = 0; i < tabSize; i++) {
       strIndentBlanks += " ";
     }
-    if (this.txaMain.getTabReplaceBySpace()) { // Èç¹û±»ÉèÖÃÎª¡°ÒÔ¿Õ¸ñ´úÌæTab¼ü¡±£¬Ôò½«Ëõ½ø×Ö·ûÉèÖÃÎªÏàÓ¦¸öÊıµÄ¿Õ¸ñ
+    if (this.txaMain.getTabReplaceBySpace()) { // å¦‚æœè¢«è®¾ç½®ä¸ºâ€œä»¥ç©ºæ ¼ä»£æ›¿Tabé”®â€ï¼Œåˆ™å°†ç¼©è¿›å­—ç¬¦è®¾ç½®ä¸ºç›¸åº”ä¸ªæ•°çš„ç©ºæ ¼
       strIndent = strIndentBlanks;
     }
     StringBuilder stbIndent = new StringBuilder();
-    boolean label = false; // ÓÃÀ´±êÊ¶ÊÇ·ñ½øĞĞÁËÍË¸ñ
+    boolean label = false; // ç”¨æ¥æ ‡è¯†æ˜¯å¦è¿›è¡Œäº†é€€æ ¼
     if (indent) {
       for (String str : arrText) {
         stbIndent.append(strIndent + str + "\n");
@@ -2824,15 +2824,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         return;
       }
     }
-    this.txaMain.replaceSelection(stbIndent.deleteCharAt(stbIndent.length() - 1).toString()); // É¾³ı×Ö·û´®Ä©Î²¶àÓàµÄ»»ĞĞ·û
+    this.txaMain.replaceSelection(stbIndent.deleteCharAt(stbIndent.length() - 1).toString()); // åˆ é™¤å­—ç¬¦ä¸²æœ«å°¾å¤šä½™çš„æ¢è¡Œç¬¦
     this.txaMain.select(startIndex, startIndex + stbIndent.length());
   }
 
   /**
-   * "Ñ¡¶¨²éÕÒ"µÄ´¦Àí·½·¨
+   * "é€‰å®šæŸ¥æ‰¾"çš„å¤„ç†æ–¹æ³•
    * 
    * @param isFindDown
-   *          ²éÕÒµÄ·½Ïò£¬Èç¹ûÏòÏÂ²éÕÒÔòÎªtrue£¬·´Ö®ÔòÎªfalse
+   *          æŸ¥æ‰¾çš„æ–¹å‘ï¼Œå¦‚æœå‘ä¸‹æŸ¥æ‰¾åˆ™ä¸ºtrueï¼Œåä¹‹åˆ™ä¸ºfalse
    */
   private void findSelNextText(boolean isFindDown) {
     String strSel = this.txaMain.getSelectedText();
@@ -2849,7 +2849,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Åú´¦Àí"ÇĞ³ı"µÄ´¦Àí·½·¨
+   * æ‰¹å¤„ç†"åˆ‡é™¤"çš„å¤„ç†æ–¹æ³•
    */
   private void openBatchRemoveDialog() {
     if (this.batchRemoveDialog == null) {
@@ -2861,7 +2861,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Åú´¦Àí"²åÈë"µÄ´¦Àí·½·¨
+   * æ‰¹å¤„ç†"æ’å…¥"çš„å¤„ç†æ–¹æ³•
    */
   private void openBatchInsertDialog() {
     if (this.batchInsertDialog == null) {
@@ -2873,10 +2873,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¸ßÁÁÏÔÊ¾"ÖĞ¸÷¸ñÊ½µÄ´¦Àí·½·¨
+   * "é«˜äº®æ˜¾ç¤º"ä¸­å„æ ¼å¼çš„å¤„ç†æ–¹æ³•
    * 
    * @param style
-   *          °´ÕÕÄ³ÖÖÑÕÉ«½øĞĞ¸ßÁÁÏÔÊ¾£¬ÆäÈ¡ÖµÓĞ1¡¢2¡¢3¡¢4¡¢5
+   *          æŒ‰ç…§æŸç§é¢œè‰²è¿›è¡Œé«˜äº®æ˜¾ç¤ºï¼Œå…¶å–å€¼æœ‰1ã€2ã€3ã€4ã€5
    */
   private void setHighlight(int style) {
     String strSelText = this.txaMain.getSelectedText();
@@ -2910,10 +2910,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Çå³ı¸ßÁÁ"ÖĞ¸÷¸ñÊ½µÄ´¦Àí·½·¨
+   * "æ¸…é™¤é«˜äº®"ä¸­å„æ ¼å¼çš„å¤„ç†æ–¹æ³•
    * 
    * @param style
-   *          Çå³ıÄ³ÖÖÑÕÉ«µÄ¸ßÁÁÏÔÊ¾£¬ÆäÈ¡ÖµÓĞ1¡¢2¡¢3¡¢4¡¢5ºÍÇå³ıËùÓĞ¸ßÁÁ£¨0£©µÈ¹²6ÖÖ
+   *          æ¸…é™¤æŸç§é¢œè‰²çš„é«˜äº®æ˜¾ç¤ºï¼Œå…¶å–å€¼æœ‰1ã€2ã€3ã€4ã€5å’Œæ¸…é™¤æ‰€æœ‰é«˜äº®ï¼ˆ0ï¼‰ç­‰å…±6ç§
    */
   private void rmHighlight(int style) {
     if (style == 0) {
@@ -2932,7 +2932,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Çå³ı¸ßÁÁ"ÖĞ"ËùÓĞ¸ñÊ½"µÄ´¦Àí·½·¨
+   * "æ¸…é™¤é«˜äº®"ä¸­"æ‰€æœ‰æ ¼å¼"çš„å¤„ç†æ–¹æ³•
    */
   private void rmHighlightAll() {
     PartnerBean partnerBean = null;
@@ -2947,10 +2947,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÑÕÉ«ÉèÖÃ"ÖĞ"È«²¿·´É«/È«²¿²¹É«"µÄ´¦Àí·½·¨
+   * "é¢œè‰²è®¾ç½®"ä¸­"å…¨éƒ¨åè‰²/å…¨éƒ¨è¡¥è‰²"çš„å¤„ç†æ–¹æ³•
    * 
    * @param mode
-   *          ÓÃÓÚ±êÊ¶·´É«/²¹É«£¬Èç¹ûÎªtrue±íÊ¾·´É«£¬·´Ö®ÔòÎª²¹É«
+   *          ç”¨äºæ ‡è¯†åè‰²/è¡¥è‰²ï¼Œå¦‚æœä¸ºtrueè¡¨ç¤ºåè‰²ï¼Œåä¹‹åˆ™ä¸ºè¡¥è‰²
    */
   private void setColorTransform(boolean mode) {
     Color colorFont = this.getConvertColor(this.txaMain.getForeground(), mode);
@@ -2966,24 +2966,24 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ½«Ö¸¶¨µÄrgbÄ£Ê½ÑÕÉ«×ª»¯Îª·´É«/²¹É«
+   * å°†æŒ‡å®šçš„rgbæ¨¡å¼é¢œè‰²è½¬åŒ–ä¸ºåè‰²/è¡¥è‰²
    * 
    * @param color
-   *          ´ı´¦ÀíµÄrgbÄ£Ê½ÑÕÉ«
+   *          å¾…å¤„ç†çš„rgbæ¨¡å¼é¢œè‰²
    * @param mode
-   *          ÓÃÓÚ±êÊ¶·´É«/²¹É«£¬Èç¹ûÎªtrue±íÊ¾·´É«£¬·´Ö®ÔòÎª²¹É«
-   * @return ´¦ÀíºóµÄÑÕÉ«
+   *          ç”¨äºæ ‡è¯†åè‰²/è¡¥è‰²ï¼Œå¦‚æœä¸ºtrueè¡¨ç¤ºåè‰²ï¼Œåä¹‹åˆ™ä¸ºè¡¥è‰²
+   * @return å¤„ç†åçš„é¢œè‰²
    */
   private Color getConvertColor(Color color, boolean mode) {
     if (color != null) {
       int red = color.getRed();
       int green = color.getGreen();
       int blue = color.getBlue();
-      if (mode) { // ·´É«
+      if (mode) { // åè‰²
         red = 255 - red;
         green = 255 - green;
         blue = 255 - blue;
-      } else { // ²¹É«
+      } else { // è¡¥è‰²
         int min = red;
         int max = red;
         if (min > green) {
@@ -3009,10 +3009,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ"ÅäÉ«·½°¸"µÄ´¦Àí·½·¨
+   * è®¾ç½®"é…è‰²æ–¹æ¡ˆ"çš„å¤„ç†æ–¹æ³•
    * 
    * @param style
-   *          ÅäÉ«·½°¸ĞòºÅ£¬ÓĞ1¡¢2¡¢3¡¢4¡¢5ÒÔ¼°Ä¬ÈÏÅäÉ«£¨0£©µÈ¹²6ÖÖ
+   *          é…è‰²æ–¹æ¡ˆåºå·ï¼Œæœ‰1ã€2ã€3ã€4ã€5ä»¥åŠé»˜è®¤é…è‰²ï¼ˆ0ï¼‰ç­‰å…±6ç§
    */
   private void setColorStyle(int style) {
     if (style > 0 && style <= Util.COLOR_STYLES.length) {
@@ -3027,10 +3027,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÅÅĞò"µÄ´¦Àí·½·¨
+   * "æ’åº"çš„å¤„ç†æ–¹æ³•
    * 
    * @param order
-   *          ÅÅĞòµÄË³Ğò£¬ÉıĞòÎªtrue£¬½µĞòÎªfalse
+   *          æ’åºçš„é¡ºåºï¼Œå‡åºä¸ºtrueï¼Œé™åºä¸ºfalse
    */
   private void sortLines(boolean order) {
     if (Util.isTextEmpty(this.txaMain.getText())) {
@@ -3044,11 +3044,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.select(currentLines.getStartIndex(), currentLines.getEndIndex());
     }
     String strSelText = this.txaMain.getSelectedText();
-    String[] arrText = strSelText.split("\n", -1); // ½«µ±Ç°Ñ¡ÇøµÄÎÄ±¾·ÖĞĞ´¦Àí£¬°üÀ¨Ä©Î²µÄ¶à´¦¿ÕĞĞ
+    String[] arrText = strSelText.split("\n", -1); // å°†å½“å‰é€‰åŒºçš„æ–‡æœ¬åˆ†è¡Œå¤„ç†ï¼ŒåŒ…æ‹¬æœ«å°¾çš„å¤šå¤„ç©ºè¡Œ
     if (arrText.length <= 1) {
       return;
     }
-    for (int i = 0; i < arrText.length; i++) { // Ã°ÅİÅÅĞò
+    for (int i = 0; i < arrText.length; i++) { // å†’æ³¡æ’åº
       for (int j = 0; j < i; j++) {
         if (arrText[i].compareTo(arrText[j]) < 0) {
           String str = arrText[i];
@@ -3058,26 +3058,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     }
     StringBuilder stbSorted = new StringBuilder();
-    if (order) { // ÉıĞò
+    if (order) { // å‡åº
       for (String str : arrText) {
         stbSorted.append(str + "\n");
       }
       if (stbSorted.toString().startsWith("\n")) {
-        stbSorted.deleteCharAt(0); // É¾³ı×Ö·û´®¿ªÍ·¶àÓàµÄ»»ĞĞ·û
+        stbSorted.deleteCharAt(0); // åˆ é™¤å­—ç¬¦ä¸²å¼€å¤´å¤šä½™çš„æ¢è¡Œç¬¦
       } else {
-        stbSorted.deleteCharAt(stbSorted.length() - 1); // É¾³ı×Ö·û´®Ä©Î²¶àÓàµÄ»»ĞĞ·û
+        stbSorted.deleteCharAt(stbSorted.length() - 1); // åˆ é™¤å­—ç¬¦ä¸²æœ«å°¾å¤šä½™çš„æ¢è¡Œç¬¦
       }
       this.txaMain.replaceSelection(stbSorted.toString());
-    } else { // ½µĞò
+    } else { // é™åº
       for (String str : arrText) {
         stbSorted.insert(0, str + "\n");
       }
-      this.txaMain.replaceSelection(stbSorted.deleteCharAt(stbSorted.length() - 1).toString()); // É¾³ı×Ö·û´®Ä©Î²¶àÓàµÄ»»ĞĞ·û
+      this.txaMain.replaceSelection(stbSorted.deleteCharAt(stbSorted.length() - 1).toString()); // åˆ é™¤å­—ç¬¦ä¸²æœ«å°¾å¤šä½™çš„æ¢è¡Œç¬¦
     }
   }
 
   /**
-   * "·´Ğò"µÄ´¦Àí·½·¨
+   * "ååº"çš„å¤„ç†æ–¹æ³•
    */
   private void reverseLines() {
     if (Util.isTextEmpty(this.txaMain.getText())) {
@@ -3086,9 +3086,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     CurrentLines currentLines = new CurrentLines(this.txaMain);
     int lineCount = currentLines.getLineCount();
     int endLineNum = currentLines.getEndLineNum();
-    // Ñ¡ÇøµÄÄ©ĞĞÊÇ·ñ²»ÊÇÎÄ±¾ÓòÄ©ĞĞ
+    // é€‰åŒºçš„æœ«è¡Œæ˜¯å¦ä¸æ˜¯æ–‡æœ¬åŸŸæœ«è¡Œ
     boolean isNotEndLine = false;
-    // Èç¹ûµ±Ç°Êµ¼ÊÑ¡ÇøµÄÄ©ĞĞ²»ÊÇÎÄ±¾ÓòÄ©ĞĞ£¬Ó¦×÷Ò»¶¨´¦Àí
+    // å¦‚æœå½“å‰å®é™…é€‰åŒºçš„æœ«è¡Œä¸æ˜¯æ–‡æœ¬åŸŸæœ«è¡Œï¼Œåº”ä½œä¸€å®šå¤„ç†
     if (endLineNum < this.txaMain.getLineCount() - 1) {
       isNotEndLine = true;
     }
@@ -3099,7 +3099,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.select(currentLines.getStartIndex(), currentLines.getEndIndex());
     }
     String strSelText = this.txaMain.getSelectedText();
-    String[] arrText = strSelText.split("\n", -1); // ½«µ±Ç°Ñ¡ÇøµÄÎÄ±¾·ÖĞĞ´¦Àí£¬°üÀ¨Ä©Î²µÄ¶à´¦¿ÕĞĞ
+    String[] arrText = strSelText.split("\n", -1); // å°†å½“å‰é€‰åŒºçš„æ–‡æœ¬åˆ†è¡Œå¤„ç†ï¼ŒåŒ…æ‹¬æœ«å°¾çš„å¤šå¤„ç©ºè¡Œ
     if (arrText.length <= 1) {
       return;
     }
@@ -3108,14 +3108,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       stbReversed.insert(0, str + "\n");
     }
     if (isNotEndLine) {
-      this.txaMain.replaceSelection(stbReversed.deleteCharAt(0).toString()); // É¾³ı×Ö·û´®¿ªÍ·¶àÓàµÄ»»ĞĞ·û
+      this.txaMain.replaceSelection(stbReversed.deleteCharAt(0).toString()); // åˆ é™¤å­—ç¬¦ä¸²å¼€å¤´å¤šä½™çš„æ¢è¡Œç¬¦
     } else {
-      this.txaMain.replaceSelection(stbReversed.deleteCharAt(stbReversed.length() - 1).toString()); // É¾³ı×Ö·û´®Ä©Î²¶àÓàµÄ»»ĞĞ·û
+      this.txaMain.replaceSelection(stbReversed.deleteCharAt(stbReversed.length() - 1).toString()); // åˆ é™¤å­—ç¬¦ä¸²æœ«å°¾å¤šä½™çš„æ¢è¡Œç¬¦
     }
   }
 
   /**
-   * "×Ô¶¯Ëõ½ø"µÄ´¦Àí·½·¨
+   * "è‡ªåŠ¨ç¼©è¿›"çš„å¤„ç†æ–¹æ³•
    */
   private void setAutoIndent() {
     boolean enable = this.itemAutoIndent.isSelected();
@@ -3126,7 +3126,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÉÏÒÆµ±Ç°ĞĞ"µÄ´¦Àí·½·¨
+   * "ä¸Šç§»å½“å‰è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void moveLineToUp() {
     CurrentLines currentLines = new CurrentLines(this.txaMain, CurrentLines.LineExtend.EXTEND_UP);
@@ -3139,7 +3139,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     int endLineNum = currentLines.getEndLineNum();
     String strContentCurrent = currentLines.getStrContentCurrent();
     if (endLineNum == this.txaMain.getLineCount() - 1) {
-      // Èç¹ûµ±Ç°Êµ¼ÊÑ¡ÇøµÄÄ©ĞĞÎªÎÄ±¾ÓòÄ©ĞĞ£¬Ó¦×÷Ò»¶¨´¦Àí
+      // å¦‚æœå½“å‰å®é™…é€‰åŒºçš„æœ«è¡Œä¸ºæ–‡æœ¬åŸŸæœ«è¡Œï¼Œåº”ä½œä¸€å®šå¤„ç†
       strContentCurrent += "\n";
       strContentExtend = strContentExtend.substring(0, strContentExtend.length() - 1);
     }
@@ -3149,7 +3149,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÏÂÒÆµ±Ç°ĞĞ"µÄ´¦Àí·½·¨
+   * "ä¸‹ç§»å½“å‰è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void moveLineToDown() {
     CurrentLines currentLines = new CurrentLines(this.txaMain, CurrentLines.LineExtend.EXTEND_DOWN);
@@ -3164,14 +3164,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     String strContentCurrent = currentLines.getStrContentCurrent();
     boolean isReachEnd = false;
     if (endLineNum == this.txaMain.getLineCount() - 1) {
-      // Èç¹ûÀ©Õ¹ĞĞÎªÎÄ±¾ÓòÄ©ĞĞ£¬Ó¦×÷Ò»¶¨´¦Àí
+      // å¦‚æœæ‰©å±•è¡Œä¸ºæ–‡æœ¬åŸŸæœ«è¡Œï¼Œåº”ä½œä¸€å®šå¤„ç†
       strContentCurrent = strContentCurrent.substring(0, strContentCurrent.length() - 1);
       strContentExtend += "\n";
       isReachEnd = true;
     }
     String strMoved = strContentExtend + strContentCurrent;
     this.txaMain.replaceRange(strMoved, startIndex, endIndex);
-    int selectEndIndex = startIndex + strContent.length() - 1; // ÒÆ¶¯ĞĞÖ®ºó£¬ÖØĞÂÑ¡Ôñ±»ÒÆ¶¯¶àĞĞµÄĞĞÄ©Æ«ÒÆÁ¿
+    int selectEndIndex = startIndex + strContent.length() - 1; // ç§»åŠ¨è¡Œä¹‹åï¼Œé‡æ–°é€‰æ‹©è¢«ç§»åŠ¨å¤šè¡Œçš„è¡Œæœ«åç§»é‡
     if (isReachEnd) {
       selectEndIndex++;
     }
@@ -3179,7 +3179,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Çå¿Õ×î½ü±à¼­ÁĞ±í"µÄ´¦Àí·½·¨
+   * "æ¸…ç©ºæœ€è¿‘ç¼–è¾‘åˆ—è¡¨"çš„å¤„ç†æ–¹æ³•
    */
   private void clearFileHistory() {
     if (!this.fileHistoryList.isEmpty()) {
@@ -3190,22 +3190,22 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Çå³ı"Ñ¡ÇøÄÚ¿Õ°×"µÄ´¦Àí·½·¨
+   * æ¸…é™¤"é€‰åŒºå†…ç©ºç™½"çš„å¤„ç†æ–¹æ³•
    */
   private void trimSelected() {
     StringBuilder stbSelected = new StringBuilder(this.txaMain.getSelectedText());
     if (Util.isTextEmpty(stbSelected.toString())) {
       return;
     }
-    boolean label = false; // ÊÇ·ñ´æÔÚ¿Õ°××Ö·ûµÄ±êÊ¶·û
+    boolean label = false; // æ˜¯å¦å­˜åœ¨ç©ºç™½å­—ç¬¦çš„æ ‡è¯†ç¬¦
     for (int i = 0; i < stbSelected.length(); i++) {
       switch (stbSelected.charAt(i)) {
       case ' ':
       case '\t':
-      case '¡¡':
+      case 'ã€€':
         stbSelected.deleteCharAt(i);
-        label = true; // ²éÕÒµ½¿Õ°××Ö·û
-        i--; // ÓÉÓÚÉ¾³ıÁË²éÕÒµ½µÄ¿Õ°××Ö·û£¬ĞèÒª»ØÍËË÷ÒıÖµ
+        label = true; // æŸ¥æ‰¾åˆ°ç©ºç™½å­—ç¬¦
+        i--; // ç”±äºåˆ é™¤äº†æŸ¥æ‰¾åˆ°çš„ç©ºç™½å­—ç¬¦ï¼Œéœ€è¦å›é€€ç´¢å¼•å€¼
         break;
       }
     }
@@ -3215,12 +3215,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ"×Ö·û±àÂë¸ñÊ½"µÄ´¦Àí·½·¨
+   * è®¾ç½®"å­—ç¬¦ç¼–ç æ ¼å¼"çš„å¤„ç†æ–¹æ³•
    * 
    * @param encoding
-   *          ×Ö·û±àÂë¸ñÊ½µÄÃ¶¾ÙÖµ
+   *          å­—ç¬¦ç¼–ç æ ¼å¼çš„æšä¸¾å€¼
    * @param isUpdateMenu
-   *          ÊÇ·ñ¸üĞÂ²Ëµ¥µÄÑ¡Ôñ
+   *          æ˜¯å¦æ›´æ–°èœå•çš„é€‰æ‹©
    */
   private void setCharEncoding(CharEncoding encoding, boolean isUpdateMenu) {
     if (isUpdateMenu) {
@@ -3235,7 +3235,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸ù¾İ²ÉÓÃµÄ×Ö·û±àÂë¸ñÊ½£¬¸üĞÂ²Ëµ¥µÄÑ¡Ôñ
+   * æ ¹æ®é‡‡ç”¨çš„å­—ç¬¦ç¼–ç æ ¼å¼ï¼Œæ›´æ–°èœå•çš„é€‰æ‹©
    */
   private void setCharEncodingSelected() {
     switch (this.txaMain.getCharEncoding()) {
@@ -3261,12 +3261,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ"»»ĞĞ·û¸ñÊ½"µÄ´¦Àí·½·¨
+   * è®¾ç½®"æ¢è¡Œç¬¦æ ¼å¼"çš„å¤„ç†æ–¹æ³•
    * 
    * @param lineSeparator
-   *          ´ı²ÉÓÃµÄ»»ĞĞ·û
+   *          å¾…é‡‡ç”¨çš„æ¢è¡Œç¬¦
    * @param isUpdateMenu
-   *          ÊÇ·ñ¸üĞÂ²Ëµ¥µÄÑ¡Ôñ
+   *          æ˜¯å¦æ›´æ–°èœå•çš„é€‰æ‹©
    */
   private void setLineStyleString(LineSeparator lineSeparator, boolean isUpdateMenu) {
     if (isUpdateMenu) {
@@ -3281,7 +3281,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸ù¾İ²ÉÓÃµÄ»»ĞĞ·û£¬¸üĞÂ²Ëµ¥µÄÑ¡Ôñ
+   * æ ¹æ®é‡‡ç”¨çš„æ¢è¡Œç¬¦ï¼Œæ›´æ–°èœå•çš„é€‰æ‹©
    */
   private void setLineStyleSelected() {
     switch (this.txaMain.getLineSeparator()) {
@@ -3306,17 +3306,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ²åÈë"ÌØÊâ×Ö·û"µÄ´¦Àí·½·¨
+   * æ’å…¥"ç‰¹æ®Šå­—ç¬¦"çš„å¤„ç†æ–¹æ³•
    */
   private void openInsertCharDialog() {
     if (this.insertCharDialog == null) {
       Hashtable<String, String> hashtable = new Hashtable<String, String>();
-      hashtable.put("ÌØÊâ·ûºÅ", Util.INSERT_SPECIAL);
-      hashtable.put("±êµã·ûºÅ", Util.INSERT_PUNCTUATION);
-      hashtable.put("ÊıÑ§·ûºÅ", Util.INSERT_MATH);
-      hashtable.put("µ¥Î»·ûºÅ", Util.INSERT_UNIT);
-      hashtable.put("Êı×Ö·ûºÅ", Util.INSERT_DIGIT);
-      hashtable.put("Æ´Òô·ûºÅ", Util.INSERT_PINYIN);
+      hashtable.put("ç‰¹æ®Šç¬¦å·", Util.INSERT_SPECIAL);
+      hashtable.put("æ ‡ç‚¹ç¬¦å·", Util.INSERT_PUNCTUATION);
+      hashtable.put("æ•°å­¦ç¬¦å·", Util.INSERT_MATH);
+      hashtable.put("å•ä½ç¬¦å·", Util.INSERT_UNIT);
+      hashtable.put("æ•°å­—ç¬¦å·", Util.INSERT_DIGIT);
+      hashtable.put("æ‹¼éŸ³ç¬¦å·", Util.INSERT_PINYIN);
       this.insertCharDialog = new InsertCharDialog(this, false, this.txaMain, hashtable);
     } else if (!this.insertCharDialog.isVisible()) {
       this.insertCharDialog.setTextArea(this.txaMain);
@@ -3325,7 +3325,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "»»ĞĞ·½Ê½"µÄ´¦Àí·½·¨
+   * "æ¢è¡Œæ–¹å¼"çš„å¤„ç†æ–¹æ³•
    */
   private void setLineWrapStyle() {
     boolean isByWord = this.itemLineWrapByWord.isSelected();
@@ -3336,7 +3336,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "É¾³ıÖÁĞĞÊ×"µÄ´¦Àí·½·¨
+   * "åˆ é™¤è‡³è¡Œé¦–"çš„å¤„ç†æ–¹æ³•
    */
   private void deleteLineToStart() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -3348,7 +3348,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "É¾³ıÖÁĞĞÎ²"µÄ´¦Àí·½·¨
+   * "åˆ é™¤è‡³è¡Œå°¾"çš„å¤„ç†æ–¹æ³•
    */
   private void deleteLineToEnd() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -3365,7 +3365,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "É¾³ıÖÁÎÄ¼şÊ×"µÄ´¦Àí·½·¨
+   * "åˆ é™¤è‡³æ–‡ä»¶é¦–"çš„å¤„ç†æ–¹æ³•
    */
   private void deleteLineToFileStart() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -3376,7 +3376,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "É¾³ıÖÁÎÄ¼şÎ²"µÄ´¦Àí·½·¨
+   * "åˆ é™¤è‡³æ–‡ä»¶å°¾"çš„å¤„ç†æ–¹æ³•
    */
   private void deleteLineToFileEnd() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -3388,10 +3388,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Ìí¼Ó×î½ü±à¼­µÄÎÄ¼ş×Ó²Ëµ¥
+   * æ·»åŠ æœ€è¿‘ç¼–è¾‘çš„æ–‡ä»¶å­èœå•
    * 
    * @param strFile
-   *          ÍêÕûµÄÎÄ¼şÂ·¾¶
+   *          å®Œæ•´çš„æ–‡ä»¶è·¯å¾„
    */
   private void addFileHistoryItem(String strFile) {
     if (Util.isTextEmpty(strFile)) {
@@ -3413,11 +3413,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¼ì²âÎÄ¼şÃûÊÇ·ñÒÑ´æÔÚ
+   * æ£€æµ‹æ–‡ä»¶åæ˜¯å¦å·²å­˜åœ¨
    * 
    * @param strFile
-   *          ÍêÕûµÄÎÄ¼şÂ·¾¶
-   * @return ½«ÒªÌí¼Óµ½×î½ü±à¼­µÄË÷Òı£¬-1±íÊ¾²úÉúÒì³£
+   *          å®Œæ•´çš„æ–‡ä»¶è·¯å¾„
+   * @return å°†è¦æ·»åŠ åˆ°æœ€è¿‘ç¼–è¾‘çš„ç´¢å¼•ï¼Œ-1è¡¨ç¤ºäº§ç”Ÿå¼‚å¸¸
    */
   private int checkFileInHistory(String strFile) {
     if (Util.isTextEmpty(strFile)) {
@@ -3447,10 +3447,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ´ò¿ª×î½ü±à¼­µÄÎÄ¼ş
+   * æ‰“å¼€æœ€è¿‘ç¼–è¾‘çš„æ–‡ä»¶
    * 
    * @param strFile
-   *          ×î½ü±à¼­µÄÍêÕûÎÄ¼şÂ·¾¶
+   *          æœ€è¿‘ç¼–è¾‘çš„å®Œæ•´æ–‡ä»¶è·¯å¾„
    */
   private void openFileHistory(String strFile) {
     if (Util.isTextEmpty(strFile)) {
@@ -3467,13 +3467,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setAfterOpenFile(index);
       this.setFileNameAndPath(file);
     } else {
-      JOptionPane.showMessageDialog(this, Util.convertToMsg("ÎÄ¼ş£º" + file + " ²»´æÔÚ£¡"),
+      JOptionPane.showMessageDialog(this, Util.convertToMsg("æ–‡ä»¶ï¼š" + file + " ä¸å­˜åœ¨ï¼"),
           Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
     }
   }
 
   /**
-   * "É¾³ıÈ«ÎÄ¿ÕĞĞ"µÄ´¦Àí·½·¨
+   * "åˆ é™¤å…¨æ–‡ç©ºè¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void delAllNullLines() {
     String strTextAll = this.txaMain.getText();
@@ -3484,7 +3484,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "É¾³ıÑ¡ÇøÄÚ¿ÕĞĞ"µÄ´¦Àí·½·¨
+   * "åˆ é™¤é€‰åŒºå†…ç©ºè¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void delSelectedNullLines() {
     String strTextSel = this.txaMain.getSelectedText();
@@ -3495,11 +3495,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * É¾³ıÎÄ±¾ÄÚ¿ÕĞĞ
+   * åˆ é™¤æ–‡æœ¬å†…ç©ºè¡Œ
    * 
    * @param strText
-   *          ´ı´¦ÀíµÄÎÄ±¾
-   * @return É¾³ı¿ÕĞĞºóµÄÎÄ±¾
+   *          å¾…å¤„ç†çš„æ–‡æœ¬
+   * @return åˆ é™¤ç©ºè¡Œåçš„æ–‡æœ¬
    */
   private String delNullLines(String strText) {
     if (strText == null) {
@@ -3528,12 +3528,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸ü¸ÄÅäÉ«·½°¸
+   * æ›´æ”¹é…è‰²æ–¹æ¡ˆ
    * 
    * @param color
-   *          ´ıÉèÖÃµÄÑÕÉ«
+   *          å¾…è®¾ç½®çš„é¢œè‰²
    * @param index
-   *          ÅäÉ«·½°¸ÖĞĞèÒªĞŞ¸ÄµÄÑÕÉ«Ë÷Òı
+   *          é…è‰²æ–¹æ¡ˆä¸­éœ€è¦ä¿®æ”¹çš„é¢œè‰²ç´¢å¼•
    */
   private void changeColorStyle(Color color, int index) {
     if (color != null) {
@@ -3550,64 +3550,64 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "×ÖÌåÑÕÉ«"µÄ´¦Àí·½·¨
+   * "å­—ä½“é¢œè‰²"çš„å¤„ç†æ–¹æ³•
    */
   private void setFontColor() {
-    Color color = JColorChooser.showDialog(this, "×ÖÌåÑÕÉ«", this.txaMain.getForeground());
+    Color color = JColorChooser.showDialog(this, "å­—ä½“é¢œè‰²", this.txaMain.getForeground());
     this.changeColorStyle(color, 0);
   }
 
   /**
-   * "±³¾°ÑÕÉ«"µÄ´¦Àí·½·¨
+   * "èƒŒæ™¯é¢œè‰²"çš„å¤„ç†æ–¹æ³•
    */
   private void setBackColor() {
-    Color color = JColorChooser.showDialog(this, "±³¾°ÑÕÉ«", this.txaMain.getBackground());
+    Color color = JColorChooser.showDialog(this, "èƒŒæ™¯é¢œè‰²", this.txaMain.getBackground());
     this.changeColorStyle(color, 1);
   }
 
   /**
-   * "¹â±êÑÕÉ«"µÄ´¦Àí·½·¨
+   * "å…‰æ ‡é¢œè‰²"çš„å¤„ç†æ–¹æ³•
    */
   private void setCaretColor() {
-    Color color = JColorChooser.showDialog(this, "¹â±êÑÕÉ«", this.txaMain.getCaretColor());
+    Color color = JColorChooser.showDialog(this, "å…‰æ ‡é¢œè‰²", this.txaMain.getCaretColor());
     this.changeColorStyle(color, 2);
   }
 
   /**
-   * "Ñ¡Çø×ÖÌåÑÕÉ«"µÄ´¦Àí·½·¨
+   * "é€‰åŒºå­—ä½“é¢œè‰²"çš„å¤„ç†æ–¹æ³•
    */
   private void setSelFontColor() {
-    Color color = JColorChooser.showDialog(this, "Ñ¡Çø×ÖÌåÑÕÉ«", this.txaMain.getSelectedTextColor());
+    Color color = JColorChooser.showDialog(this, "é€‰åŒºå­—ä½“é¢œè‰²", this.txaMain.getSelectedTextColor());
     this.changeColorStyle(color, 3);
   }
 
   /**
-   * "Ñ¡Çø±³¾°ÑÕÉ«"µÄ´¦Àí·½·¨
+   * "é€‰åŒºèƒŒæ™¯é¢œè‰²"çš„å¤„ç†æ–¹æ³•
    */
   private void setSelBackColor() {
-    Color color = JColorChooser.showDialog(this, "Ñ¡Çø±³¾°ÑÕÉ«", this.txaMain.getSelectionColor());
+    Color color = JColorChooser.showDialog(this, "é€‰åŒºèƒŒæ™¯é¢œè‰²", this.txaMain.getSelectionColor());
     this.changeColorStyle(color, 4);
   }
 
   /**
-   * "Æ¥ÅäÀ¨ºÅ±³¾°ÑÕÉ«"µÄ´¦Àí·½·¨
+   * "åŒ¹é…æ‹¬å·èƒŒæ™¯é¢œè‰²"çš„å¤„ç†æ–¹æ³•
    */
   private void setBracketBackColor() {
-    Color color = JColorChooser.showDialog(this, "Æ¥ÅäÀ¨ºÅ±³¾°ÑÕÉ«", this.txaMain.getBracketBackColor());
+    Color color = JColorChooser.showDialog(this, "åŒ¹é…æ‹¬å·èƒŒæ™¯é¢œè‰²", this.txaMain.getBracketBackColor());
     this.changeColorStyle(color, 5);
   }
 
   /**
-   * "µ±Ç°ĞĞ±³¾°ÑÕÉ«"µÄ´¦Àí·½·¨
+   * "å½“å‰è¡ŒèƒŒæ™¯é¢œè‰²"çš„å¤„ç†æ–¹æ³•
    */
   private void setLineBackColor() {
-    Color color = JColorChooser.showDialog(this, "µ±Ç°ĞĞ±³¾°ÑÕÉ«", this.txaMain.getLineBackColor());
+    Color color = JColorChooser.showDialog(this, "å½“å‰è¡ŒèƒŒæ™¯é¢œè‰²", this.txaMain.getLineBackColor());
     this.changeColorStyle(color, 6);
-    this.txaMain.repaint(); // ÖØ»æµ±Ç°ÎÄ±¾Óò£¬ÒÔ½â¾öÔÚĞŞ¸ÄÑÕÉ«ºó£¬»æÖÆµ±Ç°ĞĞ±³¾°´íÂÒµÄÎÊÌâ
+    this.txaMain.repaint(); // é‡ç»˜å½“å‰æ–‡æœ¬åŸŸï¼Œä»¥è§£å†³åœ¨ä¿®æ”¹é¢œè‰²åï¼Œç»˜åˆ¶å½“å‰è¡ŒèƒŒæ™¯é”™ä¹±çš„é—®é¢˜
   }
 
   /**
-   * "Tab¼üÉèÖÃ"µÄ´¦Àí·½·¨
+   * "Tabé”®è®¾ç½®"çš„å¤„ç†æ–¹æ³•
    */
   private void openTabSetDialog() {
     if (this.tabSetDialog == null) {
@@ -3627,7 +3627,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "×Ô¶¯Íê³É"µÄ´¦Àí·½·¨
+   * "è‡ªåŠ¨å®Œæˆ"çš„å¤„ç†æ–¹æ³•
    */
   private void openAutoCompleteDialog() {
     if (this.autoCompleteDialog == null) {
@@ -3644,7 +3644,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¿ì½İ¼ü¹ÜÀí"µÄ´¦Àí·½·¨
+   * "å¿«æ·é”®ç®¡ç†"çš„å¤„ç†æ–¹æ³•
    */
   private void openShortcutManageDialog() {
     if (this.shortcutManageDialog == null) {
@@ -3656,10 +3656,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¿ì½İ¼ü¹ÜÀí"½çÃæÖĞĞŞ¸Ä¿ì½İ¼üµÄ´¦Àí·½·¨
+   * "å¿«æ·é”®ç®¡ç†"ç•Œé¢ä¸­ä¿®æ”¹å¿«æ·é”®çš„å¤„ç†æ–¹æ³•
    * 
    * @param index
-   *          ĞèÒªĞŞ¸Ä¿ì½İ¼üµÄ²Ëµ¥ÏîµÄË÷ÒıÖµ
+   *          éœ€è¦ä¿®æ”¹å¿«æ·é”®çš„èœå•é¡¹çš„ç´¢å¼•å€¼
    */
   public void shortcutManageToSetMenuAccelerator(int index) {
     if (index < 0) {
@@ -3670,7 +3670,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ×ÖÌåËõ·Å£º"·Å´ó"µÄ´¦Àí·½·¨
+   * å­—ä½“ç¼©æ”¾ï¼š"æ”¾å¤§"çš„å¤„ç†æ–¹æ³•
    */
   private void setFontSizePlus() {
     Font font = this.txaMain.getFont();
@@ -3683,7 +3683,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ×ÖÌåËõ·Å£º"ËõĞ¡"µÄ´¦Àí·½·¨
+   * å­—ä½“ç¼©æ”¾ï¼š"ç¼©å°"çš„å¤„ç†æ–¹æ³•
    */
   private void setFontSizeMinus() {
     Font font = this.txaMain.getFont();
@@ -3696,7 +3696,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ×ÖÌåËõ·Å£º"»Ö¸´³õÊ¼"µÄ´¦Àí·½·¨
+   * å­—ä½“ç¼©æ”¾ï¼š"æ¢å¤åˆå§‹"çš„å¤„ç†æ–¹æ³•
    */
   private void setFontSizeReset() {
     Font font = this.txaMain.getFont();
@@ -3706,10 +3706,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Çå³ı¿Õ°×µÄ´¦Àí·½·¨
+   * æ¸…é™¤ç©ºç™½çš„å¤„ç†æ–¹æ³•
    * 
    * @param position
-   *          Çå³ı¿Õ°×µÄÎ»ÖÃ£¬0Îª¡°ĞĞÊ×¡±¿Õ°×£¬1Îª¡°ĞĞÎ²¡±¿Õ°×£¬2Îª¡°ĞĞÊ×+ĞĞÎ²¡±¿Õ°×
+   *          æ¸…é™¤ç©ºç™½çš„ä½ç½®ï¼Œ0ä¸ºâ€œè¡Œé¦–â€ç©ºç™½ï¼Œ1ä¸ºâ€œè¡Œå°¾â€ç©ºç™½ï¼Œ2ä¸ºâ€œè¡Œé¦–+è¡Œå°¾â€ç©ºç™½
    */
   private void trimLines(int position) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
@@ -3717,19 +3717,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (Util.isTextEmpty(strContent)) {
       return;
     }
-    String[] arrContents = strContent.split("\n", -1); // ½«µ±Ç°Ñ¡ÇøµÄÎÄ±¾·ÖĞĞ´¦Àí£¬°üÀ¨Ä©Î²µÄ¶à´¦¿ÕĞĞ
-    StringBuilder stbContent = new StringBuilder(); // ÓÃÓÚ´æ·Å´¦ÀíºóµÄÎÄ±¾
+    String[] arrContents = strContent.split("\n", -1); // å°†å½“å‰é€‰åŒºçš„æ–‡æœ¬åˆ†è¡Œå¤„ç†ï¼ŒåŒ…æ‹¬æœ«å°¾çš„å¤šå¤„ç©ºè¡Œ
+    StringBuilder stbContent = new StringBuilder(); // ç”¨äºå­˜æ”¾å¤„ç†åçš„æ–‡æœ¬
     for (int n = 0; n < arrContents.length; n++) {
       String strLine = arrContents[n];
       if (Util.isTextEmpty(strLine)) {
         stbContent.append("\n");
         continue;
       }
-      if (position == 0) { // Çå³ı"ĞĞÊ×"¿Õ°×
+      if (position == 0) { // æ¸…é™¤"è¡Œé¦–"ç©ºç™½
         stbContent.append(this.trimLine(strLine, true) + "\n");
-      } else if (position == 1) { // Çå³ı"ĞĞÎ²"¿Õ°×
+      } else if (position == 1) { // æ¸…é™¤"è¡Œå°¾"ç©ºç™½
         stbContent.append(this.trimLine(strLine, false) + "\n");
-      } else if (position == 2) { // Çå³ı"ĞĞÊ×+ĞĞÎ²"¿Õ°×
+      } else if (position == 2) { // æ¸…é™¤"è¡Œé¦–+è¡Œå°¾"ç©ºç™½
         strLine = this.trimLine(strLine, true);
         stbContent.append(this.trimLine(strLine, false) + "\n");
       }
@@ -3744,26 +3744,26 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Çå³ıÒ»ĞĞÎÄ±¾µÄ¿Õ°×
+   * æ¸…é™¤ä¸€è¡Œæ–‡æœ¬çš„ç©ºç™½
    * 
    * @param strLine
-   *          ´ı´¦ÀíµÄÒ»ĞĞÎÄ±¾
+   *          å¾…å¤„ç†çš„ä¸€è¡Œæ–‡æœ¬
    * @param position
-   *          Çå³ı¿Õ°×µÄÎ»ÖÃ£¬trueÎª¡°ĞĞÊ×¡±¿Õ°×£¬falseÎª¡°ĞĞÎ²¡±¿Õ°×
-   * @return Çå³ıÖ¸¶¨¿Õ°×ºóµÄÎÄ±¾
+   *          æ¸…é™¤ç©ºç™½çš„ä½ç½®ï¼Œtrueä¸ºâ€œè¡Œé¦–â€ç©ºç™½ï¼Œfalseä¸ºâ€œè¡Œå°¾â€ç©ºç™½
+   * @return æ¸…é™¤æŒ‡å®šç©ºç™½åçš„æ–‡æœ¬
    */
   private String trimLine(String strLine, boolean position) {
     if (Util.isTextEmpty(strLine)) {
       return strLine;
     }
-    int blank = 0; // ¿Õ°××Ö·ûµÄ¸öÊı
-    boolean label = false; // ÓÃÓÚ±êÊ¶¿Õ°××Ö·ûµÄ½áÊø
-    if (position) { // Çå³ı"ĞĞÊ×"¿Õ°×
+    int blank = 0; // ç©ºç™½å­—ç¬¦çš„ä¸ªæ•°
+    boolean label = false; // ç”¨äºæ ‡è¯†ç©ºç™½å­—ç¬¦çš„ç»“æŸ
+    if (position) { // æ¸…é™¤"è¡Œé¦–"ç©ºç™½
       for (int i = 0; i < strLine.length(); i++) {
         switch (strLine.charAt(i)) {
         case ' ':
         case '\t':
-        case '¡¡':
+        case 'ã€€':
           blank++;
           break;
         default:
@@ -3775,12 +3775,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
       }
       strLine = strLine.substring(blank);
-    } else { // Çå³ı"ĞĞÎ²"¿Õ°×
+    } else { // æ¸…é™¤"è¡Œå°¾"ç©ºç™½
       for (int i = strLine.length() - 1; i >= 0; i--) {
         switch (strLine.charAt(i)) {
         case ' ':
         case '\t':
-        case '¡¡':
+        case 'ã€€':
           blank++;
           break;
         default:
@@ -3797,16 +3797,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ±êÌâÀ¸¿ªÍ·µÄ"*"ºÅ±êÊ¶£¬ÒÔ±íÊ¾ÎÄ±¾ÊÇ·ñÒÑĞŞ¸Ä
+   * è®¾ç½®æ ‡é¢˜æ å¼€å¤´çš„"*"å·æ ‡è¯†ï¼Œä»¥è¡¨ç¤ºæ–‡æœ¬æ˜¯å¦å·²ä¿®æ”¹
    */
   private void setTextPrefix() {
     if (this.txaMain.getTextChanged()) {
       if (!this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
-        this.stbTitle.insert(0, Util.TEXT_PREFIX); // ÔÚ±êÌâÀ¸µÄ¿ªÍ·Ìí¼Ó"*"
+        this.stbTitle.insert(0, Util.TEXT_PREFIX); // åœ¨æ ‡é¢˜æ çš„å¼€å¤´æ·»åŠ "*"
       }
     } else {
       if (this.stbTitle.toString().startsWith(Util.TEXT_PREFIX)) {
-        this.stbTitle.deleteCharAt(0); // É¾³ı±êÌâÀ¸¿ªÍ·µÄ"*"
+        this.stbTitle.deleteCharAt(0); // åˆ é™¤æ ‡é¢˜æ å¼€å¤´çš„"*"
       }
     }
     this.setTitle(this.stbTitle.toString());
@@ -3815,7 +3815,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃ±êÌâÀ¸¿ªÍ·µÄ"¡ù"ºÅ±êÊ¶£¬ÒÔ±íÊ¾ÎÄ±¾¸ñÊ½ÊÇ·ñÒÑĞŞ¸Ä
+   * è®¾ç½®æ ‡é¢˜æ å¼€å¤´çš„"â€»"å·æ ‡è¯†ï¼Œä»¥è¡¨ç¤ºæ–‡æœ¬æ ¼å¼æ˜¯å¦å·²ä¿®æ”¹
    */
   private void setStylePrefix() {
     if (this.txaMain.getStyleChanged()) {
@@ -3839,10 +3839,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃÏµÍ³¼ôÌù°åµÄÄÚÈİ
+   * è®¾ç½®ç³»ç»Ÿå‰ªè´´æ¿çš„å†…å®¹
    * 
    * @param strText
-   *          Òª´æÈë¼ôÌù°åµÄÎÄ±¾
+   *          è¦å­˜å…¥å‰ªè´´æ¿çš„æ–‡æœ¬
    */
   public void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {
@@ -3856,14 +3856,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸´ÖÆ"µ±Ç°ÎÄ¼şÃû"µ½¼ôÌù°åµÄ´¦Àí·½·¨
+   * å¤åˆ¶"å½“å‰æ–‡ä»¶å"åˆ°å‰ªè´´æ¿çš„å¤„ç†æ–¹æ³•
    */
   private void toCopyFileName() {
     this.setClipboardContents(this.txaMain.getTitle());
   }
 
   /**
-   * ¸´ÖÆ"µ±Ç°ÎÄ¼şÂ·¾¶"µ½¼ôÌù°åµÄ´¦Àí·½·¨
+   * å¤åˆ¶"å½“å‰æ–‡ä»¶è·¯å¾„"åˆ°å‰ªè´´æ¿çš„å¤„ç†æ–¹æ³•
    */
   private void toCopyFilePath() {
     String fileName = this.txaMain.getFileName();
@@ -3874,7 +3874,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸´ÖÆ"µ±Ç°Ä¿Â¼Â·¾¶"µ½¼ôÌù°åµÄ´¦Àí·½·¨
+   * å¤åˆ¶"å½“å‰ç›®å½•è·¯å¾„"åˆ°å‰ªè´´æ¿çš„å¤„ç†æ–¹æ³•
    */
   private void toCopyDirPath() {
     String dirPath = " ";
@@ -3885,7 +3885,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸´ÖÆ"µ±Ç°ĞĞ"µ½¼ôÌù°åµÄ´¦Àí·½·¨
+   * å¤åˆ¶"å½“å‰è¡Œ"åˆ°å‰ªè´´æ¿çš„å¤„ç†æ–¹æ³•
    */
   private void toCopyCurLine() {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
@@ -3897,7 +3897,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¼ôÇĞ"µ±Ç°ĞĞ"µ½¼ôÌù°åµÄ´¦Àí·½·¨
+   * å‰ªåˆ‡"å½“å‰è¡Œ"åˆ°å‰ªè´´æ¿çš„å¤„ç†æ–¹æ³•
    */
   private void toCutCurLine() {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
@@ -3912,14 +3912,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸´ÖÆ"ËùÓĞÎÄ±¾"µ½¼ôÌù°åµÄ´¦Àí·½·¨
+   * å¤åˆ¶"æ‰€æœ‰æ–‡æœ¬"åˆ°å‰ªè´´æ¿çš„å¤„ç†æ–¹æ³•
    */
   private void toCopyAllText() {
     this.setClipboardContents(this.txaMain.getText());
   }
 
   /**
-   * "Ëø¶¨´°¿Ú"µÄ´¦Àí·½·¨
+   * "é”å®šçª—å£"çš„å¤„ç†æ–¹æ³•
    */
   private void setLockResizable() {
     this.setResizable(!this.itemLockResizable.isSelected());
@@ -3927,7 +3927,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Ç°¶ËÏÔÊ¾"µÄ´¦Àí·½·¨
+   * "å‰ç«¯æ˜¾ç¤º"çš„å¤„ç†æ–¹æ³•
    */
   private void setAlwaysOnTop() {
     this.setAlwaysOnTop(this.itemAlwaysOnTop.isSelected());
@@ -3935,7 +3935,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¸´Ğ´Ñ¡Çø×Ö·û"µÄ´¦Àí·½·¨
+   * "å¤å†™é€‰åŒºå­—ç¬¦"çš„å¤„ç†æ–¹æ³•
    */
   private void copySelectedText() {
     int start = this.txaMain.getSelectionStart();
@@ -3947,7 +3947,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "·´×ªÑ¡Çø×Ö·û"µÄ´¦Àí·½·¨
+   * "åè½¬é€‰åŒºå­—ç¬¦"çš„å¤„ç†æ–¹æ³•
    */
   private void invertSelectedText() {
     int start = this.txaMain.getSelectionStart();
@@ -3960,7 +3960,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¸´Ğ´µ±Ç°ĞĞ"µÄ´¦Àí·½·¨
+   * "å¤å†™å½“å‰è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void copyLines() {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
@@ -3976,7 +3976,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "É¾³ıµ±Ç°ĞĞ"µÄ´¦Àí·½·¨
+   * "åˆ é™¤å½“å‰è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void deleteLines() {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
@@ -3985,14 +3985,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     int length = this.txaMain.getText().length();
     if (length > 0) {
       if (startIndex > 0 && endIndex == length) {
-        startIndex--; // Î»ÓÚÎÄ±¾ÓòÖĞ·Ç¿ÕµÄ×îºóÒ»ĞĞÊ±£¬È·±£É¾³ı»»ĞĞ·û
+        startIndex--; // ä½äºæ–‡æœ¬åŸŸä¸­éç©ºçš„æœ€åä¸€è¡Œæ—¶ï¼Œç¡®ä¿åˆ é™¤æ¢è¡Œç¬¦
       }
       this.txaMain.replaceRange("", startIndex, endIndex);
     }
   }
 
   /**
-   * "É¾³ıÖØ¸´ĞĞ"µÄ´¦Àí·½·¨
+   * "åˆ é™¤é‡å¤è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void deleteDuplicateLines() {
     if (Util.isTextEmpty(this.txaMain.getText())) {
@@ -4006,7 +4006,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.select(currentLines.getStartIndex(), currentLines.getEndIndex());
     }
     String strSelText = this.txaMain.getSelectedText();
-    String[] arrText = strSelText.split("\n", -1); // ½«µ±Ç°Ñ¡ÇøµÄÎÄ±¾·ÖĞĞ´¦Àí£¬°üÀ¨Ä©Î²µÄ¶à´¦¿ÕĞĞ
+    String[] arrText = strSelText.split("\n", -1); // å°†å½“å‰é€‰åŒºçš„æ–‡æœ¬åˆ†è¡Œå¤„ç†ï¼ŒåŒ…æ‹¬æœ«å°¾çš„å¤šå¤„ç©ºè¡Œ
     int arrSize = arrText.length;
     if (arrSize <= 1) {
       return;
@@ -4024,21 +4024,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       for (int j = i + 1; j < arrSize; j++) {
         String str2 = listText.get(j);
         if (str1.equals(str2)) {
-          // É¾³ıÖØ¸´ĞĞ
+          // åˆ é™¤é‡å¤è¡Œ
           listText.remove(j);
           j--;
           arrSize--;
         }
       }
     }
-    this.txaMain.replaceSelection(stbResult.deleteCharAt(stbResult.length() - 1).toString()); // É¾³ı×Ö·û´®Ä©Î²¶àÓàµÄ»»ĞĞ·û
+    this.txaMain.replaceSelection(stbResult.deleteCharAt(stbResult.length() - 1).toString()); // åˆ é™¤å­—ç¬¦ä¸²æœ«å°¾å¤šä½™çš„æ¢è¡Œç¬¦
   }
 
   /**
-   * "¿ìËÙ²éÕÒ"µÄ´¦Àí·½·¨
+   * "å¿«é€ŸæŸ¥æ‰¾"çš„å¤„ç†æ–¹æ³•
    * 
    * @param isFindDown
-   *          ²éÕÒ·½Ïò£ºÏòÏÂ²éÕÒÎªtrue£¬ÏòÉÏ²éÕÒÎªfalse
+   *          æŸ¥æ‰¾æ–¹å‘ï¼šå‘ä¸‹æŸ¥æ‰¾ä¸ºtrueï¼Œå‘ä¸ŠæŸ¥æ‰¾ä¸ºfalse
    */
   private void quickFindText(boolean isFindDown) {
     String strFindText = this.txaMain.getSelectedText();
@@ -4052,10 +4052,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÇĞ»»´óĞ¡Ğ´"µÄ´¦Àí·½·¨
+   * "åˆ‡æ¢å¤§å°å†™"çš„å¤„ç†æ–¹æ³•
    * 
    * @param isCaseUp
-   *          Îªtrue±íÊ¾ÇĞ»»Îª´óĞ´£¬Îªfalse±íÊ¾ÇĞ»»ÎªĞ¡Ğ´
+   *          ä¸ºtrueè¡¨ç¤ºåˆ‡æ¢ä¸ºå¤§å†™ï¼Œä¸ºfalseè¡¨ç¤ºåˆ‡æ¢ä¸ºå°å†™
    */
   private void switchCase(boolean isCaseUp) {
     String strSel = this.txaMain.getSelectedText();
@@ -4074,11 +4074,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "É¾³ıµ±Ç°ÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "åˆ é™¤å½“å‰æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void deleteFile() {
     int result = JOptionPane.showConfirmDialog(this,
-        Util.convertToMsg("´Ë²Ù×÷½«É¾³ı´ÅÅÌÎÄ¼ş£º" + this.file + "\nÊÇ·ñ¼ÌĞø£¿"), Util.SOFTWARE,
+        Util.convertToMsg("æ­¤æ“ä½œå°†åˆ é™¤ç£ç›˜æ–‡ä»¶ï¼š" + this.file + "\næ˜¯å¦ç»§ç»­ï¼Ÿ"), Util.SOFTWARE,
         JOptionPane.YES_NO_CANCEL_OPTION);
     if (result != JOptionPane.YES_OPTION) {
       return;
@@ -4086,25 +4086,25 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.file.delete()) {
       this.closeFile(false);
     } else {
-      JOptionPane.showMessageDialog(this, Util.convertToMsg("ÎÄ¼ş£º" + this.file + "É¾³ıÊ§°Ü£¡"),
+      JOptionPane.showMessageDialog(this, Util.convertToMsg("æ–‡ä»¶ï¼š" + this.file + "åˆ é™¤å¤±è´¥ï¼"),
           Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
     }
   }
 
   /**
-   * "ÖØÃüÃû"µÄ´¦Àí·½·¨
+   * "é‡å‘½å"çš„å¤„ç†æ–¹æ³•
    */
   private void reNameFile() {
     if (this.saveFileChooser == null) {
       this.saveFileChooser = new SaveFileChooser();
     }
     this.saveFileChooser.setSelectedFile(this.file);
-    this.saveFileChooser.setDialogTitle("ÖØÃüÃû");
+    this.saveFileChooser.setDialogTitle("é‡å‘½å");
     if (JFileChooser.APPROVE_OPTION != this.saveFileChooser.showSaveDialog(this)) {
       return;
     }
     File fileReName = this.saveFileChooser.getSelectedFile();
-    if (this.file.equals(fileReName)) { // ÎÄ¼şÃûÎ´ĞŞ¸ÄÊ±£¬²»×ö²Ù×÷
+    if (this.file.equals(fileReName)) { // æ–‡ä»¶åæœªä¿®æ”¹æ—¶ï¼Œä¸åšæ“ä½œ
       return;
     }
     try {
@@ -4114,56 +4114,56 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.showSaveErrorDialog(fileReName);
       return;
     }
-    this.file.delete(); // É¾³ıÔ­ÎÄ¼ş
+    this.file.delete(); // åˆ é™¤åŸæ–‡ä»¶
     this.setFileNameAndPath(fileReName);
   }
 
   /**
-   * "³·Ïú"µÄ´¦Àí·½·¨
+   * "æ’¤é”€"çš„å¤„ç†æ–¹æ³•
    */
   private void undoAction() {
     if (this.txaMain.getFrozen()) {
       return;
     }
-    if (this.undoManager.canUndo()) { // ÅĞ¶ÏÊÇ·ñ¿ÉÒÔ³·Ïú
-      this.undoManager.undo(); // Ö´ĞĞ³·Ïú²Ù×÷
-      this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() - 1); // ³·Ïú±êÊ¶·ûµİ¼õ
+    if (this.undoManager.canUndo()) { // åˆ¤æ–­æ˜¯å¦å¯ä»¥æ’¤é”€
+      this.undoManager.undo(); // æ‰§è¡Œæ’¤é”€æ“ä½œ
+      this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() - 1); // æ’¤é”€æ ‡è¯†ç¬¦é€’å‡
       this.updateStateAll();
     }
     this.setAfterUndoRedo();
   }
 
   /**
-   * "ÖØ×ö"µÄ´¦Àí·½·¨
+   * "é‡åš"çš„å¤„ç†æ–¹æ³•
    */
   private void redoAction() {
     if (this.txaMain.getFrozen()) {
       return;
     }
-    if (this.undoManager.canRedo()) { // ÅĞ¶ÏÊÇ·ñ¿ÉÒÔÖØ×ö
-      this.undoManager.redo(); // Ö´ĞĞÖØ×ö²Ù×÷
-      this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // ³·Ïú±êÊ¶·ûµİÔö
+    if (this.undoManager.canRedo()) { // åˆ¤æ–­æ˜¯å¦å¯ä»¥é‡åš
+      this.undoManager.redo(); // æ‰§è¡Œé‡åšæ“ä½œ
+      this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // æ’¤é”€æ ‡è¯†ç¬¦é€’å¢
       this.updateStateAll();
     }
     this.setAfterUndoRedo();
   }
 
   /**
-   * Ö´ĞĞ"³·Ïú"»ò"ÖØ×ö"ºóµÄÏà¹ØÉèÖÃ
+   * æ‰§è¡Œ"æ’¤é”€"æˆ–"é‡åš"åçš„ç›¸å…³è®¾ç½®
    */
   private void setAfterUndoRedo() {
-    if (this.txaMain.getUndoIndex() == Util.DEFAULT_UNDO_INDEX) { // ³·Ïú±êÊ¶·ûÓëÄ¬ÈÏÖµÏàµÈ£¬±íÊ¾ÎÄ±¾Î´ĞŞ¸Ä
+    if (this.txaMain.getUndoIndex() == Util.DEFAULT_UNDO_INDEX) { // æ’¤é”€æ ‡è¯†ç¬¦ä¸é»˜è®¤å€¼ç›¸ç­‰ï¼Œè¡¨ç¤ºæ–‡æœ¬æœªä¿®æ”¹
       this.txaMain.setTextChanged(false);
     } else {
       this.txaMain.setTextChanged(true);
     }
     this.setTextPrefix();
-    this.setMenuStateUndoRedo(); // ÉèÖÃ³·ÏúºÍÖØ×ö²Ëµ¥µÄ×´Ì¬
+    this.setMenuStateUndoRedo(); // è®¾ç½®æ’¤é”€å’Œé‡åšèœå•çš„çŠ¶æ€
     this.setMenuStateByTextArea();
   }
 
   /**
-   * "ºóÍË"µÄ´¦Àí·½·¨
+   * "åé€€"çš„å¤„ç†æ–¹æ³•
    */
   private void back() {
     LinkedList<PartnerBean> backForwardList = this.txaMain.getBackForwardList();
@@ -4183,7 +4183,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Ç°½ø"µÄ´¦Àí·½·¨
+   * "å‰è¿›"çš„å¤„ç†æ–¹æ³•
    */
   private void forward() {
     LinkedList<PartnerBean> backForwardList = this.txaMain.getBackForwardList();
@@ -4203,7 +4203,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Ê±¼ä/ÈÕÆÚ"µÄ´¦Àí·½·¨
+   * "æ—¶é—´/æ—¥æœŸ"çš„å¤„ç†æ–¹æ³•
    */
   private void openInsertDateDialog() {
     if (this.insertDateDialog == null) {
@@ -4215,7 +4215,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÍË³ö"µÄ´¦Àí·½·¨
+   * "é€€å‡º"çš„å¤„ç†æ–¹æ³•
    */
   private void exit() {
     boolean toExit = true;
@@ -4232,7 +4232,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           // x.printStackTrace();
         }
       }
-      if (!saveFileBeforeAct()) { // ¹Ø±Õ³ÌĞòÇ°¼ì²âÎÄ¼şÊÇ·ñÒÑĞŞ¸Ä
+      if (!saveFileBeforeAct()) { // å…³é—­ç¨‹åºå‰æ£€æµ‹æ–‡ä»¶æ˜¯å¦å·²ä¿®æ”¹
         toExit = false;
         break;
       }
@@ -4244,7 +4244,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¹ØÓÚ"µÄ´¦Àí·½·¨
+   * "å…³äº"çš„å¤„ç†æ–¹æ³•
    */
   private void showAbout() {
     if (this.aboutDialog == null) {
@@ -4255,28 +4255,28 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       final String strCoding = "https://coding.net/u/xiboliya/p/SnowPad";
       final String strCsdnCode = "https://code.csdn.net/chenzhengfeng/snowpad";
       String[] arrStrLabel = new String[] {
-          "Èí¼şÃû³Æ£º" + Util.SOFTWARE,
-          "Èí¼ş°æ±¾£º" + Util.VERSION,
-          "Èí¼ş×÷Õß£º±ùÔ­",
-          "×÷ÕßQQ£º" + strQQ,
-          "×÷ÕßÓÊÏä£º" + strEmail,
-          "<html>GitHub£º<a href='" + strGithubCode + "'>" + strGithubCode + "</a></html>",
-          "<html>ÂëÔÆ£º<a href='" + strCodeCloud + "'>" + strCodeCloud + "</a></html>",
-          "<html>Coding£º<a href='" + strCoding + "'>" + strCoding + "</a></html>",
-          "<html>CSDN´úÂë£º<a href='" + strCsdnCode + "'>" + strCsdnCode + "</a></html>",
-          "Èí¼ş°æÈ¨£º×ñÑ­GNU GPLµÚÈı°æ¿ªÔ´Ğí¿ÉĞ­ÒéµÄÏà¹ØÌõ¿î" };
+          "è½¯ä»¶åç§°ï¼š" + Util.SOFTWARE,
+          "è½¯ä»¶ç‰ˆæœ¬ï¼š" + Util.VERSION,
+          "è½¯ä»¶ä½œè€…ï¼šå†°åŸ",
+          "ä½œè€…QQï¼š" + strQQ,
+          "ä½œè€…é‚®ç®±ï¼š" + strEmail,
+          "<html>GitHubï¼š<a href='" + strGithubCode + "'>" + strGithubCode + "</a></html>",
+          "<html>ç äº‘ï¼š<a href='" + strCodeCloud + "'>" + strCodeCloud + "</a></html>",
+          "<html>Codingï¼š<a href='" + strCoding + "'>" + strCoding + "</a></html>",
+          "<html>CSDNä»£ç ï¼š<a href='" + strCsdnCode + "'>" + strCsdnCode + "</a></html>",
+          "è½¯ä»¶ç‰ˆæƒï¼šéµå¾ªGNU GPLç¬¬ä¸‰ç‰ˆå¼€æºè®¸å¯åè®®çš„ç›¸å…³æ¡æ¬¾" };
       this.aboutDialog = new AboutDialog(this, true, arrStrLabel, Util.SW_ICON);
       this.aboutDialog.addLinkByIndex(5, strGithubCode);
       this.aboutDialog.addLinkByIndex(6, strCodeCloud);
       this.aboutDialog.addLinkByIndex(7, strCoding);
       this.aboutDialog.addLinkByIndex(8, strCsdnCode);
-      this.aboutDialog.pack(); // ×Ô¶¯µ÷Õû´°¿Ú´óĞ¡£¬ÒÔÊÊÓ¦¸÷×é¼ş
+      this.aboutDialog.pack(); // è‡ªåŠ¨è°ƒæ•´çª—å£å¤§å°ï¼Œä»¥é€‚åº”å„ç»„ä»¶
     }
     this.aboutDialog.setVisible(true);
   }
 
   /**
-   * "¼ÓÃÜ"µÄ´¦Àí·½·¨
+   * "åŠ å¯†"çš„å¤„ç†æ–¹æ³•
    */
   private void openEncryptDialog() {
     if (this.encryptDialog == null) {
@@ -4289,7 +4289,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "½øÖÆ×ª»»"µÄ´¦Àí·½·¨
+   * "è¿›åˆ¶è½¬æ¢"çš„å¤„ç†æ–¹æ³•
    */
   private void openNumberConvertDialog() {
     if (this.numberConvertDialog == null) {
@@ -4300,7 +4300,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¼ÆËãÆ÷"µÄ´¦Àí·½·¨
+   * "è®¡ç®—å™¨"çš„å¤„ç†æ–¹æ³•
    */
   private void openCalculatorDialog() {
     if (this.calculatorDialog == null) {
@@ -4311,7 +4311,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÇĞ¸îÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "åˆ‡å‰²æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void openCuttingFileDialog() {
     if (this.cuttingFileDialog == null) {
@@ -4322,7 +4322,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Æ´½ÓÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "æ‹¼æ¥æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void openMergeFileDialog() {
     if (this.mergeFileDialog == null) {
@@ -4333,7 +4333,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "°ïÖúÖ÷Ìâ"µÄ´¦Àí·½·¨
+   * "å¸®åŠ©ä¸»é¢˜"çš„å¤„ç†æ–¹æ³•
    */
   private void showHelpFrame() {
     if (this.helpFrame == null) {
@@ -4345,7 +4345,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "×Ô¶¯»»ĞĞ"µÄ´¦Àí·½·¨
+   * "è‡ªåŠ¨æ¢è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void setLineWrap() {
     boolean isLineWrap = this.itemLineWrap.isSelected();
@@ -4353,27 +4353,27 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setLineWrap(isLineWrap);
     }
-    this.itemLineNumber.setEnabled(!isLineWrap); // Èç¹û¿ªÆôÁË"×Ô¶¯»»ĞĞ"£¬Ôò"ĞĞºÅÀ¸"¹¦ÄÜÊ§Ğ§
-    this.setLineNumber(this.textAreaSetting.isLineNumberView); // ÉèÖÃĞĞºÅÀ¸ÊÇ·ñÏÔÊ¾
+    this.itemLineNumber.setEnabled(!isLineWrap); // å¦‚æœå¼€å¯äº†"è‡ªåŠ¨æ¢è¡Œ"ï¼Œåˆ™"è¡Œå·æ "åŠŸèƒ½å¤±æ•ˆ
+    this.setLineNumber(this.textAreaSetting.isLineNumberView); // è®¾ç½®è¡Œå·æ æ˜¯å¦æ˜¾ç¤º
     this.setting.isLineWrap = this.textAreaSetting.isLineWrap = isLineWrap;
   }
 
   /**
-   * µ±Ç°±à¼­µÄÎÄ±¾ÄÚÈİ»ò¸ñÊ½ÒÑĞŞ¸Ä£¬µ±Ö´ĞĞĞÂ½¨¡¢¹Ø±Õ²Ù×÷Ê±£¬µ¯³ö¶Ô»°¿ò£¬ÈÃÓÃ»§Ñ¡ÔñÏàÓ¦µÄ²Ù×÷
+   * å½“å‰ç¼–è¾‘çš„æ–‡æœ¬å†…å®¹æˆ–æ ¼å¼å·²ä¿®æ”¹ï¼Œå½“æ‰§è¡Œæ–°å»ºã€å…³é—­æ“ä½œæ—¶ï¼Œå¼¹å‡ºå¯¹è¯æ¡†ï¼Œè®©ç”¨æˆ·é€‰æ‹©ç›¸åº”çš„æ“ä½œ
    * 
-   * @return ÓÃ»§Ñ¡ÔñÁËÊÇ»ò·ñÊ±·µ»Øtrue£¬Ñ¡ÔñÈ¡Ïû»ò¹Ø±ÕÊ±·µ»Øfalse
+   * @return ç”¨æˆ·é€‰æ‹©äº†æ˜¯æˆ–å¦æ—¶è¿”å›trueï¼Œé€‰æ‹©å–æ¶ˆæˆ–å…³é—­æ—¶è¿”å›false
    */
   private boolean saveFileBeforeAct() {
     if (this.txaMain.getTextChanged() || this.txaMain.getStyleChanged()) {
-      String strChanged = "ÄÚÈİ";
+      String strChanged = "å†…å®¹";
       if (this.txaMain.getTextChanged() && this.txaMain.getStyleChanged()) {
-        strChanged = "ÄÚÈİÓë¸ñÊ½";
+        strChanged = "å†…å®¹ä¸æ ¼å¼";
       } else if (this.txaMain.getStyleChanged()) {
-        strChanged = "¸ñÊ½";
+        strChanged = "æ ¼å¼";
       }
-      String str = "\"" + this.txaMain.getTitle() + "\" µÄ" + strChanged + "ÒÑ¾­ĞŞ¸Ä¡£\nÏë±£´æÎÄ¼şÂğ£¿";
+      String str = "\"" + this.txaMain.getTitle() + "\" çš„" + strChanged + "å·²ç»ä¿®æ”¹ã€‚\næƒ³ä¿å­˜æ–‡ä»¶å—ï¼Ÿ";
       if (this.file != null) {
-        str = "ÎÄ¼ş£º" + this.file + " µÄ" + strChanged + "ÒÑ¾­ĞŞ¸Ä¡£\nÏë±£´æÎÄ¼şÂğ£¿";
+        str = "æ–‡ä»¶ï¼š" + this.file + " çš„" + strChanged + "å·²ç»ä¿®æ”¹ã€‚\næƒ³ä¿å­˜æ–‡ä»¶å—ï¼Ÿ";
       }
       int result = JOptionPane.showConfirmDialog(this, Util.convertToMsg(str), Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result == JOptionPane.YES_OPTION) {
@@ -4386,10 +4386,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ĞÂ½¨"µÄ´¦Àí·½·¨
+   * "æ–°å»º"çš„å¤„ç†æ–¹æ³•
    * 
    * @param file
-   *          ´ı´ò¿ªµÄÎÄ¼ş
+   *          å¾…æ‰“å¼€çš„æ–‡ä»¶
    */
   private void createNew(File file) {
     BaseTextArea txaNew = new BaseTextArea(this.textAreaSetting);
@@ -4413,19 +4413,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setLineNumberForNew();
     this.addTextAreaMouseListener();
     this.setMenuStateComment();
-    new DropTarget(txaNew, this); // ´´½¨ÍÏ·ÅÄ¿±ê£¬¼´ÉèÖÃÄ³¸ö×é¼ş½ÓÊÕdrop²Ù×÷
+    new DropTarget(txaNew, this); // åˆ›å»ºæ‹–æ”¾ç›®æ ‡ï¼Œå³è®¾ç½®æŸä¸ªç»„ä»¶æ¥æ”¶dropæ“ä½œ
   }
 
   /**
-   * »ñÈ¡µ±Ç°±à¼­µÄÎÄ¼şÀ©Õ¹ÃûÀàĞÍ
+   * è·å–å½“å‰ç¼–è¾‘çš„æ–‡ä»¶æ‰©å±•åç±»å‹
    * 
    * @param fileName
-   *          µ±Ç°±à¼­µÄÎÄ¼şÃû
-   * @return ÓÃÓÚ±êÊ¶ÎÄ¼şÀ©Õ¹ÃûÀàĞÍ
+   *          å½“å‰ç¼–è¾‘çš„æ–‡ä»¶å
+   * @return ç”¨äºæ ‡è¯†æ–‡ä»¶æ‰©å±•åç±»å‹
    */
   private FileExt getFileExtByName(String fileName) {
-    FileExt[] arrFileExt = FileExt.values(); // »ñÈ¡°üº¬Ã¶¾ÙËùÓĞ³ÉÔ±µÄÊı×é
-    FileExt fileExt = FileExt.TXT; // µ±Ç°µÄÎÄ¼şÀàĞÍ
+    FileExt[] arrFileExt = FileExt.values(); // è·å–åŒ…å«æšä¸¾æ‰€æœ‰æˆå‘˜çš„æ•°ç»„
+    FileExt fileExt = FileExt.TXT; // å½“å‰çš„æ–‡ä»¶ç±»å‹
     for (FileExt tempFileExt : arrFileExt) {
       if (fileName.toLowerCase().endsWith(tempFileExt.toString().toLowerCase())) {
         fileExt = tempFileExt;
@@ -4436,9 +4436,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ĞÂ½¨ÎÄ¼şÊ±£¬ÖØĞÂÉèÖÃÎÄ¼şĞòºÅ
+   * æ–°å»ºæ–‡ä»¶æ—¶ï¼Œé‡æ–°è®¾ç½®æ–‡ä»¶åºå·
    * 
-   * @return ĞÂ½¨ÎÄ¼şµÄĞòºÅ
+   * @return æ–°å»ºæ–‡ä»¶çš„åºå·
    */
   private int toSetNewFileIndex() {
     int size = this.textAreaList.size();
@@ -4466,14 +4466,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "É¾³ı"µÄ´¦Àí·½·¨
+   * "åˆ é™¤"çš„å¤„ç†æ–¹æ³•
    */
   private void deleteText() {
     this.txaMain.replaceSelection("");
   }
 
   /**
-   * "²ğ·ÖÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "æ‹†åˆ†æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void openSlicingFileDialog() {
     if (this.slicingFileDialog == null) {
@@ -4485,51 +4485,51 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¸´ÖÆ"µÄ´¦Àí·½·¨
+   * "å¤åˆ¶"çš„å¤„ç†æ–¹æ³•
    */
   private void copyText() {
     this.setClipboardContents(this.txaMain.getSelectedText());
   }
 
   /**
-   * "¼ôÇĞ"µÄ´¦Àí·½·¨
+   * "å‰ªåˆ‡"çš„å¤„ç†æ–¹æ³•
    */
   private void cutText() {
-    this.copyText(); // ¸´ÖÆÑ¡ÖĞÎÄ±¾
-    this.deleteText(); // É¾³ıÑ¡ÖĞÎÄ±¾
+    this.copyText(); // å¤åˆ¶é€‰ä¸­æ–‡æœ¬
+    this.deleteText(); // åˆ é™¤é€‰ä¸­æ–‡æœ¬
   }
 
   /**
-   * "Õ³Ìù"µÄ´¦Àí·½·¨
+   * "ç²˜è´´"çš„å¤„ç†æ–¹æ³•
    */
   private void pasteText() {
     try {
       Transferable tf = this.clip.getContents(this);
       if (tf != null) {
-        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // Èç¹û¼ôÌù°åÄÚµÄÄÚÈİ²»ÊÇÎÄ±¾£¬Ôò½«Å×³öÒì³£
+        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // å¦‚æœå‰ªè´´æ¿å†…çš„å†…å®¹ä¸æ˜¯æ–‡æœ¬ï¼Œåˆ™å°†æŠ›å‡ºå¼‚å¸¸
         if (str != null) {
           str = str.replaceAll(LineSeparator.WINDOWS.toString(),
-              LineSeparator.UNIX.toString()); // ½«Windows¸ñÊ½µÄ»»ĞĞ·û\r\n£¬×ª»»ÎªUNIX/Linux¸ñÊ½
+              LineSeparator.UNIX.toString()); // å°†Windowsæ ¼å¼çš„æ¢è¡Œç¬¦\r\nï¼Œè½¬æ¢ä¸ºUNIX/Linuxæ ¼å¼
           str = str.replaceAll(LineSeparator.MACINTOSH.toString(),
-              LineSeparator.UNIX.toString()); // ÎªÁËÈİ´í£¬½«¿ÉÄÜ²ĞÓàµÄ\r×Ö·ûÌæ»»Îª\n
+              LineSeparator.UNIX.toString()); // ä¸ºäº†å®¹é”™ï¼Œå°†å¯èƒ½æ®‹ä½™çš„\rå­—ç¬¦æ›¿æ¢ä¸º\n
           this.txaMain.replaceSelection(str);
         }
       }
     } catch (Exception x) {
-      // ¼ôÌù°åÒì³£
+      // å‰ªè´´æ¿å¼‚å¸¸
       // x.printStackTrace();
     }
   }
 
   /**
-   * "È«Ñ¡"µÄ´¦Àí·½·¨
+   * "å…¨é€‰"çš„å¤„ç†æ–¹æ³•
    */
   private void selectAll() {
     this.txaMain.selectAll();
   }
 
   /**
-   * "×ÖÌå"µÄ´¦Àí·½·¨
+   * "å­—ä½“"çš„å¤„ç†æ–¹æ³•
    */
   private void openFontChooser() {
     if (this.fontChooser == null) {
@@ -4550,9 +4550,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Ô¤´¦Àíµ±Ç°Ñ¡ÖĞµÄÎÄ±¾£¬ÒÔ±ãÓÃÓÚ²éÕÒ¶Ô»°¿òµÄÏÔÊ¾
+   * é¢„å¤„ç†å½“å‰é€‰ä¸­çš„æ–‡æœ¬ï¼Œä»¥ä¾¿ç”¨äºæŸ¥æ‰¾å¯¹è¯æ¡†çš„æ˜¾ç¤º
    * 
-   * @return ¾­´¦ÀíÖ®ºóµÄÎÄ±¾
+   * @return ç»å¤„ç†ä¹‹åçš„æ–‡æœ¬
    */
   private String checkSelText() {
     String strSel = this.txaMain.getSelectedText();
@@ -4566,7 +4566,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "²éÕÒ"µÄ´¦Àí·½·¨
+   * "æŸ¥æ‰¾"çš„å¤„ç†æ–¹æ³•
    */
   private void openFindDialog() {
     if (this.findReplaceDialog == null) {
@@ -4577,7 +4577,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.requestFocus();
       this.findReplaceDialog.setVisible(true);
     }
-    this.findReplaceDialog.setTabbedIndex(0); // ´ò¿ª²éÕÒÑ¡Ïî¿¨
+    this.findReplaceDialog.setTabbedIndex(0); // æ‰“å¼€æŸ¥æ‰¾é€‰é¡¹å¡
     String strSel = this.checkSelText();
     if (!Util.isTextEmpty(strSel)) {
       this.findReplaceDialog.setFindText(strSel, true);
@@ -4587,17 +4587,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "²éÕÒÏÂÒ»¸ö"µÄ´¦Àí·½·¨
+   * "æŸ¥æ‰¾ä¸‹ä¸€ä¸ª"çš„å¤„ç†æ–¹æ³•
    * 
    * @param isFindDown
-   *          ²éÕÒµÄ·½Ïò£¬Èç¹ûÏòÏÂ²éÕÒÔòÎªtrue£¬·´Ö®ÔòÎªfalse
+   *          æŸ¥æ‰¾çš„æ–¹å‘ï¼Œå¦‚æœå‘ä¸‹æŸ¥æ‰¾åˆ™ä¸ºtrueï¼Œåä¹‹åˆ™ä¸ºfalse
    */
   private void findNextText(boolean isFindDown) {
     String strSel = this.checkSelText();
     if (this.findReplaceDialog == null) {
       this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
           this.setting, true);
-      this.findReplaceDialog.setTabbedIndex(0); // ´ò¿ª²éÕÒÑ¡Ïî¿¨
+      this.findReplaceDialog.setTabbedIndex(0); // æ‰“å¼€æŸ¥æ‰¾é€‰é¡¹å¡
       if (!Util.isTextEmpty(strSel)) {
         this.findReplaceDialog.setFindText(strSel, true);
       }
@@ -4606,7 +4606,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (!Util.isTextEmpty(strSel)) {
         this.findReplaceDialog.setFindText(strSel, true);
       }
-      this.findReplaceDialog.setTabbedIndex(0); // ´ò¿ª²éÕÒÑ¡Ïî¿¨
+      this.findReplaceDialog.setTabbedIndex(0); // æ‰“å¼€æŸ¥æ‰¾é€‰é¡¹å¡
       this.findReplaceDialog.setVisible(true);
     } else {
       this.findReplaceDialog.setTextArea(this.txaMain);
@@ -4615,7 +4615,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Ìæ»»"µÄ´¦Àí·½·¨
+   * "æ›¿æ¢"çš„å¤„ç†æ–¹æ³•
    */
   private void openReplaceDialog() {
     if (this.findReplaceDialog == null) {
@@ -4625,7 +4625,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.findReplaceDialog.setTextArea(this.txaMain);
       this.findReplaceDialog.setVisible(true);
     }
-    this.findReplaceDialog.setTabbedIndex(1); // ´ò¿ªÌæ»»Ñ¡Ïî¿¨
+    this.findReplaceDialog.setTabbedIndex(1); // æ‰“å¼€æ›¿æ¢é€‰é¡¹å¡
     String strSel = this.checkSelText();
     if (!Util.isTextEmpty(strSel)) {
       this.findReplaceDialog.setFindText(strSel, true);
@@ -4636,7 +4636,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "×ªµ½"µÄ´¦Àí·½·¨
+   * "è½¬åˆ°"çš„å¤„ç†æ–¹æ³•
    */
   private void openGotoDialog() {
     if (this.gotoDialog == null) {
@@ -4648,7 +4648,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÉèÖÃ/È¡ÏûÊéÇ©"µÄ´¦Àí·½·¨
+   * "è®¾ç½®/å–æ¶ˆä¹¦ç­¾"çš„å¤„ç†æ–¹æ³•
    */
   private void bookmarkSwitch() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -4657,7 +4657,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÖØ»æĞĞºÅÀ¸
+   * é‡ç»˜è¡Œå·æ 
    */
   private void repaintLineNumberView() {
     JViewport viewport = ((JScrollPane) this.tpnMain.getSelectedComponent()).getRowHeader();
@@ -4670,7 +4670,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÏÂÒ»¸öÊéÇ©"µÄ´¦Àí·½·¨
+   * "ä¸‹ä¸€ä¸ªä¹¦ç­¾"çš„å¤„ç†æ–¹æ³•
    */
   private void bookmarkNext() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -4682,7 +4682,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     for (int bookmark : bookmarks) {
       if (bookmark > lineNum) {
-        int total = this.txaMain.getLineCount(); // ÎÄ±¾Óò×ÜĞĞÊı
+        int total = this.txaMain.getLineCount(); // æ–‡æœ¬åŸŸæ€»è¡Œæ•°
         if (bookmark >= total) {
           return;
         }
@@ -4698,7 +4698,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÉÏÒ»¸öÊéÇ©"µÄ´¦Àí·½·¨
+   * "ä¸Šä¸€ä¸ªä¹¦ç­¾"çš„å¤„ç†æ–¹æ³•
    */
   private void bookmarkPrevious() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -4723,7 +4723,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¸´ÖÆÊéÇ©ĞĞ"µÄ´¦Àí·½·¨
+   * "å¤åˆ¶ä¹¦ç­¾è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void bookmarkCopy() {
     LinkedList<Integer> bookmarks = this.txaMain.getBookmarks();
@@ -4731,7 +4731,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (size <= 0) {
       return;
     }
-    int lineCount = this.txaMain.getLineCount(); // ÎÄ±¾Óò×ÜĞĞÊı
+    int lineCount = this.txaMain.getLineCount(); // æ–‡æœ¬åŸŸæ€»è¡Œæ•°
     StringBuilder stbLines = new StringBuilder();
     for (int bookmark : bookmarks) {
       if (bookmark < lineCount) {
@@ -4750,7 +4750,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Çå³ıËùÓĞÊéÇ©"µÄ´¦Àí·½·¨
+   * "æ¸…é™¤æ‰€æœ‰ä¹¦ç­¾"çš„å¤„ç†æ–¹æ³•
    */
   private void bookmarkClear() {
     LinkedList<Integer> bookmarks = this.txaMain.getBookmarks();
@@ -4759,7 +4759,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "¹¤¾ßÀ¸"µÄ´¦Àí·½·¨
+   * "å·¥å…·æ "çš„å¤„ç†æ–¹æ³•
    */
   private void setToolBar() {
     this.tlbMain.setVisible(this.itemToolBar.isSelected());
@@ -4767,7 +4767,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "×´Ì¬À¸"µÄ´¦Àí·½·¨
+   * "çŠ¶æ€æ "çš„å¤„ç†æ–¹æ³•
    */
   private void setStateBar() {
     this.pnlState.setVisible(this.itemStateBar.isSelected());
@@ -4775,21 +4775,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÖØĞÂÔØÈëÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "é‡æ–°è½½å…¥æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void reOpenFile() {
     if (this.file == null) {
       return;
     }
     if (this.txaMain.getTextChanged() || this.txaMain.getStyleChanged()) {
-      String strTemp = "ÄÚÈİ";
+      String strTemp = "å†…å®¹";
       if (this.txaMain.getTextChanged() && this.txaMain.getStyleChanged()) {
-        strTemp = "ÄÚÈİÓë¸ñÊ½";
+        strTemp = "å†…å®¹ä¸æ ¼å¼";
       } else if (this.txaMain.getStyleChanged()) {
-        strTemp = "¸ñÊ½";
+        strTemp = "æ ¼å¼";
       }
       int result = JOptionPane.showConfirmDialog(this,
-          Util.convertToMsg("ÎÄ¼ş£º" + this.file + " µÄ" + strTemp + "ÒÑ¾­ĞŞ¸Ä¡£\nÏë·ÅÆúĞŞ¸ÄÖØĞÂÔØÈëÂğ£¿"),
+          Util.convertToMsg("æ–‡ä»¶ï¼š" + this.file + " çš„" + strTemp + "å·²ç»ä¿®æ”¹ã€‚\næƒ³æ”¾å¼ƒä¿®æ”¹é‡æ–°è½½å…¥å—ï¼Ÿ"),
           Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result != JOptionPane.YES_OPTION) {
         return;
@@ -4803,7 +4803,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setStylePrefix();
     } else {
       int result = JOptionPane.showConfirmDialog(this,
-          Util.convertToMsg("ÎÄ¼ş£º" + this.file + "²»´æÔÚ¡£\nÒªÖØĞÂ´´½¨Âğ£¿"),
+          Util.convertToMsg("æ–‡ä»¶ï¼š" + this.file + "ä¸å­˜åœ¨ã€‚\nè¦é‡æ–°åˆ›å»ºå—ï¼Ÿ"),
           Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result == JOptionPane.YES_OPTION) {
         Util.checkFile(this.file);
@@ -4819,24 +4819,24 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setStylePrefix();
       }
     }
-    this.txaMain.setFileLastModified(this.file.lastModified()); // ÉèÖÃÎÄ¼ş×îºóĞŞ¸ÄµÄÊ±¼ä´Á
+    this.txaMain.setFileLastModified(this.file.lastModified()); // è®¾ç½®æ–‡ä»¶æœ€åä¿®æ”¹çš„æ—¶é—´æˆ³
   }
 
   /**
-   * ´ò¿ªÎÄ¼şºóµÄÉèÖÃ
+   * æ‰“å¼€æ–‡ä»¶åçš„è®¾ç½®
    * 
    * @param index
-   *          ÎÄ±¾ÓòµÄ²åÈëµãÎ»ÖÃ
+   *          æ–‡æœ¬åŸŸçš„æ’å…¥ç‚¹ä½ç½®
    */
   private void setAfterOpenFile(int index) {
-    this.txaMain.setCaretPosition(Util.checkCaretPosition(this.txaMain, index)); // ÉèÖÃ²åÈëµãÎ»ÖÃ
+    this.txaMain.setCaretPosition(Util.checkCaretPosition(this.txaMain, index)); // è®¾ç½®æ’å…¥ç‚¹ä½ç½®
     this.txaMain.setTextChanged(false);
     this.txaMain.setStyleChanged(false);
     this.txaMain.setSaved(true);
     this.undoManager.discardAllEdits();
-    this.txaMain.setUndoIndex(Util.DEFAULT_UNDO_INDEX); // ³·Ïú±êÊ¶·û»Ö¸´Ä¬ÈÏÖµ
-    this.setMenuStateUndoRedo(); // ÉèÖÃ³·ÏúºÍÖØ×ö²Ëµ¥µÄ×´Ì¬
-    this.setMenuStateBackForward(); // ÉèÖÃºóÍËºÍÇ°½ø²Ëµ¥µÄ×´Ì¬
+    this.txaMain.setUndoIndex(Util.DEFAULT_UNDO_INDEX); // æ’¤é”€æ ‡è¯†ç¬¦æ¢å¤é»˜è®¤å€¼
+    this.setMenuStateUndoRedo(); // è®¾ç½®æ’¤é”€å’Œé‡åšèœå•çš„çŠ¶æ€
+    this.setMenuStateBackForward(); // è®¾ç½®åé€€å’Œå‰è¿›èœå•çš„çŠ¶æ€
     this.itemReOpen.setEnabled(true);
     this.itemReName.setEnabled(true);
     this.itemDelFile.setEnabled(true);
@@ -4846,7 +4846,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "´ò¿ª"µÄ´¦Àí·½·¨
+   * "æ‰“å¼€"çš„å¤„ç†æ–¹æ³•
    */
   private void openFile() {
     if (this.openFileChooser == null) {
@@ -4872,11 +4872,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¼ì²âÊÇ·ñĞèÒªĞÂ½¨ÎÄ±¾Óò
+   * æ£€æµ‹æ˜¯å¦éœ€è¦æ–°å»ºæ–‡æœ¬åŸŸ
    * 
    * @param file
-   *          ´ı´ò¿ªµÄÎÄ¼ş
-   * @return ÊÇ·ñĞèÒªĞÂ½¨ÎÄ±¾Óò£¬true±íÊ¾ĞèÒªĞÂ½¨£¬·´Ö®Ôò²»ĞèÒªĞÂ½¨
+   *          å¾…æ‰“å¼€çš„æ–‡ä»¶
+   * @return æ˜¯å¦éœ€è¦æ–°å»ºæ–‡æœ¬åŸŸï¼Œtrueè¡¨ç¤ºéœ€è¦æ–°å»ºï¼Œåä¹‹åˆ™ä¸éœ€è¦æ–°å»º
    */
   private boolean checkToCreateNew(File file) {
     boolean toCreateNew = true;
@@ -4897,11 +4897,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Èç¹ûĞÂ´ò¿ªµÄÎÄ¼şÓëµ±Ç°±à¼­µÄÎÄ¼şÏàÍ¬£¬Ôò»ñÈ¡µ±Ç°ÎÄ±¾ÓòµÄ²åÈëµãÎ»ÖÃ£¬·ñÔò·µ»ØÄ¬ÈÏÎ»ÖÃ
+   * å¦‚æœæ–°æ‰“å¼€çš„æ–‡ä»¶ä¸å½“å‰ç¼–è¾‘çš„æ–‡ä»¶ç›¸åŒï¼Œåˆ™è·å–å½“å‰æ–‡æœ¬åŸŸçš„æ’å…¥ç‚¹ä½ç½®ï¼Œå¦åˆ™è¿”å›é»˜è®¤ä½ç½®
    * 
    * @param file
-   *          ĞÂ´ò¿ªµÄÎÄ¼ş
-   * @return ½«ÒªÉèÖÃµÄ²åÈëµãÎ»ÖÃ
+   *          æ–°æ‰“å¼€çš„æ–‡ä»¶
+   * @return å°†è¦è®¾ç½®çš„æ’å…¥ç‚¹ä½ç½®
    */
   private int getCurrentIndexBySameFile(File file) {
     int index = Util.DEFAULT_CARET_INDEX;
@@ -4912,7 +4912,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "ÒÔÖ¸¶¨±àÂë´ò¿ª"µÄ´¦Àí·½·¨
+   * "ä»¥æŒ‡å®šç¼–ç æ‰“å¼€"çš„å¤„ç†æ–¹æ³•
    */
   private void openFileByEncoding() {
     if (this.fileEncodingDialog == null) {
@@ -4950,14 +4950,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ´ò¿ªÎÄ¼ş²¢½«ÄÚÈİÏÔÊ¾ÔÚÎÄ±¾ÓòÖĞ
+   * æ‰“å¼€æ–‡ä»¶å¹¶å°†å†…å®¹æ˜¾ç¤ºåœ¨æ–‡æœ¬åŸŸä¸­
    * 
    * @param file
-   *          ´ò¿ªµÄÎÄ¼ş
+   *          æ‰“å¼€çš„æ–‡ä»¶
    * @param isAutoCheckEncoding
-   *          ÊÇ·ñ×Ô¶¯¼ì²â±àÂë¸ñÊ½
+   *          æ˜¯å¦è‡ªåŠ¨æ£€æµ‹ç¼–ç æ ¼å¼
    * @param toCreateNew
-   *          ÊÇ·ñĞèÒªĞÂ½¨ÎÄ±¾Óò
+   *          æ˜¯å¦éœ€è¦æ–°å»ºæ–‡æœ¬åŸŸ
    */
   private void toOpenFile(File file, boolean isAutoCheckEncoding, boolean toCreateNew) {
     InputStreamReader inputStreamReader = null;
@@ -4979,7 +4979,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       case UTF8:
       case ULE:
       case UBE:
-        inputStreamReader.read(); // È¥µôÎÄ¼ş¿ªÍ·µÄBOM
+        inputStreamReader.read(); // å»æ‰æ–‡ä»¶å¼€å¤´çš„BOM
         break;
       }
       while ((len = inputStreamReader.read(chrBuf)) != -1) {
@@ -4996,11 +4996,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setLineStyleString(LineSeparator.MACINTOSH, true);
       } else if (strTemp.indexOf(LineSeparator.UNIX.toString()) >= 0) {
         this.setLineStyleString(LineSeparator.UNIX, true);
-      } else { // µ±ÎÄ¼şÄÚÈİ²»×ã1ĞĞÊ±£¬ÔòÉèÖÃÎªÏµÍ³Ä¬ÈÏµÄ»»ĞĞ·û
+      } else { // å½“æ–‡ä»¶å†…å®¹ä¸è¶³1è¡Œæ—¶ï¼Œåˆ™è®¾ç½®ä¸ºç³»ç»Ÿé»˜è®¤çš„æ¢è¡Œç¬¦
         this.setLineStyleString(LineSeparator.DEFAULT, true);
       }
       this.txaMain.setText(strTemp);
-      this.addFileHistoryItem(file.getCanonicalPath()); // Ìí¼Ó×î½ü±à¼­µÄÎÄ¼şÁĞ±í
+      this.addFileHistoryItem(file.getCanonicalPath()); // æ·»åŠ æœ€è¿‘ç¼–è¾‘çš„æ–‡ä»¶åˆ—è¡¨
       this.txaMain.setFileExistsLabel(true);
       this.txaMain.setFileChangedLabel(false);
       this.txaMain.setNewFileIndex(0);
@@ -5019,22 +5019,22 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "±£´æ"µÄ´¦Àí·½·¨
+   * "ä¿å­˜"çš„å¤„ç†æ–¹æ³•
    * 
    * @param isSaveAs
-   *          ÊÇ·ñÎª"Áí´æÎª"
-   * @return ÊÇ·ñ±£´æ³É¹¦£¬Èç¹û³É¹¦·µ»Øtrue£¬Èç¹ûÊ§°ÜÔòÎªfalse
+   *          æ˜¯å¦ä¸º"å¦å­˜ä¸º"
+   * @return æ˜¯å¦ä¿å­˜æˆåŠŸï¼Œå¦‚æœæˆåŠŸè¿”å›trueï¼Œå¦‚æœå¤±è´¥åˆ™ä¸ºfalse
    */
   private boolean saveFile(boolean isSaveAs) {
-    boolean isFileExist = true; // µ±Ç°ÎÄ¼şÊÇ·ñ´æÔÚ
+    boolean isFileExist = true; // å½“å‰æ–‡ä»¶æ˜¯å¦å­˜åœ¨
     if (isSaveAs || !this.txaMain.getSaved()) {
       if (this.saveFileChooser == null) {
         this.saveFileChooser = new SaveFileChooser();
       }
       if (isSaveAs) {
-        this.saveFileChooser.setDialogTitle("Áí´æÎª");
+        this.saveFileChooser.setDialogTitle("å¦å­˜ä¸º");
       } else {
-        this.saveFileChooser.setDialogTitle("±£´æ");
+        this.saveFileChooser.setDialogTitle("ä¿å­˜");
       }
       this.saveFileChooser.setSelectedFile(null);
       if (JFileChooser.APPROVE_OPTION != this.saveFileChooser.showSaveDialog(this)) {
@@ -5063,7 +5063,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           this.showSaveErrorDialog(this.file);
           return false;
         }
-        this.txaMain.setFileLastModified(this.file.lastModified()); // ÉèÖÃÎÄ¼ş×îºóĞŞ¸ÄµÄÊ±¼ä´Á
+        this.txaMain.setFileLastModified(this.file.lastModified()); // è®¾ç½®æ–‡ä»¶æœ€åä¿®æ”¹çš„æ—¶é—´æˆ³
       } else {
         return false;
       }
@@ -5073,7 +5073,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setStylePrefix();
     if (!isFileExist) {
       JOptionPane.showMessageDialog(this,
-          Util.convertToMsg("¶ªÊ§µÄÎÄ¼ş£º" + this.file.getAbsolutePath() + "\nÒÑÖØĞÂ´´½¨£¡"),
+          Util.convertToMsg("ä¸¢å¤±çš„æ–‡ä»¶ï¼š" + this.file.getAbsolutePath() + "\nå·²é‡æ–°åˆ›å»ºï¼"),
           Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
     }
     this.txaMain.setNewFileIndex(0);
@@ -5082,17 +5082,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "Áí´æÎª"µÄ´¦Àí·½·¨
+   * "å¦å­˜ä¸º"çš„å¤„ç†æ–¹æ³•
    */
   private void saveAsFile() {
     this.saveFile(true);
   }
 
   /**
-   * ½«ÎÄ±¾ÓòÖĞµÄÎÄ±¾±£´æµ½ÎÄ¼ş
+   * å°†æ–‡æœ¬åŸŸä¸­çš„æ–‡æœ¬ä¿å­˜åˆ°æ–‡ä»¶
    * 
    * @param file
-   *          ±£´æµÄÎÄ¼ş
+   *          ä¿å­˜çš„æ–‡ä»¶
    */
   private void toSaveFile(File file) throws Exception {
     FileOutputStream fileOutputStream = null;
@@ -5102,7 +5102,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       strText = strText.replaceAll(LineSeparator.UNIX.toString(),
           this.txaMain.getLineSeparator().toString());
       byte[] byteStr;
-      int[] charBOM = new int[] { -1, -1, -1 }; // ¸ù¾İµ±Ç°µÄ×Ö·û±àÂë£¬´æ·ÅBOMµÄÊı×é
+      int[] charBOM = new int[] { -1, -1, -1 }; // æ ¹æ®å½“å‰çš„å­—ç¬¦ç¼–ç ï¼Œå­˜æ”¾BOMçš„æ•°ç»„
       switch (this.txaMain.getCharEncoding()) {
       case UTF8:
         charBOM[0] = 0xef;
@@ -5126,14 +5126,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         fileOutputStream.write(charBOM[i]);
       }
       fileOutputStream.write(byteStr);
-      this.addFileHistoryItem(file.getCanonicalPath()); // Ìí¼Ó×î½ü±à¼­µÄÎÄ¼şÁĞ±í
+      this.addFileHistoryItem(file.getCanonicalPath()); // æ·»åŠ æœ€è¿‘ç¼–è¾‘çš„æ–‡ä»¶åˆ—è¡¨
       this.txaMain.setFileExistsLabel(true);
       this.txaMain.setFileChangedLabel(false);
       this.txaMain.setFileExt(this.getFileExtByName(file.getName()));
       this.setMenuStateComment();
     } catch (Exception x) {
       // x.printStackTrace();
-      throw x; // ½«²¶»ñµÄÒì³£Å×³ö£¬ÒÔ±ãµ÷ÓÃ´¦¿ÉÒÔ½øĞĞÒì³£´¦Àí
+      throw x; // å°†æ•è·çš„å¼‚å¸¸æŠ›å‡ºï¼Œä»¥ä¾¿è°ƒç”¨å¤„å¯ä»¥è¿›è¡Œå¼‚å¸¸å¤„ç†
     } finally {
       try {
         fileOutputStream.flush();
@@ -5145,19 +5145,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÔÚ±£´æÎÄ¼şÊ§°Üºó£¬µ¯³öÌáÊ¾¿ò
+   * åœ¨ä¿å­˜æ–‡ä»¶å¤±è´¥åï¼Œå¼¹å‡ºæç¤ºæ¡†
    * 
    * @param file
-   *          µ±Ç°±à¼­µÄÎÄ¼ş
+   *          å½“å‰ç¼–è¾‘çš„æ–‡ä»¶
    */
   private void showSaveErrorDialog(File file) {
     JOptionPane.showMessageDialog(this,
-        Util.convertToMsg("ÎÄ¼ş£º" + file.getAbsolutePath() + "\n±£´æÊ§°Ü£¡ÇëÈ·ÈÏÎÄ¼şÃûÊÇ·ñÓĞ·Ç·¨×Ö·û»òÊÇ·ñÓĞĞ´È¨ÏŞ£¡"),
+        Util.convertToMsg("æ–‡ä»¶ï¼š" + file.getAbsolutePath() + "\nä¿å­˜å¤±è´¥ï¼è¯·ç¡®è®¤æ–‡ä»¶åæ˜¯å¦æœ‰éæ³•å­—ç¬¦æˆ–æ˜¯å¦æœ‰å†™æƒé™ï¼"),
         Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
   }
 
   /**
-   * ±£´æÎÄ¼şºóµÄÉèÖÃ
+   * ä¿å­˜æ–‡ä»¶åçš„è®¾ç½®
    */
   private void setAfterSaveFile() {
     this.itemReOpen.setEnabled(true);
@@ -5169,14 +5169,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.txaMain.setTextChanged(false);
     this.txaMain.setStyleChanged(false);
     this.txaMain.setSaved(true);
-    this.txaMain.setUndoIndex(Util.DEFAULT_UNDO_INDEX); // ³·Ïú±êÊ¶·û»Ö¸´Ä¬ÈÏÖµ
+    this.txaMain.setUndoIndex(Util.DEFAULT_UNDO_INDEX); // æ’¤é”€æ ‡è¯†ç¬¦æ¢å¤é»˜è®¤å€¼
   }
 
   /**
-   * ÉèÖÃÎÄ¼şµÄÃû³ÆºÍÂ·¾¶
+   * è®¾ç½®æ–‡ä»¶çš„åç§°å’Œè·¯å¾„
    * 
    * @param file
-   *          µ±Ç°±à¼­µÄÎÄ¼ş
+   *          å½“å‰ç¼–è¾‘çš„æ–‡ä»¶
    */
   private void setFileNameAndPath(File file) {
     this.txaMain.setFile(file);
@@ -5184,14 +5184,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (file != null && file.exists()) {
       this.file = this.txaMain.getFile();
       this.stbTitle.insert(0, this.file.getAbsolutePath() + " - ");
-      this.txaMain.setFileLastModified(file.lastModified()); // ÉèÖÃÎÄ¼ş×îºóĞŞ¸ÄµÄÊ±¼ä´Á
+      this.txaMain.setFileLastModified(file.lastModified()); // è®¾ç½®æ–‡ä»¶æœ€åä¿®æ”¹çš„æ—¶é—´æˆ³
     }
     this.setTitle(this.stbTitle.toString());
     this.tpnMain.setTitleAt(this.tpnMain.getSelectedIndex(), this.txaMain.getTitle());
   }
 
   /**
-   * ÉèÖÃ±êÌâÀ¸µÄÏÔÊ¾
+   * è®¾ç½®æ ‡é¢˜æ çš„æ˜¾ç¤º
    */
   private void setAutoTitle() {
     this.stbTitle = new StringBuilder(Util.SOFTWARE);
@@ -5205,10 +5205,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÉèÖÃÄ³Ğ©²Ëµ¥µÄÏÔÊ¾×´Ì¬
+   * è®¾ç½®æŸäº›èœå•çš„æ˜¾ç¤ºçŠ¶æ€
    * 
    * @param enable
-   *          ²Ëµ¥µÄÏÔÊ¾×´Ì¬£¬true±íÊ¾ÏÔÊ¾£¬·´Ö®±íÊ¾²»ÏÔÊ¾
+   *          èœå•çš„æ˜¾ç¤ºçŠ¶æ€ï¼Œtrueè¡¨ç¤ºæ˜¾ç¤ºï¼Œåä¹‹è¡¨ç¤ºä¸æ˜¾ç¤º
    */
   private void setAutoMenuEnabled(boolean enable) {
     this.itemReOpen.setEnabled(enable);
@@ -5220,7 +5220,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ÖØĞÂÉèÖÃ¸÷¶Ô»°¿òËùÔÚµÄÎÄ±¾Óò
+   * é‡æ–°è®¾ç½®å„å¯¹è¯æ¡†æ‰€åœ¨çš„æ–‡æœ¬åŸŸ
    */
   private void setTextAreaInDialogs() {
     if (this.findReplaceDialog != null) {
@@ -5235,7 +5235,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸üĞÂ×´Ì¬À¸µÄÎÄ±¾×Ü×ÖÊı
+   * æ›´æ–°çŠ¶æ€æ çš„æ–‡æœ¬æ€»å­—æ•°
    */
   private void updateStateAll() {
     String strStateChars = Util.STATE_CHARS + this.txaMain.getText().length();
@@ -5244,7 +5244,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸üĞÂ×´Ì¬À¸µ±Ç°¹â±êËùÔÚµÄĞĞÊı¡¢ÁĞÊıÓëµ±Ç°Ñ¡ÔñµÄ×Ö·ûÊı
+   * æ›´æ–°çŠ¶æ€æ å½“å‰å…‰æ ‡æ‰€åœ¨çš„è¡Œæ•°ã€åˆ—æ•°ä¸å½“å‰é€‰æ‹©çš„å­—ç¬¦æ•°
    */
   private void updateStateCur() {
     int curLn = 1;
@@ -5266,7 +5266,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸üĞÂ×´Ì¬À¸µ±Ç°µÄ»»ĞĞ·û¸ñÊ½
+   * æ›´æ–°çŠ¶æ€æ å½“å‰çš„æ¢è¡Œç¬¦æ ¼å¼
    */
   private void updateStateLineStyle() {
     this.pnlState.setStringByIndex(2, Util.STATE_LINE_STYLE
@@ -5274,7 +5274,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¸üĞÂ×´Ì¬À¸µ±Ç°µÄ×Ö·û±àÂë¸ñÊ½
+   * æ›´æ–°çŠ¶æ€æ å½“å‰çš„å­—ç¬¦ç¼–ç æ ¼å¼
    */
   private void updateStateEncoding() {
     this.pnlState.setStringByIndex(3, Util.STATE_ENCODING
@@ -5282,24 +5282,24 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ²éÕÒµ±Ç°¹â±ê´¦À¨ºÅµÄÆ¥ÅäÀ¨ºÅËùÔÚµÄË÷ÒıÖµ
+   * æŸ¥æ‰¾å½“å‰å…‰æ ‡å¤„æ‹¬å·çš„åŒ¹é…æ‹¬å·æ‰€åœ¨çš„ç´¢å¼•å€¼
    * 
    * @param charCurrent
-   *          µ±Ç°¹â±ê´¦µÄ×Ö·û
+   *          å½“å‰å…‰æ ‡å¤„çš„å­—ç¬¦
    * @param currentIndex
-   *          µ±Ç°¹â±ê²åÈëµãµÄË÷ÒıÖµ
+   *          å½“å‰å…‰æ ‡æ’å…¥ç‚¹çš„ç´¢å¼•å€¼
    * @param strMain
-   *          µ±Ç°ÎÄ±¾ÓòµÄÎÄ±¾
-   * @return Æ¥ÅäÀ¨ºÅµÄË÷ÒıÖµ¡£Èç¹ûÎ´ÕÒµ½Æ¥ÅäÀ¨ºÅ£¬Ôò·µ»Ø-1
+   *          å½“å‰æ–‡æœ¬åŸŸçš„æ–‡æœ¬
+   * @return åŒ¹é…æ‹¬å·çš„ç´¢å¼•å€¼ã€‚å¦‚æœæœªæ‰¾åˆ°åŒ¹é…æ‹¬å·ï¼Œåˆ™è¿”å›-1
    */
   private int getBracketTargetIndex(char charCurrent, int currentIndex,
       String strMain) {
-    int targetIndex = -1; // ²éÕÒµ½µÄÆ¥ÅäÀ¨ºÅËùÔÚµÄË÷ÒıÖµ
+    int targetIndex = -1; // æŸ¥æ‰¾åˆ°çš„åŒ¹é…æ‹¬å·æ‰€åœ¨çš„ç´¢å¼•å€¼
     if (charCurrent == ' ') {
       return targetIndex;
     }
-    int style = -1; // ´ıÆ¥ÅäÀ¨ºÅµÄÀàĞÍ£¬Ä¿Ç°Ö÷ÒªÓĞ¼¸ÖÖÀ¨ºÅ£º()[]{}<>
-    boolean isLeft = true; // µ±Ç°¹â±ê´¦µÄ×Ö·ûÊÇ·ñÊÇ×ó±ßµÄÀ¨ºÅ
+    int style = -1; // å¾…åŒ¹é…æ‹¬å·çš„ç±»å‹ï¼Œç›®å‰ä¸»è¦æœ‰å‡ ç§æ‹¬å·ï¼š()[]{}<>
+    boolean isLeft = true; // å½“å‰å…‰æ ‡å¤„çš„å­—ç¬¦æ˜¯å¦æ˜¯å·¦è¾¹çš„æ‹¬å·
     char charTarget = ' ';
     style = Util.BRACKETS_LEFT.indexOf(charCurrent);
     if (style >= 0) {
@@ -5311,7 +5311,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         charTarget = Util.BRACKETS_LEFT.charAt(style);
       }
     }
-    if (style < 0) { // Èç¹û²»ÊÇÉÏÊö¼¸ÖÖÀ¨ºÅ£¬Ôò·µ»Ø
+    if (style < 0) { // å¦‚æœä¸æ˜¯ä¸Šè¿°å‡ ç§æ‹¬å·ï¼Œåˆ™è¿”å›
       return targetIndex;
     }
     String tempText = strMain.substring(currentIndex);
@@ -5324,13 +5324,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       tempText = strMain.substring(0, currentIndex + 1);
       targetIndex = tempText.lastIndexOf(charTarget);
     }
-    if (targetIndex < 0) { // Èç¹ûµÚ1´ÎÃ»ÓĞÕÒµ½Æ¥ÅäµÄÀ¨ºÅ£¬Ôò·µ»Ø
+    if (targetIndex < 0) { // å¦‚æœç¬¬1æ¬¡æ²¡æœ‰æ‰¾åˆ°åŒ¹é…çš„æ‹¬å·ï¼Œåˆ™è¿”å›
       return targetIndex;
     }
-    int timesLeft = 0; // ×óÀ¨ºÅ³öÏÖ´ÎÊı
-    int timesRight = 0; // ÓÒÀ¨ºÅ³öÏÖ´ÎÊı
-    int index = 0; // ÁÙÊ±Ë÷ÒıÖµ
-    boolean label = false; // ÊÇ·ñ²éÕÒµ½Æ¥ÅäµÄÀ¨ºÅ
+    int timesLeft = 0; // å·¦æ‹¬å·å‡ºç°æ¬¡æ•°
+    int timesRight = 0; // å³æ‹¬å·å‡ºç°æ¬¡æ•°
+    int index = 0; // ä¸´æ—¶ç´¢å¼•å€¼
+    boolean label = false; // æ˜¯å¦æŸ¥æ‰¾åˆ°åŒ¹é…çš„æ‹¬å·
     if (isLeft) {
       for (index = 0; index < tempText.length(); index++) {
         char charTemp = tempText.charAt(index);
@@ -5373,16 +5373,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ²éÕÒµ±Ç°¹â±ê´¦µÄÀ¨ºÅµÄÆ¥ÅäÀ¨ºÅ£¬²¢½øĞĞ¸ßÁÁÏÔÊ¾
+   * æŸ¥æ‰¾å½“å‰å…‰æ ‡å¤„çš„æ‹¬å·çš„åŒ¹é…æ‹¬å·ï¼Œå¹¶è¿›è¡Œé«˜äº®æ˜¾ç¤º
    */
   private void searchTargetBracket() {
-    this.rmHighlight(Util.BRACKET_COLOR_STYLE); // È¡ÏûÉÏÒ»´ÎµÄÀ¨ºÅÆ¥Åä¸ßÁÁ
+    this.rmHighlight(Util.BRACKET_COLOR_STYLE); // å–æ¶ˆä¸Šä¸€æ¬¡çš„æ‹¬å·åŒ¹é…é«˜äº®
     String strMain = this.txaMain.getText();
-    char charLeft = ' '; // µ±Ç°¹â±ê×ó²àµÄ×Ö·û
-    char charRight = ' '; // µ±Ç°¹â±êÓÒ²àµÄ×Ö·û
-    int currentIndex = this.txaMain.getCaretPosition(); // ½«ÒªÆ¥ÅäµÄÀ¨ºÅµÄË÷ÒıÖµ
+    char charLeft = ' '; // å½“å‰å…‰æ ‡å·¦ä¾§çš„å­—ç¬¦
+    char charRight = ' '; // å½“å‰å…‰æ ‡å³ä¾§çš„å­—ç¬¦
+    int currentIndex = this.txaMain.getCaretPosition(); // å°†è¦åŒ¹é…çš„æ‹¬å·çš„ç´¢å¼•å€¼
     currentIndex--;
-    int targetIndex = -1; // ²éÕÒµ½µÄÆ¥ÅäÀ¨ºÅËùÔÚµÄË÷ÒıÖµ
+    int targetIndex = -1; // æŸ¥æ‰¾åˆ°çš„åŒ¹é…æ‹¬å·æ‰€åœ¨çš„ç´¢å¼•å€¼
     this.targetBracketIndex = targetIndex;
     if (currentIndex >= 0) {
       charLeft = strMain.charAt(currentIndex);
@@ -5416,7 +5416,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Ë¢ĞÂ¹â±êÀúÊ·Î»ÖÃµÄÁ´±í
+   * åˆ·æ–°å…‰æ ‡å†å²ä½ç½®çš„é“¾è¡¨
    */
   private void refreshBackForwardList() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -5439,7 +5439,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     }
     if (!exist) {
-      // Èç¹û´¦ÓÚÒÑºóÍËµÄ×´Ì¬ÏÂ£¬Èç¹ûµ±Ç°¹â±êËùÔÚĞĞ²»ÔÚÀúÊ·¼ÇÂ¼Àï£¬Ôò½«ºóÍËµÄÀúÊ·Î»ÖÃ½øĞĞ·´×ª¡£
+      // å¦‚æœå¤„äºå·²åé€€çš„çŠ¶æ€ä¸‹ï¼Œå¦‚æœå½“å‰å…‰æ ‡æ‰€åœ¨è¡Œä¸åœ¨å†å²è®°å½•é‡Œï¼Œåˆ™å°†åé€€çš„å†å²ä½ç½®è¿›è¡Œåè½¬ã€‚
       if (backForwardIndex != Util.DEFAULT_BACK_FORWARD_INDEX) {
         for (int i = 0; i <= backForwardIndex; i++) {
           PartnerBean bean = backForwardList.remove(i);
@@ -5456,18 +5456,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * Ë¢ĞÂ´æ·Å×î½ü±à¼­µÄÎÄ±¾ÓòhashCodeµÄÁ´±í
+   * åˆ·æ–°å­˜æ”¾æœ€è¿‘ç¼–è¾‘çš„æ–‡æœ¬åŸŸhashCodeçš„é“¾è¡¨
    */
   private void refreshTextAreaHashCodeList() {
     int hashCode = this.txaMain.hashCode();
     int size = this.textAreaHashCodeList.size();
     if (size > 0) {
-      // Èç¹û´¦ÓÚÒÑºóÍËµÄ×´Ì¬ÏÂ£¬Ôò²»´¦Àí
+      // å¦‚æœå¤„äºå·²åé€€çš„çŠ¶æ€ä¸‹ï¼Œåˆ™ä¸å¤„ç†
       int value = this.textAreaHashCodeList.get(this.textAreaHistoryIndex);
       if (value == hashCode) {
         return;
       }
-      // Èç¹ûµ±Ç°ÎÄ±¾ÓòÒÑ´¦ÓÚÁ´±í¿ªÍ·£¬Ôò²»´¦Àí
+      // å¦‚æœå½“å‰æ–‡æœ¬åŸŸå·²å¤„äºé“¾è¡¨å¼€å¤´ï¼Œåˆ™ä¸å¤„ç†
       if (this.textAreaHashCodeList.get(0) == hashCode) {
         return;
       }
@@ -5480,7 +5480,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ½«µ±Ç°ÎÄ±¾Óò´ÓhashCodeµÄÁ´±íÖĞÉ¾³ı
+   * å°†å½“å‰æ–‡æœ¬åŸŸä»hashCodeçš„é“¾è¡¨ä¸­åˆ é™¤
    */
   private void removeFromTextAreaHashCodeList() {
     int hashCode = this.txaMain.hashCode();
@@ -5496,7 +5496,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¼ì²é²¢É¾³ıÁ´±íÖĞÁ¬ĞøµÄÖØ¸´hashCode
+   * æ£€æŸ¥å¹¶åˆ é™¤é“¾è¡¨ä¸­è¿ç»­çš„é‡å¤hashCode
    */
   private void checkTextAreaHashCodeList() {
     int size = this.textAreaHashCodeList.size();
@@ -5516,20 +5516,20 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¼ì²é²¢»ØÍË×î½ü±à¼­µÄÎÄ±¾ÓòµÄË÷ÒıÖµ
+   * æ£€æŸ¥å¹¶å›é€€æœ€è¿‘ç¼–è¾‘çš„æ–‡æœ¬åŸŸçš„ç´¢å¼•å€¼
    * 
    * @param index
-   *          ±»É¾³ıµÄÔªËØË÷ÒıÖµ
+   *          è¢«åˆ é™¤çš„å…ƒç´ ç´¢å¼•å€¼
    */
   private void checkTextAreaHistoryIndex(int index) {
-    // ±»É¾³ıµÄÔªËØË÷ÒıÖµĞ¡ÓÚµÈÓÚ×î½ü±à¼­µÄË÷ÒıÖµ£¬Ôò»ØÍËË÷ÒıÖµ
+    // è¢«åˆ é™¤çš„å…ƒç´ ç´¢å¼•å€¼å°äºç­‰äºæœ€è¿‘ç¼–è¾‘çš„ç´¢å¼•å€¼ï¼Œåˆ™å›é€€ç´¢å¼•å€¼
     if (this.textAreaHistoryIndex > 0 && this.textAreaHistoryIndex >= index) {
       this.textAreaHistoryIndex--;
     }
   }
 
   /**
-   * ¼ì²é¼ôÌù°åÖĞµÄÄÚÈİÊÇ²»ÊÇÎÄ±¾¡£Èç¹ûÊÇÎÄ±¾£¬ÔòÊ¹Õ³Ìù²Ëµ¥¿ÉÓÃ£»·´Ö®£¬²»¿ÉÓÃ¡£
+   * æ£€æŸ¥å‰ªè´´æ¿ä¸­çš„å†…å®¹æ˜¯ä¸æ˜¯æ–‡æœ¬ã€‚å¦‚æœæ˜¯æ–‡æœ¬ï¼Œåˆ™ä½¿ç²˜è´´èœå•å¯ç”¨ï¼›åä¹‹ï¼Œä¸å¯ç”¨ã€‚
    */
   private void checkClipboard() {
     try {
@@ -5539,7 +5539,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.itemPopPaste.setEnabled(false);
         this.toolButtonList.get(8).setEnabled(false);
       } else {
-        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // Èç¹û¼ôÌù°åÖĞµÄÄÚÈİ²»ÊÇÎÄ±¾£¬Ôò½«Å×³öÒì³£
+        String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // å¦‚æœå‰ªè´´æ¿ä¸­çš„å†…å®¹ä¸æ˜¯æ–‡æœ¬ï¼Œåˆ™å°†æŠ›å‡ºå¼‚å¸¸
         if (!Util.isTextEmpty(str)) {
           this.itemPaste.setEnabled(true);
           this.itemPopPaste.setEnabled(true);
@@ -5547,7 +5547,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
       }
     } catch (Exception x) {
-      // ¼ôÌù°åÒì³£
+      // å‰ªè´´æ¿å¼‚å¸¸
       // x.printStackTrace();
       this.itemPaste.setEnabled(false);
       this.itemPopPaste.setEnabled(false);
@@ -5556,10 +5556,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ¼ì²âËùÓĞÎÄ¼şµÄ×´Ì¬£¬Èç¹ûÎÄ¼ş²»´æÔÚ»ò±»ÆäËû³ÌĞòĞŞ¸ÄÔòµ¯³öÌáÊ¾
+   * æ£€æµ‹æ‰€æœ‰æ–‡ä»¶çš„çŠ¶æ€ï¼Œå¦‚æœæ–‡ä»¶ä¸å­˜åœ¨æˆ–è¢«å…¶ä»–ç¨‹åºä¿®æ”¹åˆ™å¼¹å‡ºæç¤º
    */
   private void checkFiles() {
-    for (int i = 0; i < this.textAreaList.size(); i++) { // Ñ­»·¼ì²âËùÓĞÎÄ¼şµÄ×´Ì¬£¬Èç¹ûÎÄ¼ş²»´æÔÚ»ò±»ÆäËû³ÌĞòĞŞ¸ÄÔòµ¯³öÌáÊ¾
+    for (int i = 0; i < this.textAreaList.size(); i++) { // å¾ªç¯æ£€æµ‹æ‰€æœ‰æ–‡ä»¶çš„çŠ¶æ€ï¼Œå¦‚æœæ–‡ä»¶ä¸å­˜åœ¨æˆ–è¢«å…¶ä»–ç¨‹åºä¿®æ”¹åˆ™å¼¹å‡ºæç¤º
       BaseTextArea txaTemp = this.textAreaList.get(i);
       File fileTemp = txaTemp.getFile();
       if (fileTemp == null) {
@@ -5569,12 +5569,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         if (txaTemp.getFileExistsLabel()) {
           this.tpnMain.setSelectedIndex(i);
         } else {
-          continue; // Èç¹ûÓÃ»§ÒÑÑ¡Ôñ¹ıÁË¡°±£Áô¡±£¬Ôò¼ÌĞøÏÂÒ»¸öÎÄ¼şµÄ¼ì²â
+          continue; // å¦‚æœç”¨æˆ·å·²é€‰æ‹©è¿‡äº†â€œä¿ç•™â€ï¼Œåˆ™ç»§ç»­ä¸‹ä¸€ä¸ªæ–‡ä»¶çš„æ£€æµ‹
         }
         int result = JOptionPane.showOptionDialog(this,
-            Util.convertToMsg("ÎÄ¼ş£º" + this.file + "²»´æÔÚ¡£"),
+            Util.convertToMsg("æ–‡ä»¶ï¼š" + this.file + "ä¸å­˜åœ¨ã€‚"),
             Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE,
-            null, new String[] {"ÖØ½¨", "ÒÆ³ı", "±£Áô"}, null);
+            null, new String[] {"é‡å»º", "ç§»é™¤", "ä¿ç•™"}, null);
         if (result == JOptionPane.YES_OPTION) {
           Util.checkFile(this.file);
           try {
@@ -5583,7 +5583,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             // x.printStackTrace();
             this.showSaveErrorDialog(this.file);
             this.tpnMain.setIconAt(i, this.getTabIcon(txaTemp));
-            continue; // Èç¹û±£´æ³öÏÖÒì³££¬Ôò¼ÌĞøÏÂÒ»¸öÎÄ¼şµÄ¼ì²â
+            continue; // å¦‚æœä¿å­˜å‡ºç°å¼‚å¸¸ï¼Œåˆ™ç»§ç»­ä¸‹ä¸€ä¸ªæ–‡ä»¶çš„æ£€æµ‹
           }
           this.setAfterSaveFile();
           this.setTextPrefix();
@@ -5599,9 +5599,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.tpnMain.setIconAt(i, this.getTabIcon(txaTemp));
         if (!txaTemp.getFileChangedLabel() && txaTemp.getFileLastModified() != fileTemp.lastModified()) {
           this.tpnMain.setSelectedIndex(i);
-          String strMsg = "ÎÄ¼ş£º" + this.file + "µÄÄÚÈİÒÑ±»ÆäËû³ÌĞòĞŞ¸Ä¡£\nÒªÖØĞÂ¼ÓÔØÂğ£¿";
+          String strMsg = "æ–‡ä»¶ï¼š" + this.file + "çš„å†…å®¹å·²è¢«å…¶ä»–ç¨‹åºä¿®æ”¹ã€‚\nè¦é‡æ–°åŠ è½½å—ï¼Ÿ";
           if (txaTemp.getFrozen()) {
-            strMsg = "ÎÄ¼ş£º" + this.file + "µÄÄÚÈİÒÑ±»ÆäËû³ÌĞòĞŞ¸Ä¡£\nÒª½â³ı¶³½á£¬ÖØĞÂ¼ÓÔØÂğ£¿";
+            strMsg = "æ–‡ä»¶ï¼š" + this.file + "çš„å†…å®¹å·²è¢«å…¶ä»–ç¨‹åºä¿®æ”¹ã€‚\nè¦è§£é™¤å†»ç»“ï¼Œé‡æ–°åŠ è½½å—ï¼Ÿ";
           }
           int result = JOptionPane.showConfirmDialog(this,
               Util.convertToMsg(strMsg), Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
@@ -5620,10 +5620,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * µ±ÎÄ±¾ÓòÖĞµÄ¹â±ê±ä»¯Ê±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬åŸŸä¸­çš„å…‰æ ‡å˜åŒ–æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void caretUpdate(CaretEvent e) {
-    this.txaMain.repaint(); // ÖØ»æµ±Ç°ÎÄ±¾Óò£¬ÒÔ½â¾öÔÚÌØ¶¨Çé¿öÏÂ»æÖÆµ±Ç°ĞĞ±³¾°´íÂÒµÄÎÊÌâ
+    this.txaMain.repaint(); // é‡ç»˜å½“å‰æ–‡æœ¬åŸŸï¼Œä»¥è§£å†³åœ¨ç‰¹å®šæƒ…å†µä¸‹ç»˜åˆ¶å½“å‰è¡ŒèƒŒæ™¯é”™ä¹±çš„é—®é¢˜
     this.updateStateCur();
     this.setMenuStateBySelectedText();
     this.searchTargetBracket();
@@ -5631,12 +5631,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * µ±ÎÄ±¾ÓòÖĞµÄÎÄ±¾·¢Éú±ä»¯Ê±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬åŸŸä¸­çš„æ–‡æœ¬å‘ç”Ÿå˜åŒ–æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void undoableEditHappened(UndoableEditEvent e) {
     this.undoManager.addEdit(e.getEdit());
-    this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // ³·Ïú±êÊ¶·ûµİÔö
-    this.setMenuStateUndoRedo(); // ÉèÖÃ³·ÏúºÍÖØ×ö²Ëµ¥µÄ×´Ì¬
+    this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // æ’¤é”€æ ‡è¯†ç¬¦é€’å¢
+    this.setMenuStateUndoRedo(); // è®¾ç½®æ’¤é”€å’Œé‡åšèœå•çš„çŠ¶æ€
     this.setMenuStateByTextArea();
     this.txaMain.setTextChanged(true);
     this.updateStateAll();
@@ -5644,7 +5644,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * µ±Ö÷´°¿Ú»ñµÃ½¹µãÊ±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“ä¸»çª—å£è·å¾—ç„¦ç‚¹æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void windowGainedFocus(WindowEvent e) {
     this.checkClipboard();
@@ -5657,14 +5657,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * µ±Ö÷´°¿ÚÊ§È¥½¹µãÊ±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“ä¸»çª—å£å¤±å»ç„¦ç‚¹æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void windowLostFocus(WindowEvent e) {
 
   }
 
   /**
-   * µ±¼àÌıµÄ×é¼ş×´Ì¬±ä»¯Ê±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“ç›‘å¬çš„ç»„ä»¶çŠ¶æ€å˜åŒ–æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void stateChanged(ChangeEvent e) {
     if (this.tpnMain.equals(e.getSource())) {
@@ -5696,40 +5696,40 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * µ±ÓÃ»§ÍÏ¶¯Êó±ê£¬²¢½øÈëµ½¿É·ÅÖÃµÄÇøÓòÊ±£¬µ÷ÓÃ´Ë·½·¨¡£
+   * å½“ç”¨æˆ·æ‹–åŠ¨é¼ æ ‡ï¼Œå¹¶è¿›å…¥åˆ°å¯æ”¾ç½®çš„åŒºåŸŸæ—¶ï¼Œè°ƒç”¨æ­¤æ–¹æ³•ã€‚
    */
   public void dragEnter(DropTargetDragEvent e) {
-    e.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE); // Ê¹ÓÃ¡°¿½±´¡¢ÒÆ¶¯¡±·½Ê½·¢ÆğÍÏ¶¯²Ù×÷
+    e.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE); // ä½¿ç”¨â€œæ‹·è´ã€ç§»åŠ¨â€æ–¹å¼å‘èµ·æ‹–åŠ¨æ“ä½œ
   }
 
   /**
-   * µ±ÓÃ»§ÍÏ¶¯Êó±ê£¬²¢´Ó¿É·ÅÖÃµÄÇøÓòÒÆ³öÊ±£¬µ÷ÓÃ´Ë·½·¨¡£
+   * å½“ç”¨æˆ·æ‹–åŠ¨é¼ æ ‡ï¼Œå¹¶ä»å¯æ”¾ç½®çš„åŒºåŸŸç§»å‡ºæ—¶ï¼Œè°ƒç”¨æ­¤æ–¹æ³•ã€‚
    */
   public void dragExit(DropTargetEvent e) {
   }
 
   /**
-   * µ±ÓÃ»§ÍÏ¶¯Êó±ê£¬²¢ÔÚ¿É·ÅÖÃµÄÇøÓòÄÚÒÆ¶¯Ê±£¬µ÷ÓÃ´Ë·½·¨¡£
+   * å½“ç”¨æˆ·æ‹–åŠ¨é¼ æ ‡ï¼Œå¹¶åœ¨å¯æ”¾ç½®çš„åŒºåŸŸå†…ç§»åŠ¨æ—¶ï¼Œè°ƒç”¨æ­¤æ–¹æ³•ã€‚
    */
   public void dragOver(DropTargetDragEvent e) {
   }
 
   /**
-   * µ±ÓÃ»§ĞŞ¸ÄÁËµ±Ç°·ÅÖÃ²Ù×÷ºó£¬µ÷ÓÃ´Ë·½·¨¡£
+   * å½“ç”¨æˆ·ä¿®æ”¹äº†å½“å‰æ”¾ç½®æ“ä½œåï¼Œè°ƒç”¨æ­¤æ–¹æ³•ã€‚
    */
   public void dropActionChanged(DropTargetDragEvent e) {
   }
 
   /**
-   * µ±ÓÃ»§ÍÏ¶¯Êó±ê£¬²¢ÔÚ¿É·ÅÖÃµÄÇøÓòÄÚ·ÅÖÃÊ±£¬µ÷ÓÃ´Ë·½·¨¡£
+   * å½“ç”¨æˆ·æ‹–åŠ¨é¼ æ ‡ï¼Œå¹¶åœ¨å¯æ”¾ç½®çš„åŒºåŸŸå†…æ”¾ç½®æ—¶ï¼Œè°ƒç”¨æ­¤æ–¹æ³•ã€‚
    */
   public synchronized void drop(DropTargetDropEvent e) {
     try {
       Transferable tr = e.getTransferable();
-      if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) { // Èç¹ûTransferable¶ÔÏóÖ§³ÖÍÏ·Å£¬Ôò½øĞĞ´¦Àí
-        e.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE); // Ê¹ÓÃ¡°¿½±´¡¢ÒÆ¶¯¡±·½Ê½½ÓÊÕ·ÅÖÃ²Ù×÷
-        List fileList = (List) tr.getTransferData(DataFlavor.javaFileListFlavor); // ´ÓTransferable¶ÔÏóÖĞ»ñÈ¡ÎÄ¼şÁĞ±í
-        Iterator iterator = fileList.iterator(); // »ñÈ¡ÎÄ¼şÁĞ±íµÄµü´úÆ÷
+      if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) { // å¦‚æœTransferableå¯¹è±¡æ”¯æŒæ‹–æ”¾ï¼Œåˆ™è¿›è¡Œå¤„ç†
+        e.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE); // ä½¿ç”¨â€œæ‹·è´ã€ç§»åŠ¨â€æ–¹å¼æ¥æ”¶æ”¾ç½®æ“ä½œ
+        List fileList = (List) tr.getTransferData(DataFlavor.javaFileListFlavor); // ä»Transferableå¯¹è±¡ä¸­è·å–æ–‡ä»¶åˆ—è¡¨
+        Iterator iterator = fileList.iterator(); // è·å–æ–‡ä»¶åˆ—è¡¨çš„è¿­ä»£å™¨
         while (iterator.hasNext()) {
           File file = (File) iterator.next();
           if (file != null && file.exists()) {
@@ -5743,18 +5743,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             this.setFileNameAndPath(file);
           }
         }
-        e.getDropTargetContext().dropComplete(true); // ÉèÖÃ·ÅÖÃ²Ù×÷³É¹¦½áÊø
+        e.getDropTargetContext().dropComplete(true); // è®¾ç½®æ”¾ç½®æ“ä½œæˆåŠŸç»“æŸ
       } else {
-        e.rejectDrop(); // Èç¹ûTransferable¶ÔÏó²»Ö§³ÖÍÏ·Å£¬Ôò¾Ü¾ø²Ù×÷
+        e.rejectDrop(); // å¦‚æœTransferableå¯¹è±¡ä¸æ”¯æŒæ‹–æ”¾ï¼Œåˆ™æ‹’ç»æ“ä½œ
       }
     } catch (Exception x) {
       // x.printStackTrace();
-      e.rejectDrop(); // Èç¹û·ÅÖÃ¹ı³ÌÖĞ³öÏÖÒì³££¬Ôò¾Ü¾ø²Ù×÷
+      e.rejectDrop(); // å¦‚æœæ”¾ç½®è¿‡ç¨‹ä¸­å‡ºç°å¼‚å¸¸ï¼Œåˆ™æ‹’ç»æ“ä½œ
     }
   }
 
   /**
-   * ´°¿Ú´óĞ¡¸ü¸ÄÊ±£¬µ÷ÓÃ´Ë·½·¨¡£
+   * çª—å£å¤§å°æ›´æ”¹æ—¶ï¼Œè°ƒç”¨æ­¤æ–¹æ³•ã€‚
    */
   public void componentResized(ComponentEvent e) {
     int width = this.getWidth();
@@ -5777,19 +5777,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * ´°¿ÚÎ»ÖÃ¸ü¸ÄÊ±£¬µ÷ÓÃ´Ë·½·¨¡£
+   * çª—å£ä½ç½®æ›´æ”¹æ—¶ï¼Œè°ƒç”¨æ­¤æ–¹æ³•ã€‚
    */
   public void componentMoved(ComponentEvent e) {
   }
 
   /**
-   * ´°¿Ú±äµÃ¿É¼ûÊ±£¬µ÷ÓÃ´Ë·½·¨¡£
+   * çª—å£å˜å¾—å¯è§æ—¶ï¼Œè°ƒç”¨æ­¤æ–¹æ³•ã€‚
    */
   public void componentShown(ComponentEvent e) {
   }
 
   /**
-   * ´°¿Ú±äµÃ²»¿É¼ûÊ±£¬µ÷ÓÃ´Ë·½·¨¡£
+   * çª—å£å˜å¾—ä¸å¯è§æ—¶ï¼Œè°ƒç”¨æ­¤æ–¹æ³•ã€‚
    */
   public void componentHidden(ComponentEvent e) {
   }

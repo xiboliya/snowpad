@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 ±ùÔ­
+ * Copyright (C) 2018 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,9 +40,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- * "¼ÓÃÜ"¶Ô»°¿ò
+ * "åŠ å¯†"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class EncryptDialog extends BaseDialog implements ActionListener, CaretListener, ChangeListener, ItemListener {
@@ -51,28 +51,28 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   private JTabbedPane tpnMain = new JTabbedPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // ¼ôÌù°å
-  private OpenFileChooser openFileChooser = null; // "´ò¿ª"ÎÄ¼şÑ¡ÔñÆ÷
-  // ÎÄ±¾
+  private Clipboard clip = this.getToolkit().getSystemClipboard(); // å‰ªè´´æ¿
+  private OpenFileChooser openFileChooser = null; // "æ‰“å¼€"æ–‡ä»¶é€‰æ‹©å™¨
+  // æ–‡æœ¬
   private JPanel pnlText = new JPanel();
-  private JLabel lblTextT = new JLabel("ÊäÈëÎÄ±¾£º");
+  private JLabel lblTextT = new JLabel("è¾“å…¥æ–‡æœ¬ï¼š");
   private BaseTextAreaSpecial txaTextT = new BaseTextAreaSpecial();
   private JScrollPane srpTextT = new JScrollPane(this.txaTextT);
-  private JCheckBox chkEveryLinesT = new JCheckBox("ÖğĞĞÉú³É(E)");
-  // ÎÄ¼ş
+  private JCheckBox chkEveryLinesT = new JCheckBox("é€è¡Œç”Ÿæˆ(E)");
+  // æ–‡ä»¶
   private JPanel pnlFile = new JPanel();
-  private JLabel lblPathF = new JLabel("ÊäÈëÎÄ¼şÂ·¾¶£º");
+  private JLabel lblPathF = new JLabel("è¾“å…¥æ–‡ä»¶è·¯å¾„ï¼š");
   private BaseTextField txtPathF = new BaseTextField();
-  private JButton btnSelectFileF = new JButton("Ñ¡ÔñÎÄ¼ş(S)");
+  private JButton btnSelectFileF = new JButton("é€‰æ‹©æ–‡ä»¶(S)");
 
   private JPanel pnlBottom = new JPanel();
-  private JLabel lblDigestType = new JLabel("¼ÓÃÜÀàĞÍ£º");
+  private JLabel lblDigestType = new JLabel("åŠ å¯†ç±»å‹ï¼š");
   private JComboBox<String> cmbDigestType = new JComboBox<String>(Util.DIGEST_TYPES);
-  private JLabel lblEncrypt = new JLabel("¼ÓÃÜÖµ£º");
+  private JLabel lblEncrypt = new JLabel("åŠ å¯†å€¼ï¼š");
   private BaseTextAreaSpecial txaEncrypt = new BaseTextAreaSpecial();
   private JScrollPane srpEncrypt = new JScrollPane(this.txaEncrypt);
-  private JButton btnCopy = new JButton("¸´ÖÆ½á¹û(C)");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JButton btnCopy = new JButton("å¤åˆ¶ç»“æœ(C)");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
 
   public EncryptDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal);
@@ -80,7 +80,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
       return;
     }
     this.txaSource = txaSource;
-    this.setTitle("¼ÓÃÜÖµÉú³É");
+    this.setTitle("åŠ å¯†å€¼ç”Ÿæˆ");
     this.init();
     this.setMnemonic();
     this.addListeners();
@@ -90,11 +90,11 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * ½çÃæ³õÊ¼»¯
+   * ç•Œé¢åˆå§‹åŒ–
    */
   private void init() {
     this.pnlMain.setLayout(null);
-    // ÎÄ±¾
+    // æ–‡æœ¬
     this.pnlText.setLayout(null);
     this.lblTextT.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
     this.srpTextT.setBounds(10, 35, 270, 80);
@@ -102,7 +102,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
     this.pnlText.add(this.srpTextT);
     this.chkEveryLinesT.setBounds(290, 65, 110, Util.VIEW_HEIGHT);
     this.pnlText.add(this.chkEveryLinesT);
-    // ÎÄ¼ş
+    // æ–‡ä»¶
     this.pnlFile.setLayout(null);
     this.lblPathF.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
     this.txtPathF.setBounds(10, 50, 270, 30);
@@ -125,10 +125,10 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
     this.pnlBottom.add(this.btnCopy);
     this.btnCancel.setBounds(290, 115, 110, Util.BUTTON_HEIGHT);
     this.pnlBottom.add(this.btnCancel);
-    // Ö÷½çÃæ
+    // ä¸»ç•Œé¢
     this.tpnMain.setBounds(0, 0, 420, 160);
-    this.tpnMain.add(this.pnlText, "ÎÄ±¾");
-    this.tpnMain.add(this.pnlFile, "ÎÄ¼ş");
+    this.tpnMain.add(this.pnlText, "æ–‡æœ¬");
+    this.tpnMain.add(this.pnlFile, "æ–‡ä»¶");
     this.pnlMain.add(this.tpnMain);
     this.setTabbedIndex(0);
     this.tpnMain.setFocusable(false);
@@ -137,26 +137,26 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * ÉèÖÃÑ¡Ïî¿¨µÄµ±Ç°ÊÓÍ¼
+   * è®¾ç½®é€‰é¡¹å¡çš„å½“å‰è§†å›¾
    * 
    * @param index
-   *          ÊÓÍ¼µÄË÷ÒıºÅ
+   *          è§†å›¾çš„ç´¢å¼•å·
    */
   public void setTabbedIndex(int index) {
     this.tpnMain.setSelectedIndex(index);
   }
 
   /**
-   * »ñÈ¡Ñ¡Ïî¿¨µ±Ç°ÊÓÍ¼µÄË÷ÒıºÅ
+   * è·å–é€‰é¡¹å¡å½“å‰è§†å›¾çš„ç´¢å¼•å·
    * 
-   * @return µ±Ç°ÊÓÍ¼µÄË÷ÒıºÅ
+   * @return å½“å‰è§†å›¾çš„ç´¢å¼•å·
    */
   public int getTabbedIndex() {
     return this.tpnMain.getSelectedIndex();
   }
 
   /**
-   * Îª¸÷×é¼şÉèÖÃ¿ì½İ¼ü
+   * ä¸ºå„ç»„ä»¶è®¾ç½®å¿«æ·é”®
    */
   private void setMnemonic() {
     this.chkEveryLinesT.setMnemonic('E');
@@ -165,16 +165,16 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼Ó¼àÌıÆ÷
+   * ä¸ºå„ç»„ä»¶æ·»åŠ ç›‘å¬å™¨
    */
   private void addListeners() {
     this.tpnMain.addChangeListener(this);
-    // ÎÄ±¾
+    // æ–‡æœ¬
     this.txaTextT.addCaretListener(this);
     this.chkEveryLinesT.addActionListener(this);
     this.txaTextT.addKeyListener(this.keyAdapter);
     this.chkEveryLinesT.addKeyListener(this.keyAdapter);
-    // ÎÄ¼ş
+    // æ–‡ä»¶
     this.txtPathF.addCaretListener(this);
     this.btnSelectFileF.addActionListener(this);
     this.txtPathF.addKeyListener(this.keyAdapter);
@@ -190,7 +190,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.chkEveryLinesT.equals(e.getSource())) {
@@ -205,7 +205,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * Ë¢ĞÂ¸÷¿Ø¼şµÄÏÔÊ¾
+   * åˆ·æ–°å„æ§ä»¶çš„æ˜¾ç¤º
    */
   public void refreshView() {
     String str = this.txaSource.getSelectedText();
@@ -216,12 +216,12 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * "Ñ¡ÔñÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "é€‰æ‹©æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void selectFile() {
     if (this.openFileChooser == null) {
       this.openFileChooser = new OpenFileChooser();
-      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // ÉèÖÃÎªÄ¬ÈÏ¹ıÂËÆ÷
+      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // è®¾ç½®ä¸ºé»˜è®¤è¿‡æ»¤å™¨
     }
     this.openFileChooser.setSelectedFile(null);
     this.openFileChooser.setMultiSelectionEnabled(false);
@@ -235,7 +235,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * ÏÔÊ¾¼ÓÃÜÖµ
+   * æ˜¾ç¤ºåŠ å¯†å€¼
    */
   private void showEncrypt() {
     if (this.getTabbedIndex() == 0) {
@@ -246,7 +246,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * ÏÔÊ¾×Ö·û´®µÄ¼ÓÃÜÖµ
+   * æ˜¾ç¤ºå­—ç¬¦ä¸²çš„åŠ å¯†å€¼
    */
   private void showStringEncrypt() {
     String text = this.txaTextT.getText();
@@ -262,7 +262,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
         encrypt += (Util.getStringDigest(str, digestType) + "\n");
       }
     } else {
-      // ¸ù¾İ²»Í¬µÄ²Ù×÷ÏµÍ³Ê¹ÓÃ²»Í¬µÄ»»ĞĞ·û
+      // æ ¹æ®ä¸åŒçš„æ“ä½œç³»ç»Ÿä½¿ç”¨ä¸åŒçš„æ¢è¡Œç¬¦
       text = text.replaceAll(LineSeparator.UNIX.toString(), Util.LINE_SEPARATOR);
       encrypt = Util.getStringDigest(text, digestType);
     }
@@ -274,7 +274,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * ÏÔÊ¾ÎÄ¼şµÄ¼ÓÃÜÖµ
+   * æ˜¾ç¤ºæ–‡ä»¶çš„åŠ å¯†å€¼
    */
   private void showFileEncrypt() {
     String path = this.txtPathF.getText();
@@ -292,17 +292,17 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * "¸´ÖÆ½á¹û"µÄ´¦Àí·½·¨
+   * "å¤åˆ¶ç»“æœ"çš„å¤„ç†æ–¹æ³•
    */
   private void toCopyResult() {
     this.setClipboardContents(this.txaEncrypt.getText());
   }
 
   /**
-   * ÉèÖÃÏµÍ³¼ôÌù°åµÄÄÚÈİ
+   * è®¾ç½®ç³»ç»Ÿå‰ªè´´æ¿çš„å†…å®¹
    * 
    * @param strText
-   *          Òª´æÈë¼ôÌù°åµÄÎÄ±¾
+   *          è¦å­˜å…¥å‰ªè´´æ¿çš„æ–‡æœ¬
    */
   private void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {
@@ -313,20 +313,20 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * Ä¬ÈÏµÄ¡°È¡Ïû¡±²Ù×÷·½·¨
+   * é»˜è®¤çš„â€œå–æ¶ˆâ€æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();
   }
 
   /**
-   * Ä¬ÈÏµÄ¡°È·¶¨¡±²Ù×÷·½·¨
+   * é»˜è®¤çš„â€œç¡®å®šâ€æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
   }
 
   /**
-   * µ±ÎÄ±¾¿òµÄ¹â±ê·¢Éú±ä»¯Ê±£¬´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬æ¡†çš„å…‰æ ‡å‘ç”Ÿå˜åŒ–æ—¶ï¼Œè§¦å‘æ­¤äº‹ä»¶
    */
   public void caretUpdate(CaretEvent e) {
     if (this.txaTextT.equals(e.getSource())) {
@@ -337,14 +337,14 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   }
 
   /**
-   * µ±Ñ¡Ïî¿¨¸Ä±äµ±Ç°ÊÓÍ¼Ê±µ÷ÓÃ
+   * å½“é€‰é¡¹å¡æ”¹å˜å½“å‰è§†å›¾æ—¶è°ƒç”¨
    */
   public void stateChanged(ChangeEvent e) {
     this.showEncrypt();
   }
 
   /**
-   * µ±ËùÑ¡Ïî¸ü¸ÄÊ±µ÷ÓÃ
+   * å½“æ‰€é€‰é¡¹æ›´æ”¹æ—¶è°ƒç”¨
    */
   public void itemStateChanged(ItemEvent e) {
     this.showEncrypt();

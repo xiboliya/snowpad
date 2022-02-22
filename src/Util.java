@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,110 +40,110 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.text.JTextComponent;
 
 /**
- * ÊµÓÃ¹¤¾ßÀà£¬°üÀ¨¿ÉÖØÓÃµÄ¸÷ÖÖÊôĞÔºÍ·½·¨¡£Éè¼ÆÎªfinalÀàĞÍ£¬Ê¹±¾Àà²»¿É±»¼Ì³Ğ
+ * å®ç”¨å·¥å…·ç±»ï¼ŒåŒ…æ‹¬å¯é‡ç”¨çš„å„ç§å±æ€§å’Œæ–¹æ³•ã€‚è®¾è®¡ä¸ºfinalç±»å‹ï¼Œä½¿æœ¬ç±»ä¸å¯è¢«ç»§æ‰¿
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public final class Util {
-  public static final String SOFTWARE = "±ùÑ©¼ÇÊÂ±¾"; // Èí¼şÃû³Æ
-  public static final String VERSION = "V5.0"; // Èí¼ş°æ±¾ºÅ
-  public static final String NEW_FILE_NAME = "ĞÂ½¨"; // ĞÂ½¨ÎÄ¼şµÄÄ¬ÈÏÃû³Æ
-  public static final String HELP_TITLE = "°ïÖúÖ÷Ìâ"; // °ïÖúÖ÷Ìâ½çÃæµÄÄ¬ÈÏ±êÌâ
-  public static final String OS_NAME = System.getProperty("os.name", "Windows"); // µ±Ç°²Ù×÷ÏµÍ³µÄÃû³Æ
-  public static final String FILE_SEPARATOR = System.getProperty("file.separator", "/"); // µ±Ç°²Ù×÷ÏµÍ³µÄÎÄ¼ş·Ö¸ô·û
-  public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n"); // µ±Ç°²Ù×÷ÏµÍ³µÄĞĞ·Ö¸ô·û
-  public static final String SETTING_XML = "snowpad.xml"; // ÓÃÀ´±£´æÈí¼şÉèÖÃµÄÅäÖÃÎÄ¼şÃû
-  public static final String FILE_HISTORY = "FileHistory"; // ÓÃÓÚ±êÊ¶×î½ü±à¼­µÄÎÄ¼ş
-  public static final String LOOK_AND_FEEL = "LookAndFeel"; // ÓÃÓÚ±êÊ¶µ±Ç°ÏµÍ³¿ÉÓÃµÄÍâ¹Û
-  public static final String PARAM_SPLIT = "#"; // ÓÃÓÚ·Ö¸ôÇ°ºóÎÄ±¾±êÊ¶µÄ×Ö·û´®
-  public static final String INSERT_SPECIAL = "©~£ª¡â¡á©I©Z…d…e©Y¨’¡ò¡ş¡ğ¡ñ¡÷¡ø¨Œ¨‹¡ó¡ô¡õ¡ö¡î¡ï¨¨¨¨¦ô¡¥¨C¡ª©n©j£ß£ş©l©h©m©i©¨©ª©©©«©¬©®©­©¯¡ü¡ı¡û¡ú¨I¨J¨L¨K¡Î¨O£¯£Ü¨M©…¨w¨y¨z¨{¨|¨}¨~¨€¨¨‚¨ƒ¨„¨…¨†¨‡¨x¨‰¨Š©×©ß©Ï©Ç©§©¥©³©·©»©¿©ï¨u¨v¨r¨q¨s¨t"; // ÌØÊâ·ûºÅ
-  public static final String INSERT_PUNCTUATION = "£¬¡¢¡££®£»£º£¿©t?£¡©U¡Ã¡­¨E¡ä£§£à¨F£¢¡¨¡«~¡¬¡¦©o©p.©q©r©s¡§©u£¨£©¦à¦á£û£ı¦ğ¦ñ¡²¡³¦â¦ã¡¾¡¿¦î¦ï¡¼¡½£Û£İ¡¶¡·¦æ¦ç¡´¡µ¦ä¦å¡¸¡¹¦è¦é¡º¡»¦ê¦ë©v©w©x©y©z©{¡®¡¯¡°¡±¨”¨•¨A¨@¡ì¡©"; // ±êµã·ûºÅ
-  public static final String INSERT_MATH = "¡Ö¡Ô¡Ù£½¨P¡Ü¡İ¨Q¨R£¼£¾¡Ú¡Û¡À£«£­¡Á¡Â£¯¡Ò¡Ó¡Ø¡Ş¡Ä¡Å¡Æ¡Ç¡È¡É¡Ê¡ß¡à¡Ë¡Í¡Î¡Ï¡Ğ¡Ñ¡Õ¡×¡Ì©€©©‚©ƒ©„¨N¨S¦Ğ¨G©|££#£¦©}&¡ù¡í©S©R"; // ÊıÑ§·ûºÅ
-  public static final String INSERT_UNIT = "¡ã¡ä¡å¡ç£¤¨“¡é¡ê£¥¡æ¨H©†$©‡¡ë£À©ˆ©T©L©M©N©Q©O©J©K©P¡è"; // µ¥Î»·ûºÅ
-  public static final String INSERT_DIGIT = "¢±¢²¢³¢´¢µ¢¶¢·¢¸¢¹¢º¢»¢¼¢½¢¾¢¿¢À¢Á¢Â¢Ã¢Ä¢Å¢Æ¢Ç¢È¢É¢Ê¢Ë¢Ì¢Í¢Î¢Ï¢Ğ¢Ñ¢Ò¢Ó¢Ô¢Õ¢Ö¢×¢Ø¢Ù¢Ú¢Û¢Ü¢İ¢Ş¢ß¢à¢á¢â¢å¢æ¢ç¢è¢é¢ê¢ë¢ì¢í¢î¢¡¢¢¢£¢¤¢¥¢¦¢§¢¨¢©¢ª¢ñ¢ò¢ó¢ô¢õ¢ö¢÷¢ø¢ù¢ú¢û¢ü"; // Êı×Ö·ûºÅ
-  public static final String INSERT_PINYIN = "¨¡¨¢¨£¨¤¨­¨®¨¯¨°¨¥¨¦¨§¨¨¨©¨ª¨«¨¬¨±¨²¨³¨´¨µ¨¶¨·¨¸¨¹¨º¨»¨¼¨½¨¾¨¿¨À¨Å¨Æ¨Ç¨È¨É¨Ê¨Ë¨Ì¨Í¨Î¨Ï¨Ğ¨Ñ¨Ò¨Ó¨Ô¨Õ¨Ö¨×¨Ø¨Ù¨Ú¨Û¨Ü¨İ¨Ş¨ß¨à¨á¨â¨ã¨ä¨å¨æ¨ç¨è¨é"; // Æ´Òô·ûºÅ
-  public static final String CALCULATOR_ITEM = "C¡û%¡Â789¡Á456£­123£«¦Ğ0.="; // ¼ÆËãÆ÷°´Å¥
-  public static final String BRACKETS_LEFT = "([{<"; // ÔÚÎÄ±¾ÓòÖĞ¿ÉÒÔ½øĞĞ¸ßÁÁÆ¥ÅäµÄ×óÀ¨ºÅ
-  public static final String BRACKETS_RIGHT = ")]}>"; // ÔÚÎÄ±¾ÓòÖĞ¿ÉÒÔ½øĞĞ¸ßÁÁÆ¥ÅäµÄÓÒÀ¨ºÅ
-  public static final String AUTO_COMPLETE_BRACKETS_LEFT = "([{<'\""; // ÔÚÎÄ±¾ÓòÖĞ¿ÉÒÔ×Ô¶¯Íê³ÉµÄ×ó·ûºÅ
-  public static final String AUTO_COMPLETE_BRACKETS_RIGHT = ")]}>'\""; // ÔÚÎÄ±¾ÓòÖĞ¿ÉÒÔ×Ô¶¯Íê³ÉµÄÓÒ·ûºÅ
-  public static final String PATTERN_META_CHARACTER = "$()*+.?[^{|"; // ÕıÔò±í´ïÊ½Ôª×Ö·û
-  public static final String CTRL = "Ctrl"; // Ctrl¼üµÄÃû³Æ
-  public static final String SHIFT = "Shift"; // Shift¼üµÄÃû³Æ
-  public static final String ALT = "Alt"; // Alt¼üµÄÃû³Æ
-  public static final String COMMAND = "Cmd"; // Command¼üµÄÃû³Æ
-  public static final String KEY_UNDEFINED = "[Î´¶¨Òå]"; // Î´¶¨Òå°´¼ü
-  public static final String CTRL_C = "Ctrl+C"; // ×éºÏ¼üCtrl+CµÄ×Ö·û´®
-  public static final String CTRL_H = "Ctrl+H"; // ×éºÏ¼üCtrl+HµÄ×Ö·û´®
-  public static final String CTRL_V = "Ctrl+V"; // ×éºÏ¼üCtrl+VµÄ×Ö·û´®
-  public static final String CTRL_X = "Ctrl+X"; // ×éºÏ¼üCtrl+XµÄ×Ö·û´®
-  public static final String CTRL_Y = "Ctrl+Y"; // ×éºÏ¼üCtrl+YµÄ×Ö·û´®
-  public static final String CTRL_Z = "Ctrl+Z"; // ×éºÏ¼üCtrl+ZµÄ×Ö·û´®
-  public static final String TEXT_PREFIX = "*"; // ÎÄ¼şÎÄ±¾ĞŞ¸ÄµÄ±êÌâÀ¸±êÊ¶·û
-  public static final String STYLE_PREFIX = "¡ù"; // ÎÄ¼ş¸ñÊ½ĞŞ¸ÄµÄ±êÌâÀ¸±êÊ¶·û
-  public static final String STATE_CHARS = "Chars:"; // ×´Ì¬À¸ÏÔÊ¾ĞÅÏ¢-ÎÄ±¾×Ü×Ö·ûÊı
-  public static final String STATE_LINES = "Lines:"; // ×´Ì¬À¸ÏÔÊ¾ĞÅÏ¢-ÎÄ±¾×ÜĞĞÊı
-  public static final String STATE_CUR_LINE = "Ln:"; // ×´Ì¬À¸ÏÔÊ¾ĞÅÏ¢-¹â±êµ±Ç°ĞĞºÅ
-  public static final String STATE_CUR_COLUMN = "Col:"; // ×´Ì¬À¸ÏÔÊ¾ĞÅÏ¢-¹â±êµ±Ç°ÁĞºÅ
-  public static final String STATE_CUR_SELECT = "Sel:"; // ×´Ì¬À¸ÏÔÊ¾ĞÅÏ¢-µ±Ç°Ñ¡ÔñµÄ×Ö·ûÊı
-  public static final String STATE_LINE_STYLE = "LineStyle:"; // ×´Ì¬À¸ÏÔÊ¾ĞÅÏ¢-µ±Ç°»»ĞĞ·û¸ñÊ½
-  public static final String STATE_ENCODING = "Encoding:"; // ×´Ì¬À¸ÏÔÊ¾ĞÅÏ¢-µ±Ç°±àÂë¸ñÊ½
-  public static final String SIGN_CHARS_VIEW = "__________\n__________\n__________"; // ÁĞ±í·ûºÅÓë±àºÅ´°¿ÚµÄÔ¤ÀÀ½çÃæµÄ³õÊ¼»¯×Ö·û´®
-  public static final String SIGN_CHARS = "©|¡¤¡ù£ª¡ì¡è¡Ñ¡ò¡ğ¡ñ¡÷¡ø¨Œ¨‹¡ó¡ô¡õ¡ö¡î¡ï"; // ÁĞ±í·ûºÅ
-  public static final String IDENTIFIER_CHARS = "0123"; // ÁĞ±í±àºÅÀàĞÍ±êÊ¶·û
-  public static final String IDENTIFIER_TIANGAN = "¼×ÒÒ±û¶¡Îì¼º¸ıĞÁÈÉ¹ï"; // Ê®Ìì¸É
-  public static final String IDENTIFIER_DIZHI = "×Ó³óÒúÃ®³½ËÈÎçÎ´ÉêÓÏĞçº¥"; // Ê®¶şµØÖ§
-  public static final String INFO_FILE_PATH = "ÎÄ¼şÂ·¾¶£º"; // Í³¼ÆĞÅÏ¢´°¿ÚÖĞÊ¹ÓÃµÄ×Ö·û´®
-  public static final String INFO_FILE_MODIFY_TIME = "ĞŞ¸ÄÊ±¼ä£º"; // Í³¼ÆĞÅÏ¢´°¿ÚÖĞÊ¹ÓÃµÄ×Ö·û´®
-  public static final String INFO_FILE_SIZE = "ÎÄ¼ş´óĞ¡£º"; // Í³¼ÆĞÅÏ¢´°¿ÚÖĞÊ¹ÓÃµÄ×Ö·û´®
-  public static final String INFO_DOC_CHARS = "×Ü×ÖÊı£º"; // Í³¼ÆĞÅÏ¢´°¿ÚÖĞÊ¹ÓÃµÄ×Ö·û´®
-  public static final String INFO_DOC_LINES = "×ÜĞĞÊı£º"; // Í³¼ÆĞÅÏ¢´°¿ÚÖĞÊ¹ÓÃµÄ×Ö·û´®
-  public static final String INFO_DOC_DIGITS = "Êı×ÖÊı£º"; // Í³¼ÆĞÅÏ¢´°¿ÚÖĞÊ¹ÓÃµÄ×Ö·û´®
-  public static final String INFO_DOC_LETTERS = "×ÖÄ¸Êı£º"; // Í³¼ÆĞÅÏ¢´°¿ÚÖĞÊ¹ÓÃµÄ×Ö·û´®
-  public static final String INFO_DOC_BLANKS = "¿Õ¸ñÊı£º"; // Í³¼ÆĞÅÏ¢´°¿ÚÖĞÊ¹ÓÃµÄ×Ö·û´®
-  public static final String SYSTEM_LOOK_AND_FEEL_CLASS_NAME = UIManager.getSystemLookAndFeelClassName(); // µ±Ç°ÏµÍ³Ä¬ÈÏÍâ¹ÛµÄÍêÕûÀàÃû
+  public static final String SOFTWARE = "å†°é›ªè®°äº‹æœ¬"; // è½¯ä»¶åç§°
+  public static final String VERSION = "V5.0"; // è½¯ä»¶ç‰ˆæœ¬å·
+  public static final String NEW_FILE_NAME = "æ–°å»º"; // æ–°å»ºæ–‡ä»¶çš„é»˜è®¤åç§°
+  public static final String HELP_TITLE = "å¸®åŠ©ä¸»é¢˜"; // å¸®åŠ©ä¸»é¢˜ç•Œé¢çš„é»˜è®¤æ ‡é¢˜
+  public static final String OS_NAME = System.getProperty("os.name", "Windows"); // å½“å‰æ“ä½œç³»ç»Ÿçš„åç§°
+  public static final String FILE_SEPARATOR = System.getProperty("file.separator", "/"); // å½“å‰æ“ä½œç³»ç»Ÿçš„æ–‡ä»¶åˆ†éš”ç¬¦
+  public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n"); // å½“å‰æ“ä½œç³»ç»Ÿçš„è¡Œåˆ†éš”ç¬¦
+  public static final String SETTING_XML = "snowpad.xml"; // ç”¨æ¥ä¿å­˜è½¯ä»¶è®¾ç½®çš„é…ç½®æ–‡ä»¶å
+  public static final String FILE_HISTORY = "FileHistory"; // ç”¨äºæ ‡è¯†æœ€è¿‘ç¼–è¾‘çš„æ–‡ä»¶
+  public static final String LOOK_AND_FEEL = "LookAndFeel"; // ç”¨äºæ ‡è¯†å½“å‰ç³»ç»Ÿå¯ç”¨çš„å¤–è§‚
+  public static final String PARAM_SPLIT = "#"; // ç”¨äºåˆ†éš”å‰åæ–‡æœ¬æ ‡è¯†çš„å­—ç¬¦ä¸²
+  public static final String INSERT_SPECIAL = "ï¹¡ï¼Šâ™€â™‚ãŠ£ãˆ±ååâ„¡âŠ•â—ã€“â—‹â—â–³â–²â–½â–¼â—‡â—†â–¡â– â˜†â˜…â—¢â—£â—¤â—¥ï¸³Ë‰â€“â€”ï¹ï¹‹ï¼¿ï¿£ï¹ï¹‰ï¹ï¹Šâ”„â”†â”…â”‡â”ˆâ”Šâ”‰â”‹â†‘â†“â†â†’â†–â†—â†™â†˜âˆ¥âˆ£ï¼ï¼¼âˆ•ï¹¨â•³â–‚â–ƒâ–„â–…â–†â–‡â–ˆâ–‰â–Šâ–‹â–Œâ–â–â–â–â–”â–•â”³â”»â”«â”£â”ƒâ”â”â”“â”—â”›â•‹â•±â•²â•®â•­â•¯â•°"; // ç‰¹æ®Šç¬¦å·
+  public static final String INSERT_PUNCTUATION = "ï¼Œã€ã€‚ï¼ï¼›ï¼šï¼Ÿï¹–?ï¼ï¸°âˆ¶â€¦â€¥â€²ï¼‡ï½€â€µï¼‚ã€ƒï½~â€–Ë‡ï¹ï¹‘.ï¹’ï¹”ï¹•Â¨ï¹—ï¼ˆï¼‰ï¸µï¸¶ï½›ï½ï¸·ï¸¸ã€”ã€•ï¸¹ï¸ºã€ã€‘ï¸»ï¸¼ã€–ã€—ï¼»ï¼½ã€Šã€‹ï¸½ï¸¾ã€ˆã€‰ï¸¿ï¹€ã€Œã€ï¹ï¹‚ã€ã€ï¹ƒï¹„ï¹™ï¹šï¹›ï¹œï¹ï¹â€˜â€™â€œâ€ã€ã€Ë‹ËŠÂ§ã€…"; // æ ‡ç‚¹ç¬¦å·
+  public static final String INSERT_MATH = "â‰ˆâ‰¡â‰ ï¼â‰’â‰¤â‰¥â‰¦â‰§ï¼œï¼â‰®â‰¯Â±ï¼‹ï¼Ã—Ã·ï¼âˆ«âˆ®âˆâˆâˆ§âˆ¨âˆ‘âˆâˆªâˆ©âˆˆâˆµâˆ´âˆ·âŠ¥âˆ¥âˆ âŒ’âŠ™â‰Œâˆ½âˆšï¹¢ï¹£ï¹¤ï¹¥ï¹¦âˆŸâŠ¿Ï€â„…ï¹Ÿï¼ƒ#ï¼†ï¹ &â€»â„–ã’ã‘"; // æ•°å­¦ç¬¦å·
+  public static final String INSERT_UNIT = "Â°â€²â€³ï¼„ï¿¥ã€’ï¿ ï¿¡ï¼…â„ƒâ„‰ï¹©$ï¹ªâ€°ï¼ ï¹«ã•ãœãããã¡ããã„Â¤"; // å•ä½ç¬¦å·
+  public static final String INSERT_DIGIT = "â’ˆâ’‰â’Šâ’‹â’Œâ’â’â’â’â’‘â’’â’“â’”â’•â’–â’—â’˜â’™â’šâ’›â‘´â‘µâ‘¶â‘·â‘¸â‘¹â‘ºâ‘»â‘¼â‘½â‘¾â‘¿â’€â’â’‚â’ƒâ’„â’…â’†â’‡â‘ â‘¡â‘¢â‘£â‘¤â‘¥â‘¦â‘§â‘¨â‘©ãˆ ãˆ¡ãˆ¢ãˆ£ãˆ¤ãˆ¥ãˆ¦ãˆ§ãˆ¨ãˆ©â…°â…±â…²â…³â…´â…µâ…¶â…·â…¸â…¹â… â…¡â…¢â…£â…¤â…¥â…¦â…§â…¨â…©â…ªâ…«"; // æ•°å­—ç¬¦å·
+  public static final String INSERT_PINYIN = "ÄÃ¡ÇÃ ÅÃ³Ç’Ã²Ä“Ã©Ä›Ã¨Ä«Ã­ÇÃ¬Å«ÃºÇ”Ã¹Ç–Ç˜ÇšÇœÃ¼ÃªÉ‘îŸ‡Å„ÅˆÇ¹É¡ã„…ã„†ã„‡ã„ˆã„‰ã„Šã„‹ã„Œã„ã„ã„ã„ã„‘ã„’ã„“ã„”ã„•ã„–ã„—ã„˜ã„™ã„šã„›ã„œã„ã„ã„Ÿã„ ã„¡ã„¢ã„£ã„¤ã„¥ã„¦ã„§ã„¨ã„©"; // æ‹¼éŸ³ç¬¦å·
+  public static final String CALCULATOR_ITEM = "Câ†%Ã·789Ã—456ï¼123ï¼‹Ï€0.="; // è®¡ç®—å™¨æŒ‰é’®
+  public static final String BRACKETS_LEFT = "([{<"; // åœ¨æ–‡æœ¬åŸŸä¸­å¯ä»¥è¿›è¡Œé«˜äº®åŒ¹é…çš„å·¦æ‹¬å·
+  public static final String BRACKETS_RIGHT = ")]}>"; // åœ¨æ–‡æœ¬åŸŸä¸­å¯ä»¥è¿›è¡Œé«˜äº®åŒ¹é…çš„å³æ‹¬å·
+  public static final String AUTO_COMPLETE_BRACKETS_LEFT = "([{<'\""; // åœ¨æ–‡æœ¬åŸŸä¸­å¯ä»¥è‡ªåŠ¨å®Œæˆçš„å·¦ç¬¦å·
+  public static final String AUTO_COMPLETE_BRACKETS_RIGHT = ")]}>'\""; // åœ¨æ–‡æœ¬åŸŸä¸­å¯ä»¥è‡ªåŠ¨å®Œæˆçš„å³ç¬¦å·
+  public static final String PATTERN_META_CHARACTER = "$()*+.?[^{|"; // æ­£åˆ™è¡¨è¾¾å¼å…ƒå­—ç¬¦
+  public static final String CTRL = "Ctrl"; // Ctrlé”®çš„åç§°
+  public static final String SHIFT = "Shift"; // Shifté”®çš„åç§°
+  public static final String ALT = "Alt"; // Alté”®çš„åç§°
+  public static final String COMMAND = "Cmd"; // Commandé”®çš„åç§°
+  public static final String KEY_UNDEFINED = "[æœªå®šä¹‰]"; // æœªå®šä¹‰æŒ‰é”®
+  public static final String CTRL_C = "Ctrl+C"; // ç»„åˆé”®Ctrl+Cçš„å­—ç¬¦ä¸²
+  public static final String CTRL_H = "Ctrl+H"; // ç»„åˆé”®Ctrl+Hçš„å­—ç¬¦ä¸²
+  public static final String CTRL_V = "Ctrl+V"; // ç»„åˆé”®Ctrl+Vçš„å­—ç¬¦ä¸²
+  public static final String CTRL_X = "Ctrl+X"; // ç»„åˆé”®Ctrl+Xçš„å­—ç¬¦ä¸²
+  public static final String CTRL_Y = "Ctrl+Y"; // ç»„åˆé”®Ctrl+Yçš„å­—ç¬¦ä¸²
+  public static final String CTRL_Z = "Ctrl+Z"; // ç»„åˆé”®Ctrl+Zçš„å­—ç¬¦ä¸²
+  public static final String TEXT_PREFIX = "*"; // æ–‡ä»¶æ–‡æœ¬ä¿®æ”¹çš„æ ‡é¢˜æ æ ‡è¯†ç¬¦
+  public static final String STYLE_PREFIX = "â€»"; // æ–‡ä»¶æ ¼å¼ä¿®æ”¹çš„æ ‡é¢˜æ æ ‡è¯†ç¬¦
+  public static final String STATE_CHARS = "Chars:"; // çŠ¶æ€æ æ˜¾ç¤ºä¿¡æ¯-æ–‡æœ¬æ€»å­—ç¬¦æ•°
+  public static final String STATE_LINES = "Lines:"; // çŠ¶æ€æ æ˜¾ç¤ºä¿¡æ¯-æ–‡æœ¬æ€»è¡Œæ•°
+  public static final String STATE_CUR_LINE = "Ln:"; // çŠ¶æ€æ æ˜¾ç¤ºä¿¡æ¯-å…‰æ ‡å½“å‰è¡Œå·
+  public static final String STATE_CUR_COLUMN = "Col:"; // çŠ¶æ€æ æ˜¾ç¤ºä¿¡æ¯-å…‰æ ‡å½“å‰åˆ—å·
+  public static final String STATE_CUR_SELECT = "Sel:"; // çŠ¶æ€æ æ˜¾ç¤ºä¿¡æ¯-å½“å‰é€‰æ‹©çš„å­—ç¬¦æ•°
+  public static final String STATE_LINE_STYLE = "LineStyle:"; // çŠ¶æ€æ æ˜¾ç¤ºä¿¡æ¯-å½“å‰æ¢è¡Œç¬¦æ ¼å¼
+  public static final String STATE_ENCODING = "Encoding:"; // çŠ¶æ€æ æ˜¾ç¤ºä¿¡æ¯-å½“å‰ç¼–ç æ ¼å¼
+  public static final String SIGN_CHARS_VIEW = "__________\n__________\n__________"; // åˆ—è¡¨ç¬¦å·ä¸ç¼–å·çª—å£çš„é¢„è§ˆç•Œé¢çš„åˆå§‹åŒ–å­—ç¬¦ä¸²
+  public static final String SIGN_CHARS = "ï¹ŸÂ·â€»ï¼ŠÂ§Â¤âŠ™â—â—‹â—â–³â–²â–½â–¼â—‡â—†â–¡â– â˜†â˜…"; // åˆ—è¡¨ç¬¦å·
+  public static final String IDENTIFIER_CHARS = "0123"; // åˆ—è¡¨ç¼–å·ç±»å‹æ ‡è¯†ç¬¦
+  public static final String IDENTIFIER_TIANGAN = "ç”²ä¹™ä¸™ä¸æˆŠå·±åºšè¾›å£¬ç™¸"; // åå¤©å¹²
+  public static final String IDENTIFIER_DIZHI = "å­ä¸‘å¯…å¯è¾°å·³åˆæœªç”³é…‰æˆŒäº¥"; // åäºŒåœ°æ”¯
+  public static final String INFO_FILE_PATH = "æ–‡ä»¶è·¯å¾„ï¼š"; // ç»Ÿè®¡ä¿¡æ¯çª—å£ä¸­ä½¿ç”¨çš„å­—ç¬¦ä¸²
+  public static final String INFO_FILE_MODIFY_TIME = "ä¿®æ”¹æ—¶é—´ï¼š"; // ç»Ÿè®¡ä¿¡æ¯çª—å£ä¸­ä½¿ç”¨çš„å­—ç¬¦ä¸²
+  public static final String INFO_FILE_SIZE = "æ–‡ä»¶å¤§å°ï¼š"; // ç»Ÿè®¡ä¿¡æ¯çª—å£ä¸­ä½¿ç”¨çš„å­—ç¬¦ä¸²
+  public static final String INFO_DOC_CHARS = "æ€»å­—æ•°ï¼š"; // ç»Ÿè®¡ä¿¡æ¯çª—å£ä¸­ä½¿ç”¨çš„å­—ç¬¦ä¸²
+  public static final String INFO_DOC_LINES = "æ€»è¡Œæ•°ï¼š"; // ç»Ÿè®¡ä¿¡æ¯çª—å£ä¸­ä½¿ç”¨çš„å­—ç¬¦ä¸²
+  public static final String INFO_DOC_DIGITS = "æ•°å­—æ•°ï¼š"; // ç»Ÿè®¡ä¿¡æ¯çª—å£ä¸­ä½¿ç”¨çš„å­—ç¬¦ä¸²
+  public static final String INFO_DOC_LETTERS = "å­—æ¯æ•°ï¼š"; // ç»Ÿè®¡ä¿¡æ¯çª—å£ä¸­ä½¿ç”¨çš„å­—ç¬¦ä¸²
+  public static final String INFO_DOC_BLANKS = "ç©ºæ ¼æ•°ï¼š"; // ç»Ÿè®¡ä¿¡æ¯çª—å£ä¸­ä½¿ç”¨çš„å­—ç¬¦ä¸²
+  public static final String SYSTEM_LOOK_AND_FEEL_CLASS_NAME = UIManager.getSystemLookAndFeelClassName(); // å½“å‰ç³»ç»Ÿé»˜è®¤å¤–è§‚çš„å®Œæ•´ç±»å
   public static final String[] FONT_FAMILY_NAMES = java.awt.GraphicsEnvironment
-      .getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // »ñÈ¡ÏµÍ³ËùÓĞ×ÖÌåµÄÃû³ÆÁĞ±í
-  public static final String[] FILE_ENCODINGS = new String[] { "×Ô¶¯¼ì²â",
+      .getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // è·å–ç³»ç»Ÿæ‰€æœ‰å­—ä½“çš„åç§°åˆ—è¡¨
+  public static final String[] FILE_ENCODINGS = new String[] { "è‡ªåŠ¨æ£€æµ‹",
       CharEncoding.ANSI.getName(), CharEncoding.UBE.getName(),
       CharEncoding.ULE.getName(), CharEncoding.UTF8.getName(),
-      CharEncoding.UTF8_NO_BOM.getName(), CharEncoding.BASE.getName() }; // Ñ¡Ôñ±àÂë¸ñÊ½µÄÊı×é
+      CharEncoding.UTF8_NO_BOM.getName(), CharEncoding.BASE.getName() }; // é€‰æ‹©ç¼–ç æ ¼å¼çš„æ•°ç»„
   public static final String[] DATE_STYLES = new String[] { "yyyy-MM-dd",
       "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss:SSS", "yyyy-MM-dd KK:mm:ss",
       "yyyy-MM-dd KK:mm:ss a", "yyyy-MM-dd HH:mm:ss E",
-      "yyyy-MM-dd HH:mm:ss zZ", "yyyyÄêMMÔÂddÈÕ HHÊ±mm·ÖssÃë",
+      "yyyy-MM-dd HH:mm:ss zZ", "yyyyå¹´MMæœˆddæ—¥ HHæ—¶mmåˆ†ssç§’",
       "G yyyy-MM-dd HH:mm:ss E zZ", "yy-M-d H:m:s", "yyyy/MM/dd HH:mm:ss",
       "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "yyyy.MM.dd",
-      "yy/MM/dd", "HH:mm:ss", "KK:mm:ss a", "HH:mm:ss:SSS" }; // Ê±¼ä/ÈÕÆÚ¸ñÊ½×Ö·û´®
-  public static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "Êı×Ö¸ñÊ½", "ºº×Ö¸ñÊ½", "¸ÉÖ§¸ñÊ½", "×ÖÄ¸¸ñÊ½" }; // ÁĞ±í±àºÅÀàĞÍµÄÏÔÊ¾Ãû³Æ
-  public static final String HALF_WIDTH_NUMBERS = "0123456789"; // °ë½ÇÊı×Ö
-  public static final char[] FULL_WIDTH_NUMBERS = new char[] { '£°', '£±', '£²', '£³', '£´', '£µ', '£¶', '£·', '£¸', '£¹' }; // È«½ÇÊı×Ö
-  public static final String[] SIMPLIFIED_CHINESE_NUMBERS = new String[] { "Áã", "Ò»", "¶ş", "Èı", "ËÄ", "Îå", "Áù", "Æß", "°Ë", "¾Å" }; // ¼òÌåÊı×Ö
-  public static final String[] SIMPLIFIED_CHINESE_UNITS = new String[] { "", "Ê®", "°Ù", "Ç§", "Íò", "Ê®", "°Ù", "Ç§", "ÒÚ", "Ê®" }; // ¼òÌåÊı×Öµ¥Î»
-  public static final String[] TRADITIONAL_CHINESE_NUMBERS = new String[] { "Áã", "Ò¼", "·¡", "Èş", "ËÁ", "Îé", "Â½", "Æâ", "°Æ", "¾Á" }; // ·±ÌåÊı×Ö
-  public static final String[] TRADITIONAL_CHINESE_UNITS = new String[] { "", "Ê°", "°Û", "Çª", "Íò", "Ê°", "°Û", "Çª", "ÒÚ", "Ê°" }; // ·±ÌåÊı×Öµ¥Î»
-  public static final String LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz"; // Ğ¡Ğ´Ó¢ÎÄ×ÖÄ¸
-  public static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "ĞÂ½¨", "´ò¿ª", "±£´æ", "Áí´æÎª", "¹Ø±Õ", "¹Ø±ÕÈ«²¿", "¼ôÇĞ", "¸´ÖÆ", "Õ³Ìù",
-      "³·Ïú", "ÖØ×ö", "²éÕÒ", "Ìæ»»", "×ÖÌå·Å´ó", "×ÖÌåËõĞ¡", "ºóÍË", "Ç°½ø", "×Ô¶¯»»ĞĞ" }; // ¹¤¾ßÀ¸ÌáÊ¾ĞÅÏ¢
-  public static final String[] WINDOW_MANAGE_TABLE_TITLE_TEXTS = new String[] { "ÎÄ¼şÃû", "Â·¾¶", "ÀàĞÍ" }; // ´°¿Ú¹ÜÀí½çÃæµÄ±í¸ñ±êÌâ
-  public static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] { "¹¦ÄÜ", "¿ì½İ¼ü" }; // ¿ì½İ¼ü¹ÜÀí½çÃæµÄ±í¸ñ±êÌâ
+      "yy/MM/dd", "HH:mm:ss", "KK:mm:ss a", "HH:mm:ss:SSS" }; // æ—¶é—´/æ—¥æœŸæ ¼å¼å­—ç¬¦ä¸²
+  public static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "æ•°å­—æ ¼å¼", "æ±‰å­—æ ¼å¼", "å¹²æ”¯æ ¼å¼", "å­—æ¯æ ¼å¼" }; // åˆ—è¡¨ç¼–å·ç±»å‹çš„æ˜¾ç¤ºåç§°
+  public static final String HALF_WIDTH_NUMBERS = "0123456789"; // åŠè§’æ•°å­—
+  public static final char[] FULL_WIDTH_NUMBERS = new char[] { 'ï¼', 'ï¼‘', 'ï¼’', 'ï¼“', 'ï¼”', 'ï¼•', 'ï¼–', 'ï¼—', 'ï¼˜', 'ï¼™' }; // å…¨è§’æ•°å­—
+  public static final String[] SIMPLIFIED_CHINESE_NUMBERS = new String[] { "é›¶", "ä¸€", "äºŒ", "ä¸‰", "å››", "äº”", "å…­", "ä¸ƒ", "å…«", "ä¹" }; // ç®€ä½“æ•°å­—
+  public static final String[] SIMPLIFIED_CHINESE_UNITS = new String[] { "", "å", "ç™¾", "åƒ", "ä¸‡", "å", "ç™¾", "åƒ", "äº¿", "å" }; // ç®€ä½“æ•°å­—å•ä½
+  public static final String[] TRADITIONAL_CHINESE_NUMBERS = new String[] { "é›¶", "å£¹", "è´°", "å", "è‚†", "ä¼", "é™†", "æŸ’", "æŒ", "ç–" }; // ç¹ä½“æ•°å­—
+  public static final String[] TRADITIONAL_CHINESE_UNITS = new String[] { "", "æ‹¾", "ä½°", "ä»Ÿ", "ä¸‡", "æ‹¾", "ä½°", "ä»Ÿ", "äº¿", "æ‹¾" }; // ç¹ä½“æ•°å­—å•ä½
+  public static final String LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz"; // å°å†™è‹±æ–‡å­—æ¯
+  public static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "æ–°å»º", "æ‰“å¼€", "ä¿å­˜", "å¦å­˜ä¸º", "å…³é—­", "å…³é—­å…¨éƒ¨", "å‰ªåˆ‡", "å¤åˆ¶", "ç²˜è´´",
+      "æ’¤é”€", "é‡åš", "æŸ¥æ‰¾", "æ›¿æ¢", "å­—ä½“æ”¾å¤§", "å­—ä½“ç¼©å°", "åé€€", "å‰è¿›", "è‡ªåŠ¨æ¢è¡Œ" }; // å·¥å…·æ æç¤ºä¿¡æ¯
+  public static final String[] WINDOW_MANAGE_TABLE_TITLE_TEXTS = new String[] { "æ–‡ä»¶å", "è·¯å¾„", "ç±»å‹" }; // çª—å£ç®¡ç†ç•Œé¢çš„è¡¨æ ¼æ ‡é¢˜
+  public static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] { "åŠŸèƒ½", "å¿«æ·é”®" }; // å¿«æ·é”®ç®¡ç†ç•Œé¢çš„è¡¨æ ¼æ ‡é¢˜
   public static final String[] SHORTCUT_NAMES = new String[] {
-      "ĞÂ½¨","´ò¿ª","ÒÔÖ¸¶¨±àÂë´ò¿ª","±£´æ","Áí´æÎª","ÖØÃüÃû","ÖØĞÂÔØÈëÎÄ¼ş","É¾³ıµ±Ç°ÎÄ¼ş","¹Ø±Õµ±Ç°","¹Ø±ÕÆäËü",
-      "¹Ø±Õ×ó²à","¹Ø±ÕÓÒ²à","¹Ø±ÕÈ«²¿","¶³½áÎÄ¼ş","´òÓ¡","Çå¿Õ×î½ü±à¼­ÁĞ±í","ÍË³ö","³·Ïú","ÖØ×ö","¼ôÇĞ","¸´ÖÆ","Õ³Ìù",
-      "È«Ñ¡","É¾³ı","²ğ·ÖÎÄ¼ş","ÇĞ»»Îª´óĞ´","ÇĞ»»ÎªĞ¡Ğ´","¸´ÖÆµ±Ç°ÎÄ¼şÃûµ½¼ôÌù°å","¸´ÖÆµ±Ç°ÎÄ¼şÂ·¾¶µ½¼ôÌù°å","¸´ÖÆµ±Ç°Ä¿Â¼Â·¾¶µ½¼ôÌù°å","¸´ÖÆËùÓĞÎÄ±¾µ½¼ôÌù°å","¸´Ğ´µ±Ç°ĞĞ","É¾³ıµ±Ç°ĞĞ","É¾³ıÖØĞĞ",
-      "É¾³ıÖÁĞĞÊ×","É¾³ıÖÁĞĞÎ²","É¾³ıÖÁÎÄ¼şÊ×","É¾³ıÖÁÎÄ¼şÎ²","ÉÏÒÆµ±Ç°ĞĞ","ÏÂÒÆµ±Ç°ĞĞ","¸´ÖÆµ±Ç°ĞĞ","¼ôÇĞµ±Ç°ĞĞ","ÅúÁ¿ÇĞ³ıĞĞ","ÅúÁ¿²åÈëĞĞ",
-      "ÅúÁ¿·Ö¸îĞĞ","ÅúÁ¿Æ´½ÓĞĞ","ÅúÁ¿ºÏ²¢ĞĞ","ÖğĞĞ¸´Ğ´","ÉıĞòÅÅĞò","½µĞòÅÅĞò","·´ĞòÅÅĞò","Ëõ½ø","ÍË¸ñ","Çå³ıĞĞÊ×¿Õ°×","Çå³ıĞĞÎ²¿Õ°×",
-      "Çå³ıĞĞÊ×ºÍĞĞÎ²¿Õ°×","Çå³ıÑ¡ÇøÄÚ¿Õ°×","É¾³ıÈ«ÎÄ¿ÕĞĞ","É¾³ıÑ¡Çø¿ÕĞĞ","Ìí¼Óµ¥ĞĞ×¢ÊÍ","Ìí¼ÓÇø¿é×¢ÊÍ","²åÈëÌØÊâ×Ö·û","²åÈëÊ±¼äºÍÈÕÆÚ","¸´Ğ´Ñ¡Çø×Ö·û","·´×ªÑ¡Çø×Ö·û",
-      "²éÕÒ","²éÕÒÏÂÒ»¸ö","²éÕÒÉÏÒ»¸ö","Ñ¡¶¨²éÕÒÏÂÒ»¸ö","Ñ¡¶¨²éÕÒÉÏÒ»¸ö","¿ìËÙÏòÏÂ²éÕÒ","¿ìËÙÏòÉÏ²éÕÒ","Ìæ»»","×ªµ½","ÉèÖÃ/È¡ÏûÊéÇ©","ÏÂÒ»¸öÊéÇ©","ÉÏÒ»¸öÊéÇ©","¸´ÖÆÊéÇ©ĞĞ","Çå³ıËùÓĞÊéÇ©","¶¨Î»Æ¥ÅäÀ¨ºÅ",
-      "µ¥´Ê±ß½ç»»ĞĞ","×Ö·û±ß½ç»»ĞĞ","Windows»»ĞĞ·û¸ñÊ½","Unix/Linux»»ĞĞ·û¸ñÊ½","Macintosh»»ĞĞ·û¸ñÊ½","Ä¬ÈÏGB18030±àÂë¸ñÊ½","ANSI±àÂë¸ñÊ½","UTF-8±àÂë¸ñÊ½","UTF-8 No BOM±àÂë¸ñÊ½","Unicode Little Endian±àÂë¸ñÊ½",
-      "Unicode Big Endian±àÂë¸ñÊ½","ÁĞ±í·ûºÅÓë±àºÅ","×ÖÌå","Tab¼üÉèÖÃ","×Ô¶¯Íê³É","×Ô¶¯»»ĞĞ","×Ô¶¯Ëõ½ø","»Ö¸´Ä¬ÈÏÉèÖÃ","ºóÍË","Ç°½ø","ÏÔÊ¾/Òş²Ø¹¤¾ßÀ¸",
-      "ÏÔÊ¾/Òş²Ø×´Ì¬À¸","ÏÔÊ¾/Òş²ØĞĞºÅÀ¸","ÏÔÊ¾/Òş²Ø²éÕÒ½á¹ûÃæ°å","Ç°¶ËÏÔÊ¾","Ëø¶¨´°¿Ú","¶àĞĞ±êÇ©","Ë«»÷¹Ø±Õ±êÇ©","ÏÔÊ¾/Òş²ØÖ¸Ê¾Í¼±ê","×ÖÌå·Å´ó","×ÖÌåËõĞ¡",
-      "×ÖÌå»Ö¸´³õÊ¼´óĞ¡","×ÖÌåÑÕÉ«","±³¾°ÑÕÉ«","¹â±êÑÕÉ«","Ñ¡Çø×ÖÌåÑÕÉ«","Ñ¡Çø±³¾°ÑÕÉ«","Æ¥ÅäÀ¨ºÅ±³¾°ÑÕÉ«","µ±Ç°ĞĞ±³¾°ÑÕÉ«","È«²¿·´É«","È«²¿²¹É«",
-      "ÅäÉ«·½°¸1","ÅäÉ«·½°¸2","ÅäÉ«·½°¸3","ÅäÉ«·½°¸4","ÅäÉ«·½°¸5","»Ö¸´Ä¬ÈÏÅäÉ«","¸ßÁÁÏÔÊ¾¸ñÊ½1","¸ßÁÁÏÔÊ¾¸ñÊ½2","¸ßÁÁÏÔÊ¾¸ñÊ½3","¸ßÁÁÏÔÊ¾¸ñÊ½4",
-      "¸ßÁÁÏÔÊ¾¸ñÊ½5","Çå³ı¸ßÁÁ¸ñÊ½1","Çå³ı¸ßÁÁ¸ñÊ½2","Çå³ı¸ßÁÁ¸ñÊ½3","Çå³ı¸ßÁÁ¸ñÊ½4","Çå³ı¸ßÁÁ¸ñÊ½5","Çå³ıËùÓĞ¸ßÁÁ¸ñÊ½","ÏòÇ°ÇĞ»»ÎÄµµ","ÏòºóÇĞ»»ÎÄµµ","Ç°Ò»¸öÎÄµµ",
-      "ºóÒ»¸öÎÄµµ","Í³¼ÆĞÅÏ¢","´°¿Ú¹ÜÀí","¼ÓÃÜ","½øÖÆ×ª»»","¼ÆËãÆ÷","ÇĞ¸îÎÄ¼ş","Æ´½ÓÎÄ¼ş","°ïÖúÖ÷Ìâ","¹ØÓÚ"
-      }; // ¿ì½İ¼üµÄÃû³Æ
+      "æ–°å»º","æ‰“å¼€","ä»¥æŒ‡å®šç¼–ç æ‰“å¼€","ä¿å­˜","å¦å­˜ä¸º","é‡å‘½å","é‡æ–°è½½å…¥æ–‡ä»¶","åˆ é™¤å½“å‰æ–‡ä»¶","å…³é—­å½“å‰","å…³é—­å…¶å®ƒ",
+      "å…³é—­å·¦ä¾§","å…³é—­å³ä¾§","å…³é—­å…¨éƒ¨","å†»ç»“æ–‡ä»¶","æ‰“å°","æ¸…ç©ºæœ€è¿‘ç¼–è¾‘åˆ—è¡¨","é€€å‡º","æ’¤é”€","é‡åš","å‰ªåˆ‡","å¤åˆ¶","ç²˜è´´",
+      "å…¨é€‰","åˆ é™¤","æ‹†åˆ†æ–‡ä»¶","åˆ‡æ¢ä¸ºå¤§å†™","åˆ‡æ¢ä¸ºå°å†™","å¤åˆ¶å½“å‰æ–‡ä»¶ååˆ°å‰ªè´´æ¿","å¤åˆ¶å½“å‰æ–‡ä»¶è·¯å¾„åˆ°å‰ªè´´æ¿","å¤åˆ¶å½“å‰ç›®å½•è·¯å¾„åˆ°å‰ªè´´æ¿","å¤åˆ¶æ‰€æœ‰æ–‡æœ¬åˆ°å‰ªè´´æ¿","å¤å†™å½“å‰è¡Œ","åˆ é™¤å½“å‰è¡Œ","åˆ é™¤é‡è¡Œ",
+      "åˆ é™¤è‡³è¡Œé¦–","åˆ é™¤è‡³è¡Œå°¾","åˆ é™¤è‡³æ–‡ä»¶é¦–","åˆ é™¤è‡³æ–‡ä»¶å°¾","ä¸Šç§»å½“å‰è¡Œ","ä¸‹ç§»å½“å‰è¡Œ","å¤åˆ¶å½“å‰è¡Œ","å‰ªåˆ‡å½“å‰è¡Œ","æ‰¹é‡åˆ‡é™¤è¡Œ","æ‰¹é‡æ’å…¥è¡Œ",
+      "æ‰¹é‡åˆ†å‰²è¡Œ","æ‰¹é‡æ‹¼æ¥è¡Œ","æ‰¹é‡åˆå¹¶è¡Œ","é€è¡Œå¤å†™","å‡åºæ’åº","é™åºæ’åº","ååºæ’åº","ç¼©è¿›","é€€æ ¼","æ¸…é™¤è¡Œé¦–ç©ºç™½","æ¸…é™¤è¡Œå°¾ç©ºç™½",
+      "æ¸…é™¤è¡Œé¦–å’Œè¡Œå°¾ç©ºç™½","æ¸…é™¤é€‰åŒºå†…ç©ºç™½","åˆ é™¤å…¨æ–‡ç©ºè¡Œ","åˆ é™¤é€‰åŒºç©ºè¡Œ","æ·»åŠ å•è¡Œæ³¨é‡Š","æ·»åŠ åŒºå—æ³¨é‡Š","æ’å…¥ç‰¹æ®Šå­—ç¬¦","æ’å…¥æ—¶é—´å’Œæ—¥æœŸ","å¤å†™é€‰åŒºå­—ç¬¦","åè½¬é€‰åŒºå­—ç¬¦",
+      "æŸ¥æ‰¾","æŸ¥æ‰¾ä¸‹ä¸€ä¸ª","æŸ¥æ‰¾ä¸Šä¸€ä¸ª","é€‰å®šæŸ¥æ‰¾ä¸‹ä¸€ä¸ª","é€‰å®šæŸ¥æ‰¾ä¸Šä¸€ä¸ª","å¿«é€Ÿå‘ä¸‹æŸ¥æ‰¾","å¿«é€Ÿå‘ä¸ŠæŸ¥æ‰¾","æ›¿æ¢","è½¬åˆ°","è®¾ç½®/å–æ¶ˆä¹¦ç­¾","ä¸‹ä¸€ä¸ªä¹¦ç­¾","ä¸Šä¸€ä¸ªä¹¦ç­¾","å¤åˆ¶ä¹¦ç­¾è¡Œ","æ¸…é™¤æ‰€æœ‰ä¹¦ç­¾","å®šä½åŒ¹é…æ‹¬å·",
+      "å•è¯è¾¹ç•Œæ¢è¡Œ","å­—ç¬¦è¾¹ç•Œæ¢è¡Œ","Windowsæ¢è¡Œç¬¦æ ¼å¼","Unix/Linuxæ¢è¡Œç¬¦æ ¼å¼","Macintoshæ¢è¡Œç¬¦æ ¼å¼","é»˜è®¤GB18030ç¼–ç æ ¼å¼","ANSIç¼–ç æ ¼å¼","UTF-8ç¼–ç æ ¼å¼","UTF-8 No BOMç¼–ç æ ¼å¼","Unicode Little Endianç¼–ç æ ¼å¼",
+      "Unicode Big Endianç¼–ç æ ¼å¼","åˆ—è¡¨ç¬¦å·ä¸ç¼–å·","å­—ä½“","Tabé”®è®¾ç½®","è‡ªåŠ¨å®Œæˆ","è‡ªåŠ¨æ¢è¡Œ","è‡ªåŠ¨ç¼©è¿›","æ¢å¤é»˜è®¤è®¾ç½®","åé€€","å‰è¿›","æ˜¾ç¤º/éšè—å·¥å…·æ ",
+      "æ˜¾ç¤º/éšè—çŠ¶æ€æ ","æ˜¾ç¤º/éšè—è¡Œå·æ ","æ˜¾ç¤º/éšè—æŸ¥æ‰¾ç»“æœé¢æ¿","å‰ç«¯æ˜¾ç¤º","é”å®šçª—å£","å¤šè¡Œæ ‡ç­¾","åŒå‡»å…³é—­æ ‡ç­¾","æ˜¾ç¤º/éšè—æŒ‡ç¤ºå›¾æ ‡","å­—ä½“æ”¾å¤§","å­—ä½“ç¼©å°",
+      "å­—ä½“æ¢å¤åˆå§‹å¤§å°","å­—ä½“é¢œè‰²","èƒŒæ™¯é¢œè‰²","å…‰æ ‡é¢œè‰²","é€‰åŒºå­—ä½“é¢œè‰²","é€‰åŒºèƒŒæ™¯é¢œè‰²","åŒ¹é…æ‹¬å·èƒŒæ™¯é¢œè‰²","å½“å‰è¡ŒèƒŒæ™¯é¢œè‰²","å…¨éƒ¨åè‰²","å…¨éƒ¨è¡¥è‰²",
+      "é…è‰²æ–¹æ¡ˆ1","é…è‰²æ–¹æ¡ˆ2","é…è‰²æ–¹æ¡ˆ3","é…è‰²æ–¹æ¡ˆ4","é…è‰²æ–¹æ¡ˆ5","æ¢å¤é»˜è®¤é…è‰²","é«˜äº®æ˜¾ç¤ºæ ¼å¼1","é«˜äº®æ˜¾ç¤ºæ ¼å¼2","é«˜äº®æ˜¾ç¤ºæ ¼å¼3","é«˜äº®æ˜¾ç¤ºæ ¼å¼4",
+      "é«˜äº®æ˜¾ç¤ºæ ¼å¼5","æ¸…é™¤é«˜äº®æ ¼å¼1","æ¸…é™¤é«˜äº®æ ¼å¼2","æ¸…é™¤é«˜äº®æ ¼å¼3","æ¸…é™¤é«˜äº®æ ¼å¼4","æ¸…é™¤é«˜äº®æ ¼å¼5","æ¸…é™¤æ‰€æœ‰é«˜äº®æ ¼å¼","å‘å‰åˆ‡æ¢æ–‡æ¡£","å‘ååˆ‡æ¢æ–‡æ¡£","å‰ä¸€ä¸ªæ–‡æ¡£",
+      "åä¸€ä¸ªæ–‡æ¡£","ç»Ÿè®¡ä¿¡æ¯","çª—å£ç®¡ç†","åŠ å¯†","è¿›åˆ¶è½¬æ¢","è®¡ç®—å™¨","åˆ‡å‰²æ–‡ä»¶","æ‹¼æ¥æ–‡ä»¶","å¸®åŠ©ä¸»é¢˜","å…³äº"
+      }; // å¿«æ·é”®çš„åç§°
   public static final String[] SHORTCUT_VALUES = new String[] {
       "Ctrl+78","Ctrl+79","","Ctrl+83","","","","","115","",
       "","","","","","","Ctrl+81","Ctrl+90","Ctrl+89","Ctrl+88","Ctrl+67","Ctrl+86",
@@ -159,10 +159,10 @@ public final class Util {
       "","","","","","","","","","",
       "","","","","","","","Ctrl+Shift+87","Ctrl+87","Alt+37",
       "Alt+39","","","","","","","","","112"
-      }; // ¿ì½İ¼üµÄÖµ
-  public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"¼ôÇĞ","¸´ÖÆ","Õ³Ìù","È«Ñ¡","É¾³ı"}; // ²»¿ÉĞŞ¸ÄµÄ¿ì½İ¼üÃû³Æ
-  public static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // ¼ÓÃÜµÄÀàĞÍ
-  public static final String[] STORAGE_UNIT = new String[] {"B(×Ö½Ú)","KB(Ç§×Ö½Ú)","MB(Õ××Ö½Ú)"}; // ÎÄ¼ş´æ´¢µ¥Î»
+      }; // å¿«æ·é”®çš„å€¼
+  public static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"å‰ªåˆ‡","å¤åˆ¶","ç²˜è´´","å…¨é€‰","åˆ é™¤"}; // ä¸å¯ä¿®æ”¹çš„å¿«æ·é”®åç§°
+  public static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // åŠ å¯†çš„ç±»å‹
+  public static final String[] STORAGE_UNIT = new String[] {"B(å­—èŠ‚)","KB(åƒå­—èŠ‚)","MB(å…†å­—èŠ‚)"}; // æ–‡ä»¶å­˜å‚¨å•ä½
   public static final int[] ALL_KEY_CODES = new int[] {
     KeyEvent.VK_0, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_7,
     KeyEvent.VK_8, KeyEvent.VK_9, KeyEvent.VK_A, KeyEvent.VK_B, KeyEvent.VK_C, KeyEvent.VK_D, KeyEvent.VK_E, KeyEvent.VK_F,
@@ -175,53 +175,53 @@ public final class Util {
     KeyEvent.VK_ESCAPE, KeyEvent.VK_TAB, KeyEvent.VK_SPACE, KeyEvent.VK_BACK_SPACE, KeyEvent.VK_BACK_QUOTE, KeyEvent.VK_SLASH, KeyEvent.VK_BACK_SLASH, KeyEvent.VK_OPEN_BRACKET,
     KeyEvent.VK_CLOSE_BRACKET, KeyEvent.VK_COMMA, KeyEvent.VK_PAGE_UP, KeyEvent.VK_PAGE_DOWN, KeyEvent.VK_PERIOD, KeyEvent.VK_QUOTE, KeyEvent.VK_SEMICOLON, KeyEvent.VK_INSERT,
     KeyEvent.VK_DELETE, KeyEvent.VK_HOME, KeyEvent.VK_END, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER,
-    KeyEvent.VK_EQUALS, KeyEvent.VK_MINUS, KeyEvent.VK_CAPS_LOCK, KeyEvent.VK_WINDOWS, KeyEvent.VK_CONTEXT_MENU, KeyEvent.VK_SCROLL_LOCK, KeyEvent.VK_PAUSE }; // ËùÓĞ¿ÉÒÔÓÃ×÷¿ì½İ¼üµÄ°´¼ü³£Á¿
-  public static final int[] SINGLE_KEY_CODES = new int[] { KeyEvent.VK_F1 ,KeyEvent.VK_F2 ,KeyEvent.VK_F3 ,KeyEvent.VK_F4 ,KeyEvent.VK_F5 ,KeyEvent.VK_F6 ,KeyEvent.VK_F7 ,KeyEvent.VK_F8 ,KeyEvent.VK_F9 ,KeyEvent.VK_F10 ,KeyEvent.VK_F11 ,KeyEvent.VK_F12 }; // ¿ÉÒÔµ¥¶ÀÓÃ×÷¿ì½İ¼üµÄ°´¼ü³£Á¿
-  public static final int DEFAULT_FRAME_WIDTH = 600; // ´°¿ÚÄ¬ÈÏ¿í¶È
-  public static final int DEFAULT_FRAME_HEIGHT = 500; // ´°¿ÚÄ¬ÈÏ¸ß¶È
-  public static final int DEFAULT_CARET_INDEX = 0; // ÎÄ±¾ÓòÄ¬ÈÏ²åÈëµãÎ»ÖÃ
-  public static final int INPUT_HEIGHT = 22; // µ¥ĞĞÊäÈë¿òµÄ¸ß¶È
-  public static final int VIEW_HEIGHT = 18; // ±êÇ©¡¢µ¥Ñ¡°´Å¥¡¢¸´Ñ¡¿òµÄ¸ß¶È
-  public static final int BUTTON_HEIGHT = 23; // °´Å¥µÄ¸ß¶È
-  public static final int BUFFER_LENGTH = 1024; // »º³åÇøµÄ´óĞ¡
-  public static final int BIG_BUFFER_LENGTH = 1024 * 1024; // ´ó»º³åÇøµÄ´óĞ¡
-  public static final int MIN_FONT_SIZE = 8; // ×ÖÌå×îĞ¡Öµ
-  public static final int MAX_FONT_SIZE = 100; // ×ÖÌå×î´óÖµ
-  public static final int MIN_TABSIZE = 1; // Tab×Ö·û×îĞ¡Öµ
-  public static final int MAX_TABSIZE = 99; // Tab×Ö·û×î´óÖµ
-  public static final int DEFAULT_TABSIZE = 4; // Tab×Ö·ûÄ¬ÈÏÖµ
-  public static final int FILE_HISTORY_MAX = 15; // ×î½ü±à¼­ÎÄ¼şµÄ×î´ó´æ´¢¸öÊı
-  public static final int BACK_FORWARD_MAX = 15; // ¹â±êÀúÊ·Î»ÖÃµÄ×î´ó´æ´¢¸öÊı
-  public static final int TEXTAREA_HASHCODE_LIST_MAX = 15; // ×î½ü±à¼­µÄÎÄ±¾ÓòhashCodeµÄ×î´ó´æ´¢¸öÊı
-  public static final int DEFAULT_UNDO_INDEX = 0; // ³·Ïú±êÊ¶·ûµÄÄ¬ÈÏÖµ
-  public static final int DEFAULT_BACK_FORWARD_INDEX = 0; // ¹â±êÀúÊ·Î»ÖÃµÄÄ¬ÈÏÖµ
-  public static final int DEFAULT_TEXTAREA_HASHCODE_LIST_INDEX = 0; // ×î½ü±à¼­µÄÎÄ±¾ÓòË÷ÒıµÄÄ¬ÈÏÖµ
-  public static final int INSERT_MAX_ROW = 10; // ²åÈë×Ö·û½çÃæµÄ×î´óĞĞÊı
-  public static final int INSERT_MAX_COLUMN = 10; // ²åÈë×Ö·û½çÃæµÄ×î´óÁĞÊı
-  public static final int INSERT_MAX_ELEMENT = INSERT_MAX_ROW * INSERT_MAX_COLUMN; // ²åÈë×Ö·û½çÃæµÄ×î´óÔªËØÊı
-  public static final int SIGN_MAX_ROW = 5; // ÁĞ±í·ûºÅÓë±àºÅ½çÃæµÄ×î´óĞĞÊı
-  public static final int SIGN_MAX_COLUMN = 4; // ÁĞ±í·ûºÅÓë±àºÅ½çÃæµÄ×î´óÁĞÊı
-  public static final int SIGN_MAX_ELEMENT = SIGN_MAX_ROW * SIGN_MAX_COLUMN; // ÁĞ±í·ûºÅÓë±àºÅ½çÃæµÄ×î´óÔªËØÊı
-  public static final int MSG_LINE_SIZE = 60; // ÌáÊ¾¿òÖĞÃ¿ĞĞ×Ö·û´®ÏÔÊ¾µÄ×î´ó×ÖÊı
-  public static final int LINE_NUMBER_HEIGHT = 2000000000; // ĞĞºÅ×é¼şÖ§³ÖµÄ×î´ó¸ß¶È
-  public static final int LINE_NUMBER_MARGIN = 3; // ĞĞºÅ×é¼şµÄ×ó±ß¾à
-  public static final int LINE_NUMBER_MARGIN_RIGHT = 12; // ĞĞºÅ×é¼şµÄ×ó±ß¾à
-  public static final int LINE_NUMBER_START_OFFSET = 2; // ĞĞºÅ×é¼şµÄÆğÊ¼´¹Ö±Æ«ÒÆÁ¿£¬ÓÃÓÚ¶ÔÆëÎÄ±¾ÓòµÄ¸÷ĞĞ
-  public static final int BRACKET_COLOR_STYLE = 11; // ÔÚÎÄ±¾ÓòÖĞ½øĞĞ¸ßÁÁÆ¥ÅäÀ¨ºÅµÄÑÕÉ«±êÊ¶Öµ
-  public static final int PATTERN_SYNTAX_ERROR_INDEX = -2; // ÕıÔò±í´ïÊ½Óï·¨´íÎóµÄË÷ÒıÖµ
-  public static final Font GLOBAL_FONT = new Font("ËÎÌå", Font.PLAIN, 12); // È«¾ÖµÄÄ¬ÈÏ×ÖÌå
-  public static final Font TEXT_FONT = new Font("ËÎÌå", Font.PLAIN, 14); // ÎÄ±¾ÓòµÄÄ¬ÈÏ×ÖÌå
-  public static final Font INSERT_VIEW_FONT = new Font("ËÎÌå", Font.PLAIN, 80); // ²åÈë×Ö·û½çÃæÖĞÔ¤ÀÀ±êÇ©µÄ×ÖÌå
-  public static final Font SIGN_VIEW_FONT = new Font("ËÎÌå", Font.PLAIN, 28); // ÁĞ±í·ûºÅÓë±àºÅ½çÃæÖĞÔ¤ÀÀÇøÓòµÄ×ÖÌå
-  public static final Font CALCULATOR_VIEW_FONT = new Font("ËÎÌå", Font.PLAIN, 16); // ¼ÆËãÆ÷½çÃæÖĞ¼ÆËãÇøÓòµÄ×ÖÌå
-  public static final Font CALCULATOR_ITEM_FONT = new Font("ËÎÌå", Font.BOLD, 30); // ¼ÆËãÆ÷½çÃæÖĞ¼ÆËãÇøÓòµÄ×ÖÌå
-  public static final Color COLOR_BRACKET = new Color(20, 20, 20, 35); // ÔÚÎÄ±¾ÓòÖĞ½øĞĞ¸ßÁÁÆ¥ÅäÀ¨ºÅµÄ±³¾°ÑÕÉ«
-  public static final Color COLOR_CURRENT_LINE = new Color(0, 100, 200, 25); // ÔÚÎÄ±¾ÓòÖĞÓÃÓÚ±êÊ¶µ±Ç°ĞĞµÄ±³¾°ÑÕÉ«
-  public static final Color COLOR_BOOKMARK = new Color(128, 0, 128); // ÊéÇ©µÄÑÕÉ«
+    KeyEvent.VK_EQUALS, KeyEvent.VK_MINUS, KeyEvent.VK_CAPS_LOCK, KeyEvent.VK_WINDOWS, KeyEvent.VK_CONTEXT_MENU, KeyEvent.VK_SCROLL_LOCK, KeyEvent.VK_PAUSE }; // æ‰€æœ‰å¯ä»¥ç”¨ä½œå¿«æ·é”®çš„æŒ‰é”®å¸¸é‡
+  public static final int[] SINGLE_KEY_CODES = new int[] { KeyEvent.VK_F1 ,KeyEvent.VK_F2 ,KeyEvent.VK_F3 ,KeyEvent.VK_F4 ,KeyEvent.VK_F5 ,KeyEvent.VK_F6 ,KeyEvent.VK_F7 ,KeyEvent.VK_F8 ,KeyEvent.VK_F9 ,KeyEvent.VK_F10 ,KeyEvent.VK_F11 ,KeyEvent.VK_F12 }; // å¯ä»¥å•ç‹¬ç”¨ä½œå¿«æ·é”®çš„æŒ‰é”®å¸¸é‡
+  public static final int DEFAULT_FRAME_WIDTH = 600; // çª—å£é»˜è®¤å®½åº¦
+  public static final int DEFAULT_FRAME_HEIGHT = 500; // çª—å£é»˜è®¤é«˜åº¦
+  public static final int DEFAULT_CARET_INDEX = 0; // æ–‡æœ¬åŸŸé»˜è®¤æ’å…¥ç‚¹ä½ç½®
+  public static final int INPUT_HEIGHT = 22; // å•è¡Œè¾“å…¥æ¡†çš„é«˜åº¦
+  public static final int VIEW_HEIGHT = 18; // æ ‡ç­¾ã€å•é€‰æŒ‰é’®ã€å¤é€‰æ¡†çš„é«˜åº¦
+  public static final int BUTTON_HEIGHT = 23; // æŒ‰é’®çš„é«˜åº¦
+  public static final int BUFFER_LENGTH = 1024; // ç¼“å†²åŒºçš„å¤§å°
+  public static final int BIG_BUFFER_LENGTH = 1024 * 1024; // å¤§ç¼“å†²åŒºçš„å¤§å°
+  public static final int MIN_FONT_SIZE = 8; // å­—ä½“æœ€å°å€¼
+  public static final int MAX_FONT_SIZE = 100; // å­—ä½“æœ€å¤§å€¼
+  public static final int MIN_TABSIZE = 1; // Tabå­—ç¬¦æœ€å°å€¼
+  public static final int MAX_TABSIZE = 99; // Tabå­—ç¬¦æœ€å¤§å€¼
+  public static final int DEFAULT_TABSIZE = 4; // Tabå­—ç¬¦é»˜è®¤å€¼
+  public static final int FILE_HISTORY_MAX = 15; // æœ€è¿‘ç¼–è¾‘æ–‡ä»¶çš„æœ€å¤§å­˜å‚¨ä¸ªæ•°
+  public static final int BACK_FORWARD_MAX = 15; // å…‰æ ‡å†å²ä½ç½®çš„æœ€å¤§å­˜å‚¨ä¸ªæ•°
+  public static final int TEXTAREA_HASHCODE_LIST_MAX = 15; // æœ€è¿‘ç¼–è¾‘çš„æ–‡æœ¬åŸŸhashCodeçš„æœ€å¤§å­˜å‚¨ä¸ªæ•°
+  public static final int DEFAULT_UNDO_INDEX = 0; // æ’¤é”€æ ‡è¯†ç¬¦çš„é»˜è®¤å€¼
+  public static final int DEFAULT_BACK_FORWARD_INDEX = 0; // å…‰æ ‡å†å²ä½ç½®çš„é»˜è®¤å€¼
+  public static final int DEFAULT_TEXTAREA_HASHCODE_LIST_INDEX = 0; // æœ€è¿‘ç¼–è¾‘çš„æ–‡æœ¬åŸŸç´¢å¼•çš„é»˜è®¤å€¼
+  public static final int INSERT_MAX_ROW = 10; // æ’å…¥å­—ç¬¦ç•Œé¢çš„æœ€å¤§è¡Œæ•°
+  public static final int INSERT_MAX_COLUMN = 10; // æ’å…¥å­—ç¬¦ç•Œé¢çš„æœ€å¤§åˆ—æ•°
+  public static final int INSERT_MAX_ELEMENT = INSERT_MAX_ROW * INSERT_MAX_COLUMN; // æ’å…¥å­—ç¬¦ç•Œé¢çš„æœ€å¤§å…ƒç´ æ•°
+  public static final int SIGN_MAX_ROW = 5; // åˆ—è¡¨ç¬¦å·ä¸ç¼–å·ç•Œé¢çš„æœ€å¤§è¡Œæ•°
+  public static final int SIGN_MAX_COLUMN = 4; // åˆ—è¡¨ç¬¦å·ä¸ç¼–å·ç•Œé¢çš„æœ€å¤§åˆ—æ•°
+  public static final int SIGN_MAX_ELEMENT = SIGN_MAX_ROW * SIGN_MAX_COLUMN; // åˆ—è¡¨ç¬¦å·ä¸ç¼–å·ç•Œé¢çš„æœ€å¤§å…ƒç´ æ•°
+  public static final int MSG_LINE_SIZE = 60; // æç¤ºæ¡†ä¸­æ¯è¡Œå­—ç¬¦ä¸²æ˜¾ç¤ºçš„æœ€å¤§å­—æ•°
+  public static final int LINE_NUMBER_HEIGHT = 2000000000; // è¡Œå·ç»„ä»¶æ”¯æŒçš„æœ€å¤§é«˜åº¦
+  public static final int LINE_NUMBER_MARGIN = 3; // è¡Œå·ç»„ä»¶çš„å·¦è¾¹è·
+  public static final int LINE_NUMBER_MARGIN_RIGHT = 12; // è¡Œå·ç»„ä»¶çš„å·¦è¾¹è·
+  public static final int LINE_NUMBER_START_OFFSET = 2; // è¡Œå·ç»„ä»¶çš„èµ·å§‹å‚ç›´åç§»é‡ï¼Œç”¨äºå¯¹é½æ–‡æœ¬åŸŸçš„å„è¡Œ
+  public static final int BRACKET_COLOR_STYLE = 11; // åœ¨æ–‡æœ¬åŸŸä¸­è¿›è¡Œé«˜äº®åŒ¹é…æ‹¬å·çš„é¢œè‰²æ ‡è¯†å€¼
+  public static final int PATTERN_SYNTAX_ERROR_INDEX = -2; // æ­£åˆ™è¡¨è¾¾å¼è¯­æ³•é”™è¯¯çš„ç´¢å¼•å€¼
+  public static final Font GLOBAL_FONT = new Font("å®‹ä½“", Font.PLAIN, 12); // å…¨å±€çš„é»˜è®¤å­—ä½“
+  public static final Font TEXT_FONT = new Font("å®‹ä½“", Font.PLAIN, 14); // æ–‡æœ¬åŸŸçš„é»˜è®¤å­—ä½“
+  public static final Font INSERT_VIEW_FONT = new Font("å®‹ä½“", Font.PLAIN, 80); // æ’å…¥å­—ç¬¦ç•Œé¢ä¸­é¢„è§ˆæ ‡ç­¾çš„å­—ä½“
+  public static final Font SIGN_VIEW_FONT = new Font("å®‹ä½“", Font.PLAIN, 28); // åˆ—è¡¨ç¬¦å·ä¸ç¼–å·ç•Œé¢ä¸­é¢„è§ˆåŒºåŸŸçš„å­—ä½“
+  public static final Font CALCULATOR_VIEW_FONT = new Font("å®‹ä½“", Font.PLAIN, 16); // è®¡ç®—å™¨ç•Œé¢ä¸­è®¡ç®—åŒºåŸŸçš„å­—ä½“
+  public static final Font CALCULATOR_ITEM_FONT = new Font("å®‹ä½“", Font.BOLD, 30); // è®¡ç®—å™¨ç•Œé¢ä¸­è®¡ç®—åŒºåŸŸçš„å­—ä½“
+  public static final Color COLOR_BRACKET = new Color(20, 20, 20, 35); // åœ¨æ–‡æœ¬åŸŸä¸­è¿›è¡Œé«˜äº®åŒ¹é…æ‹¬å·çš„èƒŒæ™¯é¢œè‰²
+  public static final Color COLOR_CURRENT_LINE = new Color(0, 100, 200, 25); // åœ¨æ–‡æœ¬åŸŸä¸­ç”¨äºæ ‡è¯†å½“å‰è¡Œçš„èƒŒæ™¯é¢œè‰²
+  public static final Color COLOR_BOOKMARK = new Color(128, 0, 128); // ä¹¦ç­¾çš„é¢œè‰²
   public static final Color[] COLOR_HIGHLIGHTS = new Color[] {
       new Color(255, 0, 0, 40), new Color(0, 255, 0, 40),
       new Color(0, 0, 255, 40), new Color(0, 255, 255, 40),
-      new Color(255, 0, 255, 40) }; // ÓÃÓÚ¸ßÁÁÏÔÊ¾µÄÑÕÉ«£¬ÆäÖĞµÚ4¸ö²ÎÊı±íÊ¾Í¸Ã÷¶È£¬ÊıÖµÔ½Ğ¡Ô½Í¸Ã÷
+      new Color(255, 0, 255, 40) }; // ç”¨äºé«˜äº®æ˜¾ç¤ºçš„é¢œè‰²ï¼Œå…¶ä¸­ç¬¬4ä¸ªå‚æ•°è¡¨ç¤ºé€æ˜åº¦ï¼Œæ•°å€¼è¶Šå°è¶Šé€æ˜
   public static final Color[] COLOR_STYLE_1 = new Color[] {
       new Color(211, 215, 207), new Color(46, 52, 54),
       new Color(211, 215, 207), new Color(238, 238, 236),
@@ -243,26 +243,26 @@ public final class Util {
       new Color(189, 174, 157), new Color(42, 33, 28), new Color(5, 165, 245),
       new Color(189, 174, 157), new Color(130, 100, 90),
       new Color(255, 255, 0, 35), new Color(240, 200, 180, 25) };
-  public static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1, COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // ÎÄ±¾ÓòÅäÉ«·½°¸µÄÊı×é
+  public static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1, COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // æ–‡æœ¬åŸŸé…è‰²æ–¹æ¡ˆçš„æ•°ç»„
   public static final Color[] COLOR_STYLE_DEFAULT = new Color[] {
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.foreground"),
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.background"),
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.caretForeground"),
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionForeground"),
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionBackground"),
-      COLOR_BRACKET, COLOR_CURRENT_LINE }; // ÎÄ±¾ÓòÄ¬ÈÏÅäÉ«·½°¸
-  public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager.getInstalledLookAndFeels(); // µ±Ç°ÏµÍ³¿ÉÓÃµÄÍâ¹ÛĞÅÏ¢Êı×é
-  public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif")); // Ö÷³ÌĞòÍ¼±ê
-  public static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // ²éÕÒ½á¹ûÃæ°å¹Ø±ÕÍ¼±ê
-  public static final ImageIcon TAB_EXIST_READONLY_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly.png")); // Ö»¶ÁÎÄ¼şÍ¼±ê
-  public static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current.png")); // ÆÕÍ¨ÎÄ¼şÍ¼±ê
-  public static final ImageIcon TAB_NEW_FILE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_new_file.png")); // ĞÂ½¨ÎÄ¼şÍ¼±ê
-  public static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_not_exist.png")); // ¶ªÊ§ÎÄ¼şÍ¼±ê
-  public static final ImageIcon TAB_EXIST_READONLY_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly_frozen.png")); // Ö»¶ÁÎÄ¼ş¶³½áÍ¼±ê
-  public static final ImageIcon TAB_EXIST_CURRENT_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current_frozen.png")); // ÆÕÍ¨ÎÄ¼ş¶³½áÍ¼±ê
-  public static final ImageIcon TAB_NEW_FILE_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_new_file_frozen.png")); // ĞÂ½¨ÎÄ¼ş¶³½áÍ¼±ê
-  public static final ImageIcon TAB_NOT_EXIST_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_not_exist_frozen.png")); // ¶ªÊ§ÎÄ¼ş¶³½áÍ¼±ê
-  public static final ImageIcon HELP_ICON = new ImageIcon(ClassLoader.getSystemResource("res/help.png")); // °ïÖúÍ¼±ê
+      COLOR_BRACKET, COLOR_CURRENT_LINE }; // æ–‡æœ¬åŸŸé»˜è®¤é…è‰²æ–¹æ¡ˆ
+  public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager.getInstalledLookAndFeels(); // å½“å‰ç³»ç»Ÿå¯ç”¨çš„å¤–è§‚ä¿¡æ¯æ•°ç»„
+  public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif")); // ä¸»ç¨‹åºå›¾æ ‡
+  public static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // æŸ¥æ‰¾ç»“æœé¢æ¿å…³é—­å›¾æ ‡
+  public static final ImageIcon TAB_EXIST_READONLY_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly.png")); // åªè¯»æ–‡ä»¶å›¾æ ‡
+  public static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current.png")); // æ™®é€šæ–‡ä»¶å›¾æ ‡
+  public static final ImageIcon TAB_NEW_FILE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_new_file.png")); // æ–°å»ºæ–‡ä»¶å›¾æ ‡
+  public static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_not_exist.png")); // ä¸¢å¤±æ–‡ä»¶å›¾æ ‡
+  public static final ImageIcon TAB_EXIST_READONLY_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly_frozen.png")); // åªè¯»æ–‡ä»¶å†»ç»“å›¾æ ‡
+  public static final ImageIcon TAB_EXIST_CURRENT_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current_frozen.png")); // æ™®é€šæ–‡ä»¶å†»ç»“å›¾æ ‡
+  public static final ImageIcon TAB_NEW_FILE_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_new_file_frozen.png")); // æ–°å»ºæ–‡ä»¶å†»ç»“å›¾æ ‡
+  public static final ImageIcon TAB_NOT_EXIST_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_not_exist_frozen.png")); // ä¸¢å¤±æ–‡ä»¶å†»ç»“å›¾æ ‡
+  public static final ImageIcon HELP_ICON = new ImageIcon(ClassLoader.getSystemResource("res/help.png")); // å¸®åŠ©å›¾æ ‡
   public static final ImageIcon[] TOOL_ENABLE_ICONS = new ImageIcon[] {
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_new.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_open.png")),
@@ -281,7 +281,7 @@ public final class Util {
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_font_size_minus.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_back.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_forward.png")),
-      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_line_wrap.png")) }; // ¹¤¾ßÀ¸¿ÉÓÃ×´Ì¬µÄÍ¼±ê
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_line_wrap.png")) }; // å·¥å…·æ å¯ç”¨çŠ¶æ€çš„å›¾æ ‡
   public static final ImageIcon[] TOOL_DISABLE_ICONS = new ImageIcon[] {
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_new.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_open.png")),
@@ -300,39 +300,39 @@ public final class Util {
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_font_size_minus.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_back.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_forward.png")),
-      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_line_wrap.png")) }; // ¹¤¾ßÀ¸½ûÓÃ×´Ì¬µÄÍ¼±ê
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_line_wrap.png")) }; // å·¥å…·æ ç¦ç”¨çŠ¶æ€çš„å›¾æ ‡
 
-  public static int transfer_count = 0; // ²éÕÒ»òÌæ»»Ê±£¬ÆôÓÃ¡°×ªÒåÀ©Õ¹¡±ºó±»×ªÒåµÄ×Ö·û¸öÊı
-  public static int matcher_length = 0; // Í¨¹ıÕıÔò±í´ïÊ½³É¹¦Æ¥ÅäµÄ×Ö·û¸öÊı
-  private static Matcher matcher = null; // Í¨¹ı½âÊÍPattern¶ÔÖ¸¶¨ÎÄ±¾Ö´ĞĞÆ¥Åä²Ù×÷µÄÒıÇæ
+  public static int transfer_count = 0; // æŸ¥æ‰¾æˆ–æ›¿æ¢æ—¶ï¼Œå¯ç”¨â€œè½¬ä¹‰æ‰©å±•â€åè¢«è½¬ä¹‰çš„å­—ç¬¦ä¸ªæ•°
+  public static int matcher_length = 0; // é€šè¿‡æ­£åˆ™è¡¨è¾¾å¼æˆåŠŸåŒ¹é…çš„å­—ç¬¦ä¸ªæ•°
+  private static Matcher matcher = null; // é€šè¿‡è§£é‡ŠPatternå¯¹æŒ‡å®šæ–‡æœ¬æ‰§è¡ŒåŒ¹é…æ“ä½œçš„å¼•æ“
 
   /**
-   * ÓÉÓÚ´ËÀàÎª¹¤¾ßÀà£¬¹Ê½«¹¹Ôì·½·¨Ë½ÓĞ»¯
+   * ç”±äºæ­¤ç±»ä¸ºå·¥å…·ç±»ï¼Œæ•…å°†æ„é€ æ–¹æ³•ç§æœ‰åŒ–
    */
   private Util() {
   }
 
   /**
-   * ÅĞ¶Ï¸ø¶¨µÄ×Ö·û´®ÊÇ·ñÎª¿Õ
+   * åˆ¤æ–­ç»™å®šçš„å­—ç¬¦ä¸²æ˜¯å¦ä¸ºç©º
    * 
    * @param str
-   *          ´ıÅĞ¶ÏµÄ×Ö·û´®
+   *          å¾…åˆ¤æ–­çš„å­—ç¬¦ä¸²
    */
   public static boolean isTextEmpty(String str) {
     return (str == null || str.isEmpty());
   }
 
   /**
-   * ÎªÎÄ¼şÑ¡ÔñÆ÷Ìí¼ÓÔ¤¶¨ÒåµÄÎÄ¼ş¹ıÂËÆ÷
+   * ä¸ºæ–‡ä»¶é€‰æ‹©å™¨æ·»åŠ é¢„å®šä¹‰çš„æ–‡ä»¶è¿‡æ»¤å™¨
    * 
    * @param fileChooser
-   *          Òª´¦ÀíµÄÎÄ¼şÑ¡ÔñÆ÷
+   *          è¦å¤„ç†çš„æ–‡ä»¶é€‰æ‹©å™¨
    */
   public static void addChoosableFileFilters(JFileChooser fileChooser) {
-    FileExt[] arrFileExt = FileExt.values(); // »ñÈ¡°üº¬Ã¶¾ÙËùÓĞ³ÉÔ±µÄÊı×é
+    FileExt[] arrFileExt = FileExt.values(); // è·å–åŒ…å«æšä¸¾æ‰€æœ‰æˆå‘˜çš„æ•°ç»„
     BaseFileFilter fileFilter = null;
-    BaseFileFilter defFileFilter = null; // Ä¬ÈÏÑ¡ÔñµÄÎÄ¼ş¹ıÂËÆ÷
-    for (FileExt fileExt : arrFileExt) { // ±éÀúÃ¶¾ÙµÄËùÓĞ³ÉÔ±
+    BaseFileFilter defFileFilter = null; // é»˜è®¤é€‰æ‹©çš„æ–‡ä»¶è¿‡æ»¤å™¨
+    for (FileExt fileExt : arrFileExt) { // éå†æšä¸¾çš„æ‰€æœ‰æˆå‘˜
       fileFilter = new BaseFileFilter(fileExt.toString(), fileExt.getDescription());
       fileChooser.addChoosableFileFilter(fileFilter);
       if (fileExt.equals(FileExt.TXT)) {
@@ -345,13 +345,13 @@ public final class Util {
   }
 
   /**
-   * ¼ì²â»òÖØĞÂÉèÖÃÎÄ±¾Óò²åÈëµã
+   * æ£€æµ‹æˆ–é‡æ–°è®¾ç½®æ–‡æœ¬åŸŸæ’å…¥ç‚¹
    * 
    * @param txaSource
-   *          µ±Ç°ÎÄ±¾Óò
+   *          å½“å‰æ–‡æœ¬åŸŸ
    * @param index
-   *          ´ı¼ì²âµÄ²åÈëµãÎ»ÖÃ
-   * @return ´¦Àí¹ıµÄ²åÈëµãÎ»ÖÃ
+   *          å¾…æ£€æµ‹çš„æ’å…¥ç‚¹ä½ç½®
+   * @return å¤„ç†è¿‡çš„æ’å…¥ç‚¹ä½ç½®
    */
   public static int checkCaretPosition(JTextArea txaSource, int index) {
     if (txaSource == null) {
@@ -367,15 +367,15 @@ public final class Util {
   }
 
   /**
-   * ½«¸ø¶¨×Ö·û´®ÖØĞÂ·ÖĞĞ£¬ÒÔÊÊÓ¦¶Ô»°¿òµÄÏÔÊ¾
+   * å°†ç»™å®šå­—ç¬¦ä¸²é‡æ–°åˆ†è¡Œï¼Œä»¥é€‚åº”å¯¹è¯æ¡†çš„æ˜¾ç¤º
    * 
    * @param str
-   *          ´ı´¦ÀíµÄ×Ö·û´®
-   * @return ´¦Àí¹ıµÄ×Ö·û´®
+   *          å¾…å¤„ç†çš„å­—ç¬¦ä¸²
+   * @return å¤„ç†è¿‡çš„å­—ç¬¦ä¸²
    */
   public static String convertToMsg(String str) {
     String[] arrContents = str.split("\n", -1);
-    StringBuilder stbContent = new StringBuilder(); // ÓÃÓÚ´æ·Å´¦ÀíºóµÄÎÄ±¾
+    StringBuilder stbContent = new StringBuilder(); // ç”¨äºå­˜æ”¾å¤„ç†åçš„æ–‡æœ¬
     for (int n = 0; n < arrContents.length; n++) {
       String content = "";
       if (arrContents[n].length() > MSG_LINE_SIZE) {
@@ -398,11 +398,11 @@ public final class Util {
   }
 
   /**
-   * »ñÈ¡ÎÄ±¾ÓòÖĞµ±Ç°Ñ¡ÇøÄÚµÄËùÓĞĞĞ
+   * è·å–æ–‡æœ¬åŸŸä¸­å½“å‰é€‰åŒºå†…çš„æ‰€æœ‰è¡Œ
    * 
    * @param txaSource
-   *          ÌØ¶¨µÄÎÄ±¾Óò
-   * @return ±£´æµ±Ç°Ñ¡ÇøÄÚËùÓĞĞĞµÄ×Ö·ûÊı×é
+   *          ç‰¹å®šçš„æ–‡æœ¬åŸŸ
+   * @return ä¿å­˜å½“å‰é€‰åŒºå†…æ‰€æœ‰è¡Œçš„å­—ç¬¦æ•°ç»„
    */
   public static String[] getCurrentLinesArray(JTextArea txaSource) {
     if (txaSource == null) {
@@ -423,19 +423,19 @@ public final class Util {
     if (strSel == null) {
       strSel = "";
     }
-    return strSel.split("\n", -1); // ½«µ±Ç°Ñ¡ÇøµÄÎÄ±¾·ÖĞĞ´¦Àí£¬°üÀ¨Ä©Î²µÄ¶à´¦¿ÕĞĞ
+    return strSel.split("\n", -1); // å°†å½“å‰é€‰åŒºçš„æ–‡æœ¬åˆ†è¡Œå¤„ç†ï¼ŒåŒ…æ‹¬æœ«å°¾çš„å¤šå¤„ç©ºè¡Œ
   }
 
   /**
-   * ¸ñÊ½»¯Óû±£´æµÄÎÄ¼şÃû
+   * æ ¼å¼åŒ–æ¬²ä¿å­˜çš„æ–‡ä»¶å
    * 
    * @param strFileName
-   *          ÎÄ¼şµÄÍêÕûÂ·¾¶
+   *          æ–‡ä»¶çš„å®Œæ•´è·¯å¾„
    * @param fileFilter
-   *          µ±Ç°µÄÎÄ¼şÀàĞÍ¹ıÂËÆ÷
+   *          å½“å‰çš„æ–‡ä»¶ç±»å‹è¿‡æ»¤å™¨
    * @param strExt
-   *          Óû±£´æÎÄ¼şµÄÀ©Õ¹Ãû
-   * @return ¸ñÊ½»¯ºóµÄÎÄ¼ş
+   *          æ¬²ä¿å­˜æ–‡ä»¶çš„æ‰©å±•å
+   * @return æ ¼å¼åŒ–åçš„æ–‡ä»¶
    */
   public static File checkFileName(String strFileName, BaseFileFilter fileFilter, String strExt) {
     if (isTextEmpty(strFileName) || fileFilter == null || isTextEmpty(strExt)) {
@@ -450,7 +450,7 @@ public final class Util {
   }
 
   /**
-   * ĞŞ¸ÄÕû¸ö³ÌĞòµÄÄ¬ÈÏ×ÖÌå
+   * ä¿®æ”¹æ•´ä¸ªç¨‹åºçš„é»˜è®¤å­—ä½“
    */
   public static void setDefaultFont() {
     FontUIResource fontRes = new FontUIResource(GLOBAL_FONT);
@@ -465,21 +465,21 @@ public final class Util {
   }
 
   /**
-   * ÔÚÎÄ±¾×é¼şÖĞ²éÕÒ×Ö·û´®
+   * åœ¨æ–‡æœ¬ç»„ä»¶ä¸­æŸ¥æ‰¾å­—ç¬¦ä¸²
    * 
    * @param strFindText
-   *          ²éÕÒµÄ×Ö·û´®
+   *          æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
    * @param txcSource
-   *          ÎÄ±¾×é¼ş
+   *          æ–‡æœ¬ç»„ä»¶
    * @param isFindDown
-   *          ÊÇ·ñÏòÏÂ²éÕÒ
+   *          æ˜¯å¦å‘ä¸‹æŸ¥æ‰¾
    * @param isMatchCase
-   *          ÊÇ·ñÇø·Ö´óĞ¡Ğ´
+   *          æ˜¯å¦åŒºåˆ†å¤§å°å†™
    * @param isWrap
-   *          ÊÇ·ñÑ­»·²éÕÒ
+   *          æ˜¯å¦å¾ªç¯æŸ¥æ‰¾
    * @param searchStyle
-   *          ËÑË÷Ä£Ê½
-   * @return ²éÕÒµÄ×Ö·û´®Î»ÓÚÎÄ±¾×é¼şÖĞµÄË÷Òı
+   *          æœç´¢æ¨¡å¼
+   * @return æŸ¥æ‰¾çš„å­—ç¬¦ä¸²ä½äºæ–‡æœ¬ç»„ä»¶ä¸­çš„ç´¢å¼•
    */
   public static int findText(String strFindText, JTextComponent txcSource,
     boolean isFindDown, boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
@@ -491,19 +491,19 @@ public final class Util {
   }
 
   /**
-   * ÔÚÎÄ±¾×é¼şÖĞÏòÏÂ²éÕÒ×Ö·û´®
+   * åœ¨æ–‡æœ¬ç»„ä»¶ä¸­å‘ä¸‹æŸ¥æ‰¾å­—ç¬¦ä¸²
    * 
    * @param strFindText
-   *          ²éÕÒµÄ×Ö·û´®
+   *          æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
    * @param txcSource
-   *          ÎÄ±¾×é¼ş
+   *          æ–‡æœ¬ç»„ä»¶
    * @param isMatchCase
-   *          ÊÇ·ñÇø·Ö´óĞ¡Ğ´
+   *          æ˜¯å¦åŒºåˆ†å¤§å°å†™
    * @param isWrap
-   *          ÊÇ·ñÑ­»·²éÕÒ
+   *          æ˜¯å¦å¾ªç¯æŸ¥æ‰¾
    * @param searchStyle
-   *          ËÑË÷Ä£Ê½
-   * @return ²éÕÒµÄ×Ö·û´®Î»ÓÚÎÄ±¾×é¼şÖĞµÄË÷Òı
+   *          æœç´¢æ¨¡å¼
+   * @return æŸ¥æ‰¾çš„å­—ç¬¦ä¸²ä½äºæ–‡æœ¬ç»„ä»¶ä¸­çš„ç´¢å¼•
    */
   private static int findDownText(String strFindText, JTextComponent txcSource,
       boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
@@ -520,7 +520,7 @@ public final class Util {
     String strSourceAll = txcSource.getText();
     if (!isMatchCase) {
       if (searchStyle == SearchStyle.PATTERN) {
-        strFindText = "(?i)" + strFindText; // ÕıÔò±í´ïÊ½ÖĞ£¬¿ÉÓÃ(?i)´ò¿ª²»Çø·Ö´óĞ¡Ğ´µÄÊôĞÔ
+        strFindText = "(?i)" + strFindText; // æ­£åˆ™è¡¨è¾¾å¼ä¸­ï¼Œå¯ç”¨(?i)æ‰“å¼€ä¸åŒºåˆ†å¤§å°å†™çš„å±æ€§
       } else {
         strFindText = strFindText.toLowerCase();
       }
@@ -562,19 +562,19 @@ public final class Util {
   }
 
   /**
-   * ÔÚÎÄ±¾×é¼şÖĞÏòÉÏ²éÕÒ×Ö·û´®
+   * åœ¨æ–‡æœ¬ç»„ä»¶ä¸­å‘ä¸ŠæŸ¥æ‰¾å­—ç¬¦ä¸²
    * 
    * @param strFindText
-   *          ²éÕÒµÄ×Ö·û´®
+   *          æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
    * @param txcSource
-   *          ÎÄ±¾×é¼ş
+   *          æ–‡æœ¬ç»„ä»¶
    * @param isMatchCase
-   *          ÊÇ·ñÇø·Ö´óĞ¡Ğ´
+   *          æ˜¯å¦åŒºåˆ†å¤§å°å†™
    * @param isWrap
-   *          ÊÇ·ñÑ­»·²éÕÒ
+   *          æ˜¯å¦å¾ªç¯æŸ¥æ‰¾
    * @param searchStyle
-   *          ËÑË÷Ä£Ê½
-   * @return ²éÕÒµÄ×Ö·û´®Î»ÓÚÎÄ±¾×é¼şÖĞµÄË÷Òı
+   *          æœç´¢æ¨¡å¼
+   * @return æŸ¥æ‰¾çš„å­—ç¬¦ä¸²ä½äºæ–‡æœ¬ç»„ä»¶ä¸­çš„ç´¢å¼•
    */
   private static int findUpText(String strFindText, JTextComponent txcSource,
       boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
@@ -593,7 +593,7 @@ public final class Util {
     if (strSel != null) {
       if (!isMatchCase) {
         if (searchStyle == SearchStyle.PATTERN) {
-          if (strSel.matches("(?i)" + strFindText)) { // ÕıÔò±í´ïÊ½ÖĞ£¬¿ÉÓÃ(?i)´ò¿ª²»Çø·Ö´óĞ¡Ğ´µÄÊôĞÔ
+          if (strSel.matches("(?i)" + strFindText)) { // æ­£åˆ™è¡¨è¾¾å¼ä¸­ï¼Œå¯ç”¨(?i)æ‰“å¼€ä¸åŒºåˆ†å¤§å°å†™çš„å±æ€§
             caretPos -= strSel.length();
           }
         } else if (strSel.equalsIgnoreCase(strFindText)) {
@@ -612,7 +612,7 @@ public final class Util {
     String strSourceAll = txcSource.getText();
     if (!isMatchCase) {
       if (searchStyle == SearchStyle.PATTERN) {
-        strFindText = "(?i)" + strFindText; // ÕıÔò±í´ïÊ½ÖĞ£¬¿ÉÓÃ(?i)´ò¿ª²»Çø·Ö´óĞ¡Ğ´µÄÊôĞÔ
+        strFindText = "(?i)" + strFindText; // æ­£åˆ™è¡¨è¾¾å¼ä¸­ï¼Œå¯ç”¨(?i)æ‰“å¼€ä¸åŒºåˆ†å¤§å°å†™çš„å±æ€§
       } else {
         strFindText = strFindText.toLowerCase();
       }
@@ -648,19 +648,19 @@ public final class Util {
   }
 
   /**
-   * ÒÔ¸ø¶¨µÄÆğÊ¼Ë÷ÒıÔÚÎÄ±¾×é¼şÖĞ²éÕÒ×Ö·û´®
+   * ä»¥ç»™å®šçš„èµ·å§‹ç´¢å¼•åœ¨æ–‡æœ¬ç»„ä»¶ä¸­æŸ¥æ‰¾å­—ç¬¦ä¸²
    * 
    * @param strFindText
-   *          ²éÕÒµÄ×Ö·û´®
+   *          æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
    * @param txcSource
-   *          ÎÄ±¾×é¼ş
+   *          æ–‡æœ¬ç»„ä»¶
    * @param caretPos
-   *          Ö¸¶¨µÄÆğÊ¼Ë÷Òı
+   *          æŒ‡å®šçš„èµ·å§‹ç´¢å¼•
    * @param isMatchCase
-   *          ÊÇ·ñÇø·Ö´óĞ¡Ğ´
+   *          æ˜¯å¦åŒºåˆ†å¤§å°å†™
    * @param searchStyle
-   *          ËÑË÷Ä£Ê½
-   * @return ²éÕÒµÄ×Ö·û´®Î»ÓÚÎÄ±¾×é¼şÖĞµÄË÷Òı
+   *          æœç´¢æ¨¡å¼
+   * @return æŸ¥æ‰¾çš„å­—ç¬¦ä¸²ä½äºæ–‡æœ¬ç»„ä»¶ä¸­çš„ç´¢å¼•
    */
   public static int findText(String strFindText, JTextComponent txcSource, int caretPos,
       boolean isMatchCase, SearchStyle searchStyle) {
@@ -677,7 +677,7 @@ public final class Util {
     String strSourceAll = txcSource.getText();
     if (!isMatchCase) {
       if (searchStyle == SearchStyle.PATTERN) {
-        strFindText = "(?i)" + strFindText; // ÕıÔò±í´ïÊ½ÖĞ£¬¿ÉÓÃ(?i)´ò¿ª²»Çø·Ö´óĞ¡Ğ´µÄÊôĞÔ
+        strFindText = "(?i)" + strFindText; // æ­£åˆ™è¡¨è¾¾å¼ä¸­ï¼Œå¯ç”¨(?i)æ‰“å¼€ä¸åŒºåˆ†å¤§å°å†™çš„å±æ€§
       } else {
         strFindText = strFindText.toLowerCase();
       }
@@ -706,13 +706,13 @@ public final class Util {
   }
 
   /**
-   * ¸ù¾İÎÄ¼ş¿ªÍ·µÄBOM£¨Èç¹û´æÔÚµÄ»°£©£¬ÅĞ¶ÏÎÄ¼şµÄ±àÂë¸ñÊ½¡£ ÎÄ±¾ÎÄ¼şÓĞ¸÷ÖÖ²»Í¬µÄ±àÂë¸ñÊ½£¬Èç¹ûÅĞ¶ÏÓĞÎó£¬Ôò»áµ¼ÖÂÏÔÊ¾»ò±£´æ´íÎó¡£
-   * ÎªÁË±êÊ¶ÎÄ¼şµÄ±àÂë¸ñÊ½£¬±ãÓÚ±à¼­ºÍ±£´æ£¬ÔòÔÚÎÄ¼ş¿ªÍ·¼ÓÈëÁËBOM£¬ÓÃÒÔ±êÊ¶±àÂë¸ñÊ½¡£ UTF-8¸ñÊ½£º0xef 0xbb 0xbf£¬ Unicode
-   * Little Endian¸ñÊ½£º0xff 0xfe£¬ Unicode Big Endian¸ñÊ½£º0xfe
-   * 0xff¡£¶øANSI¸ñÊ½ÊÇÃ»ÓĞBOMµÄ¡£ÁíÓĞÒ»ÖÖ²»º¬BOMµÄUTF-8¸ñÊ½µÄÎÄ¼ş£¬Ôò²»Ò×ÓëANSIÏàÇø·Ö£¬Òò´ËĞèÒª½øÒ»²½¼ì²â¡£
+   * æ ¹æ®æ–‡ä»¶å¼€å¤´çš„BOMï¼ˆå¦‚æœå­˜åœ¨çš„è¯ï¼‰ï¼Œåˆ¤æ–­æ–‡ä»¶çš„ç¼–ç æ ¼å¼ã€‚ æ–‡æœ¬æ–‡ä»¶æœ‰å„ç§ä¸åŒçš„ç¼–ç æ ¼å¼ï¼Œå¦‚æœåˆ¤æ–­æœ‰è¯¯ï¼Œåˆ™ä¼šå¯¼è‡´æ˜¾ç¤ºæˆ–ä¿å­˜é”™è¯¯ã€‚
+   * ä¸ºäº†æ ‡è¯†æ–‡ä»¶çš„ç¼–ç æ ¼å¼ï¼Œä¾¿äºç¼–è¾‘å’Œä¿å­˜ï¼Œåˆ™åœ¨æ–‡ä»¶å¼€å¤´åŠ å…¥äº†BOMï¼Œç”¨ä»¥æ ‡è¯†ç¼–ç æ ¼å¼ã€‚ UTF-8æ ¼å¼ï¼š0xef 0xbb 0xbfï¼Œ Unicode
+   * Little Endianæ ¼å¼ï¼š0xff 0xfeï¼Œ Unicode Big Endianæ ¼å¼ï¼š0xfe
+   * 0xffã€‚è€ŒANSIæ ¼å¼æ˜¯æ²¡æœ‰BOMçš„ã€‚å¦æœ‰ä¸€ç§ä¸å«BOMçš„UTF-8æ ¼å¼çš„æ–‡ä»¶ï¼Œåˆ™ä¸æ˜“ä¸ANSIç›¸åŒºåˆ†ï¼Œå› æ­¤éœ€è¦è¿›ä¸€æ­¥æ£€æµ‹ã€‚
    * 
    * @param file
-   *          ´ıÅĞ¶ÏµÄÎÄ¼ş
+   *          å¾…åˆ¤æ–­çš„æ–‡ä»¶
    */
   public static CharEncoding checkFileEncoding(File file) {
     FileInputStream fileInputStream = null;
@@ -747,14 +747,14 @@ public final class Util {
   }
 
   /**
-   * ÅĞ¶ÏÎÄ¼şÊÇ·ñÎªUTF8ÎŞBOM¸ñÊ½¡£
-   * UTF-8µÄ±àÂë¹æÔòºÜ¼òµ¥£¬Ö»ÓĞ2Ìõ£º
-   * 1.¶ÔÓÚµ¥×Ö½ÚµÄ×Ö·û£¬×Ö½ÚµÄµÚÒ»Î»ÉèÎª0£¬ºóÃæ7Î»ÎªÕâ¸ö·ûºÅµÄunicodeÂë¡£Òò´Ë¶ÔÓÚÓ¢Óï×ÖÄ¸£¬UTF-8±àÂëºÍASCIIÂëÊÇÏàÍ¬µÄ¡£
-   * 2.¶ÔÓÚn×Ö½ÚµÄ×Ö·û(n>1 && n<=6)£¬µÚÒ»¸ö×Ö½ÚµÄÇ°nÎ»¶¼Îª1£¬µÚn+1Î»Îª0£¬ºóÃæ×Ö½ÚµÄÇ°Á½Î»¶¼Îª10¡£Ê£ÏÂµÄÆäËûÎ»£¬¼´Îª´Ë×Ö·ûµÄunicodeÂë¡£
+   * åˆ¤æ–­æ–‡ä»¶æ˜¯å¦ä¸ºUTF8æ— BOMæ ¼å¼ã€‚
+   * UTF-8çš„ç¼–ç è§„åˆ™å¾ˆç®€å•ï¼Œåªæœ‰2æ¡ï¼š
+   * 1.å¯¹äºå•å­—èŠ‚çš„å­—ç¬¦ï¼Œå­—èŠ‚çš„ç¬¬ä¸€ä½è®¾ä¸º0ï¼Œåé¢7ä½ä¸ºè¿™ä¸ªç¬¦å·çš„unicodeç ã€‚å› æ­¤å¯¹äºè‹±è¯­å­—æ¯ï¼ŒUTF-8ç¼–ç å’ŒASCIIç æ˜¯ç›¸åŒçš„ã€‚
+   * 2.å¯¹äºnå­—èŠ‚çš„å­—ç¬¦(n>1 && n<=6)ï¼Œç¬¬ä¸€ä¸ªå­—èŠ‚çš„å‰nä½éƒ½ä¸º1ï¼Œç¬¬n+1ä½ä¸º0ï¼Œåé¢å­—èŠ‚çš„å‰ä¸¤ä½éƒ½ä¸º10ã€‚å‰©ä¸‹çš„å…¶ä»–ä½ï¼Œå³ä¸ºæ­¤å­—ç¬¦çš„unicodeç ã€‚
    * 
    * @param file
-   *          ´ıÅĞ¶ÏµÄÎÄ¼ş
-   * @return ÊÇ·ñÎªUTF8ÎŞBOM¸ñÊ½£¬ÊÇUTF8ÎŞBOM¸ñÊ½·µ»Øtrue£¬·´Ö®·µ»Øfalse
+   *          å¾…åˆ¤æ–­çš„æ–‡ä»¶
+   * @return æ˜¯å¦ä¸ºUTF8æ— BOMæ ¼å¼ï¼Œæ˜¯UTF8æ— BOMæ ¼å¼è¿”å›trueï¼Œåä¹‹è¿”å›false
    */
   private static boolean isUTF8NoBom(File file) {
     FileInputStream fileInputStream = null;
@@ -778,25 +778,25 @@ public final class Util {
     int asciibytes = 0;
     int rawtextlen = rawtext.length;
     for (int i = 0; i < rawtextlen; i++) {
-      if ((rawtext[i] & (byte) 0x7F) == rawtext[i]) { // µ¥×Ö½Ú×Ö·û
+      if ((rawtext[i] & (byte) 0x7F) == rawtext[i]) { // å•å­—èŠ‚å­—ç¬¦
         asciibytes++;
       } else if (-64 <= rawtext[i] && rawtext[i] <= -33
         && i + 1 < rawtextlen
         && -128 <= rawtext[i + 1]
-        && rawtext[i + 1] <= -65) { // Ë«×Ö½Ú×Ö·û
+        && rawtext[i + 1] <= -65) { // åŒå­—èŠ‚å­—ç¬¦
         goodbytes += 2;
         i++;
       } else if (-32 <= rawtext[i] && rawtext[i] <= -17
         && i + 2 < rawtextlen
         && -128 <= rawtext[i + 1] && rawtext[i + 1] <= -65
-        && -128 <= rawtext[i + 2] && rawtext[i + 2] <= -65) { // Èı×Ö½Ú×Ö·û
+        && -128 <= rawtext[i + 2] && rawtext[i + 2] <= -65) { // ä¸‰å­—èŠ‚å­—ç¬¦
         goodbytes += 3;
         i += 2;
       } else if (-16 <= rawtext[i] && rawtext[i] <= -9
         && i + 3 < rawtextlen
         && -128 <= rawtext[i + 1] && rawtext[i + 1] <= -65
         && -128 <= rawtext[i + 2] && rawtext[i + 2] <= -65
-        && -128 <= rawtext[i + 3] && rawtext[i + 3] <= -65) { // ËÄ×Ö½Ú×Ö·û
+        && -128 <= rawtext[i + 3] && rawtext[i + 3] <= -65) { // å››å­—èŠ‚å­—ç¬¦
         goodbytes += 4;
         i += 3;
       }
@@ -817,10 +817,10 @@ public final class Util {
   }
 
   /**
-   * É¾³ıÄ¿Â¼ÏÂµÄËùÓĞÎÄ¼ş
+   * åˆ é™¤ç›®å½•ä¸‹çš„æ‰€æœ‰æ–‡ä»¶
    * 
    * @param file
-   *          Ä¿Â¼ÎÄ¼ş
+   *          ç›®å½•æ–‡ä»¶
    */
   public static void deleteAllFiles(File file) {
     if (!file.exists()) {
@@ -837,32 +837,32 @@ public final class Util {
   }
 
   /**
-   * ½«¸ø¶¨µÄ×Ö·û´®½øĞĞ×ªÒåÌæ»»£¬¼´½«×Ö·û´®ÖĞµÄ\nÌæ»»Îª»»ĞĞ·û£¬\tÌæ»»Îªtab×Ö·û
+   * å°†ç»™å®šçš„å­—ç¬¦ä¸²è¿›è¡Œè½¬ä¹‰æ›¿æ¢ï¼Œå³å°†å­—ç¬¦ä¸²ä¸­çš„\næ›¿æ¢ä¸ºæ¢è¡Œç¬¦ï¼Œ\tæ›¿æ¢ä¸ºtabå­—ç¬¦
    * 
    * @param strSource
-   *          ´¦ÀíµÄ×Ö·û´®
-   * @return Ìæ»»ºóµÄ×Ö·û´®
+   *          å¤„ç†çš„å­—ç¬¦ä¸²
+   * @return æ›¿æ¢åçš„å­—ç¬¦ä¸²
    */
   public static String transfer(String strSource) {
-    return strSource.replace("\\n", "\n").replace("\\t", "\t"); // ½«×Ö·û´®ÖĞµÄ\nÌæ»»Îª»»ĞĞ·û£¬\tÌæ»»Îªtab×Ö·û
+    return strSource.replace("\\n", "\n").replace("\\t", "\t"); // å°†å­—ç¬¦ä¸²ä¸­çš„\næ›¿æ¢ä¸ºæ¢è¡Œç¬¦ï¼Œ\tæ›¿æ¢ä¸ºtabå­—ç¬¦
   }
 
   /**
-   * ½«¸ø¶¨µÄ¿ì½İ¼ü×éºÏµÄ³£Á¿×Ö·û´®ĞÎÊ½×ª»»Îª¿ì½İ¼üÃèÊö
+   * å°†ç»™å®šçš„å¿«æ·é”®ç»„åˆçš„å¸¸é‡å­—ç¬¦ä¸²å½¢å¼è½¬æ¢ä¸ºå¿«æ·é”®æè¿°
    * 
    * @param shortcut
-   *          ±íÊ¾¿ì½İ¼ü×éºÏµÄ³£Á¿×Ö·û´®
-   * @return ±íÊ¾¿ì½İ¼üÃèÊöµÄ×Ö·û´®
+   *          è¡¨ç¤ºå¿«æ·é”®ç»„åˆçš„å¸¸é‡å­—ç¬¦ä¸²
+   * @return è¡¨ç¤ºå¿«æ·é”®æè¿°çš„å­—ç¬¦ä¸²
    */
   public static String transferShortcut(String shortcut) {
     String value = "";
     if (isTextEmpty(shortcut)) {
       return value;
     }
-    boolean hasCtrl = false; // ÊÇ·ñº¬ÓĞCtrl¼ü
-    boolean hasAlt = false; // ÊÇ·ñº¬ÓĞAlt¼ü
-    boolean hasShift = false; // ÊÇ·ñº¬ÓĞShift¼ü
-    boolean hasCommand = false; // ÊÇ·ñº¬ÓĞShift¼ü
+    boolean hasCtrl = false; // æ˜¯å¦å«æœ‰Ctrlé”®
+    boolean hasAlt = false; // æ˜¯å¦å«æœ‰Alté”®
+    boolean hasShift = false; // æ˜¯å¦å«æœ‰Shifté”®
+    boolean hasCommand = false; // æ˜¯å¦å«æœ‰Shifté”®
     String[] arrKeys = shortcut.split("\\+");
     for (String str : arrKeys) {
       if (CTRL.equalsIgnoreCase(str)) {
@@ -873,7 +873,7 @@ public final class Util {
         hasShift = true;
       } else if (COMMAND.equalsIgnoreCase(str)) {
         hasCommand = true;
-      } else { // ³ı¿ØÖÆ¼üÖ®ÍâµÄ°´¼ü
+      } else { // é™¤æ§åˆ¶é”®ä¹‹å¤–çš„æŒ‰é”®
         String strKey = transferKeyCode(str);
         if (!isTextEmpty(strKey)) {
           value = strKey;
@@ -898,11 +898,11 @@ public final class Util {
   }
 
   /**
-   * ½«¸ø¶¨µÄ×Ö·û´®ĞÎÊ½µÄ°´¼ü³£Á¿×ª»»Îª°´¼üÃèÊö
+   * å°†ç»™å®šçš„å­—ç¬¦ä¸²å½¢å¼çš„æŒ‰é”®å¸¸é‡è½¬æ¢ä¸ºæŒ‰é”®æè¿°
    * 
    * @param strKeyCode
-   *          ±íÊ¾°´¼ü³£Á¿µÄ×Ö·û´®
-   * @return ±íÊ¾°´¼üÃèÊöµÄ×Ö·û´®
+   *          è¡¨ç¤ºæŒ‰é”®å¸¸é‡çš„å­—ç¬¦ä¸²
+   * @return è¡¨ç¤ºæŒ‰é”®æè¿°çš„å­—ç¬¦ä¸²
    */
   public static String transferKeyCode(String strKeyCode) {
     String strKey = "";
@@ -916,19 +916,19 @@ public final class Util {
   }
 
   /**
-   * ½«¸ø¶¨µÄ¿ì½İ¼ü×éºÏµÄ³£Á¿×Ö·û´®ĞÎÊ½×ª»»Îª¿ÉÓÃÓÚ¿ì½İ¼üÉèÖÃµÄ¶ÔÏó
+   * å°†ç»™å®šçš„å¿«æ·é”®ç»„åˆçš„å¸¸é‡å­—ç¬¦ä¸²å½¢å¼è½¬æ¢ä¸ºå¯ç”¨äºå¿«æ·é”®è®¾ç½®çš„å¯¹è±¡
    * 
    * @param shortcut
-   *          ±íÊ¾¿ì½İ¼ü×éºÏµÄ³£Á¿×Ö·û´®
-   * @return ±íÊ¾¿ÉÓÃÓÚ¿ì½İ¼üÉèÖÃµÄ¶ÔÏó
+   *          è¡¨ç¤ºå¿«æ·é”®ç»„åˆçš„å¸¸é‡å­—ç¬¦ä¸²
+   * @return è¡¨ç¤ºå¯ç”¨äºå¿«æ·é”®è®¾ç½®çš„å¯¹è±¡
    */
   public static KeyStroke transferKeyStroke(String shortcut) {
     KeyStroke keyStroke = null;
     if (isTextEmpty(shortcut)) {
       return keyStroke;
     }
-    int modifiers = 0; // ¿ØÖÆ¼üµÄÀ©Õ¹ĞŞÊÎ·û³£Á¿£¬0±íÊ¾Ã»ÓĞ¿ØÖÆ¼ü
-    int keyCode = -1; // ³ı¿ØÖÆ¼üÖ®ÍâµÄ°´¼ü³£Á¿
+    int modifiers = 0; // æ§åˆ¶é”®çš„æ‰©å±•ä¿®é¥°ç¬¦å¸¸é‡ï¼Œ0è¡¨ç¤ºæ²¡æœ‰æ§åˆ¶é”®
+    int keyCode = -1; // é™¤æ§åˆ¶é”®ä¹‹å¤–çš„æŒ‰é”®å¸¸é‡
     String[] arrKeys = shortcut.split("\\+");
     for (String str : arrKeys) {
       if (CTRL.equalsIgnoreCase(str)) {
@@ -939,7 +939,7 @@ public final class Util {
         modifiers += InputEvent.SHIFT_DOWN_MASK;
       } else if (COMMAND.equalsIgnoreCase(str)) {
         modifiers += InputEvent.META_DOWN_MASK;
-      } else { // ³ı¿ØÖÆ¼üÖ®ÍâµÄ°´¼ü
+      } else { // é™¤æ§åˆ¶é”®ä¹‹å¤–çš„æŒ‰é”®
         try {
           keyCode = Integer.parseInt(str);
         } catch (Exception x) {
@@ -954,13 +954,13 @@ public final class Util {
   }
 
   /**
-   * ½«¸ø¶¨µÄÊı×Ö×ª»»Îªºº×Ö¸ñÊ½
+   * å°†ç»™å®šçš„æ•°å­—è½¬æ¢ä¸ºæ±‰å­—æ ¼å¼
    * 
    * @param number
-   *          ´ı×ª»»µÄÊı×Ö
+   *          å¾…è½¬æ¢çš„æ•°å­—
    * @param isTraditional
-   *          ÊÇ·ñ×ª»»Îª·±Ìåºº×Ö£¬Îªtrue±íÊ¾×ª»»Îª·±Ìå£¬·´Ö®×ª»»Îª¼òÌå
-   * @return ×ª»»ºóµÄ×Ö·û´®
+   *          æ˜¯å¦è½¬æ¢ä¸ºç¹ä½“æ±‰å­—ï¼Œä¸ºtrueè¡¨ç¤ºè½¬æ¢ä¸ºç¹ä½“ï¼Œåä¹‹è½¬æ¢ä¸ºç®€ä½“
+   * @return è½¬æ¢åçš„å­—ç¬¦ä¸²
    */
   public static String intToChinese(int number, boolean isTraditional) {
     String str = "";
@@ -975,9 +975,9 @@ public final class Util {
     int r = 0;
     int l = 0;
     for (int j = 0; j < sb.length(); j++) {
-      r = Integer.valueOf(sb.substring(j, j + 1)); // µ±Ç°Êı×Ö
+      r = Integer.valueOf(sb.substring(j, j + 1)); // å½“å‰æ•°å­—
       if (j != 0) {
-        l = Integer.valueOf(sb.substring(j - 1, j)); // ÉÏÒ»¸öÊı×Ö
+        l = Integer.valueOf(sb.substring(j - 1, j)); // ä¸Šä¸€ä¸ªæ•°å­—
       }
       if (j == 0) {
         if (r != 0 || sb.length() == 1) {
@@ -1001,7 +1001,7 @@ public final class Util {
         continue;
       }
     }
-    // ÎªÁË½â¾öÊıÖµÎª£º10~19Ê±£¬»áÔÚ¿ªÍ·¶à¡°Ò»¡±µÄÎÊÌâ
+    // ä¸ºäº†è§£å†³æ•°å€¼ä¸ºï¼š10~19æ—¶ï¼Œä¼šåœ¨å¼€å¤´å¤šâ€œä¸€â€çš„é—®é¢˜
     if (number >= 10 && number <= 19) {
       str = str.substring(1);
     }
@@ -1009,11 +1009,11 @@ public final class Util {
   }
 
   /**
-   * ½«¸ø¶¨µÄÊı×Ö×ª»»ÎªÈ«½ÇÊı×Ö
+   * å°†ç»™å®šçš„æ•°å­—è½¬æ¢ä¸ºå…¨è§’æ•°å­—
    * 
    * @param number
-   *          ´ı×ª»»µÄÊı×Ö
-   * @return ×ª»»ºóµÄ×Ö·û´®
+   *          å¾…è½¬æ¢çš„æ•°å­—
+   * @return è½¬æ¢åçš„å­—ç¬¦ä¸²
    */
   public static String intToFullWidth(int number) {
     char[] arrChar = String.valueOf(number).toCharArray();
@@ -1056,13 +1056,13 @@ public final class Util {
   }
 
   /**
-   * ½«¸ø¶¨µÄÊı×Ö×ª»»ÎªÓ¢ÎÄ×ÖÄ¸
+   * å°†ç»™å®šçš„æ•°å­—è½¬æ¢ä¸ºè‹±æ–‡å­—æ¯
    * 
    * @param number
-   *          ´ı×ª»»µÄÊı×Ö
+   *          å¾…è½¬æ¢çš„æ•°å­—
    * @param isUpperCase
-   *          ÊÇ·ñ×ª»»Îª´óĞ´£¬Îªtrue±íÊ¾×ª»»Îª´óĞ´£¬·´Ö®×ª»»ÎªĞ¡Ğ´
-   * @return ×ª»»ºóµÄ×Ö·û´®
+   *          æ˜¯å¦è½¬æ¢ä¸ºå¤§å†™ï¼Œä¸ºtrueè¡¨ç¤ºè½¬æ¢ä¸ºå¤§å†™ï¼Œåä¹‹è½¬æ¢ä¸ºå°å†™
+   * @return è½¬æ¢åçš„å­—ç¬¦ä¸²
    */
   public static String intToLetter(int number, boolean isUpperCase) {
     String strNumber = Integer.toString(number, LOWER_CASE_LETTERS.length()).toLowerCase();
@@ -1071,7 +1071,7 @@ public final class Util {
       char ch = arrChar[i];
       int index = HALF_WIDTH_NUMBERS.indexOf(ch);
       if (index >= 0) {
-        // Êı×ÖµÄ×î¸ßÎ»ĞèÒªÌØÊâ´¦Àí
+        // æ•°å­—çš„æœ€é«˜ä½éœ€è¦ç‰¹æ®Šå¤„ç†
         if (i == 0) {
           arrChar[i] = LOWER_CASE_LETTERS.charAt(index - 1);
         } else {
@@ -1092,11 +1092,11 @@ public final class Util {
   }
 
   /**
-   * ½«¸ø¶¨µÄÊı×Ö×ª»»Îª¸ÉÖ§
+   * å°†ç»™å®šçš„æ•°å­—è½¬æ¢ä¸ºå¹²æ”¯
    * 
    * @param number
-   *          ´ı×ª»»µÄÊı×Ö
-   * @return ×ª»»ºóµÄ×Ö·û´®
+   *          å¾…è½¬æ¢çš„æ•°å­—
+   * @return è½¬æ¢åçš„å­—ç¬¦ä¸²
    */
   public static String intToGanZhi(int number) {
     int len1 = IDENTIFIER_TIANGAN.length();
@@ -1105,13 +1105,13 @@ public final class Util {
   }
 
   /**
-   * »ñÈ¡×Ö·û´®µÄ¼ÓÃÜÖµ
+   * è·å–å­—ç¬¦ä¸²çš„åŠ å¯†å€¼
    * 
    * @param string
-   *          ×Ö·û´®
+   *          å­—ç¬¦ä¸²
    * @param digestType
-   *          ¼ÓÃÜÀàĞÍ£¬Ö§³Ö£ºMD5¡¢SHA¡¢SHA-224¡¢SHA-256¡¢SHA-384¡¢SHA-512
-   * @return ×Ö·û´®µÄ¼ÓÃÜÖµ
+   *          åŠ å¯†ç±»å‹ï¼Œæ”¯æŒï¼šMD5ã€SHAã€SHA-224ã€SHA-256ã€SHA-384ã€SHA-512
+   * @return å­—ç¬¦ä¸²çš„åŠ å¯†å€¼
    */
   public static String getStringDigest(String string, String digestType) {
     if (isTextEmpty(string)) {
@@ -1124,9 +1124,9 @@ public final class Util {
       byte[] bytes = digest.digest(string.getBytes("utf-8"));
       String hexStr = "0123456789abcdef";
       for (int i = 0; i < bytes.length; i++) {
-        // ×Ö½Ú¸ß4Î»
+        // å­—èŠ‚é«˜4ä½
         hex.append(String.valueOf(hexStr.charAt((bytes[i] & 0xF0) >> 4)));
-        // ×Ö½ÚµÍ4Î»
+        // å­—èŠ‚ä½4ä½
         hex.append(String.valueOf(hexStr.charAt(bytes[i] & 0x0F)));
       }
     } catch (Exception x) {
@@ -1136,13 +1136,13 @@ public final class Util {
   }
 
   /**
-   * »ñÈ¡ÎÄ¼şµÄ¼ÓÃÜÖµ
+   * è·å–æ–‡ä»¶çš„åŠ å¯†å€¼
    * 
    * @param file
-   *          ÎÄ¼ş
+   *          æ–‡ä»¶
    * @param digestType
-   *          ¼ÓÃÜÀàĞÍ£¬Ö§³Ö£ºMD5¡¢SHA¡¢SHA-224¡¢SHA-256¡¢SHA-384¡¢SHA-512
-   * @return ÎÄ¼şµÄ¼ÓÃÜÖµ
+   *          åŠ å¯†ç±»å‹ï¼Œæ”¯æŒï¼šMD5ã€SHAã€SHA-224ã€SHA-256ã€SHA-384ã€SHA-512
+   * @return æ–‡ä»¶çš„åŠ å¯†å€¼
    */
   public static String getFileDigest(File file, String digestType) {
     if (!file.isFile()) {
@@ -1168,16 +1168,16 @@ public final class Util {
   }
 
   /**
-   * ¼ì²âÎÄ¼şÒÔ¼°ËùÔÚµÄÄ¿Â¼ÊÇ·ñ´æÔÚ
+   * æ£€æµ‹æ–‡ä»¶ä»¥åŠæ‰€åœ¨çš„ç›®å½•æ˜¯å¦å­˜åœ¨
    * 
    * @param file
-   *          ±»¼ì²âµÄÎÄ¼ş
-   * @return ±»¼ì²âÎÄ¼şÊÇ·ñ´æÔÚ£¬Èç¹û´æÔÚ·µ»Øtrue£¬·´Ö®ÔòÎªfalse
+   *          è¢«æ£€æµ‹çš„æ–‡ä»¶
+   * @return è¢«æ£€æµ‹æ–‡ä»¶æ˜¯å¦å­˜åœ¨ï¼Œå¦‚æœå­˜åœ¨è¿”å›trueï¼Œåä¹‹åˆ™ä¸ºfalse
    */
   public static boolean checkFile(File file) {
-    File fileParent = new File(file.getParent()); // »ñÈ¡ÎÄ¼şµÄ¸¸Ä¿Â¼
+    File fileParent = new File(file.getParent()); // è·å–æ–‡ä»¶çš„çˆ¶ç›®å½•
     if (!fileParent.exists()) {
-      fileParent.mkdirs(); // Èç¹û¸¸Ä¿Â¼²»´æÔÚ£¬Ôò´´½¨Ö®
+      fileParent.mkdirs(); // å¦‚æœçˆ¶ç›®å½•ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»ºä¹‹
     }
     return file.exists();
   }

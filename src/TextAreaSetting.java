@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,26 +21,26 @@ import java.awt.Color;
 import java.awt.Font;
 
 /**
- * ÓÃÓÚ³õÊ¼»¯ÎÄ±¾ÓòµÄÊôĞÔÅäÖÃÀà¡£
+ * ç”¨äºåˆå§‹åŒ–æ–‡æœ¬åŸŸçš„å±æ€§é…ç½®ç±»ã€‚
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class TextAreaSetting {
-  public boolean isLineWrap = true; // ÊÇ·ñ×Ô¶¯»»ĞĞ
-  public boolean isWrapStyleWord = true; // ÊÇ·ñµ¥´Ê±ß½ç»»ĞĞ
-  public LineSeparator lineSeparator = LineSeparator.DEFAULT; // »»ĞĞ·û¸ñÊ½
-  public CharEncoding charEncoding = CharEncoding.BASE; // ×Ö·û±àÂë¸ñÊ½
-  public Font font = Util.TEXT_FONT; // ÎÄ±¾Óò×ÖÌå
-  public boolean autoIndent = false; // ÊÇ·ñ¿É×Ô¶¯Ëõ½ø
-  public boolean tabReplaceBySpace = false; // ÊÇ·ñÒÔ¿Õ¸ñ´úÌæTab¼ü
-  public boolean autoComplete = false; // ÊÇ·ñ×Ô¶¯Íê³É
-  public Color[] colorStyle = null; // ÅäÉ«·½°¸
-  public int tabSize = Util.DEFAULT_TABSIZE; // Tab¼üËùÕ¼×Ö·ûÊı
-  public boolean isSaved = false; // ÎÄ¼şÊÇ·ñÒÑ±£´æ£¬Èç¹ûÒÑ±£´æÔòÎªtrue
-  public boolean isTextChanged = false; // ÎÄ±¾ÄÚÈİÊÇ·ñÒÑĞŞ¸Ä£¬Èç¹ûÒÑĞŞ¸ÄÔòÎªtrue
-  public boolean isStyleChanged = false; // ÎÄ±¾¸ñÊ½ÊÇ·ñÒÑĞŞ¸Ä£¬Èç¹ûÒÑĞŞ¸ÄÔòÎªtrue
-  public boolean fileExistsLabel = false; // µ±ÎÄ¼şÉ¾³ı»òÒÆ¶¯ºó£¬ÓÃÓÚ±êÊ¶ÊÇ·ñÒÑµ¯³ö¹ıÌáÊ¾¿ò
-  public boolean fileChangedLabel = false; // µ±ÎÄ¼ş±»ÆäËû³ÌĞòĞŞ¸Äºó£¬ÓÃÓÚ±êÊ¶ÊÇ·ñÒÑµ¯³ö¹ıÌáÊ¾¿ò
-  public boolean isLineNumberView = false; // ÊÇ·ñÏÔÊ¾ĞĞºÅÀ¸
+  public boolean isLineWrap = true; // æ˜¯å¦è‡ªåŠ¨æ¢è¡Œ
+  public boolean isWrapStyleWord = true; // æ˜¯å¦å•è¯è¾¹ç•Œæ¢è¡Œ
+  public LineSeparator lineSeparator = LineSeparator.DEFAULT; // æ¢è¡Œç¬¦æ ¼å¼
+  public CharEncoding charEncoding = CharEncoding.BASE; // å­—ç¬¦ç¼–ç æ ¼å¼
+  public Font font = Util.TEXT_FONT; // æ–‡æœ¬åŸŸå­—ä½“
+  public boolean autoIndent = false; // æ˜¯å¦å¯è‡ªåŠ¨ç¼©è¿›
+  public boolean tabReplaceBySpace = false; // æ˜¯å¦ä»¥ç©ºæ ¼ä»£æ›¿Tabé”®
+  public boolean autoComplete = false; // æ˜¯å¦è‡ªåŠ¨å®Œæˆ
+  public Color[] colorStyle = null; // é…è‰²æ–¹æ¡ˆ
+  public int tabSize = Util.DEFAULT_TABSIZE; // Tabé”®æ‰€å å­—ç¬¦æ•°
+  public boolean isSaved = false; // æ–‡ä»¶æ˜¯å¦å·²ä¿å­˜ï¼Œå¦‚æœå·²ä¿å­˜åˆ™ä¸ºtrue
+  public boolean isTextChanged = false; // æ–‡æœ¬å†…å®¹æ˜¯å¦å·²ä¿®æ”¹ï¼Œå¦‚æœå·²ä¿®æ”¹åˆ™ä¸ºtrue
+  public boolean isStyleChanged = false; // æ–‡æœ¬æ ¼å¼æ˜¯å¦å·²ä¿®æ”¹ï¼Œå¦‚æœå·²ä¿®æ”¹åˆ™ä¸ºtrue
+  public boolean fileExistsLabel = false; // å½“æ–‡ä»¶åˆ é™¤æˆ–ç§»åŠ¨åï¼Œç”¨äºæ ‡è¯†æ˜¯å¦å·²å¼¹å‡ºè¿‡æç¤ºæ¡†
+  public boolean fileChangedLabel = false; // å½“æ–‡ä»¶è¢«å…¶ä»–ç¨‹åºä¿®æ”¹åï¼Œç”¨äºæ ‡è¯†æ˜¯å¦å·²å¼¹å‡ºè¿‡æç¤ºæ¡†
+  public boolean isLineNumberView = false; // æ˜¯å¦æ˜¾ç¤ºè¡Œå·æ 
 }

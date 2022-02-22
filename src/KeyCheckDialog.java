@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2021 ±ùÔ­
+ * Copyright (C) 2021 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,15 +25,15 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 /**
- * "°´¼ü¼ì²â"¶Ô»°¿ò
+ * "æŒ‰é”®æ£€æµ‹"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class KeyCheckDialog extends BaseDialog {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblInfo = new JLabel("°´ÏÂÈÎÒâ¼ü¿ÉÒÔ¼ì²âµ½°´¼üĞÅÏ¢£¡");
+  private JLabel lblInfo = new JLabel("æŒ‰ä¸‹ä»»æ„é”®å¯ä»¥æ£€æµ‹åˆ°æŒ‰é”®ä¿¡æ¯ï¼");
   private JLabel lblName = new JLabel();
   private JLabel lblCode = new JLabel();
   private KeyAdapter keyAdapter = null;
@@ -47,25 +47,25 @@ public class KeyCheckDialog extends BaseDialog {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("°´¼ü¼ì²â");
+    this.setTitle("æŒ‰é”®æ£€æµ‹");
     this.pnlMain.setLayout(null);
     this.lblInfo.setBounds(20, 10, 200, Util.VIEW_HEIGHT);
     this.lblName.setBounds(20, 40, 115, 70);
     this.lblCode.setBounds(145, 40, 115, 70);
     this.lblName.setHorizontalAlignment(JLabel.CENTER);
     this.lblCode.setHorizontalAlignment(JLabel.CENTER);
-    this.lblName.setBorder(new TitledBorder("°´¼üÃû³Æ"));
-    this.lblCode.setBorder(new TitledBorder("°´¼ü±àÂë"));
+    this.lblName.setBorder(new TitledBorder("æŒ‰é”®åç§°"));
+    this.lblCode.setBorder(new TitledBorder("æŒ‰é”®ç¼–ç "));
     this.pnlMain.add(this.lblInfo);
     this.pnlMain.add(this.lblName);
     this.pnlMain.add(this.lblCode);
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -75,7 +75,7 @@ public class KeyCheckDialog extends BaseDialog {
   }
 
   /**
-   * Ë¢ĞÂ°´¼üĞÅÏ¢
+   * åˆ·æ–°æŒ‰é”®ä¿¡æ¯
    */
   private void refreshKeyView(KeyEvent e) {
     if (e == null) {
@@ -89,7 +89,7 @@ public class KeyCheckDialog extends BaseDialog {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.keyAdapter = new KeyAdapter() {
@@ -102,14 +102,14 @@ public class KeyCheckDialog extends BaseDialog {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * "±£´æ"ÎÄ¼şÑ¡ÔñÆ÷
+ * "ä¿å­˜"æ–‡ä»¶é€‰æ‹©å™¨
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class SaveFileChooser extends JFileChooser {
@@ -37,21 +37,21 @@ public class SaveFileChooser extends JFileChooser {
   }
 
   /**
-   * µ±ÓÃ»§È·ÈÏÊ±½«µ÷ÓÃ´Ë·½·¨
+   * å½“ç”¨æˆ·ç¡®è®¤æ—¶å°†è°ƒç”¨æ­¤æ–¹æ³•
    */
   public void approveSelection() {
     File file = this.getSelectedFile();
-    FileFilter fileFilter = this.getFileFilter(); // »ñÈ¡µ±Ç°µÄÎÄ¼ş¹ıÂËÆ÷
-    if (fileFilter instanceof BaseFileFilter) { // ±ÜÃâµ±Ç°ÎªÄ¬ÈÏ¹ıÂËÆ÷Ê±£¬¶ø²úÉúÒì³£
+    FileFilter fileFilter = this.getFileFilter(); // è·å–å½“å‰çš„æ–‡ä»¶è¿‡æ»¤å™¨
+    if (fileFilter instanceof BaseFileFilter) { // é¿å…å½“å‰ä¸ºé»˜è®¤è¿‡æ»¤å™¨æ—¶ï¼Œè€Œäº§ç”Ÿå¼‚å¸¸
       BaseFileFilter baseFileFilter = (BaseFileFilter) fileFilter;
       file = Util.checkFileName(file.getAbsolutePath(), baseFileFilter,
           baseFileFilter.getExt());
     }
     this.setSelectedFile(file);
-    if (file != null && file.exists()) { // µ±ÓÃ»§Ñ¡ÔñµÄÎÄ¼şÒÑ¾­´æÔÚÊ±£¬½«µ¯³öÌáÊ¾¿ò
-      int result = JOptionPane.showConfirmDialog(this, file + " ÒÑ´æÔÚ¡£\nÊÇ·ñ¸²¸Ç£¿",
-          "±£´æ", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-      if (JOptionPane.YES_OPTION == result) { // ÓÃ»§Ñ¡Ôñ¸²¸Ç
+    if (file != null && file.exists()) { // å½“ç”¨æˆ·é€‰æ‹©çš„æ–‡ä»¶å·²ç»å­˜åœ¨æ—¶ï¼Œå°†å¼¹å‡ºæç¤ºæ¡†
+      int result = JOptionPane.showConfirmDialog(this, file + " å·²å­˜åœ¨ã€‚\næ˜¯å¦è¦†ç›–ï¼Ÿ",
+          "ä¿å­˜", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+      if (JOptionPane.YES_OPTION == result) { // ç”¨æˆ·é€‰æ‹©è¦†ç›–
         super.approveSelection();
       }
     } else {

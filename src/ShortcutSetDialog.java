@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 ±ùÔ­
+ * Copyright (C) 2015 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,26 +31,26 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
 /**
- * "¿ì½İ¼ü±à¼­"¶Ô»°¿ò
+ * "å¿«æ·é”®ç¼–è¾‘"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private Setting setting = null; // Èí¼ş²ÎÊıÅäÖÃÀà
+  private Setting setting = null; // è½¯ä»¶å‚æ•°é…ç½®ç±»
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblName = new JLabel("¹¦ÄÜÃû³Æ£º");
+  private JLabel lblName = new JLabel("åŠŸèƒ½åç§°ï¼š");
   private JLabel lblNameView = new JLabel();
   private JCheckBox chkCtrl = new JCheckBox(Util.CTRL);
   private JCheckBox chkAlt = new JCheckBox(Util.ALT);
   private JCheckBox chkShift = new JCheckBox(Util.SHIFT);
   private JCheckBox chkCommand = new JCheckBox(Util.COMMAND);
   private JComboBox<String> cmbShortcuts = null;
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
-  private boolean isOk = false; // ÓÃÓÚ±êÊ¶ÊÇ·ñµã»÷ÁËÈ·¶¨°´Å¥
-  private String keyName = ""; // ¹¦ÄÜÃû³Æ
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
+  private boolean isOk = false; // ç”¨äºæ ‡è¯†æ˜¯å¦ç‚¹å‡»äº†ç¡®å®šæŒ‰é’®
+  private String keyName = ""; // åŠŸèƒ½åç§°
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
@@ -65,10 +65,10 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    * 
    * @param isVisible
-   *          ÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û£¬Èç¹û¿É¼ûÔòÎªtrue
+   *          è®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§ï¼Œå¦‚æœå¯è§åˆ™ä¸ºtrue
    */
   public void setVisible(boolean isVisible) {
     if (isVisible) {
@@ -78,10 +78,10 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("¿ì½İ¼ü±à¼­");
+    this.setTitle("å¿«æ·é”®ç¼–è¾‘");
     this.pnlMain.setLayout(null);
     this.initShortcuts();
     this.refreshKeyView();
@@ -107,11 +107,11 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯ËùÓĞ°´¼üµÄÏÔÊ¾
+   * åˆå§‹åŒ–æ‰€æœ‰æŒ‰é”®çš„æ˜¾ç¤º
    */
   private void initShortcuts() {
     String[] strKeys = new String[Util.ALL_KEY_CODES.length + 1];
-    strKeys[0] = Util.KEY_UNDEFINED; // Ìí¼ÓÎ´¶¨ÒåµÄ°´¼ü
+    strKeys[0] = Util.KEY_UNDEFINED; // æ·»åŠ æœªå®šä¹‰çš„æŒ‰é”®
     for (int i = 0; i < Util.ALL_KEY_CODES.length; i++) {
       strKeys[i + 1] = KeyEvent.getKeyText(Util.ALL_KEY_CODES[i]);
     }
@@ -119,7 +119,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ë¢ĞÂ¹¦ÄÜÃû³ÆºÍ¿ì½İ¼üµÄÏÔÊ¾
+   * åˆ·æ–°åŠŸèƒ½åç§°å’Œå¿«æ·é”®çš„æ˜¾ç¤º
    */
   private void refreshKeyView() {
     if (!Util.isTextEmpty(this.keyName)) {
@@ -141,7 +141,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
             hasShift = true;
           } else if (Util.COMMAND.equalsIgnoreCase(str)) {
             hasCommand = true;
-          } else { // ³ı¿ØÖÆ¼üÖ®ÍâµÄ°´¼ü
+          } else { // é™¤æ§åˆ¶é”®ä¹‹å¤–çš„æŒ‰é”®
             String strKey = Util.transferKeyCode(str);
             if (!Util.isTextEmpty(strKey)) {
               value = strKey;
@@ -158,7 +158,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÉèÖÃ¹¦ÄÜÃû³Æ
+   * è®¾ç½®åŠŸèƒ½åç§°
    */
   public void setKeyName(String keyName) {
     this.keyName = keyName;
@@ -166,9 +166,9 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * »ñÈ¡µ±Ç°½çÃæÖĞÉèÖÃµÄ¿ì½İ¼ü
+   * è·å–å½“å‰ç•Œé¢ä¸­è®¾ç½®çš„å¿«æ·é”®
    * 
-   * @return µ±Ç°½çÃæÖĞÉèÖÃµÄ¿ì½İ¼ü
+   * @return å½“å‰ç•Œé¢ä¸­è®¾ç½®çš„å¿«æ·é”®
    */
   private String getShortcutCode(int index) {
     boolean hasCtrl = false;
@@ -193,11 +193,11 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ¼ì²âÏÂÀ­ÁĞ±íÖĞÑ¡ÔñµÄ°´¼üÊÇ·ñÖ§³Öµ¥¶ÀÉèÖÃÎª¿ì½İ¼ü
+   * æ£€æµ‹ä¸‹æ‹‰åˆ—è¡¨ä¸­é€‰æ‹©çš„æŒ‰é”®æ˜¯å¦æ”¯æŒå•ç‹¬è®¾ç½®ä¸ºå¿«æ·é”®
    * 
    * @param index
-   *          ÏÂÀ­ÁĞ±íÖĞµ±Ç°Ñ¡ÔñÏîµÄË÷Òı
-   * @return ÊÇ·ñÖ§³Öµ¥¶ÀÉèÖÃÎª¿ì½İ¼ü£¬ÈçÖ§³Öµ¥¶ÀÉèÖÃ·µ»Øtrue£¬²»Ö§³Ö·µ»Øfalse
+   *          ä¸‹æ‹‰åˆ—è¡¨ä¸­å½“å‰é€‰æ‹©é¡¹çš„ç´¢å¼•
+   * @return æ˜¯å¦æ”¯æŒå•ç‹¬è®¾ç½®ä¸ºå¿«æ·é”®ï¼Œå¦‚æ”¯æŒå•ç‹¬è®¾ç½®è¿”å›trueï¼Œä¸æ”¯æŒè¿”å›false
    */
   private boolean isSingleKey(int index) {
     boolean label = false;
@@ -211,11 +211,11 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ¼ì²âµ±Ç°ÉèÖÃµÄ¿ì½İ¼üÊÇ·ñÓëÆäËû¹¦ÄÜµÄ¿ì½İ¼üÖØ¸´
+   * æ£€æµ‹å½“å‰è®¾ç½®çš„å¿«æ·é”®æ˜¯å¦ä¸å…¶ä»–åŠŸèƒ½çš„å¿«æ·é”®é‡å¤
    * 
    * @param shortcut
-   *          µ±Ç°ÉèÖÃµÄ¿ì½İ¼ü
-   * @return ÊÇ·ñÓëÆäËû¿ì½İ¼üÖØ¸´£¬ÈçÖØ¸´·µ»Øtrue£¬²»ÖØ¸´·µ»Øfalse
+   *          å½“å‰è®¾ç½®çš„å¿«æ·é”®
+   * @return æ˜¯å¦ä¸å…¶ä»–å¿«æ·é”®é‡å¤ï¼Œå¦‚é‡å¤è¿”å›trueï¼Œä¸é‡å¤è¿”å›false
    */
   private boolean isRepeatedShortcut(String shortcut) {
     if (Util.isTextEmpty(shortcut)) {
@@ -224,7 +224,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     boolean label = false;
     for (String name : Util.SHORTCUT_NAMES) {
       if (shortcut.equalsIgnoreCase(this.setting.shortcutMap.get(name))) {
-        if (!name.equalsIgnoreCase(keyName)) { // ÅÅ³ıµ±Ç°ÉèÖÃµÄ¹¦ÄÜ
+        if (!name.equalsIgnoreCase(keyName)) { // æ’é™¤å½“å‰è®¾ç½®çš„åŠŸèƒ½
           label = true;
           break;
         }
@@ -234,7 +234,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.chkCtrl.addKeyListener(this.keyAdapter);
@@ -249,7 +249,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -260,32 +260,32 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * »ñÈ¡ÊÇ·ñÖ´ĞĞÁËÈ·¶¨
+   * è·å–æ˜¯å¦æ‰§è¡Œäº†ç¡®å®š
    * 
-   * @return ÊÇ·ñÖ´ĞĞÁËÈ·¶¨
+   * @return æ˜¯å¦æ‰§è¡Œäº†ç¡®å®š
    */
   public boolean getOk() {
     return this.isOk;
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     int index = this.cmbShortcuts.getSelectedIndex();
     if (index <= 0) {
-      JOptionPane.showMessageDialog(this, "ÇëÔÚÓÒ²àµÄÏÂÀ­ÁĞ±íÖĞÑ¡ÔñÒ»¸ö°´¼ü£¡",
+      JOptionPane.showMessageDialog(this, "è¯·åœ¨å³ä¾§çš„ä¸‹æ‹‰åˆ—è¡¨ä¸­é€‰æ‹©ä¸€ä¸ªæŒ‰é”®ï¼",
           Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
     } else if (!this.chkCtrl.isSelected() && !this.chkAlt.isSelected() && !this.chkShift.isSelected() && !this.chkCommand.isSelected()
       && !this.isSingleKey(index)) {
-      JOptionPane.showMessageDialog(this, "ÇëÔÚ×ó²àÑ¡ÔñÒ»¸ö»ò¶à¸ö¿ØÖÆ°´¼ü£¡",
+      JOptionPane.showMessageDialog(this, "è¯·åœ¨å·¦ä¾§é€‰æ‹©ä¸€ä¸ªæˆ–å¤šä¸ªæ§åˆ¶æŒ‰é”®ï¼",
           Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
     } else {
       String shortcutCode = this.getShortcutCode(index);
       if (this.isRepeatedShortcut(shortcutCode)) {
-        JOptionPane.showMessageDialog(this, "µ±Ç°¿ì½İ¼üÒÑ±»Õ¼ÓÃ£¬ÇëÖØĞÂÉèÖÃ£¡",
+        JOptionPane.showMessageDialog(this, "å½“å‰å¿«æ·é”®å·²è¢«å ç”¨ï¼Œè¯·é‡æ–°è®¾ç½®ï¼",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
         return;
       }
@@ -296,7 +296,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

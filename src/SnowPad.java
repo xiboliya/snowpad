@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,19 +21,19 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 /**
- * ±¾³ÌĞòµÄÖ÷Àà
+ * æœ¬ç¨‹åºçš„ä¸»ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class SnowPad {
 
   /**
-   * ³ÌĞòµÄ×ÜÈë¿Ú£¬¿ÉÔÚÔËĞĞÊ±Ö¸¶¨Ëù´ò¿ªµÄÎÄ¼ş£¬²¢¿ÉÒÔÎª¶à¸ö
+   * ç¨‹åºçš„æ€»å…¥å£ï¼Œå¯åœ¨è¿è¡Œæ—¶æŒ‡å®šæ‰€æ‰“å¼€çš„æ–‡ä»¶ï¼Œå¹¶å¯ä»¥ä¸ºå¤šä¸ª
    * 
    * @param args
-   *          ÃüÁîĞĞ²ÎÊı£¬Èç£ºjava -jar SnowPad.jar test1.pl test2.pl£¬
-   *          ±íÊ¾´ò¿ªµ±Ç°Ä¿Â¼ÖĞµÄtest1.pl¡¢test2.plÎÄ¼ş
+   *          å‘½ä»¤è¡Œå‚æ•°ï¼Œå¦‚ï¼šjava -jar SnowPad.jar test1.pl test2.plï¼Œ
+   *          è¡¨ç¤ºæ‰“å¼€å½“å‰ç›®å½•ä¸­çš„test1.plã€test2.plæ–‡ä»¶
    */
   public static void main(final String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
@@ -53,7 +53,7 @@ public class SnowPad {
           // x.printStackTrace();
         }
         Util.setDefaultFont();
-        System.setProperty("java.awt.im.style", "on-the-spot"); // È¥µôÎÄ±¾¿òÊäÈëÖĞÎÄÊ±Ëùµ¯³öµÄÊäÈë´°¿Ú
+        System.setProperty("java.awt.im.style", "on-the-spot"); // å»æ‰æ–‡æœ¬æ¡†è¾“å…¥ä¸­æ–‡æ—¶æ‰€å¼¹å‡ºçš„è¾“å…¥çª—å£
         for (String arg : args) {
           boolean isExist = false;
           for (FileHistoryBean bean : setting.fileHistoryList) {
@@ -66,7 +66,7 @@ public class SnowPad {
             setting.fileHistoryList.add(new FileHistoryBean(arg, false));
           }
         }
-        new SnowPadFrame(setting, settingAdapter); // ³õÊ¼»¯½çÃæºÍÉèÖÃµÄÍ¬Ê±´ò¿ªÎÄ¼ş
+        new SnowPadFrame(setting, settingAdapter); // åˆå§‹åŒ–ç•Œé¢å’Œè®¾ç½®çš„åŒæ—¶æ‰“å¼€æ–‡ä»¶
       }
     });
   }

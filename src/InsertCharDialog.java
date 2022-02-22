@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,9 +38,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 /**
- * "²åÈë×Ö·û"¶Ô»°¿ò
+ * "æ’å…¥å­—ç¬¦"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class InsertCharDialog extends BaseDialog implements ActionListener,
@@ -52,24 +52,24 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   private JTabbedPane tpnMain = new JTabbedPane();
   private GridLayout gridLayout = new GridLayout(Util.INSERT_MAX_ROW,
       Util.INSERT_MAX_COLUMN, 0, 0);
-  private JButton btnOk = new JButton("²åÈë");
-  private JButton btnCancel = new JButton("¹Ø±Õ");
+  private JButton btnOk = new JButton("æ’å…¥");
+  private JButton btnCancel = new JButton("å…³é—­");
   private JLabel lblView = new JLabel();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
   private MouseAdapter mouseAdapter = null;
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param owner
-   *          ÓÃÓÚÏÔÊ¾¸Ã¶Ô»°¿òµÄ¸¸×é¼ş
+   *          ç”¨äºæ˜¾ç¤ºè¯¥å¯¹è¯æ¡†çš„çˆ¶ç»„ä»¶
    * @param modal
-   *          ÊÇ·ñÎªÄ£Ê½¶Ô»°¿ò
+   *          æ˜¯å¦ä¸ºæ¨¡å¼å¯¹è¯æ¡†
    * @param txaSource
-   *          Õë¶Ô²Ù×÷µÄÎÄ±¾Óò
+   *          é’ˆå¯¹æ“ä½œçš„æ–‡æœ¬åŸŸ
    * @param hashtable
-   *          ÓÃÓÚÏÔÊ¾×Ö·ûµÄ¹şÏ£±í¡£¼üÎª±êÇ©£¬ÖµÎª¸Ã±êÇ©ÏÂµÄ×Ö·ûĞòÁĞ
+   *          ç”¨äºæ˜¾ç¤ºå­—ç¬¦çš„å“ˆå¸Œè¡¨ã€‚é”®ä¸ºæ ‡ç­¾ï¼Œå€¼ä¸ºè¯¥æ ‡ç­¾ä¸‹çš„å­—ç¬¦åºåˆ—
    */
   public InsertCharDialog(JFrame owner, boolean modal, JTextArea txaSource,
       Hashtable<String, String> hashtable) {
@@ -86,10 +86,10 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("²åÈë×Ö·û");
+    this.setTitle("æ’å…¥å­—ç¬¦");
     this.pnlMain.setLayout(null);
     this.pnlLeft.setBounds(0, 0, 230, 245);
     this.pnlRight.setBounds(230, 0, 110, 240);
@@ -112,10 +112,10 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìî³äËùÓĞ±êÇ©Ò³µÄ×Ö·û
+   * å¡«å……æ‰€æœ‰æ ‡ç­¾é¡µçš„å­—ç¬¦
    * 
    * @param hashtable
-   *          ÓÃÓÚÏÔÊ¾×Ö·ûµÄ¹şÏ£±í¡£¼üÎª±êÇ©£¬ÖµÎª¸Ã±êÇ©ÏÂµÄ×Ö·ûĞòÁĞ
+   *          ç”¨äºæ˜¾ç¤ºå­—ç¬¦çš„å“ˆå¸Œè¡¨ã€‚é”®ä¸ºæ ‡ç­¾ï¼Œå€¼ä¸ºè¯¥æ ‡ç­¾ä¸‹çš„å­—ç¬¦åºåˆ—
    */
   private void fillTabbedPane(Hashtable<String, String> hashtable) {
     if (hashtable.isEmpty()) {
@@ -130,12 +130,12 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìî³äÒ»¸ö±êÇ©Ò³µÄ×Ö·û
+   * å¡«å……ä¸€ä¸ªæ ‡ç­¾é¡µçš„å­—ç¬¦
    * 
    * @param strElement
-   *          ×Ö·ûĞòÁĞ
+   *          å­—ç¬¦åºåˆ—
    * @param strTitle
-   *          ±êÇ©Ò³±êÌâ
+   *          æ ‡ç­¾é¡µæ ‡é¢˜
    */
   private void fillElements(String strElement, String strTitle) {
     if (Util.isTextEmpty(strElement) || Util.isTextEmpty(strTitle)) {
@@ -160,18 +160,18 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ´´½¨Ò»¸öÎÄ±¾±êÇ©
+   * åˆ›å»ºä¸€ä¸ªæ–‡æœ¬æ ‡ç­¾
    * 
    * @param strElement
-   *          ÏÔÊ¾µÄ×Ö·û
-   * @return ĞÂ´´½¨µÄÎÄ±¾±êÇ©
+   *          æ˜¾ç¤ºçš„å­—ç¬¦
+   * @return æ–°åˆ›å»ºçš„æ–‡æœ¬æ ‡ç­¾
    */
   private JLabel createElement(String strElement) {
     JLabel lblElement = new JLabel(strElement);
     if (!Util.isTextEmpty(strElement)) {
       lblElement.setHorizontalAlignment(SwingConstants.CENTER);
-      lblElement.setFocusable(true); // ÉèÖÃ±êÇ©¿ÉÒÔ»ñµÃ½¹µã
-      lblElement.setOpaque(true); // ÉèÖÃ±êÇ©¿ÉÒÔ»æÖÆ±³¾°
+      lblElement.setFocusable(true); // è®¾ç½®æ ‡ç­¾å¯ä»¥è·å¾—ç„¦ç‚¹
+      lblElement.setOpaque(true); // è®¾ç½®æ ‡ç­¾å¯ä»¥ç»˜åˆ¶èƒŒæ™¯
       lblElement.setBorder(this.etchedBorder);
       lblElement.setBackground(Color.WHITE);
       lblElement.addKeyListener(this.keyAdapter);
@@ -182,17 +182,17 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ô¤ÀÀµ±Ç°Ñ¡ÖĞµÄ×Ö·û
+   * é¢„è§ˆå½“å‰é€‰ä¸­çš„å­—ç¬¦
    * 
    * @param strView
-   *          µ±Ç°Ñ¡ÖĞÎÄ±¾±êÇ©µÄ×Ö·û
+   *          å½“å‰é€‰ä¸­æ–‡æœ¬æ ‡ç­¾çš„å­—ç¬¦
    */
   private void setView(String strView) {
     this.lblView.setText(strView);
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.btnOk.addActionListener(this);
@@ -200,7 +200,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
     this.mouseAdapter = new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         JLabel lblTemp = (JLabel) e.getSource();
-        lblTemp.requestFocus(); // µ±Êó±êµ¥»÷Ê±£¬»ñµÃ½¹µã
+        lblTemp.requestFocus(); // å½“é¼ æ ‡å•å‡»æ—¶ï¼Œè·å¾—ç„¦ç‚¹
         if (e.getClickCount() == 2) {
           onEnter();
         }
@@ -209,7 +209,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -220,21 +220,21 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.txaSource.replaceSelection(this.lblView.getText());
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();
   }
 
   /**
-   * µ±ÎÄ±¾±êÇ©»ñµÃ½¹µãÊ±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬æ ‡ç­¾è·å¾—ç„¦ç‚¹æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void focusGained(FocusEvent e) {
     JLabel lblTemp = (JLabel) e.getSource();
@@ -243,7 +243,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±ÎÄ±¾±êÇ©Ê§È¥½¹µãÊ±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬æ ‡ç­¾å¤±å»ç„¦ç‚¹æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void focusLost(FocusEvent e) {
     JLabel lblTemp = (JLabel) e.getSource();

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2020 ±ùÔ­
+ * Copyright (C) 2020 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 package com.xiboliya.snowpad;
 
 /**
- * ±£´æÒÑ´ò¿ªµÄÎÄ¼şÅäÖÃÀà
+ * ä¿å­˜å·²æ‰“å¼€çš„æ–‡ä»¶é…ç½®ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class FileHistoryBean {
@@ -28,18 +28,18 @@ public class FileHistoryBean {
   private boolean isFrozen = false;
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    */
   public FileHistoryBean() {
   }
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param fileName
-   *          ÎÄ¼şÃû
+   *          æ–‡ä»¶å
    * @param isFrozen
-   *          ÊÇ·ñ¶³½áÎÄ¼ş
+   *          æ˜¯å¦å†»ç»“æ–‡ä»¶
    */
   public FileHistoryBean(String fileName, boolean isFrozen) {
     this.setFileName(fileName);
@@ -47,38 +47,38 @@ public class FileHistoryBean {
   }
 
   /**
-   * »ñÈ¡ÎÄ¼şÃû
+   * è·å–æ–‡ä»¶å
    * 
-   * @return ÎÄ¼şÃû
+   * @return æ–‡ä»¶å
    */
   public String getFileName() {
     return this.fileName;
   }
 
   /**
-   * »ñÈ¡ÊÇ·ñ¶³½áÎÄ¼ş
+   * è·å–æ˜¯å¦å†»ç»“æ–‡ä»¶
    * 
-   * @return ÊÇ·ñ¶³½áÎÄ¼ş
+   * @return æ˜¯å¦å†»ç»“æ–‡ä»¶
    */
   public boolean getFrozen() {
     return this.isFrozen;
   }
 
   /**
-   * ÉèÖÃÎÄ¼şÃû
+   * è®¾ç½®æ–‡ä»¶å
    * 
    * @param fileName
-   *          ÎÄ¼şÃû
+   *          æ–‡ä»¶å
    */
   public void setFileName(String fileName) {
     this.fileName = fileName;
   }
 
   /**
-   * ÉèÖÃÊÇ·ñ¶³½áÎÄ¼ş
+   * è®¾ç½®æ˜¯å¦å†»ç»“æ–‡ä»¶
    * 
    * @param isFrozen
-   *          ÊÇ·ñ¶³½áÎÄ¼ş
+   *          æ˜¯å¦å†»ç»“æ–‡ä»¶
    */
   public void setFrozen(boolean isFrozen) {
     this.isFrozen = isFrozen;

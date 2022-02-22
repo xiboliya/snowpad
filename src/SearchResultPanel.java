@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 ±ùÔ­
+ * Copyright (C) 2018 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,16 +41,16 @@ import javax.swing.event.CaretListener;
 import java.util.LinkedList;
 
 /**
- * ×Ô¶¨ÒåµÄËÑË÷½á¹ûÃæ°å
+ * è‡ªå®šä¹‰çš„æœç´¢ç»“æœé¢æ¿
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class SearchResultPanel extends JPanel implements ActionListener, CaretListener {
   private static final long serialVersionUID = 1L;
   private static final String prefixLine = "Line ";
   private LinkedList<SearchResult> searchResults = new LinkedList<SearchResult>();
-  private JLabel lblTitleText = new JLabel("²éÕÒ½á¹û");
+  private JLabel lblTitleText = new JLabel("æŸ¥æ‰¾ç»“æœ");
   private JButton btnTitleClose = new JButton();
   private BaseTextArea txaMain = new BaseTextArea();
   private JScrollPane srpMain = new JScrollPane(this.txaMain);
@@ -60,9 +60,9 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private SnowPadFrame owner;
   private Color color = new Color(0, 0, 0, 0);
   private JPopupMenu popMenuMain = new JPopupMenu();
-  private JMenuItem itemPopCopyCurrentLine = new JMenuItem("¸´ÖÆµ±Ç°ĞĞ(C)", 'C');
-  private JMenuItem itemPopRemoveCurrent = new JMenuItem("ÒÆ³ıµ±Ç°½á¹û(R)", 'R');
-  private JMenuItem itemPopClear = new JMenuItem("Çå¿Õ½á¹û(L)", 'L');
+  private JMenuItem itemPopCopyCurrentLine = new JMenuItem("å¤åˆ¶å½“å‰è¡Œ(C)", 'C');
+  private JMenuItem itemPopRemoveCurrent = new JMenuItem("ç§»é™¤å½“å‰ç»“æœ(R)", 'R');
+  private JMenuItem itemPopClear = new JMenuItem("æ¸…ç©ºç»“æœ(L)", 'L');
 
   public SearchResultPanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -71,7 +71,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * ³õÊ¼»¯
+   * åˆå§‹åŒ–
    */
   private void init() {
     this.setLayout(this.layout);
@@ -81,8 +81,8 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
     this.btnTitleClose.setIcon(Util.CLOSE_ICON);
     this.pnlTitle.add(this.lblTitleText, BorderLayout.WEST);
     this.pnlTitle.add(this.btnTitleClose, BorderLayout.EAST);
-    this.srpMain.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); // Ê¼ÖÕÏÔÊ¾´¹Ö±¹ö¶¯Ìõ
-    this.srpMain.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS); // Ê¼ÖÕÏÔÊ¾Ë®Æ½¹ö¶¯Ìõ
+    this.srpMain.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); // å§‹ç»ˆæ˜¾ç¤ºå‚ç›´æ»šåŠ¨æ¡
+    this.srpMain.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS); // å§‹ç»ˆæ˜¾ç¤ºæ°´å¹³æ»šåŠ¨æ¡
     this.add(this.pnlTitle, BorderLayout.NORTH);
     this.add(this.srpMain, BorderLayout.CENTER);
     this.txaMain.setSelectionColor(this.color);
@@ -91,27 +91,27 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * ³õÊ¼»¯¿ì½İ²Ëµ¥
+   * åˆå§‹åŒ–å¿«æ·èœå•
    */
   private void addPopMenu() {
     this.popMenuMain.add(this.itemPopCopyCurrentLine);
     this.popMenuMain.add(this.itemPopRemoveCurrent);
     this.popMenuMain.add(this.itemPopClear);
     Dimension popSize = this.popMenuMain.getPreferredSize();
-    popSize.width += popSize.width / 5; // ÎªÁËÃÀ¹Û£¬ÊÊµ±¼Ó¿í²Ëµ¥µÄÏÔÊ¾
+    popSize.width += popSize.width / 5; // ä¸ºäº†ç¾è§‚ï¼Œé€‚å½“åŠ å®½èœå•çš„æ˜¾ç¤º
     this.popMenuMain.setPopupSize(popSize);
   }
 
   /**
-   * Ìí¼Ó¸÷×é¼şµÄÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ å„ç»„ä»¶çš„äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.txaMain.addCaretListener(this);
     this.txaMain.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 2) { // Ë«»÷
+        if (e.getClickCount() == 2) { // åŒå‡»
           gotoResult();
-        } else if (e.getButton() == MouseEvent.BUTTON3) { // µã»÷ÓÒ¼üÊ±£¬ÏÔÊ¾¿ì½İ²Ëµ¥
+        } else if (e.getButton() == MouseEvent.BUTTON3) { // ç‚¹å‡»å³é”®æ—¶ï¼Œæ˜¾ç¤ºå¿«æ·èœå•
           setPopMenuEnabled();
           popMenuMain.show(txaMain, e.getX(), e.getY());
         }
@@ -119,9 +119,9 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
     });
     this.txaMain.addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) { // »Ø³µ¼ü
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) { // å›è½¦é”®
           gotoResult();
-        } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // ESC¼ü
+        } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // ESCé”®
           close();
         }
       }
@@ -133,7 +133,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * Ë¢ĞÂ²éÕÒ½á¹û
+   * åˆ·æ–°æŸ¥æ‰¾ç»“æœ
    */
   public void refreshResult(SearchResult searchResult) {
     this.searchResults.add(searchResult);
@@ -159,7 +159,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
     } catch (Exception x) {
       // x.printStackTrace();
     }
-    StringBuilder stbMain = new StringBuilder("²éÕÒ \"" + strSearch + "\" [" + count + " ´¦]\n" + filePath + "\n");
+    StringBuilder stbMain = new StringBuilder("æŸ¥æ‰¾ \"" + strSearch + "\" [" + count + " å¤„]\n" + filePath + "\n");
     try {
       for (SearchBean searchBean : listIndex) {
         int lineNum = textArea.getLineOfOffset(searchBean.getStart());
@@ -178,7 +178,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * Ìø×ªµ½²éÕÒ½á¹ûµÄµ±Ç°ĞĞ
+   * è·³è½¬åˆ°æŸ¥æ‰¾ç»“æœçš„å½“å‰è¡Œ
    */
   private void gotoResult() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -208,7 +208,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * ÉèÖÃ¿ì½İ²Ëµ¥ÊÇ·ñ¿ÉÓÃ
+   * è®¾ç½®å¿«æ·èœå•æ˜¯å¦å¯ç”¨
    */
   private void setPopMenuEnabled() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -218,14 +218,14 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * ¹Ø±ÕÃæ°å
+   * å…³é—­é¢æ¿
    */
   private void close() {
     this.owner.viewSearchResult(false);
   }
 
   /**
-   * "Çå¿Õ½á¹û"µÄ´¦Àí·½·¨
+   * "æ¸…ç©ºç»“æœ"çš„å¤„ç†æ–¹æ³•
    */
   private void clear() {
     this.txaMain.setText("");
@@ -233,7 +233,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * "ÒÆ³ıµ±Ç°½á¹û"µÄ´¦Àí·½·¨
+   * "ç§»é™¤å½“å‰ç»“æœ"çš„å¤„ç†æ–¹æ³•
    */
   private void removeCurrent() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -259,7 +259,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * "¸´ÖÆµ±Ç°ĞĞ"µÄ´¦Àí·½·¨
+   * "å¤åˆ¶å½“å‰è¡Œ"çš„å¤„ç†æ–¹æ³•
    */
   private void copyCurrentLine() {
     CurrentLine currentLine = new CurrentLine(this.txaMain);
@@ -276,14 +276,14 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   }
 
   /**
-   * µ±ÎÄ±¾ÓòÖĞµÄ¹â±ê±ä»¯Ê±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬åŸŸä¸­çš„å…‰æ ‡å˜åŒ–æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void caretUpdate(CaretEvent e) {
-    this.txaMain.repaint(); // ÖØ»æµ±Ç°ÎÄ±¾Óò£¬ÒÔ½â¾öÔÚÌØ¶¨Çé¿öÏÂ»æÖÆµ±Ç°ĞĞ±³¾°´íÂÒµÄÎÊÌâ
+    this.txaMain.repaint(); // é‡ç»˜å½“å‰æ–‡æœ¬åŸŸï¼Œä»¥è§£å†³åœ¨ç‰¹å®šæƒ…å†µä¸‹ç»˜åˆ¶å½“å‰è¡ŒèƒŒæ™¯é”™ä¹±çš„é—®é¢˜
   }
 
   /**
-   * Îª¸÷²Ëµ¥ÏîÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„èœå•é¡¹æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.itemPopClear.equals(e.getSource())) {

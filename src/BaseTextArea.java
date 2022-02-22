@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,46 +33,46 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
- * ÊµÏÖ³·Ïú¹ÜÀíÆ÷µÄJTextArea¿Ø¼ş
+ * å®ç°æ’¤é”€ç®¡ç†å™¨çš„JTextAreaæ§ä»¶
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BaseTextArea extends JTextArea {
   private static final long serialVersionUID = 1L;
-  private int newFileIndex = 0; // ĞÂ½¨ÎÄ¼şµÄĞòºÅ
-  private File file = null; // ±à¼­µÄÎÄ¼ş
-  private FileExt fileExt = FileExt.TXT; // ÎÄ¼şÀ©Õ¹ÃûÀàĞÍ
-  private String title = Util.NEW_FILE_NAME; // ÔÚ±êÇ©ÖĞÏÔÊ¾µÄ±êÌâ
-  private LinkedList<PartnerBean> highlighterList = new LinkedList<PartnerBean>(); // ´æ·ÅÎÄ±¾ÓòÖĞËùÓĞ¸ßÁÁ¶ÔÏóµÄÁ´±í
-  private LineSeparator lineSeparator = LineSeparator.DEFAULT; // »»ĞĞ·û¸ñÊ½
-  private CharEncoding charEncoding = CharEncoding.BASE; // ×Ö·û±àÂë¸ñÊ½
-  private KeyAdapter autoIndentKeyAdapter = null; // ÓÃÓÚ×Ô¶¯Ëõ½øµÄ¼üÅÌÊÊÅäÆ÷
-  private KeyAdapter tabReplaceKeyAdapter = null; // ÓÃÓÚÉèÖÃÒÔ¿Õ¸ñ´úÌæTab¼üµÄ¼üÅÌÊÊÅäÆ÷
-  private KeyAdapter autoCompleteKeyAdapter = null; // ÓÃÓÚÉèÖÃ×Ô¶¯Íê³ÉµÄ¼üÅÌÊÊÅäÆ÷
-  private Color[] colorStyle = null; // ÅäÉ«·½°¸
-  private boolean isSaved = false; // ÎÄ¼şÊÇ·ñÒÑ±£´æ£¬Èç¹ûÒÑ±£´æÔòÎªtrue
-  private boolean isTextChanged = false; // ÎÄ±¾ÄÚÈİÊÇ·ñÒÑĞŞ¸Ä£¬Èç¹ûÒÑĞŞ¸ÄÔòÎªtrue
-  private boolean isStyleChanged = false; // ÎÄ±¾¸ñÊ½ÊÇ·ñÒÑĞŞ¸Ä£¬Èç¹ûÒÑĞŞ¸ÄÔòÎªtrue
-  private boolean fileExistsLabel = false; // µ±ÎÄ¼şÉ¾³ı»òÒÆ¶¯ºó£¬ÓÃÓÚ±êÊ¶ÊÇ·ñÒÑµ¯³ö¹ıÌáÊ¾¿ò
-  private boolean fileChangedLabel = false; // µ±ÎÄ¼ş±»ÆäËû³ÌĞòĞŞ¸Äºó£¬ÓÃÓÚ±êÊ¶ÊÇ·ñÒÑµ¯³ö¹ıÌáÊ¾¿ò
-  private boolean tabReplaceBySpace = false; // ÊÇ·ñÒÔ¿Õ¸ñ´úÌæTab¼ü
-  private boolean autoIndent = false; // ÊÇ·ñ¿É×Ô¶¯Ëõ½ø
-  private boolean isLineNumberView = false; // ÊÇ·ñÏÔÊ¾ĞĞºÅÀ¸
-  private boolean autoComplete = false; // ÊÇ·ñ×Ô¶¯Íê³É
-  private boolean isFrozen = false; // ÊÇ·ñ±»¶³½á
-  private BaseDocument document = new BaseDocument(); // ÎÄ±¾Ä£ĞÍ
-  private UndoManager undoManager = new UndoManager(); // ³·Ïú¹ÜÀíÆ÷
-  private int undoIndex = Util.DEFAULT_UNDO_INDEX; // ³·Ïú±êÊ¶·û£¬³õÊ¼»¯ÎªÄ¬ÈÏÖµ£¬´ËÖµÈô¸Ä±ä±íÊ¾ÎÄ±¾ÒÑĞŞ¸Ä
-  private Color bracketBackColor = Util.COLOR_BRACKET; // Ğè»æÖÆµÄÆ¥ÅäÀ¨ºÅµÄ±³¾°ÑÕÉ«
-  private Color lineBackColor = Util.COLOR_CURRENT_LINE; // Ğè»æÖÆµÄµ±Ç°ĞĞµÄ±³¾°ÑÕÉ«
-  private LinkedList<PartnerBean> backForwardList = new LinkedList<PartnerBean>(); // ´æ·Å¹â±êÔÚÎÄ±¾ÓòÖĞÀúÊ·Î»ÖÃµÄÁ´±í
-  private int backForwardIndex = Util.DEFAULT_BACK_FORWARD_INDEX; // ¹â±êÀúÊ·Î»ÖÃ£¬³õÊ¼»¯ÎªÄ¬ÈÏÖµ
-  private long fileLastModified = 0L; // ÎÄ¼ş×îºóĞŞ¸ÄµÄÊ±¼ä´Á£¬Èç¹ûÎÄ¼şÎª¿Õ£¬Ôò´ËÖµÎª0L
-  private LinkedList<Integer> bookmarks = new LinkedList<Integer>(); // ÊéÇ©ÁĞ±í£¬¼´Îª±»¼ÇÂ¼µÄĞĞºÅÁĞ±í
+  private int newFileIndex = 0; // æ–°å»ºæ–‡ä»¶çš„åºå·
+  private File file = null; // ç¼–è¾‘çš„æ–‡ä»¶
+  private FileExt fileExt = FileExt.TXT; // æ–‡ä»¶æ‰©å±•åç±»å‹
+  private String title = Util.NEW_FILE_NAME; // åœ¨æ ‡ç­¾ä¸­æ˜¾ç¤ºçš„æ ‡é¢˜
+  private LinkedList<PartnerBean> highlighterList = new LinkedList<PartnerBean>(); // å­˜æ”¾æ–‡æœ¬åŸŸä¸­æ‰€æœ‰é«˜äº®å¯¹è±¡çš„é“¾è¡¨
+  private LineSeparator lineSeparator = LineSeparator.DEFAULT; // æ¢è¡Œç¬¦æ ¼å¼
+  private CharEncoding charEncoding = CharEncoding.BASE; // å­—ç¬¦ç¼–ç æ ¼å¼
+  private KeyAdapter autoIndentKeyAdapter = null; // ç”¨äºè‡ªåŠ¨ç¼©è¿›çš„é”®ç›˜é€‚é…å™¨
+  private KeyAdapter tabReplaceKeyAdapter = null; // ç”¨äºè®¾ç½®ä»¥ç©ºæ ¼ä»£æ›¿Tabé”®çš„é”®ç›˜é€‚é…å™¨
+  private KeyAdapter autoCompleteKeyAdapter = null; // ç”¨äºè®¾ç½®è‡ªåŠ¨å®Œæˆçš„é”®ç›˜é€‚é…å™¨
+  private Color[] colorStyle = null; // é…è‰²æ–¹æ¡ˆ
+  private boolean isSaved = false; // æ–‡ä»¶æ˜¯å¦å·²ä¿å­˜ï¼Œå¦‚æœå·²ä¿å­˜åˆ™ä¸ºtrue
+  private boolean isTextChanged = false; // æ–‡æœ¬å†…å®¹æ˜¯å¦å·²ä¿®æ”¹ï¼Œå¦‚æœå·²ä¿®æ”¹åˆ™ä¸ºtrue
+  private boolean isStyleChanged = false; // æ–‡æœ¬æ ¼å¼æ˜¯å¦å·²ä¿®æ”¹ï¼Œå¦‚æœå·²ä¿®æ”¹åˆ™ä¸ºtrue
+  private boolean fileExistsLabel = false; // å½“æ–‡ä»¶åˆ é™¤æˆ–ç§»åŠ¨åï¼Œç”¨äºæ ‡è¯†æ˜¯å¦å·²å¼¹å‡ºè¿‡æç¤ºæ¡†
+  private boolean fileChangedLabel = false; // å½“æ–‡ä»¶è¢«å…¶ä»–ç¨‹åºä¿®æ”¹åï¼Œç”¨äºæ ‡è¯†æ˜¯å¦å·²å¼¹å‡ºè¿‡æç¤ºæ¡†
+  private boolean tabReplaceBySpace = false; // æ˜¯å¦ä»¥ç©ºæ ¼ä»£æ›¿Tabé”®
+  private boolean autoIndent = false; // æ˜¯å¦å¯è‡ªåŠ¨ç¼©è¿›
+  private boolean isLineNumberView = false; // æ˜¯å¦æ˜¾ç¤ºè¡Œå·æ 
+  private boolean autoComplete = false; // æ˜¯å¦è‡ªåŠ¨å®Œæˆ
+  private boolean isFrozen = false; // æ˜¯å¦è¢«å†»ç»“
+  private BaseDocument document = new BaseDocument(); // æ–‡æœ¬æ¨¡å‹
+  private UndoManager undoManager = new UndoManager(); // æ’¤é”€ç®¡ç†å™¨
+  private int undoIndex = Util.DEFAULT_UNDO_INDEX; // æ’¤é”€æ ‡è¯†ç¬¦ï¼Œåˆå§‹åŒ–ä¸ºé»˜è®¤å€¼ï¼Œæ­¤å€¼è‹¥æ”¹å˜è¡¨ç¤ºæ–‡æœ¬å·²ä¿®æ”¹
+  private Color bracketBackColor = Util.COLOR_BRACKET; // éœ€ç»˜åˆ¶çš„åŒ¹é…æ‹¬å·çš„èƒŒæ™¯é¢œè‰²
+  private Color lineBackColor = Util.COLOR_CURRENT_LINE; // éœ€ç»˜åˆ¶çš„å½“å‰è¡Œçš„èƒŒæ™¯é¢œè‰²
+  private LinkedList<PartnerBean> backForwardList = new LinkedList<PartnerBean>(); // å­˜æ”¾å…‰æ ‡åœ¨æ–‡æœ¬åŸŸä¸­å†å²ä½ç½®çš„é“¾è¡¨
+  private int backForwardIndex = Util.DEFAULT_BACK_FORWARD_INDEX; // å…‰æ ‡å†å²ä½ç½®ï¼Œåˆå§‹åŒ–ä¸ºé»˜è®¤å€¼
+  private long fileLastModified = 0L; // æ–‡ä»¶æœ€åä¿®æ”¹çš„æ—¶é—´æˆ³ï¼Œå¦‚æœæ–‡ä»¶ä¸ºç©ºï¼Œåˆ™æ­¤å€¼ä¸º0L
+  private LinkedList<Integer> bookmarks = new LinkedList<Integer>(); // ä¹¦ç­¾åˆ—è¡¨ï¼Œå³ä¸ºè¢«è®°å½•çš„è¡Œå·åˆ—è¡¨
 
   /**
-   * Ä¬ÈÏµÄ¹¹Ôì·½·¨
+   * é»˜è®¤çš„æ„é€ æ–¹æ³•
    */
   public BaseTextArea() {
     super();
@@ -85,19 +85,19 @@ public class BaseTextArea extends JTextArea {
   }
 
   private void init() {
-    this.undoManager.setLimit(-1); // ÉèÖÃ´Ë³·Ïú¹ÜÀíÆ÷±£³ÖµÄ×î´ó±à¼­Êı£¬Ğ¡ÓÚ0µÄÖµ±íÊ¾±à¼­Êı²»ÊÜÏŞÖÆ£¬Ä¬ÈÏÖµÎª100¡£
+    this.undoManager.setLimit(-1); // è®¾ç½®æ­¤æ’¤é”€ç®¡ç†å™¨ä¿æŒçš„æœ€å¤§ç¼–è¾‘æ•°ï¼Œå°äº0çš„å€¼è¡¨ç¤ºç¼–è¾‘æ•°ä¸å—é™åˆ¶ï¼Œé»˜è®¤å€¼ä¸º100ã€‚
     this.disableShortcut();
-    // ³õÊ¼»¯ÓÃÓÚ×Ô¶¯Ëõ½øµÄ¼üÅÌÊÊÅäÆ÷
+    // åˆå§‹åŒ–ç”¨äºè‡ªåŠ¨ç¼©è¿›çš„é”®ç›˜é€‚é…å™¨
     this.autoIndentKeyAdapter = new KeyAdapter() {
-      // ÎªÁË½â¾öÄ³Ğ©¹¦ÄÜ£¬±ÈÈç£ºÍ¨¹ı°´»Ø³µ¼ü×ªµ½Ä³ĞĞÊ±£¬»á½øĞĞ×Ô¶¯Ëõ½øµÄÎÊÌâ¡£¸ÄÎª¼àÌıkeyTyped£¨°´ÏÂºÍµ¯Æğ°´¼ü£©ÊÂ¼ş¡£
+      // ä¸ºäº†è§£å†³æŸäº›åŠŸèƒ½ï¼Œæ¯”å¦‚ï¼šé€šè¿‡æŒ‰å›è½¦é”®è½¬åˆ°æŸè¡Œæ—¶ï¼Œä¼šè¿›è¡Œè‡ªåŠ¨ç¼©è¿›çš„é—®é¢˜ã€‚æ”¹ä¸ºç›‘å¬keyTypedï¼ˆæŒ‰ä¸‹å’Œå¼¹èµ·æŒ‰é”®ï¼‰äº‹ä»¶ã€‚
       public void keyTyped(KeyEvent e) {
-        // keyTypedÊÂ¼şÖĞÈç¹ûÓÃgetKeyCode()·½Ê½£¬»ñÈ¡µ½µÄ×ÜÊÇ0£¬ËùÒÔÒªÊ¹ÓÃgetKeyChar()·½Ê½ÅĞ¶Ï¡£
+        // keyTypedäº‹ä»¶ä¸­å¦‚æœç”¨getKeyCode()æ–¹å¼ï¼Œè·å–åˆ°çš„æ€»æ˜¯0ï¼Œæ‰€ä»¥è¦ä½¿ç”¨getKeyChar()æ–¹å¼åˆ¤æ–­ã€‚
         if (e.getKeyChar() == '\n') {
           toAutoIndent();
         }
       }
     };
-    // ³õÊ¼»¯ÓÃÓÚÉèÖÃÒÔ¿Õ¸ñ´úÌæTab¼üµÄ¼üÅÌÊÊÅäÆ÷
+    // åˆå§‹åŒ–ç”¨äºè®¾ç½®ä»¥ç©ºæ ¼ä»£æ›¿Tabé”®çš„é”®ç›˜é€‚é…å™¨
     this.tabReplaceKeyAdapter = new KeyAdapter() {
       public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_TAB) {
@@ -105,7 +105,7 @@ public class BaseTextArea extends JTextArea {
         }
       }
     };
-    // ³õÊ¼»¯ÓÃÓÚÉèÖÃ×Ô¶¯Íê³ÉµÄ¼üÅÌÊÊÅäÆ÷
+    // åˆå§‹åŒ–ç”¨äºè®¾ç½®è‡ªåŠ¨å®Œæˆçš„é”®ç›˜é€‚é…å™¨
     this.autoCompleteKeyAdapter = new KeyAdapter() {
       public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -144,7 +144,7 @@ public class BaseTextArea extends JTextArea {
   }
 
   private void disableShortcut() {
-    // ÆÁ±ÎJTextArea×é¼şµÄÄ¬ÈÏÈÈ¼ü£ºCtrl+C¡¢Ctrl+H¡¢Ctrl+V¡¢Ctrl+X
+    // å±è”½JTextAreaç»„ä»¶çš„é»˜è®¤çƒ­é”®ï¼šCtrl+Cã€Ctrl+Hã€Ctrl+Vã€Ctrl+X
     InputMap inputMap = this.getInputMap();
     inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), "CTRL_C");
     inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK), "CTRL_H");
@@ -153,7 +153,7 @@ public class BaseTextArea extends JTextArea {
   }
 
   /**
-   * °´»Ø³µ¼üÊ±½øĞĞËõ½ø
+   * æŒ‰å›è½¦é”®æ—¶è¿›è¡Œç¼©è¿›
    */
   private void toAutoIndent() {
     CurrentLines currentLines = new CurrentLines(this,
@@ -163,7 +163,7 @@ public class BaseTextArea extends JTextArea {
       return;
     }
     int currentIndex = currentLines.getCurrentIndex();
-    if (this.getText().charAt(currentIndex - 1) != '\n') { // Èç¹û²»ÊÇ»»ĞĞ²Ù×÷£¬½«²»×÷´¦Àí
+    if (this.getText().charAt(currentIndex - 1) != '\n') { // å¦‚æœä¸æ˜¯æ¢è¡Œæ“ä½œï¼Œå°†ä¸ä½œå¤„ç†
       return;
     }
     String strSpace = "";
@@ -171,7 +171,7 @@ public class BaseTextArea extends JTextArea {
       switch (strContentExtend.charAt(i)) {
       case ' ':
       case '\t':
-      case '¡¡':
+      case 'ã€€':
         strSpace += strContentExtend.charAt(i);
         break;
       default:
@@ -187,11 +187,11 @@ public class BaseTextArea extends JTextArea {
   }
 
   /**
-   * °´Tab¼üÊ±½«ÆäÌæ»»ÎªµÈÁ¿µÄ¿Õ¸ñ
+   * æŒ‰Tabé”®æ—¶å°†å…¶æ›¿æ¢ä¸ºç­‰é‡çš„ç©ºæ ¼
    */
   private void toTabReplace() {
     int currentIndex = this.getCaretPosition();
-    if (this.getText().charAt(currentIndex - 1) != '\t') { // ÎÄ±¾ÓòÖĞÊäÈëµÄÇ°Ò»¸ö×Ö·ûÊÇ·ñÎªTab
+    if (this.getText().charAt(currentIndex - 1) != '\t') { // æ–‡æœ¬åŸŸä¸­è¾“å…¥çš„å‰ä¸€ä¸ªå­—ç¬¦æ˜¯å¦ä¸ºTab
       return;
     }
     int tabSize = this.getTabSize();
@@ -203,7 +203,7 @@ public class BaseTextArea extends JTextArea {
   }
 
   /**
-   * ×Ô¶¯Íê³É
+   * è‡ªåŠ¨å®Œæˆ
    */
   private void toAutoComplete() {
     char currentChar = this.getText().charAt(this.getCaretPosition() - 1);
@@ -218,9 +218,9 @@ public class BaseTextArea extends JTextArea {
   }
 
   /**
-   * »ñÈ¡ÒòÎÄ±¾»ò¸ñÊ½ĞŞ¸Ä²úÉúµÄ±êÌâÀ¸Ç°×º×Ö·û"*"ºÍ"¡ù"
+   * è·å–å› æ–‡æœ¬æˆ–æ ¼å¼ä¿®æ”¹äº§ç”Ÿçš„æ ‡é¢˜æ å‰ç¼€å­—ç¬¦"*"å’Œ"â€»"
    * 
-   * @return ±êÌâÀ¸Ç°×º×Ö·û£¬¿ÉÄÜÎª£º""¡¢"*"¡¢"¡ù"¡¢"*¡ù"
+   * @return æ ‡é¢˜æ å‰ç¼€å­—ç¬¦ï¼Œå¯èƒ½ä¸ºï¼š""ã€"*"ã€"â€»"ã€"*â€»"
    */
   public String getPrefix() {
     String prefix = "";
@@ -235,11 +235,11 @@ public class BaseTextArea extends JTextArea {
   }
 
   /**
-   * »æÖÆ×é¼ş
+   * ç»˜åˆ¶ç»„ä»¶
    */
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    Graphics graphics = g.create(); // Ê¹ÓÃGraphicsµÄ¸±±¾½øĞĞ»æÖÆ
+    Graphics graphics = g.create(); // ä½¿ç”¨Graphicsçš„å‰¯æœ¬è¿›è¡Œç»˜åˆ¶
     graphics.setColor(this.lineBackColor);
     try {
       Rectangle rectangle = this.modelToView(this.getCaretPosition());
@@ -256,11 +256,11 @@ public class BaseTextArea extends JTextArea {
   }
 
   /**
-   * ÅĞ¶Ïµ±Ç°ÊÇ·ñÒÑ×¢²á¼àÌıÆ÷
+   * åˆ¤æ–­å½“å‰æ˜¯å¦å·²æ³¨å†Œç›‘å¬å™¨
    * 
    * @param keyListener
-   *          ¼üÅÌ¼àÌıÆ÷
-   * @return ÊÇ·ñÒÑ×¢²á¹ı¼àÌıÆ÷£¬ÒÑ×¢²á·µ»Øtrue
+   *          é”®ç›˜ç›‘å¬å™¨
+   * @return æ˜¯å¦å·²æ³¨å†Œè¿‡ç›‘å¬å™¨ï¼Œå·²æ³¨å†Œè¿”å›true
    */
   public boolean hasKeyListener(KeyListener keyListener) {
     KeyListener[] keyListeners = this.getKeyListeners();
@@ -270,7 +270,7 @@ public class BaseTextArea extends JTextArea {
   public void setFile(File file) {
     if (file != null) {
       try {
-        this.file = file.getCanonicalFile(); // »ñÈ¡´Ë³éÏóÂ·¾¶ÃûµÄ¹æ·¶ĞÎÊ½
+        this.file = file.getCanonicalFile(); // è·å–æ­¤æŠ½è±¡è·¯å¾„åçš„è§„èŒƒå½¢å¼
         this.setTitle(this.file.getName());
       } catch (IOException x) {
         // x.printStackTrace();
@@ -516,7 +516,7 @@ public class BaseTextArea extends JTextArea {
       this.bookmarks.addFirst(bookmark);
       return;
     }
-    // Èç¹ûÊéÇ©ÒÑ´æÔÚ£¬ÔòÉ¾³ı
+    // å¦‚æœä¹¦ç­¾å·²å­˜åœ¨ï¼Œåˆ™åˆ é™¤
     for (int i = 0; i < size; i++) {
       int mark = this.bookmarks.get(i);
       if (bookmark == mark) {
@@ -524,7 +524,7 @@ public class BaseTextArea extends JTextArea {
         return;
       }
     }
-    // Èç¹ûÊéÇ©²»´æÔÚ£¬ÔòÌí¼Ó
+    // å¦‚æœä¹¦ç­¾ä¸å­˜åœ¨ï¼Œåˆ™æ·»åŠ 
     for (int i = size - 1; i >= 0; i--) {
       int mark = this.bookmarks.get(i);
       if (bookmark > mark) {

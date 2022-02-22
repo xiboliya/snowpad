@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,24 +31,24 @@ import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
 
 /**
- * ÎÄ±¾ÓòµÄĞĞºÅ×é¼ş
+ * æ–‡æœ¬åŸŸçš„è¡Œå·ç»„ä»¶
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class LineNumberView extends JComponent {
   private static final long serialVersionUID = 1L;
-  private int lineHeight = 0; // µ±Ç°×ÖÌåÖĞÎÄ±¾ĞĞµÄ±ê×¼¸ß¶È¡£ËüÊÇÏàÁÚÎÄ±¾ĞĞ»ùÏßÖ®¼äµÄ¾àÀë£¬ÊÇleading¡¢ascentºÍdescentµÄ×ÜºÍ¡£
-  private int maxRowWidth = 0; // ×é¼şÏÔÊ¾ÇøÓòÖĞ£¬×î¿íÒ»ĞĞµÄ×Ö·û´®¿í¶È
-  private FontMetrics fontMetrics = null; // ¶¨Òå×ÖÌå¹æ¸ñµÄ¶ÔÏó£¬¸Ã¶ÔÏó·â×°½«ÔÚÆÁÄ»ÉÏÏÔÊ¾µÄ×ÖÌåµÄÓĞ¹ØĞÅÏ¢
-  private BaseTextArea txaSource = null; // ÏëÒªÏÔÊ¾ĞĞºÅµÄÎÄ±¾Óò
-  private MouseAdapter mouseAdapter = null; // ½ÓÊÕÊó±êÊÂ¼şµÄÊÊÅäÆ÷
+  private int lineHeight = 0; // å½“å‰å­—ä½“ä¸­æ–‡æœ¬è¡Œçš„æ ‡å‡†é«˜åº¦ã€‚å®ƒæ˜¯ç›¸é‚»æ–‡æœ¬è¡ŒåŸºçº¿ä¹‹é—´çš„è·ç¦»ï¼Œæ˜¯leadingã€ascentå’Œdescentçš„æ€»å’Œã€‚
+  private int maxRowWidth = 0; // ç»„ä»¶æ˜¾ç¤ºåŒºåŸŸä¸­ï¼Œæœ€å®½ä¸€è¡Œçš„å­—ç¬¦ä¸²å®½åº¦
+  private FontMetrics fontMetrics = null; // å®šä¹‰å­—ä½“è§„æ ¼çš„å¯¹è±¡ï¼Œè¯¥å¯¹è±¡å°è£…å°†åœ¨å±å¹•ä¸Šæ˜¾ç¤ºçš„å­—ä½“çš„æœ‰å…³ä¿¡æ¯
+  private BaseTextArea txaSource = null; // æƒ³è¦æ˜¾ç¤ºè¡Œå·çš„æ–‡æœ¬åŸŸ
+  private MouseAdapter mouseAdapter = null; // æ¥æ”¶é¼ æ ‡äº‹ä»¶çš„é€‚é…å™¨
 
   /**
-   * ×Ô¶¨ÒåµÄ¹¹Ôì·½·¨
+   * è‡ªå®šä¹‰çš„æ„é€ æ–¹æ³•
    * 
    * @param txaSource
-   *          ½«ÒªÏÔÊ¾´ËĞĞºÅ×é¼şµÄÎÄ±¾Óò
+   *          å°†è¦æ˜¾ç¤ºæ­¤è¡Œå·ç»„ä»¶çš„æ–‡æœ¬åŸŸ
    */
   public LineNumberView(JTextArea txaSource) {
     if (txaSource != null) {
@@ -64,7 +64,7 @@ public class LineNumberView extends JComponent {
   }
 
   /**
-   * Îª±¾¿Ø¼şÌí¼Ó¸÷ÖÖÊÂ¼ş¼àÌıÆ÷
+   * ä¸ºæœ¬æ§ä»¶æ·»åŠ å„ç§äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.mouseAdapter = new MouseAdapter() {
@@ -73,12 +73,12 @@ public class LineNumberView extends JComponent {
           return;
         }
         int y = e.getY();
-        int lineNumber = y / lineHeight; // µ±Ç°µã»÷µÄĞĞºÅ
-        if (e.getButton() == MouseEvent.BUTTON3) { // µã»÷ÓÒ¼üÊ±£¬ÉèÖÃ/È¡ÏûÊéÇ©
+        int lineNumber = y / lineHeight; // å½“å‰ç‚¹å‡»çš„è¡Œå·
+        if (e.getButton() == MouseEvent.BUTTON3) { // ç‚¹å‡»å³é”®æ—¶ï¼Œè®¾ç½®/å–æ¶ˆä¹¦ç­¾
           txaSource.switchBookmark(lineNumber);
           repaint();
-        } else { // ÆäËûÇé¿ö£¬Ñ¡ÖĞµ±Ç°ĞĞ
-          int lineCount = txaSource.getLineCount(); // ÎÄ±¾Óò×ÜĞĞÊı
+        } else { // å…¶ä»–æƒ…å†µï¼Œé€‰ä¸­å½“å‰è¡Œ
+          int lineCount = txaSource.getLineCount(); // æ–‡æœ¬åŸŸæ€»è¡Œæ•°
           lineNumber++;
           if (lineNumber > lineCount) {
             return;
@@ -86,7 +86,7 @@ public class LineNumberView extends JComponent {
           try {
             int offsetStart = txaSource.getLineStartOffset(lineNumber - 1);
             int offsetEnd = txaSource.getLineEndOffset(lineNumber - 1);
-            txaSource.select(offsetStart, offsetEnd); // Ñ¡ÖĞµ±Ç°ĞĞºÅµÄÎÄ±¾
+            txaSource.select(offsetStart, offsetEnd); // é€‰ä¸­å½“å‰è¡Œå·çš„æ–‡æœ¬
           } catch (BadLocationException x) {
             // x.printStackTrace();
           }
@@ -97,13 +97,13 @@ public class LineNumberView extends JComponent {
   }
 
   /**
-   * ÉèÖÃ×î´óÏÔÊ¾ĞĞÊı£¬²¢¸ù¾İ´ËĞĞÊıÉèÖÃ´Ë×é¼şµÄÊ×Ñ¡´óĞ¡
+   * è®¾ç½®æœ€å¤§æ˜¾ç¤ºè¡Œæ•°ï¼Œå¹¶æ ¹æ®æ­¤è¡Œæ•°è®¾ç½®æ­¤ç»„ä»¶çš„é¦–é€‰å¤§å°
    * 
    * @param row
-   *          ×î´óÏÔÊ¾ĞĞÊı
+   *          æœ€å¤§æ˜¾ç¤ºè¡Œæ•°
    */
   private void setPreferredLine(int row) {
-    // ÎªÁË½â¾ö²»ÔÚÇ°Ì¨µÄÇé¿öÏÂ³õÊ¼»¯Ê±£¬ĞĞºÅÀ¸¿í¶È½ÏĞ¡µÄÎÊÌâ£¬×îĞ¡ÉèÖÃÁ½Î»ÊıĞĞºÅµÄ¿í¶È
+    // ä¸ºäº†è§£å†³ä¸åœ¨å‰å°çš„æƒ…å†µä¸‹åˆå§‹åŒ–æ—¶ï¼Œè¡Œå·æ å®½åº¦è¾ƒå°çš„é—®é¢˜ï¼Œæœ€å°è®¾ç½®ä¸¤ä½æ•°è¡Œå·çš„å®½åº¦
     if (row < 10) {
       row = 10;
     }
@@ -116,10 +116,10 @@ public class LineNumberView extends JComponent {
   }
 
   /**
-   * ÉèÖÃ´Ë×é¼şµÄ×ÖÌå
+   * è®¾ç½®æ­¤ç»„ä»¶çš„å­—ä½“
    * 
    * @param font
-   *          ½«ÉèÖÃµÄ×ÖÌå
+   *          å°†è®¾ç½®çš„å­—ä½“
    */
   @Override
   public void setFont(Font font) {
@@ -134,10 +134,10 @@ public class LineNumberView extends JComponent {
   }
 
   /**
-   * »æÖÆ´Ë×é¼ş
+   * ç»˜åˆ¶æ­¤ç»„ä»¶
    * 
    * @param g
-   *          GraphicsÀàÊÇËùÓĞÍ¼ĞÎÉÏÏÂÎÄµÄ³éÏó»ùÀà£¬ÔÊĞíÓ¦ÓÃ³ÌĞòÔÚ×é¼şÒÔ¼°±ÕÆÁÍ¼ÏñÉÏ½øĞĞ»æÖÆ¡£
+   *          Graphicsç±»æ˜¯æ‰€æœ‰å›¾å½¢ä¸Šä¸‹æ–‡çš„æŠ½è±¡åŸºç±»ï¼Œå…è®¸åº”ç”¨ç¨‹åºåœ¨ç»„ä»¶ä»¥åŠé—­å±å›¾åƒä¸Šè¿›è¡Œç»˜åˆ¶ã€‚
    */
   @Override
   protected synchronized void paintComponent(Graphics g) {
@@ -150,7 +150,7 @@ public class LineNumberView extends JComponent {
     for (int i = startLineNum; i <= endLineNum; i++) {
       String lineNum = String.valueOf(i);
       int stringWidth = this.fontMetrics.stringWidth(lineNum);
-      // »æÖÆĞĞºÅ
+      // ç»˜åˆ¶è¡Œå·
       g.drawString(lineNum, Util.LINE_NUMBER_MARGIN + this.maxRowWidth - stringWidth, start);
       start += this.lineHeight;
     }
@@ -165,7 +165,7 @@ public class LineNumberView extends JComponent {
     int bookmarkWidth = Util.LINE_NUMBER_MARGIN_RIGHT - 2;
     for (int i = 0; i < size; i++) {
       int height = bookmarks.get(i) * this.lineHeight + (this.lineHeight - bookmarkWidth) / 2 + Util.LINE_NUMBER_START_OFFSET;
-      // »æÖÆÊéÇ©
+      // ç»˜åˆ¶ä¹¦ç­¾
       g.fillOval(width - Util.LINE_NUMBER_MARGIN_RIGHT, height,
           bookmarkWidth, bookmarkWidth);
     }

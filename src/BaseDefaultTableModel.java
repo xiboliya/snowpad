@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 ±ùÔ­
+ * Copyright (C) 2014 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,9 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 
 /**
- * ±í¸ñÊı¾İÄ£ĞÍ
+ * è¡¨æ ¼æ•°æ®æ¨¡å‹
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BaseDefaultTableModel extends DefaultTableModel {
@@ -42,10 +42,10 @@ public class BaseDefaultTableModel extends DefaultTableModel {
   }
 
   /**
-   * ±í¸ñÖĞµÄµ¥Ôª¸ñÊÇ·ñ¿É±»±à¼­
+   * è¡¨æ ¼ä¸­çš„å•å…ƒæ ¼æ˜¯å¦å¯è¢«ç¼–è¾‘
    */
   public boolean isCellEditable(int row, int column) {
-    return false; // ±í¸ñÖĞËùÓĞµÄµ¥Ôª¸ñ¶¼²»¿É±»±à¼­
+    return false; // è¡¨æ ¼ä¸­æ‰€æœ‰çš„å•å…ƒæ ¼éƒ½ä¸å¯è¢«ç¼–è¾‘
   }
 
 }

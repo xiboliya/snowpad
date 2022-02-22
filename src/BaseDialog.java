@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,15 +23,15 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 /**
- * ÓÃÓÚÍ³Ò»ĞĞÎªµÄJDialog´°¿ÚÀà
+ * ç”¨äºç»Ÿä¸€è¡Œä¸ºçš„JDialogçª—å£ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public abstract class BaseDialog extends JDialog {
   private static final long serialVersionUID = 1L;
   private Window owner = null;
-  protected JTextArea txaSource = null; // protected³ÉÔ±¿É±»Í¬Ò»°üÖĞµÄËùÓĞÀàÒÔ¼°²»Í¬°üÖĞµÄ×ÓÀà·ÃÎÊ
+  protected JTextArea txaSource = null; // protectedæˆå‘˜å¯è¢«åŒä¸€åŒ…ä¸­çš„æ‰€æœ‰ç±»ä»¥åŠä¸åŒåŒ…ä¸­çš„å­ç±»è®¿é—®
 
   public BaseDialog(JFrame owner, boolean modal) {
     super(owner, modal);
@@ -44,7 +44,7 @@ public abstract class BaseDialog extends JDialog {
   }
   
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init(Window owner) {
     this.owner = owner;
@@ -53,17 +53,17 @@ public abstract class BaseDialog extends JDialog {
   }
 
   /**
-   * "È·¶¨"²Ù×÷µÄÄ¬ÈÏ·½·¨¡£´ËÎª³éÏó·½·¨£¬×ÓÀà±ØĞëÊµÏÖ
+   * "ç¡®å®š"æ“ä½œçš„é»˜è®¤æ–¹æ³•ã€‚æ­¤ä¸ºæŠ½è±¡æ–¹æ³•ï¼Œå­ç±»å¿…é¡»å®ç°
    */
   public abstract void onEnter();
 
   /**
-   * "È¡Ïû"²Ù×÷µÄÄ¬ÈÏ·½·¨¡£´ËÎª³éÏó·½·¨£¬×ÓÀà±ØĞëÊµÏÖ
+   * "å–æ¶ˆ"æ“ä½œçš„é»˜è®¤æ–¹æ³•ã€‚æ­¤ä¸ºæŠ½è±¡æ–¹æ³•ï¼Œå­ç±»å¿…é¡»å®ç°
    */
   public abstract void onCancel();
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÏÔÊ¾»òÒş²Øµ±Ç°´°¿Ú
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šæ˜¾ç¤ºæˆ–éšè—å½“å‰çª—å£
    */
   public void setVisible(boolean visible) {
     if (!this.isVisible() && visible) {
@@ -73,10 +73,10 @@ public abstract class BaseDialog extends JDialog {
   }
 
   /**
-   * ÉèÖÃµ±Ç°±à¼­µÄÎÄ±¾Óò
+   * è®¾ç½®å½“å‰ç¼–è¾‘çš„æ–‡æœ¬åŸŸ
    * 
    * @param txaSource
-   *          µ±Ç°±à¼­µÄÎÄ±¾Óò
+   *          å½“å‰ç¼–è¾‘çš„æ–‡æœ¬åŸŸ
    */
   public void setTextArea(JTextArea txaSource) {
     if (txaSource != null) {

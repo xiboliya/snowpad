@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 /**
- * ÊµÏÖÏŞÖÆÓÃ»§ÊäÈë·ûºÏÖ¸¶¨ÕıÔò±í´ïÊ½µÄPlainDocumentÎÄµµ
+ * å®ç°é™åˆ¶ç”¨æˆ·è¾“å…¥ç¬¦åˆæŒ‡å®šæ­£åˆ™è¡¨è¾¾å¼çš„PlainDocumentæ–‡æ¡£
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BasePlainDocument extends PlainDocument {
@@ -36,29 +36,29 @@ public class BasePlainDocument extends PlainDocument {
   private Pattern pattern = null;
 
   /**
-   * Ä¬ÈÏµÄ¹¹Ôì·½·¨
+   * é»˜è®¤çš„æ„é€ æ–¹æ³•
    */
   public BasePlainDocument() {
     super();
   }
 
   /**
-   * ´ø²ÎÊıµÄ¹¹Ôì·½·¨
+   * å¸¦å‚æ•°çš„æ„é€ æ–¹æ³•
    * 
    * @param content
-   *          ÃèÊö¿É±à¼­µÄ×Ö·ûĞòÁĞÄÚÈİµÄ½Ó¿Ú
+   *          æè¿°å¯ç¼–è¾‘çš„å­—ç¬¦åºåˆ—å†…å®¹çš„æ¥å£
    */
   public BasePlainDocument(AbstractDocument.Content content) {
     super(content);
   }
 
   /**
-   * ´ø²ÎÊıµÄ¹¹Ôì·½·¨
+   * å¸¦å‚æ•°çš„æ„é€ æ–¹æ³•
    * 
    * @param content
-   *          ÃèÊö¿É±à¼­µÄ×Ö·ûĞòÁĞÄÚÈİµÄ½Ó¿Ú
+   *          æè¿°å¯ç¼–è¾‘çš„å­—ç¬¦åºåˆ—å†…å®¹çš„æ¥å£
    * @param pattern
-   *          ÏŞÖÆÓÃ»§ÊäÈëµÄÕıÔò±í´ïÊ½
+   *          é™åˆ¶ç”¨æˆ·è¾“å…¥çš„æ­£åˆ™è¡¨è¾¾å¼
    */
   public BasePlainDocument(AbstractDocument.Content content, String pattern) {
     super(content);
@@ -66,10 +66,10 @@ public class BasePlainDocument extends PlainDocument {
   }
 
   /**
-   * ´ø²ÎÊıµÄ¹¹Ôì·½·¨
+   * å¸¦å‚æ•°çš„æ„é€ æ–¹æ³•
    * 
    * @param pattern
-   *          ÏŞÖÆÓÃ»§ÊäÈëµÄÕıÔò±í´ïÊ½
+   *          é™åˆ¶ç”¨æˆ·è¾“å…¥çš„æ­£åˆ™è¡¨è¾¾å¼
    */
   public BasePlainDocument(String pattern) {
     super();
@@ -77,10 +77,10 @@ public class BasePlainDocument extends PlainDocument {
   }
 
   /**
-   * ÉèÖÃÕıÔò±í´ïÊ½
+   * è®¾ç½®æ­£åˆ™è¡¨è¾¾å¼
    * 
    * @param pattern
-   *          ÏŞÖÆÓÃ»§ÊäÈëµÄÕıÔò±í´ïÊ½
+   *          é™åˆ¶ç”¨æˆ·è¾“å…¥çš„æ­£åˆ™è¡¨è¾¾å¼
    */
   public void setPatternByString(String pattern) {
     this.pattern = Pattern.compile(pattern);
@@ -95,14 +95,14 @@ public class BasePlainDocument extends PlainDocument {
   }
 
   /**
-   * ÏòÎÄµµÖĞ²åÈë×Ö·û´®
+   * å‘æ–‡æ¡£ä¸­æ’å…¥å­—ç¬¦ä¸²
    * 
    * @param offset
-   *          ÆğÊ¼Æ«ÒÆÁ¿
+   *          èµ·å§‹åç§»é‡
    * @param str
-   *          Òª²åÈëµÄ×Ö·û´®
+   *          è¦æ’å…¥çš„å­—ç¬¦ä¸²
    * @param set
-   *          ²åÈëÄÚÈİµÄÊôĞÔ
+   *          æ’å…¥å†…å®¹çš„å±æ€§
    */
   public void insertString(int offset, String str, AttributeSet set)
       throws BadLocationException {

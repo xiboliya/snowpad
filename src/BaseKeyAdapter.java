@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 冰原
+ * Copyright (C) 2013 鍐板師
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
- * 当用户按下Esc键时关闭当前对话框，按Enter键时执行相应操作的键盘事件类
+ * 褰撶敤鎴锋寜涓婨sc閿椂鍏抽棴褰撳墠瀵硅瘽妗嗭紝鎸塃nter閿椂鎵ц鐩稿簲鎿嶄綔鐨勯敭鐩樹簨浠剁被
  * 
- * @author 冰原
+ * @author 鍐板師
  * 
  */
 public class BaseKeyAdapter extends KeyAdapter {

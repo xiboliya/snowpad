@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2021 ±ùÔ­
+ * Copyright (C) 2021 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,27 +35,27 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 /**
- * "ÇĞ¸îÎÄ¼ş"¶Ô»°¿ò
+ * "åˆ‡å‰²æ–‡ä»¶"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private OpenFileChooser openFileChooser = null; // "´ò¿ª"ÎÄ¼şÑ¡ÔñÆ÷
+  private OpenFileChooser openFileChooser = null; // "æ‰“å¼€"æ–‡ä»¶é€‰æ‹©å™¨
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblPath = new JLabel("ÊäÈëÎÄ¼şÂ·¾¶£º");
+  private JLabel lblPath = new JLabel("è¾“å…¥æ–‡ä»¶è·¯å¾„ï¼š");
   private BaseTextField txtPath = new BaseTextField();
-  private JButton btnSelectFile = new JButton("Ñ¡ÔñÎÄ¼ş(S)");
-  private JRadioButton radCutSize = new JRadioButton("°´ÎÄ¼ş´óĞ¡ÇĞ¸î£º", true);
-  private BaseTextField txtCutSize = new BaseTextField(true, "\\d{0,4}"); // ÏŞÖÆÓÃ»§Ö»ÄÜÊäÈëÊı×Ö£¬²¢ÇÒ²»ÄÜ³¬¹ı4Î»
+  private JButton btnSelectFile = new JButton("é€‰æ‹©æ–‡ä»¶(S)");
+  private JRadioButton radCutSize = new JRadioButton("æŒ‰æ–‡ä»¶å¤§å°åˆ‡å‰²ï¼š", true);
+  private BaseTextField txtCutSize = new BaseTextField(true, "\\d{0,4}"); // é™åˆ¶ç”¨æˆ·åªèƒ½è¾“å…¥æ•°å­—ï¼Œå¹¶ä¸”ä¸èƒ½è¶…è¿‡4ä½
   private JComboBox<String> cmbCutUnit = new JComboBox<String>(Util.STORAGE_UNIT);
-  private JRadioButton radCutCount = new JRadioButton("°´ÎÄ¼ş¸öÊıÇĞ¸î£º", false);
-  private BaseTextField txtCutCount = new BaseTextField(true, "\\d{0,4}"); // ÏŞÖÆÓÃ»§Ö»ÄÜÊäÈëÊı×Ö£¬²¢ÇÒ²»ÄÜ³¬¹ı4Î»
-  private JLabel lblCutCount = new JLabel("¸ö");
+  private JRadioButton radCutCount = new JRadioButton("æŒ‰æ–‡ä»¶ä¸ªæ•°åˆ‡å‰²ï¼š", false);
+  private BaseTextField txtCutCount = new BaseTextField(true, "\\d{0,4}"); // é™åˆ¶ç”¨æˆ·åªèƒ½è¾“å…¥æ•°å­—ï¼Œå¹¶ä¸”ä¸èƒ½è¶…è¿‡4ä½
+  private JLabel lblCutCount = new JLabel("ä¸ª");
   private ButtonGroup bgpCut = new ButtonGroup();
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
@@ -70,10 +70,10 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("ÇĞ¸îÎÄ¼ş");
+    this.setTitle("åˆ‡å‰²æ–‡ä»¶");
     this.pnlMain.setLayout(null);
     this.lblPath.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
     this.txtPath.setBounds(10, 35, 270, 30);
@@ -102,7 +102,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -112,14 +112,14 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯¸÷¿Ø¼şµÄ×´Ì¬
+   * åˆå§‹åŒ–å„æ§ä»¶çš„çŠ¶æ€
    */
   private void initView() {
     this.txtPath.selectAll();
   }
 
   /**
-   * ¸ù¾İµ¥Ñ¡°´Å¥µÄÑ¡Ôñ£¬ÉèÖÃ×é¼şÊÇ·ñ¿ÉÓÃ
+   * æ ¹æ®å•é€‰æŒ‰é’®çš„é€‰æ‹©ï¼Œè®¾ç½®ç»„ä»¶æ˜¯å¦å¯ç”¨
    */
   private void setComponentEnabledByRadioButton() {
     boolean selected = this.radCutSize.isSelected();
@@ -130,7 +130,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.txtPath.addKeyListener(this.keyAdapter);
@@ -150,7 +150,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -167,12 +167,12 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * "Ñ¡ÔñÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "é€‰æ‹©æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void selectFile() {
     if (this.openFileChooser == null) {
       this.openFileChooser = new OpenFileChooser();
-      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // ÉèÖÃÎªÄ¬ÈÏ¹ıÂËÆ÷
+      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // è®¾ç½®ä¸ºé»˜è®¤è¿‡æ»¤å™¨
     }
     this.openFileChooser.setSelectedFile(null);
     this.openFileChooser.setMultiSelectionEnabled(false);
@@ -188,23 +188,23 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private void cuttingFile() {
     String strPath = this.txtPath.getText();
     if (Util.isTextEmpty(strPath)) {
-      JOptionPane.showMessageDialog(this, "ÎÄ¼şÂ·¾¶²»ÄÜÎª¿Õ£¬ÇëÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ–‡ä»¶è·¯å¾„ä¸èƒ½ä¸ºç©ºï¼Œè¯·è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     File file = new File(strPath);
     if (!file.exists()) {
-      JOptionPane.showMessageDialog(this, "ÎÄ¼ş²»´æÔÚ£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     } else if (file.isDirectory()) {
-      JOptionPane.showMessageDialog(this, "²»Ö§³ÖÄ¿Â¼²Ù×÷£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "ä¸æ”¯æŒç›®å½•æ“ä½œï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     long length = file.length();
     if (length == 0) {
-      JOptionPane.showMessageDialog(this, "µ±Ç°ÎÄ¼şÎª¿ÕÎÄ¼ş£¬ÎŞ·¨ÇĞ¸î£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "å½“å‰æ–‡ä»¶ä¸ºç©ºæ–‡ä»¶ï¼Œæ— æ³•åˆ‡å‰²ï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -218,7 +218,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private void cuttingFileBySize(File file, long length) {
     String strCutSize = this.txtCutSize.getText();
     if (Util.isTextEmpty(strCutSize)) {
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼ş´óĞ¡²»ÄÜÎª¿Õ£¬ÇëÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶å¤§å°ä¸èƒ½ä¸ºç©ºï¼Œè¯·è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -227,12 +227,12 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       cutSize = Integer.parseInt(strCutSize);
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼ş´óĞ¡¸ñÊ½´íÎó£¬ÇëÊäÈëÊı×Ö£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶å¤§å°æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥æ•°å­—ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     if (cutSize <= 0) {
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼ş´óĞ¡±ØĞë´óÓÚ0£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶å¤§å°å¿…é¡»å¤§äº0ï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -246,21 +246,21 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       break;
     }
     if (cutSize >= length) {
-      JOptionPane.showMessageDialog(this, "ÒªÇĞ¸îµ±Ç°ÎÄ¼ş£¬ÇĞ¸îÎÄ¼ş´óĞ¡±ØĞëĞ¡ÓÚ" + length + "×Ö½Ú£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "è¦åˆ‡å‰²å½“å‰æ–‡ä»¶ï¼Œåˆ‡å‰²æ–‡ä»¶å¤§å°å¿…é¡»å°äº" + length + "å­—èŠ‚ï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     File fileParent = new File(file.getParent() + "/" + file.getName() + "_cutting");
     if (fileParent.exists()) {
       int result = JOptionPane.showConfirmDialog(this,
-          Util.convertToMsg("´Ë²Ù×÷½«¸²¸ÇÒÑ´æÔÚµÄ" + fileParent + "Ä¿Â¼£¡\nÊÇ·ñ¼ÌĞø£¿"),
+          Util.convertToMsg("æ­¤æ“ä½œå°†è¦†ç›–å·²å­˜åœ¨çš„" + fileParent + "ç›®å½•ï¼\næ˜¯å¦ç»§ç»­ï¼Ÿ"),
           Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
       if (result != JOptionPane.YES_OPTION) {
         return;
       }
       Util.deleteAllFiles(fileParent);
     } else {
-      fileParent.mkdirs(); // Èç¹ûÄ¿Â¼²»´æÔÚ£¬Ôò´´½¨Ö®
+      fileParent.mkdirs(); // å¦‚æœç›®å½•ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»ºä¹‹
     }
     RandomAccessFile randomAccessFile = null;
     try {
@@ -275,11 +275,11 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
         toCuttingFile(fileCutting, buffer, len);
         buffer = new byte[cutSize];
       }
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼şÍê³É£¡\n³É¹¦Éú³ÉÎÄ¼ş£º" + count + "¸ö¡£", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶å®Œæˆï¼\næˆåŠŸç”Ÿæˆæ–‡ä»¶ï¼š" + count + "ä¸ªã€‚", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } catch (Exception x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼şÊ§°Ü£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶å¤±è´¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } finally {
       try {
@@ -293,7 +293,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private void cuttingFileByCount(File file, long length) {
     String strCutCount = this.txtCutCount.getText();
     if (Util.isTextEmpty(strCutCount)) {
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼ş¸öÊı²»ÄÜÎª¿Õ£¬ÇëÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶ä¸ªæ•°ä¸èƒ½ä¸ºç©ºï¼Œè¯·è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -302,32 +302,32 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       cutCount = Integer.parseInt(strCutCount);
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼ş¸öÊı¸ñÊ½´íÎó£¬ÇëÊäÈëÊı×Ö£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶ä¸ªæ•°æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥æ•°å­—ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     if (cutCount <= 1) {
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼ş¸öÊı±ØĞë´óÓÚ1£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶ä¸ªæ•°å¿…é¡»å¤§äº1ï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     } else if (cutCount > length) {
-      JOptionPane.showMessageDialog(this, "ÒªÇĞ¸îµ±Ç°ÎÄ¼ş£¬ÇĞ¸îÎÄ¼ş¸öÊı²»ÄÜ´óÓÚ" + length + "¸ö£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "è¦åˆ‡å‰²å½“å‰æ–‡ä»¶ï¼Œåˆ‡å‰²æ–‡ä»¶ä¸ªæ•°ä¸èƒ½å¤§äº" + length + "ä¸ªï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     int cutSize = 0;
-    cutSize = (int)Math.ceil(length / (double)cutCount); // °´ÕÕĞ¡Êı²¿·ÖÈ«²¿½øÎ»µÄ·½Ê½·µ»ØÕûÊı£¬Ïà¶ÔÓÚËÄÉáÎåÈë£¬Ğ¡Êı²¿·Ö1~4Ò²½øÎ»
+    cutSize = (int)Math.ceil(length / (double)cutCount); // æŒ‰ç…§å°æ•°éƒ¨åˆ†å…¨éƒ¨è¿›ä½çš„æ–¹å¼è¿”å›æ•´æ•°ï¼Œç›¸å¯¹äºå››èˆäº”å…¥ï¼Œå°æ•°éƒ¨åˆ†1~4ä¹Ÿè¿›ä½
     File fileParent = new File(file.getParent() + "/" + file.getName() + "_cutting");
     if (fileParent.exists()) {
       int result = JOptionPane.showConfirmDialog(this,
-          Util.convertToMsg("´Ë²Ù×÷½«¸²¸ÇÒÑ´æÔÚµÄ" + fileParent + "Ä¿Â¼£¡\nÊÇ·ñ¼ÌĞø£¿"),
+          Util.convertToMsg("æ­¤æ“ä½œå°†è¦†ç›–å·²å­˜åœ¨çš„" + fileParent + "ç›®å½•ï¼\næ˜¯å¦ç»§ç»­ï¼Ÿ"),
           Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
       if (result != JOptionPane.YES_OPTION) {
         return;
       }
       Util.deleteAllFiles(fileParent);
     } else {
-      fileParent.mkdirs(); // Èç¹ûÄ¿Â¼²»´æÔÚ£¬Ôò´´½¨Ö®
+      fileParent.mkdirs(); // å¦‚æœç›®å½•ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»ºä¹‹
     }
     RandomAccessFile randomAccessFile = null;
     try {
@@ -342,11 +342,11 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
         toCuttingFile(fileCutting, buffer, len);
         buffer = new byte[cutSize];
       }
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼şÍê³É£¡\n³É¹¦Éú³ÉÎÄ¼ş£º" + count + "¸ö¡£", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶å®Œæˆï¼\næˆåŠŸç”Ÿæˆæ–‡ä»¶ï¼š" + count + "ä¸ªã€‚", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } catch (Exception x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "ÇĞ¸îÎÄ¼şÊ§°Ü£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åˆ‡å‰²æ–‡ä»¶å¤±è´¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } finally {
       try {
@@ -375,14 +375,14 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.cuttingFile();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

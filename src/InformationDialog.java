@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 ±ùÔ­
+ * Copyright (C) 2014 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,9 +31,9 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 /**
- * "Í³¼ÆĞÅÏ¢"¶Ô»°¿ò
+ * "ç»Ÿè®¡ä¿¡æ¯"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class InformationDialog extends BaseDialog implements ActionListener {
@@ -41,11 +41,11 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlCenter = new JPanel();
   private JPanel pnlSouth = new JPanel();
-  private GridBagLayout gblMain = new GridBagLayout(); // Íø¸ñ´ü²¼¾Ö
-  private GridBagConstraints gbc = new GridBagConstraints(); // Íø¸ñ´ü²¼¾ÖÀà²¼ÖÃ×é¼şµÄÔ¼Êø
+  private GridBagLayout gblMain = new GridBagLayout(); // ç½‘æ ¼è¢‹å¸ƒå±€
+  private GridBagConstraints gbc = new GridBagConstraints(); // ç½‘æ ¼è¢‹å¸ƒå±€ç±»å¸ƒç½®ç»„ä»¶çš„çº¦æŸ
   private JTextArea txaFile = new JTextArea();
   private JTextArea txaDoc = new JTextArea();
-  private JButton btnOk = new JButton(" È·¶¨ ");
+  private JButton btnOk = new JButton(" ç¡®å®š ");
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
@@ -55,7 +55,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
       return;
     }
     this.txaSource = txaSource;
-    this.setTitle("Í³¼ÆĞÅÏ¢");
+    this.setTitle("ç»Ÿè®¡ä¿¡æ¯");
     this.init();
     this.addListeners();
     this.setSize(400, 300);
@@ -63,7 +63,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -73,18 +73,18 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    // µ±×é¼şµÄÏÔÊ¾ÇøÓò´óÓÚËüËùÇëÇóµÄÏÔÊ¾ÇøÓò´óĞ¡Ê±£¬ÈçºÎµ÷Õû×é¼ş´óĞ¡¡£GridBagConstraints.BOTH±íÊ¾×é¼şÍêÈ«ÌîÂúÏÔÊ¾ÇøÓò¡£Ä¬ÈÏÖµÎªGridBagConstraints.NONE¡£
+    // å½“ç»„ä»¶çš„æ˜¾ç¤ºåŒºåŸŸå¤§äºå®ƒæ‰€è¯·æ±‚çš„æ˜¾ç¤ºåŒºåŸŸå¤§å°æ—¶ï¼Œå¦‚ä½•è°ƒæ•´ç»„ä»¶å¤§å°ã€‚GridBagConstraints.BOTHè¡¨ç¤ºç»„ä»¶å®Œå…¨å¡«æ»¡æ˜¾ç¤ºåŒºåŸŸã€‚é»˜è®¤å€¼ä¸ºGridBagConstraints.NONEã€‚
     this.gbc.fill = GridBagConstraints.BOTH;
-    // ÓÃÀ´ÉèÖÃ×é¼şËùÕ¼µÄµ¥Î»³¤¶È£¬Ä¬ÈÏÖµÎª1¡£GridBagConstraints.REMAINDER±íÊ¾´Ë×é¼şÎª´ËĞĞµÄ×îºóÒ»¸ö×é¼ş£¬¶øÇÒ»áÕ¼¾İËùÓĞÊ£Óà¿Õ¼ä¡£
+    // ç”¨æ¥è®¾ç½®ç»„ä»¶æ‰€å çš„å•ä½é•¿åº¦ï¼Œé»˜è®¤å€¼ä¸º1ã€‚GridBagConstraints.REMAINDERè¡¨ç¤ºæ­¤ç»„ä»¶ä¸ºæ­¤è¡Œçš„æœ€åä¸€ä¸ªç»„ä»¶ï¼Œè€Œä¸”ä¼šå æ®æ‰€æœ‰å‰©ä½™ç©ºé—´ã€‚
     this.gbc.gridwidth = GridBagConstraints.REMAINDER;
-    // ÓÃÀ´ÉèÖÃ×é¼şËùÕ¼µÄµ¥Î»¸ß¶È£¬Ä¬ÈÏÖµÎª1¡£
+    // ç”¨æ¥è®¾ç½®ç»„ä»¶æ‰€å çš„å•ä½é«˜åº¦ï¼Œé»˜è®¤å€¼ä¸º1ã€‚
     this.gbc.gridheight = 2;
-    // ÓÃÀ´ÉèÖÃ´°¿Ú±ä´óÊ±£¬×é¼şµÄË®Æ½Ëõ·Å±ÈÀı¡£Êı×ÖÔ½´ó£¬±íÊ¾×é¼şÄÜµÃµ½¸ü¶àµÄ¿Õ¼ä¡£Ä¬ÈÏÖµÎª0¡£
+    // ç”¨æ¥è®¾ç½®çª—å£å˜å¤§æ—¶ï¼Œç»„ä»¶çš„æ°´å¹³ç¼©æ”¾æ¯”ä¾‹ã€‚æ•°å­—è¶Šå¤§ï¼Œè¡¨ç¤ºç»„ä»¶èƒ½å¾—åˆ°æ›´å¤šçš„ç©ºé—´ã€‚é»˜è®¤å€¼ä¸º0ã€‚
     this.gbc.weightx = 1.0;
-    // ÓÃÀ´ÉèÖÃ´°¿Ú±ä´óÊ±£¬×é¼şµÄ´¹Ö±Ëõ·Å±ÈÀı¡£Êı×ÖÔ½´ó£¬±íÊ¾×é¼şÄÜµÃµ½¸ü¶àµÄ¿Õ¼ä¡£Ä¬ÈÏÖµÎª0¡£
+    // ç”¨æ¥è®¾ç½®çª—å£å˜å¤§æ—¶ï¼Œç»„ä»¶çš„å‚ç›´ç¼©æ”¾æ¯”ä¾‹ã€‚æ•°å­—è¶Šå¤§ï¼Œè¡¨ç¤ºç»„ä»¶èƒ½å¾—åˆ°æ›´å¤šçš„ç©ºé—´ã€‚é»˜è®¤å€¼ä¸º0ã€‚
     this.gbc.weighty = 1.0;
     this.gblMain.setConstraints(this.txaFile, this.gbc);
     this.pnlCenter.add(this.txaFile);
@@ -97,8 +97,8 @@ public class InformationDialog extends BaseDialog implements ActionListener {
     this.pnlMain.add(this.pnlSouth, BorderLayout.SOUTH);
 
     this.simpleDateFormat.applyPattern(Util.DATE_STYLES[1]);
-    this.txaFile.setBorder(new TitledBorder("ÎÄ¼şĞÅÏ¢"));
-    this.txaDoc.setBorder(new TitledBorder("ÎÄ±¾ÓòĞÅÏ¢"));
+    this.txaFile.setBorder(new TitledBorder("æ–‡ä»¶ä¿¡æ¯"));
+    this.txaDoc.setBorder(new TitledBorder("æ–‡æœ¬åŸŸä¿¡æ¯"));
     this.txaFile.setEditable(false);
     this.txaDoc.setEditable(false);
     this.txaFile.setLineWrap(true);
@@ -108,7 +108,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯Ïà¹ØĞÅÏ¢
+   * åˆå§‹åŒ–ç›¸å…³ä¿¡æ¯
    */
   private void initInfo() {
     File file = ((BaseTextArea) this.txaSource).getFile();
@@ -116,18 +116,18 @@ public class InformationDialog extends BaseDialog implements ActionListener {
       this.txaFile.setVisible(true);
       this.txaFile.setText(Util.INFO_FILE_PATH + file.getAbsolutePath() + "\n" +
           Util.INFO_FILE_MODIFY_TIME + this.simpleDateFormat.format(file.lastModified()) + "\n" +
-          Util.INFO_FILE_SIZE + file.length() + " ×Ö½Ú");
+          Util.INFO_FILE_SIZE + file.length() + " å­—èŠ‚");
     } else {
       this.txaFile.setVisible(false);
     }
     String strText = this.txaSource.getText();
-    int blanks = 0; // ¿Õ¸ñ
-    int digits = 0; // Êı×Ö
-    int letters = 0; // ×ÖÄ¸
+    int blanks = 0; // ç©ºæ ¼
+    int digits = 0; // æ•°å­—
+    int letters = 0; // å­—æ¯
     for (char ch : strText.toCharArray()) {
       if (Character.isDigit(ch)) {
         digits++;
-      } else if (Character.isLowerCase(ch) || Character.isUpperCase(ch)) { // ´Ë´¦²»¿ÉÓÃCharacter.isLetter(ch)£¬ÒòÎª»á½«ºº×ÖÒ²¼ÆËãÔÚÄÚ
+      } else if (Character.isLowerCase(ch) || Character.isUpperCase(ch)) { // æ­¤å¤„ä¸å¯ç”¨Character.isLetter(ch)ï¼Œå› ä¸ºä¼šå°†æ±‰å­—ä¹Ÿè®¡ç®—åœ¨å†…
         letters++;
       } else if (ch == ' ') {
         blanks++;
@@ -140,7 +140,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.btnOk.addActionListener(this);
@@ -148,7 +148,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -157,14 +157,14 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.dispose();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

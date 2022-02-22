@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,21 +31,21 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 /**
- * Åú´¦Àí"²åÈë"¶Ô»°¿ò
+ * æ‰¹å¤„ç†"æ’å…¥"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BatchInsertDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblInsert = new JLabel("²åÈë£º");
+  private JLabel lblInsert = new JLabel("æ’å…¥ï¼š");
   private BaseTextField txtInsert = new BaseTextField();
-  private JRadioButton radLineStart = new JRadioButton("ĞĞÊ×(S)", false);
-  private JRadioButton radLineEnd = new JRadioButton("ĞĞÎ²(E)", true);
+  private JRadioButton radLineStart = new JRadioButton("è¡Œé¦–(S)", false);
+  private JRadioButton radLineEnd = new JRadioButton("è¡Œå°¾(E)", true);
   private JPanel pnlLineStartEnd = new JPanel(new GridLayout(2, 1));
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private ButtonGroup bgpLineStartEnd = new ButtonGroup();
@@ -63,7 +63,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -73,17 +73,17 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("²åÈëÎÄ±¾");
+    this.setTitle("æ’å…¥æ–‡æœ¬");
     this.pnlMain.setLayout(null);
     this.lblInsert.setBounds(20, 10, 50, Util.VIEW_HEIGHT);
     this.txtInsert.setBounds(70, 10, 130, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblInsert);
     this.pnlMain.add(this.txtInsert);
     this.pnlLineStartEnd.setBounds(10, 40, 95, 70);
-    this.pnlLineStartEnd.setBorder(new TitledBorder("²åÈëÎ»ÖÃ"));
+    this.pnlLineStartEnd.setBorder(new TitledBorder("æ’å…¥ä½ç½®"));
     this.pnlLineStartEnd.add(this.radLineStart);
     this.pnlLineStartEnd.add(this.radLineEnd);
     this.pnlMain.add(this.pnlLineStartEnd);
@@ -99,7 +99,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.radLineStart.addKeyListener(this.keyAdapter);
@@ -112,7 +112,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -123,12 +123,12 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ²åÈë×Ö·û
+   * æ’å…¥å­—ç¬¦
    */
   private void insertText() {
     String strInsert = this.txtInsert.getText();
     if (Util.isTextEmpty(strInsert)) {
-      JOptionPane.showMessageDialog(this, "ÇëÊäÈë²åÈëµÄÎÄ±¾£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "è¯·è¾“å…¥æ’å…¥çš„æ–‡æœ¬ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtInsert.requestFocus();
     } else {
@@ -138,10 +138,10 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÔÚĞĞÊ×/ĞĞÎ²²åÈë×Ö·û´®
+   * åœ¨è¡Œé¦–/è¡Œå°¾æ’å…¥å­—ç¬¦ä¸²
    * 
    * @param strInsert
-   *          ÔÚĞĞÊ×/ĞĞÎ²²åÈëµÄ×Ö·û´®
+   *          åœ¨è¡Œé¦–/è¡Œå°¾æ’å…¥çš„å­—ç¬¦ä¸²
    */
   private void toInsertText(String strInsert) {
     CurrentLines currentLines = new CurrentLines(this.txaSource);
@@ -149,14 +149,14 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
     int endIndex = currentLines.getEndIndex();
     int endLineNum = currentLines.getEndLineNum();
     String strContent = currentLines.getStrContent();
-    boolean isEndLine = false; // ÓÃÓÚ±êÊ¶Ñ¡ÇøÄÚ½áÎ²ĞĞÊÇ·ñÎªÎÄ±¾ÓòÄ©ĞĞ£¬Èç¹ûÊÇÄ©ĞĞÔòÎªtrue
+    boolean isEndLine = false; // ç”¨äºæ ‡è¯†é€‰åŒºå†…ç»“å°¾è¡Œæ˜¯å¦ä¸ºæ–‡æœ¬åŸŸæœ«è¡Œï¼Œå¦‚æœæ˜¯æœ«è¡Œåˆ™ä¸ºtrue
     if (this.txaSource.getLineCount() == endLineNum + 1) {
       isEndLine = true;
     }
     if (strContent.endsWith("\n")) {
       strContent = strContent.substring(0, strContent.length() - 1);
     }
-    String[] arrText = strContent.split("\n", -1); // ½«µ±Ç°Ñ¡ÇøµÄÎÄ±¾·ÖĞĞ´¦Àí£¬°üÀ¨Ä©Î²µÄ¶à´¦¿ÕĞĞ
+    String[] arrText = strContent.split("\n", -1); // å°†å½“å‰é€‰åŒºçš„æ–‡æœ¬åˆ†è¡Œå¤„ç†ï¼ŒåŒ…æ‹¬æœ«å°¾çš„å¤šå¤„ç©ºè¡Œ
     boolean isLineStart = this.radLineStart.isSelected();
     StringBuilder stbText = new StringBuilder();
     for (int n = 0; n < arrText.length; n++) {
@@ -171,7 +171,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
       stbText.deleteCharAt(stbText.length() - 1);
     }
     this.txaSource.replaceRange(stbText.toString(), startIndex, endIndex);
-    endIndex = startIndex + stbText.length() - 1; // ²åÈëÎÄ±¾ºó£¬µ±Ç°Ñ¡ÇøÄÚÄ©ĞĞµÄĞĞÎ²Æ«ÒÆÁ¿
+    endIndex = startIndex + stbText.length() - 1; // æ’å…¥æ–‡æœ¬åï¼Œå½“å‰é€‰åŒºå†…æœ«è¡Œçš„è¡Œå°¾åç§»é‡
     if (this.txaSource.getText().length() == endIndex + 1) {
       endIndex++;
     }
@@ -179,14 +179,14 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.insertText();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

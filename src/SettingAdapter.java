@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 ±ùÔ­
+ * Copyright (C) 2014 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,21 +38,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * ÓÃÓÚ½âÎöºÍ±£´æÈí¼şÅäÖÃÎÄ¼şµÄ¹¤¾ßÀà
+ * ç”¨äºè§£æå’Œä¿å­˜è½¯ä»¶é…ç½®æ–‡ä»¶çš„å·¥å…·ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public final class SettingAdapter {
-  private Setting setting = null; // Èí¼ş²ÎÊıÅäÖÃÀà
-  private URI uri = null; // XMLÅäÖÃÎÄ¼şµÄURI
-  private File file = null; // XMLÅäÖÃÎÄ¼ş
+  private Setting setting = null; // è½¯ä»¶å‚æ•°é…ç½®ç±»
+  private URI uri = null; // XMLé…ç½®æ–‡ä»¶çš„URI
+  private File file = null; // XMLé…ç½®æ–‡ä»¶
 
   /**
-   * ´ø²ÎÊıµÄ¹¹Ôì·½·¨
+   * å¸¦å‚æ•°çš„æ„é€ æ–¹æ³•
    * 
    * @param setting
-   *          Èí¼ş²ÎÊıÅäÖÃÀà
+   *          è½¯ä»¶å‚æ•°é…ç½®ç±»
    */
   public SettingAdapter(Setting setting) {
     this.setSetting(setting);
@@ -60,14 +60,14 @@ public final class SettingAdapter {
   }
 
   /**
-   * ³õÊ¼»¯XMLÅäÖÃÎÄ¼ş
+   * åˆå§‹åŒ–XMLé…ç½®æ–‡ä»¶
    */
   private void initSettingFile() {
     String dir = SettingAdapter.class.getProtectionDomain().getCodeSource().getLocation().getPath();
     dir = new File(dir).getParent();
-    dir = dir.replace(Util.FILE_SEPARATOR, "/"); // ½«µ±Ç°²Ù×÷ÏµÍ³µÄÎÄ¼ş·Ö¸ô·ûÍ³Ò»Ìæ»»ÎªUnix/Linux·ç¸ñ£¬ÒÔ±ÜÃâÔÚWindowsÏµÍ³ÏÂ³öÏÖURIÓï·¨´íÎóµÄÎÊÌâ¡£
+    dir = dir.replace(Util.FILE_SEPARATOR, "/"); // å°†å½“å‰æ“ä½œç³»ç»Ÿçš„æ–‡ä»¶åˆ†éš”ç¬¦ç»Ÿä¸€æ›¿æ¢ä¸ºUnix/Linuxé£æ ¼ï¼Œä»¥é¿å…åœ¨Windowsç³»ç»Ÿä¸‹å‡ºç°URIè¯­æ³•é”™è¯¯çš„é—®é¢˜ã€‚
     try {
-      this.uri = new URI("file:///" + dir + "/" + Util.SETTING_XML); // Ê¹ÓÃURIÀ´¹¹½¨ÎÄ¼ş£¬±ÜÃâ³öÏÖÓÉÓÚÂ·¾¶ÖĞ´æÔÚ¿Õ¸ñ»òÖĞÎÄËùµ¼ÖÂµÄ´íÎó
+      this.uri = new URI("file:///" + dir + "/" + Util.SETTING_XML); // ä½¿ç”¨URIæ¥æ„å»ºæ–‡ä»¶ï¼Œé¿å…å‡ºç°ç”±äºè·¯å¾„ä¸­å­˜åœ¨ç©ºæ ¼æˆ–ä¸­æ–‡æ‰€å¯¼è‡´çš„é”™è¯¯
     } catch (URISyntaxException x) {
       // x.printStackTrace();
     }
@@ -75,17 +75,17 @@ public final class SettingAdapter {
   }
 
   /**
-   * ÉèÖÃÈí¼ş²ÎÊıÅäÖÃÀà
+   * è®¾ç½®è½¯ä»¶å‚æ•°é…ç½®ç±»
    * 
    * @param setting
-   *          Èí¼ş²ÎÊıÅäÖÃÀà
+   *          è½¯ä»¶å‚æ•°é…ç½®ç±»
    */
   public void setSetting(Setting setting) {
     this.setting = setting;
   }
 
   /**
-   * ½âÎöXMLÅäÖÃÎÄ¼şµÄ·½·¨
+   * è§£æXMLé…ç½®æ–‡ä»¶çš„æ–¹æ³•
    */
   public void parse() {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -112,17 +112,17 @@ public final class SettingAdapter {
   }
 
   /**
-   * TextArea½ÚµãµÄ½âÎö·½·¨
+   * TextAreaèŠ‚ç‚¹çš„è§£ææ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    */
   private void parseTextArea(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node.hasChildNodes()) {
         NodeList list = node.getChildNodes();
-        parseTextArea(list); // µİ¹éµ÷ÓÃ
+        parseTextArea(list); // é€’å½’è°ƒç”¨
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         String value = node.getTextContent().trim();
@@ -201,12 +201,12 @@ public final class SettingAdapter {
   }
 
   /**
-   * ½«red¡¢green¡¢blue¡¢alpha¸÷ÑÕÉ«·ÖÁ¿×é³ÉµÄ×Ö·û´®Êı×é£¬×ª»¯ÎªÑÕÉ«
+   * å°†redã€greenã€blueã€alphaå„é¢œè‰²åˆ†é‡ç»„æˆçš„å­—ç¬¦ä¸²æ•°ç»„ï¼Œè½¬åŒ–ä¸ºé¢œè‰²
    * 
    * @param arrColor
-   *          ¸÷ÑÕÉ«·ÖÁ¿µÄ×Ö·û´®Êı×é
+   *          å„é¢œè‰²åˆ†é‡çš„å­—ç¬¦ä¸²æ•°ç»„
    * @param index
-   *          µ±Ç°ÑÕÉ«ÔÚÅäÉ«·½°¸ÖĞµÄË÷ÒıÖµ
+   *          å½“å‰é¢œè‰²åœ¨é…è‰²æ–¹æ¡ˆä¸­çš„ç´¢å¼•å€¼
    */
   private Color transferToColor(String[] arrColor, int index) {
     int red = -1;
@@ -231,17 +231,17 @@ public final class SettingAdapter {
   }
 
   /**
-   * FindReplace½ÚµãµÄ½âÎö·½·¨
+   * FindReplaceèŠ‚ç‚¹çš„è§£ææ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    */
   private void parseFindReplace(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node.hasChildNodes()) {
         NodeList list = node.getChildNodes();
-        parseFindReplace(list); // µİ¹éµ÷ÓÃ
+        parseFindReplace(list); // é€’å½’è°ƒç”¨
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         String value = node.getTextContent().trim();
@@ -282,17 +282,17 @@ public final class SettingAdapter {
   }
 
   /**
-   * View½ÚµãµÄ½âÎö·½·¨
+   * ViewèŠ‚ç‚¹çš„è§£ææ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    */
   private void parseView(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node.hasChildNodes()) {
         NodeList list = node.getChildNodes();
-        parseView(list); // µİ¹éµ÷ÓÃ
+        parseView(list); // é€’å½’è°ƒç”¨
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         String value = node.getTextContent().trim();
@@ -355,17 +355,17 @@ public final class SettingAdapter {
   }
 
   /**
-   * Files½ÚµãµÄ½âÎö·½·¨
+   * FilesèŠ‚ç‚¹çš„è§£ææ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    */
   private void parseFiles(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node.hasChildNodes()) {
         NodeList list = node.getChildNodes();
-        parseFiles(list); // µİ¹éµ÷ÓÃ
+        parseFiles(list); // é€’å½’è°ƒç”¨
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         String value = node.getTextContent().trim();
@@ -390,10 +390,10 @@ public final class SettingAdapter {
   }
 
   /**
-   * Shortcuts½ÚµãµÄ½âÎö·½·¨
+   * ShortcutsèŠ‚ç‚¹çš„è§£ææ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    */
   private void parseShortcuts(NodeList nodeList) {
     this.initShortcuts();
@@ -401,7 +401,7 @@ public final class SettingAdapter {
       Node node = nodeList.item(i);
       if (node.hasChildNodes()) {
         NodeList list = node.getChildNodes();
-        parseShortcuts(list); // µİ¹éµ÷ÓÃ
+        parseShortcuts(list); // é€’å½’è°ƒç”¨
       } else {
         if (node.getNodeName().equalsIgnoreCase("shortcut")) {
           String strName = ((Element) node).getAttribute("name").trim();
@@ -415,7 +415,7 @@ public final class SettingAdapter {
   }
 
   /**
-   * ³õÊ¼»¯´æ·ÅËùÓĞ¿ì½İ¼üµÄÉèÖÃµÄ¹şÏ£±í
+   * åˆå§‹åŒ–å­˜æ”¾æ‰€æœ‰å¿«æ·é”®çš„è®¾ç½®çš„å“ˆå¸Œè¡¨
    */
   public void initShortcuts() {
     int length = Util.SHORTCUT_NAMES.length;
@@ -425,7 +425,7 @@ public final class SettingAdapter {
   }
 
   /**
-   * ½«Èí¼şÉèÖÃ±£´æµ½XMLÅäÖÃÎÄ¼şµÄ·½·¨
+   * å°†è½¯ä»¶è®¾ç½®ä¿å­˜åˆ°XMLé…ç½®æ–‡ä»¶çš„æ–¹æ³•
    */
   public void save() {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -446,7 +446,7 @@ public final class SettingAdapter {
       saveFiles(nodeList, root, document);
       nodeList = root.getElementsByTagName("shortcut");
       saveShortcuts(nodeList, root, document);
-      // ÒÔÏÂ²Ù×÷×îÖÕ½«Êı¾İĞ´Èëµ½Ó²ÅÌÎÄ¼şÖĞ
+      // ä»¥ä¸‹æ“ä½œæœ€ç»ˆå°†æ•°æ®å†™å…¥åˆ°ç¡¬ç›˜æ–‡ä»¶ä¸­
       TransformerFactory tff = TransformerFactory.newInstance();
       Transformer tf = tff.newTransformer();
       DOMSource ds = new DOMSource(document);
@@ -458,17 +458,17 @@ public final class SettingAdapter {
   }
 
   /**
-   * TextArea½ÚµãµÄ±£´æ·½·¨
+   * TextAreaèŠ‚ç‚¹çš„ä¿å­˜æ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    */
   private void saveTextArea(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node.hasChildNodes()) {
         NodeList list = node.getChildNodes();
-        saveTextArea(list); // µİ¹éµ÷ÓÃ
+        saveTextArea(list); // é€’å½’è°ƒç”¨
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         if (key.equalsIgnoreCase("isLineWrap")) {
@@ -521,17 +521,17 @@ public final class SettingAdapter {
   }
 
   /**
-   * FindReplace½ÚµãµÄ±£´æ·½·¨
+   * FindReplaceèŠ‚ç‚¹çš„ä¿å­˜æ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    */
   private void saveFindReplace(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node.hasChildNodes()) {
         NodeList list = node.getChildNodes();
-        saveFindReplace(list); // µİ¹éµ÷ÓÃ
+        saveFindReplace(list); // é€’å½’è°ƒç”¨
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         if (key.equalsIgnoreCase("matchCase")) {
@@ -561,17 +561,17 @@ public final class SettingAdapter {
   }
 
   /**
-   * View½ÚµãµÄ±£´æ·½·¨
+   * ViewèŠ‚ç‚¹çš„ä¿å­˜æ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    */
   private void saveView(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node.hasChildNodes()) {
         NodeList list = node.getChildNodes();
-        saveView(list); // µİ¹éµ÷ÓÃ
+        saveView(list); // é€’å½’è°ƒç”¨
       } else if (node.getNodeType() == Node.TEXT_NODE) {
         String key = node.getParentNode().getNodeName();
         if (key.equalsIgnoreCase("viewToolBar")) {
@@ -606,14 +606,14 @@ public final class SettingAdapter {
   }
 
   /**
-   * Files½ÚµãµÄ±£´æ·½·¨
+   * FilesèŠ‚ç‚¹çš„ä¿å­˜æ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    * @param element
-   *          ¸¸¼¶±êÇ©ÔªËØ
+   *          çˆ¶çº§æ ‡ç­¾å…ƒç´ 
    * @param document
-   *          Õû¸öXMLÎÄµµ
+   *          æ•´ä¸ªXMLæ–‡æ¡£
    */
   private void saveFiles(NodeList nodeList, Element element, Document document) {
     String str = "\n    ";
@@ -636,14 +636,14 @@ public final class SettingAdapter {
   }
 
   /**
-   * Shortcuts½ÚµãµÄ±£´æ·½·¨
+   * ShortcutsèŠ‚ç‚¹çš„ä¿å­˜æ–¹æ³•
    * 
    * @param nodeList
-   *          ½ÚµãÁĞ±í
+   *          èŠ‚ç‚¹åˆ—è¡¨
    * @param element
-   *          ¸¸¼¶±êÇ©ÔªËØ
+   *          çˆ¶çº§æ ‡ç­¾å…ƒç´ 
    * @param document
-   *          Õû¸öXMLÎÄµµ
+   *          æ•´ä¸ªXMLæ–‡æ¡£
    */
   private void saveShortcuts(NodeList nodeList, Element element, Document document) {
     String str = "\n    ";
@@ -659,7 +659,7 @@ public final class SettingAdapter {
     for ( int i = 0; i < size; i++) {
       String name = Util.SHORTCUT_NAMES[i];
       String value = this.setting.shortcutMap.get(name).toString();
-      if (Util.SHORTCUT_VALUES[i].equalsIgnoreCase(value)) { // ¿ì½İ¼üÓëÄ¬ÈÏÍ³Ò»µÄ»°£¬×îÖÕ²»Ğ´ÈëXMLÅäÖÃÎÄ¼ş
+      if (Util.SHORTCUT_VALUES[i].equalsIgnoreCase(value)) { // å¿«æ·é”®ä¸é»˜è®¤ç»Ÿä¸€çš„è¯ï¼Œæœ€ç»ˆä¸å†™å…¥XMLé…ç½®æ–‡ä»¶
         continue;
       }
       nodeList.item(0).appendChild(document.createTextNode(str));
@@ -672,7 +672,7 @@ public final class SettingAdapter {
   }
 
   /**
-   * ´´½¨Ä¬ÈÏµÄXMLÅäÖÃÎÄ¼ş
+   * åˆ›å»ºé»˜è®¤çš„XMLé…ç½®æ–‡ä»¶
    */
   public void createSettingFile() {
     URL url = ClassLoader.getSystemResource("res/" + Util.SETTING_XML);

@@ -2,57 +2,57 @@
 * tag:java-NotePad-V1_0
 *****************************
 2009-08-29
-1.�������汾�Ŷ���Ϊ�������Ա���ά����
-2.��True��False�Ķ���ȡ�������ü��������͵�true��false��
+1.将软件版本号定义为变量，以便于维护。
+2.将True、False的定义取消，仍用简单数据类型的true、false。
 
 2009-08-30
-1.ȥ���Զ����setShowCenter���ھ��з���������ϵͳ�Դ���setLocationRelativeTo������
-2.������ڶ��δ�����Ի���ʱ��ֻ�Ǽ򵥵���ʾ���棬��������ݵ�ǰ�����ø��µ����⡣
+1.去掉自定义的setShowCenter窗口居中方法，换用系统自带的setLocationRelativeTo方法。
+2.解决当第二次打开字体对话框时，只是简单的显示界面，而不会根据当前的设置更新的问题。
 
 2009-09-03
-1.��ִ�С��˳����˵�ʱ��ֱ���˳������û���жϵ�ǰ�ļ��Ƿ����޸ġ�
-2.���滻���Ի����TitleΪ�����ҡ���Ӧ��Ϊ���滻����
-3.��������ʾ���Titleͳһ��
-4.�Ż��ж��ļ���չ���Ĺ��ܣ����Զ����getExt����ɾ��������String���endsWith������
+1.当执行“退出”菜单时，直接退出程序而没有判断当前文件是否已修改。
+2.“替换”对话框的Title为“查找”，应改为“替换”。
+3.将部分提示框的Title统一。
+4.优化判断文件扩展名的功能，将自定义的getExt方法删除，改用String类的endsWith方法。
 
 2009-09-04
-1.ÿ�δ򿪲��ҡ��滻��ת������������ڵȶԻ���ʱ����������һ�´��ھ��С�
+1.每次打开查找、替换、转到、字体与关于等对话框时，重新设置一下窗口居中。
 
 2009-09-08
-1.��EscKeyAdapter�����������������һ��JDialog�Ĳ������Ա��ڴ������á�
-2.Ϊ��������WindowFocusListener�¼����������������ڻ�ý���ʱ���ж�ϵͳ�������Ƿ�Ϊ�ջ��Ƿ���á�
-3.������JMenuBar�ķ�����Ϊϵͳ��Ĭ�Ϸ�����setJMenuBar(this.menuBar)��
-4.����SUN�ٷ��Ƽ�����InputEvent.CTRL_MASK��Ϊ��InputEvent.CTRL_DOWN_MASK��
-5.���������Ctrl+C��Ctrl+H��Ctrl+V��Ctrl+X��Ĭ���ȼ����Ӷ�ִ���Զ���ķ�����
+1.将EscKeyAdapter类独立出来，并增加一个JDialog的参数，以便于代码重用。
+2.为窗口添加WindowFocusListener事件监听器；即当窗口获得焦点时，判断系统剪贴板是否为空或是否可用。
+3.将添加JMenuBar的方法改为系统的默认方法：setJMenuBar(this.menuBar)。
+4.根据SUN官方推荐，将InputEvent.CTRL_MASK改为：InputEvent.CTRL_DOWN_MASK。
+5.屏蔽组件的Ctrl+C、Ctrl+H、Ctrl+V、Ctrl+X等默认热键，从而执行自定义的方法。
 
 2009-09-09
-1.��caretUpdate�����ж������䣺this.setTitle(this.stbTitle.toString());ɾ����
+1.将caretUpdate方法中多余的语句：this.setTitle(this.stbTitle.toString());删除。
 
 2009-09-13
-1.�������쳣��catch�������Ӵ�ӡ��Ϣ���Ա��ڵ��ԡ�
-2.ִ���½�����ʱ����setMenuDefault������ֻ�����Զ����С��͡�״̬�����Ĳ˵����ã���δ���й������á�
+1.将各个异常的catch块中添加打印消息，以便于调试。
+2.执行新建操作时，在setMenuDefault方法中只将“自动换行”和“状态栏”的菜单重置，而未进行功能设置。
 
 2009-09-14
-1.ΪsetMenuDefault�������Ӳ�����boolean isInit����ʹ�½�ʱ���ı䡰�Զ����С��͡�״̬���������á�
+1.为setMenuDefault方法添加参数：boolean isInit，以使新建时不改变“自动换行”和“状态栏”的设置。
 
 2009-09-16
-1.�������ڵľ�����ʾ��Ϊϵͳ�Դ���setLocationRelativeTo������
+1.将主窗口的居中显示改为系统自带的setLocationRelativeTo方法。
 
 2009-09-17
-1.��addTextArea�����������䣺this.txaMain.setLineWrap(true);ɾ����
+1.将addTextArea方法冗余的语句：this.txaMain.setLineWrap(true);删除。
 
 2009-09-20
-1.��setMenuStateUndo��setMenuStateRedo�����ϲ�Ϊ��setMenuStateUndoRedo��������caretUpdate�¼������й��ڡ��������Ĳ˵���ʾ�Ƶ�undoableEditHappened�У�������������������͡��������˵�����ʾ���⡣
-2.�����ļ�ʱ�����жϷ�����lastIndexOf��ΪendsWith������
+1.将setMenuStateUndo和setMenuStateRedo方法合并为：setMenuStateUndoRedo方法；将caretUpdate事件监听中关于“撤销”的菜单显示移到undoableEditHappened中；并解决其他“撤销”和“重做”菜单的显示问题。
+2.保存文件时，将判断方法由lastIndexOf改为endsWith方法。
 
 2009-09-22
-1.��caretUpdate�¼������е�setMenuStateByTextArea��updateStateAll�Ĳ����Ƶ�undoableEditHappened�¼������С�
+1.将caretUpdate事件监听中的setMenuStateByTextArea、updateStateAll的操作移到undoableEditHappened事件监听中。
 
 2009-09-23
-1.������Ի����С����塱�������Ρ�������С���б�������Ϊ��һѡ��ģʽ��
+1.将字体对话框中“字体”、“字形”、“大小”列表框设置为单一选择模式。
 
 2009-09-25
-1.���ı�����Ի����С���С���б����ѡ��ʱ�����׳��쳣��
+1.当改变字体对话框中“大小”列表框的选择时，会抛出异常。
 
 *****************************
 * date:2009-09-25
@@ -60,85 +60,85 @@
 *****************************
 
 2009-09-27
-1.��״̬�����ӵ�ǰѡ���ַ���������ʾ��
-2.��setStateBar������ȥ�����ڣ�lblStateAll��lblStateCur�Ĵ�����
+1.在状态栏添加当前选择字符个数的显示。
+2.在setStateBar方法中去掉对于：lblStateAll与lblStateCur的处理。
 
 2009-11-03
-1.��openFile�����д��ļ��Ĵ����������Ϊ��toOpenFile(File file)��
+1.将openFile方法中打开文件的代码独立出来为：toOpenFile(File file)。
 
 2009-11-04
-1.��SimpleDateFormat���Ż�����ʱ�����ڵķ�����
+1.用SimpleDateFormat类优化插入时间日期的方法。
 
 2009-11-05
-1.�����������������򣩡�
+1.代码整理（命名规则）。
 
 2009-11-08
-1.��setView(boolean isOk)�����е�this.lblView.setFont(font);���뵽else�С�
+1.将setView(boolean isOk)方法中的this.lblView.setFont(font);加入到else中。
 
 2009-11-23
-1.�Ż�saveFileBeforeAct�������޸ĵ��û��ر�ѯ�ʶԻ���ʱ�ķ���ֵ��
-2.�Ż�findNextText���������ĳ������»��ظ�����FindDialog���ڵ����⡣
-3.��ReplaceDialog�����cancelReplace��������Ϊ��onCancel��
+1.优化saveFileBeforeAct方法，修改当用户关闭询问对话框时的返回值。
+2.优化findNextText方法，解决某种情况下会重复创建FindDialog窗口的问题。
+3.将ReplaceDialog类里的cancelReplace方法更名为：onCancel。
 
 2009-11-25
-1.����BaseAction�ӿڡ�BaseDialog�࣬�������Ӷ�Esc����Enter����Ĭ�ϲ���������
+1.定义BaseAction接口、BaseDialog类，便于添加对Esc键和Enter键的默认操作处理。
 
 2009-12-02
-1.�����йر����Ĳ������ӵ�finally����У������Ӱ�ȫ�ԡ�
+1.将所有关闭流的操作添加到finally语句中，以增加安全性。
 
 2009-12-08
-1.��this.fcrSave.setDialogTitle������Ƶ�saveFile�����С�
-2.������Ϊ��֮����ִ�С����桱����Ȼ�ᵯ�������桱�Ի���Ӧ��ֱ�ӱ����ı�������this.isNew����Ϊ��false��
-3.�����Ż���
+1.将this.fcrSave.setDialogTitle的语句移到saveFile方法中。
+2.“另存为”之后，再执行“保存”，依然会弹出“保存”对话框，应该直接保存文本。（将this.isNew设置为：false）
+3.代码优化。
 
 2009-12-17
-1.ִ�С����桱������Ϊ��������ֻ���ڡ��ļ����͡����ǡ������ļ���ʱ�����Զ�׷����Ӧ�ĺ�׺��
+1.执行“保存”或“另存为”操作，只有在“文件类型”不是“所有文件”时，才自动追加相应的后缀。
 
 2009-12-22
-1.�������ڲ���ͽӿڴ�NotePad�������������
+1.将各个内部类和接口从NotePad类里独立出来。
 
 2009-12-23
-1.������������Ժͷ������ӱ�Ҫ�ķ������η���
-2.�����ԣ�strSoftware��strVersion�ͷ�����setDefaultFont������NotePadUtil���С�
+1.将各个类的属性和方法添加必要的访问修饰符。
+2.将属性：strSoftware、strVersion和方法：setDefaultFont独立到NotePadUtil类中。
 
 2009-12-28
-1.��TXTFilter�ļ������������ΪBaseFileFilter������д���췽����������Ӧ�ļ����Ͳ�����
+1.将TXTFilter文件过滤器类更名为BaseFileFilter，并重写构造方法、增加相应文件类型参数。
 
 2010-02-04
-1.��insertDateTime�������this.simpleDateFormat.format(new Date(), stbDate, new FieldPosition(DateFormat.YEAR_FIELD));����Ϊ��String strDate = this.simpleDateFormat.format(new Date());
-2.��ԭNotePad���Ϊ��NotePadFrame��main������ȡ�������µ�NotePad���С�
+1.将insertDateTime方法里的this.simpleDateFormat.format(new Date(), stbDate, new FieldPosition(DateFormat.YEAR_FIELD));更改为：String strDate = this.simpleDateFormat.format(new Date());
+2.将原NotePad类改为：NotePadFrame，main方法提取出来到新的NotePad类中。
 
 2010-02-12
-1.��״̬��������Ϊ�������������
+1.将状态栏部分作为组件独立出来。
 
 2010-02-23
-1.�Ż����ҵķ�����
-2.�Ż��滻�ַ����ķ�����
+1.优化查找的方法。
+2.优化替换字符串的方法。
 
 2010-02-24
-1.��ִ�г���������ʱ��״̬�����ı������������������µ����⡣
+1.在执行撤销、重做时，状态栏的文本总字数不会立即更新的问题。
 
 2010-02-25
-1.��д�����ڡ��Ի�����������ԡ�
+1.重写“关于”对话框，增加灵活性。
 
 2010-02-26
-1.���ӡ����������ļ������ܡ�
+1.添加“重新载入文件”功能。
 
 2010-02-27
-1.���ӡ������������ܡ�
+1.添加“重命名”功能。
 
 2010-02-28
-1.���ӡ��Ӵ���ɾ���ļ������ܡ�
-2.���ӡ��л���Сд�����ܡ�
+1.添加“从磁盘删除文件”功能。
+2.添加“切换大小写”功能。
 
 2010-03-01
-1.�Ż���ת��...�����ܡ�
-2.�Ż�״̬����ǰ״̬����ʾ���ܡ�
-3.���ӡ����ٲ��ҡ����ܡ�
+1.优化“转到...”功能。
+2.优化状态栏当前状态的显示功能。
+3.添加“快速查找”功能。
 
 2010-03-02
-1.�Ż����л���Сд�����ܡ�
-2.���ӡ������С����ܡ�
+1.优化“切换大小写”功能。
+2.添加“操作行”功能。
 
 *****************************
 * date:2010-03-02
@@ -146,64 +146,64 @@
 *****************************
 
 2010-03-03
-1.�Ż������������ļ������ܡ�
-2.�Ż�����������
-3.�Ż����򿪡��͡����桱���ܣ��Խ���ļ�β�����ж�ʧ�����⡣
-4.���ӡ���д��ǰѡ�񡱹��ܡ�
+1.优化“重新载入文件”功能。
+2.优化常量命名。
+3.优化“打开”和“保存”功能，以解决文件尾处空行丢失的问题。
+4.添加“复写当前选择”功能。
 
 2010-03-04
-1.��������Ƶ�ǰ�С�ʱ����ĳ���ض�����»�ิ��һ���е����⡣
+1.解决“复制当前行”时，在某种特定情况下会多复制一空行的问题。
 
 2010-03-06
-1.��״̬�������ı�����������ʾ��
-2.�ڴ򿪲��ҶԻ���ʱ����ʼ��Ϊ��ǰѡ�е��ı���
-3.���ӡ�ǰ����ʾ���͡��������ڡ����ܡ�
+1.在状态栏添加文本总行数的显示。
+2.在打开查找对话框时，初始化为当前选中的文本。
+3.添加“前端显示”和“锁定窗口”功能。
 
 2010-03-08
-1.�Ż����ϲ��ҷ�����
-2.���ӡ����Ƶ������塱���ܡ�
+1.优化向上查找方法。
+2.添加“复制到剪贴板”功能。
 
 2010-03-09
-1.���ñ�������ͷ�ġ�*���ű�ʶ��
-2.��ִ�С����桱�����������ļ����ȹ���ʱ�����Ŀ���ļ���������ԭ���Ѳ����ڣ�������Ӧ��ʾ�ʹ�����
+1.设置标题栏开头的“*”号标识。
+2.当执行“保存”或“重新载入文件”等功能时，如果目标文件由于其他原因已不存在，添加相应提示和处理。
 
 2010-03-11
-1.���ӣ�CurrentLine�࣬���Ż��Ե�ǰ�еĸ��ֲ�����
-2.���ӡ�����հס����ܡ�
+1.添加：CurrentLine类，以优化对当前行的各种操作。
+2.添加“清除空白”功能。
 
 2010-03-12
-1.���ӡ��������š����ܡ�
+1.添加“字体缩放”功能。
 
 2010-03-15
-1.���ӡ��ı���ק�����ܡ�
+1.添加“文本拖拽”功能。
 
 2010-03-16
-1.�Ż������ơ����ܡ�
+1.优化“复制”功能。
 
 2010-03-18
-1.�Ż�BaseDialog��Ķ��塣
-2.���ӡ�Tab�����á����ܡ�
+1.优化BaseDialog类的定义。
+2.添加“Tab键设置”功能。
 
 2010-03-19
-1.ȥ��BaseAction�ӿڵĶ��岢�Ż�BaseDialog��Ķ��塣
+1.去掉BaseAction接口的定义并优化BaseDialog类的定义。
 
 2010-03-23
-1.���ӡ���ɫ���á����ܡ�
+1.添加“颜色设置”功能。
 
 2010-04-02
-1.�Ż����Ӵ���ɾ���ļ������ܡ�
-2.���ӡ�ɾ�����п��С����ܡ�
+1.优化“从磁盘删除文件”功能。
+2.添加“删除所有空行”功能。
 
 2010-04-12
-1.������֮������ִ�г�����Ȼ��ر��ļ�����ʱ�ı����޸ģ������ᵯ����ʾ��
-2.Ϊ��ת�����Ի������ӡ���ǰ�кš��͡���β�кš�����ʾ��
+1.当保存之后，立即执行撤销，然后关闭文件。此时文本已修改，但不会弹出提示框。
+2.为“转到”对话框添加“当前行号”和“结尾行号”的显示。
 
 2010-04-13
-1.Ϊ�����塱�Ի����������˫���¼���
-2.�ڴ��滻�Ի���ʱ����ʼ��Ϊ��ǰѡ�е��ı���
+1.为“字体”对话框添加鼠标双击事件。
+2.在打开替换对话框时，初始化为当前选中的文本。
 
 2010-04-20
-1.�Ż����������͡����������ܣ�����ִ�С��½��������򿪡��͡����桱ʱ������һ�����״̬����ִ�С������������������˱�ǵ�״̬ʱ�������ı����Ϊ�ѱ��棬��ȥ���������ġ�*���ű�ʶ��
+1.优化“撤销”和“重做”功能，即当执行“新建”、“打开”和“保存”时，设置一个标记状态。当执行“撤销”或“重做”到此标记的状态时，将此文本标记为已保存，并去掉标题栏的“*”号标识。
 
 *****************************
 * date:2010-04-20
@@ -211,59 +211,59 @@
 *****************************
 
 2010-04-26
-1.ִ�С����桱����������ʱ���������Ի�����ѡ��Ĭ�ϵġ������ļ���������ʱ������쳣�����⡣
-2.�Ż����������͡����������ܡ�
-3.ִ�С�ȫ���滻��ʱ�������滻��������ʾ��
-4.���ӡ�����༭�����ܡ�
+1.执行“保存”或“重命名”时，如果保存对话框中选择默认的“所有文件”过滤器时会产生异常的问题。
+2.优化“撤销”和“重做”功能。
+3.执行“全部替换”时，添加替换个数的提示。
+4.添加“最近编辑”功能。
 
 2010-04-30
-1.ִ�С����桱ʱ������༭��������µ����⡣
-2.�ڡ������С������ӡ�ɾ�������ס��͡�ɾ������β�����ܡ�
+1.执行“保存”时“最近编辑”不会更新的问题。
+2.在“操作行”下添加“删除至行首”和“删除至行尾”功能。
 
 2010-05-04
-1.����ʽ���ļ����Ĳ����ƶ����Զ�����ļ�ѡ�����С�
-2.�򿪡�����༭���б��е��ļ�������ʱ������������ʾ��
+1.将格式化文件名的操作移动到自定义的文件选择器中。
+2.打开“最近编辑”列表中的文件不存在时，弹出错误提示。
 
 2010-05-19
-1.����ȡϵͳ�����������Ƶķ�������NotePadUtil���У���һ���̶��������Ч�ʡ�
-2.���ӡ����з�ʽ�����ܡ�
+1.将获取系统所有字体名称的方法移入NotePadUtil类中，在一定程度上提高了效率。
+2.添加“换行方式”功能。
 
 2010-05-28
-1.���ӡ������ַ������ܡ�
+1.添加“插入字符”功能。
 
 2010-06-04
-1.���Ҽ��˵������ӡ��������˵���
-2.���ӡ����з���ʽ�����ܡ�
+1.在右键菜单中添加“重做”菜单。
+2.添加“换行符格式”功能。
 
 2010-07-01
-1.�޸Ļ��з���ʽʱ������޸ĺ����޸�ǰ�ĸ�ʽ��ͬ���򲻻Ὣ�ļ����Ϊ���޸ġ�������Ա�������ͷ�ġ�*���Ž��в�����
+1.修改换行符格式时，如果修改后与修改前的格式相同，则不会将文件标记为已修改。即不会对标题栏开头的“*”号进行操作。
 
 2010-07-02
-1.����������ļ�ʱ����ʱ������»��з����������⡣
-2.�����Ļ��з���ʽʱ��Ϊ���������ӡ�~���ű�ʶ��
+1.解决当打开新文件时，有时不会更新换行符变量的问题。
+2.当更改换行符格式时，为标题栏添加“~”号标识。
 
 2010-07-05
-1.���ӡ��ַ������ʽ�����ܡ�
+1.添加“字符编码格式”功能。
 
 2010-07-16
-1.���ó������������ֵ����༭������Ĭ�ϵ�100��Ϊ�����ơ�
-2.�Ż��ַ������ʽ��ö�٣�ʹ�����������������ά����
-3.�������ҡ��͡��滻�����ϵ�һ���Ի��򣬱��ڲ�����
+1.设置撤销管理器保持的最大编辑数，由默认的100改为无限制。
+2.优化字符编码格式的枚举，使程序更加清晰和易于维护。
+3.将“查找”和“替换”整合到一个对话框，便于操作。
 
 2010-07-20
-1.�޸ġ����ٲ��ҡ�Ĭ�����ִ�Сд��
+1.修改“快速查找”默认区分大小写。
 
 2010-07-26
-1.�Ż�CharEncodingö�ٵĶ��塣
-2.����LineSeparatorö�٣������Ż������з���ʽ����
+1.优化CharEncoding枚举的定义。
+2.添加LineSeparator枚举，用以优化“换行符格式”。
 
 2010-08-02
-1.�Ż��Ѵ��ļ���·����������
-2.���������в�����֧�֣��ڳ�ʼ��ͬʱ���ļ���
+1.优化已打开文件的路径名处理。
+2.添加命令行参数的支持，在初始化同时打开文件。
 
 2010-08-05
-1.����ͼƬ��Դ�����������Զ��崰��ͼ�ꡣ
-2.�����Զ���Ĵ���ͼ�ꡣ
+1.添加图片资源，用于设置自定义窗口图标。
+2.设置自定义的窗口图标。
 
 *****************************
 * date:2010-08-05
@@ -271,8 +271,8 @@
 *****************************
 
 2010-08-06
-1.���������Ӵ󣬽�Դ�ļ���NotePad.java��������Ϊ����ļ���
-2.��Ŀ����Ϊ��SnowPad��
+1.代码趋于庞大，将源文件：NotePad.java按照类拆分为多个文件。
+2.项目更名为：SnowPad。
 
 *****************************
 * date:2010-08-06
@@ -280,21 +280,21 @@
 *****************************
 
 2010-08-06
-1.Ϊ�����ڡ��������ӳ���ͼ�ꡣ
+1.为“关于”窗口添加程序图标。
 src/AboutDialog.java
 src/SnowPadFrame.java
 
 2010-08-10
-1.���ӡ�ͳ�ƴ��������ܡ�
+1.添加“统计次数”功能。
 src/FindReplaceDialog.java
 
 2010-08-13
-1.��BaseDialog���е�onEnter��onCancel��������Ϊ�鷽������ʹ�������ʵ�ִ˷�����
+1.将BaseDialog类中的onEnter和onCancel方法设置为虚方法，以使子类必须实现此方法。
 src/BaseDialog.java
 
 2010-08-18
-1.����BaseTextField�࣬ʵ���˳������������Ҽ���ݲ˵��Ŀؼ���
-src/BaseTextField.java(����)
+1.添加BaseTextField类，实现了撤销管理器和右键快捷菜单的控件。
+src/BaseTextField.java(添加)
 src/FindReplaceDialog.java
 src/FontChooser.java
 src/GotoDialog.java
@@ -302,73 +302,73 @@ src/SnowPadUtil.java
 src/TabSetDialog.java
 
 2010-08-19
-1.�������ʱ��������Ҽ�������ý��㡣
+1.当鼠标点击时（左键或右键），获得焦点。
 src/BaseTextField.java
 
 2010-08-26
-1.���������ı����У�ȥ�����ڡ�ȫѡ���˵���״̬���ƣ������Ǳ��ֿ���״̬���Խ���ض�����£�����ֲ����õ����⡣
+1.在主界面文本域中，去掉关于“全选”菜单的状态控制，即总是保持可用状态。以解决特定情况下，会出现不可用的问题。
 src/SnowPadFrame.java
-2.���������/�滻���Ի����ڿɼ�״̬������������ҡ�����������һ�����˵�ʱ��Ӧ�л��������ҡ�ѡ�����������滻���˵�ʱ��Ӧ�л������滻��ѡ���
+2.如果“查找/替换”对话框处于可见状态，当点击“查找”、“查找下一个”菜单时，应切换到“查找”选项卡；当点击“替换”菜单时，应切换到“替换”选项卡。
 src/SnowPadFrame.java
 
 2010-09-20
-1.���ӡ����ѡ���ڿհס��Ĺ��ܡ�
+1.添加“清除选区内空白”的功能。
 src/SnowPadFrame.java
 
 2010-09-21
-1.�Ż��滻���ܡ�
+1.优化替换功能。
 src/FindReplaceDialog.java
 
 2010-11-06
-1.���ӡ�ɾ��ѡ���ڿ��С��Ĺ��ܡ�
+1.添加“删除选区内空行”的功能。
 src/SnowPadFrame.java
 
 2011-06-18
-1.������ʽ��->��������ק��Ĭ��Ϊ�ر�
+1.将“格式”->“本文拖拽”默认为关闭
 src/SnowPadFrame.java
 
 2011-08-24
-1.��ת�����Ի����У���δ�����к�ʱ�����ȷ������Ӧ��ʾ���������кţ���
+1.“转到”对话框中，在未输入行号时点击“确定”，应提示“请输入行号！”
 src/GotoDialog.java
 
 2011-09-10
-1.�޸Ļ��з���ʽ���ַ������ʽʱ�����������ġ�~����ʶ����Ϊ��������������linux�ġ�~�����·�������
+1.修改换行符格式或字符编码格式时，将标题栏的“~”标识符改为“※”，以免与linux的“~”相对路径相混淆
 src/SnowPadUtil.java
 src/SnowPadFrame.java
-2.��������༭���µ��Ӳ˵�Ϊ��ʱ�����˲˵�����Ϊ������
+2.当“最近编辑”下的子菜单为空时，将此菜单设置为不可用
 src/SnowPadFrame.java
 
 2011-09-19
-1.��Ĭ�ϱ����ΪGB18030�����޸���linuxϵͳ�У�GB�����ļ������������
+1.将默认编码改为GB18030，以修改在linux系统中，GB编码文件会乱码的问题
 src/CharEncoding.java
 
 2011-09-22
-1.���ļ��ı�δ�޸ģ�ֻ�޸Ļ��з����ַ������ʽʱ���رա��½�������ļ�ʱӦ��ʾ���ļ��ĸ�ʽ�Ѿ��޸�...��
+1.当文件文本未修改，只修改换行符或字符编码格式时，关闭、新建或打开新文件时应提示“文件的格式已经修改...”
 src/SnowPadFrame.java
-2.��ִ�в��һ��滻����ʱ���򿪶Ի���ʱĬ��ѡ�С��������ݡ��е��ı�
+2.当执行查找或替换操作时，打开对话框时默认选中“查找内容”中的文本
 src/SnowPadFrame.java
 src/FindReplaceDialog.java
 
 2011-09-24
-1.��״̬�����ӡ����з���ʽLineStyle������ʾ
+1.在状态栏添加“换行符格式LineStyle”的显示
 src/SnowPadFrame.java
 src/SnowPadUtil.java
 src/LineSeparator.java
 
 2011-09-29
-1.��״̬�����ӡ������ʽEncoding������ʾ
+1.在状态栏添加“编码格式Encoding”的显示
 src/SnowPadFrame.java
 src/SnowPadUtil.java
 src/CharEncoding.java
 
 2011-10-28
-1.�����ǰ�༭���ļ���Ӳ�����ѱ�ɾ�������������ڱ���ʱӦ��ʾ����ʧ���ļ���xxx�������´�������
+1.如果当前编辑的文件在硬盘上已被删除或重命名，在保存时应提示“丢失的文件：xxx，已重新创建！”
 src/SnowPadFrame.java
 
 2011-10-30
-1.���ӡ��������༭�б�������
+1.添加“清空最近编辑列表”功能
 src/SnowPadFrame.java
-2.�޸İ汾��ΪV2.1
+2.修改版本号为V2.1
 src/SnowPadUtil.java
 
 *****************************
@@ -377,27 +377,27 @@ src/SnowPadUtil.java
 *****************************
 
 2011-11-11
-1.�޸ġ��༭��->������հס�->��ѡ���ڡ��롰ɾ�����С�->��ѡ����Χ���˵��ĳ�ʼ״̬Ϊ�����á�
+1.修改“编辑”->“清除空白”->“选区内”与“删除空行”->“选区范围”菜单的初始状态为不可用。
 src/SnowPadFrame.java
-2.���ӡ����Ƶ�ǰ�С��͡����Ƶ�ǰ�С�����
+2.添加“上移当前行”和“下移当前行”功能
 src/SnowPadFrame.java
-src/CurrentLines.java(����)
+src/CurrentLines.java(添加)
 
 2011-11-19
-1.���ӡ��Զ�����������
+1.添加“自动缩进”功能
 src/SnowPadFrame.java
-2.�����ڻ�ý���ʱ�������ǰ�༭���ļ���ɾ�����ƶ���Ӧ�����Ƿ����´����ĶԻ���
+2.主窗口获得焦点时，如果当前编辑的文件被删除或移动，应弹出是否重新创建的对话框。
 src/SnowPadFrame.java
 
 2011-12-18
-1.�������á������ɫ������ѡ��������ɫ���롰ѡ��������ɫ���Ĺ��ܡ�
+1.添加设置“光标颜色”、“选区字体颜色”与“选区背景颜色”的功能。
 src/SnowPadFrame.java
-2.��Linuxϵͳ�£�״̬��LineStyleĬ����ʾΪWindows��ӦΪUnix/Linux
+2.在Linux系统下，状态栏LineStyle默认显示为Windows，应为Unix/Linux
 src/SnowPadUtil.java
 src/LineSeparator.java
 
 2011-12-24
-1.�������룬�Ż�build.xml������doc��cleanĿ�꣬������������ִ��ant doc����api�����ĵ���ִ��ant clean��ձ�������������ļ���
+1.整理代码，优化build.xml，添加doc、clean目标，可在命令行中执行ant doc生成api帮助文档，执行ant clean清空编译产生的所有文件。
 src/CharEncoding.java
 src/CurrentLines.java
 src/LineSeparator.java
@@ -405,43 +405,43 @@ src/StatePanelAlignment.java
 build.xml
 
 2012-01-17
-1.����Զ�����ʱ���������������
+1.解决自动缩进时，缩进有误的问题
 src/SnowPadFrame.java
 
 2012-01-24
-1.�Ż�����д��ǰ�С��롰ɾ����ǰ�С����ܣ�ʹ��֧�ֶ��в���
+1.优化“复写当前行”与“删除当前行”功能，使其支持多行操作
 src/SnowPadFrame.java
 
 2012-02-05
-1.�������е�StringBuffer���滻ΪStringBuilder�����������Ż�����Ч��
+1.将代码中的StringBuffer都替换为StringBuilder，在理论上优化处理效率
 src/SnowPadFrame.java
 src/FindReplaceDialog.java
 
 2012-02-11
-1.�Ż�������հס����ܣ�ʹ��֧�ֶ��в���
+1.优化“清除空白”功能，使其支持多行操作
 src/SnowPadFrame.java
 
 2012-02-15
-1.���衰ת�������ڣ����ӡ�ת��ƫ����������
+1.重设“转到”窗口，添加“转到偏移量”功能
 src/GotoDialog.java
 
 2012-02-21
-1.��SnowPadUtil.java������ΪUtil.java
-2.�ڲ˵��������ӡ�������������ԭ���༭���˵�����������ص��Ӳ˵�ת�Ƶ��˲˵���
+1.将SnowPadUtil.java重命名为Util.java
+2.在菜单栏中添加“搜索”，并将原“编辑”菜单中与搜索相关的子菜单转移到此菜单下
 src/SnowPadFrame.java
-3.�ڡ��������˵������ӡ�������һ��������
+3.在“搜索”菜单中添加“查找上一个”功能
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
-4.���ӡ���ָ������򿪡����ܣ�����һ���̶���֧��UTF8 no BOM��ʽ
+4.添加“以指定编码打开”功能，以在一定程度上支持UTF8 no BOM格式
 src/Util.java
 src/CharEncoding.java
 src/SnowPadFrame.java
-src/FileEncodingDialog.java(����)
+src/FileEncodingDialog.java(添加)
 
 2012-02-24
-1.�޸ı��벿���ļ�����ָ��Դ����ı����ʽΪGB18030���Խ����Linuxϵͳ�±���ʱ�����뽫Դ����ת��ΪUTF-8��ʽ������
+1.修改编译部署文件，以指定源代码的编码格式为GB18030，以解决在Linux系统下编译时，必须将源代码转化为UTF-8格式的问题
 build.xml
-2.���������ڵĲ��֣�����������ĸ߶�����Ϊͳһ�ĳ���
+2.调整各窗口的布局，将常用组件的高度设置为统一的常量
 src/FileEncodingDialog.java
 src/FindReplaceDialog.java
 src/FontChooser.java
@@ -451,32 +451,32 @@ src/TabSetDialog.java
 src/Util.java
 
 2012-03-02
-1.�Ż���Tab�����á��Ի��򣬲����ӡ��Կո����Tab�����Ĺ���
+1.优化“Tab键设置”对话框，并添加“以空格代替Tab键”的功能
 src/SnowPadFrame.java
 src/TabSetDialog.java
-2.�����Linux����ϵͳ�£�ճ������Windows��ʽ���з�\r\n���ı�������ʱ���ܻ�������Ļ����ַ�������
+2.解决在Linux操作系统下，粘贴含有Windows格式换行符\r\n的文本，保存时可能会加入多余的换行字符的问题
 src/SnowPadFrame.java
 
 2012-03-09
-1.�ڡ��༭���˵������ӡ����򡱵Ĺ���
+1.在“编辑”菜单下添加“排序”的功能
 src/SnowPadFrame.java
 
 2012-03-20
-1.�ڡ��鿴���˵������ӡ���ɫ����������
+1.在“查看”菜单下添加“配色方案”功能
 src/SnowPadFrame.java
 
 2012-04-02
-1.�ڡ����롱->��ʱ��/���ڡ��˵��£����ӶԻ����Թ��û�ѡ����ָ�ʽ
-src/InsertDateDialog.java(����)
-src/InsertDialog.java ������Ϊ��InsertCharDialog.java
+1.在“插入”->“时间/日期”菜单下，添加对话框，以供用户选择多种格式
+src/InsertDateDialog.java(添加)
+src/InsertDialog.java 重命名为：InsertCharDialog.java
 src/BaseTextField.java
 src/SnowPadFrame.java
 src/Util.java
-2.������λ���ı������һ���У���ִ�С���д��ǰ�С�ʱ��������һ�����з�������
+2.解决光标位于文本域最后一空行，当执行“复写当前行”时，会多加入一个换行符的问题
 src/SnowPadFrame.java
 
 2012-04-06
-1.�޸İ汾��ΪV2.2
+1.修改版本号为V2.2
 src/Util.java
 
 *****************************
@@ -485,89 +485,89 @@ src/Util.java
 *****************************
 
 2012-04-12
-1.�޸ı��벿���ļ�����javac������-Xlint:uncheckedѡ��Ա�֤�ڱ����������ʾһЩ������Ϣ�����磺δָ�����͵���
+1.修改编译部署文件，在javac中添加-Xlint:unchecked选项，以保证在编译过程中显示一些警告信息，例如：未指定范型的类
 build.xml
 
 2012-06-15
-1.�޸ı��벿���ļ�����javadoc������encoding="GB18030"����ָ��Դ�ļ��ı����ʽ
+1.修改编译部署文件，在javadoc中添加encoding="GB18030"，以指定源文件的编码格式
 build.xml
-2.�ڡ���ɫ���á��˵������ӡ�ȫ����ɫ/��ɫ���Ĺ���
+2.在“颜色设置”菜单下添加“全部反色/补色”的功能
 src/SnowPadFrame.java
-3.�ڡ��鿴���˵����Ҽ���ݲ˵������ӡ�������ʾ���롰����������Ĺ���
-src/PartnerBean.java(����)
+3.在“查看”菜单和右键快捷菜单下添加“高亮显示”与“清除高亮”的功能
+src/PartnerBean.java(添加)
 src/SnowPadFrame.java
 src/Util.java
 
 2012-07-07
-1.�ڲ���/�滻�Ի��������ӡ�ѭ�����ҡ�����
+1.在查找/替换对话框中添加“循环查找”功能
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
 src/Util.java
 
 2012-08-12
-1.�ڱ༭�˵������ӡ��г�������
-src/RemoveTextDialog.java�����ӣ�
+1.在编辑菜单下添加“切除”功能
+src/RemoveTextDialog.java（添加）
 src/SnowPadFrame.java
-2.�������д��ǰ�С�ʱ������괦���ı��������һ�У��Ҵ��зǿ�ʱ�����ỻ�е�����
+2.解决“复写当前行”时，当光标处于文本域中最后一行，且此行非空时，不会换行的问题
 src/SnowPadFrame.java
-3.������ʱ��ɾ��resĿ¼����ܴ��ڵ�ͼƬ�����ļ�Thumbs.db
+3.编译打包时，删除res目录里可能存在的图片缓存文件Thumbs.db
 build.xml
-4.�������˵������ӡ�ѡ�����ҡ�����
+4.在搜索菜单下添加“选定查找”功能
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
-5.���������������ַ���������ַ�
+5.调整“插入特殊字符”界面的字符
 src/Util.java
 
 2012-09-30
-1.�ڱ༭�˵������ӡ�����������
+1.在编辑菜单下添加“缩进”功能
 src/SnowPadFrame.java
 
 2012-10-12
-1.�������������ʱ������ƫ�Ƶ�����
+1.解决“升序”排序时，换行偏移的问题
 src/SnowPadFrame.java
-2.�޸ı��벿���ļ�����jar������excludes���ԣ���֤�ڴ��ʱ�ų�ͼƬ�����ļ�Thumbs.db
+2.修改编译部署文件，在jar中添加excludes属性，保证在打包时排除图片缓存文件Thumbs.db
 build.xml
-3.����cmd.exe�ļ����Ա�����Windows�б���
-cmd.exe�����ӣ�
+3.添加cmd.exe文件，以便于在Windows中编译
+cmd.exe（添加）
 
 2013-01-07
-1.�����ڼ��±��������У������������ʱ���ӶԶ��������firefox��opera��chrome����֧��
+1.“关于记事本”窗口中，当鼠标点击链接时添加对多浏览器（firefox、opera和chrome）的支持
 src/AboutDialog.java
 src/Util.java
-2.�����ڼ��±��������У����ӡ����롱һ�������Ŀ�ڹȸ���������
+2.“关于记事本”窗口中，添加“代码”一项，即本项目在谷歌代码的链接
 src/SnowPadFrame.java
 
 2013-01-10
-1.�ڡ���ʽ���˵������ӡ��б���������...������
-src/SignIdentifierDialog�����ӣ�
+1.在“格式”菜单下添加“列表符号与编号...”功能
+src/SignIdentifierDialog（添加）
 src/SnowPadFrame.java
 src/Util.java
 src/InsertCharDialog.java
-2.�����������ʱ����ѡ�������һ��Ϊ�ı���ĵ����ڶ��У����ı������һ��Ϊ����ʱ���Ὣ�˿���ͬ������������
+2.解决“缩进”时，当选区内最后一行为文本域的倒数第二行，且文本域最后一行为空行时，会将此空行同步处理的问题
 src/SnowPadFrame.java
 src/Util.java
-3.ɾ��cmd.exe�ļ����Է����봫�������б�������Ⱦ
-cmd.exe��ɾ����
+3.删除cmd.exe文件，以防代码传播过程中被病毒感染
+cmd.exe（删除）
 
 2013-01-17
-1.�ڡ��༭��->�������С��˵������ӡ��ϲ�Ϊһ�С��Ĺ���
+1.在“编辑”->“操作行”菜单下添加“合并为一行”的功能
 src/SnowPadFrame.java
-2.�ڡ����롱->��ʱ�䡢���ڡ�����������һ��Ĭ�ϵĸ�ʽ
+2.在“插入”->“时间、日期”界面中添加一行默认的格式
 src/InsertDateDialog.java
 src/Util.java
 
 2013-01-24
-1.���������������С�ߴ�����Ϊ200*200���أ����û��϶��������������Сʱ��������С�ڴ˴����������ֵ
+1.将程序主界面的最小尺寸设置为200*200像素，当用户拖动鼠标调整主界面大小时，将不会小于此处定义的像素值
 src/SnowPadFrame.java
-2.���ӱ����ļ�ʱ�ļ�⣬���ļ�����ʧ��ʱ���ᵯ����ʾ��
+2.添加保存文件时的检测，当文件保存失败时，会弹出提示框
 src/SnowPadFrame.java
 
 2013-01-25
-1.�޸ı��벿���ļ�����javac������-Xlint:deprecationѡ��Ա�֤�ڱ����������ʾһЩ������Ϣ�����磺������ʹ�����ѹ�ʱ��API
+1.修改编译部署文件，在javac中添加-Xlint:deprecation选项，以保证在编译过程中显示一些警告信息，例如：代码中使用了已过时的API
 build.xml
 
 2013-01-26
-1.�ڡ��б���������...���������ӡ���֧������
+1.在“列表符号与编号...”界面添加“干支计数”
 src/SignIdentifierDialog.java
 src/Util.java
 
@@ -577,22 +577,22 @@ src/Util.java
 *****************************
 
 2013-01-29
-1.�޸ı��벿���ļ�������clean.bin��clean.docĿ�꣬������������ִ��ant clean.bin��ձ������ɵ�.class����Դ�ļ���ִ��ant clean.doc��ձ������ɵ�api�����ĵ���
+1.修改编译部署文件，添加clean.bin和clean.doc目标，可在命令行中执行ant clean.bin清空编译生成的.class与资源文件，执行ant clean.doc清空编译生成的api帮助文档。
 build.xml
-2.���򿪵����ļ��뵱ǰ�༭���ļ���ͬʱ���ɹ��򿪺󣬽������������Ϊ��֮ǰ��λ��
+2.当打开的新文件与当前编辑的文件相同时，成功打开后，将光标插入点设置为打开之前的位置
 src/SnowPadFrame.java
 src/Util.java
 
 2013-03-14
-1.��ǰ�༭���ı�����δ���浽�κ��ļ�ʱ��ִ�С��½������˳�����ʱ��Ӧ�����Ƿ񱣴��ļ�����ʾ��
+1.当前编辑的文本，尚未保存到任何文件时，执行“新建”或退出程序时，应弹出是否保存文件的提示框
 src/SnowPadFrame.java
-2.Ϊ�����桱�͡��򿪡��Ի������ӳ����ļ����͵Ĺ�����
-src/FileExt.java�����ӣ�
+2.为“保存”和“打开”对话框添加常用文件类型的过滤器
+src/FileExt.java（添加）
 src/SnowPadFrame.java
 src/Util.java
 
 2013-03-31
-1.�༭ģʽ����Ϊ���ļ�ģʽ
+1.编辑模式更改为多文件模式
 src/BaseDialog.java
 src/BaseTextField.java
 src/FindReplaceDialog.java
@@ -606,50 +606,50 @@ src/SnowPadFrame.java
 src/StatePanel.java
 src/TabSetDialog.java
 src/Util.java
-src/BaseTextArea.java�����ӣ�
-src/Setting.java�����ӣ�
+src/BaseTextArea.java（添加）
+src/Setting.java（添加）
 
 2013-04-17
-1.���Ҽ���ݲ˵��У����ӡ��رա��˵�
+1.在右键快捷菜单中，添加“关闭”菜单
 src/SnowPadFrame.java
-2.�ڡ�ת�����Ի����У����ӡ�ת���ٷֱȡ�����
+2.在“转到”对话框中，添加“转到百分比”功能
 src/GotoDialog.java
 
 2013-04-20
-1.��ĳЩ����������У����������û�������������ʽ����ǣ��Ľ������������Ի���������С���г��Ի����ƫ������ת���Ի�����кź�ƫ������Tab�����õ��ַ����������������ֻ���������֡�
+1.在某些单行输入框中，添加限制用户输入的正则表达式规则。牵涉的界面包括：字体对话框的字体大小、切除对话框的偏移量、转到对话框的行号和偏移量、Tab键设置的字符数，以上输入框中只能输入数字。
 src/BaseTextField.java
 src/FontChooser.java
 src/GotoDialog.java
 src/RemoveTextDialog.java
 src/TabSetDialog.java
-src/BasePlainDocument.java�����ӣ�
+src/BasePlainDocument.java（添加）
 
 2013-04-26
-1.�ڱ༭�˵��£����ӡ��������С����ܣ����������г������롢�ָ��кͺϲ��С����С��г����͡��ϲ��С��Ǵ�ԭ�в˵���ת�ƹ�����
+1.在编辑菜单下，添加“批处理行”功能，共包括：切除、插入、分割行和合并行。其中“切除”和“合并行”是从原有菜单中转移过来。
 src/SnowPadFrame.java
-src/RemoveTextDialog.java ������Ϊ��src/BatchRemoveDialog.java
-src/BatchInsertDialog.java�����ӣ�
-src/BatchSeparateDialog.java�����ӣ�
-2.�����ѡ�������׿ո���С�ڵ�ǰTab����ռ�ַ���ʱ��ִ�С��˸񡱹��ܣ�����ȥ�����׿ո�����⡣
+src/RemoveTextDialog.java 重命名为：src/BatchRemoveDialog.java
+src/BatchInsertDialog.java（添加）
+src/BatchSeparateDialog.java（添加）
+2.解决当选区内行首空格数小于当前Tab键所占字符数时，执行“退格”功能，不能去除行首空格的问题。
 src/SnowPadFrame.java
-3.����bat�������ļ����Ա�����Windowsϵͳ���������з�ʽ���У��������ӿ�ִ��Ȩ����Linuxϵͳ�����С�
-SnowPad.bat�����ӣ�
+3.添加bat批处理文件，以便于在Windows系统下以命令行方式运行；或者添加可执行权限在Linux系统下运行。
+SnowPad.bat（添加）
 
 2013-04-27
-1.������ʾ����ÿ��������ʾ���ַ�����������Χ���ı������л�����ʾ���ֽ�ÿ���ַ����޶�Ϊ60��
+1.限制提示框中每行最多可显示的字符数，超出范围的文本，进行换行显示。现将每行字符数限定为60。
 src/SnowPadFrame.java
 src/Util.java
 
 2013-05-06
-1.ִ�С�ȫ���滻���󣬽������������Ϊ�滻֮ǰ��λ��
+1.执行“全部替换”后，将光标插入点设置为替换之前的位置
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
 src/Util.java
-2.�ڡ����ڼ��±��������У�����GitHub����ֿ�����ӵ�ַ
+2.在“关于记事本”窗口中，添加GitHub代码仓库的链接地址
 src/SnowPadFrame.java
 
 2013-05-10
-1.�������򿪡��������桱�Ի���������Ԥ�����ļ��������Ĵ�������
+1.调整“打开”、“保存”对话框中添加预定义文件过滤器的处理方法
 src/OpenFileChooser.java
 src/SaveFileChooser.java
 src/SnowPadFrame.java
@@ -661,17 +661,17 @@ src/Util.java
 *****************************
 
 2013-05-14
-1.�ڡ��鿴���˵��£����ӡ��к��������ܡ�����Ŀǰ���������ƣ��˹����롰�Զ����С����ܲ���ͬʱʹ�á���Ҫ��ʾ�к��������������ȡ�����Զ����С����ܡ�
+1.在“查看”菜单下，添加“行号栏”功能。不过目前还不够完善，此功能与“自动换行”功能不能同时使用。如要显示行号栏，则必须首先取消“自动换行”功能。
 src/BaseTextArea.java
-src/LineNumberView.java�����ӣ�
+src/LineNumberView.java（添加）
 src/Setting.java
 src/SnowPadFrame.java
 src/Util.java
-2.��ִ�С����Ƶ�ǰ�С�ʱ��֧�ָ��Ƶ�ǰ���е����а塣
+2.当执行“复制当前行”时，支持复制当前多行到剪切板。
 src/SnowPadFrame.java
 
 2013-05-17
-1.����Tab������...��ת�Ƶ�����ʽ���˵��£��ڡ��鿴���˵������ӡ��л���ۡ����ܣ�������ĳЩ����Ĳ��֡�
+1.将“Tab键设置...”转移到“格式”菜单下，在“查看”菜单下添加“切换外观”功能，并调整某些界面的布局。
 src/BatchInsertDialog.java
 src/BatchRemoveDialog.java
 src/BatchSeparateDialog.java
@@ -680,43 +680,43 @@ src/SnowPadFrame.java
 src/Util.java
 
 2013-05-25
-1.�ڡ������С��˵������ӡ����е�ǰ�С����ܣ����������Ƶ������塱�µġ���ǰ�С�����ת�Ƶ��������С��˵��¡�
+1.在“操作行”菜单下添加“剪切当前行”功能，并将“复制到剪贴板”下的“当前行”功能转移到“操作行”菜单下。
 src/SnowPadFrame.java
 
 2013-05-27
-1.�ڡ��鿴���˵������ӡ����б�ǩ�����ܡ������ô˹���ʱ���ļ���ǩ����һ����ʾʱ�����Զ�������ʾ�����رմ˹���ʱ�����ʼ����һ������ʾ���б�ǩ�����ڱ�ǩ�����Ҳ���ʾ��ť��������������صı�ǩ��
+1.在“查看”菜单下添加“多行标签”功能。当启用此功能时，文件标签多于一行显示时，会自动换行显示。当关闭此功能时，则会始终在一行中显示所有标签，并在标签栏的右侧显示按钮，用于浏览被隐藏的标签。
 src/SnowPadFrame.java
 
 2013-05-28
-1.�ڡ��ļ����˵������ӡ�ȫ���رա����ܡ�
+1.在“文件”菜单下添加“全部关闭”功能。
 src/SnowPadFrame.java
 
 2013-05-30
-1.�л����ʱ������л������л�ǰ�������ͬ����ִ���κβ�����
+1.切换外观时，如果切换后与切换前的外观相同，则不执行任何操作。
 src/SnowPadFrame.java
-2.���򿪡��ļ�ʱ��֧��ѡ�����ļ�ͬʱ�򿪡�
+2.“打开”文件时，支持选择多个文件同时打开。
 src/OpenFileChooser.java
 src/SnowPadFrame.java
 
 2013-06-01
-1.�½��ļ�ʱ���ļ����Ӧ�Զ������ڲ��ظ���ǰ����ʹ�ý�С�����֣�����Ӧ��һֱ�ۼӡ�
+1.新建文件时，文件序号应自动检测而在不重复的前提下使用较小的数字，而不应该一直累加。
 src/BaseTextArea.java
 src/SnowPadFrame.java
 
 2013-06-04
-1.���Ҽ����ѡ�����ĵ�ǰ��ǩʱ��������ݲ˵������ṩ���ù��ܡ�
+1.当右键点击选项卡组件的当前标签时，弹出快捷菜单，以提供常用功能。
 src/SnowPadFrame.java
 
 2013-06-06
-1.�ڡ��鿴���˵������ӡ�˫���رձ�ǩ�����ܡ��˹��ܿ���ʱ��˫����ǰ��ǩ���رա�
+1.在“查看”菜单下添加“双击关闭标签”功能。此功能开启时，双击当前标签则会关闭。
 src/SnowPadFrame.java
 
 2013-07-04
-1.���������ָ������򿪡�һ�����ļ�ʱ����ʱ���ֱ����������⡣
+1.解决当“以指定编码打开”一个新文件时，有时出现编码错误的问题。
 src/SnowPadFrame.java
 
 2013-07-05
-1.�ڡ��ļ����˵������ӡ��ر����������ܡ�
+1.在“文件”菜单下添加“关闭其它”功能。
 src/SnowPadFrame.java
 
 ******************************
@@ -724,164 +724,164 @@ git tag SnowPad-V3.1-20130705
 ******************************
 
 2013-07-21
-1.�½��ļ�ʱ���ļ����Ӧ�Զ������ڲ��ظ���ǰ����ʹ�ý�С�����֣�����Ӧ��һֱ�ۼӡ�
+1.新建文件时，文件序号应自动检测而在不重复的前提下使用较小的数字，而不应该一直累加。
 src/SnowPadFrame.java
 
 2013-08-01
-1.�����ǰ�༭���ļ����޸ģ�������༭�˵��д���ʷ�ļ�ʱ������ʾ�Ƿ񱣴��޸ĵ���ʾ������⡣
+1.解决当前编辑的文件已修改，从最近编辑菜单中打开历史文件时，会提示是否保存修改的提示框的问题。
 src/SnowPadFrame.java
 
 2013-09-03
-1.Ϊ�ļ���ǩ����ָʾͼ�꣬��ɫͼ���ʾΪ�½���δ���浽Ӳ�̵��ļ�����ɫͼ���ʾΪ��ͨ�Ŀɱ༭�ļ�����ɫͼ���ʾΪ��ɾ�������������ļ�����ɫͼ���ʾΪ�Ե�ǰ�û�ֻ�����ļ���
+1.为文件标签添加指示图标，蓝色图标表示为新建而未保存到硬盘的文件、绿色图标表示为普通的可编辑文件、红色图标表示为已删除或重命名的文件、灰色图标表示为对当前用户只读的文件。
 src/SnowPadFrame.java
 src/Util.java
-res/tab_exist_current.png�����ӣ�
-res/tab_exist_readonly.png�����ӣ�
-res/tab_new_file.png�����ӣ�
-res/tab_not_exist.png�����ӣ�
+res/tab_exist_current.png（添加）
+res/tab_exist_readonly.png（添加）
+res/tab_new_file.png（添加）
+res/tab_not_exist.png（添加）
 
 2013-09-05
-1.�ڡ�����/�滻���Ի��������ӡ�ת����չ�����ܣ������ַ����е�\n�滻Ϊ���з���\t�滻Ϊtab�ַ�
+1.在“查找/替换”对话框中添加“转义扩展”功能，即将字符串中的\n替换为换行符，\t替换为tab字符
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
 src/Util.java
 
 2013-09-11
-1.�����������ӳ��ù��ܵĹ�����
+1.在主界面添加常用功能的工具栏
 src/SnowPadFrame.java
 src/Util.java
-res/enableĿ¼�����ӣ�
-res/disableĿ¼�����ӣ�
-2.����ʱ��/���ں󣬹رմ���
+res/enable目录（添加）
+res/disable目录（添加）
+2.插入时间/日期后，关闭窗口
 src/InsertDateDialog.java
-3.��ǰ�ı���ѡ���ı���״̬�£��л���ۺ��ı����Ϊδѡ��״̬��ĳЩ�˵��밴ť��״̬û�м�ʱ���£�����ִ����Щ����ʱ������Ϊ�˱�������⣬���л���ۺ󣬱����л�ǰ��ѡ��״̬��
+3.当前文本域选中文本的状态下，切换外观后，文本域变为未选择状态，某些菜单与按钮的状态没有及时更新，导致执行这些功能时出错。为了避免此问题，在切换外观后，保持切换前的选择状态。
 src/SnowPadFrame.java
 
 2013-09-13
-1.ʹ�����������г���ʱ��֧��ͬʱָ������ļ���
+1.使用命令行运行程序时，支持同时指定多个文件打开
 src/SnowPad.java
 src/SnowPadFrame.java
-2.�ڡ��༭���˵������ӡ���תѡ���ַ�������
+2.在“编辑”菜单下添加“反转选区字符”功能
 src/SnowPadFrame.java
-3.������������ʾ���͡�����������Ĵ�������
+3.调整“高亮显示”和“清除高亮”的处理方法
 src/SnowPadFrame.java
 src/Util.java
-4.������/�滻���Ի����У��ڡ�ת����չ����ѡ���Ҳ�����һ��������ť������˰�ť�ᵯ���˹��ܵ�ʹ�ü��
-res/help.png�����ӣ�
+4.“查找/替换”对话框中，在“转义扩展”复选框右侧添加一个帮助按钮，点击此按钮会弹出此功能的使用简介
+res/help.png（添加）
 src/FindReplaceDialog.java
 src/Util.java
 
 2013-11-04
-1.���ӡ��������⡱����
+1.添加“帮助主题”内容
 src/SnowPadFrame.java
 src/Util.java
-src/BaseTreeNode.java�����ӣ�
-src/HelpFrame.java�����ӣ�
-res/help.res�����ӣ�
+src/BaseTreeNode.java（添加）
+src/HelpFrame.java（添加）
+res/help.res（添加）
 
 ******************************
 git tag SnowPad-V3.2-20131104
 ******************************
 
 2013-11-05
-1.�޸ġ����ڡ����ڵ���ʾ�����ӡ�CSDN���롱����ַ
+1.修改“关于”窗口的显示，添加“CSDN代码”的网址
 src/SnowPadFrame.java
-2.��build.xml�����ļ�������zipĿ�꣬������������ִ��ant zip��Դ���롢��Դ�������antĿ¼�����zip�ļ����Ա�������������
+2.在build.xml部署文件中添加zip目标，可在命令行中执行ant zip将源代码、资源与编译后的ant目录打包成zip文件，以便于整包发布。
 build.xml
-3.ȥ���ı�����������ʱ�����������봰��
+3.去掉文本框输入中文时所弹出的输入窗口
 src/SnowPad.java
 
 2013-11-08
-1.����GNU GPL����GNU General Public Licence�������濪Դ����Э����������ְ棬��������javaԴ�����ļ���ͷ������صİ�Ȩ˵����
+1.添加GNU GPL（即GNU General Public Licence）第三版开源许可协议的完整文字版，并在所有java源代码文件开头添加相关的版权说明。
 src/*.java
-licenses/GPLv3.txt�����ӣ�
+licenses/GPLv3.txt（添加）
 
 2013-11-12
-1.�ڡ��������С������ӡ����и�д������
+1.在“批处理行”中添加“逐行复写”功能
 src/SnowPadFrame.java
 res/help.res
 
 2013-11-19
-1.�����λ�����ı����б仯ʱ�������ǰ��괦���ַ������¼������ţ�()[]{}<>ʱ�����Զ����Ҳ�������ʾ��ƥ�����һ�����š�
+1.当光标位置在文本域中变化时，如果当前光标处的字符是如下几种括号：()[]{}<>时，则自动查找并高亮显示所匹配的另一半括号。
 src/SnowPadFrame.java
 src/Util.java
 
 2013-11-27
-1.���������Զ�ƥ�䲢�����Ĺ��ܡ�
+1.完善括号自动匹配并高亮的功能。
 src/SnowPadFrame.java
 
 2013-12-02
-1.�ڡ��༭���˵������ӡ�����ע�͡����ܣ������Ҽ��˵���ͬ�����ӡ�����������ע�͡��͡�����ע�͡���
+1.在“编辑”菜单下添加“添加注释”功能，并在右键菜单中同步添加。包括“单行注释”和“区块注释”。
 src/BaseTextArea.java
 src/FileExt.java
 src/SnowPadFrame.java
 res/help.res
 
 2013-12-10
-1.�ļ�ѡ���������Ӷ�Go����Դ�ļ���֧��
+1.文件选择器中添加对Go语言源文件的支持
 src/FileExt.java
 res/help.res
 
 2013-12-24
-1.�ڡ��������˵������ӡ���λƥ�����š�����
+1.在“搜索”菜单中添加“定位匹配括号”功能
 src/SnowPadFrame.java
 res/help.res
 
 2014-01-12
-1.�ڡ�����/�滻���Ի��������ӡ��������ʽ��ģʽ֧��
-src/SearchStyle.java�����ӣ�
+1.在“查找/替换”对话框中添加“正则表达式”模式支持
+src/SearchStyle.java（添加）
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
 src/Util.java
 
 2014-02-27
-1.�ڡ��鿴���˵������ӡ�ͳ����Ϣ������
-src/InformationDialog.java�����ӣ�
+1.在“查看”菜单中添加“统计信息”功能
+src/InformationDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
-2.����Ŀ������һ����α����˵���ļ�
-readme.txt�����ӣ�
+2.在项目中添加一个如何编译的说明文件
+readme.txt（添加）
 
 ******************************
 git tag SnowPad-V3.3-20140227
 ******************************
 
 2014-09-09
-1.�ڡ���ǩ���á������ӡ�ָʾͼ�ꡱ���ܣ����������Ƿ���ѡ�����ʾ�ļ�״ָ̬ʾͼ��
+1.在“标签设置”中添加“指示图标”功能，用于设置是否在选项卡上显示文件状态指示图标
 src/SnowPadFrame.java
-2.�ڡ������С������ӡ�ɾ�����ļ��ס��͡�ɾ�����ļ�β���Ĺ���
+2.在“操作行”中添加“删除至文件首”和“删除至文件尾”的功能
 src/SnowPadFrame.java
 
 2014-10-10
-1.�ڡ��鿴���˵������ӡ����ڹ���������
+1.在“查看”菜单中添加“窗口管理”功能
 src/SnowPadFrame.java
 src/Util.java
-src/BaseDefaultTableModel.java�����ӣ�
-src/WindowManageDialog.java�����ӣ�
+src/BaseDefaultTableModel.java（添加）
+src/WindowManageDialog.java（添加）
 
 2014-10-11
-1.�ڡ�ͳ����Ϣ���������������ֺ���ĸ��������ʾ
+1.在“统计信息”界面中添加数字和字母个数的显示
 src/InformationDialog.java
 src/Util.java
 
 2014-10-13
-1.�޸ġ�ͳ����Ϣ����������ʾ����ĸ���Ὣ����Ҳ�������ڵ�����
+1.修改“统计信息”界面中显示的字母数会将汉字也计算在内的问题
 src/InformationDialog.java
 
 2014-10-15
-1.�ڡ��鿴���˵������ӡ��ĵ��л�������
+1.在“查看”菜单中添加“文档切换”功能
 src/SnowPadFrame.java
 
 2014-10-17
-1.�ڡ��ĵ��л����˵������ӡ�����л����͡���ǰ�л�������
+1.在“文档切换”菜单下添加“向后切换”和“向前切换”功能
 src/SnowPadFrame.java
 
 2014-11-26
-1.���ݼ������ظ������ġ����и�д���Ŀ�ݼ�
+1.因快捷键定义重复，更改“逐行复写”的快捷键
 src/SnowPadFrame.java
 
 2014-12-01
-1.Ϊ�������ӱ������õĹ��ܡ���������ʱ�����ȼ�⵱ǰĿ¼���Ƿ������Ϊ��snowpad.xml�������ļ���������ڣ����ȡ���ļ���Ӧ����������Ϣ����������ڣ�����Զ�����һ��snowpad.xml�����ļ������ر�����ʱ���Ὣ�����������޸ı��浽�������ļ�����������ļ������ڣ�Ҳ���Զ����ɡ�
+1.为软件添加保存配置的功能。当打开软件时，首先检测当前目录下是否存在名为：snowpad.xml的配置文件。如果存在，则读取该文件，应用其配置信息。如果不存在，则会自动生成一个snowpad.xml配置文件。当关闭软件时，会将软件的设置修改保存到该配置文件。如果配置文件不存在，也会自动生成。
 src/BaseTextArea.java
 src/FindReplaceDialog.java
 src/Setting.java
@@ -889,19 +889,19 @@ src/SnowPad.java
 src/SnowPadFrame.java
 src/TabSetDialog.java
 src/Util.java
-res/snowpad.xml�����ӣ�
-src/SettingAdapter.java�����ӣ�
-src/TextAreaSetting.java�����ӣ�
+res/snowpad.xml（添加）
+src/SettingAdapter.java（添加）
+src/TextAreaSetting.java（添加）
 
 2014-12-02
-1.�ڡ���ʽ���˵������ӡ��ָ�Ĭ�����á�����
+1.在“格式”菜单中添加“恢复默认设置”功能
 src/SettingAdapter.java
 src/SnowPad.java
 src/SnowPadFrame.java
 src/Util.java
 
 2014-12-18
-1.�����ڹ���������ġ����͡�һ���У�ȥ����չ��ǰ��ġ�.��
+1.“窗口管理”界面的“类型”一列中，去掉扩展名前面的“.”
 src/WindowManageDialog.java
 
 ******************************
@@ -909,23 +909,23 @@ git tag SnowPad-V4.0-20141218
 ******************************
 
 2015-09-02
-1.������ɫ����4����ɫ
+1.调整配色方案4的颜色
 src/Util.java
-2.����������/�滻���Ի���Ľ�����ʾ
+2.调整“查找/替换”对话框的界面显示
 src/FindReplaceDialog.java
-3.�ڡ�ʱ��/���ڡ������У���ѡ���б���Ԥ�õĸ�ʽ��ͬ������Զ����ʽ�����ݡ�������һ�δ򿪴˽���ʱ��ˢ��ʱ�䡣
+3.在“时间/日期”界面中，当选择列表中预置的格式后，同步变更自定义格式的内容。并在下一次打开此界面时，刷新时间。
 src/InsertDateDialog.java
-4.���������ڡ��������ʾ���ݣ�ȥ���ٶȿռ䡢����QQ��Email��
+4.调整“关于”界面的显示内容，去掉百度空间、添加QQ和Email。
 src/SnowPadFrame.java
 
 2015-09-09
-1.�����ڹ����������е��б����⣬�޸�Ϊ���������ƶ���
+1.“窗口管理”界面中的列表标题，修改为不可整列移动。
 src/WindowManageDialog.java
-2.�����ִ�С���ָ������򿪡����ܣ��ļ������ʽѡ���Զ���⡱ʱ���Ḳ�ǵ�ǰ���ı�����������´������ı�������⡣
+2.解决当执行“以指定编码打开”功能，文件编码格式选择“自动检测”时，会覆盖当前的文本域而不会重新创建新文本域的问题。
 src/SnowPadFrame.java
 
 2015-09-18
-1.�������룺��������Exception�쳣�Ĵ�ӡ��Ϣ���Σ����������Ч�ʡ�
+1.整理代码：将代码中Exception异常的打印消息屏蔽，以提高运行效率。
 src/AboutDialog.java
 src/BasePlainDocument.java
 src/BaseTextArea.java
@@ -940,7 +940,7 @@ src/SettingAdapter.java
 src/SnowPad.java
 src/SnowPadFrame.java
 src/TabSetDialog.java
-2.�ڡ���ʽ���˵������ӡ���ݼ�����������
+2.在“格式”菜单中添加“快捷键管理”功能
 res/help.res
 res/snowpad.xml
 src/BaseDialog.java
@@ -948,18 +948,18 @@ src/Setting.java
 src/SettingAdapter.java
 src/SnowPadFrame.java
 src/Util.java
-src/ShortcutManageDialog.java�����ӣ�
-src/ShortcutSetDialog.java�����ӣ�
+src/ShortcutManageDialog.java（添加）
+src/ShortcutSetDialog.java（添加）
 
 2015-09-21
-1.�ڡ���ݼ����������������ӡ��ָ�Ĭ�ϡ���ť��ʹ�û����Իָ����еĿ�ݼ����ã���ͬʱ��������
+1.在“快捷键管理”界面中添加“恢复默认”按钮，使用户可以恢复所有的快捷键设置，并同时调整界面
 src/ShortcutManageDialog.java
 src/SnowPadFrame.java
 
 2015-12-09
-1.�ڡ�����/�滻�����������ӡ�ѡ����ͳ�ơ��͡�ѡ�����滻������
+1.在“查找/替换”界面中添加“选区内统计”和“选区内替换”功能
 src/FindReplaceDialog.java
-2.�Ż��ж��ַ���Ϊ�յĴ���
+2.优化判断字符串为空的处理
 src/AboutDialog.java
 src/BaseTextArea.java
 src/BatchInsertDialog.java
@@ -974,17 +974,17 @@ src/SnowPadFrame.java
 src/Util.java
 
 2015-12-15
-1.�ڴ��ļ�ʱ�������Զ�ʶ��UTF-8��BOM�����ʽ�Ĺ��ܡ�
+1.在打开文件时，添加自动识别UTF-8无BOM编码格式的功能。
 src/SnowPadFrame.java
 
 2015-12-23
-1.���ı����л��ƹ�������еı��������Ż��Ӿ�Ч��
+1.在文本域中绘制光标所在行的背景，以优化视觉效果
 src/BaseTextArea.java
 src/SnowPadFrame.java
 src/Util.java
 
 2015-12-24
-1.�ڡ���ɫ���á��˵������ӡ�ƥ�����ű�����ɫ���͡���ǰ�б�����ɫ�����ù��ܡ�������2����ɫ������ɫ�����С�
+1.在“颜色设置”菜单下添加“匹配括号背景颜色”和“当前行背景颜色”设置功能。并将此2种颜色纳入配色方案中。
 res/help.res
 res/snowpad.xml
 src/BaseTextArea.java
@@ -992,7 +992,7 @@ src/HelpFrame.java
 src/SettingAdapter.java
 src/SnowPadFrame.java
 src/Util.java
-2.��������༭�����ļ�����10�����ӵ�15����
+2.将“最近编辑”的文件数由10个增加到15个。
 res/help.res
 src/Util.java
 
@@ -1001,55 +1001,55 @@ git tag SnowPad-V4.1-20151224
 ******************************
 
 2015-12-24
-1.����readme˵���ĵ���
+1.更新readme说明文档。
 readme.txt
 
 2016-05-10
-1.���ӹ��ܣ�����ק�ļ��������е��ļ���ѡ����ʱ�����ɴ��ļ���
+1.添加功能：当拖拽文件管理器中的文件到选项卡组件时，即可打开文件。
 src/SnowPadFrame.java
 
 2016-06-12
-1.�ڡ��༭��->���������С��˵������ӡ�ƴ���С�����
-src/BatchJoinDialog.java�����ӣ�
+1.在“编辑”->“批处理行”菜单下添加“拼接行”功能
+src/BatchJoinDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
 
 2016-07-29
-1.����ڱ������ļ�ʱ�����������ļ������зǷ��ַ��������±���ʧ�ܣ�ȴû�е�������ʧ����ʾ������⡣
+1.解决在保存新文件时，如果输入的文件名含有非法字符，而导致保存失败，却没有弹出保存失败提示框的问题。
 src/SnowPadFrame.java
-2.�ڡ��ļ����˵������ӡ��ر���ࡱ�͡��ر��Ҳࡱ���ܡ�
+2.在“文件”菜单下添加“关闭左侧”和“关闭右侧”功能。
 src/SnowPadFrame.java
 src/Util.java
 
 2016-08-01
-1.���ӹ��ܣ�����ק�ļ��������е��ļ���ѡ�������κ�һ���ı���ʱ�����ɴ��ļ���
+1.添加功能：当拖拽文件管理器中的文件到选项卡组件中任何一个文本域时，即可打开文件。
 src/SnowPadFrame.java
 
 2016-10-21
-1.�Ż��������б��������š����ܣ�������š������¸�Ϊ4�����ࣺ���֡����֡���֧����ĸ��
+1.优化调整“列表符号与编号”功能，将“编号”功能下改为4个分类：数字、汉字、干支、字母。
 src/SignIdentifierDialog.java
 src/Util.java
 
 2017-08-01
-1.�ڡ����ڹ����������У����ӡ����򡱹���
+1.在“窗口管理”界面中，添加“排序”功能
 res/help.res
 src/BaseTextArea.java
 src/SnowPadFrame.java
 src/WindowManageDialog.java
 
 2017-08-02
-1.����ڡ����ڹ����������е�����б�ͷ�������ļ�˳��仯����û�е�������򡱰�ť������£���ʱ���������������桱�����رա���ť�󣬶��������ļ���������
+1.解决在“窗口管理”界面中点击了列表头发生了文件顺便变化，还没有点击“排序”按钮的情况下，此时点击“激活”、“保存”、“关闭”按钮后，而产生的文件错乱问题
 src/SnowPadFrame.java
 src/WindowManageDialog.java
 
 2017-08-15
-1.�޸ı��벿���ļ�����javac������target��sourceѡ��Խ�java����������Ϊjdk1.5��
+1.修改编译部署文件，在javac中添加target和source选项，以将java编译器设置为jdk1.5。
 build.xml
 
 2018-01-04
-1.ȥ��״̬���ı߿�
+1.去掉状态栏的边框。
 src/StatePanel.java
-2.�ڲ��ҶԻ��������ӡ��ļ��в��ҡ����ܡ�
+2.在查找对话框中添加“文件中查找”功能。
 res/help.res
 res/snowpad.xml
 src/FindReplaceDialog.java
@@ -1057,38 +1057,38 @@ src/Setting.java
 src/SettingAdapter.java
 src/SnowPadFrame.java
 src/Util.java
-res/close.png�����ӣ�
-src/SearchBean.java�����ӣ�
-src/SearchResult.java�����ӣ�
-src/SearchResultPanel.java�����ӣ�
-3.����ڲ��ҶԻ�����ѡ��ѭ�����ҡ�ʱ��������ļ��в��ҡ���ť������ѭ�������⡣
+res/close.png（添加）
+src/SearchBean.java（添加）
+src/SearchResult.java（添加）
+src/SearchResultPanel.java（添加）
+3.解决在查找对话框中选择“循环查找”时，点击“文件中查找”按钮进入死循环的问题。
 src/FindReplaceDialog.java
 src/Util.java
 
 2018-01-15
-1.������ı���ؼ�������ʱ���������Ҽ��ᵯ����ݲ˵������⡣
+1.解决当文本框控件不可用时，点击鼠标右键会弹出快捷菜单的问题。
 src/BaseTextField.java
-2.�ڡ��б��������š����������Զ��塰��ʼ��š��Ĺ��ܡ�
+2.在“列表符号与编号”界面添加自定义“起始编号”的功能。
 src/SignIdentifierDialog.java
 src/Util.java
 
 2018-01-30
-1.�Ż����룬����ڱ���ʱ����ʾ���;�������⡣
+1.优化代码，解决在编译时会提示泛型警告的问题。
 src/FileEncodingDialog.java
 src/FontChooser.java
 src/InsertDateDialog.java
 src/ShortcutSetDialog.java
 
 2018-02-01
-1.�˵��������ӡ����ߡ��˵��������ӡ�MD5���Ӳ˵����������ı����ļ���MD5ֵ��
+1.菜单栏中添加“工具”菜单，并添加“MD5”子菜单，可生成文本或文件的MD5值。
 res/help.res
-src/BaseTextAreaSpecial.java�����ӣ�
-src/MD5Dialog.java�����ӣ�
+src/BaseTextAreaSpecial.java（添加）
+src/MD5Dialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
-2.����readme˵���ĵ���
+2.更新readme说明文档。
 readme.txt
-3.�������ڡ��Ի����еġ��ȸ���롱�Լ���ַ��Ϊ�����ơ���
+3.将“关于”对话框中的“谷歌代码”以及地址改为“码云”。
 src/SnowPadFrame.java
 
 ******************************
@@ -1096,14 +1096,14 @@ git tag SnowPad-V4.2-20180201
 ******************************
 
 2018-02-05
-1.������ֲ˵���ݼ����ҵ����⡣
+1.解决部分菜单快捷键错乱的问题。
 src/Util.java
 
 2018-02-24
-1.�ڡ���ʽ���˵������ӡ��Զ���ɡ����ܣ������óɶ��ַ����Զ����룬������С����()��������[]��������{}��������<>��������''��˫����""��
+1.在“格式”菜单中添加“自动完成”功能，可设置成对字符的自动输入，包括：小括号()、中括号[]、大括号{}、尖括号<>、单引号''、双引号""。
 res/help.res
 res/snowpad.xml
-src/AutoCompleteDialog.java�����ӣ�
+src/AutoCompleteDialog.java（添加）
 src/BaseTextArea.java
 src/Setting.java
 src/SettingAdapter.java
@@ -1112,84 +1112,84 @@ src/TextAreaSetting.java
 src/Util.java
 
 2018-03-07
-1.�ڡ����ߡ��˵������ӡ�����ת�������ܣ��ɽ������ڸ��ֽ���֮��ת������Χ������������~��ʮ�����ơ�
+1.在“工具”菜单中添加“进制转换”功能，可将数字在各种进制之间转换，范围包括：二进制~三十六进制。
 res/help.res
-src/NumberConvertDialog.java�����ӣ�
+src/NumberConvertDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
 
 2018-04-27
-1.MD5�����д��ļ�ѡ����ʱ������ΪĬ�Ϲ�������
+1.MD5界面中打开文件选择器时，设置为默认过滤器。
 src/MD5Dialog.java
 
 2018-05-11
-1.�ڡ����ڡ��Ի��������ӡ�Coding����
+1.在“关于”对话框中添加“Coding”。
 readme.txt
 src/SnowPadFrame.java
 
 2018-07-05
-1.����MD5���˵���Ϊ�����ܡ�������չ���ܣ�����SHA��SHA-224��SHA-256��SHA-384��SHA-512�����㷨��
+1.将“MD5”菜单改为“加密”，并扩展功能，增加SHA、SHA-224、SHA-256、SHA-384、SHA-512加密算法。
 res/help.res
-src/MD5Dialog.java��ɾ����
-src/EncryptDialog.java�����ӣ�
+src/MD5Dialog.java（删除）
+src/EncryptDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
 
 2018-07-13
-1.�ڡ��ļ����˵����Ҽ���ݲ˵������ӡ������ļ������ܣ����Խ�ֹ�޸ĵ�ǰ�ļ���
+1.在“文件”菜单和右键快捷菜单中添加“冻结文件”功能，可以禁止修改当前文件。
 res/help.res
-res/tab_exist_current_frozen.png�����ӣ�
-res/tab_exist_readonly_frozen.png�����ӣ�
-res/tab_new_file_frozen.png�����ӣ�
-res/tab_not_exist_frozen.png�����ӣ�
-src/BaseDocument.java�����ӣ�
+res/tab_exist_current_frozen.png（添加）
+res/tab_exist_readonly_frozen.png（添加）
+res/tab_new_file_frozen.png（添加）
+res/tab_not_exist_frozen.png（添加）
+src/BaseDocument.java（添加）
 src/BaseTextArea.java
 src/SnowPadFrame.java
 src/Util.java
 
 2018-07-24
-1.�ڡ����ߡ��˵������ӡ������������ܣ���Ҫ���ܰ�����������С���ģ��������������㣬�ٷֱ�%���㣬Բ���ʦ�����ȡ�
+1.在“工具”菜单中添加“计算器”功能，主要功能包括：整数和小数的＋－×÷四则运算，百分比%运算，圆周率π运算等。
 res/help.res
 src/BaseTextAreaSpecial.java
 src/BaseTextField.java
-src/CalculatorDialog.java�����ӣ�
+src/CalculatorDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
 
 2018-07-27
-1.�л���ۺ󣬼�ʱ���ټ��������档
+1.切换外观后，及时销毁计算器界面。
 src/SnowPadFrame.java
 
 2018-08-08
-1.�ڡ��鿴���˵������ӡ����ˡ��͡�ǰ�������ܣ����Ժ��˻�ǰ������ǰ�ı����й�����ڵ�ĳһ����ʷλ�á�
-res/disable/tool_back.png�����ӣ�
-res/disable/tool_forward.png�����ӣ�
-res/enable/tool_back.png�����ӣ�
-res/enable/tool_forward.png�����ӣ�
+1.在“查看”菜单中添加“后退”和“前进”功能，可以后退或前进到当前文本域中光标所在的某一个历史位置。
+res/disable/tool_back.png（添加）
+res/disable/tool_forward.png（添加）
+res/enable/tool_back.png（添加）
+res/enable/tool_forward.png（添加）
 res/help.res
 src/BaseTextArea.java
 src/SnowPadFrame.java
 src/Util.java
 
 2018-08-10
-1.������������ʱ��Ĭ��չ����һ���ڵ㡣
+1.帮助主题界面打开时，默认展开第一级节点。
 res/help.res
 src/HelpFrame.java
-2.�޸ı��벿���ļ�����javac���޸�target��sourceѡ��Խ�java����������Ϊjdk1.6��
+2.修改编译部署文件，在javac中修改target和source选项，以将java编译器设置为jdk1.6。
 build.xml
 
 2018-08-11
-1.�ڡ��ļ����˵������ӡ���ӡ�����ܡ�
+1.在“文件”菜单中添加“打印”功能。
 res/help.res
 src/SnowPadFrame.java
 src/Util.java
 
 2018-08-16
-1.�޸ġ��������⡱���ݡ�
+1.修改“帮助主题”内容。
 res/help.res
 
 2018-09-30
-1.���ӱ����ϴιرճ���ʱ���ڵĴ�С���´���������ʱ�ָ����ڴ�С��
+1.添加保存上次关闭程序时窗口的大小，下次启动程序时恢复窗口大小。
 res/snowpad.xml
 src/Setting.java
 src/SettingAdapter.java
@@ -1201,96 +1201,96 @@ git tag SnowPad-V4.3-20180930
 ******************************
 
 2020-03-22
-1.����ı��������ʹ���������ʽ�������û�����ʱ���������������ܻ�ʧЧ�����⡣
+1.解决文本框中如果使用正则表达式来限制用户输入时，撤销、重做功能会失效的问题。
 src/BaseTextField.java
 
 2020-04-21
-1.���ӱ��桰�����ļ������õĹ��ܣ��´���������ʱ�ָ������ļ���״̬��
-src/FileHistoryBean.java�����ӣ�
+1.添加保存“冻结文件”设置的功能，下次启动程序时恢复冻结文件的状态。
+src/FileHistoryBean.java（添加）
 src/Setting.java
 src/SettingAdapter.java
 src/SnowPad.java
 src/SnowPadFrame.java
 
 2020-04-22
-1.����ת�����������ӡ��������ơ����ܡ�
+1.进制转换界面中添加“互换进制”功能。
 src/NumberConvertDialog.java
 
 2020-04-24
-1.���䡰���������ַ���������ַ���
+1.扩充“插入特殊字符”界面的字符。
 src/Util.java
-2.���������������Ӽ�������֧�֡�
+2.计算器界面中添加键盘输入支持。
 src/CalculatorDialog.java
 
 2020-04-27
-1.���������Կո����Tab���������ѿ������򿪡�Tab�����á����棬Ȼ��رս��棬���Կո����Tab�������ܻ�رյ����⡣
+1.解决如果“以空格代替Tab键”功能已开启，打开“Tab键设置”界面，然后关闭界面，“以空格代替Tab键”功能会关闭的问题。
 src/TabSetDialog.java
-2.˫��ѡ��հ�����ʱ���½��ı���
+2.双击选项卡空白区域时，新建文本域。
 src/SnowPadFrame.java
 
 2020-11-18
-1.�ڡ��༭���˵������ӡ��и��ļ������ܡ�
+1.在“编辑”菜单中添加“切割文件”功能。
 src/SnowPadFrame.java
 src/Util.java
-src/SlicingFileDialog.java�����ӣ�
+src/SlicingFileDialog.java（添加）
 
 2020-11-30
-1.���ͬʱ�������Զ����С��͡��к�����ʱ�����������Сʱ���ֿ�ָ���쳣�����⡣
+1.解决同时开启“自动换行”和“行号栏”时，设置字体大小时出现空指针异常的问题。
 src/SnowPadFrame.java
 
 2021-01-03
-1.���и��ļ�������Ϊ������ļ�����
+1.“切割文件”更改为“拆分文件”。
 src/SlicingFileDialog.java
 src/SnowPadFrame.java
 
 2021-01-25
-1.�ڡ����ߡ��˵������ӡ��и��ļ������ܡ�
-src/CuttingFileDialog.java�����ӣ�
+1.在“工具”菜单中添加“切割文件”功能。
+src/CuttingFileDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
 
 2021-03-23
-1.���������ļ����������л��ı���󲻻���֮ˢ�µ����⡣
+1.解决“拆分文件”界面在切换文本域后不会随之刷新的问题。
 src/SnowPadFrame.java
 
 2021-03-29
-1.�ڡ��и��ļ������������ӡ����ļ������и���ܡ�
+1.在“切割文件”界面中添加“按文件个数切割”功能。
 src/CuttingFileDialog.java
-2.������и��ļ����͡�����ļ��������ڸ�������Ŀ¼ʱ��û��ɾ��ԭ���ļ������⡣
+2.解决“切割文件”和“拆分文件”界面在覆盖已有目录时，没有删除原有文件的问题。
 src/CuttingFileDialog.java
 src/SlicingFileDialog.java
 src/Util.java
-3.�����ǰ�ı���Ϊ�½�״̬������δ�༭ʱ����ק�ļ��������ڴ��ļ�ʱ��ѡ�����ʾ���ļ�״ָ̬ʾͼ��δˢ�µ����⡣
+3.解决当前文本域为新建状态，并且未编辑时，拖拽文件到主窗口打开文件时，选项卡上显示的文件状态指示图标未刷新的问题。
 src/SnowPadFrame.java
 
 2021-05-07
-1.������б��������š�����򿪹����ı����л����ٴδ򿪴˽���ʱ��û�м�ʱ���õ���ǰ�ı�������⡣
+1.解决“列表符号与编号”界面打开过，文本域切换后，再次打开此界面时，没有及时设置到当前文本域的问题。
 src/SnowPadFrame.java
 
 2021-05-27
-1.���������/�滻�������С�ѡ����ͳ�ơ������޷�ʹ�õ����⡣
+1.解决“查找/替换”界面中“选区内统计”功能无法使用的问题。
 src/FindReplaceDialog.java
 
 2021-05-28
-1.�޸ġ��б��������š����ܣ��ڵ�ǰ�ı���δѡ���ı��������Ҳ����ʹ�ã���ȫ�Ľ��б�š�
+1.修改“列表符号与编号”功能，在当前文本域未选择文本的情况下也可以使用，对全文进行编号。
 src/SignIdentifierDialog.java
 src/SnowPadFrame.java
 
 2021-06-01
-1.�ڡ����ߡ��˵������ӡ�ƴ���ļ������ܡ�
+1.在“工具”菜单中添加“拼接文件”功能。
 src/CuttingFileDialog.java
-src/MergeFileDialog.java�����ӣ�
+src/MergeFileDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
-2.�Ż���ȡsnowpad.xml�����ļ�·���ķ�����
+2.优化获取snowpad.xml配置文件路径的方法。
 src/SettingAdapter.java
 
 2021-06-03
-1.�������鿴���˵��еġ�ǰ�����������ˡ����ܵ�����¼������
+1.调整“查看”菜单中的“前进”、“后退”功能的最大记录条数。
 src/Util.java
 
 2021-06-07
-1.�޸�CheckStyle�����Ĵ�����д�淶���⡣
+1.修改CheckStyle检测出的代码书写规范问题。
 src/BaseDocument.java
 src/BaseFileFilter.java
 src/BasePlainDocument.java
@@ -1312,93 +1312,93 @@ src/SnowPadFrame.java
 src/Util.java
 
 2021-06-09
-1.������ļ������������ӣ����ָ���ļ��Ĺ��ܡ�
+1.“拆分文件”界面中添加：拆分指定文件的功能。
 src/SlicingFileDialog.java
 src/SnowPadFrame.java
 src/Util.java
 
 2021-06-10
-1.����������ļ����͡��и��ļ����д�������ļ���1��ʼ���������Ұ�����ƴ���ļ������ڣ�������֮�󣬲��رյ�ǰ���棬��������������
+1.调整“拆分文件”和“切割文件”中处理后的文件从1开始命名；并且包括“拼接文件”在内，处理完之后，不关闭当前界面，方便连续操作。
 src/CuttingFileDialog.java
 src/MergeFileDialog.java
 src/SlicingFileDialog.java
 
 2021-07-09
-1.�ڡ��鿴��->���ĵ��л����˵������ӡ�ǰһ���ĵ����͡���һ���ĵ������ܡ�
+1.在“查看”->“文档切换”菜单中添加“前一个文档”和“后一个文档”功能。
 src/SnowPadFrame.java
 src/Util.java
 
 2021-09-29
-1.�Ż���ǰһ���ĵ����͡���һ���ĵ������ܡ�
+1.优化“前一个文档”和“后一个文档”功能。
 src/SnowPadFrame.java
-2.�ڡ��༭��->�����򡱲˵������ӡ����򡱹��ܡ�
+2.在“编辑”->“排序”菜单下添加“反序”功能。
 src/SnowPadFrame.java
 src/Util.java
 
 2021-09-30
-1.�Ż����ҡ��滻�Ի������ʾ�߼����Ѵ򿪶Ի����״̬�£��ٴ�ͨ���˵����ݼ��ķ�ʽ�������һ��滻���ܣ������µĹؼ��ֽ��в��ҡ�
+1.优化查找、替换对话框的显示逻辑：已打开对话框的状态下，再次通过菜单或快捷键的方式启动查找或替换功能，则按照新的关键字进行查找。
 src/BaseDialog.java
 src/SnowPadFrame.java
 
 2021-10-18
-1.�ڡ��༭��->�������С��˵������ӡ�ɾ���ظ��С����ܡ�
+1.在“编辑”->“操作行”菜单中添加“删除重复行”功能。
 src/SnowPadFrame.java
 src/Util.java
 
 2021-10-30
-1.�ڲ��ҡ��滻�Ի��������ӡ����ƽ���С����ܡ�
+1.在查找、替换对话框中添加“复制结果行”功能。
 src/FindReplaceDialog.java
 src/SnowPadFrame.java
 
 2021-11-08
-1.���ҽ�������֧�ֶ��ļ������ʾ��
+1.查找结果面板中支持多文件结果显示。
 src/FindReplaceDialog.java
 src/SearchResult.java
 src/SearchResultPanel.java
 
 2021-11-09
-1.���ҽ������������Ҽ���ݲ˵���֧����ս�����ܡ�
+1.查找结果面板中添加右键快捷菜单，支持清空结果功能。
 src/SearchResultPanel.java
 
 2021-11-10
-1.���ҽ�������Ҽ���ݲ˵������ӡ����Ƶ�ǰ�С����ܡ�
+1.查找结果面板的右键快捷菜单中添加“复制当前行”功能。
 src/SearchResultPanel.java
-2.���������ҽ�������Ҽ���ݲ˵��С���ս������û������߼����ݵ����⡣
+2.解决点击查找结果面板的右键快捷菜单中“清空结果”后，没有清空逻辑数据的问题。
 src/SearchResultPanel.java
 
 2021-11-11
-1.�Ż����ҽ���������ת�����ҽ���е��߼���
+1.优化查找结果面板中跳转到查找结果行的逻辑。
 src/SearchResultPanel.java
 src/SnowPadFrame.java
-2.���ҽ����������Ӱ�ESC���ر����Ĺ��ܣ��Ż�����رհ�ť���߼���
+2.查找结果面板中添加按ESC键关闭面板的功能，优化点击关闭按钮的逻辑。
 src/SearchResultPanel.java
 src/SnowPadFrame.java
 
 2021-11-12
-1.�Ż����ҽ������и��Ƶ�ǰ�е��߼����ڵ���Ҽ�ʱ���ݵ�ǰ�ı���������ò˵��Ƿ���á�
+1.优化查找结果面板中复制当前行的逻辑，在点击右键时根据当前文本的情况设置菜单是否可用。
 src/SearchResultPanel.java
-2.ÿ����������ʱ���Զ���ת�����ҽ������иôβ��ҵ����С�
+2.每次新增查找时，自动跳转到查找结果面板中该次查找的首行。
 src/SearchResultPanel.java
 
 2021-11-13
-1.���ҽ�������Ҽ���ݲ˵������ӡ��Ƴ���ǰ��������ܡ�
+1.查找结果面板的右键快捷菜单中添加“移除当前结果”功能。
 src/SearchResultPanel.java
 
 2021-11-16
-1.��ݼ��༭�������ӡ�Cmd�����Ƽ���ѡ�򣬶�ӦmacOS���̵�command����
+1.快捷键编辑界面添加“Cmd”控制键复选框，对应macOS键盘的command键。
 src/ShortcutSetDialog.java
 src/Util.java
 
 2021-11-17
-1.�����ڻ�ý���ʱ������⵽�򿪵��ļ�������ʱ���Ż���������ʾ�򣬸�Ϊ�����ؽ��������Ƴ���������������ť��
+1.主窗口获得焦点时，当检测到打开的文件不存在时，优化弹出的提示框，改为：“重建”、“移除”、“保留”按钮。
 src/SnowPadFrame.java
 
 2021-11-24
-1.�л���Сд�����������ϲ��С����ܣ���δѡ���ı�ʱ�ɶ�ȫ�Ĳ�����
+1.切换大小写、批处理“合并行”功能，在未选择文本时可对全文操作。
 src/SnowPadFrame.java
 
 2021-11-25
-1.������������ı�����������ק�ļ��򿪵Ĵ����������޷������ı����ڲ��ı�����ק���������ɾ������ʽ��->���ı���ק�����ܡ�
+1.由于主界面的文本域已添加拖拽文件打开的处理，所以无法兼容文本域内部文本的拖拽操作，因此删除“格式”->“文本拖拽”功能。
 res/help.res
 res/snowpad.xml
 src/BaseTextArea.java
@@ -1409,53 +1409,53 @@ src/TextAreaSetting.java
 src/Util.java
 
 2021-11-26
-1.����Զ����������ѿ�����ͨ�����س���ת��ĳ��ʱ��������Զ����������⡣
+1.解决自动缩进功能已开启，通过按回车键转到某行时，会进行自动缩进的问题。
 src/BaseTextArea.java
 
 2021-11-30
-1.��ݼ����������ӡ�������⡱���ܡ�
-src/KeyCheckDialog.java�����ӣ�
+1.快捷键管理中添加“按键检测”功能。
+src/KeyCheckDialog.java（添加）
 src/ShortcutManageDialog.java
 
 2021-12-01
-1.�������ҽ������Ĭ����ʾ��С��
+1.调整查找结果面板的默认显示大小。
 src/SnowPadFrame.java
-2.���ӣ�������к���ʱ��ѡ���ı�����������ı��Ĺ��ܡ�
+2.添加：鼠标点击行号栏时，选中文本域的所在行文本的功能。
 src/LineNumberView.java
-3.����к�����������������������±���󣬵������������Сʱû�лָ����ȵ����⡣
+3.解决行号栏由于字体或行数变大而导致变宽后，当字体或行数变小时没有恢复宽度的问题。
 src/LineNumberView.java
 
 2021-12-09
-1.�������ڻ�ý���ʱ����������ļ���״̬������ļ������������޸��򵯳���ʾ��
+1.当主窗口获得焦点时，检测所有文件的状态，如果文件被其他程序修改则弹出提示。
 src/BaseTextArea.java
 src/SnowPadFrame.java
 src/TextAreaSetting.java
 
 2021-12-20
-1.�ڡ��������˵������ӡ���ǩ�����ܣ�����������/ȡ����ǩ����һ����ǩ����һ����ǩ�����������ǩ��
+1.在“搜索”菜单中添加“书签”功能，包括：设置/取消书签、下一个书签、上一个书签、清除所有书签。
 src/BaseTextArea.java
 src/LineNumberView.java
 src/SnowPadFrame.java
 src/Util.java
 
 2021-12-24
-1.���к����е������Ҽ�����������/ȡ����ǩ��
+1.在行号栏中点击鼠标右键，可以设置/取消书签。
 src/LineNumberView.java
 
 2021-12-30
-1.�������ڻ�ý���ʱ���Ż���������ļ�״̬��������ʾ���߼���
+1.当主窗口获得焦点时，优化检测所有文件状态并弹出提示的逻辑。
 src/SnowPadFrame.java
 
 2021-12-31
-1.�ڡ�������->����ǩ���˵������ӣ�"������ǩ��"���ܡ�
+1.在“搜索”->“书签”菜单下添加："复制书签行"功能。
 src/SnowPadFrame.java
 src/Util.java
 
 2022-01-06
-1."�鿴"->"���ڹ���"���������ӣ����ơ����ƹ��ܡ�
+1."查看"->"窗口管理"界面中添加：上移、下移功能。
 src/BaseDefaultTableModel.java
 src/WindowManageDialog.java
-2.������Ƶ��������String�ַ��������Ϊ�������͵�StringBuilder���Լ����ڴ����ġ�
+2.将部分频繁操作的String字符串对象改为缓冲类型的StringBuilder，以减少内存消耗。
 src/BaseTextArea.java
 src/FindReplaceDialog.java
 src/SearchResultPanel.java
@@ -1465,6 +1465,6 @@ git tag SnowPad-V5.0-20220106
 ******************************
 
 2022-02-18
-1.����ڡ�����/�滻���Ի����У��������ʽ�������ʱ������2����ʾ������⡣
+1.解决在“查找/替换”对话框中，正则表达式输入错误时，会有2个提示框的问题。
 src/FindReplaceDialog.java
 src/Util.java

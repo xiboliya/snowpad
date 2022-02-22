@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,22 +18,22 @@
 package com.xiboliya.snowpad;
 
 /**
- * ÓÃÓÚ×´Ì¬À¸¶ÔÆë·½Ê½µÄÃ¶¾Ù£¬Ä¿Ç°Ö»Ìá¹©Ë®Æ½¶ÔÆë·½Ê½
+ * ç”¨äºçŠ¶æ€æ å¯¹é½æ–¹å¼çš„æšä¸¾ï¼Œç›®å‰åªæä¾›æ°´å¹³å¯¹é½æ–¹å¼
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public enum StatePanelAlignment {
   /**
-   * ÖĞ¼ä¶ÔÆë
+   * ä¸­é—´å¯¹é½
    */
   X_CENTER,
   /**
-   * ×ó¶ÔÆë
+   * å·¦å¯¹é½
    */
   X_LEFT,
   /**
-   * ÓÒ¶ÔÆë
+   * å³å¯¹é½
    */
   X_RIGHT;
 }

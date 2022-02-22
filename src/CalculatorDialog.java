@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 ±ùÔ­
+ * Copyright (C) 2018 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,9 +34,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
- * "¼ÆËãÆ÷"¶Ô»°¿ò
+ * "è®¡ç®—å™¨"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class CalculatorDialog extends BaseDialog implements ActionListener {
@@ -49,12 +49,12 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   private LinkedList<String> list = new LinkedList<String>();
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param owner
-   *          ÓÃÓÚÏÔÊ¾¸Ã¶Ô»°¿òµÄ¸¸×é¼ş
+   *          ç”¨äºæ˜¾ç¤ºè¯¥å¯¹è¯æ¡†çš„çˆ¶ç»„ä»¶
    * @param modal
-   *          ÊÇ·ñÎªÄ£Ê½¶Ô»°¿ò
+   *          æ˜¯å¦ä¸ºæ¨¡å¼å¯¹è¯æ¡†
    */
   public CalculatorDialog(JFrame owner, boolean modal) {
     super(owner, modal);
@@ -66,10 +66,10 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("¼ÆËãÆ÷");
+    this.setTitle("è®¡ç®—å™¨");
     this.pnlMain.setLayout(null);
     this.txtView.setBounds(3, 3, 290, 42);
     this.txtView.setEditable(false);
@@ -95,7 +95,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.txtView.addKeyListener(new KeyAdapter() {
@@ -174,7 +174,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     String actionCommand = e.getActionCommand();
@@ -184,21 +184,21 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
     String text = this.txtView.getText();
     if (actionCommand.equals("C")) {
       this.clear();
-    } else if (actionCommand.equals("¡û")) {
+    } else if (actionCommand.equals("â†")) {
       this.backSpace(text);
     } else if (actionCommand.equals("%")) {
       this.percent(text);
-    } else if (actionCommand.equals("¦Ğ")) {
+    } else if (actionCommand.equals("Ï€")) {
       this.pi(text);
     } else if (actionCommand.equals(".")) {
       this.dot(text);
-    } else if (actionCommand.equals("£«")) {
+    } else if (actionCommand.equals("ï¼‹")) {
       this.addition(text);
-    } else if (actionCommand.equals("£­")) {
+    } else if (actionCommand.equals("ï¼")) {
       this.subduction(text);
-    } else if (actionCommand.equals("¡Á")) {
+    } else if (actionCommand.equals("Ã—")) {
       this.multiplication(text);
-    } else if (actionCommand.equals("¡Â")) {
+    } else if (actionCommand.equals("Ã·")) {
       this.division(text);
     } else if (actionCommand.equals("=")) {
       this.onEnter();
@@ -208,17 +208,17 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Çå³ı°´Å¥µÄ´¦Àí·½·¨
+   * æ¸…é™¤æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    */
   private void clear() {
     this.txtView.setText("");
   }
 
   /**
-   * ÍË¸ñ°´Å¥µÄ´¦Àí·½·¨
+   * é€€æ ¼æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    */
   private void backSpace(String text) {
     if (!Util.isTextEmpty(text)) {
@@ -227,15 +227,15 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * °Ù·ÖºÅ°´Å¥µÄ´¦Àí·½·¨
+   * ç™¾åˆ†å·æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    */
   private void percent(String text) {
     if (!Util.isTextEmpty(text)) {
       char ch = text.charAt(text.length() - 1);
-      if (Character.isDigit(ch) || ch == '¦Ğ') {
+      if (Character.isDigit(ch) || ch == 'Ï€') {
         this.txtView.setText(text + "%");
       } else if (ch == '.') {
         this.txtView.setText(text + "0%");
@@ -244,37 +244,37 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ô²ÖÜÂÊ°´Å¥µÄ´¦Àí·½·¨
+   * åœ†å‘¨ç‡æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    */
   private void pi(String text) {
     if (!Util.isTextEmpty(text)) {
       char ch = text.charAt(text.length() - 1);
-      if (Character.isDigit(ch) || ch == '%' || ch == '¦Ğ') {
-        this.txtView.setText(text + "¡Á¦Ğ");
+      if (Character.isDigit(ch) || ch == '%' || ch == 'Ï€') {
+        this.txtView.setText(text + "Ã—Ï€");
       } else if (ch == '.') {
-        this.txtView.setText(text + "0¡Á¦Ğ");
+        this.txtView.setText(text + "0Ã—Ï€");
       } else {
-        this.txtView.setText(text + "¦Ğ");
+        this.txtView.setText(text + "Ï€");
       }
     } else {
-      this.txtView.setText("¦Ğ");
+      this.txtView.setText("Ï€");
     }
   }
 
   /**
-   * Ğ¡Êıµã°´Å¥µÄ´¦Àí·½·¨
+   * å°æ•°ç‚¹æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    */
   private void dot(String text) {
     if (!Util.isTextEmpty(text)) {
       char ch = text.charAt(text.length() - 1);
-      if (ch == '%' || ch == '¦Ğ') {
-        this.txtView.setText(text + "¡Á0.");
+      if (ch == '%' || ch == 'Ï€') {
+        this.txtView.setText(text + "Ã—0.");
       } else if (this.isOperator(String.valueOf(ch))) {
         this.txtView.setText(text + "0.");
       } else if (Character.isDigit(ch) && !this.hasDot(text)) {
@@ -286,92 +286,92 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ¼ÓºÅ°´Å¥µÄ´¦Àí·½·¨
+   * åŠ å·æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    */
   private void addition(String text) {
     if (!Util.isTextEmpty(text)) {
       char ch = text.charAt(text.length() - 1);
-      if (text.length() == 1 && ch == '£­') {
+      if (text.length() == 1 && ch == 'ï¼') {
         this.txtView.setText("");
       } else if (ch == '.') {
-        this.txtView.setText(text + "0£«");
-      } else if (Character.isDigit(ch) || ch == '%' || ch == '¦Ğ') {
-        this.txtView.setText(text + "£«");
+        this.txtView.setText(text + "0ï¼‹");
+      } else if (Character.isDigit(ch) || ch == '%' || ch == 'Ï€') {
+        this.txtView.setText(text + "ï¼‹");
       }
     }
   }
 
   /**
-   * ¼õºÅ°´Å¥µÄ´¦Àí·½·¨
+   * å‡å·æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    */
   private void subduction(String text) {
     if (!Util.isTextEmpty(text)) {
       char ch = text.charAt(text.length() - 1);
       if (ch == '.') {
-        this.txtView.setText(text + "0£­");
-      } else if (Character.isDigit(ch) || ch == '%' || ch == '¦Ğ') {
-        this.txtView.setText(text + "£­");
+        this.txtView.setText(text + "0ï¼");
+      } else if (Character.isDigit(ch) || ch == '%' || ch == 'Ï€') {
+        this.txtView.setText(text + "ï¼");
       }
     } else {
-      this.txtView.setText("£­");
+      this.txtView.setText("ï¼");
     }
   }
 
   /**
-   * ³ËºÅ°´Å¥µÄ´¦Àí·½·¨
+   * ä¹˜å·æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    */
   private void multiplication(String text) {
     if (!Util.isTextEmpty(text)) {
       char ch = text.charAt(text.length() - 1);
       if (ch == '.') {
-        this.txtView.setText(text + "0¡Á");
-      } else if (Character.isDigit(ch) || ch == '%' || ch == '¦Ğ') {
-        this.txtView.setText(text + "¡Á");
+        this.txtView.setText(text + "0Ã—");
+      } else if (Character.isDigit(ch) || ch == '%' || ch == 'Ï€') {
+        this.txtView.setText(text + "Ã—");
       }
     }
   }
 
   /**
-   * ³ıºÅ°´Å¥µÄ´¦Àí·½·¨
+   * é™¤å·æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    */
   private void division(String text) {
     if (!Util.isTextEmpty(text)) {
       char ch = text.charAt(text.length() - 1);
       if (ch == '.') {
-        this.txtView.setText(text + "0¡Â");
-      } else if (Character.isDigit(ch) || ch == '%' || ch == '¦Ğ') {
-        this.txtView.setText(text + "¡Â");
+        this.txtView.setText(text + "0Ã·");
+      } else if (Character.isDigit(ch) || ch == '%' || ch == 'Ï€') {
+        this.txtView.setText(text + "Ã·");
       }
     }
   }
 
   /**
-   * Êı×Ö°´Å¥µÄ´¦Àí·½·¨
+   * æ•°å­—æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    * @param number
-   *          µ±Ç°°´Å¥µÄÊı×Ö
+   *          å½“å‰æŒ‰é’®çš„æ•°å­—
    */
   private void digit(String text, String number) {
     if (!Util.isTextEmpty(text)) {
       char ch = text.charAt(text.length() - 1);
       if (Character.isDigit(ch) || this.isOperator(String.valueOf(ch)) || ch == '.') {
         this.txtView.setText(text + number);
-      } else if (ch == '%' || ch == '¦Ğ') {
-        this.txtView.setText(text + "¡Á" + number);
+      } else if (ch == '%' || ch == 'Ï€') {
+        this.txtView.setText(text + "Ã—" + number);
       }
     } else {
       this.txtView.setText(number);
@@ -379,19 +379,19 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ¶ÔËãÊ½½øĞĞ¼ÆËã
+   * å¯¹ç®—å¼è¿›è¡Œè®¡ç®—
    * 
    * @param text
-   *          ËãÊ½
+   *          ç®—å¼
    */
   private void equal(String text) {
     this.list.clear();
-    // Æ¥ÅäÔËËã·û¡¢°Ù·ÖºÅ¡¢¦Ğ¡¢ÕûÊı¡¢Ğ¡Êı
-    Pattern p = Pattern.compile("[£«£­¡Á¡Â%¦Ğ]|-?\\d+\\.?\\d*");
+    // åŒ¹é…è¿ç®—ç¬¦ã€ç™¾åˆ†å·ã€Ï€ã€æ•´æ•°ã€å°æ•°
+    Pattern p = Pattern.compile("[ï¼‹ï¼Ã—Ã·%Ï€]|-?\\d+\\.?\\d*");
     Matcher m = p.matcher(text);
     while (m.find()) {
       String str = m.group();
-      if (str.equals("¦Ğ")) {
+      if (str.equals("Ï€")) {
         str = String.valueOf(Math.PI);
       }
       this.list.add(str);
@@ -406,14 +406,14 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
         this.txtView.setText(result);
       }
     } else {
-      JOptionPane.showMessageDialog(this, "Óï·¨´íÎó£¬Çë¼ì²é£¡", Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(this, "è¯­æ³•é”™è¯¯ï¼Œè¯·æ£€æŸ¥ï¼", Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
     }
   }
 
   /**
-   * ÔËËã°Ù·Ö±È
+   * è¿ç®—ç™¾åˆ†æ¯”
    * 
-   * @return ÊÇ·ñÔËËã³É¹¦£¬Èç¹ûÓĞÓï·¨´íÎóÔò·µ»Øfalse
+   * @return æ˜¯å¦è¿ç®—æˆåŠŸï¼Œå¦‚æœæœ‰è¯­æ³•é”™è¯¯åˆ™è¿”å›false
    */
   private boolean calculatePercent() {
     int size = this.list.size();
@@ -438,15 +438,15 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÔËËãµÚÒ»ÓÅÏÈ¼¶¡Á¡Â
+   * è¿ç®—ç¬¬ä¸€ä¼˜å…ˆçº§Ã—Ã·
    * 
-   * @return ÊÇ·ñÔËËã³É¹¦£¬Èç¹ûÓĞÓï·¨´íÎóÔò·µ»Øfalse
+   * @return æ˜¯å¦è¿ç®—æˆåŠŸï¼Œå¦‚æœæœ‰è¯­æ³•é”™è¯¯åˆ™è¿”å›false
    */
   private boolean calculateFirst() {
     int size = this.list.size();
     for (int i = 0; i < size; i++) {
       String current = this.list.get(i);
-      if ("¡Á".equals(current)) {
+      if ("Ã—".equals(current)) {
         if (i == 0 || i == size - 1) {
           this.list.remove(i);
           size--;
@@ -458,7 +458,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
         } else {
           return false;
         }
-      } else if ("¡Â".equals(current)) {
+      } else if ("Ã·".equals(current)) {
         if (i == 0 || i == size - 1) {
           this.list.remove(i);
           size--;
@@ -476,15 +476,15 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÔËËãµÚ¶şÓÅÏÈ¼¶£«£­
+   * è¿ç®—ç¬¬äºŒä¼˜å…ˆçº§ï¼‹ï¼
    * 
-   * @return ÊÇ·ñÔËËã³É¹¦£¬Èç¹ûÓĞÓï·¨´íÎóÔò·µ»Øfalse
+   * @return æ˜¯å¦è¿ç®—æˆåŠŸï¼Œå¦‚æœæœ‰è¯­æ³•é”™è¯¯åˆ™è¿”å›false
    */
   private boolean calculateSecond() {
     int size = this.list.size();
     for (int i = 0; i < size; i++) {
       String current = this.list.get(i);
-      if ("£«".equals(current)) {
+      if ("ï¼‹".equals(current)) {
         if (i == 0 || i == size - 1) {
           this.list.remove(i);
           size--;
@@ -496,7 +496,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
         } else {
           return false;
         }
-      } else if ("£­".equals(current)) {
+      } else if ("ï¼".equals(current)) {
         if (i == size - 1) {
           this.list.remove(i);
           size--;
@@ -519,13 +519,13 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³Ë·¨
+   * ä¹˜æ³•
    * 
    * @param index
-   *          ÔËËã·ûÎ»ÓÚËãÊ½ÖĞµÄË÷ÒıÖµ
+   *          è¿ç®—ç¬¦ä½äºç®—å¼ä¸­çš„ç´¢å¼•å€¼
    * @param size
-   *          ËãÊ½µÄÔªËØ×ÜÊı
-   * @return ÊÇ·ñÔËËã³É¹¦£¬Èç¹ûÓĞÓï·¨´íÎóÔò·µ»Øfalse
+   *          ç®—å¼çš„å…ƒç´ æ€»æ•°
+   * @return æ˜¯å¦è¿ç®—æˆåŠŸï¼Œå¦‚æœæœ‰è¯­æ³•é”™è¯¯åˆ™è¿”å›false
    */
   private boolean calculateMultiplication(int index, int size) {
     String previous = this.list.get(index - 1);
@@ -543,13 +543,13 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³ı·¨
+   * é™¤æ³•
    * 
    * @param index
-   *          ÔËËã·ûÎ»ÓÚËãÊ½ÖĞµÄË÷ÒıÖµ
+   *          è¿ç®—ç¬¦ä½äºç®—å¼ä¸­çš„ç´¢å¼•å€¼
    * @param size
-   *          ËãÊ½µÄÔªËØ×ÜÊı
-   * @return ÊÇ·ñÔËËã³É¹¦£¬Èç¹ûÓĞÓï·¨´íÎóÔò·µ»Øfalse
+   *          ç®—å¼çš„å…ƒç´ æ€»æ•°
+   * @return æ˜¯å¦è¿ç®—æˆåŠŸï¼Œå¦‚æœæœ‰è¯­æ³•é”™è¯¯åˆ™è¿”å›false
    */
   private boolean calculateDivision(int index, int size) {
     String previous = this.list.get(index - 1);
@@ -567,13 +567,13 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ¼Ó·¨
+   * åŠ æ³•
    * 
    * @param index
-   *          ÔËËã·ûÎ»ÓÚËãÊ½ÖĞµÄË÷ÒıÖµ
+   *          è¿ç®—ç¬¦ä½äºç®—å¼ä¸­çš„ç´¢å¼•å€¼
    * @param size
-   *          ËãÊ½µÄÔªËØ×ÜÊı
-   * @return ÊÇ·ñÔËËã³É¹¦£¬Èç¹ûÓĞÓï·¨´íÎóÔò·µ»Øfalse
+   *          ç®—å¼çš„å…ƒç´ æ€»æ•°
+   * @return æ˜¯å¦è¿ç®—æˆåŠŸï¼Œå¦‚æœæœ‰è¯­æ³•é”™è¯¯åˆ™è¿”å›false
    */
   private boolean calculateAddition(int index, int size) {
     String previous = this.list.get(index - 1);
@@ -591,13 +591,13 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ¼õ·¨
+   * å‡æ³•
    * 
    * @param index
-   *          ÔËËã·ûÎ»ÓÚËãÊ½ÖĞµÄË÷ÒıÖµ
+   *          è¿ç®—ç¬¦ä½äºç®—å¼ä¸­çš„ç´¢å¼•å€¼
    * @param size
-   *          ËãÊ½µÄÔªËØ×ÜÊı
-   * @return ÊÇ·ñÔËËã³É¹¦£¬Èç¹ûÓĞÓï·¨´íÎóÔò·µ»Øfalse
+   *          ç®—å¼çš„å…ƒç´ æ€»æ•°
+   * @return æ˜¯å¦è¿ç®—æˆåŠŸï¼Œå¦‚æœæœ‰è¯­æ³•é”™è¯¯åˆ™è¿”å›false
    */
   private boolean calculateSubduction(int index, int size) {
     String next = this.list.get(index + 1);
@@ -625,27 +625,27 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ×Ö·û´®ÊÇ·ñÎªÔËËã·û
+   * å­—ç¬¦ä¸²æ˜¯å¦ä¸ºè¿ç®—ç¬¦
    * 
    * @param str
-   *          ×Ö·û´®
-   * @return ×Ö·û´®ÊÇ·ñÎªÔËËã·û
+   *          å­—ç¬¦ä¸²
+   * @return å­—ç¬¦ä¸²æ˜¯å¦ä¸ºè¿ç®—ç¬¦
    */
   private boolean isOperator(String str) {
     if (Util.isTextEmpty(str)) {
       return false;
-    } else if (str.equals("£«") || str.equals("£­") || str.equals("¡Á") || str.equals("¡Â")) {
+    } else if (str.equals("ï¼‹") || str.equals("ï¼") || str.equals("Ã—") || str.equals("Ã·")) {
       return true;
     }
     return false;
   }
 
   /**
-   * ËãÊ½ÖĞ×îºóÒ»¸öÔªËØÊÇ·ñÊÇÊı×Ö£¬²¢ÇÒº¬ÓĞĞ¡Êıµã
+   * ç®—å¼ä¸­æœ€åä¸€ä¸ªå…ƒç´ æ˜¯å¦æ˜¯æ•°å­—ï¼Œå¹¶ä¸”å«æœ‰å°æ•°ç‚¹
    * 
    * @param text
-   *          ËãÊ½
-   * @return ×îºóÒ»¸öÔªËØÊÇ·ñÊÇÊı×Ö£¬²¢ÇÒº¬ÓĞĞ¡ÊıµãÎªtrue
+   *          ç®—å¼
+   * @return æœ€åä¸€ä¸ªå…ƒç´ æ˜¯å¦æ˜¯æ•°å­—ï¼Œå¹¶ä¸”å«æœ‰å°æ•°ç‚¹ä¸ºtrue
    */
   private boolean hasDot(String text) {
     int length = text.length();
@@ -663,11 +663,11 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * »ñÈ¡ÔËËã½á¹ûµÄ²¹Î»0»òĞ¡ÊıµãµÄË÷ÒıÖµ
+   * è·å–è¿ç®—ç»“æœçš„è¡¥ä½0æˆ–å°æ•°ç‚¹çš„ç´¢å¼•å€¼
    * 
    * @param result
-   *          ÔËËã½á¹û
-   * @return ÔËËã½á¹ûµÄ²¹Î»0»òĞ¡ÊıµãµÄË÷ÒıÖµ
+   *          è¿ç®—ç»“æœ
+   * @return è¿ç®—ç»“æœçš„è¡¥ä½0æˆ–å°æ•°ç‚¹çš„ç´¢å¼•å€¼
    */
   private int getZeroIndex(String result) {
     if (Util.isTextEmpty(result) || !result.contains(".")) {
@@ -694,14 +694,14 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.equal(this.txtView.getText());
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

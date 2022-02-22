@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,38 +18,38 @@
 package com.xiboliya.snowpad;
 
 /**
- * ÓÃÓÚ±êÊ¶ÎÄ¼ş±àÂë¸ñÊ½µÄÃ¶¾Ù
+ * ç”¨äºæ ‡è¯†æ–‡ä»¶ç¼–ç æ ¼å¼çš„æšä¸¾
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public enum CharEncoding {
   /**
-   * ANSI¸ñÊ½±àÂë
+   * ANSIæ ¼å¼ç¼–ç 
    */
   ANSI,
   /**
-   * Ä¬ÈÏ¸ñÊ½±àÂë
+   * é»˜è®¤æ ¼å¼ç¼–ç 
    */
   BASE,
   /**
-   * Unicode Big Endian¸ñÊ½±àÂë
+   * Unicode Big Endianæ ¼å¼ç¼–ç 
    */
   UBE,
   /**
-   * Unicode Little Endian¸ñÊ½±àÂë
+   * Unicode Little Endianæ ¼å¼ç¼–ç 
    */
   ULE,
   /**
-   * UTF-8¸ñÊ½±àÂë
+   * UTF-8æ ¼å¼ç¼–ç 
    */
   UTF8,
   /**
-   * UTF-8ÎŞBOM¸ñÊ½±àÂë
+   * UTF-8æ— BOMæ ¼å¼ç¼–ç 
    */
   UTF8_NO_BOM;
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•
    */
   public String toString() {
     switch (this) {
@@ -69,9 +69,9 @@ public enum CharEncoding {
   }
 
   /**
-   * »ñÈ¡±àÂë¸ñÊ½µÄÃû³Æ
+   * è·å–ç¼–ç æ ¼å¼çš„åç§°
    * 
-   * @return ±àÂë¸ñÊ½µÄÃû³Æ
+   * @return ç¼–ç æ ¼å¼çš„åç§°
    */
   public String getName() {
     switch (this) {

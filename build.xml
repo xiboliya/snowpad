@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="SnowPad" default="build" basedir=".">
   <description>The ant project to build SnowPad.</description>
   <property name="srcDir" location="src" description="源文件的存放目录" />
@@ -23,7 +23,7 @@
     </copy>
   </target>
   <target name="compile" depends="init" description="编译代码">
-    <javac target="1.6" source="1.6" srcdir="${srcDir}" destdir="${binDir}" includeAntRuntime="false" encoding="GB18030">
+    <javac target="1.6" source="1.6" srcdir="${srcDir}" destdir="${binDir}" includeAntRuntime="false" encoding="UTF-8">
       <compilerarg value="-Xlint:unchecked"/>
       <compilerarg value="-Xlint:deprecation"/>
     </javac>

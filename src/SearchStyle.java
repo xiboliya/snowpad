@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 ±ùÔ­
+ * Copyright (C) 2014 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,22 +18,22 @@
 package com.xiboliya.snowpad;
 
 /**
- * ÓÃÓÚ±êÊ¶ËÑË÷Ä£Ê½µÄÃ¶¾Ù
+ * ç”¨äºæ ‡è¯†æœç´¢æ¨¡å¼çš„æšä¸¾
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public enum SearchStyle {
   /**
-   * ÆÕÍ¨Ä£Ê½£¬´ËÎªÄ¬ÈÏÄ£Ê½
+   * æ™®é€šæ¨¡å¼ï¼Œæ­¤ä¸ºé»˜è®¤æ¨¡å¼
    */
   DEFAULT,
   /**
-   * ×ªÒåÀ©Õ¹Ä£Ê½£¬¿ÉÒÔÊ¹ÓÃ\n´úÌæ»»ĞĞ£¬\t´úÌæTab×Ö·û
+   * è½¬ä¹‰æ‰©å±•æ¨¡å¼ï¼Œå¯ä»¥ä½¿ç”¨\nä»£æ›¿æ¢è¡Œï¼Œ\tä»£æ›¿Tabå­—ç¬¦
    */
   TRANSFER,
   /**
-   * ÕıÔò±í´ïÊ½Ä£Ê½
+   * æ­£åˆ™è¡¨è¾¾å¼æ¨¡å¼
    */
   PATTERN;
 }

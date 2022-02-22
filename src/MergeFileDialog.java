@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2021 ±ùÔ­
+ * Copyright (C) 2021 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,28 +37,28 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- * "Æ´½ÓÎÄ¼ş"¶Ô»°¿ò
+ * "æ‹¼æ¥æ–‡ä»¶"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class MergeFileDialog extends BaseDialog implements ActionListener, ListSelectionListener {
   private static final long serialVersionUID = 1L;
-  private OpenFileChooser openFileChooser = null; // "´ò¿ª"ÎÄ¼şÑ¡ÔñÆ÷
-  private SaveFileChooser saveFileChooser = null; // "±£´æ"ÎÄ¼şÑ¡ÔñÆ÷
+  private OpenFileChooser openFileChooser = null; // "æ‰“å¼€"æ–‡ä»¶é€‰æ‹©å™¨
+  private SaveFileChooser saveFileChooser = null; // "ä¿å­˜"æ–‡ä»¶é€‰æ‹©å™¨
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblSourcePath = new JLabel("Ô´ÎÄ¼şÂ·¾¶£º");
+  private JLabel lblSourcePath = new JLabel("æºæ–‡ä»¶è·¯å¾„ï¼š");
   private JButton btnAddSource = new JButton("+");
   private JButton btnReduceSource = new JButton("-");
-  private JButton btnUpSource = new JButton("¡ü");
-  private JButton btnDownSource = new JButton("¡ı");
+  private JButton btnUpSource = new JButton("â†‘");
+  private JButton btnDownSource = new JButton("â†“");
   private JList<String> listPath = new JList<String>();
   private JScrollPane srpPath = new JScrollPane(this.listPath);
-  private JLabel lblTargetPath = new JLabel("±£´æÎÄ¼şÂ·¾¶£º");
+  private JLabel lblTargetPath = new JLabel("ä¿å­˜æ–‡ä»¶è·¯å¾„ï¼š");
   private BaseTextField txtTargetPath = new BaseTextField();
   private JButton btnTargetPath = new JButton("...");
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Insets insets = new Insets(0, 0, 0, 0);
@@ -74,25 +74,25 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("Æ´½ÓÎÄ¼ş");
+    this.setTitle("æ‹¼æ¥æ–‡ä»¶");
     this.pnlMain.setLayout(null);
     this.lblSourcePath.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
     this.srpPath.setBounds(10, 35, 270, 135);
     this.btnAddSource.setMargin(this.insets);
     this.btnAddSource.setBounds(290, 35, 30, 30);
-    this.btnAddSource.setToolTipText("Ìí¼ÓÎÄ¼ş");
+    this.btnAddSource.setToolTipText("æ·»åŠ æ–‡ä»¶");
     this.btnReduceSource.setMargin(this.insets);
     this.btnReduceSource.setBounds(290, 70, 30, 30);
-    this.btnReduceSource.setToolTipText("ÒÆ³ıÎÄ¼ş");
+    this.btnReduceSource.setToolTipText("ç§»é™¤æ–‡ä»¶");
     this.btnUpSource.setMargin(this.insets);
     this.btnUpSource.setBounds(290, 105, 30, 30);
-    this.btnUpSource.setToolTipText("ÉÏÒÆÎÄ¼ş");
+    this.btnUpSource.setToolTipText("ä¸Šç§»æ–‡ä»¶");
     this.btnDownSource.setMargin(this.insets);
     this.btnDownSource.setBounds(290, 140, 30, 30);
-    this.btnDownSource.setToolTipText("ÏÂÒÆÎÄ¼ş");
+    this.btnDownSource.setToolTipText("ä¸‹ç§»æ–‡ä»¶");
     this.pnlMain.add(this.lblSourcePath);
     this.pnlMain.add(this.btnAddSource);
     this.pnlMain.add(this.btnReduceSource);
@@ -103,7 +103,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     this.txtTargetPath.setBounds(10, 205, 270, 30);
     this.btnTargetPath.setMargin(this.insets);
     this.btnTargetPath.setBounds(290, 205, 30, 30);
-    this.btnTargetPath.setToolTipText("±£´æÎÄ¼ş");
+    this.btnTargetPath.setToolTipText("ä¿å­˜æ–‡ä»¶");
     this.pnlMain.add(this.lblTargetPath);
     this.pnlMain.add(this.txtTargetPath);
     this.pnlMain.add(this.btnTargetPath);
@@ -116,7 +116,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -126,14 +126,14 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * ³õÊ¼»¯¸÷¿Ø¼şµÄ×´Ì¬
+   * åˆå§‹åŒ–å„æ§ä»¶çš„çŠ¶æ€
    */
   private void initView() {
     this.setSourceButtonEnabled();
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.btnAddSource.addActionListener(this);
@@ -156,12 +156,12 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * "Ìí¼ÓÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "æ·»åŠ æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void addSourceFile() {
     if (this.openFileChooser == null) {
       this.openFileChooser = new OpenFileChooser();
-      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // ÉèÖÃÎªÄ¬ÈÏ¹ıÂËÆ÷
+      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // è®¾ç½®ä¸ºé»˜è®¤è¿‡æ»¤å™¨
     }
     this.openFileChooser.setSelectedFile(null);
     this.openFileChooser.setMultiSelectionEnabled(true);
@@ -180,7 +180,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * "ÒÆ³ıÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "ç§»é™¤æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void reduceSourceFile() {
     int[] arrIndex = this.listPath.getSelectedIndices();
@@ -197,7 +197,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * "ÉÏÒÆÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "ä¸Šç§»æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void upSourceFile() {
     int[] arrIndex = this.listPath.getSelectedIndices();
@@ -215,7 +215,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * "ÏÂÒÆÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "ä¸‹ç§»æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void downSourceFile() {
     int[] arrIndex = this.listPath.getSelectedIndices();
@@ -232,7 +232,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * "±£´æÎÄ¼ş"µÄ´¦Àí·½·¨
+   * "ä¿å­˜æ–‡ä»¶"çš„å¤„ç†æ–¹æ³•
    */
   private void selectFile() {
     if (this.saveFileChooser == null) {
@@ -250,7 +250,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * ÉèÖÃ¸÷°´Å¥ÊÇ·ñ¿ÉÓÃ
+   * è®¾ç½®å„æŒ‰é’®æ˜¯å¦å¯ç”¨
    */
   private void setSourceButtonEnabled() {
     if (this.listPath.isSelectionEmpty()) {
@@ -262,16 +262,16 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
       int size = this.defaultListModel.getSize();
       int minSelectionIndex = this.listPath.getMinSelectionIndex();
       int maxSelectionIndex = this.listPath.getMaxSelectionIndex();
-      if (size == 1 || (minSelectionIndex == 0 && maxSelectionIndex == size - 1)) { // ÁĞ±íÖĞÖ»ÓĞÒ»ĞĞÊı¾İ»òÑ¡ÖĞÁËËùÓĞĞĞ
+      if (size == 1 || (minSelectionIndex == 0 && maxSelectionIndex == size - 1)) { // åˆ—è¡¨ä¸­åªæœ‰ä¸€è¡Œæ•°æ®æˆ–é€‰ä¸­äº†æ‰€æœ‰è¡Œ
         this.btnUpSource.setEnabled(false);
         this.btnDownSource.setEnabled(false);
       } else {
-        if (minSelectionIndex == 0) { // Ñ¡ÖĞÁËµÚÒ»ĞĞ
+        if (minSelectionIndex == 0) { // é€‰ä¸­äº†ç¬¬ä¸€è¡Œ
           this.btnUpSource.setEnabled(false);
         } else {
           this.btnUpSource.setEnabled(true);
         }
-        if (maxSelectionIndex == size - 1) { // Ñ¡ÖĞÁË×îºóÒ»ĞĞ
+        if (maxSelectionIndex == size - 1) { // é€‰ä¸­äº†æœ€åä¸€è¡Œ
           this.btnDownSource.setEnabled(false);
         } else {
           this.btnDownSource.setEnabled(true);
@@ -281,28 +281,28 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * Æ´½ÓÎÄ¼şµÄ´¦Àí·½·¨
+   * æ‹¼æ¥æ–‡ä»¶çš„å¤„ç†æ–¹æ³•
    */
   private void mergeFile() {
     String strTargetPath = this.txtTargetPath.getText();
     if (Util.isTextEmpty(strTargetPath)) {
-      JOptionPane.showMessageDialog(this, "±£´æÎÄ¼şÂ·¾¶²»ÄÜÎª¿Õ£¬ÇëÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "ä¿å­˜æ–‡ä»¶è·¯å¾„ä¸èƒ½ä¸ºç©ºï¼Œè¯·è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     File file = new File(strTargetPath);
     if (file.isDirectory()) {
-      JOptionPane.showMessageDialog(this, "±£´æÎÄ¼şÂ·¾¶²»Ö§³ÖÄ¿Â¼²Ù×÷£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "ä¿å­˜æ–‡ä»¶è·¯å¾„ä¸æ”¯æŒç›®å½•æ“ä½œï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
     int size = this.defaultListModel.getSize();
     if (size <= 0) {
-      JOptionPane.showMessageDialog(this, "Ô´ÎÄ¼şÂ·¾¶²»ÄÜÎª¿Õ£¬ÇëÌí¼Ó£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æºæ–‡ä»¶è·¯å¾„ä¸èƒ½ä¸ºç©ºï¼Œè¯·æ·»åŠ ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     } else if (size == 1) {
-      JOptionPane.showMessageDialog(this, "Ô´ÎÄ¼şÂ·¾¶ÖÁÉÙÎª2¸ö£¬ÇëÌí¼Ó£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æºæ–‡ä»¶è·¯å¾„è‡³å°‘ä¸º2ä¸ªï¼Œè¯·æ·»åŠ ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
@@ -341,10 +341,10 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
       }
     }
     if (result) {
-      JOptionPane.showMessageDialog(this, "Æ´½ÓÎÄ¼şÍê³É£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ‹¼æ¥æ–‡ä»¶å®Œæˆï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } else {
-      JOptionPane.showMessageDialog(this, "Æ´½ÓÎÄ¼şÊ§°Ü£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ‹¼æ¥æ–‡ä»¶å¤±è´¥ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     }
   }
@@ -367,7 +367,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -388,7 +388,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * µ±ÁĞ±í¿ò¸Ä±äÑ¡ÔñÊ±£¬´¥·¢´ËÊÂ¼ş
+   * å½“åˆ—è¡¨æ¡†æ”¹å˜é€‰æ‹©æ—¶ï¼Œè§¦å‘æ­¤äº‹ä»¶
    */
   public void valueChanged(ListSelectionEvent e) {
     if (this.listPath.equals(e.getSource())) {
@@ -397,14 +397,14 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.mergeFile();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

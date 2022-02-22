@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 ±ùÔ­
+ * Copyright (C) 2018 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,23 +21,23 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.PlainDocument;
 
 /**
- * ÓÃÓÚÍ³Ò»ĞĞÎªµÄÎÄ±¾Ä£ĞÍÀà
+ * ç”¨äºç»Ÿä¸€è¡Œä¸ºçš„æ–‡æœ¬æ¨¡å‹ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class BaseDocument extends PlainDocument {
-  private boolean isFrozen = false; // ÊÇ·ñ±»¶³½á
+  private boolean isFrozen = false; // æ˜¯å¦è¢«å†»ç»“
 
   /**
-   * ½«×Ö·û´®²åÈëÎÄµµ
+   * å°†å­—ç¬¦ä¸²æ’å…¥æ–‡æ¡£
    * 
    * @param offset
-   *          ÆğÊ¼Æ«ÒÆÁ¿
+   *          èµ·å§‹åç§»é‡
    * @param str
-   *          Òª²åÈëµÄ×Ö·û´®
+   *          è¦æ’å…¥çš„å­—ç¬¦ä¸²
    * @param attr
-   *          ²åÈëÄÚÈİµÄÊôĞÔ
+   *          æ’å…¥å†…å®¹çš„å±æ€§
    */
   public void insertString(int offset, String str, AttributeSet attr) {
     if (this.isFrozen) {
@@ -51,12 +51,12 @@ public class BaseDocument extends PlainDocument {
   }
 
   /**
-   * ´ÓÎÄµµÖĞÒÆ³ı×Ö·û´®
+   * ä»æ–‡æ¡£ä¸­ç§»é™¤å­—ç¬¦ä¸²
    * 
    * @param offset
-   *          ÆğÊ¼Æ«ÒÆÁ¿
+   *          èµ·å§‹åç§»é‡
    * @param len
-   *          ÒªÒÆ³ıµÄ×Ö·ûÊı
+   *          è¦ç§»é™¤çš„å­—ç¬¦æ•°
    */
   public void remove(int offset, int len) {
     if (this.isFrozen) {

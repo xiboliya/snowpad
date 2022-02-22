@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 ±ùÔ­
+ * Copyright (C) 2018 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 package com.xiboliya.snowpad;
 
 /**
- * ±£´æÎÄ¼şÖĞ²éÕÒµÄÆ«ÒÆÁ¿µÄ¼òµ¥Àà
+ * ä¿å­˜æ–‡ä»¶ä¸­æŸ¥æ‰¾çš„åç§»é‡çš„ç®€å•ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class SearchBean {
@@ -28,44 +28,44 @@ public class SearchBean {
   private int end = -1;
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    */
   public SearchBean() {
   }
 
   /**
-   * »ñÈ¡ÎÄ¼şÖĞstartÆ«ÒÆÁ¿
+   * è·å–æ–‡ä»¶ä¸­startåç§»é‡
    * 
-   * @return ÎÄ¼şÖĞstartÆ«ÒÆÁ¿
+   * @return æ–‡ä»¶ä¸­startåç§»é‡
    */
   public int getStart() {
     return this.start;
   }
 
   /**
-   * »ñÈ¡ÎÄ¼şÖĞendÆ«ÒÆÁ¿
+   * è·å–æ–‡ä»¶ä¸­endåç§»é‡
    * 
-   * @return ÎÄ¼şÖĞendÆ«ÒÆÁ¿
+   * @return æ–‡ä»¶ä¸­endåç§»é‡
    */
   public int getEnd() {
     return this.end;
   }
 
   /**
-   * ÉèÖÃÎÄ¼şÖĞstartÆ«ÒÆÁ¿
+   * è®¾ç½®æ–‡ä»¶ä¸­startåç§»é‡
    * 
    * @param start
-   *          ÎÄ¼şÖĞstartÆ«ÒÆÁ¿
+   *          æ–‡ä»¶ä¸­startåç§»é‡
    */
   public void setStart(int start) {
     this.start = start;
   }
 
   /**
-   * ÉèÖÃÎÄ¼şÖĞendÆ«ÒÆÁ¿
+   * è®¾ç½®æ–‡ä»¶ä¸­endåç§»é‡
    * 
    * @param end
-   *          ÎÄ¼şÖĞendÆ«ÒÆÁ¿
+   *          æ–‡ä»¶ä¸­endåç§»é‡
    */
   public void setEnd(int end) {
     this.end = end;

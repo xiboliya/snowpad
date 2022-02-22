@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,15 +33,15 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
- * "°ïÖúÖ÷Ìâ"JFrame´°¿Ú
+ * "å¸®åŠ©ä¸»é¢˜"JFrameçª—å£
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class HelpFrame extends JFrame implements TreeSelectionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private StringBuilder stbTitle = new StringBuilder(Util.HELP_TITLE); // ±êÌâÀ¸×Ö·û´®
+  private StringBuilder stbTitle = new StringBuilder(Util.HELP_TITLE); // æ ‡é¢˜æ å­—ç¬¦ä¸²
   private JSplitPane spnMain = new JSplitPane();
   private BaseTreeNode treeNode = new BaseTreeNode(Util.SOFTWARE);
   private JTree treeMain = new JTree(treeNode);
@@ -50,8 +50,8 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
   public HelpFrame() {
     this.setTitle(this.stbTitle.toString());
     this.setSize(400, 400);
-    this.setMinimumSize(new Dimension(300, 300)); // ÉèÖÃÖ÷½çÃæµÄ×îĞ¡³ß´ç
-    this.setLocationRelativeTo(null); // Ê¹´°¿Ú¾ÓÖĞÏÔÊ¾
+    this.setMinimumSize(new Dimension(300, 300)); // è®¾ç½®ä¸»ç•Œé¢çš„æœ€å°å°ºå¯¸
+    this.setLocationRelativeTo(null); // ä½¿çª—å£å±…ä¸­æ˜¾ç¤º
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.init();
     this.addListeners();
@@ -61,7 +61,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
     this.pnlMain.add(this.spnMain);
@@ -69,7 +69,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
     this.spnMain.setRightComponent(new JScrollPane(this.txaMain));
     this.spnMain.setDividerLocation(120);
     this.spnMain.setResizeWeight(0.3);
-    this.treeMain.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); // ÉèÖÃJTree×é¼şÒ»´ÎÖ»ÄÜÑ¡ÔñÒ»¸ö½Úµã
+    this.treeMain.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); // è®¾ç½®JTreeç»„ä»¶ä¸€æ¬¡åªèƒ½é€‰æ‹©ä¸€ä¸ªèŠ‚ç‚¹
     this.txaMain.setEditable(false);
     this.txaMain.setLineWrap(true);
     this.txaMain.setWrapStyleWord(true);
@@ -77,7 +77,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
   }
 
   /**
-   * ³õÊ¼»¯JTree×é¼ş
+   * åˆå§‹åŒ–JTreeç»„ä»¶
    */
   private void initTree() {
     BaseTreeNode treeNodeLevel1 = null;
@@ -86,7 +86,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
     URL url = ClassLoader.getSystemResource("res/help.res");
     BufferedReader reader = null;
     try {
-      reader = new BufferedReader(new InputStreamReader(url.openStream(), "GB18030"));
+      reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
       String line = reader.readLine();
       while (line != null) {
         if (line.trim().length() < 3) {
@@ -121,8 +121,8 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
         }
         line = reader.readLine();
       }
-    this.treeMain.expandRow(0); // Õ¹¿ªµÚÒ»¼¶½Úµã
-    this.treeMain.setSelectionRow(0); // Ñ¡ÔñÊ×ĞĞ½Úµã
+    this.treeMain.expandRow(0); // å±•å¼€ç¬¬ä¸€çº§èŠ‚ç‚¹
+    this.treeMain.setSelectionRow(0); // é€‰æ‹©é¦–è¡ŒèŠ‚ç‚¹
     } catch (Exception x) {
       // x.printStackTrace();
     } finally {
@@ -135,7 +135,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
   }
 
   /**
-   * ÉèÖÃ×Ô¶¨ÒåµÄ´°¿ÚÍ¼±ê
+   * è®¾ç½®è‡ªå®šä¹‰çš„çª—å£å›¾æ ‡
    */
   private void setIcon() {
     try {
@@ -146,14 +146,14 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.treeMain.addTreeSelectionListener(this);
   }
 
   /**
-   * µ±¼àÌıµÄJTree×é¼şÑ¡Ôñ·¢Éú±ä»¯Ê±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“ç›‘å¬çš„JTreeç»„ä»¶é€‰æ‹©å‘ç”Ÿå˜åŒ–æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void valueChanged(TreeSelectionEvent e) {
     BaseTreeNode treeNode = (BaseTreeNode) this.treeMain.getLastSelectedPathComponent();

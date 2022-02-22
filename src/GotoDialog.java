@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,9 +32,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 
 /**
- * "×ªµ½"¶Ô»°¿ò
+ * "è½¬åˆ°"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class GotoDialog extends BaseDialog implements ActionListener,
@@ -45,25 +45,25 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   private JPanel pnlBottom = new JPanel();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private boolean percentChanged = false; // ÓÃÓÚ±êÊ¶ÊÇ·ñÒÆ¶¯¹ı°Ù·Ö±ÈµÄ»¬¿é
-  private JButton btnGoto = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
-  // ĞĞºÅ
+  private boolean percentChanged = false; // ç”¨äºæ ‡è¯†æ˜¯å¦ç§»åŠ¨è¿‡ç™¾åˆ†æ¯”çš„æ»‘å—
+  private JButton btnGoto = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
+  // è¡Œå·
   private JPanel pnlLine = new JPanel();
   private JLabel lblCurLine = new JLabel();
   private JLabel lblEndLine = new JLabel();
-  private JLabel lblGotoLine = new JLabel("×ªµ½ĞĞºÅ£º");
-  private BaseTextField txtGotoLine = new BaseTextField(true, "\\d*"); // ÏŞÖÆÓÃ»§Ö»ÄÜÊäÈëÊı×Ö
-  // Æ«ÒÆÁ¿
+  private JLabel lblGotoLine = new JLabel("è½¬åˆ°è¡Œå·ï¼š");
+  private BaseTextField txtGotoLine = new BaseTextField(true, "\\d*"); // é™åˆ¶ç”¨æˆ·åªèƒ½è¾“å…¥æ•°å­—
+  // åç§»é‡
   private JPanel pnlOffset = new JPanel();
   private JLabel lblCurOffset = new JLabel();
   private JLabel lblEndOffset = new JLabel();
-  private JLabel lblGotoOffset = new JLabel("×ªµ½Æ«ÒÆÁ¿£º");
-  private BaseTextField txtGotoOffset = new BaseTextField(true, "\\d*"); // ÏŞÖÆÓÃ»§Ö»ÄÜÊäÈëÊı×Ö
-  // °Ù·Ö±È
+  private JLabel lblGotoOffset = new JLabel("è½¬åˆ°åç§»é‡ï¼š");
+  private BaseTextField txtGotoOffset = new BaseTextField(true, "\\d*"); // é™åˆ¶ç”¨æˆ·åªèƒ½è¾“å…¥æ•°å­—
+  // ç™¾åˆ†æ¯”
   private JSlider sldPercent = new JSlider();
   private JPanel pnlPercent = new JPanel();
-  private JLabel lblGotoPercent = new JLabel("×ªµ½°Ù·Ö±È£º");
+  private JLabel lblGotoPercent = new JLabel("è½¬åˆ°ç™¾åˆ†æ¯”ï¼š");
   private BaseTextField txtGotoPercent = new BaseTextField();
 
   public GotoDialog(JFrame owner, boolean modal, JTextArea txaSource) {
@@ -72,7 +72,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
       return;
     }
     this.txaSource = txaSource;
-    this.setTitle("×ªµ½");
+    this.setTitle("è½¬åˆ°");
     this.init();
     this.updateView();
     this.addListeners();
@@ -82,7 +82,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
 
   private void init() {
     this.pnlMain.setLayout(null);
-    // ĞĞºÅ
+    // è¡Œå·
     this.pnlLine.setLayout(null);
     this.lblCurLine.setBounds(15, 10, 220, Util.VIEW_HEIGHT);
     this.lblEndLine.setBounds(15, 35, 220, Util.VIEW_HEIGHT);
@@ -92,7 +92,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     this.txtGotoLine.setBounds(95, 58, 100, Util.INPUT_HEIGHT);
     this.pnlLine.add(this.lblGotoLine);
     this.pnlLine.add(this.txtGotoLine);
-    // Æ«ÒÆÁ¿
+    // åç§»é‡
     this.pnlOffset.setLayout(null);
     this.lblCurOffset.setBounds(15, 10, 220, Util.VIEW_HEIGHT);
     this.lblEndOffset.setBounds(15, 35, 220, Util.VIEW_HEIGHT);
@@ -102,7 +102,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     this.txtGotoOffset.setBounds(95, 58, 100, Util.INPUT_HEIGHT);
     this.pnlOffset.add(this.lblGotoOffset);
     this.pnlOffset.add(this.txtGotoOffset);
-    // °Ù·Ö±È
+    // ç™¾åˆ†æ¯”
     this.pnlPercent.setLayout(null);
     this.sldPercent.setBounds(20, 10, 200, 35);
     this.lblGotoPercent.setBounds(15, 60, 80, Util.VIEW_HEIGHT);
@@ -112,7 +112,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     this.pnlPercent.add(this.sldPercent);
     this.pnlPercent.add(this.lblGotoPercent);
     this.pnlPercent.add(this.txtGotoPercent);
-    // °´Å¥
+    // æŒ‰é’®
     this.pnlBottom.setLayout(null);
     this.pnlBottom.setBounds(0, 130, 240, 65);
     this.btnGoto.setBounds(25, 5, 85, Util.BUTTON_HEIGHT);
@@ -121,9 +121,9 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     this.pnlBottom.add(this.btnCancel);
 
     this.tpnMain.setBounds(0, 0, 240, 130);
-    this.tpnMain.add(this.pnlLine, "ĞĞºÅ");
-    this.tpnMain.add(this.pnlOffset, "Æ«ÒÆÁ¿");
-    this.tpnMain.add(this.pnlPercent, "°Ù·Ö±È");
+    this.tpnMain.add(this.pnlLine, "è¡Œå·");
+    this.tpnMain.add(this.pnlOffset, "åç§»é‡");
+    this.tpnMain.add(this.pnlPercent, "ç™¾åˆ†æ¯”");
     this.pnlMain.add(this.tpnMain);
     this.pnlMain.add(this.pnlBottom);
     this.setTabbedIndex(0);
@@ -131,7 +131,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -141,36 +141,36 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ÉèÖÃÑ¡Ïî¿¨µÄµ±Ç°ÊÓÍ¼
+   * è®¾ç½®é€‰é¡¹å¡çš„å½“å‰è§†å›¾
    * 
    * @param index
-   *          ÊÓÍ¼µÄË÷ÒıºÅ
+   *          è§†å›¾çš„ç´¢å¼•å·
    */
   private void setTabbedIndex(int index) {
     this.tpnMain.setSelectedIndex(index);
   }
 
   /**
-   * »ñÈ¡Ñ¡Ïî¿¨µ±Ç°ÊÓÍ¼µÄË÷ÒıºÅ
+   * è·å–é€‰é¡¹å¡å½“å‰è§†å›¾çš„ç´¢å¼•å·
    * 
-   * @return µ±Ç°ÊÓÍ¼µÄË÷ÒıºÅ
+   * @return å½“å‰è§†å›¾çš„ç´¢å¼•å·
    */
   private int getTabbedIndex() {
     return this.tpnMain.getSelectedIndex();
   }
 
   /**
-   * ¸üĞÂµ±Ç°ºÍ½áÎ²×´Ì¬µÄÏÔÊ¾£¬°üÀ¨£ºĞĞºÅ¡¢Æ«ÒÆÁ¿»ò°Ù·Ö±È
+   * æ›´æ–°å½“å‰å’Œç»“å°¾çŠ¶æ€çš„æ˜¾ç¤ºï¼ŒåŒ…æ‹¬ï¼šè¡Œå·ã€åç§»é‡æˆ–ç™¾åˆ†æ¯”
    */
   private void updateView() {
     CurrentLine currentLine = new CurrentLine(this.txaSource);
     int total = this.txaSource.getText().length();
     int lineNum = currentLine.getLineNum() + 1;
-    this.lblCurLine.setText("µ±Ç°ĞĞºÅ£º" + lineNum);
-    this.lblEndLine.setText("½áÎ²ĞĞºÅ£º" + this.txaSource.getLineCount());
+    this.lblCurLine.setText("å½“å‰è¡Œå·ï¼š" + lineNum);
+    this.lblEndLine.setText("ç»“å°¾è¡Œå·ï¼š" + this.txaSource.getLineCount());
     int currentIndex = currentLine.getCurrentIndex();
-    this.lblCurOffset.setText("µ±Ç°Æ«ÒÆÁ¿£º" + currentIndex);
-    this.lblEndOffset.setText("½áÎ²Æ«ÒÆÁ¿£º" + total);
+    this.lblCurOffset.setText("å½“å‰åç§»é‡ï¼š" + currentIndex);
+    this.lblEndOffset.setText("ç»“å°¾åç§»é‡ï¼š" + total);
     this.sldPercent.setValue(currentIndex * 100 / total);
     this.percentChanged = false;
     this.txtGotoPercent.setText(this.sldPercent.getValue() + "%");
@@ -188,7 +188,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * "È¡Ïû"°´Å¥µÄ´¦Àí·½·¨
+   * "å–æ¶ˆ"æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    */
   private void cancelGoto() {
     this.dispose();
@@ -197,37 +197,37 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ×ªµ½Ö¸¶¨ĞĞºÅ
+   * è½¬åˆ°æŒ‡å®šè¡Œå·
    */
   private void gotoLine() {
-    int total = this.txaSource.getLineCount(); // ÎÄ±¾Óò×ÜĞĞÊı
+    int total = this.txaSource.getLineCount(); // æ–‡æœ¬åŸŸæ€»è¡Œæ•°
     String str = this.txtGotoLine.getText().trim();
     if (Util.isTextEmpty(str)) {
-      JOptionPane.showMessageDialog(this, "ĞĞºÅ²»ÄÜÎª¿Õ£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "è¡Œå·ä¸èƒ½ä¸ºç©ºï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtGotoLine.requestFocus();
       return;
     }
-    int target = 1; // Ö¸¶¨µÄĞĞºÅ
+    int target = 1; // æŒ‡å®šçš„è¡Œå·
     try {
       target = Integer.parseInt(str);
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "¸ñÊ½´íÎó£¬ÇëÊäÈëÊıÖµ£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥æ•°å€¼ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtGotoLine.requestFocus();
       this.txtGotoLine.selectAll();
       return;
     }
     if (target <= 0) {
-      JOptionPane.showMessageDialog(this, "ĞĞºÅ±ØĞë´óÓÚ0£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "è¡Œå·å¿…é¡»å¤§äº0ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } else if (target > total) {
-      JOptionPane.showMessageDialog(this, "ĞĞºÅ³¬³ö·¶Î§£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "è¡Œå·è¶…å‡ºèŒƒå›´ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } else {
       try {
-        // »ñÈ¡Ö¸¶¨ĞĞÆğÊ¼´¦µÄÆ«ÒÆÁ¿£¬Ö¸¶¨ĞĞºÅµÄÈ¡Öµ·¶Î§£ºx>=0 && x<ÎÄ±¾Óò×ÜĞĞÊı
+        // è·å–æŒ‡å®šè¡Œèµ·å§‹å¤„çš„åç§»é‡ï¼ŒæŒ‡å®šè¡Œå·çš„å–å€¼èŒƒå›´ï¼šx>=0 && x<æ–‡æœ¬åŸŸæ€»è¡Œæ•°
         int offset = this.txaSource.getLineStartOffset(target - 1);
         this.txaSource.setCaretPosition(offset);
       } catch (BadLocationException x) {
@@ -240,33 +240,33 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ×ªµ½Ö¸¶¨Æ«ÒÆÁ¿
+   * è½¬åˆ°æŒ‡å®šåç§»é‡
    */
   private void gotoOffset() {
-    int total = this.txaSource.getText().length(); // ÎÄ±¾Óò×ÜÆ«ÒÆÁ¿
+    int total = this.txaSource.getText().length(); // æ–‡æœ¬åŸŸæ€»åç§»é‡
     String str = this.txtGotoOffset.getText().trim();
     if (Util.isTextEmpty(str)) {
-      JOptionPane.showMessageDialog(this, "Æ«ÒÆÁ¿²»ÄÜÎª¿Õ£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åç§»é‡ä¸èƒ½ä¸ºç©ºï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtGotoOffset.requestFocus();
       return;
     }
-    int target = 0; // Ö¸¶¨µÄÆ«ÒÆÁ¿
+    int target = 0; // æŒ‡å®šçš„åç§»é‡
     try {
       target = Integer.parseInt(str);
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "¸ñÊ½´íÎó£¬ÇëÊäÈëÊıÖµ£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥æ•°å€¼ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtGotoOffset.requestFocus();
       this.txtGotoOffset.selectAll();
       return;
     }
     if (target < 0) {
-      JOptionPane.showMessageDialog(this, "Æ«ÒÆÁ¿±ØĞë´óÓÚµÈÓÚ0£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åç§»é‡å¿…é¡»å¤§äºç­‰äº0ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } else if (target > total) {
-      JOptionPane.showMessageDialog(this, "Æ«ÒÆÁ¿³¬³ö·¶Î§£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "åç§»é‡è¶…å‡ºèŒƒå›´ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } else {
       this.txaSource.setCaretPosition(target);
@@ -277,12 +277,12 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ×ªµ½Ö¸¶¨°Ù·Ö±È
+   * è½¬åˆ°æŒ‡å®šç™¾åˆ†æ¯”
    */
   private void gotoPercent() {
     if (percentChanged) {
-      int total = this.txaSource.getText().length(); // ÎÄ±¾Óò×ÜÆ«ÒÆÁ¿
-      int target = this.sldPercent.getValue(); // Ö¸¶¨µÄ°Ù·Ö±È
+      int total = this.txaSource.getText().length(); // æ–‡æœ¬åŸŸæ€»åç§»é‡
+      int target = this.sldPercent.getValue(); // æŒ‡å®šçš„ç™¾åˆ†æ¯”
       int offset = total * target / 100;
       this.txaSource.setCaretPosition(offset);
     }
@@ -305,7 +305,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     if (this.getTabbedIndex() == 0) {
@@ -318,7 +318,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.cancelGoto();

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 ±ùÔ­
+ * Copyright (C) 2018 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,30 +27,30 @@ import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
 /**
- * "×Ô¶¯Íê³É"¶Ô»°¿ò
+ * "è‡ªåŠ¨å®Œæˆ"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private JCheckBox chkEnable = new JCheckBox("¿ªÆô×Ô¶¯Íê³É(E)", false);
+  private JCheckBox chkEnable = new JCheckBox("å¼€å¯è‡ªåŠ¨å®Œæˆ(E)", false);
   private JTextArea txaView = new JTextArea();
-  private JButton btnClose = new JButton("¹Ø±Õ");
+  private JButton btnClose = new JButton("å…³é—­");
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private boolean isAutoComplete = false; // ×Ô¶¯Íê³É
+  private boolean isAutoComplete = false; // è‡ªåŠ¨å®Œæˆ
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param owner
-   *          ¸¸´°¿Ú
+   *          çˆ¶çª—å£
    * @param modal
-   *          ÊÇ·ñÎªÄ£Ê½´°¿Ú
+   *          æ˜¯å¦ä¸ºæ¨¡å¼çª—å£
    * @param txaSource
-   *          Õë¶Ô²Ù×÷µÄÎÄ±¾Óò
+   *          é’ˆå¯¹æ“ä½œçš„æ–‡æœ¬åŸŸ
    */
   public AutoCompleteDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal);
@@ -58,7 +58,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
       return;
     }
     this.txaSource = txaSource;
-    this.setTitle("×Ô¶¯Íê³É");
+    this.setTitle("è‡ªåŠ¨å®Œæˆ");
     this.init();
     this.initView();
     this.addListeners();
@@ -67,7 +67,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -77,7 +77,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
     this.pnlMain.setLayout(null);
@@ -95,7 +95,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯¿Ø¼şÏÔÊ¾
+   * åˆå§‹åŒ–æ§ä»¶æ˜¾ç¤º
    */
   private void initView() {
     this.isAutoComplete = ((BaseTextArea) this.txaSource).getAutoComplete();
@@ -114,25 +114,25 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼Ó¸÷×é¼şµÄÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ å„ç»„ä»¶çš„äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.btnClose.addActionListener(this);
     this.chkEnable.addActionListener(this);
-    // ÒÔÏÂÎª¸÷¿É»ñµÃ½¹µãµÄ×é¼şÌí¼Ó¼üÅÌÊÂ¼ş£¬¼´µ±ÓÃ»§°´ÏÂEsc¼üÊ±¹Ø±Õ¶Ô»°¿ò
+    // ä»¥ä¸‹ä¸ºå„å¯è·å¾—ç„¦ç‚¹çš„ç»„ä»¶æ·»åŠ é”®ç›˜äº‹ä»¶ï¼Œå³å½“ç”¨æˆ·æŒ‰ä¸‹Escé”®æ—¶å…³é—­å¯¹è¯æ¡†
     this.chkEnable.addKeyListener(this.keyAdapter);
     this.btnClose.addKeyListener(this.buttonKeyAdapter);
   }
 
   /**
-   * »ñÈ¡ÊÇ·ñ×Ô¶¯Íê³É
+   * è·å–æ˜¯å¦è‡ªåŠ¨å®Œæˆ
    */
   public boolean getAutoComplete() {
     return this.isAutoComplete;
   }
 
   /**
-   * ÉèÖÃÊÇ·ñ×Ô¶¯Íê³É
+   * è®¾ç½®æ˜¯å¦è‡ªåŠ¨å®Œæˆ
    */
   public void setAutoComplete(boolean isAutoComplete) {
     this.isAutoComplete = isAutoComplete;
@@ -140,21 +140,21 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.onCancel();
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnClose.equals(e.getSource())) {

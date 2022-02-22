@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,16 +25,16 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 /**
- * ×Ô¶¨ÒåµÄ×´Ì¬À¸
+ * è‡ªå®šä¹‰çš„çŠ¶æ€æ 
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class StatePanel extends JPanel {
   private static final long serialVersionUID = 1L;
-  private int columns = 1; // ×´Ì¬À¸ÏÔÊ¾Çø¿éµÄÊıÄ¿
-  private GridLayout layout = new GridLayout(1, columns); // ×´Ì¬À¸µÄ²¼¾Ö¹ÜÀíÆ÷
-  private LinkedList<JLabel> labelList = new LinkedList<JLabel>(); // ´æ·ÅÏÔÊ¾Çø¿éµÄÁ´±í
+  private int columns = 1; // çŠ¶æ€æ æ˜¾ç¤ºåŒºå—çš„æ•°ç›®
+  private GridLayout layout = new GridLayout(1, columns); // çŠ¶æ€æ çš„å¸ƒå±€ç®¡ç†å™¨
+  private LinkedList<JLabel> labelList = new LinkedList<JLabel>(); // å­˜æ”¾æ˜¾ç¤ºåŒºå—çš„é“¾è¡¨
 
   public StatePanel() {
     this(1);
@@ -55,7 +55,7 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * ³õÊ¼»¯×´Ì¬À¸
+   * åˆå§‹åŒ–çŠ¶æ€æ 
    */
   private void init() {
     this.setLayout(this.layout);
@@ -64,7 +64,7 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * ÖØÖÃÁ´±í
+   * é‡ç½®é“¾è¡¨
    */
   private void resetLabelList() {
     this.labelList.clear();
@@ -74,7 +74,7 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * ¸ù¾İÏÔÊ¾Çø¿éµÄÊıÄ¿±ä»¯¶ø¸üĞÂÁ´±í
+   * æ ¹æ®æ˜¾ç¤ºåŒºå—çš„æ•°ç›®å˜åŒ–è€Œæ›´æ–°é“¾è¡¨
    */
   private void updateLabelList() {
     int size = this.labelList.size();
@@ -91,9 +91,9 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * ×·¼ÓÒ»¸ö¿Õ°×µÄÏÔÊ¾Çø¿é
+   * è¿½åŠ ä¸€ä¸ªç©ºç™½çš„æ˜¾ç¤ºåŒºå—
    * 
-   * @return Èç¹û×·¼Ó³É¹¦Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+   * @return å¦‚æœè¿½åŠ æˆåŠŸåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
    */
   private boolean appendLabelList() {
     if (this.labelList.size() < this.columns) {
@@ -107,9 +107,9 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * ÒÆ³ıÄ©¶ËÒ»¸öÒÑ´æÔÚµÄÏÔÊ¾Çø¿é
+   * ç§»é™¤æœ«ç«¯ä¸€ä¸ªå·²å­˜åœ¨çš„æ˜¾ç¤ºåŒºå—
    * 
-   * @return Èç¹ûÒÆ³ı³É¹¦Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+   * @return å¦‚æœç§»é™¤æˆåŠŸåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
    */
   private boolean removeLabelList() {
     if (this.labelList.size() > 0) {
@@ -120,14 +120,14 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * ÎªÖ¸¶¨ÏÂ±êµÄÏÔÊ¾Çø¿éÉèÖÃ×Ö·û´®ºÍ¶ÔÆë·½Ê½
+   * ä¸ºæŒ‡å®šä¸‹æ ‡çš„æ˜¾ç¤ºåŒºå—è®¾ç½®å­—ç¬¦ä¸²å’Œå¯¹é½æ–¹å¼
    * 
    * @param index
-   *          ÏÔÊ¾Çø¿éµÄÏÂ±ê
+   *          æ˜¾ç¤ºåŒºå—çš„ä¸‹æ ‡
    * @param strLabel
-   *          ÉèÖÃµÄ×Ö·û´®
+   *          è®¾ç½®çš„å­—ç¬¦ä¸²
    * @param alignment
-   *          ¶ÔÆë·½Ê½
+   *          å¯¹é½æ–¹å¼
    */
   public void setStringByIndex(int index, String strLabel,
       StatePanelAlignment alignment) {
@@ -136,34 +136,34 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * ÎªÖ¸¶¨ÏÂ±êµÄÏÔÊ¾Çø¿éÉèÖÃ×Ö·û´®
+   * ä¸ºæŒ‡å®šä¸‹æ ‡çš„æ˜¾ç¤ºåŒºå—è®¾ç½®å­—ç¬¦ä¸²
    * 
    * @param index
-   *          ÏÔÊ¾Çø¿éµÄÏÂ±ê
+   *          æ˜¾ç¤ºåŒºå—çš„ä¸‹æ ‡
    * @param strLabel
-   *          ÉèÖÃµÄ×Ö·û´®
+   *          è®¾ç½®çš„å­—ç¬¦ä¸²
    */
   public void setStringByIndex(int index, String strLabel) {
     this.labelList.get(this.checkIndex(index)).setText(strLabel);
   }
 
   /**
-   * »ñÈ¡Ö¸¶¨ÏÂ±êµÄÏÔÊ¾Çø¿éµÄ×Ö·û´®
+   * è·å–æŒ‡å®šä¸‹æ ‡çš„æ˜¾ç¤ºåŒºå—çš„å­—ç¬¦ä¸²
    * 
    * @param index
-   *          ÏÔÊ¾Çø¿éµÄÏÂ±ê
-   * @return ÏÔÊ¾Çø¿éµÄ×Ö·û´®
+   *          æ˜¾ç¤ºåŒºå—çš„ä¸‹æ ‡
+   * @return æ˜¾ç¤ºåŒºå—çš„å­—ç¬¦ä¸²
    */
   public String getStringByIndex(int index) {
     return this.labelList.get(this.checkIndex(index)).getText();
   }
 
   /**
-   * ¸ñÊ½»¯ÏÂ±ê
+   * æ ¼å¼åŒ–ä¸‹æ ‡
    * 
    * @param index
-   *          ÏÂ±ê
-   * @return ¾­¹ı¸ñÊ½»¯µÄÏÂ±ê
+   *          ä¸‹æ ‡
+   * @return ç»è¿‡æ ¼å¼åŒ–çš„ä¸‹æ ‡
    */
   private int checkIndex(int index) {
     if (index < 0) {
@@ -175,11 +175,11 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * ¸ñÊ½»¯ÏÔÊ¾Çø¿éÊıÄ¿
+   * æ ¼å¼åŒ–æ˜¾ç¤ºåŒºå—æ•°ç›®
    * 
    * @param columns
-   *          ÏÔÊ¾Çø¿éµÄÊıÄ¿
-   * @return ¾­¹ı¸ñÊ½»¯µÄÏÔÊ¾Çø¿éµÄÊıÄ¿
+   *          æ˜¾ç¤ºåŒºå—çš„æ•°ç›®
+   * @return ç»è¿‡æ ¼å¼åŒ–çš„æ˜¾ç¤ºåŒºå—çš„æ•°ç›®
    */
   private int checkColumns(int columns) {
     if (columns <= 0) {
@@ -191,10 +191,10 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * ÉèÖÃÏÔÊ¾Çø¿éµÄÊıÄ¿
+   * è®¾ç½®æ˜¾ç¤ºåŒºå—çš„æ•°ç›®
    * 
    * @param columns
-   *          ÏÔÊ¾Çø¿éµÄÊıÄ¿
+   *          æ˜¾ç¤ºåŒºå—çš„æ•°ç›®
    */
   public void setColumns(int columns) {
     this.checkColumns(columns);
@@ -203,21 +203,21 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * »ñÈ¡ÏÔÊ¾Çø¿éµÄÊıÄ¿
+   * è·å–æ˜¾ç¤ºåŒºå—çš„æ•°ç›®
    * 
-   * @return ÏÔÊ¾Çø¿éµÄÊıÄ¿
+   * @return æ˜¾ç¤ºåŒºå—çš„æ•°ç›®
    */
   public int getColumns() {
     return this.columns;
   }
 
   /**
-   * ÎªÖ¸¶¨ÏÂ±êµÄÏÔÊ¾Çø¿éÉèÖÃ¶ÔÆë·½Ê½
+   * ä¸ºæŒ‡å®šä¸‹æ ‡çš„æ˜¾ç¤ºåŒºå—è®¾ç½®å¯¹é½æ–¹å¼
    * 
    * @param index
-   *          ÏÔÊ¾Çø¿éµÄÏÂ±ê
+   *          æ˜¾ç¤ºåŒºå—çš„ä¸‹æ ‡
    * @param alignment
-   *          ÏÔÊ¾Çø¿éµÄ¶ÔÆë·½Ê½
+   *          æ˜¾ç¤ºåŒºå—çš„å¯¹é½æ–¹å¼
    */
   public void setAlignmentByIndex(int index, StatePanelAlignment alignment) {
     JLabel lblTemp = this.labelList.get(this.checkIndex(index));
@@ -235,11 +235,11 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * »ñÈ¡Ö¸¶¨ÏÂ±êµÄÏÔÊ¾Çø¿éµÄ¶ÔÆë·½Ê½
+   * è·å–æŒ‡å®šä¸‹æ ‡çš„æ˜¾ç¤ºåŒºå—çš„å¯¹é½æ–¹å¼
    * 
    * @param index
-   *          ÏÔÊ¾Çø¿éµÄÏÂ±ê
-   * @return ÏÔÊ¾Çø¿éµÄ¶ÔÆë·½Ê½
+   *          æ˜¾ç¤ºåŒºå—çš„ä¸‹æ ‡
+   * @return æ˜¾ç¤ºåŒºå—çš„å¯¹é½æ–¹å¼
    */
   public StatePanelAlignment getAlignmentByIndex(int index) {
     JLabel lblTemp = this.labelList.get(this.checkIndex(index));

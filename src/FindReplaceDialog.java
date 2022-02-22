@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,65 +45,65 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 
 /**
- * "²éÕÒ"ºÍ"Ìæ»»"¶Ô»°¿ò
+ * "æŸ¥æ‰¾"å’Œ"æ›¿æ¢"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class FindReplaceDialog extends BaseDialog implements ActionListener,
     CaretListener, ChangeListener, WindowFocusListener {
   private static final long serialVersionUID = 1L;
-  private SearchResultPanel searchResultPanel; // ²éÕÒ½á¹ûÃæ°å
-  private Setting setting = null; // Èí¼ş²ÎÊıÅäÖÃÀà
+  private SearchResultPanel searchResultPanel; // æŸ¥æ‰¾ç»“æœé¢æ¿
+  private Setting setting = null; // è½¯ä»¶å‚æ•°é…ç½®ç±»
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
-  private boolean isFindDown = true; // ÏòÏÂ²éÕÒ
-  private boolean isMatchCase = false; // Çø·Ö´óĞ¡Ğ´
-  private boolean isWrap = false; // Ñ­»·²éÕÒ
-  private SearchStyle searchStyle = SearchStyle.DEFAULT; // ËÑË÷Ä£Ê½
+  private boolean isFindDown = true; // å‘ä¸‹æŸ¥æ‰¾
+  private boolean isMatchCase = false; // åŒºåˆ†å¤§å°å†™
+  private boolean isWrap = false; // å¾ªç¯æŸ¥æ‰¾
+  private SearchStyle searchStyle = SearchStyle.DEFAULT; // æœç´¢æ¨¡å¼
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private String strFind = ""; // ²éÕÒµÄ×Ö·û´®
-  private Matcher matcher = null; // Í¨¹ı½âÊÍPattern¶ÔÖ¸¶¨ÎÄ±¾Ö´ĞĞÆ¥Åä²Ù×÷µÄÒıÇæ
-  // ²éÕÒ
+  private String strFind = ""; // æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
+  private Matcher matcher = null; // é€šè¿‡è§£é‡ŠPatternå¯¹æŒ‡å®šæ–‡æœ¬æ‰§è¡ŒåŒ¹é…æ“ä½œçš„å¼•æ“
+  // æŸ¥æ‰¾
   private JPanel pnlFind = new JPanel();
-  private JLabel lblFindTextF = new JLabel("²éÕÒÄÚÈİ£º");
+  private JLabel lblFindTextF = new JLabel("æŸ¥æ‰¾å†…å®¹ï¼š");
   private BaseTextField txtFindTextF = new BaseTextField();
-  private JCheckBox chkMatchCaseF = new JCheckBox("Çø·Ö´óĞ¡Ğ´(C)", true);
-  private JCheckBox chkIsWrapF = new JCheckBox("Ñ­»·²éÕÒ(W)", false);
-  private JRadioButton radDefaultF = new JRadioButton("ÆÕÍ¨(E)", true);
-  private JRadioButton radTransferF = new JRadioButton("×ªÒåÀ©Õ¹(T)", false);
-  private JRadioButton radPatternF = new JRadioButton("ÕıÔò±í´ïÊ½(P)", false);
-  private JRadioButton radFindUpF = new JRadioButton("ÏòÉÏ(U)", false);
-  private JRadioButton radFindDownF = new JRadioButton("ÏòÏÂ(D)", true);
-  private JButton btnFindF = new JButton("²éÕÒ(F)");
-  private JButton btnCountAllF = new JButton("È«²¿Í³¼Æ(N)");
-  private JButton btnCountSelF = new JButton("Ñ¡ÇøÄÚÍ³¼Æ(S)");
-  private JButton btnSearchInFileF = new JButton("ÎÄ¼şÖĞ²éÕÒ(I)");
-  private JButton btnCopyResultLinesF = new JButton("¸´ÖÆ½á¹ûĞĞ(L)");
-  private JButton btnCancelF = new JButton("È¡Ïû");
+  private JCheckBox chkMatchCaseF = new JCheckBox("åŒºåˆ†å¤§å°å†™(C)", true);
+  private JCheckBox chkIsWrapF = new JCheckBox("å¾ªç¯æŸ¥æ‰¾(W)", false);
+  private JRadioButton radDefaultF = new JRadioButton("æ™®é€š(E)", true);
+  private JRadioButton radTransferF = new JRadioButton("è½¬ä¹‰æ‰©å±•(T)", false);
+  private JRadioButton radPatternF = new JRadioButton("æ­£åˆ™è¡¨è¾¾å¼(P)", false);
+  private JRadioButton radFindUpF = new JRadioButton("å‘ä¸Š(U)", false);
+  private JRadioButton radFindDownF = new JRadioButton("å‘ä¸‹(D)", true);
+  private JButton btnFindF = new JButton("æŸ¥æ‰¾(F)");
+  private JButton btnCountAllF = new JButton("å…¨éƒ¨ç»Ÿè®¡(N)");
+  private JButton btnCountSelF = new JButton("é€‰åŒºå†…ç»Ÿè®¡(S)");
+  private JButton btnSearchInFileF = new JButton("æ–‡ä»¶ä¸­æŸ¥æ‰¾(I)");
+  private JButton btnCopyResultLinesF = new JButton("å¤åˆ¶ç»“æœè¡Œ(L)");
+  private JButton btnCancelF = new JButton("å–æ¶ˆ");
   private ButtonGroup bgpSearchStyleF = new ButtonGroup();
   private ButtonGroup bgpFindUpDownF = new ButtonGroup();
   private JPanel pnlSearchStyleF = new JPanel(new GridLayout(3, 1));
   private JPanel pnlFindUpDownF = new JPanel(new GridLayout(2, 1));
-  // Ìæ»»
+  // æ›¿æ¢
   private JPanel pnlReplace = new JPanel();
-  private JLabel lblFindTextR = new JLabel("²éÕÒÄÚÈİ£º");
-  private JLabel lblReplaceTextR = new JLabel("Ìæ»»Îª£º");
+  private JLabel lblFindTextR = new JLabel("æŸ¥æ‰¾å†…å®¹ï¼š");
+  private JLabel lblReplaceTextR = new JLabel("æ›¿æ¢ä¸ºï¼š");
   private BaseTextField txtFindTextR = new BaseTextField();
   private BaseTextField txtReplaceTextR = new BaseTextField();
-  private JCheckBox chkMatchCaseR = new JCheckBox("Çø·Ö´óĞ¡Ğ´(C)", true);
-  private JCheckBox chkIsWrapR = new JCheckBox("Ñ­»·²éÕÒ(W)", false);
-  private JRadioButton radDefaultR = new JRadioButton("ÆÕÍ¨(E)", true);
-  private JRadioButton radTransferR = new JRadioButton("×ªÒåÀ©Õ¹(T)", false);
-  private JRadioButton radPatternR = new JRadioButton("ÕıÔò±í´ïÊ½(P)", false);
-  private JRadioButton radFindUpR = new JRadioButton("ÏòÉÏ(U)", false);
-  private JRadioButton radFindDownR = new JRadioButton("ÏòÏÂ(D)", true);
-  private JButton btnFindR = new JButton("²éÕÒ(F)");
-  private JButton btnReplaceR = new JButton("Ìæ»»(R)");
-  private JButton btnReplaceAllR = new JButton("È«²¿Ìæ»»(A)");
-  private JButton btnReplaceSelR = new JButton("Ñ¡ÇøÄÚÌæ»»(S)");
-  private JButton btnCancelR = new JButton("È¡Ïû");
+  private JCheckBox chkMatchCaseR = new JCheckBox("åŒºåˆ†å¤§å°å†™(C)", true);
+  private JCheckBox chkIsWrapR = new JCheckBox("å¾ªç¯æŸ¥æ‰¾(W)", false);
+  private JRadioButton radDefaultR = new JRadioButton("æ™®é€š(E)", true);
+  private JRadioButton radTransferR = new JRadioButton("è½¬ä¹‰æ‰©å±•(T)", false);
+  private JRadioButton radPatternR = new JRadioButton("æ­£åˆ™è¡¨è¾¾å¼(P)", false);
+  private JRadioButton radFindUpR = new JRadioButton("å‘ä¸Š(U)", false);
+  private JRadioButton radFindDownR = new JRadioButton("å‘ä¸‹(D)", true);
+  private JButton btnFindR = new JButton("æŸ¥æ‰¾(F)");
+  private JButton btnReplaceR = new JButton("æ›¿æ¢(R)");
+  private JButton btnReplaceAllR = new JButton("å…¨éƒ¨æ›¿æ¢(A)");
+  private JButton btnReplaceSelR = new JButton("é€‰åŒºå†…æ›¿æ¢(S)");
+  private JButton btnCancelR = new JButton("å–æ¶ˆ");
   private ButtonGroup bgpSearchStyleR = new ButtonGroup();
   private ButtonGroup bgpFindUpDownR = new ButtonGroup();
   private JPanel pnlSearchStyleR = new JPanel(new GridLayout(3, 1));
@@ -118,7 +118,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.setting = setting;
     this.txaSource = txaSource;
     this.searchResultPanel = searchResultPanel;
-    this.setTitle("²éÕÒ");
+    this.setTitle("æŸ¥æ‰¾");
     this.init();
     this.initView();
     this.setMnemonic();
@@ -128,10 +128,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ½çÃæ³õÊ¼»¯
+   * ç•Œé¢åˆå§‹åŒ–
    */
   private void init() {
-    // ²éÕÒ
+    // æŸ¥æ‰¾
     this.pnlFind.setLayout(null);
     this.lblFindTextF.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
     this.txtFindTextF.setBounds(80, 9, 180, Util.INPUT_HEIGHT);
@@ -142,16 +142,16 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.chkIsWrapF.setBounds(10, 70, 110, Util.VIEW_HEIGHT);
     this.pnlFind.add(this.chkIsWrapF);
     this.pnlFindUpDownF.setBounds(10, 100, 95, 70);
-    this.pnlFindUpDownF.setBorder(new TitledBorder("·½Ïò"));
+    this.pnlFindUpDownF.setBorder(new TitledBorder("æ–¹å‘"));
     this.pnlFindUpDownF.add(this.radFindUpF);
     this.pnlFindUpDownF.add(this.radFindDownF);
     this.pnlFind.add(this.pnlFindUpDownF);
     this.pnlSearchStyleF.setBounds(130, 80, 130, 90);
-    this.pnlSearchStyleF.setBorder(new TitledBorder("Ä£Ê½"));
+    this.pnlSearchStyleF.setBorder(new TitledBorder("æ¨¡å¼"));
     this.pnlSearchStyleF.add(this.radDefaultF);
     this.pnlSearchStyleF.add(this.radTransferF);
     this.pnlSearchStyleF.add(this.radPatternF);
-    this.radTransferF.setToolTipText("¿ÉÊ¹ÓÃ\\n¡¢\\t×ªÒå×Ö·û");
+    this.radTransferF.setToolTipText("å¯ä½¿ç”¨\\nã€\\tè½¬ä¹‰å­—ç¬¦");
     this.pnlFind.add(this.pnlSearchStyleF);
     this.btnFindF.setEnabled(false);
     this.btnCountAllF.setEnabled(false);
@@ -175,7 +175,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.bgpSearchStyleF.add(this.radPatternF);
     this.bgpFindUpDownF.add(this.radFindDownF);
     this.bgpFindUpDownF.add(this.radFindUpF);
-    // Ìæ»»
+    // æ›¿æ¢
     this.pnlReplace.setLayout(null);
     this.lblFindTextR.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
     this.txtFindTextR.setBounds(80, 9, 180, Util.INPUT_HEIGHT);
@@ -190,16 +190,16 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.chkIsWrapR.setBounds(10, 90, 110, Util.VIEW_HEIGHT);
     this.pnlReplace.add(this.chkIsWrapR);
     this.pnlFindUpDownR.setBounds(10, 110, 95, 70);
-    this.pnlFindUpDownR.setBorder(new TitledBorder("·½Ïò"));
+    this.pnlFindUpDownR.setBorder(new TitledBorder("æ–¹å‘"));
     this.pnlFindUpDownR.add(this.radFindUpR);
     this.pnlFindUpDownR.add(this.radFindDownR);
     this.pnlReplace.add(this.pnlFindUpDownR);
     this.pnlSearchStyleR.setBounds(130, 90, 130, 90);
-    this.pnlSearchStyleR.setBorder(new TitledBorder("Ä£Ê½"));
+    this.pnlSearchStyleR.setBorder(new TitledBorder("æ¨¡å¼"));
     this.pnlSearchStyleR.add(this.radDefaultR);
     this.pnlSearchStyleR.add(this.radTransferR);
     this.pnlSearchStyleR.add(this.radPatternR);
-    this.radTransferR.setToolTipText("¿ÉÊ¹ÓÃ\\n¡¢\\t×ªÒå×Ö·û");
+    this.radTransferR.setToolTipText("å¯ä½¿ç”¨\\nã€\\tè½¬ä¹‰å­—ç¬¦");
     this.pnlReplace.add(this.pnlSearchStyleR);
     this.btnFindR.setEnabled(false);
     this.btnReplaceR.setEnabled(false);
@@ -220,16 +220,16 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.bgpSearchStyleR.add(this.radPatternR);
     this.bgpFindUpDownR.add(this.radFindDownR);
     this.bgpFindUpDownR.add(this.radFindUpR);
-    // Ö÷½çÃæ
-    this.tpnMain.add(this.pnlFind, "²éÕÒ");
-    this.tpnMain.add(this.pnlReplace, "Ìæ»»");
+    // ä¸»ç•Œé¢
+    this.tpnMain.add(this.pnlFind, "æŸ¥æ‰¾");
+    this.tpnMain.add(this.pnlReplace, "æ›¿æ¢");
     this.pnlMain.add(this.tpnMain, BorderLayout.CENTER);
     this.setTabbedIndex(0);
     this.tpnMain.setFocusable(false);
   }
 
   /**
-   * ³õÊ¼»¯¸÷Ñ¡ÏîµÄ×´Ì¬
+   * åˆå§‹åŒ–å„é€‰é¡¹çš„çŠ¶æ€
    */
   private void initView() {
     this.isMatchCase = this.setting.matchCase;
@@ -264,26 +264,26 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ÉèÖÃÑ¡Ïî¿¨µÄµ±Ç°ÊÓÍ¼
+   * è®¾ç½®é€‰é¡¹å¡çš„å½“å‰è§†å›¾
    * 
    * @param index
-   *          ÊÓÍ¼µÄË÷ÒıºÅ
+   *          è§†å›¾çš„ç´¢å¼•å·
    */
   public void setTabbedIndex(int index) {
     this.tpnMain.setSelectedIndex(index);
   }
 
   /**
-   * »ñÈ¡Ñ¡Ïî¿¨µ±Ç°ÊÓÍ¼µÄË÷ÒıºÅ
+   * è·å–é€‰é¡¹å¡å½“å‰è§†å›¾çš„ç´¢å¼•å·
    * 
-   * @return µ±Ç°ÊÓÍ¼µÄË÷ÒıºÅ
+   * @return å½“å‰è§†å›¾çš„ç´¢å¼•å·
    */
   public int getTabbedIndex() {
     return this.tpnMain.getSelectedIndex();
   }
 
   /**
-   * Ñ¡ÖĞ¡°²éÕÒÄÚÈİ¡±ÖĞµÄÎÄ±¾
+   * é€‰ä¸­â€œæŸ¥æ‰¾å†…å®¹â€ä¸­çš„æ–‡æœ¬
    */
   public void setFindTextSelect() {
     int tabbedIndex = this.getTabbedIndex();
@@ -295,21 +295,21 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * »ñÈ¡²éÕÒµÄ×Ö·û´®
+   * è·å–æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
    * 
-   * @return ²éÕÒµÄ×Ö·û´®
+   * @return æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
    */
   public String getFindText() {
     return this.strFind;
   }
 
   /**
-   * ÉèÖÃ²éÕÒµÄ×Ö·û´®
+   * è®¾ç½®æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
    * 
    * @param strFind
-   *          ²éÕÒµÄ×Ö·û´®
+   *          æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
    * @param isUpdate
-   *          ÊÇ·ñÍ¬²½¸üĞÂÎÄ±¾¿òµÄÏÔÊ¾£¬¸üĞÂÎªtrue£¬²»¸üĞÂÎªfalse
+   *          æ˜¯å¦åŒæ­¥æ›´æ–°æ–‡æœ¬æ¡†çš„æ˜¾ç¤ºï¼Œæ›´æ–°ä¸ºtrueï¼Œä¸æ›´æ–°ä¸ºfalse
    */
   public void setFindText(String strFind, boolean isUpdate) {
     this.strFind = strFind;
@@ -325,29 +325,29 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * »ñÈ¡ÓÃÓÚÌæ»»µÄ×Ö·û´®
+   * è·å–ç”¨äºæ›¿æ¢çš„å­—ç¬¦ä¸²
    * 
-   * @return ÓÃÓÚÌæ»»µÄ×Ö·û´®
+   * @return ç”¨äºæ›¿æ¢çš„å­—ç¬¦ä¸²
    */
   public String getReplaceText() {
     return this.txtReplaceTextR.getText();
   }
 
   /**
-   * ÉèÖÃÓÃÓÚÌæ»»µÄ×Ö·û´®
+   * è®¾ç½®ç”¨äºæ›¿æ¢çš„å­—ç¬¦ä¸²
    * 
    * @param strReplace
-   *          ÓÃÓÚÌæ»»µÄ×Ö·û´®
+   *          ç”¨äºæ›¿æ¢çš„å­—ç¬¦ä¸²
    */
   public void setReplaceText(String strReplace) {
     this.txtReplaceTextR.setText(strReplace);
   }
 
   /**
-   * Îª¸÷×é¼şÉèÖÃ¿ì½İ¼ü
+   * ä¸ºå„ç»„ä»¶è®¾ç½®å¿«æ·é”®
    */
   private void setMnemonic() {
-    // ²éÕÒ
+    // æŸ¥æ‰¾
     this.chkMatchCaseF.setMnemonic('C');
     this.chkIsWrapF.setMnemonic('W');
     this.radDefaultF.setMnemonic('E');
@@ -360,7 +360,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnCopyResultLinesF.setMnemonic('L');
     this.radFindUpF.setMnemonic('U');
     this.radFindDownF.setMnemonic('D');
-    // Ìæ»»
+    // æ›¿æ¢
     this.chkMatchCaseR.setMnemonic('C');
     this.chkIsWrapR.setMnemonic('W');
     this.radDefaultR.setMnemonic('E');
@@ -375,11 +375,11 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼Ó¼àÌıÆ÷
+   * ä¸ºå„ç»„ä»¶æ·»åŠ ç›‘å¬å™¨
    */
   private void addListeners() {
     this.tpnMain.addChangeListener(this);
-    // ²éÕÒ
+    // æŸ¥æ‰¾
     this.txtFindTextF.addCaretListener(this);
     this.btnFindF.addActionListener(this);
     this.btnCountAllF.addActionListener(this);
@@ -408,7 +408,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnCountSelF.addKeyListener(this.buttonKeyAdapter);
     this.btnSearchInFileF.addKeyListener(this.buttonKeyAdapter);
     this.btnCopyResultLinesF.addKeyListener(this.buttonKeyAdapter);
-    // Ìæ»»
+    // æ›¿æ¢
     this.txtFindTextR.addCaretListener(this);
     this.btnFindR.addActionListener(this);
     this.btnReplaceR.addActionListener(this);
@@ -436,15 +436,15 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnFindR.addKeyListener(this.buttonKeyAdapter);
     this.btnReplaceAllR.addKeyListener(this.buttonKeyAdapter);
     this.btnReplaceSelR.addKeyListener(this.buttonKeyAdapter);
-    // Îª´°¿ÚÌí¼Ó½¹µã¼àÌıÆ÷
+    // ä¸ºçª—å£æ·»åŠ ç„¦ç‚¹ç›‘å¬å™¨
     this.addWindowFocusListener(this);
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCancelF.equals(e.getSource())) { // ²éÕÒ
+    if (this.btnCancelF.equals(e.getSource())) { // æŸ¥æ‰¾
       this.onCancel();
     } else if (this.btnFindF.equals(e.getSource())) {
       this.onEnter();
@@ -478,7 +478,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     } else if (this.radFindUpF.equals(e.getSource())) {
       this.setting.findDown = this.isFindDown = false;
       this.radFindUpR.setSelected(true);
-    } else if (this.btnCancelR.equals(e.getSource())) { // Ìæ»»
+    } else if (this.btnCancelR.equals(e.getSource())) { // æ›¿æ¢
       this.onCancel();
     } else if (this.btnFindR.equals(e.getSource())) {
       this.findText(this.isFindDown);
@@ -514,14 +514,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ä¬ÈÏµÄ¡°È¡Ïû¡±²Ù×÷·½·¨
+   * é»˜è®¤çš„â€œå–æ¶ˆâ€æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();
   }
 
   /**
-   * Ä¬ÈÏµÄ¡°È·¶¨¡±²Ù×÷·½·¨
+   * é»˜è®¤çš„â€œç¡®å®šâ€æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     if (this.tpnMain.getSelectedIndex() == 0) {
@@ -532,11 +532,11 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ²éÕÒ×Ö·û´®
+   * æŸ¥æ‰¾å­—ç¬¦ä¸²
    * 
    * @param isFindDown
-   *          ²éÕÒµÄ·½Ïò£¬Èç¹ûÏòÏÂ²éÕÒÔòÎªtrue£¬·´Ö®ÔòÎªfalse
-   * @return ²éÕÒ½á¹û£¬Èç¹û²éÕÒ³É¹¦·µ»Øtrue£¬·´Ö®ÔòÎªfalse
+   *          æŸ¥æ‰¾çš„æ–¹å‘ï¼Œå¦‚æœå‘ä¸‹æŸ¥æ‰¾åˆ™ä¸ºtrueï¼Œåä¹‹åˆ™ä¸ºfalse
+   * @return æŸ¥æ‰¾ç»“æœï¼Œå¦‚æœæŸ¥æ‰¾æˆåŠŸè¿”å›trueï¼Œåä¹‹åˆ™ä¸ºfalse
    */
   public boolean findText(boolean isFindDown) {
     if (!Util.isTextEmpty(this.strFind)) {
@@ -552,10 +552,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         }
         return true;
       } else if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
-        JOptionPane.showMessageDialog(this, "ÕıÔò±í´ïÊ½Óï·¨´íÎó£¬ÇëĞŞ¸Ä£¡",
+        JOptionPane.showMessageDialog(this, "æ­£åˆ™è¡¨è¾¾å¼è¯­æ³•é”™è¯¯ï¼Œè¯·ä¿®æ”¹ï¼",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       } else {
-        JOptionPane.showMessageDialog(this, "ÕÒ²»µ½\"" + this.strFind + "\"",
+        JOptionPane.showMessageDialog(this, "æ‰¾ä¸åˆ°\"" + this.strFind + "\"",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
     }
@@ -563,7 +563,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ¥´ÎÌæ»»×Ö·û´®
+   * å•æ¬¡æ›¿æ¢å­—ç¬¦ä¸²
    */
   private void replaceText() {
     boolean isEquals = false;
@@ -579,7 +579,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       }
       if (!this.isMatchCase) {
         if (this.searchStyle == SearchStyle.PATTERN) {
-          if (strSel.matches("(?i)" + strFindTemp)) { // ÕıÔò±í´ïÊ½ÖĞ£¬¿ÉÓÃ(?i)´ò¿ª²»Çø·Ö´óĞ¡Ğ´µÄÊôĞÔ
+          if (strSel.matches("(?i)" + strFindTemp)) { // æ­£åˆ™è¡¨è¾¾å¼ä¸­ï¼Œå¯ç”¨(?i)æ‰“å¼€ä¸åŒºåˆ†å¤§å°å†™çš„å±æ€§
             isEquals = true;
           }
         } else if (strSel.equalsIgnoreCase(strFindTemp)) {
@@ -602,10 +602,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ¶à´ÎÌæ»»×Ö·û´®
+   * å¤šæ¬¡æ›¿æ¢å­—ç¬¦ä¸²
    * 
    * @param isSel
-   *          ÊÇ·ñÕë¶ÔÑ¡Çø²Ù×÷£¬true±íÊ¾Ñ¡Çø²Ù×÷£¬false±íÊ¾È«ÎÄ²Ù×÷
+   *          æ˜¯å¦é’ˆå¯¹é€‰åŒºæ“ä½œï¼Œtrueè¡¨ç¤ºé€‰åŒºæ“ä½œï¼Œfalseè¡¨ç¤ºå…¨æ–‡æ“ä½œ
    */
   private void replaceText(boolean isSel) {
     String str = this.txaSource.getText();
@@ -625,14 +625,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     }
     StringBuilder stbFindTextTemp = new StringBuilder(strFindText);
     if (!Util.isTextEmpty(strFindText)) {
-      int caretPos = 0; // µ±Ç°´ÓÄÄ¸öË÷ÒıÖµ¿ªÊ¼ËÑË÷×Ö·û´®
-      int times = 0; // Ñ­»·´ÎÊı
-      int oldPos = this.txaSource.getCaretPosition(); // Ìæ»»Ö®Ç°ÎÄ±¾ÓòµÄ²åÈëµãÎ»ÖÃ
-      int newPos = oldPos; // Ìæ»»Ö®ºóµÄ²åÈëµãÎ»ÖÃ
-      int offset = strFindText.length() - strReplaceText.length(); // ²éÕÒÓëÌæ»»µÄ×Ö·û´®³¤¶ÈµÄ²îÖµ
+      int caretPos = 0; // å½“å‰ä»å“ªä¸ªç´¢å¼•å€¼å¼€å§‹æœç´¢å­—ç¬¦ä¸²
+      int times = 0; // å¾ªç¯æ¬¡æ•°
+      int oldPos = this.txaSource.getCaretPosition(); // æ›¿æ¢ä¹‹å‰æ–‡æœ¬åŸŸçš„æ’å…¥ç‚¹ä½ç½®
+      int newPos = oldPos; // æ›¿æ¢ä¹‹åçš„æ’å…¥ç‚¹ä½ç½®
+      int offset = strFindText.length() - strReplaceText.length(); // æŸ¥æ‰¾ä¸æ›¿æ¢çš„å­—ç¬¦ä¸²é•¿åº¦çš„å·®å€¼
       if (!this.isMatchCase) {
         if (this.searchStyle == SearchStyle.PATTERN) {
-          stbFindTextTemp = new StringBuilder("(?i)" + stbFindTextTemp); // ÕıÔò±í´ïÊ½ÖĞ£¬¿ÉÓÃ(?i)´ò¿ª²»Çø·Ö´óĞ¡Ğ´µÄÊôĞÔ
+          stbFindTextTemp = new StringBuilder("(?i)" + stbFindTextTemp); // æ­£åˆ™è¡¨è¾¾å¼ä¸­ï¼Œå¯ç”¨(?i)æ‰“å¼€ä¸åŒºåˆ†å¤§å°å†™çš„å±æ€§
         } else {
           stbFindTextTemp = new StringBuilder(stbFindTextTemp.toString()
               .toLowerCase());
@@ -645,7 +645,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           this.matcher = Pattern.compile(stbFindTextTemp.toString()).matcher(
               stbTextAll);
         } catch (PatternSyntaxException x) {
-          JOptionPane.showMessageDialog(this, "ÕıÔò±í´ïÊ½Óï·¨´íÎó£¬ÇëĞŞ¸Ä£¡",
+          JOptionPane.showMessageDialog(this, "æ­£åˆ™è¡¨è¾¾å¼è¯­æ³•é”™è¯¯ï¼Œè¯·ä¿®æ”¹ï¼",
               Util.SOFTWARE, JOptionPane.NO_OPTION);
           return;
         }
@@ -689,58 +689,58 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           this.txaSource.setText(stbTextAll.toString());
           this.txaSource.setCaretPosition(Util.checkCaretPosition(this.txaSource, newPos));
         }
-        JOptionPane.showMessageDialog(this, "¹²Ìæ»» " + times + " ´¦¡£",
+        JOptionPane.showMessageDialog(this, "å…±æ›¿æ¢ " + times + " å¤„ã€‚",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       } else {
-        JOptionPane.showMessageDialog(this, "ÕÒ²»µ½\"" + this.strFind + "\"",
+        JOptionPane.showMessageDialog(this, "æ‰¾ä¸åˆ°\"" + this.strFind + "\"",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
     }
   }
 
   /**
-   * Ìæ»»ËùÓĞ×Ö·û´®
+   * æ›¿æ¢æ‰€æœ‰å­—ç¬¦ä¸²
    */
   private void replaceAllText() {
     this.replaceText(false);
   }
 
   /**
-   * Ìæ»»Ñ¡Çø×Ö·û´®
+   * æ›¿æ¢é€‰åŒºå­—ç¬¦ä¸²
    */
   private void replaceSelText() {
     this.replaceText(true);
   }
 
   /**
-   * "È«²¿Í³¼Æ"µÄ´¦Àí·½·¨
+   * "å…¨éƒ¨ç»Ÿè®¡"çš„å¤„ç†æ–¹æ³•
    */
   private void getTextCountAll() {
     int times = this.getTextCount(this.txaSource.getText());
     if (times >= 0) {
-      JOptionPane.showMessageDialog(this, "¹²ÕÒµ½ " + times + " ´¦¡£", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      JOptionPane.showMessageDialog(this, "å…±æ‰¾åˆ° " + times + " å¤„ã€‚", Util.SOFTWARE, JOptionPane.NO_OPTION);
     }
   }
 
   /**
-   * "Ñ¡ÇøÄÚÍ³¼Æ"µÄ´¦Àí·½·¨
+   * "é€‰åŒºå†…ç»Ÿè®¡"çš„å¤„ç†æ–¹æ³•
    */
   private void getTextCountSel() {
     int times = this.getTextCount(this.txaSource.getSelectedText());
     if (times >= 0) {
-      JOptionPane.showMessageDialog(this, "¹²ÕÒµ½ " + times + " ´¦¡£", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      JOptionPane.showMessageDialog(this, "å…±æ‰¾åˆ° " + times + " å¤„ã€‚", Util.SOFTWARE, JOptionPane.NO_OPTION);
     }
   }
 
   /**
-   * ÔÚ¸ø¶¨µÄÎÄ±¾ÖĞÍ³¼Æ×Ö·û´®´ÎÊı
+   * åœ¨ç»™å®šçš„æ–‡æœ¬ä¸­ç»Ÿè®¡å­—ç¬¦ä¸²æ¬¡æ•°
    * 
    * @param strText
-   *          ¸ø¶¨µÄÎÄ±¾
-   * @return ×Ö·û´®³öÏÖ´ÎÊı
+   *          ç»™å®šçš„æ–‡æœ¬
+   * @return å­—ç¬¦ä¸²å‡ºç°æ¬¡æ•°
    */
   private int getTextCount(String strText) {
-    int times = 0; // ×Ö·û´®³öÏÖ´ÎÊı
+    int times = 0; // å­—ç¬¦ä¸²å‡ºç°æ¬¡æ•°
     if (Util.isTextEmpty(this.strFind) || Util.isTextEmpty(strText)) {
       return times;
     }
@@ -750,7 +750,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     }
     if (!this.isMatchCase) {
       if (this.searchStyle == SearchStyle.PATTERN) {
-        strFindTemp = "(?i)" + strFindTemp; // ÕıÔò±í´ïÊ½ÖĞ£¬¿ÉÓÃ(?i)´ò¿ª²»Çø·Ö´óĞ¡Ğ´µÄÊôĞÔ
+        strFindTemp = "(?i)" + strFindTemp; // æ­£åˆ™è¡¨è¾¾å¼ä¸­ï¼Œå¯ç”¨(?i)æ‰“å¼€ä¸åŒºåˆ†å¤§å°å†™çš„å±æ€§
       } else {
         strFindTemp = strFindTemp.toLowerCase();
       }
@@ -760,7 +760,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       try {
         this.matcher = Pattern.compile(strFindTemp).matcher(strText);
       } catch (PatternSyntaxException x) {
-        JOptionPane.showMessageDialog(this, "ÕıÔò±í´ïÊ½Óï·¨´íÎó£¬ÇëĞŞ¸Ä£¡",
+        JOptionPane.showMessageDialog(this, "æ­£åˆ™è¡¨è¾¾å¼è¯­æ³•é”™è¯¯ï¼Œè¯·ä¿®æ”¹ï¼",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
         return -1;
       }
@@ -778,7 +778,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ¡°ÎÄ¼şÖĞ²éÕÒ¡±µÄ´¦Àí·½·¨
+   * â€œæ–‡ä»¶ä¸­æŸ¥æ‰¾â€çš„å¤„ç†æ–¹æ³•
    */
   private void searchInFile() {
     LinkedList<SearchBean> listIndex = new LinkedList<SearchBean>();
@@ -804,10 +804,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     }
     if (listIndex.isEmpty()) {
       if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
-        JOptionPane.showMessageDialog(this, "ÕıÔò±í´ïÊ½Óï·¨´íÎó£¬ÇëĞŞ¸Ä£¡",
+        JOptionPane.showMessageDialog(this, "æ­£åˆ™è¡¨è¾¾å¼è¯­æ³•é”™è¯¯ï¼Œè¯·ä¿®æ”¹ï¼",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       } else {
-        JOptionPane.showMessageDialog(this, "ÕÒ²»µ½\"" + this.strFind + "\"",
+        JOptionPane.showMessageDialog(this, "æ‰¾ä¸åˆ°\"" + this.strFind + "\"",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
     } else {
@@ -819,7 +819,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ¡°¸´ÖÆ½á¹ûĞĞ¡±µÄ´¦Àí·½·¨
+   * â€œå¤åˆ¶ç»“æœè¡Œâ€çš„å¤„ç†æ–¹æ³•
    */
   private void copyResultLines() {
     LinkedList<SearchBean> listIndex = new LinkedList<SearchBean>();
@@ -845,17 +845,17 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     }
     if (listIndex.isEmpty()) {
       if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
-        JOptionPane.showMessageDialog(this, "ÕıÔò±í´ïÊ½Óï·¨´íÎó£¬ÇëĞŞ¸Ä£¡",
+        JOptionPane.showMessageDialog(this, "æ­£åˆ™è¡¨è¾¾å¼è¯­æ³•é”™è¯¯ï¼Œè¯·ä¿®æ”¹ï¼",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       } else {
-        JOptionPane.showMessageDialog(this, "ÕÒ²»µ½\"" + this.strFind + "\"",
+        JOptionPane.showMessageDialog(this, "æ‰¾ä¸åˆ°\"" + this.strFind + "\"",
             Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
     } else {
       String strSource = this.txaSource.getText();
-      StringBuilder stbResult = new StringBuilder(); // ½á¹û×Ö·û´®
-      int lineNumUsed = -1; // ×î½üÒ»´ÎÊ¹ÓÃµÄĞĞºÅ
-      int times = 0; // ¸´ÖÆµÄĞĞÊı
+      StringBuilder stbResult = new StringBuilder(); // ç»“æœå­—ç¬¦ä¸²
+      int lineNumUsed = -1; // æœ€è¿‘ä¸€æ¬¡ä½¿ç”¨çš„è¡Œå·
+      int times = 0; // å¤åˆ¶çš„è¡Œæ•°
       try {
         for (SearchBean searchBean : listIndex) {
           int lineNumStart = this.txaSource.getLineOfOffset(searchBean.getStart());
@@ -876,7 +876,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           stbResult.append(stbLine);
         }
         ((SnowPadFrame) this.getOwner()).setClipboardContents(stbResult.toString());
-        JOptionPane.showMessageDialog(this, "¹²¸´ÖÆ " + times + " ĞĞ¡£", Util.SOFTWARE, JOptionPane.NO_OPTION);
+        JOptionPane.showMessageDialog(this, "å…±å¤åˆ¶ " + times + " è¡Œã€‚", Util.SOFTWARE, JOptionPane.NO_OPTION);
       } catch (BadLocationException x) {
          x.printStackTrace();
       }
@@ -884,7 +884,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ÉèÖÃÑ¡Çø²Ù×÷°´Å¥µÄ×´Ì¬
+   * è®¾ç½®é€‰åŒºæ“ä½œæŒ‰é’®çš„çŠ¶æ€
    */
   private void setBtnSelEnabled() {
     String strSel = this.txaSource.getSelectedText();
@@ -905,10 +905,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±ÎÄ±¾¿òµÄ¹â±ê·¢Éú±ä»¯Ê±£¬´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬æ¡†çš„å…‰æ ‡å‘ç”Ÿå˜åŒ–æ—¶ï¼Œè§¦å‘æ­¤äº‹ä»¶
    */
   public void caretUpdate(CaretEvent e) {
-    if (this.txtFindTextF.equals(e.getSource())) { // ²éÕÒ
+    if (this.txtFindTextF.equals(e.getSource())) { // æŸ¥æ‰¾
       this.strFind = this.txtFindTextF.getText();
       if (Util.isTextEmpty(this.strFind)) {
         this.btnFindF.setEnabled(false);
@@ -921,7 +921,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         this.btnSearchInFileF.setEnabled(true);
         this.btnCopyResultLinesF.setEnabled(true);
       }
-    } else if (this.txtFindTextR.equals(e.getSource())) { // Ìæ»»
+    } else if (this.txtFindTextR.equals(e.getSource())) { // æ›¿æ¢
       this.strFind = this.txtFindTextR.getText();
       if (Util.isTextEmpty(this.strFind)) {
         this.btnFindR.setEnabled(false);
@@ -937,7 +937,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±Ñ¡Ïî¿¨¸Ä±äµ±Ç°ÊÓÍ¼Ê±µ÷ÓÃ
+   * å½“é€‰é¡¹å¡æ”¹å˜å½“å‰è§†å›¾æ—¶è°ƒç”¨
    */
   public void stateChanged(ChangeEvent e) {
     if (this.tpnMain.getSelectedIndex() == 0) {
@@ -953,14 +953,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±´°¿Ú»ñµÃ½¹µãÊ±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“çª—å£è·å¾—ç„¦ç‚¹æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void windowGainedFocus(WindowEvent e) {
     this.setBtnSelEnabled();
   }
 
   /**
-   * µ±´°¿ÚÊ§È¥½¹µãÊ±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“çª—å£å¤±å»ç„¦ç‚¹æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void windowLostFocus(WindowEvent e) {
   }

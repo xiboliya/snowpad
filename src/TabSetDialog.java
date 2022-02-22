@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,23 +28,23 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
- * "Tab×Ö·ûÉèÖÃ"¶Ô»°¿ò
+ * "Tabå­—ç¬¦è®¾ç½®"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class TabSetDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblTabSize = new JLabel("Tab¼üËùÕ¼×Ö·ûÊı£º");
-  private BaseTextField txtTabSize = new BaseTextField(true, "\\d{0,2}"); // ÏŞÖÆÓÃ»§Ö»ÄÜÊäÈëÊı×Ö£¬²¢ÇÒ²»ÄÜ³¬¹ı2Î»
-  private JCheckBox chkReplaceBySpace = new JCheckBox("ÒÔ¿Õ¸ñ´úÌæTab¼ü(R)", false);
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JLabel lblTabSize = new JLabel("Tabé”®æ‰€å å­—ç¬¦æ•°ï¼š");
+  private BaseTextField txtTabSize = new BaseTextField(true, "\\d{0,2}"); // é™åˆ¶ç”¨æˆ·åªèƒ½è¾“å…¥æ•°å­—ï¼Œå¹¶ä¸”ä¸èƒ½è¶…è¿‡2ä½
+  private JCheckBox chkReplaceBySpace = new JCheckBox("ä»¥ç©ºæ ¼ä»£æ›¿Tabé”®(R)", false);
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private int tabSize = Util.DEFAULT_TABSIZE; // Tab¼üËùÕ¼×Ö·ûÊı
-  private boolean isReplaceBySpace = false; // ÒÔ¿Õ¸ñ´úÌæTab¼ü
+  private int tabSize = Util.DEFAULT_TABSIZE; // Tabé”®æ‰€å å­—ç¬¦æ•°
+  private boolean isReplaceBySpace = false; // ä»¥ç©ºæ ¼ä»£æ›¿Tabé”®
 
   public TabSetDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal);
@@ -60,10 +60,10 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("Tab×Ö·ûÉèÖÃ");
+    this.setTitle("Tabå­—ç¬¦è®¾ç½®");
     this.pnlMain.setLayout(null);
     this.lblTabSize.setBounds(20, 10, 120, Util.VIEW_HEIGHT);
     this.txtTabSize.setBounds(140, 10, 50, Util.INPUT_HEIGHT);
@@ -79,7 +79,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -89,7 +89,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯ÎÄ±¾¿ò
+   * åˆå§‹åŒ–æ–‡æœ¬æ¡†
    */
   private void initView() {
     this.tabSize = this.txaSource.getTabSize();
@@ -100,7 +100,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.txtTabSize.addKeyListener(this.keyAdapter);
@@ -113,7 +113,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -126,7 +126,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÉèÖÃTabËùÕ¼×Ö·ûÊı
+   * è®¾ç½®Tabæ‰€å å­—ç¬¦æ•°
    */
   private void setTabSize() {
     int tabSize = Util.DEFAULT_TABSIZE;
@@ -134,17 +134,17 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
       tabSize = Integer.parseInt(this.txtTabSize.getText().trim());
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "¸ñÊ½´íÎó£¬ÇëÊäÈëÊı×Ö£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥æ•°å­—ï¼", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       this.txtTabSize.setText("");
       return;
     }
     if (tabSize < Util.MIN_TABSIZE) {
-      JOptionPane.showMessageDialog(this, "±ØĞë´óÓÚµÈÓÚ" + Util.MIN_TABSIZE + "£¡",
+      JOptionPane.showMessageDialog(this, "å¿…é¡»å¤§äºç­‰äº" + Util.MIN_TABSIZE + "ï¼",
           Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
       this.txtTabSize.setText(String.valueOf(Util.MIN_TABSIZE));
     } else if (tabSize > Util.MAX_TABSIZE) {
-      JOptionPane.showMessageDialog(this, "±ØĞëĞ¡ÓÚµÈÓÚ" + Util.MAX_TABSIZE + "£¡",
+      JOptionPane.showMessageDialog(this, "å¿…é¡»å°äºç­‰äº" + Util.MAX_TABSIZE + "ï¼",
           Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
       this.txtTabSize.setText(String.valueOf(Util.MAX_TABSIZE));
     } else {
@@ -154,35 +154,35 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * »ñÈ¡Tab¼üËùÕ¼×Ö·ûÊı
+   * è·å–Tabé”®æ‰€å å­—ç¬¦æ•°
    */
   public int getTabSize() {
     return this.tabSize;
   }
 
   /**
-   * »ñÈ¡ÊÇ·ñÒÔ¿Õ¸ñ´úÌæTab¼ü
+   * è·å–æ˜¯å¦ä»¥ç©ºæ ¼ä»£æ›¿Tabé”®
    */
   public boolean getReplaceBySpace() {
     return this.isReplaceBySpace;
   }
 
   /**
-   * ÉèÖÃÊÇ·ñÒÔ¿Õ¸ñ´úÌæTab¼ü
+   * è®¾ç½®æ˜¯å¦ä»¥ç©ºæ ¼ä»£æ›¿Tabé”®
    */
   public void setReplaceBySpace(boolean isReplaceBySpace) {
     this.isReplaceBySpace = isReplaceBySpace;
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.setTabSize();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();

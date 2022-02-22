@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,18 +26,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Ñ¡Ôñ"ÎÄ¼ş±àÂë¸ñÊ½"¶Ô»°¿ò
+ * é€‰æ‹©"æ–‡ä»¶ç¼–ç æ ¼å¼"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class FileEncodingDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblEncoding = new JLabel("ÎÄ¼ş±àÂë¸ñÊ½£º");
+  private JLabel lblEncoding = new JLabel("æ–‡ä»¶ç¼–ç æ ¼å¼ï¼š");
   private JComboBox<String> cmbEncoding = new JComboBox<String>(Util.FILE_ENCODINGS);
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
   private CharEncoding charEncoding = null;
   private boolean isOk = false;
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
@@ -52,10 +52,10 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    * 
    * @param isVisible
-   *          ÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û£¬Èç¹û¿É¼ûÔòÎªtrue
+   *          è®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§ï¼Œå¦‚æœå¯è§åˆ™ä¸ºtrue
    */
   public void setVisible(boolean isVisible) {
     if (isVisible) {
@@ -65,10 +65,10 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("ÎÄ¼ş±àÂë¸ñÊ½");
+    this.setTitle("æ–‡ä»¶ç¼–ç æ ¼å¼");
     this.pnlMain.setLayout(null);
     this.lblEncoding.setBounds(20, 10, 110, Util.VIEW_HEIGHT);
     this.cmbEncoding.setBounds(115, 10, 150, Util.INPUT_HEIGHT);
@@ -81,7 +81,7 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ìí¼ÓÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.cmbEncoding.addKeyListener(this.keyAdapter);
@@ -92,7 +92,7 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -103,16 +103,16 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * »ñÈ¡µ±Ç°Ñ¡ÔñµÄ±àÂë¸ñÊ½
+   * è·å–å½“å‰é€‰æ‹©çš„ç¼–ç æ ¼å¼
    * 
-   * @return ±àÂë¸ñÊ½
+   * @return ç¼–ç æ ¼å¼
    */
   public CharEncoding getCharEncoding() {
     return this.charEncoding;
   }
 
   /**
-   * ÉèÖÃµ±Ç°µÄ±àÂë¸ñÊ½
+   * è®¾ç½®å½“å‰çš„ç¼–ç æ ¼å¼
    */
   private void setCharEncoding() {
     int index = this.cmbEncoding.getSelectedIndex();
@@ -142,16 +142,16 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * »ñÈ¡ÊÇ·ñÖ´ĞĞÁËÈ·¶¨
+   * è·å–æ˜¯å¦æ‰§è¡Œäº†ç¡®å®š
    * 
-   * @return ÊÇ·ñÖ´ĞĞÁËÈ·¶¨
+   * @return æ˜¯å¦æ‰§è¡Œäº†ç¡®å®š
    */
   public boolean getOk() {
     return this.isOk;
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
     this.setCharEncoding();
@@ -160,7 +160,7 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.charEncoding = null;

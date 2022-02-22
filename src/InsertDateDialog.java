@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,23 +42,23 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- * "²åÈëÊ±¼ä/ÈÕÆÚ"¶Ô»°¿ò
+ * "æ’å…¥æ—¶é—´/æ—¥æœŸ"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class InsertDateDialog extends BaseDialog implements ActionListener,
     ListSelectionListener, CaretListener {
   private static final long serialVersionUID = 1L;
-  private JRadioButton radSelect = new JRadioButton("Ê¹ÓÃÑ¡ÖĞµÄ¸ñÊ½(S)", true);
+  private JRadioButton radSelect = new JRadioButton("ä½¿ç”¨é€‰ä¸­çš„æ ¼å¼(S)", true);
   private JList<String> listStyles = new JList<String>();
   private JScrollPane srpStyles = new JScrollPane(this.listStyles);
-  private JRadioButton radUser = new JRadioButton("Ê¹ÓÃ×Ô¶¨Òå¸ñÊ½(U)", false);
+  private JRadioButton radUser = new JRadioButton("ä½¿ç”¨è‡ªå®šä¹‰æ ¼å¼(U)", false);
   private JLabel lblWarning = new JLabel("");
   private BaseTextField txtUser = new BaseTextField(Util.DATE_STYLES[0]);
   private JLabel lblView = new JLabel("");
-  private JButton btnOk = new JButton("²åÈë");
-  private JButton btnCancel = new JButton("¹Ø±Õ");
+  private JButton btnOk = new JButton("æ’å…¥");
+  private JButton btnCancel = new JButton("å…³é—­");
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -69,14 +69,14 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   private int currentIndex = 0;
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param owner
-   *          ¸¸´°¿Ú
+   *          çˆ¶çª—å£
    * @param modal
-   *          ÊÇ·ñÎªÄ£Ê½´°¿Ú
+   *          æ˜¯å¦ä¸ºæ¨¡å¼çª—å£
    * @param txaSource
-   *          Õë¶Ô²Ù×÷µÄÎÄ±¾Óò
+   *          é’ˆå¯¹æ“ä½œçš„æ–‡æœ¬åŸŸ
    */
   public InsertDateDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal);
@@ -84,7 +84,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
       return;
     }
     this.txaSource = txaSource;
-    this.setTitle("²åÈëÊ±¼ä/ÈÕÆÚ");
+    this.setTitle("æ’å…¥æ—¶é—´/æ—¥æœŸ");
     this.init();
     this.setMnemonic();
     this.setView();
@@ -95,7 +95,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
     this.lblWarning.setForeground(Color.RED);
@@ -123,7 +123,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ÖØĞ´¸¸ÀàµÄ·½·¨£ºÉèÖÃ±¾´°¿ÚÊÇ·ñ¿É¼û
+   * é‡å†™çˆ¶ç±»çš„æ–¹æ³•ï¼šè®¾ç½®æœ¬çª—å£æ˜¯å¦å¯è§
    */
   public void setVisible(boolean visible) {
     if (visible) {
@@ -133,7 +133,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Îª¸÷×é¼şÉèÖÃ¿ì½İ¼ü
+   * ä¸ºå„ç»„ä»¶è®¾ç½®å¿«æ·é”®
    */
   private void setMnemonic() {
     this.radSelect.setMnemonic('S');
@@ -141,7 +141,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ¸ù¾İµ¥Ñ¡°´Å¥µÄÑ¡Ôñ£¬ÉèÖÃ×é¼şÊÇ·ñ¿ÉÓÃ
+   * æ ¹æ®å•é€‰æŒ‰é’®çš„é€‰æ‹©ï¼Œè®¾ç½®ç»„ä»¶æ˜¯å¦å¯ç”¨
    */
   private void setComponentEnabledByRadioButton() {
     boolean selected = this.radSelect.isSelected();
@@ -152,7 +152,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìî³ä"¸ñÊ½"ÁĞ±í
+   * å¡«å……"æ ¼å¼"åˆ—è¡¨
    */
   private void fillStyleList() {
     Date date = new Date();
@@ -160,28 +160,28 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
       this.simpleDateFormat.applyPattern(Util.DATE_STYLES[n]);
       this.arrStyles[n] = this.simpleDateFormat.format(date);
     }
-    this.listStyles.removeListSelectionListener(this); // ÎªÁË±ÜÃâÔÚÖØĞÂÌî³äÁĞ±í¿òÊ±£¬¶ø²úÉúµÄµ±Ç°Ñ¡ÔñÏîË÷ÒıÎª-1£¬¶øµ¼ÖÂÒì³££¬ËùÒÔÏÈÒÆ³ı¼àÌıÆ÷¡£
+    this.listStyles.removeListSelectionListener(this); // ä¸ºäº†é¿å…åœ¨é‡æ–°å¡«å……åˆ—è¡¨æ¡†æ—¶ï¼Œè€Œäº§ç”Ÿçš„å½“å‰é€‰æ‹©é¡¹ç´¢å¼•ä¸º-1ï¼Œè€Œå¯¼è‡´å¼‚å¸¸ï¼Œæ‰€ä»¥å…ˆç§»é™¤ç›‘å¬å™¨ã€‚
     this.listStyles.setListData(this.arrStyles);
-    this.listStyles.addListSelectionListener(this); // ÖØĞÂÌí¼Ó¼àÌıÆ÷¡£
+    this.listStyles.addListSelectionListener(this); // é‡æ–°æ·»åŠ ç›‘å¬å™¨ã€‚
     this.listStyles.setSelectedIndex(this.currentIndex);
   }
 
   /**
-   * ¸ù¾İ×Ô¶¨ÒåÊäÈë¿òÊÇ·ñ·ûºÏ¹æ·¶£¬À´¸üĞÂ¾¯¸æ±êÇ©µÄÏÔÊ¾
+   * æ ¹æ®è‡ªå®šä¹‰è¾“å…¥æ¡†æ˜¯å¦ç¬¦åˆè§„èŒƒï¼Œæ¥æ›´æ–°è­¦å‘Šæ ‡ç­¾çš„æ˜¾ç¤º
    * 
    * @param warning
-   *          ÊÇ·ñĞèÒªÏÔÊ¾¾¯¸æ£¬ĞèÒªÏÔÊ¾ÔòÎªtrue£¬·´Ö®Îªfalse
+   *          æ˜¯å¦éœ€è¦æ˜¾ç¤ºè­¦å‘Šï¼Œéœ€è¦æ˜¾ç¤ºåˆ™ä¸ºtrueï¼Œåä¹‹ä¸ºfalse
    */
   private void updateWarning(boolean warning) {
     if (warning) {
-      this.lblWarning.setText("¾¯¸æ£º¸ñÊ½´íÎó£¡");
+      this.lblWarning.setText("è­¦å‘Šï¼šæ ¼å¼é”™è¯¯ï¼");
     } else {
       this.lblWarning.setText("");
     }
   }
 
   /**
-   * ÉèÖÃÔ¤ÀÀ±êÇ©µÄÏÔÊ¾
+   * è®¾ç½®é¢„è§ˆæ ‡ç­¾çš„æ˜¾ç¤º
    */
   private void setView() {
     if (!this.lblView.isEnabled()) {
@@ -199,15 +199,15 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ½ÓÊÕÊó±êÊÂ¼şµÄ³éÏóÊÊÅäÆ÷µÄ×Ô¶¨ÒåÀà
+   * æ¥æ”¶é¼ æ ‡äº‹ä»¶çš„æŠ½è±¡é€‚é…å™¨çš„è‡ªå®šä¹‰ç±»
    * 
-   * @author ±ùÔ­
+   * @author å†°åŸ
    * 
    */
   private class BaseMouseAdapter extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
       if (listStyles.equals(e.getSource()) && listStyles.isEnabled()) {
-        if (e.getClickCount() == 2) { // Êó±êË«»÷Ê±£¬Ö´ĞĞ²Ù×÷
+        if (e.getClickCount() == 2) { // é¼ æ ‡åŒå‡»æ—¶ï¼Œæ‰§è¡Œæ“ä½œ
           onEnter();
         }
       }
@@ -215,7 +215,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìí¼Ó¸÷×é¼şµÄÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ å„ç»„ä»¶çš„äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.btnCancel.addActionListener(this);
@@ -224,7 +224,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
     this.radUser.addActionListener(this);
     this.listStyles.addMouseListener(this.baseMouseAdapter);
     this.txtUser.addCaretListener(this);
-    // ÒÔÏÂÎª¸÷¿É»ñµÃ½¹µãµÄ×é¼şÌí¼Ó¼üÅÌÊÂ¼ş£¬¼´µ±ÓÃ»§°´ÏÂEsc¼üÊ±¹Ø±Õ¶Ô»°¿ò
+    // ä»¥ä¸‹ä¸ºå„å¯è·å¾—ç„¦ç‚¹çš„ç»„ä»¶æ·»åŠ é”®ç›˜äº‹ä»¶ï¼Œå³å½“ç”¨æˆ·æŒ‰ä¸‹Escé”®æ—¶å…³é—­å¯¹è¯æ¡†
     this.radSelect.addKeyListener(this.keyAdapter);
     this.listStyles.addKeyListener(this.keyAdapter);
     this.radUser.addKeyListener(this.keyAdapter);
@@ -234,14 +234,14 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * "¹Ø±Õ"°´Å¥µÄ´¦Àí·½·¨
+   * "å…³é—­"æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    */
   public void onCancel() {
     this.dispose();
   }
 
   /**
-   * "²åÈë"°´Å¥µÄ´¦Àí·½·¨
+   * "æ’å…¥"æŒ‰é’®çš„å¤„ç†æ–¹æ³•
    */
   public void onEnter() {
     String strStyles = "";
@@ -251,7 +251,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
       strStyles = this.txtUser.getText();
     }
     if (Util.isTextEmpty(strStyles)) {
-      JOptionPane.showMessageDialog(this, "¸ñÊ½²»ÄÜÎª¿Õ£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ ¼å¼ä¸èƒ½ä¸ºç©ºï¼", Util.SOFTWARE,
           JOptionPane.ERROR_MESSAGE);
       return;
     }
@@ -261,13 +261,13 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
       this.dispose();
     } catch (IllegalArgumentException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "¸ñÊ½´íÎó£¬ÇëÖØĞÂÊäÈë£¡", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "æ ¼å¼é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼", Util.SOFTWARE,
           JOptionPane.ERROR_MESSAGE);
     }
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnCancel.equals(e.getSource())) {
@@ -282,7 +282,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±ÁĞ±í¿ò¸Ä±äÑ¡ÔñÊ±£¬´¥·¢´ËÊÂ¼ş
+   * å½“åˆ—è¡¨æ¡†æ”¹å˜é€‰æ‹©æ—¶ï¼Œè§¦å‘æ­¤äº‹ä»¶
    */
   public void valueChanged(ListSelectionEvent e) {
     if (this.listStyles.equals(e.getSource())) {
@@ -294,7 +294,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±ÎÄ±¾¿òµÄ¹â±ê·¢Éú±ä»¯Ê±£¬´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬æ¡†çš„å…‰æ ‡å‘ç”Ÿå˜åŒ–æ—¶ï¼Œè§¦å‘æ­¤äº‹ä»¶
    */
   public void caretUpdate(CaretEvent e) {
     if (this.txtUser.equals(e.getSource())) {

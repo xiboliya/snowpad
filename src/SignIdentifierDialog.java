@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,9 +42,9 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
 /**
- * "ÁĞ±í·ûºÅÓë±àºÅ"¶Ô»°¿ò
+ * "åˆ—è¡¨ç¬¦å·ä¸ç¼–å·"å¯¹è¯æ¡†
  * 
- * @author ±ùÔ­
+ * @author å†°åŸ
  * 
  */
 public class SignIdentifierDialog extends BaseDialog implements ActionListener,
@@ -57,27 +57,27 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private GridLayout gridLayout = new GridLayout(Util.SIGN_MAX_ROW,
       Util.SIGN_MAX_COLUMN, 5, 5);
   private GridLayout specialGridLayout = new GridLayout(Util.SIGN_MAX_ROW, 1, 5, 5);
-  private JButton btnOk = new JButton("È·¶¨");
-  private JButton btnCancel = new JButton("È¡Ïû");
-  private JLabel lblStart = new JLabel("ÆğÊ¼±àºÅ£º");
+  private JButton btnOk = new JButton("ç¡®å®š");
+  private JButton btnCancel = new JButton("å–æ¶ˆ");
+  private JLabel lblStart = new JLabel("èµ·å§‹ç¼–å·ï¼š");
   private BaseTextField txtStart = new BaseTextField(true, "\\d*");
   private JTextArea txaView = new JTextArea();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
   private MouseAdapter mouseAdapter = null;
-  private String strSignIdentifier = ""; // µ±Ç°Ñ¡ÖĞµÄ·ûºÅ»ò±àºÅ×Ö·û´®
+  private String strSignIdentifier = ""; // å½“å‰é€‰ä¸­çš„ç¬¦å·æˆ–ç¼–å·å­—ç¬¦ä¸²
 
   /**
-   * ¹¹Ôì·½·¨
+   * æ„é€ æ–¹æ³•
    * 
    * @param owner
-   *          ÓÃÓÚÏÔÊ¾¸Ã¶Ô»°¿òµÄ¸¸×é¼ş
+   *          ç”¨äºæ˜¾ç¤ºè¯¥å¯¹è¯æ¡†çš„çˆ¶ç»„ä»¶
    * @param modal
-   *          ÊÇ·ñÎªÄ£Ê½¶Ô»°¿ò
+   *          æ˜¯å¦ä¸ºæ¨¡å¼å¯¹è¯æ¡†
    * @param txaSource
-   *          Õë¶Ô²Ù×÷µÄÎÄ±¾Óò
+   *          é’ˆå¯¹æ“ä½œçš„æ–‡æœ¬åŸŸ
    * @param hashtable
-   *          ÓÃÓÚÏÔÊ¾×Ö·ûµÄ¹şÏ£±í¡£¼üÎª±êÇ©£¬ÖµÎª¸Ã±êÇ©ÏÂµÄ×Ö·ûĞòÁĞ
+   *          ç”¨äºæ˜¾ç¤ºå­—ç¬¦çš„å“ˆå¸Œè¡¨ã€‚é”®ä¸ºæ ‡ç­¾ï¼Œå€¼ä¸ºè¯¥æ ‡ç­¾ä¸‹çš„å­—ç¬¦åºåˆ—
    */
   public SignIdentifierDialog(JFrame owner, boolean modal, JTextArea txaSource,
       Hashtable<String, String> hashtable) {
@@ -94,10 +94,10 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ³õÊ¼»¯½çÃæ
+   * åˆå§‹åŒ–ç•Œé¢
    */
   private void init() {
-    this.setTitle("ÁĞ±í·ûºÅÓë±àºÅ");
+    this.setTitle("åˆ—è¡¨ç¬¦å·ä¸ç¼–å·");
     this.pnlMain.setLayout(null);
     this.pnlLeft.setBounds(0, 0, 200, 245);
     this.pnlRight.setBounds(200, 0, 120, 240);
@@ -124,10 +124,10 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìî³äËùÓĞ±êÇ©Ò³µÄ×Ö·û
+   * å¡«å……æ‰€æœ‰æ ‡ç­¾é¡µçš„å­—ç¬¦
    * 
    * @param hashtable
-   *          ÓÃÓÚÏÔÊ¾×Ö·ûµÄ¹şÏ£±í¡£¼üÎª±êÇ©£¬ÖµÎª¸Ã±êÇ©ÏÂµÄ×Ö·ûĞòÁĞ
+   *          ç”¨äºæ˜¾ç¤ºå­—ç¬¦çš„å“ˆå¸Œè¡¨ã€‚é”®ä¸ºæ ‡ç­¾ï¼Œå€¼ä¸ºè¯¥æ ‡ç­¾ä¸‹çš„å­—ç¬¦åºåˆ—
    */
   private void fillTabbedPane(Hashtable<String, String> hashtable) {
     if (hashtable.isEmpty()) {
@@ -142,12 +142,12 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìî³äÒ»¸ö±êÇ©Ò³µÄ×Ö·û
+   * å¡«å……ä¸€ä¸ªæ ‡ç­¾é¡µçš„å­—ç¬¦
    * 
    * @param strElement
-   *          ×Ö·ûĞòÁĞ
+   *          å­—ç¬¦åºåˆ—
    * @param strTitle
-   *          ±êÇ©Ò³±êÌâ
+   *          æ ‡ç­¾é¡µæ ‡é¢˜
    */
   private void fillElements(String strElement, String strTitle) {
     if (Util.isTextEmpty(strElement) || Util.isTextEmpty(strTitle)) {
@@ -161,14 +161,14 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
       isSpecial = true;
     }
     if (isSpecial) {
-      pnlTemp = new JPanel(this.specialGridLayout); // ´´½¨ÌØÊâ¸ñÊ½µÄ²¼¾Ö
+      pnlTemp = new JPanel(this.specialGridLayout); // åˆ›å»ºç‰¹æ®Šæ ¼å¼çš„å¸ƒå±€
       gridTotal = this.specialGridLayout.getRows() *
           this.specialGridLayout.getColumns();
     } else {
-      pnlTemp = new JPanel(this.gridLayout); // ´´½¨ÆÕÍ¨¸ñÊ½µÄ²¼¾Ö
+      pnlTemp = new JPanel(this.gridLayout); // åˆ›å»ºæ™®é€šæ ¼å¼çš„å¸ƒå±€
       gridTotal = this.gridLayout.getRows() * this.gridLayout.getColumns();
     }
-    if (elementCount > gridTotal) { // ±£Ö¤ÔªËØµÄ¸öÊı²»´óÓÚ²¼¾ÖÖĞÔ¤ÁôµÄÍø¸ñÊı£¬¶à³öµÄÔªËØ½«±»ÉáÆú
+    if (elementCount > gridTotal) { // ä¿è¯å…ƒç´ çš„ä¸ªæ•°ä¸å¤§äºå¸ƒå±€ä¸­é¢„ç•™çš„ç½‘æ ¼æ•°ï¼Œå¤šå‡ºçš„å…ƒç´ å°†è¢«èˆå¼ƒ
       elementCount = gridTotal;
     }
     int index = 0;
@@ -186,13 +186,13 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * ´´½¨Ò»¸öÎÄ±¾±êÇ©
+   * åˆ›å»ºä¸€ä¸ªæ–‡æœ¬æ ‡ç­¾
    * 
    * @param strElement
-   *          ÏÔÊ¾µÄ×Ö·û
+   *          æ˜¾ç¤ºçš„å­—ç¬¦
    * @param isSpecial
-   *          ÊÇ·ñÎªÌØÊâ¸ñÊ½
-   * @return ĞÂ´´½¨µÄÎÄ±¾±êÇ©
+   *          æ˜¯å¦ä¸ºç‰¹æ®Šæ ¼å¼
+   * @return æ–°åˆ›å»ºçš„æ–‡æœ¬æ ‡ç­¾
    */
   private JLabel createElement(String strElement, boolean isSpecial) {
     JLabel lblElement = null;
@@ -205,8 +205,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     }
     if (!Util.isTextEmpty(strElement)) {
       lblElement.setHorizontalAlignment(SwingConstants.CENTER);
-      lblElement.setFocusable(true); // ÉèÖÃ±êÇ©¿ÉÒÔ»ñµÃ½¹µã
-      lblElement.setOpaque(true); // ÉèÖÃ±êÇ©¿ÉÒÔ»æÖÆ±³¾°
+      lblElement.setFocusable(true); // è®¾ç½®æ ‡ç­¾å¯ä»¥è·å¾—ç„¦ç‚¹
+      lblElement.setOpaque(true); // è®¾ç½®æ ‡ç­¾å¯ä»¥ç»˜åˆ¶èƒŒæ™¯
       lblElement.setBorder(this.etchedBorder);
       lblElement.setBackground(Color.WHITE);
       lblElement.addKeyListener(this.keyAdapter);
@@ -217,10 +217,10 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ê¹ÓÃ»òÔ¤ÀÀµ±Ç°Ñ¡ÖĞµÄ·ûºÅ»ò±àºÅ·½Ê½
+   * ä½¿ç”¨æˆ–é¢„è§ˆå½“å‰é€‰ä¸­çš„ç¬¦å·æˆ–ç¼–å·æ–¹å¼
    * 
    * @param isView
-   *          ÊÇ·ñÎªÔ¤ÀÀÄ£Ê½£¬µ±ÎªtrueÊ±±íÊ¾ÎªÔ¤ÀÀµ±Ç°Ä£Ê½£¬·ñÔòÎªÊ¹ÓÃµ±Ç°Ä£Ê½
+   *          æ˜¯å¦ä¸ºé¢„è§ˆæ¨¡å¼ï¼Œå½“ä¸ºtrueæ—¶è¡¨ç¤ºä¸ºé¢„è§ˆå½“å‰æ¨¡å¼ï¼Œå¦åˆ™ä¸ºä½¿ç”¨å½“å‰æ¨¡å¼
    */
   private void signIdentifier(boolean isView) {
     String[] arrText = null;
@@ -257,25 +257,25 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     }
     if (isView) {
       this.txaView.setText(stbIndent.deleteCharAt(stbIndent.length() - 1)
-          .toString()); // É¾³ı×Ö·û´®Ä©Î²¶àÓàµÄ»»ĞĞ·û
+          .toString()); // åˆ é™¤å­—ç¬¦ä¸²æœ«å°¾å¤šä½™çš„æ¢è¡Œç¬¦
     } else if (isSelected) {
       this.txaSource.replaceSelection(stbIndent.deleteCharAt(
-          stbIndent.length() - 1).toString()); // É¾³ı×Ö·û´®Ä©Î²¶àÓàµÄ»»ĞĞ·û
+          stbIndent.length() - 1).toString()); // åˆ é™¤å­—ç¬¦ä¸²æœ«å°¾å¤šä½™çš„æ¢è¡Œç¬¦
     } else {
       this.txaSource.setText(stbIndent.deleteCharAt(
-          stbIndent.length() - 1).toString()); // É¾³ı×Ö·û´®Ä©Î²¶àÓàµÄ»»ĞĞ·û
+          stbIndent.length() - 1).toString()); // åˆ é™¤å­—ç¬¦ä¸²æœ«å°¾å¤šä½™çš„æ¢è¡Œç¬¦
     }
   }
 
   /**
-   * ÎªÖ¸¶¨µÄ×Ö·û´®Êı×éÌí¼Óµ±Ç°Ñ¡ÖĞµÄ·ûºÅ»ò±àºÅ
+   * ä¸ºæŒ‡å®šçš„å­—ç¬¦ä¸²æ•°ç»„æ·»åŠ å½“å‰é€‰ä¸­çš„ç¬¦å·æˆ–ç¼–å·
    * 
    * @param arrText
-   *          ´ı´¦ÀíµÄ×Ö·û´®Êı×é
+   *          å¾…å¤„ç†çš„å­—ç¬¦ä¸²æ•°ç»„
    * @param isSpecial
-   *          ÊÇ·ñÎªÌØÊâ¸ñÊ½
+   *          æ˜¯å¦ä¸ºç‰¹æ®Šæ ¼å¼
    * @param start
-   *          ÆğÊ¼±àºÅ
+   *          èµ·å§‹ç¼–å·
    */
   private void toConvertArray(String[] arrText, boolean isSpecial, int start) {
     int n = 0;
@@ -287,22 +287,22 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
         }
       }
       switch (index) {
-      case 0: // Êı×Ö
+      case 0: // æ•°å­—
         for (n = 0; n < arrText.length; n++) {
           arrText[n] = (n + start + 1) + "." + arrText[n];
         }
         break;
-      case 1: // ºº×Ö
+      case 1: // æ±‰å­—
         for (n = 0; n < arrText.length; n++) {
           arrText[n] = Util.intToChinese(n + start + 1, false) + "." + arrText[n];
         }
         break;
-      case 2: // ¸ÉÖ§
+      case 2: // å¹²æ”¯
         for (n = 0; n < arrText.length; n++) {
           arrText[n] = Util.intToGanZhi(n + start) + "." + arrText[n];
         }
         break;
-      case 3: // ×ÖÄ¸
+      case 3: // å­—æ¯
         for (n = 0; n < arrText.length; n++) {
           arrText[n] = Util.intToLetter(n + start + 1, false) + "." + arrText[n];
         }
@@ -316,7 +316,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ìí¼ÓºÍ³õÊ¼»¯ÊÂ¼ş¼àÌıÆ÷
+   * æ·»åŠ å’Œåˆå§‹åŒ–äº‹ä»¶ç›‘å¬å™¨
    */
   private void addListeners() {
     this.tpnMain.addChangeListener(this);
@@ -327,7 +327,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.mouseAdapter = new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         JLabel lblTemp = (JLabel) e.getSource();
-        lblTemp.requestFocus(); // µ±Êó±êµ¥»÷Ê±£¬»ñµÃ½¹µã
+        lblTemp.requestFocus(); // å½“é¼ æ ‡å•å‡»æ—¶ï¼Œè·å¾—ç„¦ç‚¹
         if (e.getClickCount() == 2) {
           onEnter();
         }
@@ -336,7 +336,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Îª¸÷×é¼şÌí¼ÓÊÂ¼şµÄ´¦Àí·½·¨
+   * ä¸ºå„ç»„ä»¶æ·»åŠ äº‹ä»¶çš„å¤„ç†æ–¹æ³•
    */
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
@@ -347,32 +347,32 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * Ä¬ÈÏµÄ"È·¶¨"²Ù×÷·½·¨
+   * é»˜è®¤çš„"ç¡®å®š"æ“ä½œæ–¹æ³•
    */
   public void onEnter() {
-    this.signIdentifier(false); // Ó¦ÓÃµ±Ç°µÄÁĞ±í·ûºÅ»ò±àºÅĞ§¹û
+    this.signIdentifier(false); // åº”ç”¨å½“å‰çš„åˆ—è¡¨ç¬¦å·æˆ–ç¼–å·æ•ˆæœ
     this.dispose();
   }
 
   /**
-   * Ä¬ÈÏµÄ"È¡Ïû"²Ù×÷·½·¨
+   * é»˜è®¤çš„"å–æ¶ˆ"æ“ä½œæ–¹æ³•
    */
   public void onCancel() {
     this.dispose();
   }
 
   /**
-   * µ±ÎÄ±¾±êÇ©»ñµÃ½¹µãÊ±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬æ ‡ç­¾è·å¾—ç„¦ç‚¹æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void focusGained(FocusEvent e) {
     JLabel lblTemp = (JLabel) e.getSource();
     lblTemp.setBackground(Color.PINK);
     this.strSignIdentifier = lblTemp.getText();
-    this.signIdentifier(true); // Ô¤ÀÀµ±Ç°µÄÁĞ±í·ûºÅ»ò±àºÅĞ§¹û
+    this.signIdentifier(true); // é¢„è§ˆå½“å‰çš„åˆ—è¡¨ç¬¦å·æˆ–ç¼–å·æ•ˆæœ
   }
 
   /**
-   * µ±ÎÄ±¾±êÇ©Ê§È¥½¹µãÊ±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æ–‡æœ¬æ ‡ç­¾å¤±å»ç„¦ç‚¹æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void focusLost(FocusEvent e) {
     JLabel lblTemp = (JLabel) e.getSource();
@@ -380,7 +380,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±¼àÌıµÄ×é¼ş×´Ì¬±ä»¯Ê±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“ç›‘å¬çš„ç»„ä»¶çŠ¶æ€å˜åŒ–æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void stateChanged(ChangeEvent e) {
     if (this.tpnMain.getSelectedIndex() == 0) {
@@ -393,9 +393,9 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * µ±±¾¿Ø¼şÖĞµÄÎÄ±¾·¢Éú±ä»¯Ê±£¬½«´¥·¢´ËÊÂ¼ş
+   * å½“æœ¬æ§ä»¶ä¸­çš„æ–‡æœ¬å‘ç”Ÿå˜åŒ–æ—¶ï¼Œå°†è§¦å‘æ­¤äº‹ä»¶
    */
   public void undoableEditHappened(UndoableEditEvent e) {
-    this.signIdentifier(true); // Ô¤ÀÀµ±Ç°µÄÁĞ±í·ûºÅ»ò±àºÅĞ§¹û
+    this.signIdentifier(true); // é¢„è§ˆå½“å‰çš„åˆ—è¡¨ç¬¦å·æˆ–ç¼–å·æ•ˆæœ
   }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 ±ùÔ­
+ * Copyright (C) 2013 å†°åŽŸ
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,24 +21,24 @@ import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
 
 /**
- * ±íÊ¾µ±Ç°ÐÐµÄÊôÐÔÀà
+ * è¡¨ç¤ºå½“å‰è¡Œçš„å±žæ€§ç±»
  * 
- * @author ±ùÔ­
+ * @author å†°åŽŸ
  * 
  */
 public class CurrentLine {
-  private JTextArea txaSource = null; // µ±Ç°ÐÐËùÔÚµÄÎÄ±¾Óò
-  private int lineNum = -1; // µ±Ç°ÐÐºÅ
-  private int startIndex = -1; // µ±Ç°ÐÐÊ×µÄÆ«ÒÆÁ¿
-  private int endIndex = -1; // µ±Ç°ÐÐÎ²µÄÆ«ÒÆÁ¿
-  private int currentIndex = -1; // µ±Ç°¹â±êµÄÆ«ÒÆÁ¿
-  private String strLine = null; // µ±Ç°ÐÐµÄÎÄ±¾
+  private JTextArea txaSource = null; // å½“å‰è¡Œæ‰€åœ¨çš„æ–‡æœ¬åŸŸ
+  private int lineNum = -1; // å½“å‰è¡Œå·
+  private int startIndex = -1; // å½“å‰è¡Œé¦–çš„åç§»é‡
+  private int endIndex = -1; // å½“å‰è¡Œå°¾çš„åç§»é‡
+  private int currentIndex = -1; // å½“å‰å…‰æ ‡çš„åç§»é‡
+  private String strLine = null; // å½“å‰è¡Œçš„æ–‡æœ¬
 
   /**
-   * ¹¹Ôì·½·¨
+   * æž„é€ æ–¹æ³•
    * 
    * @param txaSource
-   *          µ±Ç°µÄÎÄ±¾Óò
+   *          å½“å‰çš„æ–‡æœ¬åŸŸ
    */
   public CurrentLine(JTextArea txaSource) {
     this.txaSource = txaSource;
@@ -46,22 +46,22 @@ public class CurrentLine {
   }
 
   /**
-   * ³õÊ¼»¯¸÷¸öÊôÐÔÖµ
+   * åˆå§‹åŒ–å„ä¸ªå±žæ€§å€¼
    */
   private void init() {
     if (this.txaSource == null) {
       return;
     }
     try {
-      // »ñÈ¡µ±Ç°¹â±êµÄÆ«ÒÆÁ¿
+      // èŽ·å–å½“å‰å…‰æ ‡çš„åç§»é‡
       this.currentIndex = this.txaSource.getCaretPosition();
-      // »ñÈ¡Ö¸¶¨Æ«ÒÆÁ¿´¦µÄÐÐºÅ£¬·µ»ØÐÐºÅµÄÈ¡Öµ·¶Î§£ºx>=0 && x<ÎÄ±¾Óò×ÜÐÐÊý
+      // èŽ·å–æŒ‡å®šåç§»é‡å¤„çš„è¡Œå·ï¼Œè¿”å›žè¡Œå·çš„å–å€¼èŒƒå›´ï¼šx>=0 && x<æ–‡æœ¬åŸŸæ€»è¡Œæ•°
       this.lineNum = this.txaSource.getLineOfOffset(this.currentIndex);
-      // »ñÈ¡Ö¸¶¨ÐÐÆðÊ¼´¦µÄÆ«ÒÆÁ¿£¬Ö¸¶¨ÐÐºÅµÄÈ¡Öµ·¶Î§£ºx>=0 && x<ÎÄ±¾Óò×ÜÐÐÊý
+      // èŽ·å–æŒ‡å®šè¡Œèµ·å§‹å¤„çš„åç§»é‡ï¼ŒæŒ‡å®šè¡Œå·çš„å–å€¼èŒƒå›´ï¼šx>=0 && x<æ–‡æœ¬åŸŸæ€»è¡Œæ•°
       this.startIndex = this.txaSource.getLineStartOffset(this.lineNum);
-      // »ñÈ¡Ö¸¶¨ÐÐ½áÎ²´¦µÄÆ«ÒÆÁ¿£¬Ö¸¶¨ÐÐºÅµÄÈ¡Öµ·¶Î§£ºx>=0 && x<ÎÄ±¾Óò×ÜÐÐÊý
+      // èŽ·å–æŒ‡å®šè¡Œç»“å°¾å¤„çš„åç§»é‡ï¼ŒæŒ‡å®šè¡Œå·çš„å–å€¼èŒƒå›´ï¼šx>=0 && x<æ–‡æœ¬åŸŸæ€»è¡Œæ•°
       this.endIndex = this.txaSource.getLineEndOffset(this.lineNum);
-      // »ñÈ¡µ±Ç°ÐÐµÄÎÄ±¾
+      // èŽ·å–å½“å‰è¡Œçš„æ–‡æœ¬
       this.strLine = this.txaSource.getText().substring(this.startIndex,
           this.endIndex);
     } catch (BadLocationException x) {
@@ -70,45 +70,45 @@ public class CurrentLine {
   }
 
   /**
-   * »ñÈ¡µ±Ç°ÐÐÊ×µÄÆ«ÒÆÁ¿
+   * èŽ·å–å½“å‰è¡Œé¦–çš„åç§»é‡
    * 
-   * @return Æ«ÒÆÁ¿
+   * @return åç§»é‡
    */
   public int getStartIndex() {
     return this.startIndex;
   }
 
   /**
-   * »ñÈ¡µ±Ç°ÐÐÎ²µÄÆ«ÒÆÁ¿
+   * èŽ·å–å½“å‰è¡Œå°¾çš„åç§»é‡
    * 
-   * @return Æ«ÒÆÁ¿
+   * @return åç§»é‡
    */
   public int getEndIndex() {
     return this.endIndex;
   }
 
   /**
-   * »ñÈ¡µ±Ç°¹â±êµÄÆ«ÒÆÁ¿
+   * èŽ·å–å½“å‰å…‰æ ‡çš„åç§»é‡
    * 
-   * @return Æ«ÒÆÁ¿
+   * @return åç§»é‡
    */
   public int getCurrentIndex() {
     return this.currentIndex;
   }
 
   /**
-   * »ñÈ¡µ±Ç°ÐÐºÅ
+   * èŽ·å–å½“å‰è¡Œå·
    * 
-   * @return µ±Ç°ÐÐºÅ
+   * @return å½“å‰è¡Œå·
    */
   public int getLineNum() {
     return this.lineNum;
   }
 
   /**
-   * »ñÈ¡µ±Ç°ÐÐµÄÎÄ±¾
+   * èŽ·å–å½“å‰è¡Œçš„æ–‡æœ¬
    * 
-   * @return ÎÄ±¾
+   * @return æ–‡æœ¬
    */
   public String getStrLine() {
     return this.strLine;
