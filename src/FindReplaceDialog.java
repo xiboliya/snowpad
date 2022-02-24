@@ -552,14 +552,29 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         }
         return true;
       } else if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
-        JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
+        showMessageDialog("正则表达式语法错误，请修改！");
       } else {
-        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
+        showMessageDialog("找不到\"" + this.strFind + "\"");
       }
     }
     return false;
+  }
+
+  /**
+   * 弹出提示框，针对当前窗口不显示的情况下，做兼容处理
+   * 
+   * @param message
+   *          提示框显示文本
+   */
+  private void showMessageDialog(String message) {
+    if (Util.isTextEmpty(message)) {
+      return;
+    }
+    if (this.isVisible()) {
+      JOptionPane.showMessageDialog(this, message, Util.SOFTWARE, JOptionPane.NO_OPTION);
+    } else {
+      JOptionPane.showMessageDialog(this.txaSource, message, Util.SOFTWARE, JOptionPane.NO_OPTION);
+    }
   }
 
   /**
