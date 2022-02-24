@@ -1534,3 +1534,7 @@ src/TabSetDialog.java
 src/TextAreaSetting.java
 src/Util.java
 src/WindowManageDialog.java
+
+2022-02-24
+1.解决当“查找/替换”对话框不显示的情况下，进行查找并失败时，不会立即弹出提示框的问题。
+src/FindReplaceDialog.java
