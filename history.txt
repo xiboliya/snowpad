@@ -1538,3 +1538,7 @@ src/WindowManageDialog.java
 2022-02-24
 1.解决当“查找/替换”对话框不显示的情况下，进行查找并失败时，不会立即弹出提示框的问题。
 src/FindReplaceDialog.java
+
+2022-03-03
+1.解决当“查找/替换”对话框不显示并且当前文本域有滚动条的情况下，进行查找并失败时，弹出的提示框位置不居中的问题。
+src/FindReplaceDialog.java
