@@ -552,9 +552,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         }
         return true;
       } else if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
-        showMessageDialog("正则表达式语法错误，请修改！");
+        this.showMessageDialog("正则表达式语法错误，请修改！");
       } else {
-        showMessageDialog("找不到\"" + this.strFind + "\"");
+        this.showMessageDialog("找不到\"" + this.strFind + "\"");
       }
     }
     return false;
@@ -573,7 +573,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     if (this.isVisible()) {
       JOptionPane.showMessageDialog(this, message, Util.SOFTWARE, JOptionPane.NO_OPTION);
     } else {
-      JOptionPane.showMessageDialog(this.txaSource, message, Util.SOFTWARE, JOptionPane.NO_OPTION);
+      // 第一个参数不能是this.txaSource，当this.txaSource显示滚动条的时候，就会导致提示框位置位于屏幕底部
+      JOptionPane.showMessageDialog(this.getOwner(), message, Util.SOFTWARE, JOptionPane.NO_OPTION);
     }
   }
 
