@@ -19,6 +19,7 @@ package com.xiboliya.snowpad;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,13 +51,27 @@ import javax.swing.event.UndoableEditListener;
 public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     FocusListener, ChangeListener, UndoableEditListener {
   private static final long serialVersionUID = 1L;
+  private static final String SIGN_CHARS_VIEW = "__________\n__________\n__________"; // 预览界面的初始化字符串
+  private static final String IDENTIFIER_TIANGAN = "甲乙丙丁戊己庚辛壬癸"; // 十天干
+  private static final String IDENTIFIER_DIZHI = "子丑寅卯辰巳午未申酉戌亥"; // 十二地支
+  private static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "数字格式", "汉字格式", "干支格式", "字母格式" }; // 列表编号类型的显示名称
+  private static final String HALF_WIDTH_NUMBERS = "0123456789"; // 半角数字
+  private static final char[] FULL_WIDTH_NUMBERS = new char[] { '０', '１', '２', '３', '４', '５', '６', '７', '８', '９' }; // 全角数字
+  private static final String[] SIMPLIFIED_CHINESE_NUMBERS = new String[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" }; // 简体数字
+  private static final String[] SIMPLIFIED_CHINESE_UNITS = new String[] { "", "十", "百", "千", "万", "十", "百", "千", "亿", "十" }; // 简体数字单位
+  private static final String[] TRADITIONAL_CHINESE_NUMBERS = new String[] { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" }; // 繁体数字
+  private static final String[] TRADITIONAL_CHINESE_UNITS = new String[] { "", "拾", "佰", "仟", "万", "拾", "佰", "仟", "亿", "拾" }; // 繁体数字单位
+  private static final String LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz"; // 小写英文字母
+  private static final int SIGN_MAX_ROW = 5; // 列表符号与编号界面的最大行数
+  private static final int SIGN_MAX_COLUMN = 4; // 列表符号与编号界面的最大列数
+  private static final int SIGN_MAX_ELEMENT = SIGN_MAX_ROW * SIGN_MAX_COLUMN; // 列表符号与编号界面的最大元素数
+  private static final Font SIGN_VIEW_FONT = new Font("宋体", Font.PLAIN, 28); // 列表符号与编号界面中预览区域的字体
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
   private JPanel pnlRight = new JPanel(null);
   private JTabbedPane tpnMain = new JTabbedPane();
-  private GridLayout gridLayout = new GridLayout(Util.SIGN_MAX_ROW,
-      Util.SIGN_MAX_COLUMN, 5, 5);
-  private GridLayout specialGridLayout = new GridLayout(Util.SIGN_MAX_ROW, 1, 5, 5);
+  private GridLayout gridLayout = new GridLayout(SIGN_MAX_ROW, SIGN_MAX_COLUMN, 5, 5);
+  private GridLayout specialGridLayout = new GridLayout(SIGN_MAX_ROW, 1, 5, 5);
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private JLabel lblStart = new JLabel("起始编号：");
@@ -197,11 +212,11 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private JLabel createElement(String strElement, boolean isSpecial) {
     JLabel lblElement = null;
     if (isSpecial) {
-      lblElement = new JLabel(Util.SIGN_IDENTIFIER_NAMES[Util.IDENTIFIER_CHARS
+      lblElement = new JLabel(SIGN_IDENTIFIER_NAMES[Util.IDENTIFIER_CHARS
           .indexOf(strElement)]);
     } else {
       lblElement = new JLabel(strElement);
-      lblElement.setFont(Util.SIGN_VIEW_FONT);
+      lblElement.setFont(SIGN_VIEW_FONT);
     }
     if (!Util.isTextEmpty(strElement)) {
       lblElement.setHorizontalAlignment(SwingConstants.CENTER);
@@ -226,7 +241,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     String[] arrText = null;
     boolean isSelected = false;
     if (isView) {
-      arrText = Util.SIGN_CHARS_VIEW.split("\n");
+      arrText = SIGN_CHARS_VIEW.split("\n");
     } else {
       String selText = this.txaSource.getSelectedText();
       if (Util.isTextEmpty(selText)) {
@@ -281,8 +296,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     int n = 0;
     if (isSpecial) {
       int index = 0;
-      for (; index < Util.SIGN_IDENTIFIER_NAMES.length; index++) {
-        if (this.strSignIdentifier.equals(Util.SIGN_IDENTIFIER_NAMES[index])) {
+      for (; index < SIGN_IDENTIFIER_NAMES.length; index++) {
+        if (this.strSignIdentifier.equals(SIGN_IDENTIFIER_NAMES[index])) {
           break;
         }
       }
@@ -294,17 +309,17 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
         break;
       case 1: // 汉字
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = Util.intToChinese(n + start + 1, false) + "." + arrText[n];
+          arrText[n] = this.intToChinese(n + start + 1, false) + "." + arrText[n];
         }
         break;
       case 2: // 干支
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = Util.intToGanZhi(n + start) + "." + arrText[n];
+          arrText[n] = this.intToGanZhi(n + start) + "." + arrText[n];
         }
         break;
       case 3: // 字母
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = Util.intToLetter(n + start + 1, false) + "." + arrText[n];
+          arrText[n] = this.intToLetter(n + start + 1, false) + "." + arrText[n];
         }
         break;
       }
@@ -313,6 +328,110 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
         arrText[n] = this.strSignIdentifier + arrText[n];
       }
     }
+  }
+
+  /**
+   * 将给定的数字转换为汉字格式
+   * 
+   * @param number
+   *          待转换的数字
+   * @param isTraditional
+   *          是否转换为繁体汉字，为true表示转换为繁体，反之转换为简体
+   * @return 转换后的字符串
+   */
+  private String intToChinese(int number, boolean isTraditional) {
+    String str = "";
+    StringBuffer sb = new StringBuffer(String.valueOf(number));
+    sb = sb.reverse();
+    String[] arrChineseNumbers = SIMPLIFIED_CHINESE_NUMBERS;
+    String[] arrChineseUnits = SIMPLIFIED_CHINESE_UNITS;
+    if (isTraditional) {
+      arrChineseNumbers = TRADITIONAL_CHINESE_NUMBERS;
+      arrChineseUnits = TRADITIONAL_CHINESE_UNITS;
+    }
+    int r = 0;
+    int l = 0;
+    for (int j = 0; j < sb.length(); j++) {
+      r = Integer.valueOf(sb.substring(j, j + 1)); // 当前数字
+      if (j != 0) {
+        l = Integer.valueOf(sb.substring(j - 1, j)); // 上一个数字
+      }
+      if (j == 0) {
+        if (r != 0 || sb.length() == 1) {
+          str = arrChineseNumbers[r];
+        }
+        continue;
+      }
+      if (j == 1 || j == 2 || j == 3 || j == 5 || j == 6 || j == 7 || j == 9) {
+        if (r != 0) {
+          str = arrChineseNumbers[r] + arrChineseUnits[j] + str;
+        } else if (l != 0) {
+          str = arrChineseNumbers[r] + str;
+        }
+        continue;
+      }
+      if (j == 4 || j == 8) {
+        str =  arrChineseUnits[j] + str;
+        if ((l != 0 && r == 0) || r != 0) {
+          str = arrChineseNumbers[r] + str;
+        }
+        continue;
+      }
+    }
+    // 为了解决数值为：10~19时，会在开头多“一”的问题
+    if (number >= 10 && number <= 19) {
+      str = str.substring(1);
+    }
+    return str;
+  }
+
+  /**
+   * 将给定的数字转换为干支
+   * 
+   * @param number
+   *          待转换的数字
+   * @return 转换后的字符串
+   */
+  private String intToGanZhi(int number) {
+    int len1 = IDENTIFIER_TIANGAN.length();
+    int len2 = IDENTIFIER_DIZHI.length();
+    return String.valueOf(IDENTIFIER_TIANGAN.charAt(number % len1)) + String.valueOf(IDENTIFIER_DIZHI.charAt(number % len2));
+  }
+
+  /**
+   * 将给定的数字转换为英文字母
+   * 
+   * @param number
+   *          待转换的数字
+   * @param isUpperCase
+   *          是否转换为大写，为true表示转换为大写，反之转换为小写
+   * @return 转换后的字符串
+   */
+  private String intToLetter(int number, boolean isUpperCase) {
+    String strNumber = Integer.toString(number, LOWER_CASE_LETTERS.length()).toLowerCase();
+    char[] arrChar = strNumber.toCharArray();
+    for (int i = 0; i < arrChar.length; i++) {
+      char ch = arrChar[i];
+      int index = HALF_WIDTH_NUMBERS.indexOf(ch);
+      if (index >= 0) {
+        // 数字的最高位需要特殊处理
+        if (i == 0) {
+          arrChar[i] = LOWER_CASE_LETTERS.charAt(index - 1);
+        } else {
+          arrChar[i] = LOWER_CASE_LETTERS.charAt(index);
+        }
+      } else {
+        index = LOWER_CASE_LETTERS.indexOf(ch);
+        if (index >= 0) {
+          arrChar[i] = LOWER_CASE_LETTERS.charAt(index + HALF_WIDTH_NUMBERS.length());
+        }
+      }
+    }
+    String result = new String(arrChar);
+    if (isUpperCase) {
+      result = result.toUpperCase();
+    }
+    return result;
   }
 
   /**

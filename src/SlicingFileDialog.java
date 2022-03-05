@@ -43,6 +43,7 @@ import javax.swing.JTextArea;
  */
 public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
+  private static final String PATTERN_META_CHARACTER = "$()*+.?[^{|"; // 正则表达式元字符
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblKeyword = new JLabel("拆分关键字：");
@@ -341,8 +342,8 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
 
   private String checkText(String strText) {
     strText = strText.replace("\\", "\\\\");
-    for (int i = 0; i < Util.PATTERN_META_CHARACTER.length(); i++) {
-      char item = Util.PATTERN_META_CHARACTER.charAt(i);
+    for (int i = 0; i < PATTERN_META_CHARACTER.length(); i++) {
+      char item = PATTERN_META_CHARACTER.charAt(i);
       strText = strText.replace(String.valueOf(item), "\\" + item);
     }
     return strText;

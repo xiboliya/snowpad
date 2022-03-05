@@ -42,6 +42,7 @@ import javax.swing.JTextArea;
  */
 public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
+  private static final String[] STORAGE_UNIT = new String[] {"B(字节)","KB(千字节)","MB(兆字节)"}; // 文件存储单位
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblPath = new JLabel("输入文件路径：");
@@ -49,7 +50,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private JButton btnSelectFile = new JButton("选择文件(S)");
   private JRadioButton radCutSize = new JRadioButton("按文件大小切割：", true);
   private BaseTextField txtCutSize = new BaseTextField(true, "\\d{0,4}"); // 限制用户只能输入数字，并且不能超过4位
-  private JComboBox<String> cmbCutUnit = new JComboBox<String>(Util.STORAGE_UNIT);
+  private JComboBox<String> cmbCutUnit = new JComboBox<String>(STORAGE_UNIT);
   private JRadioButton radCutCount = new JRadioButton("按文件个数切割：", false);
   private BaseTextField txtCutCount = new BaseTextField(true, "\\d{0,4}"); // 限制用户只能输入数字，并且不能超过4位
   private JLabel lblCutCount = new JLabel("个");

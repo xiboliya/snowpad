@@ -19,6 +19,7 @@ package com.xiboliya.snowpad;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,12 +47,15 @@ import javax.swing.border.EtchedBorder;
 public class InsertCharDialog extends BaseDialog implements ActionListener,
     FocusListener {
   private static final long serialVersionUID = 1L;
+  private static final int INSERT_MAX_ROW = 10; // 插入字符界面的最大行数
+  private static final int INSERT_MAX_COLUMN = 10; // 插入字符界面的最大列数
+  private static final int INSERT_MAX_ELEMENT = INSERT_MAX_ROW * INSERT_MAX_COLUMN; // 插入字符界面的最大元素数
+  private static final Font INSERT_VIEW_FONT = new Font("宋体", Font.PLAIN, 80); // 插入字符界面中预览标签的字体
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
   private JPanel pnlRight = new JPanel(null);
   private JTabbedPane tpnMain = new JTabbedPane();
-  private GridLayout gridLayout = new GridLayout(Util.INSERT_MAX_ROW,
-      Util.INSERT_MAX_COLUMN, 0, 0);
+  private GridLayout gridLayout = new GridLayout(INSERT_MAX_ROW, INSERT_MAX_COLUMN, 0, 0);
   private JButton btnOk = new JButton("插入");
   private JButton btnCancel = new JButton("关闭");
   private JLabel lblView = new JLabel();
@@ -106,7 +110,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
     this.pnlRight.add(this.btnCancel);
     this.pnlRight.add(this.lblView);
     this.tpnMain.setFocusable(false);
-    this.lblView.setFont(Util.INSERT_VIEW_FONT);
+    this.lblView.setFont(INSERT_VIEW_FONT);
     this.btnOk.setFocusable(false);
     this.btnCancel.setFocusable(false);
   }
@@ -143,8 +147,8 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
     }
     JPanel pnlTemp = new JPanel(this.gridLayout);
     int elementCount = strElement.length();
-    if (elementCount > Util.INSERT_MAX_ELEMENT) {
-      elementCount = Util.INSERT_MAX_ELEMENT;
+    if (elementCount > INSERT_MAX_ELEMENT) {
+      elementCount = INSERT_MAX_ELEMENT;
     }
     int index = 0;
     for (; index < elementCount; index++) {
@@ -152,7 +156,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
       JLabel lblElement = this.createElement(String.valueOf(charElement));
       pnlTemp.add(lblElement);
     }
-    for (; index < Util.INSERT_MAX_ELEMENT; index++) {
+    for (; index < INSERT_MAX_ELEMENT; index++) {
       JLabel lblElement = this.createElement("");
       pnlTemp.add(lblElement);
     }

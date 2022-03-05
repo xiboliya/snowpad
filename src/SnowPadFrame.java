@@ -104,6 +104,99 @@ import java.util.List;
 public class SnowPadFrame extends JFrame implements ActionListener,
     CaretListener, UndoableEditListener, WindowFocusListener, ChangeListener, DropTargetListener, ComponentListener {
   private static final long serialVersionUID = 1L; // 序列化运行时使用的一个版本号，以与当前可序列化类相关联
+  private static final String FILE_HISTORY = "FileHistory"; // 用于标识最近编辑的文件
+  private static final String INSERT_SPECIAL = "﹡＊♀♂㊣㈱卍卐℡⊕◎〓○●△▲▽▼◇◆□■☆★◢◣◤◥︳ˉ–—﹏﹋＿￣﹍﹉﹎﹊┄┆┅┇┈┊┉┋↑↓←→↖↗↙↘∥∣／＼∕﹨╳▂▃▄▅▆▇█▉▊▋▌▍▎▏▁▔▕┳┻┫┣┃━┏┓┗┛╋╱╲╮╭╯╰"; // 特殊符号
+  private static final String INSERT_PUNCTUATION = "，、。．；：？﹖?！︰∶…‥′＇｀‵＂〃～~‖ˇ﹐﹑.﹒﹔﹕¨﹗（）︵︶｛｝︷︸〔〕︹︺【】︻︼〖〗［］《》︽︾〈〉︿﹀「」﹁﹂『』﹃﹄﹙﹚﹛﹜﹝﹞‘’“”〝〞ˋˊ§々"; // 标点符号
+  private static final String INSERT_MATH = "≈≡≠＝≒≤≥≦≧＜＞≮≯±＋－×÷／∫∮∝∞∧∨∑∏∪∩∈∵∴∷⊥∥∠⌒⊙≌∽√﹢﹣﹤﹥﹦∟⊿π℅﹟＃#＆﹠&※№㏒㏑"; // 数学符号
+  private static final String INSERT_UNIT = "°′″＄￥〒￠￡％℃℉﹩$﹪‰＠﹫㏕㎜㎝㎞㏎㎡㎎㎏㏄¤"; // 单位符号
+  private static final String INSERT_DIGIT = "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇①②③④⑤⑥⑦⑧⑨⑩㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ"; // 数字符号
+  private static final String INSERT_PINYIN = "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ"; // 拼音符号
+  private static final String STATE_CHARS = "Chars:"; // 状态栏显示信息-文本总字符数
+  private static final String STATE_LINES = "Lines:"; // 状态栏显示信息-文本总行数
+  private static final String STATE_CUR_LINE = "Ln:"; // 状态栏显示信息-光标当前行号
+  private static final String STATE_CUR_COLUMN = "Col:"; // 状态栏显示信息-光标当前列号
+  private static final String STATE_CUR_SELECT = "Sel:"; // 状态栏显示信息-当前选择的字符数
+  private static final String STATE_LINE_STYLE = "LineStyle:"; // 状态栏显示信息-当前换行符格式
+  private static final String STATE_ENCODING = "Encoding:"; // 状态栏显示信息-当前编码格式
+  private static final String SIGN_CHARS = "﹟·※＊§¤⊙◎○●△▲▽▼◇◆□■☆★"; // 列表符号
+  private static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "新建", "打开", "保存", "另存为", "关闭", "关闭全部", "剪切", "复制", "粘贴",
+      "撤销", "重做", "查找", "替换", "字体放大", "字体缩小", "后退", "前进", "自动换行" }; // 工具栏提示信息
+  private static final int FILE_HISTORY_MAX = 15; // 最近编辑文件的最大存储个数
+  private static final int BACK_FORWARD_MAX = 15; // 光标历史位置的最大存储个数
+  private static final int TEXTAREA_HASHCODE_LIST_MAX = 15; // 最近编辑的文本域hashCode的最大存储个数
+  private static final int BRACKET_COLOR_STYLE = 11; // 在文本域中进行高亮匹配括号的颜色标识值
+  private static final Color[] COLOR_HIGHLIGHTS = new Color[] {
+      new Color(255, 0, 0, 40), new Color(0, 255, 0, 40),
+      new Color(0, 0, 255, 40), new Color(0, 255, 255, 40),
+      new Color(255, 0, 255, 40) }; // 用于高亮显示的颜色，其中第4个参数表示透明度，数值越小越透明
+  private static final Color[] COLOR_STYLE_1 = new Color[] {
+      new Color(211, 215, 207), new Color(46, 52, 54),
+      new Color(211, 215, 207), new Color(238, 238, 236),
+      new Color(136, 138, 133), new Color(255, 0, 255, 35),
+      new Color(150, 150, 150, 25) };
+  private static final Color[] COLOR_STYLE_2 = new Color[] {
+      new Color(240, 240, 240), new Color(0, 128, 128),
+      new Color(240, 240, 240), new Color(22, 99, 88), new Color(240, 240, 240),
+      new Color(180, 0, 255, 35), new Color(240, 240, 10, 25) };
+  private static final Color[] COLOR_STYLE_3 = new Color[] {
+      new Color(46, 52, 54), new Color(215, 215, 175), new Color(46, 52, 54),
+      new Color(255, 251, 240), new Color(46, 52, 54),
+      new Color(0, 255, 180, 35), new Color(240, 100, 100, 25) };
+  private static final Color[] COLOR_STYLE_4 = new Color[] {
+      new Color(51, 53, 49), new Color(204, 232, 207), new Color(51, 53, 49),
+      new Color(204, 232, 207), new Color(0, 60, 100),
+      new Color(20, 20, 20, 35), new Color(0, 100, 200, 25) };
+  private static final Color[] COLOR_STYLE_5 = new Color[] {
+      new Color(189, 174, 157), new Color(42, 33, 28), new Color(5, 165, 245),
+      new Color(189, 174, 157), new Color(130, 100, 90),
+      new Color(255, 255, 0, 35), new Color(240, 200, 180, 25) };
+  private static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1, COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
+  private static final ImageIcon TAB_EXIST_READONLY_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly.png")); // 只读文件图标
+  private static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current.png")); // 普通文件图标
+  private static final ImageIcon TAB_NEW_FILE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_new_file.png")); // 新建文件图标
+  private static final ImageIcon TAB_NOT_EXIST_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_not_exist.png")); // 丢失文件图标
+  private static final ImageIcon TAB_EXIST_READONLY_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly_frozen.png")); // 只读文件冻结图标
+  private static final ImageIcon TAB_EXIST_CURRENT_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current_frozen.png")); // 普通文件冻结图标
+  private static final ImageIcon TAB_NEW_FILE_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_new_file_frozen.png")); // 新建文件冻结图标
+  private static final ImageIcon TAB_NOT_EXIST_FROZEN_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_not_exist_frozen.png")); // 丢失文件冻结图标
+  private static final ImageIcon[] TOOL_ENABLE_ICONS = new ImageIcon[] {
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_new.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_open.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_save.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_save_as.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_close.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_close_all.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_cut.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_copy.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_paste.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_undo.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_redo.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_find.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_replace.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_font_size_plus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_font_size_minus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_back.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_forward.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_line_wrap.png")) }; // 工具栏可用状态的图标
+  private static final ImageIcon[] TOOL_DISABLE_ICONS = new ImageIcon[] {
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_new.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_open.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_save.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_save_as.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_close.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_close_all.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_cut.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_copy.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_paste.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_undo.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_redo.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_find.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_replace.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_font_size_plus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_font_size_minus.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_back.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_forward.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_line_wrap.png")) }; // 工具栏禁用状态的图标
   private BaseTextArea txaMain = null; // 当前编辑的文本域
   private JTabbedPane tpnMain = new JTabbedPane(); // 显示文本域的选项卡组件
   private JSplitPane spnMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT); // 用于分隔选项卡组件与查找结果面板的组件
@@ -777,16 +870,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void addToolBar() {
     this.getContentPane().add(this.tlbMain, BorderLayout.NORTH);
-    for (int i = 0; i < Util.TOOL_ENABLE_ICONS.length; i++) {
+    for (int i = 0; i < TOOL_ENABLE_ICONS.length; i++) {
       AbstractButton btnTool = null;
-      if (i == Util.TOOL_ENABLE_ICONS.length - 1) {
-        btnTool = new JToggleButton(Util.TOOL_DISABLE_ICONS[i]);
-        btnTool.setSelectedIcon(Util.TOOL_ENABLE_ICONS[i]);
+      if (i == TOOL_ENABLE_ICONS.length - 1) {
+        btnTool = new JToggleButton(TOOL_DISABLE_ICONS[i]);
+        btnTool.setSelectedIcon(TOOL_ENABLE_ICONS[i]);
       } else {
-        btnTool = new JButton(Util.TOOL_ENABLE_ICONS[i]);
-        btnTool.setDisabledIcon(Util.TOOL_DISABLE_ICONS[i]);
+        btnTool = new JButton(TOOL_ENABLE_ICONS[i]);
+        btnTool.setDisabledIcon(TOOL_DISABLE_ICONS[i]);
       }
-      btnTool.setToolTipText(Util.TOOL_TOOLTIP_TEXTS[i]);
+      btnTool.setToolTipText(TOOL_TOOLTIP_TEXTS[i]);
       btnTool.setFocusable(false);
       btnTool.addActionListener(this);
       this.tlbMain.add(btnTool);
@@ -808,13 +901,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 主面板上添加状态栏
    */
   private void addStatePanel() {
-    String strStateChars = Util.STATE_CHARS + "0";
-    String strStateLines = Util.STATE_LINES + "1";
-    String strStateCurLn = Util.STATE_CUR_LINE + "1";
-    String strStateCurCol = Util.STATE_CUR_COLUMN + "1";
-    String strStateCurSel = Util.STATE_CUR_SELECT + "0";
-    String strStateLineStyle = Util.STATE_LINE_STYLE;
-    String strStateEncoding = Util.STATE_ENCODING;
+    String strStateChars = STATE_CHARS + "0";
+    String strStateLines = STATE_LINES + "1";
+    String strStateCurLn = STATE_CUR_LINE + "1";
+    String strStateCurCol = STATE_CUR_COLUMN + "1";
+    String strStateCurSel = STATE_CUR_SELECT + "0";
+    String strStateLineStyle = STATE_LINE_STYLE;
+    String strStateEncoding = STATE_ENCODING;
     this.pnlState.setStringByIndex(0, strStateChars + ", " + strStateLines,StatePanelAlignment.X_CENTER);
     this.pnlState.setStringByIndex(1, strStateCurLn + ", " + strStateCurCol + ", " + strStateCurSel);
     this.pnlState.setStringByIndex(2, strStateLineStyle);
@@ -1939,7 +2032,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openShortcutManageDialog();
     } else if (this.itemClearFileHistory.equals(e.getSource())) {
       this.clearFileHistory();
-    } else if (Util.FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
+    } else if (FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
       JMenuItem itemFile = (JMenuItem) e.getSource();
       this.openFileHistory(itemFile.getText());
     } else if (e.getActionCommand() != null
@@ -2153,27 +2246,27 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       ImageIcon tabIcon = null;
       if (fileTemp == null) {
         if (isFrozen) {
-          tabIcon = Util.TAB_NEW_FILE_FROZEN_ICON;
+          tabIcon = TAB_NEW_FILE_FROZEN_ICON;
         } else {
-          tabIcon = Util.TAB_NEW_FILE_ICON;
+          tabIcon = TAB_NEW_FILE_ICON;
         }
       } else if (!fileTemp.exists()) {
         if (isFrozen) {
-          tabIcon = Util.TAB_NOT_EXIST_FROZEN_ICON;
+          tabIcon = TAB_NOT_EXIST_FROZEN_ICON;
         } else {
-          tabIcon = Util.TAB_NOT_EXIST_ICON;
+          tabIcon = TAB_NOT_EXIST_ICON;
         }
       } else if (!fileTemp.canWrite()) {
         if (isFrozen) {
-          tabIcon = Util.TAB_EXIST_READONLY_FROZEN_ICON;
+          tabIcon = TAB_EXIST_READONLY_FROZEN_ICON;
         } else {
-          tabIcon = Util.TAB_EXIST_READONLY_ICON;
+          tabIcon = TAB_EXIST_READONLY_ICON;
         }
       } else {
         if (isFrozen) {
-          tabIcon = Util.TAB_EXIST_CURRENT_FROZEN_ICON;
+          tabIcon = TAB_EXIST_CURRENT_FROZEN_ICON;
         } else {
-          tabIcon = Util.TAB_EXIST_CURRENT_ICON;
+          tabIcon = TAB_EXIST_CURRENT_ICON;
         }
       }
       return tabIcon;
@@ -2765,7 +2858,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void openSignIdentifierDialog() {
     if (this.signIdentifierDialog == null) {
       Hashtable<String, String> hashtable = new Hashtable<String, String>();
-      hashtable.put("符号", Util.SIGN_CHARS);
+      hashtable.put("符号", SIGN_CHARS);
       hashtable.put("编号", Util.IDENTIFIER_CHARS);
       this.signIdentifierDialog = new SignIdentifierDialog(this, true, this.txaMain, hashtable);
     } else {
@@ -2895,7 +2988,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         linkedList.add(index);
       }
     } while (index >= 0);
-    Color color = Util.COLOR_HIGHLIGHTS[style - 1];
+    Color color = COLOR_HIGHLIGHTS[style - 1];
     for (Integer startIndex : linkedList) {
       try {
         this.txaMain.getHighlighter().addHighlight(startIndex, startIndex + strSelText.length(),
@@ -3014,8 +3107,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    *          配色方案序号，有1、2、3、4、5以及默认配色（0）等共6种
    */
   private void setColorStyle(int style) {
-    if (style > 0 && style <= Util.COLOR_STYLES.length) {
-      this.setting.colorStyle = this.textAreaSetting.colorStyle = Util.COLOR_STYLES[style - 1];
+    if (style > 0 && style <= COLOR_STYLES.length) {
+      this.setting.colorStyle = this.textAreaSetting.colorStyle = COLOR_STYLES[style - 1];
     } else {
       this.setting.colorStyle = this.textAreaSetting.colorStyle = Util.COLOR_STYLE_DEFAULT;
     }
@@ -3310,12 +3403,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void openInsertCharDialog() {
     if (this.insertCharDialog == null) {
       Hashtable<String, String> hashtable = new Hashtable<String, String>();
-      hashtable.put("特殊符号", Util.INSERT_SPECIAL);
-      hashtable.put("标点符号", Util.INSERT_PUNCTUATION);
-      hashtable.put("数学符号", Util.INSERT_MATH);
-      hashtable.put("单位符号", Util.INSERT_UNIT);
-      hashtable.put("数字符号", Util.INSERT_DIGIT);
-      hashtable.put("拼音符号", Util.INSERT_PINYIN);
+      hashtable.put("特殊符号", INSERT_SPECIAL);
+      hashtable.put("标点符号", INSERT_PUNCTUATION);
+      hashtable.put("数学符号", INSERT_MATH);
+      hashtable.put("单位符号", INSERT_UNIT);
+      hashtable.put("数字符号", INSERT_DIGIT);
+      hashtable.put("拼音符号", INSERT_PINYIN);
       this.insertCharDialog = new InsertCharDialog(this, false, this.txaMain, hashtable);
     } else if (!this.insertCharDialog.isVisible()) {
       this.insertCharDialog.setTextArea(this.txaMain);
@@ -3399,7 +3492,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     int index = this.checkFileInHistory(strFile);
     if (index >= 0) {
       JMenuItem itemFile = new JMenuItem(strFile);
-      itemFile.setActionCommand(Util.FILE_HISTORY);
+      itemFile.setActionCommand(FILE_HISTORY);
       itemFile.addActionListener(this);
       if (this.fileHistoryList.size() > index) {
         this.fileHistoryList.remove(index);
@@ -3435,7 +3528,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
       }
       if (index < 0) {
-        if (listSize >= Util.FILE_HISTORY_MAX) {
+        if (listSize >= FILE_HISTORY_MAX) {
           index = 0;
         } else {
           index = listSize;
@@ -5237,8 +5330,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 更新状态栏的文本总字数
    */
   private void updateStateAll() {
-    String strStateChars = Util.STATE_CHARS + this.txaMain.getText().length();
-    String strStateLines = Util.STATE_LINES + this.txaMain.getLineCount();
+    String strStateChars = STATE_CHARS + this.txaMain.getText().length();
+    String strStateLines = STATE_LINES + this.txaMain.getLineCount();
     this.pnlState.setStringByIndex(0, strStateChars + ", " + strStateLines);
   }
 
@@ -5258,9 +5351,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (strSel != null) {
       curSel = strSel.length();
     }
-    String strStateCurLn = Util.STATE_CUR_LINE + curLn;
-    String strStateCurCol = Util.STATE_CUR_COLUMN + curCol;
-    String strStateCurSel = Util.STATE_CUR_SELECT + curSel;
+    String strStateCurLn = STATE_CUR_LINE + curLn;
+    String strStateCurCol = STATE_CUR_COLUMN + curCol;
+    String strStateCurSel = STATE_CUR_SELECT + curSel;
     this.pnlState.setStringByIndex(1, strStateCurLn + ", " + strStateCurCol + ", " + strStateCurSel);
   }
 
@@ -5268,7 +5361,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 更新状态栏当前的换行符格式
    */
   private void updateStateLineStyle() {
-    this.pnlState.setStringByIndex(2, Util.STATE_LINE_STYLE
+    this.pnlState.setStringByIndex(2, STATE_LINE_STYLE
         + this.txaMain.getLineSeparator().getName());
   }
 
@@ -5276,7 +5369,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 更新状态栏当前的字符编码格式
    */
   private void updateStateEncoding() {
-    this.pnlState.setStringByIndex(3, Util.STATE_ENCODING
+    this.pnlState.setStringByIndex(3, STATE_ENCODING
         + this.txaMain.getCharEncoding().getName());
   }
 
@@ -5375,7 +5468,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 查找当前光标处的括号的匹配括号，并进行高亮显示
    */
   private void searchTargetBracket() {
-    this.rmHighlight(Util.BRACKET_COLOR_STYLE); // 取消上一次的括号匹配高亮
+    this.rmHighlight(BRACKET_COLOR_STYLE); // 取消上一次的括号匹配高亮
     String strMain = this.txaMain.getText();
     char charLeft = ' '; // 当前光标左侧的字符
     char charRight = ' '; // 当前光标右侧的字符
@@ -5403,12 +5496,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
       Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter().getHighlights();
       this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1],
-              Util.BRACKET_COLOR_STYLE));
+              BRACKET_COLOR_STYLE));
       this.txaMain.getHighlighter().addHighlight(targetIndex, targetIndex + 1,
           new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
       arrHighlight = this.txaMain.getHighlighter().getHighlights();
       this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1],
-              Util.BRACKET_COLOR_STYLE));
+              BRACKET_COLOR_STYLE));
     } catch (BadLocationException x) {
       // x.printStackTrace();
     }
@@ -5446,7 +5539,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
         this.txaMain.setBackForwardIndex(Util.DEFAULT_BACK_FORWARD_INDEX);
       }
-      if (size >= Util.BACK_FORWARD_MAX) {
+      if (size >= BACK_FORWARD_MAX) {
         backForwardList.removeLast();
       }
       backForwardList.addFirst(new PartnerBean(currentIndex, lineNum));
@@ -5473,7 +5566,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.textAreaHashCodeList.addFirst(hashCode);
     size++;
-    if (size > Util.TEXTAREA_HASHCODE_LIST_MAX) {
+    if (size > TEXTAREA_HASHCODE_LIST_MAX) {
       this.textAreaHashCodeList.removeLast();
     }
   }

@@ -38,6 +38,22 @@ import javax.swing.border.EtchedBorder;
  */
 public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
+  private static final String KEY_UNDEFINED = "[未定义]"; // 未定义按键
+  private static final int[] ALL_KEY_CODES = new int[] {
+    KeyEvent.VK_0, KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_7,
+    KeyEvent.VK_8, KeyEvent.VK_9, KeyEvent.VK_A, KeyEvent.VK_B, KeyEvent.VK_C, KeyEvent.VK_D, KeyEvent.VK_E, KeyEvent.VK_F,
+    KeyEvent.VK_G, KeyEvent.VK_H, KeyEvent.VK_I, KeyEvent.VK_J, KeyEvent.VK_K, KeyEvent.VK_L, KeyEvent.VK_M, KeyEvent.VK_N,
+    KeyEvent.VK_O, KeyEvent.VK_P, KeyEvent.VK_Q, KeyEvent.VK_R, KeyEvent.VK_S, KeyEvent.VK_T, KeyEvent.VK_U, KeyEvent.VK_V,
+    KeyEvent.VK_W, KeyEvent.VK_X, KeyEvent.VK_Y, KeyEvent.VK_Z, KeyEvent.VK_F1, KeyEvent.VK_F2, KeyEvent.VK_F3, KeyEvent.VK_F4,
+    KeyEvent.VK_F5, KeyEvent.VK_F6, KeyEvent.VK_F7, KeyEvent.VK_F8, KeyEvent.VK_F9, KeyEvent.VK_F10, KeyEvent.VK_F11, KeyEvent.VK_F12,
+    KeyEvent.VK_NUMPAD0, KeyEvent.VK_NUMPAD1, KeyEvent.VK_NUMPAD2, KeyEvent.VK_NUMPAD3, KeyEvent.VK_NUMPAD4, KeyEvent.VK_NUMPAD5, KeyEvent.VK_NUMPAD6, KeyEvent.VK_NUMPAD7,
+    KeyEvent.VK_NUMPAD8, KeyEvent.VK_NUMPAD9, KeyEvent.VK_NUM_LOCK, KeyEvent.VK_ADD, KeyEvent.VK_SUBTRACT, KeyEvent.VK_MULTIPLY, KeyEvent.VK_DIVIDE, KeyEvent.VK_DECIMAL,
+    KeyEvent.VK_ESCAPE, KeyEvent.VK_TAB, KeyEvent.VK_SPACE, KeyEvent.VK_BACK_SPACE, KeyEvent.VK_BACK_QUOTE, KeyEvent.VK_SLASH, KeyEvent.VK_BACK_SLASH, KeyEvent.VK_OPEN_BRACKET,
+    KeyEvent.VK_CLOSE_BRACKET, KeyEvent.VK_COMMA, KeyEvent.VK_PAGE_UP, KeyEvent.VK_PAGE_DOWN, KeyEvent.VK_PERIOD, KeyEvent.VK_QUOTE, KeyEvent.VK_SEMICOLON, KeyEvent.VK_INSERT,
+    KeyEvent.VK_DELETE, KeyEvent.VK_HOME, KeyEvent.VK_END, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER,
+    KeyEvent.VK_EQUALS, KeyEvent.VK_MINUS, KeyEvent.VK_CAPS_LOCK, KeyEvent.VK_WINDOWS, KeyEvent.VK_CONTEXT_MENU, KeyEvent.VK_SCROLL_LOCK, KeyEvent.VK_PAUSE }; // 所有可以用作快捷键的按键常量
+  private static final int[] SINGLE_KEY_CODES = new int[] { KeyEvent.VK_F1, KeyEvent.VK_F2, KeyEvent.VK_F3, KeyEvent.VK_F4, KeyEvent.VK_F5, KeyEvent.VK_F6,
+    KeyEvent.VK_F7, KeyEvent.VK_F8, KeyEvent.VK_F9, KeyEvent.VK_F10, KeyEvent.VK_F11, KeyEvent.VK_F12 }; // 可以单独用作快捷键的按键常量
   private Setting setting = null; // 软件参数配置类
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblName = new JLabel("功能名称：");
@@ -110,10 +126,10 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
    * 初始化所有按键的显示
    */
   private void initShortcuts() {
-    String[] strKeys = new String[Util.ALL_KEY_CODES.length + 1];
-    strKeys[0] = Util.KEY_UNDEFINED; // 添加未定义的按键
-    for (int i = 0; i < Util.ALL_KEY_CODES.length; i++) {
-      strKeys[i + 1] = KeyEvent.getKeyText(Util.ALL_KEY_CODES[i]);
+    String[] strKeys = new String[ALL_KEY_CODES.length + 1];
+    strKeys[0] = KEY_UNDEFINED; // 添加未定义的按键
+    for (int i = 0; i < ALL_KEY_CODES.length; i++) {
+      strKeys[i + 1] = KeyEvent.getKeyText(ALL_KEY_CODES[i]);
     }
     this.cmbShortcuts = new JComboBox<String>(strKeys);
   }
@@ -129,7 +145,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
       boolean hasAlt = false;
       boolean hasShift = false;
       boolean hasCommand = false;
-      String value = Util.KEY_UNDEFINED;
+      String value = KEY_UNDEFINED;
       if (!Util.isTextEmpty(keyValue)) {
         String[] arrKeys = keyValue.split("\\+");
         for (String str : arrKeys) {
@@ -174,7 +190,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     boolean hasCtrl = false;
     boolean hasAlt = false;
     boolean hasShift = false;
-    String value = Util.KEY_UNDEFINED;
+    String value = KEY_UNDEFINED;
     String shortcut = "";
     if (this.chkCommand.isSelected()) {
       shortcut = Util.COMMAND + "+" + shortcut;
@@ -188,7 +204,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     if (this.chkCtrl.isSelected()) {
       shortcut = Util.CTRL + "+" + shortcut;
     }
-    shortcut += String.valueOf(Util.ALL_KEY_CODES[index - 1]);
+    shortcut += String.valueOf(ALL_KEY_CODES[index - 1]);
     return shortcut;
   }
 
@@ -201,8 +217,8 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
    */
   private boolean isSingleKey(int index) {
     boolean label = false;
-    int keyCode = Util.ALL_KEY_CODES[index - 1];
-    for (int tempCode : Util.SINGLE_KEY_CODES) {
+    int keyCode = ALL_KEY_CODES[index - 1];
+    for (int tempCode : SINGLE_KEY_CODES) {
       if (tempCode == keyCode) {
         label = true;
       }

@@ -17,6 +17,7 @@
 
 package com.xiboliya.snowpad;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -41,6 +42,9 @@ import javax.swing.SwingConstants;
  */
 public class CalculatorDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
+  private static final String CALCULATOR_ITEM = "C←%÷789×456－123＋π0.="; // 计算器按钮
+  private static final Font CALCULATOR_VIEW_FONT = new Font("宋体", Font.PLAIN, 16); // 显示区域的字体
+  private static final Font CALCULATOR_ITEM_FONT = new Font("宋体", Font.BOLD, 30); // 计算区域的字体
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseTextField txtView = new BaseTextField();
   private JPanel pnlButton = new JPanel(new GridLayout(5, 4, 5, 5));
@@ -73,7 +77,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
     this.pnlMain.setLayout(null);
     this.txtView.setBounds(3, 3, 290, 42);
     this.txtView.setEditable(false);
-    this.txtView.setFont(Util.CALCULATOR_VIEW_FONT);
+    this.txtView.setFont(CALCULATOR_VIEW_FONT);
     this.txtView.setHorizontalAlignment(SwingConstants.RIGHT);
     this.pnlButton.setBounds(3, 50, 290, 290);
     this.pnlMain.add(this.txtView);
@@ -81,11 +85,11 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   }
 
   private void fillGridLayout() {
-    for (int i = 0; i < Util.CALCULATOR_ITEM.length(); i++) {
-      char item = Util.CALCULATOR_ITEM.charAt(i);
+    for (int i = 0; i < CALCULATOR_ITEM.length(); i++) {
+      char item = CALCULATOR_ITEM.charAt(i);
       JButton btnItem = new JButton(String.valueOf(item));
       btnItem.setActionCommand(String.valueOf(item));
-      btnItem.setFont(Util.CALCULATOR_ITEM_FONT);
+      btnItem.setFont(CALCULATOR_ITEM_FONT);
       btnItem.setMargin(this.insets);
       btnItem.setFocusable(false);
       btnItem.addActionListener(this);

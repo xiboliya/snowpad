@@ -38,6 +38,11 @@ import javax.swing.text.BadLocationException;
  */
 public class LineNumberView extends JComponent {
   private static final long serialVersionUID = 1L;
+  private static final int LINE_NUMBER_HEIGHT = 2000000000; // 行号组件支持的最大高度
+  private static final int LINE_NUMBER_MARGIN = 3; // 行号组件的左边距
+  private static final int LINE_NUMBER_MARGIN_RIGHT = 12; // 行号组件的左边距
+  private static final int LINE_NUMBER_START_OFFSET = 2; // 行号组件的起始垂直偏移量，用于对齐文本域的各行
+  private static final Color COLOR_BOOKMARK = new Color(128, 0, 128); // 书签的颜色
   private int lineHeight = 0; // 当前字体中文本行的标准高度。它是相邻文本行基线之间的距离，是leading、ascent和descent的总和。
   private int maxRowWidth = 0; // 组件显示区域中，最宽一行的字符串宽度
   private FontMetrics fontMetrics = null; // 定义字体规格的对象，该对象封装将在屏幕上显示的字体的有关信息
@@ -110,8 +115,8 @@ public class LineNumberView extends JComponent {
     int width = this.fontMetrics.stringWidth(String.valueOf(row));
     if (this.maxRowWidth != width) {
       this.maxRowWidth = width;
-      this.setPreferredSize(new Dimension(Util.LINE_NUMBER_MARGIN + Util.LINE_NUMBER_MARGIN_RIGHT +
-          this.maxRowWidth, Util.LINE_NUMBER_HEIGHT));
+      this.setPreferredSize(new Dimension(LINE_NUMBER_MARGIN + LINE_NUMBER_MARGIN_RIGHT +
+          this.maxRowWidth, LINE_NUMBER_HEIGHT));
     }
   }
 
@@ -144,14 +149,13 @@ public class LineNumberView extends JComponent {
     Rectangle rect = g.getClipBounds();
     int startLineNum = (rect.y / this.lineHeight) + 1;
     int endLineNum = startLineNum + (rect.height / this.lineHeight);
-    int start = (rect.y / this.lineHeight) * this.lineHeight + this.lineHeight -
-        Util.LINE_NUMBER_START_OFFSET;
+    int start = (rect.y / this.lineHeight) * this.lineHeight + this.lineHeight - LINE_NUMBER_START_OFFSET;
     this.setPreferredLine(endLineNum);
     for (int i = startLineNum; i <= endLineNum; i++) {
       String lineNum = String.valueOf(i);
       int stringWidth = this.fontMetrics.stringWidth(lineNum);
       // 绘制行号
-      g.drawString(lineNum, Util.LINE_NUMBER_MARGIN + this.maxRowWidth - stringWidth, start);
+      g.drawString(lineNum, LINE_NUMBER_MARGIN + this.maxRowWidth - stringWidth, start);
       start += this.lineHeight;
     }
     LinkedList<Integer> bookmarks = txaSource.getBookmarks();
@@ -160,14 +164,13 @@ public class LineNumberView extends JComponent {
       return;
     }
     Color color = g.getColor();
-    g.setColor(Util.COLOR_BOOKMARK);
+    g.setColor(COLOR_BOOKMARK);
     int width = this.getWidth();
-    int bookmarkWidth = Util.LINE_NUMBER_MARGIN_RIGHT - 2;
+    int bookmarkWidth = LINE_NUMBER_MARGIN_RIGHT - 2;
     for (int i = 0; i < size; i++) {
-      int height = bookmarks.get(i) * this.lineHeight + (this.lineHeight - bookmarkWidth) / 2 + Util.LINE_NUMBER_START_OFFSET;
+      int height = bookmarks.get(i) * this.lineHeight + (this.lineHeight - bookmarkWidth) / 2 + LINE_NUMBER_START_OFFSET;
       // 绘制书签
-      g.fillOval(width - Util.LINE_NUMBER_MARGIN_RIGHT, height,
-          bookmarkWidth, bookmarkWidth);
+      g.fillOval(width - LINE_NUMBER_MARGIN_RIGHT, height, bookmarkWidth, bookmarkWidth);
     }
     g.setColor(color);
   }

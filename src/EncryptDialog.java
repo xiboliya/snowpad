@@ -23,7 +23,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.security.MessageDigest;
 import java.io.File;
+import java.io.FileInputStream;
+import java.math.BigInteger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -47,6 +50,7 @@ import javax.swing.event.ChangeListener;
  */
 public class EncryptDialog extends BaseDialog implements ActionListener, CaretListener, ChangeListener, ItemListener {
   private static final long serialVersionUID = 1L;
+  private static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // 加密的类型
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
@@ -67,7 +71,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
 
   private JPanel pnlBottom = new JPanel();
   private JLabel lblDigestType = new JLabel("加密类型：");
-  private JComboBox<String> cmbDigestType = new JComboBox<String>(Util.DIGEST_TYPES);
+  private JComboBox<String> cmbDigestType = new JComboBox<String>(DIGEST_TYPES);
   private JLabel lblEncrypt = new JLabel("加密值：");
   private BaseTextAreaSpecial txaEncrypt = new BaseTextAreaSpecial();
   private JScrollPane srpEncrypt = new JScrollPane(this.txaEncrypt);
@@ -259,18 +263,49 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
     if (this.chkEveryLinesT.isSelected()) {
       String[] arrLines = text.split("\n", -1);
       for (String str : arrLines) {
-        encrypt += (Util.getStringDigest(str, digestType) + "\n");
+        encrypt += (this.getStringDigest(str, digestType) + "\n");
       }
     } else {
       // 根据不同的操作系统使用不同的换行符
       text = text.replaceAll(LineSeparator.UNIX.toString(), Util.LINE_SEPARATOR);
-      encrypt = Util.getStringDigest(text, digestType);
+      encrypt = this.getStringDigest(text, digestType);
     }
     if (Util.isTextEmpty(encrypt)) {
       this.txaEncrypt.setText("");
     } else {
       this.txaEncrypt.setText(encrypt);
     }
+  }
+
+  /**
+   * 获取字符串的加密值
+   * 
+   * @param string
+   *          字符串
+   * @param digestType
+   *          加密类型，支持：MD5、SHA、SHA-224、SHA-256、SHA-384、SHA-512
+   * @return 字符串的加密值
+   */
+  private String getStringDigest(String string, String digestType) {
+    if (Util.isTextEmpty(string)) {
+      return "";
+    }
+    MessageDigest digest = null;
+    StringBuilder hex = new StringBuilder();
+    try {
+      digest = MessageDigest.getInstance(digestType);
+      byte[] bytes = digest.digest(string.getBytes("utf-8"));
+      String hexStr = "0123456789abcdef";
+      for (int i = 0; i < bytes.length; i++) {
+        // 字节高4位
+        hex.append(String.valueOf(hexStr.charAt((bytes[i] & 0xF0) >> 4)));
+        // 字节低4位
+        hex.append(String.valueOf(hexStr.charAt(bytes[i] & 0x0F)));
+      }
+    } catch (Exception x) {
+      // x.printStackTrace();
+    }
+    return hex.toString();
   }
 
   /**
@@ -283,12 +318,44 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
       return;
     }
     String digestType = this.cmbDigestType.getSelectedItem().toString();
-    String encrypt = Util.getFileDigest(new File(path), digestType);
+    String encrypt = this.getFileDigest(new File(path), digestType);
     if (Util.isTextEmpty(encrypt)) {
       this.txaEncrypt.setText("");
     } else {
       this.txaEncrypt.setText(encrypt);
     }
+  }
+
+  /**
+   * 获取文件的加密值
+   * 
+   * @param file
+   *          文件
+   * @param digestType
+   *          加密类型，支持：MD5、SHA、SHA-224、SHA-256、SHA-384、SHA-512
+   * @return 文件的加密值
+   */
+  private String getFileDigest(File file, String digestType) {
+    if (!file.isFile()) {
+      return "";
+    }
+    MessageDigest digest = null;
+    FileInputStream in = null;
+    byte[] buffer = new byte[1024];
+    int len;
+    try {
+      digest = MessageDigest.getInstance(digestType);
+      in = new FileInputStream(file);
+      while ((len = in.read(buffer)) != -1) {
+        digest.update(buffer, 0, len);
+      }
+      in.close();
+    } catch (Exception x) {
+      // x.printStackTrace();
+      return "";
+    }
+    BigInteger bigInt = new BigInteger(1, digest.digest());
+    return bigInt.toString(16);
   }
 
   /**

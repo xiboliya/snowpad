@@ -43,6 +43,8 @@ import javax.swing.event.ListSelectionListener;
  */
 public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
+  private static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] { "功能", "快捷键" }; // 表格标题
+  private static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
   private Setting setting = null; // 软件参数配置类
   private SettingAdapter settingAdapter = null; // 用于解析和保存软件配置文件的工具类
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -127,7 +129,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
    * 在面板上添加表格视图
    */
   private void addTable() {
-    for (String title : Util.SHORTCUT_MANAGE_TABLE_TITLE_TEXTS) {
+    for (String title : SHORTCUT_MANAGE_TABLE_TITLE_TEXTS) {
       this.cellsTitle.add(title);
     }
     this.baseDefaultTableModel = new BaseDefaultTableModel(this.cells, this.cellsTitle);
@@ -144,7 +146,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
         }
         String strName = tabMain.getValueAt(index, 0).toString();
         enabled = true;
-        for (String str : Util.CAN_NOT_MODIFIED_SHORTCUT_NAMES) {
+        for (String str : CAN_NOT_MODIFIED_SHORTCUT_NAMES) {
           if (str.equalsIgnoreCase(strName)) {
             enabled = false;
             break;

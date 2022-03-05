@@ -44,6 +44,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class WindowManageDialog extends BaseDialog implements ActionListener, ListSelectionListener {
   private static final long serialVersionUID = 1L;
+  private static final String[] WINDOW_MANAGE_TABLE_TITLE_TEXTS = new String[] { "文件名", "路径", "类型" }; // 表格标题
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
   private JPanel pnlRight = new JPanel(null);
@@ -121,7 +122,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
    * 在面板上添加表格视图
    */
   private void addTable() {
-    for (String title : Util.WINDOW_MANAGE_TABLE_TITLE_TEXTS) {
+    for (String title : WINDOW_MANAGE_TABLE_TITLE_TEXTS) {
       this.cellsTitle.add(title);
     }
     this.baseDefaultTableModel = new BaseDefaultTableModel();

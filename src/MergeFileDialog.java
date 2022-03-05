@@ -44,6 +44,7 @@ import javax.swing.event.ListSelectionListener;
  */
 public class MergeFileDialog extends BaseDialog implements ActionListener, ListSelectionListener {
   private static final long serialVersionUID = 1L;
+  private static final int BIG_BUFFER_LENGTH = 1024 * 1024; // 大缓冲区的大小
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private SaveFileChooser saveFileChooser = null; // "保存"文件选择器
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -320,11 +321,11 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
           try {
             randomAccessFile = new RandomAccessFile(fileSource, "r");
             randomAccessFile.seek(0);
-            byte[] buffer = new byte[Util.BIG_BUFFER_LENGTH];
+            byte[] buffer = new byte[BIG_BUFFER_LENGTH];
             int len = 0;
             while ((len = randomAccessFile.read(buffer)) != -1) {
               toSaveFile(file, buffer, len);
-              buffer = new byte[Util.BIG_BUFFER_LENGTH];
+              buffer = new byte[BIG_BUFFER_LENGTH];
             }
           } catch (Exception x) {
             // x.printStackTrace();

@@ -38,6 +38,15 @@ import javax.swing.border.TitledBorder;
  */
 public class InformationDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
+  private static final String DATE_STYLE = "yyyy-MM-dd";
+  private static final String INFO_FILE_PATH = "文件路径："; // 统计信息窗口中使用的字符串
+  private static final String INFO_FILE_MODIFY_TIME = "修改时间："; // 统计信息窗口中使用的字符串
+  private static final String INFO_FILE_SIZE = "文件大小："; // 统计信息窗口中使用的字符串
+  private static final String INFO_DOC_CHARS = "总字数："; // 统计信息窗口中使用的字符串
+  private static final String INFO_DOC_LINES = "总行数："; // 统计信息窗口中使用的字符串
+  private static final String INFO_DOC_DIGITS = "数字数："; // 统计信息窗口中使用的字符串
+  private static final String INFO_DOC_LETTERS = "字母数："; // 统计信息窗口中使用的字符串
+  private static final String INFO_DOC_BLANKS = "空格数："; // 统计信息窗口中使用的字符串
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlCenter = new JPanel();
   private JPanel pnlSouth = new JPanel();
@@ -96,7 +105,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
     this.pnlSouth.add(this.btnOk);
     this.pnlMain.add(this.pnlSouth, BorderLayout.SOUTH);
 
-    this.simpleDateFormat.applyPattern(Util.DATE_STYLES[1]);
+    this.simpleDateFormat.applyPattern(DATE_STYLE);
     this.txaFile.setBorder(new TitledBorder("文件信息"));
     this.txaDoc.setBorder(new TitledBorder("文本域信息"));
     this.txaFile.setEditable(false);
@@ -114,9 +123,9 @@ public class InformationDialog extends BaseDialog implements ActionListener {
     File file = ((BaseTextArea) this.txaSource).getFile();
     if (file != null) {
       this.txaFile.setVisible(true);
-      this.txaFile.setText(Util.INFO_FILE_PATH + file.getAbsolutePath() + "\n" +
-          Util.INFO_FILE_MODIFY_TIME + this.simpleDateFormat.format(file.lastModified()) + "\n" +
-          Util.INFO_FILE_SIZE + file.length() + " 字节");
+      this.txaFile.setText(INFO_FILE_PATH + file.getAbsolutePath() + "\n" +
+          INFO_FILE_MODIFY_TIME + this.simpleDateFormat.format(file.lastModified()) + "\n" +
+          INFO_FILE_SIZE + file.length() + " 字节");
     } else {
       this.txaFile.setVisible(false);
     }
@@ -133,10 +142,10 @@ public class InformationDialog extends BaseDialog implements ActionListener {
         blanks++;
       }
     }
-    this.txaDoc.setText(Util.INFO_DOC_CHARS + strText.length() + "\n" +
-        Util.INFO_DOC_LINES + this.txaSource.getLineCount() + "\n" +
-        Util.INFO_DOC_DIGITS + digits + "\n" + Util.INFO_DOC_LETTERS +
-        letters + "\n" + Util.INFO_DOC_BLANKS + blanks);
+    this.txaDoc.setText(INFO_DOC_CHARS + strText.length() + "\n" +
+        INFO_DOC_LINES + this.txaSource.getLineCount() + "\n" +
+        INFO_DOC_DIGITS + digits + "\n" + INFO_DOC_LETTERS +
+        letters + "\n" + INFO_DOC_BLANKS + blanks);
   }
 
   /**

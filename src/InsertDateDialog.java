@@ -50,12 +50,19 @@ import javax.swing.event.ListSelectionListener;
 public class InsertDateDialog extends BaseDialog implements ActionListener,
     ListSelectionListener, CaretListener {
   private static final long serialVersionUID = 1L;
+  private static final String[] DATE_STYLES = new String[] { "yyyy-MM-dd",
+      "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss:SSS", "yyyy-MM-dd KK:mm:ss",
+      "yyyy-MM-dd KK:mm:ss a", "yyyy-MM-dd HH:mm:ss E",
+      "yyyy-MM-dd HH:mm:ss zZ", "yyyy年MM月dd日 HH时mm分ss秒",
+      "G yyyy-MM-dd HH:mm:ss E zZ", "yy-M-d H:m:s", "yyyy/MM/dd HH:mm:ss",
+      "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "yyyy.MM.dd",
+      "yy/MM/dd", "HH:mm:ss", "KK:mm:ss a", "HH:mm:ss:SSS" }; // 时间/日期格式字符串
   private JRadioButton radSelect = new JRadioButton("使用选中的格式(S)", true);
   private JList<String> listStyles = new JList<String>();
   private JScrollPane srpStyles = new JScrollPane(this.listStyles);
   private JRadioButton radUser = new JRadioButton("使用自定义格式(U)", false);
   private JLabel lblWarning = new JLabel("");
-  private BaseTextField txtUser = new BaseTextField(Util.DATE_STYLES[0]);
+  private BaseTextField txtUser = new BaseTextField(DATE_STYLES[0]);
   private JLabel lblView = new JLabel("");
   private JButton btnOk = new JButton("插入");
   private JButton btnCancel = new JButton("关闭");
@@ -65,7 +72,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   private BaseMouseAdapter baseMouseAdapter = new BaseMouseAdapter();
   private ButtonGroup bgpStyle = new ButtonGroup();
   private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-  private String[] arrStyles = new String[Util.DATE_STYLES.length];
+  private String[] arrStyles = new String[DATE_STYLES.length];
   private int currentIndex = 0;
 
   /**
@@ -156,8 +163,8 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
    */
   private void fillStyleList() {
     Date date = new Date();
-    for (int n = 0; n < Util.DATE_STYLES.length; n++) {
-      this.simpleDateFormat.applyPattern(Util.DATE_STYLES[n]);
+    for (int n = 0; n < DATE_STYLES.length; n++) {
+      this.simpleDateFormat.applyPattern(DATE_STYLES[n]);
       this.arrStyles[n] = this.simpleDateFormat.format(date);
     }
     this.listStyles.removeListSelectionListener(this); // 为了避免在重新填充列表框时，而产生的当前选择项索引为-1，而导致异常，所以先移除监听器。
@@ -246,7 +253,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   public void onEnter() {
     String strStyles = "";
     if (this.radSelect.isSelected()) {
-      strStyles = Util.DATE_STYLES[this.currentIndex];
+      strStyles = DATE_STYLES[this.currentIndex];
     } else {
       strStyles = this.txtUser.getText();
     }
@@ -287,7 +294,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   public void valueChanged(ListSelectionEvent e) {
     if (this.listStyles.equals(e.getSource())) {
       this.currentIndex = this.listStyles.getSelectedIndex();
-      this.txtUser.setText(Util.DATE_STYLES[this.currentIndex]);
+      this.txtUser.setText(DATE_STYLES[this.currentIndex]);
       this.lblView.setText(this.listStyles.getSelectedValue().toString());
       this.updateWarning(false);
     }

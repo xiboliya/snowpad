@@ -40,8 +40,9 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public class HelpFrame extends JFrame implements TreeSelectionListener {
   private static final long serialVersionUID = 1L;
+  private static final String HELP_TITLE = "帮助主题";
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private StringBuilder stbTitle = new StringBuilder(Util.HELP_TITLE); // 标题栏字符串
+  private StringBuilder stbTitle = new StringBuilder(HELP_TITLE); // 标题栏字符串
   private JSplitPane spnMain = new JSplitPane();
   private BaseTreeNode treeNode = new BaseTreeNode(Util.SOFTWARE);
   private JTree treeMain = new JTree(treeNode);
@@ -160,7 +161,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
     if (treeNode == null) {
       return;
     }
-    this.stbTitle = new StringBuilder(Util.HELP_TITLE + " - " + treeNode.toString());
+    this.stbTitle = new StringBuilder(HELP_TITLE + " - " + treeNode.toString());
     this.setTitle(this.stbTitle.toString());
     this.txaMain.setText(treeNode.getContent());
   }
