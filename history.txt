@@ -1542,3 +1542,9 @@ src/FindReplaceDialog.java
 2022-03-03
 1.解决当“查找/替换”对话框不显示并且当前文本域有滚动条的情况下，进行查找并失败时，弹出的提示框位置不居中的问题。
 src/FindReplaceDialog.java
+
+2022-03-05
+1.解决在批处理“合并行”时，会多合并选区外下一行的问题。
+src/SignIdentifierDialog.java
+src/SnowPadFrame.java
+src/Util.java
