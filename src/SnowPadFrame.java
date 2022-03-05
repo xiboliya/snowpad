@@ -2723,22 +2723,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     CurrentLines currentLines = new CurrentLines(this.txaMain);
     int lineCount = currentLines.getLineCount();
-    if (lineCount < 2) {
+    if (lineCount <= 1) {
+      // 当前选区未超过一行时，默认操作全文
       this.txaMain.selectAll();
-    } else {
-      this.txaMain.select(currentLines.getStartIndex(), currentLines.getEndIndex());
+      currentLines = new CurrentLines(this.txaMain);
     }
-    String[] arrText = Util.getCurrentLinesArray(this.txaMain);
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
     if (arrText.length <= 1) {
       return;
     }
-    currentLines = new CurrentLines(this.txaMain);
-    int startIndex = currentLines.getStartIndex();
     StringBuilder stbLines = new StringBuilder();
     for (String str : arrText) {
       stbLines.append(str);
     }
     this.txaMain.replaceSelection(stbLines.toString());
+    int startIndex = currentLines.getStartIndex();
     this.txaMain.select(startIndex, startIndex + stbLines.length());
   }
 
@@ -2746,7 +2745,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 批处理"逐行复写"的处理方法
    */
   private void rewriteLines() {
-    String[] arrText = Util.getCurrentLinesArray(this.txaMain);
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain, null);
     if (arrText.length <= 0) {
       return;
     }
@@ -2784,7 +2783,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void toIndent(boolean indent) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
     int startIndex = currentLines.getStartIndex();
-    String[] arrText = Util.getCurrentLinesArray(this.txaMain);
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain, null);
     String strIndent = "\t"; // 用于缩进的字符，默认为TAB字符
     String strIndentBlanks = ""; // 当前等价于Tab键的多个空格
     int tabSize = this.txaMain.getTabSize();

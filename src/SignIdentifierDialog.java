@@ -233,7 +233,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
         arrText = this.txaSource.getText().split("\n");
       } else {
         isSelected = true;
-        arrText = Util.getCurrentLinesArray(this.txaSource);
+        arrText = Util.getCurrentLinesArray(this.txaSource, null);
       }
     }
     if (arrText == null || arrText.length <= 0) {

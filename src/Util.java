@@ -402,14 +402,18 @@ public final class Util {
    * 
    * @param txaSource
    *          特定的文本域
+   * @param currentLines
+   *          表示当前多行文本的属性类
    * @return 保存当前选区内所有行的字符数组
    */
-  public static String[] getCurrentLinesArray(JTextArea txaSource) {
+  public static String[] getCurrentLinesArray(JTextArea txaSource, CurrentLines currentLines) {
     if (txaSource == null) {
       return null;
     }
+    if (currentLines == null) {
+      currentLines = new CurrentLines(txaSource);
+    }
     int lineCount = txaSource.getLineCount();
-    CurrentLines currentLines = new CurrentLines(txaSource);
     int startIndex = currentLines.getStartIndex();
     int endIndex = currentLines.getEndIndex();
     int endLineNum = currentLines.getEndLineNum() + 1;
