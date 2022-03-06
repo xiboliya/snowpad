@@ -29,6 +29,10 @@ public enum FileExt {
    */
   ADA,
   /**
+   * ActionScript脚本语言源文件
+   */
+  AS,
+  /**
    * Active Server Page(动态服务器页面)
    */
   ASP,
@@ -53,9 +57,17 @@ public enum FileExt {
    */
   CSS,
   /**
+   * D语言源文件
+   */
+  D,
+  /**
    * Go语言源文件
    */
   GO,
+  /**
+   * Groovy语言源文件
+   */
+  GROOVY,
   /**
    * C/C++ Head(C/C++语言头文件)
    */
@@ -88,6 +100,10 @@ public enum FileExt {
    * Java Server Page(java服务器页面)
    */
   JSP,
+  /**
+   * Kotlin语言源文件
+   */
+  KT,
   /**
    * LISt Processor(列表处理语言)
    */
@@ -168,6 +184,8 @@ public enum FileExt {
     switch (this) {
     case ADA:
       return ".ada";
+    case AS:
+      return ".as";
     case ASP:
       return ".asp";
     case BAT:
@@ -180,8 +198,12 @@ public enum FileExt {
       return ".cs";
     case CSS:
       return ".css";
+    case D:
+      return ".d";
     case GO:
       return ".go";
+    case GROOVY:
+      return ".groovy";
     case H:
       return ".h";
     case HTM:
@@ -198,6 +220,8 @@ public enum FileExt {
       return ".js";
     case JSP:
       return ".jsp";
+    case KT:
+      return ".kt";
     case LISP:
       return ".lisp";
     case LOG:
@@ -248,6 +272,8 @@ public enum FileExt {
     switch (this) {
     case ADA:
       return "Ada语言源文件(.ada)";
+    case AS:
+      return "ActionScript脚本语言源文件(.as)";
     case ASP:
       return "动态服务器页面文件(.asp)";
     case BAT:
@@ -260,8 +286,12 @@ public enum FileExt {
       return "C#语言源文件(.cs)";
     case CSS:
       return "层叠样式表文件(.css)";
+    case D:
+      return "D语言源文件(.d)";
     case GO:
       return "Go语言源文件(.go)";
+    case GROOVY:
+      return "Groovy语言源文件(.groovy)";
     case H:
       return "C/C++语言头文件(.h)";
     case HTM:
@@ -278,6 +308,8 @@ public enum FileExt {
       return "javaScript脚本语言源文件(.js)";
     case JSP:
       return "java服务器页面文件(.jsp)";
+    case KT:
+      return "Kotlin语言源文件(.kt)";
     case LISP:
       return "列表处理语言文件(.lisp)";
     case LOG:
@@ -330,14 +362,18 @@ public enum FileExt {
     case LUA:
     case SQL:
       return "-- ";
+    case AS:
     case C:
     case CPP:
     case CS:
+    case D:
     case GO:
+    case GROOVY:
     case H:
     case JAVA:
     case JS:
     case JSP:
+    case KT:
     case M:
     case PAS:
     case PHP:
@@ -378,15 +414,19 @@ public enum FileExt {
    */
   public String getCommentForBlockBegin() {
     switch (this) {
+    case AS:
     case C:
     case CPP:
     case CS:
     case CSS:
+    case D:
     case GO:
+    case GROOVY:
     case H:
     case JAVA:
     case JS:
     case JSP:
+    case KT:
     case M:
     case PHP:
     case SQL:
@@ -433,15 +473,19 @@ public enum FileExt {
    */
   public String getCommentForBlockEnd() {
     switch (this) {
+    case AS:
     case C:
     case CPP:
     case CS:
     case CSS:
+    case D:
     case GO:
+    case GROOVY:
     case H:
     case JAVA:
     case JS:
     case JSP:
+    case KT:
     case M:
     case PHP:
     case SQL:
