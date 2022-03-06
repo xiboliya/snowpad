@@ -1568,3 +1568,7 @@ src/SlicingFileDialog.java
 src/SnowPadFrame.java
 src/Util.java
 src/WindowManageDialog.java
+
+2022-03-06
+1.添加对4种编程语言源文件的支持。
+src/FileExt.java
