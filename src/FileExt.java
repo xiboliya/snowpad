@@ -61,6 +61,14 @@ public enum FileExt {
    */
   D,
   /**
+   * Dart语言源文件
+   */
+  DART,
+  /**
+   * Document Type Definition(文档类型定义)
+   */
+  DTD,
+  /**
    * Go语言源文件
    */
   GO,
@@ -96,6 +104,10 @@ public enum FileExt {
    * javaScript脚本语言源文件
    */
   JS,
+  /**
+   * JavaScript Object Notation(JavaScript对象表示法)
+   */
+  JSON,
   /**
    * Java Server Page(java服务器页面)
    */
@@ -141,9 +153,17 @@ public enum FileExt {
    */
   PL,
   /**
+   * properties配置文件
+   */
+  PROPERTIES,
+  /**
    * Python脚本语言源文件
    */
   PY,
+  /**
+   * R语言源文件
+   */
+  R,
   /**
    * Ruby脚本语言源文件
    */
@@ -152,6 +172,14 @@ public enum FileExt {
    * 注册表操作文件
    */
   REG,
+  /**
+   * Rust语言源文件
+   */
+  RUST,
+  /**
+   * Scala语言源文件
+   */
+  SCALA,
   /**
    * Shell脚本语言源文件
    */
@@ -164,6 +192,10 @@ public enum FileExt {
    * Smalltalk语言源文件
    */
   ST,
+  /**
+   * Swift语言源文件
+   */
+  SWIFT,
   /**
    * 普通文本文件
    */
@@ -200,6 +232,10 @@ public enum FileExt {
       return ".css";
     case D:
       return ".d";
+    case DART:
+      return ".dart";
+    case DTD:
+      return ".dtd";
     case GO:
       return ".go";
     case GROOVY:
@@ -218,6 +254,8 @@ public enum FileExt {
       return ".java";
     case JS:
       return ".js";
+    case JSON:
+      return ".json";
     case JSP:
       return ".jsp";
     case KT:
@@ -240,18 +278,28 @@ public enum FileExt {
       return ".php";
     case PL:
       return ".pl";
+    case PROPERTIES:
+      return ".properties";
     case PY:
       return ".py";
+    case R:
+      return ".R";
     case RB:
       return ".rb";
     case REG:
       return ".reg";
+    case RUST:
+      return ".rs";
+    case SCALA:
+      return ".scala";
     case SH:
       return ".sh";
     case SQL:
       return ".sql";
     case ST:
       return ".st";
+    case SWIFT:
+      return ".swift";
     case TXT:
       return ".txt";
     case VB:
@@ -288,6 +336,10 @@ public enum FileExt {
       return "层叠样式表文件(.css)";
     case D:
       return "D语言源文件(.d)";
+    case DART:
+      return "Dart语言源文件(.dart)";
+    case DTD:
+      return "文档类型定义文件(.dtd)";
     case GO:
       return "Go语言源文件(.go)";
     case GROOVY:
@@ -306,6 +358,8 @@ public enum FileExt {
       return "java语言源文件(.java)";
     case JS:
       return "javaScript脚本语言源文件(.js)";
+    case JSON:
+      return "javaScript对象表示法文件(.json)";
     case JSP:
       return "java服务器页面文件(.jsp)";
     case KT:
@@ -328,18 +382,28 @@ public enum FileExt {
       return "超文本预处理语言文件(.php)";
     case PL:
       return "Perl脚本语言源文件(.pl)";
+    case PROPERTIES:
+      return "properties配置文件(.properties)";
     case PY:
       return "Python脚本语言源文件(.py)";
+    case R:
+      return "R语言源文件(.R)";
     case RB:
       return "Ruby脚本语言源文件(.rb)";
     case REG:
       return "注册表操作文件(.reg)";
+    case RUST:
+      return "Rust语言源文件(.rs)";
+    case SCALA:
+      return "Scala语言源文件(.scala)";
     case SH:
       return "Shell脚本语言源文件(.sh)";
     case SQL:
       return "结构化查询语言文件(.sql)";
     case ST:
       return "Smalltalk语言源文件(.st)";
+    case SWIFT:
+      return "Swift语言源文件(.swift)";
     case TXT:
       return "普通文本文件(.txt)";
     case VB:
@@ -367,16 +431,21 @@ public enum FileExt {
     case CPP:
     case CS:
     case D:
+    case DART:
     case GO:
     case GROOVY:
     case H:
     case JAVA:
     case JS:
+    case JSON:
     case JSP:
     case KT:
     case M:
     case PAS:
     case PHP:
+    case RUST:
+    case SCALA:
+    case SWIFT:
       return "// ";
     case INF:
     case INI:
@@ -385,7 +454,9 @@ public enum FileExt {
       return "; ";
     case MK:
     case PL:
+    case PROPERTIES:
     case PY:
+    case R:
     case RB:
     case SH:
       return "# ";
@@ -394,14 +465,6 @@ public enum FileExt {
     case ASP:
     case VB:
       return "' ";
-    case CSS:
-    case HTM:
-    case HTML:
-    case LOG:
-    case PATCH:
-    case ST:
-    case TXT:
-    case XML:
     default:
       return null;
     }
@@ -420,17 +483,23 @@ public enum FileExt {
     case CS:
     case CSS:
     case D:
+    case DART:
     case GO:
     case GROOVY:
     case H:
     case JAVA:
     case JS:
+    case JSON:
     case JSP:
     case KT:
     case M:
     case PHP:
+    case RUST:
+    case SCALA:
     case SQL:
+    case SWIFT:
       return "/* ";
+    case DTD:
     case HTM:
     case HTML:
     case XML:
@@ -449,18 +518,6 @@ public enum FileExt {
       return ":<<'COMMENT'\n";
     case ST:
       return "\" ";
-    case ADA:
-    case ASP:
-    case BAT:
-    case INF:
-    case INI:
-    case LISP:
-    case LOG:
-    case MK:
-    case PATCH:
-    case REG:
-    case TXT:
-    case VB:
     default:
       return null;
     }
@@ -479,17 +536,23 @@ public enum FileExt {
     case CS:
     case CSS:
     case D:
+    case DART:
     case GO:
     case GROOVY:
     case H:
     case JAVA:
     case JS:
+    case JSON:
     case JSP:
     case KT:
     case M:
     case PHP:
+    case RUST:
+    case SCALA:
     case SQL:
+    case SWIFT:
       return " */";
+    case DTD:
     case HTM:
     case HTML:
     case XML:
@@ -508,18 +571,6 @@ public enum FileExt {
       return "\nCOMMENT";
     case ST:
       return " \"";
-    case ADA:
-    case ASP:
-    case BAT:
-    case INF:
-    case INI:
-    case LISP:
-    case LOG:
-    case MK:
-    case PATCH:
-    case REG:
-    case TXT:
-    case VB:
     default:
       return null;
     }
