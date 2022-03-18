@@ -1576,3 +1576,9 @@ src/FileExt.java
 2022-03-08
 1.添加对8种编程语言源文件的支持。
 src/FileExt.java
+
+2022-03-18
+1.在“工具”菜单中添加“转换文件编码”功能。
+src/ChangeEncodingDialog.java（添加）
+src/SnowPadFrame.java
+src/Util.java
