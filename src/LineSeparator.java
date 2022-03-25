@@ -65,14 +65,14 @@ public enum LineSeparator {
   public String getName() {
     switch (this) {
     case UNIX:
-      return "Unix/Linux";
+      return "Unix";
     case MACINTOSH:
       return "Macintosh";
     case WINDOWS:
       return "Windows";
     default:
       if (Util.LINE_SEPARATOR.equals("\n")) {
-        return "Unix/Linux";
+        return "Unix";
       } else if (Util.LINE_SEPARATOR.equals("\r")) {
         return "Macintosh";
       } else {

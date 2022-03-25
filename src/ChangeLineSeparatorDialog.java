@@ -42,17 +42,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- * "转换文件编码"对话框
+ * "转换文件换行符"对话框
  * 
  * @author 冰原
  * 
  */
-public class ChangeEncodingDialog extends BaseDialog implements ActionListener, ListSelectionListener {
+public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListener, ListSelectionListener {
   private static final long serialVersionUID = 1L;
-  private static final String[] FILE_ENCODINGS = new String[] { CharEncoding.BASE.getName(),
-      CharEncoding.ANSI.getName(), CharEncoding.UBE.getName(),
-      CharEncoding.ULE.getName(), CharEncoding.UTF8.getName(),
-      CharEncoding.UTF8_NO_BOM.getName() }; // 选择编码格式的数组
+  private static final String[] FILE_LINE_SEPARATORS = new String[] { LineSeparator.WINDOWS.getName(),
+      LineSeparator.UNIX.getName(), LineSeparator.MACINTOSH.getName() }; // 选择换行符的数组
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblSourcePath = new JLabel("源文件路径：");
@@ -60,8 +58,8 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   private JButton btnReduceSource = new JButton("-");
   private JList<String> listPath = new JList<String>();
   private JScrollPane srpPath = new JScrollPane(this.listPath);
-  private JLabel lblTargetEncoding = new JLabel("转为文件编码：");
-  private JComboBox<String> cmbEncoding = new JComboBox<String>(FILE_ENCODINGS);
+  private JLabel lblTargetLineSeparator = new JLabel("转为文件换行符：");
+  private JComboBox<String> cmbLineSeparator = new JComboBox<String>(FILE_LINE_SEPARATORS);
   private JCheckBox chkRetainSource = new JCheckBox("转换后保留源文件(R)", true);
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
@@ -69,9 +67,9 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Insets insets = new Insets(0, 0, 0, 0);
   private DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
-  private CharEncoding charEncoding = CharEncoding.BASE;
+  private LineSeparator lineSeparator = LineSeparator.DEFAULT;
 
-  public ChangeEncodingDialog(JFrame owner, boolean modal) {
+  public ChangeLineSeparatorDialog(JFrame owner, boolean modal) {
     super(owner, modal);
     this.init();
     this.initView();
@@ -85,7 +83,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
    * 初始化界面
    */
   private void init() {
-    this.setTitle("转换文件编码");
+    this.setTitle("转换文件换行符");
     this.pnlMain.setLayout(null);
     this.lblSourcePath.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
     this.srpPath.setBounds(10, 35, 270, 135);
@@ -99,10 +97,10 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
     this.pnlMain.add(this.btnAddSource);
     this.pnlMain.add(this.btnReduceSource);
     this.pnlMain.add(this.srpPath);
-    this.lblTargetEncoding.setBounds(10, 180, 130, Util.VIEW_HEIGHT);
-    this.cmbEncoding.setBounds(10, 205, 180, 30);
-    this.pnlMain.add(this.lblTargetEncoding);
-    this.pnlMain.add(this.cmbEncoding);
+    this.lblTargetLineSeparator.setBounds(10, 180, 130, Util.VIEW_HEIGHT);
+    this.cmbLineSeparator.setBounds(10, 205, 180, 30);
+    this.pnlMain.add(this.lblTargetLineSeparator);
+    this.pnlMain.add(this.cmbLineSeparator);
     this.chkRetainSource.setBounds(10, 245, 150, Util.VIEW_HEIGHT);
     this.pnlMain.add(this.chkRetainSource);
     this.btnOk.setBounds(230, 190, 90, Util.BUTTON_HEIGHT);
@@ -206,16 +204,16 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   }
 
   /**
-   * 转换文件编码的处理方法
+   * 转换文件换行符的处理方法
    */
-  private void changeEncodingAll() {
+  private void changeLineSeparatorAll() {
     int size = this.defaultListModel.getSize();
     if (size <= 0) {
       JOptionPane.showMessageDialog(this, "源文件路径不能为空，请添加！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
       return;
     }
-    this.setCharEncoding();
+    this.setLineSeparator();
     LinkedList<String> failFileNames = new LinkedList<String>();
     for (int i = 0; i < size; i++) {
       String strFile = this.defaultListModel.get(i);
@@ -223,7 +221,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
         File fileSource = new File(strFile);
         if (fileSource.isFile()) {
           try {
-            this.changeEncoding(fileSource);
+            this.changeLineSeparator(fileSource);
           } catch (Exception x) {
             // x.printStackTrace();
             failFileNames.add(strFile);
@@ -232,19 +230,19 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
       }
     }
     if (failFileNames.isEmpty()) {
-      JOptionPane.showMessageDialog(this, "转换文件编码成功！", Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "转换文件换行符成功！", Util.SOFTWARE,
           JOptionPane.NO_OPTION);
     } else {
       StringBuilder stbFileNames = new StringBuilder();
       for (String fileName : failFileNames) {
         stbFileNames.append(fileName + "\n");
       }
-      JOptionPane.showMessageDialog(this, "如下文件转换编码失败：\n" + stbFileNames, Util.SOFTWARE,
+      JOptionPane.showMessageDialog(this, "如下文件转换换行符失败：\n" + stbFileNames, Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     }
   }
 
-  private void changeEncoding(File file) {
+  private void changeLineSeparator(File file) {
     CharEncoding charEncoding = Util.checkFileEncoding(file);
     String strCharset = charEncoding.toString();
     LineSeparator lineSeparator = LineSeparator.DEFAULT;
@@ -289,22 +287,22 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
       }
     }
     if (!Util.isTextEmpty(strResult)) {
-      this.toChangeEncoding(file, strResult, lineSeparator);
+      this.toChangeLineSeparator(file, strResult, charEncoding);
     }
   }
 
-  private void toChangeEncoding(File file, String strText, LineSeparator lineSeparator) {
+  private void toChangeLineSeparator(File file, String strText, CharEncoding charEncoding) {
     FileOutputStream fileOutputStream = null;
     try {
       if (this.chkRetainSource.isSelected()) {
-        String fileName = this.getFileNameWithEncoding(file.getName());
+        String fileName = this.getFileNameWithLineSeparator(file.getName());
         file = new File(file.getParent() + Util.FILE_SEPARATOR + fileName);
       }
       fileOutputStream = new FileOutputStream(file);
-      strText = strText.replaceAll(LineSeparator.UNIX.toString(), lineSeparator.toString());
+      strText = strText.replaceAll(LineSeparator.UNIX.toString(), this.lineSeparator.toString());
       byte[] byteStr;
       int[] charBOM = new int[] { -1, -1, -1 }; // 根据当前的字符编码，存放BOM的数组
-      switch (this.charEncoding) {
+      switch (charEncoding) {
       case UTF8:
         charBOM[0] = 0xef;
         charBOM[1] = 0xbb;
@@ -319,7 +317,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
         charBOM[1] = 0xff;
         break;
       }
-      byteStr = strText.getBytes(this.charEncoding.toString());
+      byteStr = strText.getBytes(charEncoding.toString());
       for (int i = 0; i < charBOM.length; i++) {
         if (charBOM[i] == -1) {
           break;
@@ -340,14 +338,14 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   }
 
   /**
-   * 根据转换的文件编码获取新的文件名
+   * 根据转换的文件换行符获取新的文件名
    * 
    * @param fileName
    *          文件名
    * @return 转换后的新文件名
    */
-  private String getFileNameWithEncoding(String fileName) {
-    if (Util.isTextEmpty(fileName) || this.charEncoding == null) {
+  private String getFileNameWithLineSeparator(String fileName) {
+    if (Util.isTextEmpty(fileName) || this.lineSeparator == null) {
       return "";
     }
     FileExt[] arrFileExt = FileExt.values(); // 获取包含枚举所有成员的数组
@@ -360,33 +358,24 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
         break;
       }
     }
-    result += "_" + this.charEncoding;
+    result += "_" + this.lineSeparator.getName();
     if (fileExt != null) {
       result += fileExt;
     }
     return result;
   }
 
-  private void setCharEncoding() {
-    int index = this.cmbEncoding.getSelectedIndex();
+  private void setLineSeparator() {
+    int index = this.cmbLineSeparator.getSelectedIndex();
     switch (index) {
     case 0:
-      this.charEncoding = CharEncoding.BASE;
+      this.lineSeparator = LineSeparator.WINDOWS;
       break;
     case 1:
-      this.charEncoding = CharEncoding.ANSI;
+      this.lineSeparator = LineSeparator.UNIX;
       break;
     case 2:
-      this.charEncoding = CharEncoding.UBE;
-      break;
-    case 3:
-      this.charEncoding = CharEncoding.ULE;
-      break;
-    case 4:
-      this.charEncoding = CharEncoding.UTF8;
-      break;
-    case 5:
-      this.charEncoding = CharEncoding.UTF8_NO_BOM;
+      this.lineSeparator = LineSeparator.MACINTOSH;
       break;
     }
   }
@@ -419,7 +408,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
    * 默认的"确定"操作方法
    */
   public void onEnter() {
-    this.changeEncodingAll();
+    this.changeLineSeparatorAll();
   }
 
   /**

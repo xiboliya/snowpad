@@ -383,7 +383,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemCalculator = new JMenuItem("计算器(C)...", 'C');
   private JMenuItem itemCuttingFile = new JMenuItem("切割文件(T)...", 'T');
   private JMenuItem itemMergeFile = new JMenuItem("拼接文件(M)...", 'M');
-  private JMenuItem itemChangeEncoding = new JMenuItem("转换文件编码(R)...", 'R');
+  private JMenuItem itemChangeEncoding = new JMenuItem("转换文件编码(D)...", 'D');
+  private JMenuItem itemChangeLineSeparator = new JMenuItem("转换文件换行符(L)...", 'L');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -477,6 +478,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private CuttingFileDialog cuttingFileDialog = null; // 切割文件对话框
   private MergeFileDialog mergeFileDialog = null; // 拼接文件对话框
   private ChangeEncodingDialog changeEncodingDialog = null; // 转换文件编码对话框
+  private ChangeLineSeparatorDialog changeLineSeparatorDialog = null; // 转换文件换行符对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
@@ -667,6 +669,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCuttingFile.addActionListener(this);
     this.itemMergeFile.addActionListener(this);
     this.itemChangeEncoding.addActionListener(this);
+    this.itemChangeLineSeparator.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1130,6 +1133,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTool.add(this.itemCuttingFile);
     this.menuTool.add(this.itemMergeFile);
     this.menuTool.add(this.itemChangeEncoding);
+    this.menuTool.add(this.itemChangeLineSeparator);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1304,6 +1308,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemCuttingFile);
     this.menuItemList.add(this.itemMergeFile);
     this.menuItemList.add(this.itemChangeEncoding);
+    this.menuItemList.add(this.itemChangeLineSeparator);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1817,6 +1822,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openMergeFileDialog();
     } else if (this.itemChangeEncoding.equals(e.getSource())) {
       this.openChangeEncodingDialog();
+    } else if (this.itemChangeLineSeparator.equals(e.getSource())) {
+      this.openChangeLineSeparatorDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -2516,6 +2523,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.changeEncodingDialog != null) {
       this.changeEncodingDialog.dispose();
       this.changeEncodingDialog = null;
+    }
+    if (this.changeLineSeparatorDialog != null) {
+      this.changeLineSeparatorDialog.dispose();
+      this.changeLineSeparatorDialog = null;
     }
     if (this.helpFrame != null) {
       this.helpFrame.dispose();
@@ -4443,6 +4454,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.changeEncodingDialog = new ChangeEncodingDialog(this, false);
     } else {
       this.changeEncodingDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "转换文件换行符"的处理方法
+   */
+  private void openChangeLineSeparatorDialog() {
+    if (this.changeLineSeparatorDialog == null) {
+      this.changeLineSeparatorDialog = new ChangeLineSeparatorDialog(this, false);
+    } else {
+      this.changeLineSeparatorDialog.setVisible(true);
     }
   }
 
