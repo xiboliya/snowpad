@@ -3590,34 +3590,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "删除全文空行"的处理方法
    */
   private void delAllNullLines() {
-    String strTextAll = this.txaMain.getText();
-    String strText = this.delNullLines(strTextAll);
-    if (!strTextAll.equals(strText)) {
-      this.txaMain.setText(strText);
-    }
-  }
-
-  /**
-   * "删除选区内空行"的处理方法
-   */
-  private void delSelectedNullLines() {
-    String strTextSel = this.txaMain.getSelectedText();
-    String strText = this.delNullLines(strTextSel);
-    if (!strTextSel.equals(strText)) {
-      this.txaMain.replaceSelection(strText);
-    }
-  }
-
-  /**
-   * 删除文本内空行
-   * 
-   * @param strText
-   *          待处理的文本
-   * @return 删除空行后的文本
-   */
-  private String delNullLines(String strText) {
-    if (strText == null) {
-      return strText;
+    String strText = this.txaMain.getText();
+    if (Util.isTextEmpty(strText)) {
+      return;
     }
     String strDouble = "\n\n";
     int index = strText.indexOf(strDouble);
@@ -3626,19 +3601,59 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       hasEnter = true;
     }
     if (index < 0 && !hasEnter) {
-      return strText;
+      return;
     }
+    String strResult = strText;
     while (index >= 0) {
-      strText = strText.replaceAll(strDouble, "\n");
-      index = strText.indexOf(strDouble);
+      strResult = strResult.replaceAll(strDouble, "\n");
+      index = strResult.indexOf(strDouble);
     }
-    if (strText.startsWith("\n")) {
-      strText = strText.substring(1, strText.length());
+    if (strResult.startsWith("\n")) {
+      strResult = strResult.substring(1, strResult.length());
     }
-    if (strText.endsWith("\n")) {
-      strText = strText.substring(0, strText.length() - 1);
+    if (strResult.endsWith("\n")) {
+      strResult = strResult.substring(0, strResult.length() - 1);
     }
-    return strText;
+    if (!strText.equals(strResult)) {
+      this.txaMain.setText(strResult);
+    }
+  }
+
+  /**
+   * "删除选区内空行"的处理方法
+   */
+  private void delSelectedNullLines() {
+    String strText = this.txaMain.getSelectedText();
+    if (Util.isTextEmpty(strText)) {
+      return;
+    }
+    String strDouble = "\n\n";
+    int index = strText.indexOf(strDouble);
+    boolean hasEnter = false;
+    if (strText.startsWith("\n") || strText.endsWith("\n")) {
+      hasEnter = true;
+    }
+    if (index < 0 && !hasEnter) {
+      return;
+    }
+    String strResult = strText;
+    while (index >= 0) {
+      strResult = strResult.replaceAll(strDouble, "\n");
+      index = strResult.indexOf(strDouble);
+    }
+    String strTextAll = this.txaMain.getText();
+    int startIndex = this.txaMain.getSelectionStart();
+    if (strResult.startsWith("\n")) {
+      if (startIndex == 0 || (startIndex > 0 && strTextAll.charAt(startIndex - 1) == '\n')) {
+        strResult = strResult.substring(1, strResult.length());
+      }
+    }
+    if (strResult.endsWith("\n")) {
+      strResult = strResult.substring(0, strResult.length() - 1);
+    }
+    if (!strText.equals(strResult)) {
+      this.txaMain.replaceSelection(strResult);
+    }
   }
 
   /**
