@@ -1594,3 +1594,8 @@ src/Util.java
 2022-04-04
 1.解决：当前选区第一个字符为换行符并且前面一行不是空行时，如果执行“删除选区内空行”操作，会将换行符删除的问题。
 src/SnowPadFrame.java
+
+2022-04-05
+1.在“格式”菜单中添加“代码格式化”->“json”功能。
+src/SnowPadFrame.java
+src/Util.java
