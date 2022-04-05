@@ -341,7 +341,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    */
   private String intToChinese(int number, boolean isTraditional) {
     String str = "";
-    StringBuffer sb = new StringBuffer(String.valueOf(number));
+    StringBuilder sb = new StringBuilder(String.valueOf(number));
     sb = sb.reverse();
     String[] arrChineseNumbers = SIMPLIFIED_CHINESE_NUMBERS;
     String[] arrChineseUnits = SIMPLIFIED_CHINESE_UNITS;
