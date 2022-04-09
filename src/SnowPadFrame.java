@@ -2894,12 +2894,47 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       selText = this.txaMain.getText();
       isSelected = false;
     }
-    String strFormat = this.formatJson(selText);
+    String strFormat = this.formatJson(this.cleanJsonBlankChars(selText));
+    if (selText.equals(strFormat)) {
+      // 格式化前后无变化，则不处理
+      return;
+    }
     if (isSelected) {
       this.txaMain.replaceSelection(strFormat);
     } else {
       this.txaMain.setText(strFormat);
     }
+  }
+
+  /**
+   * 清除json字符串中冗余的空白字符，包括：制表符、换行符、键值外部的空格
+   * 
+   * @param json
+   *          待处理的json字符串
+   * @return 处理后的json字符串
+   */
+  private String cleanJsonBlankChars(String json) {
+    if (Util.isTextEmpty(json.trim())) {
+      return "";
+    }
+    StringBuilder result = new StringBuilder();
+    int length = json.length();
+    int quotationCount = 0;
+    char key = 0;
+    for (int i = 0; i < length; i++) {
+      key = json.charAt(i);
+      if (key == '"') {
+        quotationCount++;
+        result.append(key);
+      } else if (key == ' ') {
+        if (quotationCount % 2 != 0) {
+          result.append(key);
+        }
+      } else if (key != '\t' && key != '\n') {
+        result.append(key);
+      }
+    }
+    return result.toString();
   }
 
   /**
@@ -2921,10 +2956,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       key = json.charAt(i);
       if ((key == '[') || (key == '{')) {
         // 2、如果当前字符是前方括号、前花括号，做如下处理：
-        // (1)如果前面还有字符，并且字符为“:”，打印：换行和缩进字符串。
+        // (1)如果前面还有字符，并且字符为“:”，打印：空格。
         if ((i > 1) && (json.charAt(i - 1) == ':')) {
-          result.append('\n');
-          result.append(indent(number));
+          result.append(' ');
         }
         // (2)打印：当前字符。
         result.append(key);
@@ -2942,9 +2976,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         result.append(indent(number));
         // (3)打印：当前字符。
         result.append(key);
-        // (4)如果当前字符后面还有字符，并且字符不为“,”，打印：换行。
-        if (((i + 1) < length) && (json.charAt(i + 1) != ',')) {
-          result.append('\n');
+        // (4)如果当前字符后面还有字符，并且字符不为“,”、"]"、"}"，打印：换行。
+        if ((i + 1) < length) {
+          char nextChar = json.charAt(i + 1);
+          if (nextChar != ',' && nextChar != ']' && nextChar != '}') {
+            result.append('\n');
+          }
         }
       } else if (key == ',') {
         // 4、如果当前字符是逗号“,”。逗号后面换行，并缩进，不改变缩进次数。
