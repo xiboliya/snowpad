@@ -1599,3 +1599,7 @@ src/SnowPadFrame.java
 1.在“格式”菜单中添加“代码格式化”->“json”功能。
 src/SnowPadFrame.java
 src/Util.java
+
+2022-04-09
+1.优化json代码格式化功能。
+src/SnowPadFrame.java
