@@ -70,7 +70,7 @@
 3删除空行#删除指定范围的空行。空行是指整行内没有任何字符的行。
 4全文范围#删除全文范围的空行。
 4选区范围#删除选区范围的空行。
-3添加注释#为各种编程语言的源文件快速添加注释。
+3注释#为各种编程语言的源文件快速添加/取消注释。
 4单行注释#为各种编程语言的源文件快速添加单行注释。常见的单行注释有：\nada、lua、sql --\nc、cpp、cs、go、h、java、js、jsp、m、pas、php //\ninf、ini、lisp、reg ;\nmk、pl、py、rb、sh 井号\nbat ::\nasp、vb '
 4区块注释#为各种编程语言的源文件快速添加区块注释。常见的区块注释有：\nc、cpp、cs、css、go、h、java、js、jsp、m、php、sql /* */\nhtm、html、xml <!-- -->\nlua --[[ --]]\npas { }\npl =pod =cut\npy ''' '''\nrb ==begin ==end\nsh :<<'COMMENT' COMMENT\nst " "
 3插入#向当前文本域中插入特殊字符或时间/日期。
@@ -101,9 +101,9 @@
 3换行方式#在自动换行的情况下，换行方式的设置。
 4单词边界换行#在自动换行时，以单词边界方式换行。即保证每个单词完整的处于同一行中。
 4字符边界换行#在自动换行时，以字符边界方式换行。即只会在合适的位置换行，而不考虑单词的完整性。
-3换行符格式#设置当前文件的换行符格式。共有3种格式可供选择：Windows、Unix/Linux和Macintosh格式。
+3换行符格式#设置当前文件的换行符格式。共有3种格式可供选择：Windows、Unix和Macintosh格式。
 4Windows格式#设置当前文件的换行符格式为Windows格式，此是Windows系统的默认格式，换行符为：\ r \ n。
-4Unix/Linux格式#设置当前文件的换行符格式为Unix/Linux格式，此是Unix/Linux系统的默认格式，换行符为：\ n。
+4Unix格式#设置当前文件的换行符格式为Unix格式，此是Unix/Linux系统的默认格式，换行符为：\ n。
 4Macintosh格式#设置当前文件的换行符格式为Macintosh格式，此是Macintosh系统的默认格式，换行符为：\ r。
 3字符编码格式#设置当前文件的编码格式。共有6种格式可供选择：默认格式(GB18030)、ANSI、UTF-8、UTF-8 No BOM、Unicode Little Endian和Unicode Big Endian格式。
 4默认格式(GB18030)#设置当前文件的编码格式为GB18030格式，此为默认格式。GB18030格式是继GB2312与GBK之后的支持汉字最多的新编码格式。

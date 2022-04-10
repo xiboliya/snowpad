@@ -271,7 +271,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuDelNullLine = new JMenu("删除空行");
   private JMenuItem itemDelNullLineAll = new JMenuItem("全文范围");
   private JMenuItem itemDelNullLineSelected = new JMenuItem("选区范围");
-  private JMenu menuComment = new JMenu("添加注释(M)");
+  private JMenu menuComment = new JMenu("注释(M)");
   private JMenuItem itemCommentForLine = new JMenuItem("单行注释(L)", 'L');
   private JMenuItem itemCommentForBlock = new JMenuItem("区块注释(B)", 'B');
   private JMenuItem itemSelAll = new JMenuItem("全选(A)", 'A');
@@ -2205,19 +2205,70 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     CurrentLines currentLines = new CurrentLines(this.txaMain);
+    boolean isComment = this.isCommentForLine(currentLines, comment);
     int startIndex = currentLines.getStartIndex();
+    int endIndex = currentLines.getEndIndex();
     String strContent = currentLines.getStrContent();
-    boolean label = false;
+    boolean isEndsWithEnter = false;
     if (strContent.endsWith("\n")) {
-      strContent = strContent.substring(0, strContent.length() - 1);
-      label = true;
+      isEndsWithEnter = true;
     }
-    strContent = comment + strContent.replaceAll("\n", "\n" + comment);
-    if (label) {
-      strContent = strContent + "\n";
+    if (isComment) {
+      // 已注释，则取消注释
+      String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
+      StringBuilder stbContent = new StringBuilder();
+      for (String text : arrText) {
+        int index = text.indexOf(comment);
+        stbContent.append(text.substring(0, index) + text.substring(index + comment.length()) + "\n");
+      }
+      if (!isEndsWithEnter) {
+        stbContent.deleteCharAt(stbContent.length() - 1);
+      }
+      strContent = stbContent.toString();
+    } else {
+      // 没注释，则添加注释
+      if (isEndsWithEnter) {
+        strContent = strContent.substring(0, strContent.length() - 1);
+      }
+      strContent = comment + strContent.replaceAll("\n", "\n" + comment);
+      if (isEndsWithEnter) {
+        strContent = strContent + "\n";
+      }
     }
-    this.txaMain.replaceRange(strContent, startIndex, currentLines.getEndIndex());
-    this.txaMain.select(startIndex, startIndex + strContent.length());
+    this.txaMain.replaceRange(strContent, startIndex, endIndex);
+    int length = strContent.length();
+    if (isEndsWithEnter) {
+      length--;
+    }
+    this.txaMain.select(startIndex, startIndex + length);
+  }
+
+  /**
+   * 是否已经进行单行注释
+   * 
+   * @param currentLines
+   *          表示当前多行文本的属性类
+   * @param comment
+   *          单行注释字符串
+   * @return 是否已经进行单行注释，是返回true，否返回false
+   */
+  private boolean isCommentForLine(CurrentLines currentLines, String comment) {
+    if (currentLines == null || comment == null) {
+      return false;
+    }
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
+    if (arrText == null || arrText.length <= 0) {
+      return false;
+    }
+    boolean result = true;
+    for (String text : arrText) {
+      String strTrim = this.trimLine(text, true);
+      if (Util.isTextEmpty(strTrim) || !strTrim.startsWith(comment)) {
+        result = false;
+        break;
+      }
+    }
+    return result;
   }
 
   /**
@@ -2225,24 +2276,66 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setCommentForBlock() {
     String commentBegin = this.txaMain.getFileExt().getCommentForBlockBegin();
-    if (commentBegin == null) {
+    String commentEnd = this.txaMain.getFileExt().getCommentForBlockEnd();
+    if (commentBegin == null || commentEnd == null) {
       return;
     }
-    String commentEnd = this.txaMain.getFileExt().getCommentForBlockEnd();
     CurrentLines currentLines = new CurrentLines(this.txaMain);
+    boolean isComment = this.isCommentForBlock(currentLines, commentBegin, commentEnd);
     int startIndex = currentLines.getStartIndex();
+    int endIndex = currentLines.getEndIndex();
     String strContent = currentLines.getStrContent();
-    boolean label = false;
+    boolean isEndsWithEnter = false;
     if (strContent.endsWith("\n")) {
-      strContent = strContent.substring(0, strContent.length() - 1);
-      label = true;
+      isEndsWithEnter = true;
     }
-    strContent = commentBegin + strContent + commentEnd;
-    if (label) {
-      strContent = strContent + "\n";
+    if (isComment) {
+      // 已注释，则取消注释
+      String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
+      StringBuilder stbContent = new StringBuilder(strContent);
+      int indexBegin = strContent.indexOf(commentBegin);
+      int indexEnd = strContent.lastIndexOf(commentEnd);
+      stbContent.delete(indexEnd, indexEnd + commentEnd.length());
+      stbContent.delete(indexBegin, indexBegin + commentBegin.length());
+      strContent = stbContent.toString();
+    } else {
+      // 没注释，则添加注释
+      if (isEndsWithEnter) {
+        strContent = strContent.substring(0, strContent.length() - 1);
+      }
+      strContent = commentBegin + strContent + commentEnd;
+      if (isEndsWithEnter) {
+        strContent = strContent + "\n";
+      }
     }
-    this.txaMain.replaceRange(strContent, startIndex, currentLines.getEndIndex());
-    this.txaMain.select(startIndex, startIndex + strContent.length());
+    this.txaMain.replaceRange(strContent, startIndex, endIndex);
+    int length = strContent.length();
+    if (isEndsWithEnter) {
+      length--;
+    }
+    this.txaMain.select(startIndex, startIndex + length);
+  }
+
+  /**
+   * 是否已经进行区块注释
+   * 
+   * @param currentLines
+   *          表示当前多行文本的属性类
+   * @param commentBegin
+   *          区块注释首部字符串
+   * @param commentEnd
+   *          区块注释尾部字符串
+   * @return 是否已经进行区块注释，是返回true，否返回false
+   */
+  private boolean isCommentForBlock(CurrentLines currentLines, String commentBegin, String commentEnd) {
+    if (currentLines == null || commentBegin == null || commentEnd == null) {
+      return false;
+    }
+    String strContent = currentLines.getStrContent().trim();
+    if (strContent.startsWith(commentBegin) && strContent.endsWith(commentEnd)) {
+      return true;
+    }
+    return false;
   }
 
   /**
