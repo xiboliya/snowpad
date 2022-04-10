@@ -1603,3 +1603,8 @@ src/Util.java
 2022-04-09
 1.优化json代码格式化功能。
 src/SnowPadFrame.java
+
+2022-04-10
+1.将“编辑”菜单下的“添加注释”改为“注释”，并扩展功能，支持取消注释功能。
+src/SnowPadFrame.java
+src/Util.java
