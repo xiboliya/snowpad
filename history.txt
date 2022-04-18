@@ -1608,3 +1608,7 @@ src/SnowPadFrame.java
 1.将“编辑”菜单下的“添加注释”改为“注释”，并扩展功能，支持取消注释功能。
 src/SnowPadFrame.java
 src/Util.java
+
+2022-04-18
+1.在.gitignore中添加.DS_Store。
+.gitignore
