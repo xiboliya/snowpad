@@ -1612,3 +1612,9 @@ src/Util.java
 2022-04-18
 1.在.gitignore中添加.DS_Store。
 .gitignore
+
+2022-04-21
+1.在“格式”菜单中添加“代码压缩”->“json”功能。
+src/CodeStyle.java（添加）
+src/SnowPadFrame.java
+src/Util.java
