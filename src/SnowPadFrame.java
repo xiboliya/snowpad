@@ -323,6 +323,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem("Unicode Big Endian格式");
   private JMenu menuFormat = new JMenu("代码格式化(M)");
   private JMenuItem itemFormatJson = new JMenuItem("json");
+  private JMenu menuCompress = new JMenu("代码压缩(P)");
+  private JMenuItem itemCompressJson = new JMenuItem("json");
   private JMenuItem itemSignIdentifier = new JMenuItem("列表符号与编号(G)...", 'G');
   private JMenu menuView = new JMenu("查看(V)");
   private JMenuItem itemBack = new JMenuItem("后退(O)", 'O');
@@ -686,6 +688,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCharsetULE.addActionListener(this);
     this.itemCharsetUBE.addActionListener(this);
     this.itemFormatJson.addActionListener(this);
+    this.itemCompressJson.addActionListener(this);
     this.itemSignIdentifier.addActionListener(this);
     this.itemAutoIndent.addActionListener(this);
     this.itemReset.addActionListener(this);
@@ -1060,6 +1063,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuCharset.add(this.itemCharsetUBE);
     this.menuStyle.add(this.menuFormat);
     this.menuFormat.add(this.itemFormatJson);
+    this.menuStyle.add(this.menuCompress);
+    this.menuCompress.add(this.itemCompressJson);
     this.menuStyle.addSeparator();
     this.menuStyle.add(this.itemSignIdentifier);
     this.menuStyle.add(this.itemFont);
@@ -1256,6 +1261,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemCharsetULE);
     this.menuItemList.add(this.itemCharsetUBE);
     this.menuItemList.add(this.itemFormatJson);
+    this.menuItemList.add(this.itemCompressJson);
     this.menuItemList.add(this.itemSignIdentifier);
     this.menuItemList.add(this.itemFont);
     this.menuItemList.add(this.itemTabSet);
@@ -1643,6 +1649,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCharsetULE.setMnemonic('L');
     this.itemCharsetUBE.setMnemonic('B');
     this.menuFormat.setMnemonic('M');
+    this.menuCompress.setMnemonic('P');
     this.menuInsert.setMnemonic('I');
     this.menuComment.setMnemonic('M');
     this.itemLineWrap.setMnemonic('W');
@@ -1862,6 +1869,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setCharEncoding(CharEncoding.UBE, false);
     } else if (this.itemFormatJson.equals(e.getSource())) {
       this.formatJson();
+    } else if (this.itemCompressJson.equals(e.getSource())) {
+      this.compressJson();
     } else if (this.itemSignIdentifier.equals(e.getSource())) {
       this.openSignIdentifierDialog();
     } else if (this.itemAutoIndent.equals(e.getSource())) {
@@ -2987,7 +2996,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       selText = this.txaMain.getText();
       isSelected = false;
     }
-    String strFormat = this.formatJson(this.cleanJsonBlankChars(selText));
+    String strFormat = CodeStyle.formatJson(CodeStyle.compressJson(selText), this.txaMain.getTabSize());
     if (selText.equals(strFormat)) {
       // 格式化前后无变化，则不处理
       return;
@@ -3000,106 +3009,25 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * 清除json字符串中冗余的空白字符，包括：制表符、换行符、键值外部的空格
-   * 
-   * @param json
-   *          待处理的json字符串
-   * @return 处理后的json字符串
+   * 代码压缩"json"的处理方法
    */
-  private String cleanJsonBlankChars(String json) {
-    if (Util.isTextEmpty(json.trim())) {
-      return "";
+  private void compressJson() {
+    String selText = this.txaMain.getSelectedText();
+    boolean isSelected = true;
+    if (Util.isTextEmpty(selText)) {
+      selText = this.txaMain.getText();
+      isSelected = false;
     }
-    StringBuilder result = new StringBuilder();
-    int length = json.length();
-    int quotationCount = 0;
-    char key = 0;
-    for (int i = 0; i < length; i++) {
-      key = json.charAt(i);
-      if (key == '"') {
-        quotationCount++;
-        result.append(key);
-      } else if (key == ' ') {
-        if (quotationCount % 2 != 0) {
-          result.append(key);
-        }
-      } else if (key != '\t' && key != '\n') {
-        result.append(key);
-      }
+    String strCompress = CodeStyle.compressJson(selText);
+    if (selText.equals(strCompress)) {
+      // 压缩前后无变化，则不处理
+      return;
     }
-    return result.toString();
-  }
-
-  /**
-   * 格式化json字符串
-   * 
-   * @author  yanghaitao
-   * @param json
-   *          待格式化的json字符串
-   * @return 格式化后的json字符串
-   */
-  private String formatJson(String json) {
-    StringBuilder result = new StringBuilder();
-    int length = json.length();
-    int number = 0;
-    char key = 0;
-    // 遍历输入字符串。
-    for (int i = 0; i < length; i++) {
-      // 1、获取当前字符。
-      key = json.charAt(i);
-      if ((key == '[') || (key == '{')) {
-        // 2、如果当前字符是前方括号、前花括号，做如下处理：
-        // (1)如果前面还有字符，并且字符为“:”，打印：空格。
-        if ((i > 1) && (json.charAt(i - 1) == ':')) {
-          result.append(' ');
-        }
-        // (2)打印：当前字符。
-        result.append(key);
-        // (3)前方括号、前花括号的后面必须换行。打印：换行。
-        result.append("\n");
-        // (4)每出现一次前方括号、前花括号，缩进次数增加一次。打印：新行缩进。
-        number++;
-        result.append(indent(number));
-      } else if ((key == ']') || (key == '}')) {
-        // 3、如果当前字符是后方括号、后花括号，做如下处理：
-        // (1)后方括号、后花括号的前面必须换行。打印：换行。
-        result.append('\n');
-        // (2)每出现一次后方括号、后花括号，缩进次数减少一次。打印：新行缩进。
-        number--;
-        result.append(indent(number));
-        // (3)打印：当前字符。
-        result.append(key);
-        // (4)如果当前字符后面还有字符，并且字符不为“,”、"]"、"}"，打印：换行。
-        if ((i + 1) < length) {
-          char nextChar = json.charAt(i + 1);
-          if (nextChar != ',' && nextChar != ']' && nextChar != '}') {
-            result.append('\n');
-          }
-        }
-      } else if (key == ',') {
-        // 4、如果当前字符是逗号“,”。逗号后面换行，并缩进，不改变缩进次数。
-        result.append(key);
-        result.append('\n');
-        result.append(indent(number));
-      } else {
-        // 5、打印：当前字符。
-        result.append(key);
-      }
+    if (isSelected) {
+      this.txaMain.replaceSelection(strCompress);
+    } else {
+      this.txaMain.setText(strCompress);
     }
-    return result.toString();
-  }
-
-  private String indent(int number) {
-    int tabSize = this.txaMain.getTabSize();
-    StringBuilder stbIndent = new StringBuilder();
-    for (int i = 0; i < tabSize; i++) {
-      stbIndent.append(" ");
-    }
-    StringBuilder result = new StringBuilder();
-    for (int i = 0; i < number; i++) {
-      result.append(stbIndent);
-    }
-    return result.toString();
   }
 
   /**
