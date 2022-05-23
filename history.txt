@@ -1618,3 +1618,8 @@ src/Util.java
 src/CodeStyle.java（添加）
 src/SnowPadFrame.java
 src/Util.java
+
+2022-05-23
+1.“关于”对话框：修改Coding地址、删除CSDN代码地址、添加GitCode地址。
+readme.txt
+src/SnowPadFrame.java
