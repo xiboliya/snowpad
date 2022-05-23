@@ -4,9 +4,9 @@
 
 代码仓库（皆采用git进行管理）：
 GitHub：https://github.com/xiboliya/snowpad
-码云：https://gitee.com/xiboliya/snowpad
-Coding：https://coding.net/u/xiboliya/p/SnowPad
-CSDN代码：https://code.csdn.net/chenzhengfeng/snowpad
+Gitee：https://gitee.com/xiboliya/snowpad
+GitCode：https://gitcode.net/chenzhengfeng/snowpad
+Coding：https://xiboliya.coding.net/p/SnowPad/d/SnowPad/git
 
 软件版权：
 本项目是一个开源项目，遵循GNU GPL第三版开源许可协议的相关条款。协议具体条款详见licenses/GPLv3.txt文件。

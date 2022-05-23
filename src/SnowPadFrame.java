@@ -93,10 +93,9 @@ import java.util.List;
  * 冰雪记事本 打造一个与Windows的“记事本”功能相同的java版本。
  * 当然这只是最低要求，最终目标是实现一个可以同时在Windows和Linux下运行的增强型记事本。
  * GitHub：https://github.com/xiboliya/snowpad
- * 码云：https://gitee.com/xiboliya/snowpad
- * Coding：https://coding.net/u/xiboliya/p/SnowPad
- * CSDN代码：https://code.csdn.net/chenzhengfeng/snowpad
- * 谷歌代码：http://code.google.com/p/snowpad
+ * Gitee：https://gitee.com/xiboliya/snowpad
+ * GitCode：https://gitcode.net/chenzhengfeng/snowpad
+ * Coding：https://xiboliya.coding.net/p/SnowPad/d/SnowPad/git
  * 
  * @author 冰原
  * 
@@ -4537,8 +4536,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       final String strEmail = "chenzhengfeng@163.com";
       final String strGithubCode = "https://github.com/xiboliya/snowpad";
       final String strCodeCloud = "https://gitee.com/xiboliya/snowpad";
-      final String strCoding = "https://coding.net/u/xiboliya/p/SnowPad";
-      final String strCsdnCode = "https://code.csdn.net/chenzhengfeng/snowpad";
+      final String strGitCode = "https://gitcode.net/chenzhengfeng/snowpad";
+      final String strCoding = "https://xiboliya.coding.net/p/SnowPad/d/SnowPad/git";
       String[] arrStrLabel = new String[] {
           "软件名称：" + Util.SOFTWARE,
           "软件版本：" + Util.VERSION,
@@ -4546,15 +4545,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           "作者QQ：" + strQQ,
           "作者邮箱：" + strEmail,
           "<html>GitHub：<a href='" + strGithubCode + "'>" + strGithubCode + "</a></html>",
-          "<html>码云：<a href='" + strCodeCloud + "'>" + strCodeCloud + "</a></html>",
+          "<html>Gitee：<a href='" + strCodeCloud + "'>" + strCodeCloud + "</a></html>",
+          "<html>GitCode：<a href='" + strGitCode + "'>" + strGitCode + "</a></html>",
           "<html>Coding：<a href='" + strCoding + "'>" + strCoding + "</a></html>",
-          "<html>CSDN代码：<a href='" + strCsdnCode + "'>" + strCsdnCode + "</a></html>",
           "软件版权：遵循GNU GPL第三版开源许可协议的相关条款" };
       this.aboutDialog = new AboutDialog(this, true, arrStrLabel, Util.SW_ICON);
       this.aboutDialog.addLinkByIndex(5, strGithubCode);
       this.aboutDialog.addLinkByIndex(6, strCodeCloud);
-      this.aboutDialog.addLinkByIndex(7, strCoding);
-      this.aboutDialog.addLinkByIndex(8, strCsdnCode);
+      this.aboutDialog.addLinkByIndex(7, strGitCode);
+      this.aboutDialog.addLinkByIndex(8, strCoding);
       this.aboutDialog.pack(); // 自动调整窗口大小，以适应各组件
     }
     this.aboutDialog.setVisible(true);
