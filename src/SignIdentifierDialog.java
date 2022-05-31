@@ -54,7 +54,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private static final String SIGN_CHARS_VIEW = "__________\n__________\n__________"; // 预览界面的初始化字符串
   private static final String IDENTIFIER_TIANGAN = "甲乙丙丁戊己庚辛壬癸"; // 十天干
   private static final String IDENTIFIER_DIZHI = "子丑寅卯辰巳午未申酉戌亥"; // 十二地支
-  private static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "数字格式", "汉字格式", "干支格式", "字母格式" }; // 列表编号类型的显示名称
+  private static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "半角数字格式", "全角数字格式", "简体汉字格式", "繁体汉字格式", "小写字母格式", "大写字母格式", "干支格式" }; // 列表编号类型的显示名称
   private static final String HALF_WIDTH_NUMBERS = "0123456789"; // 半角数字
   private static final char[] FULL_WIDTH_NUMBERS = new char[] { '０', '１', '２', '３', '４', '５', '６', '７', '８', '９' }; // 全角数字
   private static final String[] SIMPLIFIED_CHINESE_NUMBERS = new String[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" }; // 简体数字
@@ -62,16 +62,13 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private static final String[] TRADITIONAL_CHINESE_NUMBERS = new String[] { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" }; // 繁体数字
   private static final String[] TRADITIONAL_CHINESE_UNITS = new String[] { "", "拾", "佰", "仟", "万", "拾", "佰", "仟", "亿", "拾" }; // 繁体数字单位
   private static final String LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz"; // 小写英文字母
-  private static final int SIGN_MAX_ROW = 5; // 列表符号与编号界面的最大行数
-  private static final int SIGN_MAX_COLUMN = 4; // 列表符号与编号界面的最大列数
-  private static final int SIGN_MAX_ELEMENT = SIGN_MAX_ROW * SIGN_MAX_COLUMN; // 列表符号与编号界面的最大元素数
   private static final Font SIGN_VIEW_FONT = new Font("宋体", Font.PLAIN, 28); // 列表符号与编号界面中预览区域的字体
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
   private JPanel pnlRight = new JPanel(null);
   private JTabbedPane tpnMain = new JTabbedPane();
-  private GridLayout gridLayout = new GridLayout(SIGN_MAX_ROW, SIGN_MAX_COLUMN, 5, 5);
-  private GridLayout specialGridLayout = new GridLayout(SIGN_MAX_ROW, 1, 5, 5);
+  private GridLayout gridLayout = new GridLayout(5, 4, 5, 5);
+  private GridLayout specialGridLayout = new GridLayout(5, 2, 5, 5);
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private JLabel lblStart = new JLabel("起始编号：");
@@ -177,8 +174,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     }
     if (isSpecial) {
       pnlTemp = new JPanel(this.specialGridLayout); // 创建特殊格式的布局
-      gridTotal = this.specialGridLayout.getRows() *
-          this.specialGridLayout.getColumns();
+      gridTotal = this.specialGridLayout.getRows() * this.specialGridLayout.getColumns();
     } else {
       pnlTemp = new JPanel(this.gridLayout); // 创建普通格式的布局
       gridTotal = this.gridLayout.getRows() * this.gridLayout.getColumns();
@@ -189,8 +185,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     int index = 0;
     for (; index < elementCount; index++) {
       char charElement = strElement.charAt(index);
-      JLabel lblElement = this.createElement(String.valueOf(charElement),
-          isSpecial);
+      JLabel lblElement = this.createElement(String.valueOf(charElement), isSpecial);
       pnlTemp.add(lblElement);
     }
     for (; index < gridTotal; index++) {
@@ -212,8 +207,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private JLabel createElement(String strElement, boolean isSpecial) {
     JLabel lblElement = null;
     if (isSpecial) {
-      lblElement = new JLabel(SIGN_IDENTIFIER_NAMES[Util.IDENTIFIER_CHARS
-          .indexOf(strElement)]);
+      lblElement = new JLabel(SIGN_IDENTIFIER_NAMES[Util.IDENTIFIER_CHARS.indexOf(strElement)]);
     } else {
       lblElement = new JLabel(strElement);
       lblElement.setFont(SIGN_VIEW_FONT);
@@ -271,14 +265,11 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
       stbIndent.append(str + "\n");
     }
     if (isView) {
-      this.txaView.setText(stbIndent.deleteCharAt(stbIndent.length() - 1)
-          .toString()); // 删除字符串末尾多余的换行符
+      this.txaView.setText(stbIndent.deleteCharAt(stbIndent.length() - 1).toString()); // 删除字符串末尾多余的换行符
     } else if (isSelected) {
-      this.txaSource.replaceSelection(stbIndent.deleteCharAt(
-          stbIndent.length() - 1).toString()); // 删除字符串末尾多余的换行符
+      this.txaSource.replaceSelection(stbIndent.deleteCharAt(stbIndent.length() - 1).toString()); // 删除字符串末尾多余的换行符
     } else {
-      this.txaSource.setText(stbIndent.deleteCharAt(
-          stbIndent.length() - 1).toString()); // 删除字符串末尾多余的换行符
+      this.txaSource.setText(stbIndent.deleteCharAt(stbIndent.length() - 1).toString()); // 删除字符串末尾多余的换行符
     }
   }
 
@@ -302,24 +293,39 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
         }
       }
       switch (index) {
-      case 0: // 数字
+      case 0: // 半角数字格式
         for (n = 0; n < arrText.length; n++) {
           arrText[n] = (n + start + 1) + "." + arrText[n];
         }
         break;
-      case 1: // 汉字
+      case 1: // 全角数字格式
+        for (n = 0; n < arrText.length; n++) {
+          arrText[n] = this.intToFullWidth(n + start + 1) + "." + arrText[n];
+        }
+        break;
+      case 2: // 简体汉字格式
         for (n = 0; n < arrText.length; n++) {
           arrText[n] = this.intToChinese(n + start + 1, false) + "." + arrText[n];
         }
         break;
-      case 2: // 干支
+      case 3: // 繁体汉字格式
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToGanZhi(n + start) + "." + arrText[n];
+          arrText[n] = this.intToChinese(n + start + 1, true) + "." + arrText[n];
         }
         break;
-      case 3: // 字母
+      case 4: // 小写字母格式
         for (n = 0; n < arrText.length; n++) {
           arrText[n] = this.intToLetter(n + start + 1, false) + "." + arrText[n];
+        }
+        break;
+      case 5: // 大写字母格式
+        for (n = 0; n < arrText.length; n++) {
+          arrText[n] = this.intToLetter(n + start + 1, true) + "." + arrText[n];
+        }
+        break;
+      case 6: // 干支格式
+        for (n = 0; n < arrText.length; n++) {
+          arrText[n] = this.intToGanZhi(n + start) + "." + arrText[n];
         }
         break;
       }
@@ -328,6 +334,25 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
         arrText[n] = this.strSignIdentifier + arrText[n];
       }
     }
+  }
+
+  /**
+   * 将给定的数字转换为全角数字格式
+   * 
+   * @param number
+   *          待转换的数字
+   * @return 转换后的字符串
+   */
+  private String intToFullWidth(int number) {
+    String strNumber = Integer.toString(number);
+    char[] arrChar = strNumber.toCharArray();
+    for (int i = 0; i < arrChar.length; i++) {
+      char ch = arrChar[i];
+      int index = HALF_WIDTH_NUMBERS.indexOf(ch);
+      arrChar[i] = FULL_WIDTH_NUMBERS[index];
+    }
+    String result = new String(arrChar);
+    return result;
   }
 
   /**
