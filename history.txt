@@ -1623,3 +1623,8 @@ src/Util.java
 1.“关于”对话框：修改Coding地址、删除CSDN代码地址、添加GitCode地址。
 readme.txt
 src/SnowPadFrame.java
+
+2022-05-31
+1.优化调整“列表符号与编号”功能，将“编号”功能下扩充为7个分类：半角数字、全角数字、简体汉字、繁体汉字、小写字母、大写字母、干支。
+src/SignIdentifierDialog.java
+src/Util.java
