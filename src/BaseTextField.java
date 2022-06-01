@@ -113,6 +113,21 @@ public class BaseTextField extends JTextField implements ActionListener,
     this.init();
   }
 
+  /**
+   * 带参数的构造方法
+   * 
+   * @param str
+   *          初始化的字符串
+   * @param isSetDocument
+   *          是否重新设置Document文档
+   * @param pattern
+   *          限制用户输入的正则表达式
+   */
+  public BaseTextField(String str, boolean isSetDocument, String pattern) {
+    this(isSetDocument, pattern);
+    this.setText(str);
+  }
+
   @Override
   public void setEditable(boolean editable) {
     super.setEditable(editable);

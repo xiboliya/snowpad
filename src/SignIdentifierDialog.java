@@ -72,7 +72,9 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private JButton btnOk = new JButton("确定");
   private JButton btnCancel = new JButton("取消");
   private JLabel lblStart = new JLabel("起始编号：");
-  private BaseTextField txtStart = new BaseTextField(true, "\\d*");
+  private BaseTextField txtStart = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
+  private JLabel lblModifier = new JLabel("编号修饰：");
+  private BaseTextField txtModifier = new BaseTextField(".", true, ".{0,1}"); // 限制用户输入的字符数量不能超过1个
   private JTextArea txaView = new JTextArea();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
@@ -116,11 +118,13 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.pnlMain.add(this.pnlLeft);
     this.pnlMain.add(this.pnlRight);
     this.pnlLeft.add(this.tpnMain, BorderLayout.CENTER);
-    this.btnOk.setBounds(15, 30, 90, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(15, 70, 90, Util.BUTTON_HEIGHT);
-    this.lblStart.setBounds(6, 120, 70, Util.VIEW_HEIGHT);
-    this.txtStart.setBounds(76, 120, 40, Util.INPUT_HEIGHT);
-    this.txaView.setBounds(12, 160, 98, 65);
+    this.btnOk.setBounds(15, 25, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(15, 60, 90, Util.BUTTON_HEIGHT);
+    this.lblStart.setBounds(6, 100, 70, Util.VIEW_HEIGHT);
+    this.txtStart.setBounds(76, 100, 40, Util.INPUT_HEIGHT);
+    this.lblModifier.setBounds(6, 135, 70, Util.VIEW_HEIGHT);
+    this.txtModifier.setBounds(76, 135, 40, Util.INPUT_HEIGHT);
+    this.txaView.setBounds(12, 170, 98, 65);
     this.txaView.setBorder(new EtchedBorder());
     this.txaView.setOpaque(true);
     this.txaView.setEditable(false);
@@ -129,6 +133,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.pnlRight.add(this.btnCancel);
     this.pnlRight.add(this.lblStart);
     this.pnlRight.add(this.txtStart);
+    this.pnlRight.add(this.lblModifier);
+    this.pnlRight.add(this.txtModifier);
     this.pnlRight.add(this.txaView);
     this.tpnMain.setFocusable(false);
     this.btnOk.setFocusable(false);
@@ -286,6 +292,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private void toConvertArray(String[] arrText, boolean isSpecial, int start) {
     int n = 0;
     if (isSpecial) {
+      String strModifier = this.txtModifier.getText();
       int index = 0;
       for (; index < SIGN_IDENTIFIER_NAMES.length; index++) {
         if (this.strSignIdentifier.equals(SIGN_IDENTIFIER_NAMES[index])) {
@@ -295,37 +302,37 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
       switch (index) {
       case 0: // 半角数字格式
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = (n + start + 1) + "." + arrText[n];
+          arrText[n] = (n + start + 1) + strModifier + arrText[n];
         }
         break;
       case 1: // 全角数字格式
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToFullWidth(n + start + 1) + "." + arrText[n];
+          arrText[n] = this.intToFullWidth(n + start + 1) + strModifier + arrText[n];
         }
         break;
       case 2: // 简体汉字格式
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToChinese(n + start + 1, false) + "." + arrText[n];
+          arrText[n] = this.intToChinese(n + start + 1, false) + strModifier + arrText[n];
         }
         break;
       case 3: // 繁体汉字格式
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToChinese(n + start + 1, true) + "." + arrText[n];
+          arrText[n] = this.intToChinese(n + start + 1, true) + strModifier + arrText[n];
         }
         break;
       case 4: // 小写字母格式
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToLetter(n + start + 1, false) + "." + arrText[n];
+          arrText[n] = this.intToLetter(n + start + 1, false) + strModifier + arrText[n];
         }
         break;
       case 5: // 大写字母格式
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToLetter(n + start + 1, true) + "." + arrText[n];
+          arrText[n] = this.intToLetter(n + start + 1, true) + strModifier + arrText[n];
         }
         break;
       case 6: // 干支格式
         for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToGanZhi(n + start) + "." + arrText[n];
+          arrText[n] = this.intToGanZhi(n + start) + strModifier + arrText[n];
         }
         break;
       }
@@ -468,6 +475,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.btnCancel.addActionListener(this);
     this.txtStart.addKeyListener(this.keyAdapter);
     this.txtStart.getDocument().addUndoableEditListener(this);
+    this.txtModifier.addKeyListener(this.keyAdapter);
+    this.txtModifier.getDocument().addUndoableEditListener(this);
     this.mouseAdapter = new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         JLabel lblTemp = (JLabel) e.getSource();
