@@ -1628,3 +1628,8 @@ src/SnowPadFrame.java
 1.优化调整“列表符号与编号”功能，将“编号”功能下扩充为7个分类：半角数字、全角数字、简体汉字、繁体汉字、小写字母、大写字母、干支。
 src/SignIdentifierDialog.java
 src/Util.java
+
+2022-06-01
+1.在“列表符号与编号”界面中添加“编号修饰”功能，可以自定义编号的修饰符，默认为“.”。
+src/BaseTextField.java
+src/SignIdentifierDialog.java
