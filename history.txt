@@ -1633,3 +1633,7 @@ src/Util.java
 1.在“列表符号与编号”界面中添加“编号修饰”功能，可以自定义编号的修饰符，默认为“.”。
 src/BaseTextField.java
 src/SignIdentifierDialog.java
+
+2022-06-03
+1.在“列表符号与编号”界面中添加“跳过空行”功能。
+src/SignIdentifierDialog.java
