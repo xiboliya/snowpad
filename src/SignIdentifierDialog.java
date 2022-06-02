@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -75,6 +76,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private BaseTextField txtStart = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
   private JLabel lblModifier = new JLabel("编号修饰：");
   private BaseTextField txtModifier = new BaseTextField(".", true, ".{0,1}"); // 限制用户输入的字符数量不能超过1个
+  private JCheckBox chkSkipEmptyLine = new JCheckBox("跳过空行(S)", false);
   private JTextArea txaView = new JTextArea();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
@@ -101,8 +103,9 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     }
     this.txaSource = txaSource;
     this.init();
+    this.setMnemonic();
     this.addListeners();
-    this.setSize(330, 275);
+    this.setSize(330, 310);
     this.fillTabbedPane(hashtable);
     this.setVisible(true);
   }
@@ -113,8 +116,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private void init() {
     this.setTitle("列表符号与编号");
     this.pnlMain.setLayout(null);
-    this.pnlLeft.setBounds(0, 0, 200, 245);
-    this.pnlRight.setBounds(200, 0, 120, 240);
+    this.pnlLeft.setBounds(0, 0, 200, 270);
+    this.pnlRight.setBounds(200, 0, 120, 300);
     this.pnlMain.add(this.pnlLeft);
     this.pnlMain.add(this.pnlRight);
     this.pnlLeft.add(this.tpnMain, BorderLayout.CENTER);
@@ -124,7 +127,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.txtStart.setBounds(76, 100, 40, Util.INPUT_HEIGHT);
     this.lblModifier.setBounds(6, 135, 70, Util.VIEW_HEIGHT);
     this.txtModifier.setBounds(76, 135, 40, Util.INPUT_HEIGHT);
-    this.txaView.setBounds(12, 170, 98, 65);
+    this.chkSkipEmptyLine.setBounds(6, 170, 110, Util.VIEW_HEIGHT);
+    this.txaView.setBounds(12, 205, 98, 65);
     this.txaView.setBorder(new EtchedBorder());
     this.txaView.setOpaque(true);
     this.txaView.setEditable(false);
@@ -135,10 +139,18 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.pnlRight.add(this.txtStart);
     this.pnlRight.add(this.lblModifier);
     this.pnlRight.add(this.txtModifier);
+    this.pnlRight.add(this.chkSkipEmptyLine);
     this.pnlRight.add(this.txaView);
     this.tpnMain.setFocusable(false);
     this.btnOk.setFocusable(false);
     this.btnCancel.setFocusable(false);
+  }
+
+  /**
+   * 为各组件设置快捷键
+   */
+  private void setMnemonic() {
+    this.chkSkipEmptyLine.setMnemonic('S');
   }
 
   /**
@@ -291,6 +303,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    */
   private void toConvertArray(String[] arrText, boolean isSpecial, int start) {
     int n = 0;
+    int k = 0;
+    boolean isSkipEmptyLine = this.chkSkipEmptyLine.isSelected();
     if (isSpecial) {
       String strModifier = this.txtModifier.getText();
       int index = 0;
@@ -299,46 +313,39 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
           break;
         }
       }
-      switch (index) {
-      case 0: // 半角数字格式
-        for (n = 0; n < arrText.length; n++) {
-          arrText[n] = (n + start + 1) + strModifier + arrText[n];
+      for (; n < arrText.length; n++) {
+        if (!isSkipEmptyLine || !Util.isTextEmpty(arrText[n])) {
+          switch (index) {
+          case 0: // 半角数字格式
+            arrText[n] = (k + start + 1) + strModifier + arrText[n];
+            break;
+          case 1: // 全角数字格式
+            arrText[n] = this.intToFullWidth(k + start + 1) + strModifier + arrText[n];
+            break;
+          case 2: // 简体汉字格式
+            arrText[n] = this.intToChinese(k + start + 1, false) + strModifier + arrText[n];
+            break;
+          case 3: // 繁体汉字格式
+            arrText[n] = this.intToChinese(k + start + 1, true) + strModifier + arrText[n];
+            break;
+          case 4: // 小写字母格式
+            arrText[n] = this.intToLetter(k + start + 1, false) + strModifier + arrText[n];
+            break;
+          case 5: // 大写字母格式
+            arrText[n] = this.intToLetter(k + start + 1, true) + strModifier + arrText[n];
+            break;
+          case 6: // 干支格式
+            arrText[n] = this.intToGanZhi(k + start) + strModifier + arrText[n];
+            break;
+          }
+          k++;
         }
-        break;
-      case 1: // 全角数字格式
-        for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToFullWidth(n + start + 1) + strModifier + arrText[n];
-        }
-        break;
-      case 2: // 简体汉字格式
-        for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToChinese(n + start + 1, false) + strModifier + arrText[n];
-        }
-        break;
-      case 3: // 繁体汉字格式
-        for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToChinese(n + start + 1, true) + strModifier + arrText[n];
-        }
-        break;
-      case 4: // 小写字母格式
-        for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToLetter(n + start + 1, false) + strModifier + arrText[n];
-        }
-        break;
-      case 5: // 大写字母格式
-        for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToLetter(n + start + 1, true) + strModifier + arrText[n];
-        }
-        break;
-      case 6: // 干支格式
-        for (n = 0; n < arrText.length; n++) {
-          arrText[n] = this.intToGanZhi(n + start) + strModifier + arrText[n];
-        }
-        break;
       }
     } else {
-      for (n = 0; n < arrText.length; n++) {
-        arrText[n] = this.strSignIdentifier + arrText[n];
+      for (; n < arrText.length; n++) {
+        if (!isSkipEmptyLine || !Util.isTextEmpty(arrText[n])) {
+          arrText[n] = this.strSignIdentifier + arrText[n];
+        }
       }
     }
   }
@@ -477,6 +484,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.txtStart.getDocument().addUndoableEditListener(this);
     this.txtModifier.addKeyListener(this.keyAdapter);
     this.txtModifier.getDocument().addUndoableEditListener(this);
+    this.chkSkipEmptyLine.addKeyListener(this.keyAdapter);
     this.mouseAdapter = new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
         JLabel lblTemp = (JLabel) e.getSource();
@@ -539,9 +547,13 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     if (this.tpnMain.getSelectedIndex() == 0) {
       this.txtStart.setEnabled(true);
       this.txtStart.setFocusable(true);
+      this.txtModifier.setEnabled(true);
+      this.txtModifier.setFocusable(true);
     } else if (this.tpnMain.getSelectedIndex() == 1) {
       this.txtStart.setEnabled(false);
       this.txtStart.setFocusable(false);
+      this.txtModifier.setEnabled(false);
+      this.txtModifier.setFocusable(false);
     }
   }
 
