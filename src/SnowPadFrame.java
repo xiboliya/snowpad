@@ -3227,7 +3227,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     Color colorCaret = this.getConvertColor(this.txaMain.getCaretColor(), mode);
     Color colorSelFont = this.getConvertColor(this.txaMain.getSelectedTextColor(), mode);
     Color colorSelBack = this.getConvertColor(this.txaMain.getSelectionColor(), mode);
-    Color[] colorStyle = new Color[] { colorFont, colorBack, colorCaret, colorSelFont, colorSelBack };
+    Color colorBracketBack = this.getConvertColor(this.txaMain.getBracketBackColor(), mode);
+    Color colorLineBack = this.getConvertColor(this.txaMain.getLineBackColor(), mode);
+    Color[] colorStyle = new Color[] { colorFont, colorBack, colorCaret, colorSelFont, colorSelBack, colorBracketBack, colorLineBack };
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(colorStyle);
     }
@@ -3248,6 +3250,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       int red = color.getRed();
       int green = color.getGreen();
       int blue = color.getBlue();
+      int alpha = color.getAlpha();
       if (mode) { // 反色
         red = 255 - red;
         green = 255 - green;
@@ -3272,7 +3275,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         green = total - green;
         blue = total - blue;
       }
-      color = new Color(red, green, blue);
+      color = new Color(red, green, blue, alpha);
     }
     return color;
   }
