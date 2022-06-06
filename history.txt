@@ -1637,3 +1637,7 @@ src/SignIdentifierDialog.java
 2022-06-03
 1.在“列表符号与编号”界面中添加“跳过空行”功能。
 src/SignIdentifierDialog.java
+
+2022-06-06
+1.解决“颜色设置”->“全部反色/补色”的功能无效的问题。
+src/SnowPadFrame.java
