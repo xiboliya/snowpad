@@ -1641,3 +1641,7 @@ src/SignIdentifierDialog.java
 2022-06-06
 1.解决“颜色设置”->“全部反色/补色”的功能无效的问题。
 src/SnowPadFrame.java
+
+2022-06-09
+1.解决在“工具”->“计算器”中，如果一个乘数的值为0而另一个乘数的精度过高时，比如为π时，运算结果不为0的问题。
+src/CalculatorDialog.java
