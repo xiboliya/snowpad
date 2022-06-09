@@ -534,6 +534,12 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   private boolean calculateMultiplication(int index, int size) {
     String previous = this.list.get(index - 1);
     String next = this.list.get(index + 1);
+    // 解决如果一个乘数的值为0而另一个乘数的精度过高时，比如为π时，运算结果不为0的问题
+    boolean isHasZero = this.isHasZero(previous, next);
+    if (isHasZero) {
+      this.list.set(index - 1, "0");
+      return true;
+    }
     try {
       BigDecimal number1 = new BigDecimal(previous);
       BigDecimal number2 = new BigDecimal(next);
@@ -544,6 +550,47 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
       return false;
     }
     return true;
+  }
+
+  /**
+   * 判断在乘法算式中是否存在值为0的乘数
+   * 
+   * @param previous
+   *          乘法算式中的第一个乘数
+   * @param next
+   *          乘法算式中的第二个乘数
+   * @return 在乘法算式中是否存在值为0的乘数，如果含有则返回true
+   */
+  private boolean isHasZero(String previous, String next) {
+    boolean isZero = false;
+    isZero = this.isZero(previous);
+    if (!isZero) {
+      isZero = this.isZero(next);
+    }
+    return isZero;
+  }
+
+  /**
+   * 判断字符串表示的数字是否为0
+   * 
+   * @param number
+   *          表示数字的字符串
+   * @return 字符串表示的数字是否为0，如果为0则返回true
+   */
+  private boolean isZero(String number) {
+    int i = 0;
+    int size = number.length();
+    for (i = 0; i < size; i++) {
+      char c = number.charAt(i);
+      if (c != '0' && c != '.') {
+        break;
+      }
+    }
+    if (i == size) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
