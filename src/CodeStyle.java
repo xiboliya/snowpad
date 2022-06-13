@@ -39,8 +39,8 @@ public class CodeStyle {
     }
     StringBuilder result = new StringBuilder();
     int length = json.length();
-    int quotationCount = 0;
-    char key = 0;
+    int quotationCount = 0; // 双引号数量
+    char key = 0; // 当前字符
     for (int i = 0; i < length; i++) {
       key = json.charAt(i);
       if (key == '"') {
@@ -70,14 +70,19 @@ public class CodeStyle {
   public static String formatJson(String json, int indentSize) {
     StringBuilder result = new StringBuilder();
     int length = json.length();
-    int number = 0;
-    char key = 0;
+    int indentCount = 0; // 缩进次数
+    int quotationCount = 0; // 双引号数量
+    char key = 0; // 当前字符
     // 遍历输入字符串。
     for (int i = 0; i < length; i++) {
       // 1、获取当前字符。
       key = json.charAt(i);
-      if ((key == '[') || (key == '{')) {
-        // 2、如果当前字符是前方括号、前花括号，做如下处理：
+      if (key == '"') {
+        // 2、如果当前字符是双引号，双引号数量加一个。打印：当前字符。
+        quotationCount++;
+        result.append(key);
+      } else if ((key == '[' || key == '{') && quotationCount % 2 == 0) {
+        // 3、如果当前字符是前方括号、前花括号，并且位于双引号外部，做如下处理：
         // (1)如果前面还有字符，并且字符为“:”，打印：空格。
         if ((i > 1) && (json.charAt(i - 1) == ':')) {
           result.append(' ');
@@ -87,15 +92,15 @@ public class CodeStyle {
         // (3)前方括号、前花括号的后面必须换行。打印：换行。
         result.append("\n");
         // (4)每出现一次前方括号、前花括号，缩进次数增加一次。打印：新行缩进。
-        number++;
-        result.append(indent(indentSize, number));
-      } else if ((key == ']') || (key == '}')) {
-        // 3、如果当前字符是后方括号、后花括号，做如下处理：
+        indentCount++;
+        result.append(indent(indentSize, indentCount));
+      } else if ((key == ']' || key == '}') && quotationCount % 2 == 0) {
+        // 4、如果当前字符是后方括号、后花括号，并且位于双引号外部，做如下处理：
         // (1)后方括号、后花括号的前面必须换行。打印：换行。
         result.append('\n');
         // (2)每出现一次后方括号、后花括号，缩进次数减少一次。打印：新行缩进。
-        number--;
-        result.append(indent(indentSize, number));
+        indentCount--;
+        result.append(indent(indentSize, indentCount));
         // (3)打印：当前字符。
         result.append(key);
         // (4)如果当前字符后面还有字符，并且字符不为“,”、"]"、"}"，打印：换行。
@@ -105,13 +110,13 @@ public class CodeStyle {
             result.append('\n');
           }
         }
-      } else if (key == ',') {
-        // 4、如果当前字符是逗号“,”。逗号后面换行，并缩进，不改变缩进次数。
+      } else if (key == ',' && quotationCount % 2 == 0) {
+        // 5、如果当前字符是逗号“,”，并且位于双引号外部。逗号后面换行，并缩进，不改变缩进次数。
         result.append(key);
         result.append('\n');
-        result.append(indent(indentSize, number));
+        result.append(indent(indentSize, indentCount));
       } else {
-        // 5、打印：当前字符。
+        // 6、打印：当前字符。
         result.append(key);
       }
     }
