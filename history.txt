@@ -1649,3 +1649,10 @@ src/CalculatorDialog.java
 2022-06-13
 1.解决json代码格式化时，双引号中含有方括号、花括号、逗号时会格式化错误的问题。
 src/CodeStyle.java
+
+2022-06-23
+1.在“搜索”->“书签”菜单中添加：“预览书签”功能。
+src/BaseTextArea.java
+src/BookmarkPreviewDialog.java（添加）
+src/SnowPadFrame.java
+src/Util.java
