@@ -237,9 +237,9 @@ public class BaseTextArea extends JTextArea {
   /**
    * 绘制组件
    */
-  protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    Graphics graphics = g.create(); // 使用Graphics的副本进行绘制
+  @Override
+  protected void paintComponent(Graphics graphics) {
+    super.paintComponent(graphics);
     graphics.setColor(this.lineBackColor);
     try {
       Rectangle rectangle = this.modelToView(this.getCaretPosition());

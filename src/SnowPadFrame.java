@@ -295,6 +295,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemBookmarkSwitch = new JMenuItem("设置/取消书签(S)", 'S');
   private JMenuItem itemBookmarkNext = new JMenuItem("下一个书签(N)", 'N');
   private JMenuItem itemBookmarkPrevious = new JMenuItem("上一个书签(P)", 'P');
+  private JMenuItem itemBookmarkPreview = new JMenuItem("预览书签(V)...", 'V');
   private JMenuItem itemBookmarkCopy = new JMenuItem("复制书签行(C)", 'C');
   private JMenuItem itemBookmarkClear = new JMenuItem("清除所有书签(L)", 'L');
   private JMenuItem itemFindBracket = new JMenuItem("定位匹配括号(B)", 'B');
@@ -460,6 +461,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private FontChooser fontChooser = null; // 字体对话框
   private FindReplaceDialog findReplaceDialog = null; // 查找、替换对话框
   private GotoDialog gotoDialog = null; // 转到对话框
+  private BookmarkPreviewDialog bookmarkPreviewDialog = null; // 预览书签对话框
   private AboutDialog aboutDialog = null; // 关于对话框
   private TabSetDialog tabSetDialog = null; // Tab字符设置对话框
   private AutoCompleteDialog autoCompleteDialog = null; // 自动完成对话框
@@ -627,6 +629,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemBookmarkSwitch.addActionListener(this);
     this.itemBookmarkNext.addActionListener(this);
     this.itemBookmarkPrevious.addActionListener(this);
+    this.itemBookmarkPreview.addActionListener(this);
     this.itemBookmarkCopy.addActionListener(this);
     this.itemBookmarkClear.addActionListener(this);
     this.itemFindBracket.addActionListener(this);
@@ -1041,6 +1044,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuBookmark.add(this.itemBookmarkNext);
     this.menuBookmark.add(this.itemBookmarkPrevious);
     this.menuBookmark.addSeparator();
+    this.menuBookmark.add(this.itemBookmarkPreview);
     this.menuBookmark.add(this.itemBookmarkCopy);
     this.menuBookmark.add(this.itemBookmarkClear);
     this.menuSearch.add(this.itemFindBracket);
@@ -1245,6 +1249,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemBookmarkSwitch);
     this.menuItemList.add(this.itemBookmarkNext);
     this.menuItemList.add(this.itemBookmarkPrevious);
+    this.menuItemList.add(this.itemBookmarkPreview);
     this.menuItemList.add(this.itemBookmarkCopy);
     this.menuItemList.add(this.itemBookmarkClear);
     this.menuItemList.add(this.itemFindBracket);
@@ -1694,6 +1699,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 为各菜单项添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.itemAbout.equals(e.getSource())) {
       this.showAbout();
@@ -1745,6 +1751,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.bookmarkNext();
     } else if (this.itemBookmarkPrevious.equals(e.getSource())) {
       this.bookmarkPrevious();
+    } else if (this.itemBookmarkPreview.equals(e.getSource())) {
+      this.bookmarkPreview();
     } else if (this.itemBookmarkCopy.equals(e.getSource())) {
       this.bookmarkCopy();
     } else if (this.itemBookmarkClear.equals(e.getSource())) {
@@ -2638,6 +2646,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.changeLineSeparatorDialog != null) {
       this.changeLineSeparatorDialog.dispose();
       this.changeLineSeparatorDialog = null;
+    }
+    if (this.bookmarkPreviewDialog != null) {
+      this.bookmarkPreviewDialog.dispose();
+      this.bookmarkPreviewDialog = null;
     }
     if (this.helpFrame != null) {
       this.helpFrame.dispose();
@@ -5032,6 +5044,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * "预览书签"的处理方法
+   */
+  private void bookmarkPreview() {
+    if (this.bookmarkPreviewDialog == null) {
+      this.bookmarkPreviewDialog = new BookmarkPreviewDialog(this, true, this.txaMain);
+    } else {
+      this.bookmarkPreviewDialog.setTextArea(this.txaMain);
+      this.bookmarkPreviewDialog.setVisible(true);
+    }
+  }
+
+  /**
    * "复制书签行"的处理方法
    */
   private void bookmarkCopy() {
@@ -5930,6 +5954,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 当文本域中的光标变化时，将触发此事件
    */
+  @Override
   public void caretUpdate(CaretEvent e) {
     this.txaMain.repaint(); // 重绘当前文本域，以解决在特定情况下绘制当前行背景错乱的问题
     this.updateStateCur();
@@ -5941,6 +5966,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 当文本域中的文本发生变化时，将触发此事件
    */
+  @Override
   public void undoableEditHappened(UndoableEditEvent e) {
     this.undoManager.addEdit(e.getEdit());
     this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // 撤销标识符递增
@@ -5954,6 +5980,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 当主窗口获得焦点时，将触发此事件
    */
+  @Override
   public void windowGainedFocus(WindowEvent e) {
     this.checkClipboard();
     if (checking) {
@@ -5967,6 +5994,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 当主窗口失去焦点时，将触发此事件
    */
+  @Override
   public void windowLostFocus(WindowEvent e) {
 
   }
@@ -5974,6 +6002,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 当监听的组件状态变化时，将触发此事件
    */
+  @Override
   public void stateChanged(ChangeEvent e) {
     if (this.tpnMain.equals(e.getSource())) {
       BaseTextArea baseTextArea = this.getCurrentTextArea();
@@ -6006,6 +6035,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 当用户拖动鼠标，并进入到可放置的区域时，调用此方法。
    */
+  @Override
   public void dragEnter(DropTargetDragEvent e) {
     e.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE); // 使用“拷贝、移动”方式发起拖动操作
   }
@@ -6013,24 +6043,28 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 当用户拖动鼠标，并从可放置的区域移出时，调用此方法。
    */
+  @Override
   public void dragExit(DropTargetEvent e) {
   }
 
   /**
    * 当用户拖动鼠标，并在可放置的区域内移动时，调用此方法。
    */
+  @Override
   public void dragOver(DropTargetDragEvent e) {
   }
 
   /**
    * 当用户修改了当前放置操作后，调用此方法。
    */
+  @Override
   public void dropActionChanged(DropTargetDragEvent e) {
   }
 
   /**
    * 当用户拖动鼠标，并在可放置的区域内放置时，调用此方法。
    */
+  @Override
   public synchronized void drop(DropTargetDropEvent e) {
     try {
       Transferable tr = e.getTransferable();
@@ -6064,6 +6098,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 窗口大小更改时，调用此方法。
    */
+  @Override
   public void componentResized(ComponentEvent e) {
     int width = this.getWidth();
     int height = this.getHeight();
@@ -6087,18 +6122,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 窗口位置更改时，调用此方法。
    */
+  @Override
   public void componentMoved(ComponentEvent e) {
   }
 
   /**
    * 窗口变得可见时，调用此方法。
    */
+  @Override
   public void componentShown(ComponentEvent e) {
   }
 
   /**
    * 窗口变得不可见时，调用此方法。
    */
+  @Override
   public void componentHidden(ComponentEvent e) {
   }
 
