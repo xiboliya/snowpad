@@ -240,6 +240,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemLineCopy = new JMenuItem("复写当前行");
   private JMenuItem itemLineDel = new JMenuItem("删除当前行");
   private JMenuItem itemLineDelDuplicate = new JMenuItem("删除重复行");
+  private JMenuItem itemLineDelEmpty = new JMenuItem("删除空行");
   private JMenuItem itemLineDelToStart = new JMenuItem("删除至行首");
   private JMenuItem itemLineDelToEnd = new JMenuItem("删除至行尾");
   private JMenuItem itemLineDelToFileStart = new JMenuItem("删除至文件首");
@@ -267,9 +268,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemTrimEnd = new JMenuItem("行尾");
   private JMenuItem itemTrimAll = new JMenuItem("行首+行尾");
   private JMenuItem itemTrimSelected = new JMenuItem("选区内");
-  private JMenu menuDelNullLine = new JMenu("删除空行");
-  private JMenuItem itemDelNullLineAll = new JMenuItem("全文范围");
-  private JMenuItem itemDelNullLineSelected = new JMenuItem("选区范围");
   private JMenu menuComment = new JMenu("注释(M)");
   private JMenuItem itemCommentForLine = new JMenuItem("单行注释(L)", 'L');
   private JMenuItem itemCommentForBlock = new JMenuItem("区块注释(B)", 'B');
@@ -640,6 +638,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineCopy.addActionListener(this);
     this.itemLineDel.addActionListener(this);
     this.itemLineDelDuplicate.addActionListener(this);
+    this.itemLineDelEmpty.addActionListener(this);
     this.itemLineDelToStart.addActionListener(this);
     this.itemLineDelToEnd.addActionListener(this);
     this.itemLineDelToFileStart.addActionListener(this);
@@ -665,8 +664,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTrimEnd.addActionListener(this);
     this.itemTrimAll.addActionListener(this);
     this.itemTrimSelected.addActionListener(this);
-    this.itemDelNullLineAll.addActionListener(this);
-    this.itemDelNullLineSelected.addActionListener(this);
     this.itemCommentForLine.addActionListener(this);
     this.itemCommentForBlock.addActionListener(this);
     this.itemEncrypt.addActionListener(this);
@@ -984,6 +981,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLine.add(this.itemLineCopy);
     this.menuLine.add(this.itemLineDel);
     this.menuLine.add(this.itemLineDelDuplicate);
+    this.menuLine.add(this.itemLineDelEmpty);
     this.menuLine.addSeparator();
     this.menuLine.add(this.itemLineDelToStart);
     this.menuLine.add(this.itemLineDelToEnd);
@@ -1016,9 +1014,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTrim.add(this.itemTrimAll);
     this.menuTrim.addSeparator();
     this.menuTrim.add(this.itemTrimSelected);
-    this.menuEdit.add(this.menuDelNullLine);
-    this.menuDelNullLine.add(this.itemDelNullLineAll);
-    this.menuDelNullLine.add(this.itemDelNullLineSelected);
     this.menuEdit.add(this.menuComment);
     this.menuComment.add(this.itemCommentForLine);
     this.menuComment.add(this.itemCommentForBlock);
@@ -1206,6 +1201,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemLineCopy);
     this.menuItemList.add(this.itemLineDel);
     this.menuItemList.add(this.itemLineDelDuplicate);
+    this.menuItemList.add(this.itemLineDelEmpty);
     this.menuItemList.add(this.itemLineDelToStart);
     this.menuItemList.add(this.itemLineDelToEnd);
     this.menuItemList.add(this.itemLineDelToFileStart);
@@ -1229,8 +1225,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemTrimEnd);
     this.menuItemList.add(this.itemTrimAll);
     this.menuItemList.add(this.itemTrimSelected);
-    this.menuItemList.add(this.itemDelNullLineAll);
-    this.menuItemList.add(this.itemDelNullLineSelected);
     this.menuItemList.add(this.itemCommentForLine);
     this.menuItemList.add(this.itemCommentForBlock);
     this.menuItemList.add(this.itemInsertChar);
@@ -1421,7 +1415,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemGoto.setEnabled(false);
     this.itemFindBracket.setEnabled(false);
     this.itemTrimSelected.setEnabled(false);
-    this.itemDelNullLineSelected.setEnabled(false);
     this.itemBack.setEnabled(false);
     this.itemForward.setEnabled(false);
     this.itemLineNumber.setEnabled(false);
@@ -1565,7 +1558,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopCut.setEnabled(isExist);
     this.itemPopDel.setEnabled(isExist);
     this.itemTrimSelected.setEnabled(isExist);
-    this.itemDelNullLineSelected.setEnabled(isExist);
     this.menuHighlight.setEnabled(isExist);
     this.menuPopHighlight.setEnabled(isExist);
     this.toolButtonList.get(6).setEnabled(isExist);
@@ -1776,6 +1768,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.deleteLines();
     } else if (this.itemLineDelDuplicate.equals(e.getSource())) {
       this.deleteDuplicateLines();
+    } else if (this.itemLineDelEmpty.equals(e.getSource())) {
+      this.deleteEmptyLines();
     } else if (this.itemLineDelToStart.equals(e.getSource())) {
       this.deleteLineToStart();
     } else if (this.itemLineDelToEnd.equals(e.getSource())) {
@@ -1826,10 +1820,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.trimLines(2);
     } else if (this.itemTrimSelected.equals(e.getSource())) {
       this.trimSelected();
-    } else if (this.itemDelNullLineAll.equals(e.getSource())) {
-      this.delAllNullLines();
-    } else if (this.itemDelNullLineSelected.equals(e.getSource())) {
-      this.delSelectedNullLines();
     } else if (this.itemHelp.equals(e.getSource())) {
       this.showHelpFrame();
     } else if (this.itemEncrypt.equals(e.getSource())) {
@@ -3757,76 +3747,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "删除全文空行"的处理方法
-   */
-  private void delAllNullLines() {
-    String strText = this.txaMain.getText();
-    if (Util.isTextEmpty(strText)) {
-      return;
-    }
-    String strDouble = "\n\n";
-    int index = strText.indexOf(strDouble);
-    boolean hasEnter = false;
-    if (strText.startsWith("\n") || strText.endsWith("\n")) {
-      hasEnter = true;
-    }
-    if (index < 0 && !hasEnter) {
-      return;
-    }
-    String strResult = strText;
-    while (index >= 0) {
-      strResult = strResult.replaceAll(strDouble, "\n");
-      index = strResult.indexOf(strDouble);
-    }
-    if (strResult.startsWith("\n")) {
-      strResult = strResult.substring(1, strResult.length());
-    }
-    if (strResult.endsWith("\n")) {
-      strResult = strResult.substring(0, strResult.length() - 1);
-    }
-    if (!strText.equals(strResult)) {
-      this.txaMain.setText(strResult);
-    }
-  }
-
-  /**
-   * "删除选区内空行"的处理方法
-   */
-  private void delSelectedNullLines() {
-    String strText = this.txaMain.getSelectedText();
-    if (Util.isTextEmpty(strText)) {
-      return;
-    }
-    String strDouble = "\n\n";
-    int index = strText.indexOf(strDouble);
-    boolean hasEnter = false;
-    if (strText.startsWith("\n") || strText.endsWith("\n")) {
-      hasEnter = true;
-    }
-    if (index < 0 && !hasEnter) {
-      return;
-    }
-    String strResult = strText;
-    while (index >= 0) {
-      strResult = strResult.replaceAll(strDouble, "\n");
-      index = strResult.indexOf(strDouble);
-    }
-    String strTextAll = this.txaMain.getText();
-    int startIndex = this.txaMain.getSelectionStart();
-    if (strResult.startsWith("\n")) {
-      if (startIndex == 0 || (startIndex > 0 && strTextAll.charAt(startIndex - 1) == '\n')) {
-        strResult = strResult.substring(1, strResult.length());
-      }
-    }
-    if (strResult.endsWith("\n")) {
-      strResult = strResult.substring(0, strResult.length() - 1);
-    }
-    if (!strText.equals(strResult)) {
-      this.txaMain.replaceSelection(strResult);
-    }
-  }
-
-  /**
    * 更改配色方案
    * 
    * @param color
@@ -4331,6 +4251,56 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     }
     this.txaMain.replaceSelection(stbResult.deleteCharAt(stbResult.length() - 1).toString()); // 删除字符串末尾多余的换行符
+  }
+
+  /**
+   * "删除空行"的处理方法
+   */
+  private void deleteEmptyLines() {
+    String strTextAll = this.txaMain.getText();
+    String strText = this.txaMain.getSelectedText();
+    boolean isSelected = true; // 是否只处理选区内文本
+    if (Util.isTextEmpty(strText)) {
+      strText = strTextAll;
+      isSelected = false;
+    }
+    if (Util.isTextEmpty(strText)) {
+      return;
+    }
+    String strDouble = "\n\n";
+    int index = strText.indexOf(strDouble);
+    boolean hasEnter = false;
+    if (strText.startsWith("\n") || strText.endsWith("\n")) {
+      hasEnter = true;
+    }
+    if (index < 0 && !hasEnter) {
+      return;
+    }
+    String strResult = strText;
+    while (index >= 0) {
+      strResult = strResult.replaceAll(strDouble, "\n");
+      index = strResult.indexOf(strDouble);
+    }
+    if (strResult.startsWith("\n")) {
+      if (isSelected) {
+        int startIndex = this.txaMain.getSelectionStart();
+        if (startIndex == 0 || (startIndex > 0 && strTextAll.charAt(startIndex - 1) == '\n')) {
+          strResult = strResult.substring(1, strResult.length());
+        }
+      } else {
+        strResult = strResult.substring(1, strResult.length());
+      }
+    }
+    if (strResult.endsWith("\n")) {
+      strResult = strResult.substring(0, strResult.length() - 1);
+    }
+    if (!strText.equals(strResult)) {
+      if (isSelected) {
+        this.txaMain.replaceSelection(strResult);
+      } else {
+        this.txaMain.setText(strResult);
+      }
+    }
   }
 
   /**
