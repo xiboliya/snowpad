@@ -1656,3 +1656,8 @@ src/BaseTextArea.java
 src/BookmarkPreviewDialog.java（添加）
 src/SnowPadFrame.java
 src/Util.java
+
+2022-06-27
+1.将“编辑”->“删除空行”功能移到“操作行”中。
+src/SnowPadFrame.java
+src/Util.java
