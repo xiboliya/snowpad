@@ -1661,3 +1661,8 @@ src/Util.java
 1.将“编辑”->“删除空行”功能移到“操作行”中。
 src/SnowPadFrame.java
 src/Util.java
+
+2022-06-29
+1.在“搜索”->“书签”菜单下添加："剪切书签行"功能。
+src/SnowPadFrame.java
+src/Util.java
