@@ -513,17 +513,22 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (!Util.isTextEmpty(bean.getFileName())) {
         File file = new File(bean.getFileName());
         if (file.exists()) {
+          boolean isOpen = false;
           if (!toCreateNew) {
-            this.toOpenFile(file, true, false);
-            toCreateNew = true; // 保证第一个被打开的文件在当前文本域中显示，其后的文件都需要新建文本域
+            isOpen = this.toOpenFile(file, true, false);
+            if (isOpen) {
+              toCreateNew = true; // 保证第一个被打开的文件在当前文本域中显示，其后的文件都需要新建文本域
+            }
           } else {
-            this.toOpenFile(file, true, true);
+            isOpen = this.toOpenFile(file, true, true);
           }
-          this.txaMain.setFrozen(bean.getFrozen());
-          this.itemFrozenFile.setSelected(bean.getFrozen());
-          this.itemPopFrozenFile.setSelected(bean.getFrozen());
-          this.setAfterOpenFile(Util.DEFAULT_CARET_INDEX);
-          this.setFileNameAndPath(file);
+          if (isOpen) {
+            this.txaMain.setFrozen(bean.getFrozen());
+            this.itemFrozenFile.setSelected(bean.getFrozen());
+            this.itemPopFrozenFile.setSelected(bean.getFrozen());
+            this.setAfterOpenFile(Util.DEFAULT_CARET_INDEX);
+            this.setFileNameAndPath(file);
+          }
         }
       }
     }
@@ -3737,15 +3742,16 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     File file = new File(strFile);
-    if (file != null && file.exists()) {
+    if (file.exists()) {
       boolean toCreateNew = this.checkToCreateNew(file);
       if (!toCreateNew && !this.saveFileBeforeAct()) {
         return;
       }
       int index = this.getCurrentIndexBySameFile(file);
-      this.toOpenFile(file, true, toCreateNew);
-      this.setAfterOpenFile(index);
-      this.setFileNameAndPath(file);
+      if (this.toOpenFile(file, true, toCreateNew)) {
+        this.setAfterOpenFile(index);
+        this.setFileNameAndPath(file);
+      }
     } else {
       JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + file + " 不存在！"),
           Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
@@ -5213,9 +5219,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           return;
         }
         int index = this.getCurrentIndexBySameFile(file);
-        this.toOpenFile(file, true, toCreateNew);
-        this.setAfterOpenFile(index);
-        this.setFileNameAndPath(file);
+        if (this.toOpenFile(file, true, toCreateNew)) {
+          this.setAfterOpenFile(index);
+          this.setFileNameAndPath(file);
+        }
       }
     }
   }
@@ -5243,6 +5250,27 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       toCreateNew = false;
     }
     return toCreateNew;
+  }
+
+  /**
+   * 检测文件是否已打开
+   * 
+   * @param file
+   *          待打开的文件
+   * @return 文件是否已打开，true表示已打开，反之则表示未打开
+   */
+  private boolean isFileOpened(File file) {
+    boolean isOpened = false;
+    if (file != null) {
+      for (int i = 0; i < this.textAreaList.size(); i++) {
+        File fileTemp = this.textAreaList.get(i).getFile();
+        if (file.equals(fileTemp)) {
+          isOpened = true;
+          break;
+        }
+      }
+    }
+    return isOpened;
   }
 
   /**
@@ -5287,14 +5315,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (toCreateNew) {
         this.createNew(file);
       }
+      boolean isOpen = false;
       if (charEncoding != null) {
         this.setCharEncoding(charEncoding, true);
-        this.toOpenFile(file, false, false);
+        isOpen = this.toOpenFile(file, false, false);
       } else {
-        this.toOpenFile(file, true, false);
+        isOpen = this.toOpenFile(file, true, false);
       }
-      this.setAfterOpenFile(index);
-      this.setFileNameAndPath(file);
+      if (isOpen) {
+        this.setAfterOpenFile(index);
+        this.setFileNameAndPath(file);
+      }
     }
   }
 
@@ -5308,7 +5339,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @param toCreateNew
    *          是否需要新建文本域
    */
-  private void toOpenFile(File file, boolean isAutoCheckEncoding, boolean toCreateNew) {
+  private boolean toOpenFile(File file, boolean isAutoCheckEncoding, boolean toCreateNew) {
+    int result = this.checkBigFile(file);
+    if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
+      return false;
+    }
     InputStreamReader inputStreamReader = null;
     try {
       if (toCreateNew) {
@@ -5365,6 +5400,24 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         // x.printStackTrace();
       }
     }
+    return true;
+  }
+
+  /**
+   * 检测待打开的文件是否较大，如果是则弹出提示框，提供给用户选项
+   * 
+   * @param file
+   *          待打开的文件
+   * @return 用户选择的选项：YES_OPTION、NO_OPTION、CLOSED_OPTION
+   */
+  private int checkBigFile(File file) {
+    int result = JOptionPane.YES_OPTION;
+    if (file != null && !this.isFileOpened(file) && file.length() > 5 * 1024 * 1024) {
+      result = JOptionPane.showConfirmDialog(this,
+          Util.convertToMsg(file + " 文件较大，如果打开可能导致程序卡死！\n是否继续打开？"),
+          Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
+    }
+    return result;
   }
 
   /**
@@ -6096,9 +6149,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
               break;
             }
             int index = this.getCurrentIndexBySameFile(file);
-            this.toOpenFile(file, true, toCreateNew);
-            this.setAfterOpenFile(index);
-            this.setFileNameAndPath(file);
+            if (this.toOpenFile(file, true, toCreateNew)) {
+              this.setAfterOpenFile(index);
+              this.setFileNameAndPath(file);
+            }
           }
         }
         e.getDropTargetContext().dropComplete(true); // 设置放置操作成功结束
