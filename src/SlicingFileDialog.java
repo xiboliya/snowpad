@@ -33,6 +33,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 /**
@@ -44,10 +46,20 @@ import javax.swing.JTextArea;
 public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private static final String PATTERN_META_CHARACTER = "$()*+.?[^{|"; // 正则表达式元字符
+  private JTabbedPane tpnMain = new JTabbedPane();
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JLabel lblKeyword = new JLabel("拆分关键字：");
-  private BaseTextField txtKeyword = new BaseTextField();
+  // 单行
+  private JPanel pnlSingle = new JPanel();
+  private JLabel lblKeywordS = new JLabel("拆分关键字：");
+  private BaseTextField txtKeywordS = new BaseTextField();
+  // 多行
+  private JPanel pnlMulti = new JPanel();
+  private JLabel lblKeywordM = new JLabel("拆分关键字：");
+  private BaseTextAreaSpecial txaKeywordM = new BaseTextAreaSpecial();
+  private JScrollPane srpKeywordM = new JScrollPane(this.txaKeywordM);
+  // 文件与按钮
+  private JPanel pnlBottom = new JPanel();
   private JRadioButton radCurrentFile = new JRadioButton("拆分当前文件", true);
   private JRadioButton radTargetFile = new JRadioButton("拆分指定文件：", false);
   private BaseTextField txtTargetFile = new BaseTextField();
@@ -69,7 +81,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     this.initView();
     this.setComponentEnabledByRadioButton();
     this.addListeners();
-    this.setSize(420, 220);
+    this.setSize(420, 280);
     this.setVisible(true);
   }
 
@@ -79,30 +91,49 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private void init() {
     this.setTitle("拆分文件");
     this.pnlMain.setLayout(null);
-    this.lblKeyword.setBounds(30, 12, 90, Util.VIEW_HEIGHT);
-    this.txtKeyword.setBounds(130, 10, 230, 30);
-    this.pnlMain.add(this.lblKeyword);
-    this.pnlMain.add(this.txtKeyword);
-    this.radCurrentFile.setBounds(10, 60, 120, Util.VIEW_HEIGHT);
-    this.radTargetFile.setBounds(10, 107, 120, Util.VIEW_HEIGHT);
-    this.txtTargetFile.setBounds(130, 105, 230, 30);
+    // 单行
+    this.pnlSingle.setLayout(null);
+    this.lblKeywordS.setBounds(30, 12, 90, Util.VIEW_HEIGHT);
+    this.txtKeywordS.setBounds(125, 10, 230, 25);
+    this.pnlSingle.add(this.lblKeywordS);
+    this.pnlSingle.add(this.txtKeywordS);
+    // 多行
+    this.pnlMulti.setLayout(null);
+    this.lblKeywordM.setBounds(30, 12, 90, Util.VIEW_HEIGHT);
+    this.srpKeywordM.setBounds(125, 10, 230, 80);
+    this.pnlMulti.add(this.lblKeywordM);
+    this.pnlMulti.add(this.srpKeywordM);
+    // 文件与按钮
+    this.pnlBottom.setLayout(null);
+    this.pnlBottom.setBounds(0, 130, 420, 150);
+    this.radCurrentFile.setBounds(10, 10, 115, Util.VIEW_HEIGHT);
+    this.radTargetFile.setBounds(10, 42, 115, Util.VIEW_HEIGHT);
+    this.txtTargetFile.setBounds(125, 40, 230, 25);
     this.btnSelectFile.setMargin(this.insets);
-    this.btnSelectFile.setBounds(370, 105, 30, 30);
-    this.pnlMain.add(this.radCurrentFile);
-    this.pnlMain.add(this.radTargetFile);
-    this.pnlMain.add(this.txtTargetFile);
-    this.pnlMain.add(this.btnSelectFile);
-    this.btnOk.setBounds(90, 145, 85, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(240, 145, 85, Util.BUTTON_HEIGHT);
-    this.pnlMain.add(this.btnOk);
-    this.pnlMain.add(this.btnCancel);
+    this.btnSelectFile.setBounds(370, 40, 25, 25);
+    this.pnlBottom.add(this.radCurrentFile);
+    this.pnlBottom.add(this.radTargetFile);
+    this.pnlBottom.add(this.txtTargetFile);
+    this.pnlBottom.add(this.btnSelectFile);
+    this.btnOk.setBounds(90, 80, 85, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(240, 80, 85, Util.BUTTON_HEIGHT);
+    this.pnlBottom.add(this.btnOk);
+    this.pnlBottom.add(this.btnCancel);
     this.bgpFile.add(this.radCurrentFile);
     this.bgpFile.add(this.radTargetFile);
+    // 面板
+    this.tpnMain.setBounds(0, 0, 420, 130);
+    this.tpnMain.add(this.pnlSingle, "单行模式");
+    this.tpnMain.add(this.pnlMulti, "多行模式");
+    this.tpnMain.setFocusable(false);
+    this.pnlMain.add(this.tpnMain);
+    this.pnlMain.add(this.pnlBottom);
   }
 
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.initView();
@@ -116,9 +147,17 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private void initView() {
     String strSel = this.txaSource.getSelectedText();
     if (!Util.isTextEmpty(strSel)) {
-      this.txtKeyword.setText(strSel);
+      if (this.tpnMain.getSelectedIndex() == 0) {
+        this.txtKeywordS.setText(strSel);
+      } else {
+        this.txaKeywordM.setText(strSel);
+      }
     }
-    this.txtKeyword.selectAll();
+    if (this.tpnMain.getSelectedIndex() == 0) {
+      this.txtKeywordS.selectAll();
+    } else {
+      this.txaKeywordM.selectAll();
+    }
   }
 
   /**
@@ -134,7 +173,8 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
    * 添加事件监听器
    */
   private void addListeners() {
-    this.txtKeyword.addKeyListener(this.keyAdapter);
+    this.txtKeywordS.addKeyListener(this.keyAdapter);
+    this.txaKeywordM.addKeyListener(this.buttonKeyAdapter);
     this.radCurrentFile.addActionListener(this);
     this.radCurrentFile.addKeyListener(this.keyAdapter);
     this.radTargetFile.addActionListener(this);
@@ -151,6 +191,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
       this.onEnter();
@@ -186,9 +227,15 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
 
   /**
    * 按照关键字对文件进行拆分
+   *
+   * @param isSingle
+   *          是否为单行关键字
    */
-  private void slicingFile() {
-    String keyword = this.txtKeyword.getText();
+  private void slicingFile(boolean isSingle) {
+    String keyword = this.txtKeywordS.getText();
+    if (!isSingle) {
+      keyword = this.txaKeywordM.getText();
+    }
     if (Util.isTextEmpty(keyword)) {
       JOptionPane.showMessageDialog(this, "拆分关键字不能为空，请输入！", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
@@ -433,13 +480,15 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
-    this.slicingFile();
+    this.slicingFile(this.tpnMain.getSelectedIndex() == 0);
   }
 
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }
