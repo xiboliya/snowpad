@@ -1670,3 +1670,7 @@ src/Util.java
 2022-07-09
 1.如果待打开的文件超过5M，则认为是大文件，弹出提示框提示用户选择打开或者取消。
 src/SnowPadFrame.java
+
+2022-07-11
+1.“拆分文件”界面中功能优化，支持单行关键字和多行关键字。
+src/SlicingFileDialog.java
