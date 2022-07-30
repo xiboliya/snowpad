@@ -1674,3 +1674,8 @@ src/SnowPadFrame.java
 2022-07-11
 1.“拆分文件”界面中功能优化，支持单行关键字和多行关键字。
 src/SlicingFileDialog.java
+
+2022-07-30
+1.“加密”、“进制转换”界面中添加“结果大写”功能。
+src/EncryptDialog.java
+src/NumberConvertDialog.java
