@@ -26,6 +26,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -52,6 +53,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   private JLabel lblWarning = new JLabel("警告：含有非法字符或超出范围！");
   private JButton btnExchange = new JButton("互换进制");
   private JLabel lblResult = new JLabel("转换结果：");
+  private JCheckBox chkUpperCase = new JCheckBox("结果大写(U)", false);
   private JComboBox<String> cmbResult = new JComboBox<String>();
   private BaseTextField txtResult = new BaseTextField();
   private JButton btnCopy = new JButton("复制结果(C)");
@@ -92,10 +94,12 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
     this.pnlMain.add(this.btnExchange);
 
     this.lblResult.setBounds(10, 100, 70, Util.VIEW_HEIGHT);
+    this.chkUpperCase.setBounds(290, 100, 110, Util.VIEW_HEIGHT);
     this.cmbResult.setBounds(10, 125, 70, Util.INPUT_HEIGHT);
     this.txtResult.setBounds(90, 125, 190, Util.INPUT_HEIGHT);
     this.btnCopy.setBounds(290, 125, 110, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.lblResult);
+    this.pnlMain.add(this.chkUpperCase);
     this.pnlMain.add(this.cmbResult);
     this.pnlMain.add(this.txtResult);
     this.pnlMain.add(this.btnCopy);
@@ -124,6 +128,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
    */
   private void setMnemonic() {
     this.btnCopy.setMnemonic('C');
+    this.chkUpperCase.setMnemonic('U');
   }
 
   /**
@@ -136,6 +141,8 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
     this.txtNumber.addKeyListener(this.keyAdapter);
     this.cmbResult.addKeyListener(this.keyAdapter);
     this.cmbResult.addItemListener(this);
+    this.chkUpperCase.addActionListener(this);
+    this.chkUpperCase.addKeyListener(this.keyAdapter);
     this.txtResult.addKeyListener(this.keyAdapter);
     this.btnCopy.addActionListener(this);
     this.btnCopy.addKeyListener(this.buttonKeyAdapter);
@@ -155,6 +162,8 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
       this.onCancel();
     } else if (this.btnExchange.equals(e.getSource())) {
       this.exchange();
+    } else if (this.chkUpperCase.equals(e.getSource())) {
+      this.toChangeCaseResult();
     }
   }
 
@@ -179,6 +188,11 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
       try {
         long number = Long.parseLong(strNumber, numberBase);
         String result = Long.toString(number, resultBase);
+        if (this.chkUpperCase.isSelected()) {
+          result = result.toUpperCase();
+        } else {
+          result = result.toLowerCase();
+        }
         this.txtResult.setText(result);
         this.lblWarning.setVisible(false);
       } catch (Exception x) {
@@ -206,6 +220,22 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
       this.cmbNumber.setSelectedIndex(indexResult);
       this.cmbResult.setSelectedIndex(indexNumber);
     }
+  }
+
+  /**
+   * "结果大写"的处理方法
+   */
+  private void toChangeCaseResult() {
+    String result = this.txtResult.getText();
+    if (Util.isTextEmpty(result)) {
+      return;
+    }
+    if (this.chkUpperCase.isSelected()) {
+      result = result.toUpperCase();
+    } else {
+      result = result.toLowerCase();
+    }
+    this.txtResult.setText(result);
   }
 
   /**

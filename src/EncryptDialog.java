@@ -75,6 +75,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   private JLabel lblEncrypt = new JLabel("加密值：");
   private BaseTextAreaSpecial txaEncrypt = new BaseTextAreaSpecial();
   private JScrollPane srpEncrypt = new JScrollPane(this.txaEncrypt);
+  private JCheckBox chkUpperCase = new JCheckBox("结果大写(U)", false);
   private JButton btnCopy = new JButton("复制结果(C)");
   private JButton btnCancel = new JButton("取消");
 
@@ -125,9 +126,11 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
     this.pnlBottom.add(this.cmbDigestType);
     this.pnlBottom.add(this.lblEncrypt);
     this.pnlBottom.add(this.srpEncrypt);
+    this.chkUpperCase.setBounds(290, 40, 110, Util.VIEW_HEIGHT);
     this.btnCopy.setBounds(290, 75, 110, Util.BUTTON_HEIGHT);
-    this.pnlBottom.add(this.btnCopy);
     this.btnCancel.setBounds(290, 115, 110, Util.BUTTON_HEIGHT);
+    this.pnlBottom.add(this.chkUpperCase);
+    this.pnlBottom.add(this.btnCopy);
     this.pnlBottom.add(this.btnCancel);
     // 主界面
     this.tpnMain.setBounds(0, 0, 420, 160);
@@ -165,6 +168,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   private void setMnemonic() {
     this.chkEveryLinesT.setMnemonic('E');
     this.btnSelectFileF.setMnemonic('S');
+    this.chkUpperCase.setMnemonic('U');
     this.btnCopy.setMnemonic('C');
   }
 
@@ -187,6 +191,8 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
     this.cmbDigestType.addItemListener(this);
     this.cmbDigestType.addKeyListener(this.keyAdapter);
     this.txaEncrypt.addKeyListener(this.keyAdapter);
+    this.chkUpperCase.addActionListener(this);
+    this.chkUpperCase.addKeyListener(this.keyAdapter);
     this.btnCopy.addActionListener(this);
     this.btnCopy.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addActionListener(this);
@@ -201,6 +207,8 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
       this.showStringEncrypt();
     } else if (this.btnSelectFileF.equals(e.getSource())) {
       this.selectFile();
+    } else if (this.chkUpperCase.equals(e.getSource())) {
+      this.toChangeCaseResult();
     } else if (this.btnCopy.equals(e.getSource())) {
       this.toCopyResult();
     } else if (this.btnCancel.equals(e.getSource())) {
@@ -270,11 +278,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
       text = text.replaceAll(LineSeparator.UNIX.toString(), Util.LINE_SEPARATOR);
       encrypt = this.getStringDigest(text, digestType);
     }
-    if (Util.isTextEmpty(encrypt)) {
-      this.txaEncrypt.setText("");
-    } else {
-      this.txaEncrypt.setText(encrypt);
-    }
+    this.toUpdateEncrypt(encrypt);
   }
 
   /**
@@ -319,11 +323,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
     }
     String digestType = this.cmbDigestType.getSelectedItem().toString();
     String encrypt = this.getFileDigest(new File(path), digestType);
-    if (Util.isTextEmpty(encrypt)) {
-      this.txaEncrypt.setText("");
-    } else {
-      this.txaEncrypt.setText(encrypt);
-    }
+    this.toUpdateEncrypt(encrypt);
   }
 
   /**
@@ -356,6 +356,41 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
     }
     BigInteger bigInt = new BigInteger(1, digest.digest());
     return bigInt.toString(16);
+  }
+
+  /**
+   * 更新加密值
+   * 
+   * @param encrypt
+   *          加密值
+   */
+  private void toUpdateEncrypt(String encrypt) {
+    if (Util.isTextEmpty(encrypt)) {
+      this.txaEncrypt.setText("");
+    } else {
+      if (this.chkUpperCase.isSelected()) {
+        encrypt = encrypt.toUpperCase();
+      } else {
+        encrypt = encrypt.toLowerCase();
+      }
+      this.txaEncrypt.setText(encrypt);
+    }
+  }
+
+  /**
+   * "结果大写"的处理方法
+   */
+  private void toChangeCaseResult() {
+    String result = this.txaEncrypt.getText();
+    if (Util.isTextEmpty(result)) {
+      return;
+    }
+    if (this.chkUpperCase.isSelected()) {
+      result = result.toUpperCase();
+    } else {
+      result = result.toLowerCase();
+    }
+    this.txaEncrypt.setText(result);
   }
 
   /**
