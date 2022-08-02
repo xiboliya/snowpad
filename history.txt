@@ -1679,3 +1679,7 @@ src/SlicingFileDialog.java
 1.“加密”、“进制转换”界面中添加“结果大写”功能。
 src/EncryptDialog.java
 src/NumberConvertDialog.java
+
+2022-08-02
+1.优化“文档切换”菜单中的“前一个文档”和“后一个文档”功能。
+src/SnowPadFrame.java
