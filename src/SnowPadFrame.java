@@ -451,7 +451,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private SettingAdapter settingAdapter = null; // 用于解析和保存软件配置文件的工具类
   private boolean clickToClose = true; // 是否双击关闭当前标签
   private boolean isTabIconView = true; // 是否显示标签的文件状态指示图标
-  private static boolean checking = false; // 是否正在检测所有文件的状态
+  private boolean checking = false; // 是否正在检测所有文件的状态
+  private boolean isInTextAreaHistory = false; // 是否处于最近编辑的文本域的历史状态
   private int targetBracketIndex = -1; // 匹配括号的索引值
   private int textAreaHistoryIndex = 0; // 最近编辑的文本域在链表中的索引值
 
@@ -2164,7 +2165,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (size <= 1) {
       return;
     }
-    int index = this.tpnMain.getSelectedIndex();
     int hashCode = 0;
     if (isNext) {
       if (this.textAreaHistoryIndex <= 0) {
@@ -2179,7 +2179,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.textAreaHistoryIndex++;
       hashCode = this.textAreaHashCodeList.get(this.textAreaHistoryIndex);
     }
-    index = this.getTextAreaIndex(hashCode);
+    this.isInTextAreaHistory = true;
+    int index = this.getTextAreaIndex(hashCode);
     this.tpnMain.setSelectedIndex(index);
   }
 
@@ -5860,14 +5861,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 刷新存放最近编辑的文本域hashCode的链表
    */
   private void refreshTextAreaHashCodeList() {
+    // 如果处于最近编辑的文本域的历史状态，则不处理
+    if (this.isInTextAreaHistory) {
+      this.isInTextAreaHistory = false;
+      return;
+    }
     int hashCode = this.txaMain.hashCode();
     int size = this.textAreaHashCodeList.size();
     if (size > 0) {
-      // 如果处于已后退的状态下，则不处理
-      int value = this.textAreaHashCodeList.get(this.textAreaHistoryIndex);
-      if (value == hashCode) {
-        return;
-      }
       // 如果当前文本域已处于链表开头，则不处理
       if (this.textAreaHashCodeList.get(0) == hashCode) {
         return;
@@ -5878,6 +5879,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (size > TEXTAREA_HASHCODE_LIST_MAX) {
       this.textAreaHashCodeList.removeLast();
     }
+    // 恢复最近编辑的文本域在链表中的索引值
+    this.textAreaHistoryIndex = 0;
   }
 
   /**
