@@ -1683,3 +1683,7 @@ src/NumberConvertDialog.java
 2022-08-02
 1.优化“文档切换”菜单中的“前一个文档”和“后一个文档”功能。
 src/SnowPadFrame.java
+
+2022-08-23
+1.添加：“信息提示窗口”工具类，可以用于显示简短的文本信息，此窗口会在显示2秒后自动关闭。
+src/TipsWindow.java（添加）
