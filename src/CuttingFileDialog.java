@@ -105,6 +105,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.initView();
@@ -153,6 +154,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
       this.onEnter();
@@ -189,24 +191,20 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private void cuttingFile() {
     String strPath = this.txtPath.getText();
     if (Util.isTextEmpty(strPath)) {
-      JOptionPane.showMessageDialog(this, "文件路径不能为空，请输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "文件路径不能为空，请输入！");
       return;
     }
     File file = new File(strPath);
     if (!file.exists()) {
-      JOptionPane.showMessageDialog(this, "文件不存在，请重新输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "文件不存在，请重新输入！");
       return;
     } else if (file.isDirectory()) {
-      JOptionPane.showMessageDialog(this, "不支持目录操作，请重新输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "不支持目录操作，请重新输入！");
       return;
     }
     long length = file.length();
     if (length == 0) {
-      JOptionPane.showMessageDialog(this, "当前文件为空文件，无法切割，请重新输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "文件内容为空，请重新输入！");
       return;
     }
     if (this.radCutSize.isSelected()) {
@@ -219,8 +217,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private void cuttingFileBySize(File file, long length) {
     String strCutSize = this.txtCutSize.getText();
     if (Util.isTextEmpty(strCutSize)) {
-      JOptionPane.showMessageDialog(this, "切割文件大小不能为空，请输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "切割文件大小不能为空，请输入！");
       return;
     }
     int cutSize = 0;
@@ -280,8 +277,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
           JOptionPane.CANCEL_OPTION);
     } catch (Exception x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "切割文件失败！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "切割文件失败！");
     } finally {
       try {
         randomAccessFile.close();
@@ -294,8 +290,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   private void cuttingFileByCount(File file, long length) {
     String strCutCount = this.txtCutCount.getText();
     if (Util.isTextEmpty(strCutCount)) {
-      JOptionPane.showMessageDialog(this, "切割文件个数不能为空，请输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "切割文件个数不能为空，请输入！");
       return;
     }
     int cutCount = 0;
@@ -303,13 +298,11 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
       cutCount = Integer.parseInt(strCutCount);
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "切割文件个数格式错误，请输入数字！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      JOptionPane.showMessageDialog(this, "切割文件个数格式错误，请输入数字！", Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
       return;
     }
     if (cutCount <= 1) {
-      JOptionPane.showMessageDialog(this, "切割文件个数必须大于1，请重新输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      JOptionPane.showMessageDialog(this, "切割文件个数必须大于1，请重新输入！", Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
       return;
     } else if (cutCount > length) {
       JOptionPane.showMessageDialog(this, "要切割当前文件，切割文件个数不能大于" + length + "个，请重新输入！", Util.SOFTWARE,
@@ -343,12 +336,10 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
         toCuttingFile(fileCutting, buffer, len);
         buffer = new byte[cutSize];
       }
-      JOptionPane.showMessageDialog(this, "切割文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      JOptionPane.showMessageDialog(this, "切割文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
     } catch (Exception x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "切割文件失败！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "切割文件失败！");
     } finally {
       try {
         randomAccessFile.close();
@@ -378,6 +369,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     this.cuttingFile();
   }
@@ -385,6 +377,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }

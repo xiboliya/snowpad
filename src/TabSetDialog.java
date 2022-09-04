@@ -23,7 +23,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -81,6 +80,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.initView();
@@ -115,6 +115,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
       this.onEnter();
@@ -134,18 +135,15 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
       tabSize = Integer.parseInt(this.txtTabSize.getText().trim());
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "格式错误，请输入数字！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "格式错误，请输入数字！");
       this.txtTabSize.setText("");
       return;
     }
     if (tabSize < Util.MIN_TABSIZE) {
-      JOptionPane.showMessageDialog(this, "必须大于等于" + Util.MIN_TABSIZE + "！",
-          Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "必须大于等于" + Util.MIN_TABSIZE + "！");
       this.txtTabSize.setText(String.valueOf(Util.MIN_TABSIZE));
     } else if (tabSize > Util.MAX_TABSIZE) {
-      JOptionPane.showMessageDialog(this, "必须小于等于" + Util.MAX_TABSIZE + "！",
-          Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "必须小于等于" + Util.MAX_TABSIZE + "！");
       this.txtTabSize.setText(String.valueOf(Util.MAX_TABSIZE));
     } else {
       this.tabSize = tabSize;
@@ -177,6 +175,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     this.setTabSize();
   }
@@ -184,6 +183,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }

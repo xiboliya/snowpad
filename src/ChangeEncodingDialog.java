@@ -116,6 +116,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.initView();
@@ -211,8 +212,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   private void changeEncodingAll() {
     int size = this.defaultListModel.getSize();
     if (size <= 0) {
-      JOptionPane.showMessageDialog(this, "源文件路径不能为空，请添加！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "源文件路径不能为空，请添加！");
       return;
     }
     this.setCharEncoding();
@@ -232,15 +232,13 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
       }
     }
     if (failFileNames.isEmpty()) {
-      JOptionPane.showMessageDialog(this, "转换文件编码成功！", Util.SOFTWARE,
-          JOptionPane.NO_OPTION);
+      TipsWindow.show(this, "转换文件编码成功！");
     } else {
       StringBuilder stbFileNames = new StringBuilder();
       for (String fileName : failFileNames) {
         stbFileNames.append(fileName + "\n");
       }
-      JOptionPane.showMessageDialog(this, "如下文件转换编码失败：\n" + stbFileNames, Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      JOptionPane.showMessageDialog(this, "如下文件转换编码失败：\n" + stbFileNames, Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
     }
   }
 
@@ -394,6 +392,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
       this.onEnter();
@@ -409,6 +408,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   /**
    * 当列表框改变选择时，触发此事件
    */
+  @Override
   public void valueChanged(ListSelectionEvent e) {
     if (this.listPath.equals(e.getSource())) {
       this.setSourceButtonEnabled();
@@ -418,6 +418,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     this.changeEncodingAll();
   }
@@ -425,6 +426,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }

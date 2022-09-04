@@ -114,6 +114,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.initView();
@@ -209,8 +210,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
   private void changeLineSeparatorAll() {
     int size = this.defaultListModel.getSize();
     if (size <= 0) {
-      JOptionPane.showMessageDialog(this, "源文件路径不能为空，请添加！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "源文件路径不能为空，请添加！");
       return;
     }
     this.setLineSeparator();
@@ -230,15 +230,13 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
       }
     }
     if (failFileNames.isEmpty()) {
-      JOptionPane.showMessageDialog(this, "转换文件换行符成功！", Util.SOFTWARE,
-          JOptionPane.NO_OPTION);
+      TipsWindow.show(this, "转换文件换行符成功！");
     } else {
       StringBuilder stbFileNames = new StringBuilder();
       for (String fileName : failFileNames) {
         stbFileNames.append(fileName + "\n");
       }
-      JOptionPane.showMessageDialog(this, "如下文件转换换行符失败：\n" + stbFileNames, Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      JOptionPane.showMessageDialog(this, "如下文件转换换行符失败：\n" + stbFileNames, Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
     }
   }
 
@@ -383,6 +381,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
       this.onEnter();
@@ -398,6 +397,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
   /**
    * 当列表框改变选择时，触发此事件
    */
+  @Override
   public void valueChanged(ListSelectionEvent e) {
     if (this.listPath.equals(e.getSource())) {
       this.setSourceButtonEnabled();
@@ -407,6 +407,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     this.changeLineSeparatorAll();
   }
@@ -414,6 +415,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }

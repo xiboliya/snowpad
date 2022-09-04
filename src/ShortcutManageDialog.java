@@ -203,6 +203,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnEdit.equals(e.getSource())) {
       this.onEnter();
@@ -242,9 +243,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
    * "恢复默认"的操作方法
    */
   private void resetShortcuts() {
-    int result = JOptionPane.showConfirmDialog(this, 
-        "此操作将恢复所有的快捷键设置！\n是否继续？",
-        Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
+    int result = JOptionPane.showConfirmDialog(this, "此操作将恢复所有的快捷键设置！\n是否继续？", Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
     if (result != JOptionPane.YES_OPTION) {
       return;
     }
@@ -256,6 +255,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     int index = this.tabMain.getSelectedRow();
     String keyName = this.tabMain.getValueAt(index, 0).toString();
@@ -275,6 +275,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }

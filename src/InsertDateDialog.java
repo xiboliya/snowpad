@@ -29,7 +29,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -132,6 +131,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.fillStyleList();
@@ -243,6 +243,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   /**
    * "关闭"按钮的处理方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }
@@ -250,6 +251,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   /**
    * "插入"按钮的处理方法
    */
+  @Override
   public void onEnter() {
     String strStyles = "";
     if (this.radSelect.isSelected()) {
@@ -258,8 +260,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
       strStyles = this.txtUser.getText();
     }
     if (Util.isTextEmpty(strStyles)) {
-      JOptionPane.showMessageDialog(this, "格式不能为空！", Util.SOFTWARE,
-          JOptionPane.ERROR_MESSAGE);
+      TipsWindow.show(this, "格式不能为空！");
       return;
     }
     try {
@@ -268,14 +269,14 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
       this.dispose();
     } catch (IllegalArgumentException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "格式错误，请重新输入！", Util.SOFTWARE,
-          JOptionPane.ERROR_MESSAGE);
+      TipsWindow.show(this, "格式错误，请重新输入！");
     }
   }
 
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
@@ -291,6 +292,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   /**
    * 当列表框改变选择时，触发此事件
    */
+  @Override
   public void valueChanged(ListSelectionEvent e) {
     if (this.listStyles.equals(e.getSource())) {
       this.currentIndex = this.listStyles.getSelectedIndex();
@@ -303,6 +305,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   /**
    * 当文本框的光标发生变化时，触发此事件
    */
+  @Override
   public void caretUpdate(CaretEvent e) {
     if (this.txtUser.equals(e.getSource())) {
       this.setView();

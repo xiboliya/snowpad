@@ -154,8 +154,7 @@ public class BookmarkPreviewDialog extends BaseDialog implements ActionListener,
    */
   private void gotoResult() {
     if (this.bookmarks.isEmpty()) {
-      JOptionPane.showMessageDialog(this, "当前文件没有书签，无法跳转！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "当前文件没有书签，无法跳转！");
       return;
     }
     CurrentLine currentLine = new CurrentLine(this.txaMain);

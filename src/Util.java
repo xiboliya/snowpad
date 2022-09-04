@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;

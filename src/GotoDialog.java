@@ -22,7 +22,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
@@ -37,8 +36,7 @@ import javax.swing.text.BadLocationException;
  * @author 冰原
  * 
  */
-public class GotoDialog extends BaseDialog implements ActionListener,
-    ChangeListener {
+public class GotoDialog extends BaseDialog implements ActionListener, ChangeListener {
   private static final long serialVersionUID = 1L;
   private JTabbedPane tpnMain = new JTabbedPane();
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -133,6 +131,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.updateView();
@@ -203,8 +202,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     int total = this.txaSource.getLineCount(); // 文本域总行数
     String str = this.txtGotoLine.getText().trim();
     if (Util.isTextEmpty(str)) {
-      JOptionPane.showMessageDialog(this, "行号不能为空！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "行号不能为空！");
       this.txtGotoLine.requestFocus();
       return;
     }
@@ -213,18 +211,15 @@ public class GotoDialog extends BaseDialog implements ActionListener,
       target = Integer.parseInt(str);
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "格式错误，请输入数值！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "格式错误，请输入数值！");
       this.txtGotoLine.requestFocus();
       this.txtGotoLine.selectAll();
       return;
     }
     if (target <= 0) {
-      JOptionPane.showMessageDialog(this, "行号必须大于0！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "行号必须大于0！");
     } else if (target > total) {
-      JOptionPane.showMessageDialog(this, "行号超出范围！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "行号超出范围！");
     } else {
       try {
         // 获取指定行起始处的偏移量，指定行号的取值范围：x>=0 && x<文本域总行数
@@ -246,8 +241,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     int total = this.txaSource.getText().length(); // 文本域总偏移量
     String str = this.txtGotoOffset.getText().trim();
     if (Util.isTextEmpty(str)) {
-      JOptionPane.showMessageDialog(this, "偏移量不能为空！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "偏移量不能为空！");
       this.txtGotoOffset.requestFocus();
       return;
     }
@@ -256,18 +250,15 @@ public class GotoDialog extends BaseDialog implements ActionListener,
       target = Integer.parseInt(str);
     } catch (NumberFormatException x) {
       // x.printStackTrace();
-      JOptionPane.showMessageDialog(this, "格式错误，请输入数值！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "格式错误，请输入数值！");
       this.txtGotoOffset.requestFocus();
       this.txtGotoOffset.selectAll();
       return;
     }
     if (target < 0) {
-      JOptionPane.showMessageDialog(this, "偏移量必须大于等于0！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "偏移量必须大于等于0！");
     } else if (target > total) {
-      JOptionPane.showMessageDialog(this, "偏移量超出范围！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "偏移量超出范围！");
     } else {
       this.txaSource.setCaretPosition(target);
       this.cancelGoto();
@@ -289,6 +280,10 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     this.cancelGoto();
   }
 
+  /**
+   * 为各组件添加事件的处理方法
+   */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
@@ -297,6 +292,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
     }
   }
 
+  @Override
   public void stateChanged(ChangeEvent e) {
     if (this.sldPercent.equals(e.getSource())) {
       this.percentChanged = true;
@@ -307,6 +303,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     if (this.getTabbedIndex() == 0) {
       this.gotoLine();
@@ -320,6 +317,7 @@ public class GotoDialog extends BaseDialog implements ActionListener,
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.cancelGoto();
   }

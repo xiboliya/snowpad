@@ -237,8 +237,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       keyword = this.txaKeywordM.getText();
     }
     if (Util.isTextEmpty(keyword)) {
-      JOptionPane.showMessageDialog(this, "拆分关键字不能为空，请输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "拆分关键字不能为空，请输入！");
       return;
     }
     keyword = checkText(keyword);
@@ -259,14 +258,12 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     BaseTextArea textArea = (BaseTextArea) this.txaSource;
     String strText = textArea.getText();
     if (Util.isTextEmpty(strText)) {
-      JOptionPane.showMessageDialog(this, "文件内容为空，无法拆分！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "文件内容为空，无法拆分！");
       return;
     }
     String[] arrText = strText.split(keyword);
     if (arrText.length <= 1) {
-      JOptionPane.showMessageDialog(this, "拆分文件失败，请检查关键字是否正确！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      JOptionPane.showMessageDialog(this, "拆分文件失败，请检查关键字是否正确！", Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
       return;
     }
     File file = textArea.getFile();
@@ -299,8 +296,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       JOptionPane.showMessageDialog(this, "拆分文件完成！\n成功生成文件：" + count + "个。", Util.SOFTWARE,
           JOptionPane.CANCEL_OPTION);
     } else {
-      JOptionPane.showMessageDialog(this, "拆分文件失败，请先保存文件！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "拆分文件失败，请先保存文件！");
     }
   }
 
@@ -313,18 +309,15 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private void slicingTargetFile(String keyword) {
     String strPath = this.txtTargetFile.getText();
     if (Util.isTextEmpty(strPath)) {
-      JOptionPane.showMessageDialog(this, "文件路径不能为空，请输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "文件路径不能为空，请输入！");
       return;
     }
     File file = new File(strPath);
     if (!file.exists()) {
-      JOptionPane.showMessageDialog(this, "文件不存在，请重新输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "文件不存在，请重新输入！");
       return;
     } else if (file.isDirectory()) {
-      JOptionPane.showMessageDialog(this, "不支持目录操作，请重新输入！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "不支持目录操作，请重新输入！");
       return;
     }
     long length = file.length();
@@ -336,8 +329,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     CharEncoding charEncoding = Util.checkFileEncoding(file);
     String strText = this.toReadFile(file, charEncoding);
     if (Util.isTextEmpty(strText)) {
-      JOptionPane.showMessageDialog(this, "拆分文件失败，源文件读取异常！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "拆分文件失败，源文件读取异常！");
       return;
     }
     LineSeparator lineSeparator = LineSeparator.DEFAULT;
@@ -354,8 +346,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     }
     String[] arrText = strText.split(keyword);
     if (arrText.length <= 1) {
-      JOptionPane.showMessageDialog(this, "拆分文件失败，请检查关键字是否正确！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      JOptionPane.showMessageDialog(this, "拆分文件失败，请检查关键字是否正确！", Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
       return;
     }
     File fileSplit = new File(file + "_split");

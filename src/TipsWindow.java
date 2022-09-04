@@ -77,14 +77,15 @@ public class TipsWindow extends JWindow implements ActionListener {
    * 当前窗口自动延时关闭
    */
   private void delayClose() {
-    // 延时2秒
-    this.timer = new Timer(2000, this);
+    // 延时1.5秒
+    this.timer = new Timer(1500, this);
     this.timer.start();
   }
 
   /**
    * 添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     this.timer.stop();
     this.dispose();

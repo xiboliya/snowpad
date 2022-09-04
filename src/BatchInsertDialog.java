@@ -24,7 +24,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -65,6 +64,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.txtInsert.setText("");
@@ -114,6 +114,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
       this.onEnter();
@@ -128,8 +129,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   private void insertText() {
     String strInsert = this.txtInsert.getText();
     if (Util.isTextEmpty(strInsert)) {
-      JOptionPane.showMessageDialog(this, "请输入插入的文本！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "请输入插入的文本！");
       this.txtInsert.requestFocus();
     } else {
       this.toInsertText(strInsert);
@@ -181,6 +181,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     this.insertText();
   }
@@ -188,6 +189,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }

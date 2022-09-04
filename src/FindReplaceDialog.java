@@ -443,6 +443,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnCancelF.equals(e.getSource())) { // 查找
       this.onCancel();
@@ -516,6 +517,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 默认的“取消”操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }
@@ -523,6 +525,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 默认的“确定”操作方法
    */
+  @Override
   public void onEnter() {
     if (this.tpnMain.getSelectedIndex() == 0) {
       this.findText(this.isFindDown);
@@ -661,8 +664,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           this.matcher = Pattern.compile(stbFindTextTemp.toString()).matcher(
               stbTextAll);
         } catch (PatternSyntaxException x) {
-          JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
-              Util.SOFTWARE, JOptionPane.NO_OPTION);
+          TipsWindow.show(this, "正则表达式语法错误，请修改！");
           return;
         }
         int length = 0;
@@ -705,11 +707,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           this.txaSource.setText(stbTextAll.toString());
           this.txaSource.setCaretPosition(Util.checkCaretPosition(this.txaSource, newPos));
         }
-        JOptionPane.showMessageDialog(this, "共替换 " + times + " 处。",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
+        TipsWindow.show(this, "共替换 " + times + " 处。");
       } else {
-        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
+        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
     }
   }
@@ -734,7 +734,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private void getTextCountAll() {
     int times = this.getTextCount(this.txaSource.getText());
     if (times >= 0) {
-      JOptionPane.showMessageDialog(this, "共找到 " + times + " 处。", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      TipsWindow.show(this, "共找到 " + times + " 处。");
     }
   }
 
@@ -744,7 +744,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private void getTextCountSel() {
     int times = this.getTextCount(this.txaSource.getSelectedText());
     if (times >= 0) {
-      JOptionPane.showMessageDialog(this, "共找到 " + times + " 处。", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      TipsWindow.show(this, "共找到 " + times + " 处。");
     }
   }
 
@@ -776,8 +776,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       try {
         this.matcher = Pattern.compile(strFindTemp).matcher(strText);
       } catch (PatternSyntaxException x) {
-        JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
+        TipsWindow.show(this, "正则表达式语法错误，请修改！");
         return -1;
       }
       while (this.matcher.find()) {
@@ -820,11 +819,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     }
     if (listIndex.isEmpty()) {
       if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
-        JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
+        TipsWindow.show(this, "正则表达式语法错误，请修改！");
       } else {
-        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
+        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
     } else {
       SearchResult searchResult = new SearchResult((BaseTextArea)this.txaSource, this.strFind, listIndex);
@@ -861,11 +858,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     }
     if (listIndex.isEmpty()) {
       if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
-        JOptionPane.showMessageDialog(this, "正则表达式语法错误，请修改！",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
+        TipsWindow.show(this, "正则表达式语法错误，请修改！");
       } else {
-        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
+        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
     } else {
       String strSource = this.txaSource.getText();
@@ -892,7 +887,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           stbResult.append(stbLine);
         }
         ((SnowPadFrame) this.getOwner()).setClipboardContents(stbResult.toString());
-        JOptionPane.showMessageDialog(this, "共复制 " + times + " 行。", Util.SOFTWARE, JOptionPane.NO_OPTION);
+        TipsWindow.show(this, "共复制 " + times + " 行。");
       } catch (BadLocationException x) {
          x.printStackTrace();
       }
@@ -923,6 +918,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 当文本框的光标发生变化时，触发此事件
    */
+  @Override
   public void caretUpdate(CaretEvent e) {
     if (this.txtFindTextF.equals(e.getSource())) { // 查找
       this.strFind = this.txtFindTextF.getText();
@@ -955,6 +951,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 当选项卡改变当前视图时调用
    */
+  @Override
   public void stateChanged(ChangeEvent e) {
     if (this.tpnMain.getSelectedIndex() == 0) {
       this.setTitle(this.tpnMain.getTitleAt(0));
@@ -971,6 +968,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 当窗口获得焦点时，将触发此事件
    */
+  @Override
   public void windowGainedFocus(WindowEvent e) {
     this.setBtnSelEnabled();
   }
@@ -978,6 +976,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 当窗口失去焦点时，将触发此事件
    */
+  @Override
   public void windowLostFocus(WindowEvent e) {
   }
 }

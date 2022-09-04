@@ -119,6 +119,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.initView();
@@ -299,12 +300,10 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     }
     int size = this.defaultListModel.getSize();
     if (size <= 0) {
-      JOptionPane.showMessageDialog(this, "源文件路径不能为空，请添加！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "源文件路径不能为空，请添加！");
       return;
     } else if (size == 1) {
-      JOptionPane.showMessageDialog(this, "源文件路径至少为2个，请添加！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "源文件路径至少为2个，请添加！");
       return;
     }
     Util.checkFile(file);
@@ -342,11 +341,9 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
       }
     }
     if (result) {
-      JOptionPane.showMessageDialog(this, "拼接文件完成！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "拼接文件完成！");
     } else {
-      JOptionPane.showMessageDialog(this, "拼接文件失败！", Util.SOFTWARE,
-          JOptionPane.CANCEL_OPTION);
+      TipsWindow.show(this, "拼接文件失败！");
     }
   }
 
@@ -370,6 +367,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnOk.equals(e.getSource())) {
       this.onEnter();
@@ -391,6 +389,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   /**
    * 当列表框改变选择时，触发此事件
    */
+  @Override
   public void valueChanged(ListSelectionEvent e) {
     if (this.listPath.equals(e.getSource())) {
       this.setSourceButtonEnabled();
@@ -400,6 +399,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     this.mergeFile();
   }
@@ -407,6 +407,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }

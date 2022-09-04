@@ -30,7 +30,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -180,6 +179,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     String actionCommand = e.getActionCommand();
     if (Util.isTextEmpty(actionCommand)) {
@@ -410,7 +410,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
         this.txtView.setText(result);
       }
     } else {
-      JOptionPane.showMessageDialog(this, "语法错误，请检查！", Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+      TipsWindow.show(this, "语法错误，请检查！");
     }
   }
 
@@ -747,6 +747,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     this.equal(this.txtView.getText());
   }
@@ -754,6 +755,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }
