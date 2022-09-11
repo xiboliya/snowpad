@@ -1708,3 +1708,7 @@ src/SlicingFileDialog.java
 src/TabSetDialog.java
 src/TipsWindow.java
 src/Util.java
+
+2022-09-11
+1.在src目录下新建多个子目录，并将所有java文件按照分类放到对应的子目录里。
+src/（所有java文件移到子目录）
