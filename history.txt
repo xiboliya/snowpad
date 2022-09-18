@@ -1712,3 +1712,8 @@ src/Util.java
 2022-09-11
 1.在src目录下新建多个子目录，并将所有java文件按照分类放到对应的子目录里。
 src/（所有java文件移到子目录）
+
+2022-09-18
+1.去掉“进制转换”界面初始化时冗余的参数。
+src/com/xiboliya/snowpad/dialog/NumberConvertDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
