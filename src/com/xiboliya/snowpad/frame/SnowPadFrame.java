@@ -4624,7 +4624,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openNumberConvertDialog() {
     if (this.numberConvertDialog == null) {
-      this.numberConvertDialog = new NumberConvertDialog(this, false, this.txaMain);
+      this.numberConvertDialog = new NumberConvertDialog(this, false);
     } else {
       this.numberConvertDialog.setVisible(true);
     }

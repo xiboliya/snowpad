@@ -64,12 +64,8 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   private JButton btnCopy = new JButton("复制结果(C)");
   private JButton btnCancel = new JButton("取消");
 
-  public NumberConvertDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public NumberConvertDialog(JFrame owner, boolean modal) {
     super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
     this.setTitle("数字进制转换");
     this.init();
     this.initView();
@@ -160,6 +156,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnCopy.equals(e.getSource())) {
       this.toCopyResult();
@@ -260,6 +257,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   /**
    * 默认的“取消”操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }
@@ -267,12 +265,14 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   /**
    * 默认的“确定”操作方法
    */
+  @Override
   public void onEnter() {
   }
 
   /**
    * 当文本框的光标发生变化时，触发此事件
    */
+  @Override
   public void caretUpdate(CaretEvent e) {
     if (this.txtNumber.equals(e.getSource())) {
       this.showResult();
@@ -282,6 +282,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
   /**
    * 当用户已选定或取消选定某项时，触发此事件
    */
+  @Override
   public void itemStateChanged(ItemEvent e) {
     this.showResult();
   }
