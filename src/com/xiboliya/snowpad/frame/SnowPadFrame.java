@@ -129,6 +129,7 @@ import com.xiboliya.snowpad.dialog.ShortcutSetDialog;
 import com.xiboliya.snowpad.dialog.SignIdentifierDialog;
 import com.xiboliya.snowpad.dialog.SlicingFileDialog;
 import com.xiboliya.snowpad.dialog.TabSetDialog;
+import com.xiboliya.snowpad.dialog.UnitConvertDialog;
 import com.xiboliya.snowpad.dialog.WindowManageDialog;
 import com.xiboliya.snowpad.panel.SearchResultPanel;
 import com.xiboliya.snowpad.panel.StatePanel;
@@ -249,6 +250,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JTabbedPane tpnMain = new JTabbedPane(); // 显示文本域的选项卡组件
   private JSplitPane spnMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT); // 用于分隔选项卡组件与查找结果面板的组件
   private JToolBar tlbMain = new JToolBar(); // 显示常用按钮的工具栏组件
+
   private JMenuBar menuBar = new JMenuBar();
   private JMenu menuFile = new JMenu("文件(F)");
   private JMenuItem itemNew = new JMenuItem("新建(N)", 'N');
@@ -437,9 +439,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemMergeFile = new JMenuItem("拼接文件(M)...", 'M');
   private JMenuItem itemChangeEncoding = new JMenuItem("转换文件编码(D)...", 'D');
   private JMenuItem itemChangeLineSeparator = new JMenuItem("转换文件换行符(L)...", 'L');
+  private JMenuItem itemUnitConvert = new JMenuItem("单位换算(U)...", 'U');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
+
   private JPopupMenu popMenuMain = new JPopupMenu();
   private JMenuItem itemPopUnDo = new JMenuItem("撤销(U)", 'U');
   private JMenuItem itemPopReDo = new JMenuItem("重做(Y)", 'Y');
@@ -533,6 +537,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private MergeFileDialog mergeFileDialog = null; // 拼接文件对话框
   private ChangeEncodingDialog changeEncodingDialog = null; // 转换文件编码对话框
   private ChangeLineSeparatorDialog changeLineSeparatorDialog = null; // 转换文件换行符对话框
+  private UnitConvertDialog unitConvertDialog = null; // 单位换算对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
@@ -730,6 +735,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemMergeFile.addActionListener(this);
     this.itemChangeEncoding.addActionListener(this);
     this.itemChangeLineSeparator.addActionListener(this);
+    this.itemUnitConvert.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1201,6 +1207,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTool.add(this.itemMergeFile);
     this.menuTool.add(this.itemChangeEncoding);
     this.menuTool.add(this.itemChangeLineSeparator);
+    this.menuTool.add(this.itemUnitConvert);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1379,6 +1386,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemMergeFile);
     this.menuItemList.add(this.itemChangeEncoding);
     this.menuItemList.add(this.itemChangeLineSeparator);
+    this.menuItemList.add(this.itemUnitConvert);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1897,6 +1905,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openChangeEncodingDialog();
     } else if (this.itemChangeLineSeparator.equals(e.getSource())) {
       this.openChangeLineSeparatorDialog();
+    } else if (this.itemUnitConvert.equals(e.getSource())) {
+      this.openUnitConvertDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -2697,6 +2707,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.changeLineSeparatorDialog != null) {
       this.changeLineSeparatorDialog.dispose();
       this.changeLineSeparatorDialog = null;
+    }
+    if (this.unitConvertDialog != null) {
+      this.unitConvertDialog.dispose();
+      this.unitConvertDialog = null;
     }
     if (this.bookmarkPreviewDialog != null) {
       this.bookmarkPreviewDialog.dispose();
@@ -4682,6 +4696,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.changeLineSeparatorDialog = new ChangeLineSeparatorDialog(this, false);
     } else {
       this.changeLineSeparatorDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "单位换算"的处理方法
+   */
+  private void openUnitConvertDialog() {
+    if (this.unitConvertDialog == null) {
+      this.unitConvertDialog = new UnitConvertDialog(this, false);
+    } else {
+      this.unitConvertDialog.setVisible(true);
     }
   }
 
