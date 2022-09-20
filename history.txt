@@ -1717,3 +1717,9 @@ src/（所有java文件移到子目录）
 1.去掉“进制转换”界面初始化时冗余的参数。
 src/com/xiboliya/snowpad/dialog/NumberConvertDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2022-09-21
+1.在“工具”菜单中添加“单位换算”功能。
+src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
