@@ -50,12 +50,17 @@ import com.xiboliya.snowpad.util.Util;
 public class UnitConvertDialog extends BaseDialog implements ActionListener, CaretListener, ItemListener {
   private static final long serialVersionUID = 1L;
   // 单位类型
-  private static final String[] UNIT_TYPES = new String[] {"存储"};
+  private static final String[] UNIT_TYPES = new String[] {"存储", "时间"};
   // 存储单位
   private static final String[] UNIT_TYPE_MEMORY_NAME =
-    new String[] {"比特(bit)","字节(B)","千字节(KB)","兆字节(MB)","千兆字节(GB)","太字节(TB)","拍字节(PB)","艾字节(EB)"};
+    new String[] {"比特(bit)", "字节(B)", "千字节(KB)", "兆字节(MB)", "千兆字节(GB)", "太字节(TB)", "拍字节(PB)", "艾字节(EB)"};
+  // 时间单位
+  private static final String[] UNIT_TYPE_TIME_NAME =
+    new String[] {"纳秒(ns)", "微秒(μs)", "毫秒(ms)", "秒(s)", "分(min)", "时(h)", "天(d)", "周(w)"};
   // 存储换算比例
   private static final int[] UNIT_TYPE_MEMORY_RATE = new int[] {1, 8, 1024, 1024, 1024, 1024, 1024, 1024};
+  // 时间换算比例
+  private static final int[] UNIT_TYPE_TIME_RATE = new int[] {1, 1000, 1000, 1000, 60, 60, 24, 7};
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -143,6 +148,9 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
       case 0:
         unitType = UNIT_TYPE_MEMORY_NAME;
         break;
+      case 1:
+        unitType = UNIT_TYPE_TIME_NAME;
+        break;
     }
     this.cmbNumber.setModel(new DefaultComboBoxModel<String>(unitType));
     this.cmbNumber.setSelectedIndex(0);
@@ -212,6 +220,9 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
         case 0:
           unitTypeRate = UNIT_TYPE_MEMORY_RATE;
           break;
+        case 1:
+          unitTypeRate = UNIT_TYPE_TIME_RATE;
+          break;
       }
       int indexNumber = this.cmbNumber.getSelectedIndex();
       int indexResult = this.cmbResult.getSelectedIndex();
@@ -231,7 +242,8 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
           for (; count > 0; count--) {
             rate = rate.multiply(new BigDecimal(unitTypeRate[indexNumber + count]));
           }
-          result = number.divide(rate).toString();
+          // 此处的divide方法需要添加后面2个参数，以设置保留小数的精度。如果不设置，在无法除尽的时候会报错。
+          result = number.divide(rate, 50, BigDecimal.ROUND_HALF_UP).toString();
         }
         if (this.chkUpperCase.isSelected()) {
           result = result.toUpperCase();
@@ -327,6 +339,9 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
    */
   @Override
   public void itemStateChanged(ItemEvent e) {
+    if (this.cmbUnitType.equals(e.getSource())) {
+      this.refreshView();
+    }
     this.showResult();
   }
 }
