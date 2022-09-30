@@ -1727,3 +1727,7 @@ src/com/xiboliya/snowpad/util/Util.java
 2022-09-25
 1.在“单位换算”界面中添加：时间单位换算。
 src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
+
+2022-09-30
+1.在“单位换算”界面中添加：长度、面积、体积、质量单位换算。
+src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
