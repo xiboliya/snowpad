@@ -50,17 +50,38 @@ import com.xiboliya.snowpad.util.Util;
 public class UnitConvertDialog extends BaseDialog implements ActionListener, CaretListener, ItemListener {
   private static final long serialVersionUID = 1L;
   // 单位类型
-  private static final String[] UNIT_TYPES = new String[] {"存储", "时间"};
+  private static final String[] UNIT_TYPES = new String[] {"存储", "时间", "长度", "面积", "体积", "质量"};
   // 存储单位
   private static final String[] UNIT_TYPE_MEMORY_NAME =
     new String[] {"比特(bit)", "字节(B)", "千字节(KB)", "兆字节(MB)", "千兆字节(GB)", "太字节(TB)", "拍字节(PB)", "艾字节(EB)"};
   // 时间单位
   private static final String[] UNIT_TYPE_TIME_NAME =
     new String[] {"纳秒(ns)", "微秒(μs)", "毫秒(ms)", "秒(s)", "分(min)", "时(h)", "天(d)", "周(w)"};
+  // 长度单位
+  private static final String[] UNIT_TYPE_LENGTH_NAME =
+    new String[] {"皮米(pm)", "纳米(nm)", "微米(um)", "毫米(mm)", "厘米(cm)", "分米(dm)", "米(m)", "千米(km)"};
+  // 面积单位
+  private static final String[] UNIT_TYPE_AREA_NAME =
+    new String[] {"平方毫米(m㎡)", "平方厘米(m㎡)", "平方分米(m㎡)", "平方米(m㎡)", "公亩(are)", "公顷(ha)", "平方千米(k㎡)"};
+  // 体积单位
+  private static final String[] UNIT_TYPE_VOLUME_NAME =
+    new String[] {"立方毫米(mm³)", "微升(ul)", "立方厘米(cm³)", "毫升(ml)", "厘升(cl)", "分升(dl)", "立方分米(dm³)", "升(l)", "公石(hl)", "立方米(m³)", "立方千米(km³)"};
+  // 质量单位
+  private static final String[] UNIT_TYPE_WEIGHT_NAME =
+    new String[] {"微克(μg)", "毫克(mg)", "克拉(ct)", "克(g)", "千克(kg)", "公担(q)", "吨(t)"};
   // 存储换算比例
   private static final int[] UNIT_TYPE_MEMORY_RATE = new int[] {1, 8, 1024, 1024, 1024, 1024, 1024, 1024};
   // 时间换算比例
   private static final int[] UNIT_TYPE_TIME_RATE = new int[] {1, 1000, 1000, 1000, 60, 60, 24, 7};
+  // 长度换算比例
+  private static final int[] UNIT_TYPE_LENGTH_RATE = new int[] {1, 1000, 1000, 1000, 10, 10, 10, 1000};
+  // 面积换算比例
+  private static final int[] UNIT_TYPE_AREA_RATE = new int[] {1, 100, 100, 100, 100, 100, 100};
+  // 体积换算比例
+  private static final int[] UNIT_TYPE_VOLUME_RATE = new int[] {1, 1, 1000, 1, 10, 10, 10, 1, 100, 10, 1000000000};
+  // 质量换算比例
+  private static final int[] UNIT_TYPE_WEIGHT_RATE = new int[] {1, 1000, 200, 5, 1000, 100, 10};
+
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -87,7 +108,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
     this.setMnemonic();
     this.addListeners();
     this.refreshView();
-    this.setSize(420, 300);
+    this.setSize(350, 300);
     this.setVisible(true);
   }
 
@@ -97,11 +118,11 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
   private void init() {
     this.pnlMain.setLayout(null);
     this.lblUnitType.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
-    this.cmbUnitType.setBounds(10, 35, 100, Util.INPUT_HEIGHT);
+    this.cmbUnitType.setBounds(10, 35, 110, Util.INPUT_HEIGHT);
     this.lblNumber.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
-    this.lblWarning.setBounds(90, 70, 190, Util.VIEW_HEIGHT);
-    this.cmbNumber.setBounds(10, 95, 100, Util.INPUT_HEIGHT);
-    this.txtNumber.setBounds(120, 95, 160, Util.INPUT_HEIGHT);
+    this.lblWarning.setBounds(130, 70, 190, Util.VIEW_HEIGHT);
+    this.cmbNumber.setBounds(10, 95, 110, Util.INPUT_HEIGHT);
+    this.txtNumber.setBounds(130, 95, 160, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblUnitType);
     this.pnlMain.add(this.cmbUnitType);
     this.pnlMain.add(this.lblNumber);
@@ -113,19 +134,18 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
     this.pnlMain.add(this.btnExchange);
 
     this.lblResult.setBounds(10, 160, 70, Util.VIEW_HEIGHT);
-    this.chkUpperCase.setBounds(290, 160, 110, Util.VIEW_HEIGHT);
-    this.cmbResult.setBounds(10, 185, 100, Util.INPUT_HEIGHT);
-    this.txtResult.setBounds(120, 185, 160, Util.INPUT_HEIGHT);
-    this.btnCopy.setBounds(290, 185, 110, Util.BUTTON_HEIGHT);
+    this.chkUpperCase.setBounds(130, 160, 110, Util.VIEW_HEIGHT);
+    this.cmbResult.setBounds(10, 185, 110, Util.INPUT_HEIGHT);
+    this.txtResult.setBounds(130, 185, 160, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblResult);
     this.pnlMain.add(this.chkUpperCase);
     this.pnlMain.add(this.cmbResult);
     this.pnlMain.add(this.txtResult);
-    this.pnlMain.add(this.btnCopy);
 
-    this.btnCancel.setBounds(160, 225, 80, Util.BUTTON_HEIGHT);
+    this.btnCopy.setBounds(40, 225, 110, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(190, 225, 110, Util.BUTTON_HEIGHT);
+    this.pnlMain.add(this.btnCopy);
     this.pnlMain.add(this.btnCancel);
-    this.txtResult.setEditable(false);
   }
 
   /**
@@ -136,6 +156,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
     this.lblWarning.setVisible(false);
     this.cmbUnitType.setModel(new DefaultComboBoxModel<String>(UNIT_TYPES));
     this.cmbUnitType.setSelectedIndex(0);
+    this.txtResult.setEditable(false);
   }
 
   /**
@@ -150,6 +171,18 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
         break;
       case 1:
         unitType = UNIT_TYPE_TIME_NAME;
+        break;
+      case 2:
+        unitType = UNIT_TYPE_LENGTH_NAME;
+        break;
+      case 3:
+        unitType = UNIT_TYPE_AREA_NAME;
+        break;
+      case 4:
+        unitType = UNIT_TYPE_VOLUME_NAME;
+        break;
+      case 5:
+        unitType = UNIT_TYPE_WEIGHT_NAME;
         break;
     }
     this.cmbNumber.setModel(new DefaultComboBoxModel<String>(unitType));
@@ -222,6 +255,18 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
           break;
         case 1:
           unitTypeRate = UNIT_TYPE_TIME_RATE;
+          break;
+        case 2:
+          unitTypeRate = UNIT_TYPE_LENGTH_RATE;
+          break;
+        case 3:
+          unitTypeRate = UNIT_TYPE_AREA_RATE;
+          break;
+        case 4:
+          unitTypeRate = UNIT_TYPE_VOLUME_RATE;
+          break;
+        case 5:
+          unitTypeRate = UNIT_TYPE_WEIGHT_RATE;
           break;
       }
       int indexNumber = this.cmbNumber.getSelectedIndex();
