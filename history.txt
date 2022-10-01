@@ -1731,3 +1731,7 @@ src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
 2022-09-30
 1.在“单位换算”界面中添加：长度、面积、体积、质量单位换算。
 src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
+
+2022-10-01
+1.格式化“单位换算”界面中的换算结果，删除冗余的数字0。
+src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
