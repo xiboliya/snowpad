@@ -288,7 +288,8 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
             rate = rate.multiply(new BigDecimal(unitTypeRate[indexNumber + count]));
           }
           // 此处的divide方法需要添加后面2个参数，以设置保留小数的精度。如果不设置，在无法除尽的时候会报错。
-          result = number.divide(rate, 50, BigDecimal.ROUND_HALF_UP).toString();
+          result = number.divide(rate, 30, BigDecimal.ROUND_HALF_UP).toString();
+          result = this.formatDivideResult(result);
         }
         if (this.chkUpperCase.isSelected()) {
           result = result.toUpperCase();
@@ -303,6 +304,35 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
         this.txtResult.setText("");
       }
     }
+  }
+
+  /**
+   * 格式化结果字符串，删除冗余的数字0
+   * 
+   * @param result
+   *          结果字符串
+   * @return 格式化后的结果字符串
+   */
+  private String formatDivideResult(String result) {
+    int index = result.indexOf("0E-");
+    if (index <= 0) {
+      if (result.contains(".") && result.endsWith("0")) {
+        index = result.length() - 1;
+      } else {
+        return result;
+      }
+    }
+    StringBuilder stbResult = new StringBuilder(result);
+    int i = index;
+    for (; i > 0; i--) {
+      if (result.charAt(i) != '0') {
+        if (result.charAt(i) != '.') {
+          i++;
+        }
+        break;
+      }
+    }
+    return stbResult.delete(i, index + 1).toString();
   }
 
   /**
