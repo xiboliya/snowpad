@@ -104,6 +104,7 @@ public class BasePlainDocument extends PlainDocument {
    * @param set
    *          插入内容的属性
    */
+  @Override
   public void insertString(int offset, String str, AttributeSet set)
       throws BadLocationException {
     String targetStr = this.getText(0, offset) + str +

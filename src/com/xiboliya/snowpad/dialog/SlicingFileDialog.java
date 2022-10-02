@@ -105,7 +105,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     // 单行
     this.pnlSingle.setLayout(null);
     this.lblKeywordS.setBounds(30, 12, 90, Util.VIEW_HEIGHT);
-    this.txtKeywordS.setBounds(125, 10, 230, 25);
+    this.txtKeywordS.setBounds(125, 10, 230, Util.INPUT_HEIGHT);
     this.pnlSingle.add(this.lblKeywordS);
     this.pnlSingle.add(this.txtKeywordS);
     // 多行
@@ -119,7 +119,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     this.pnlBottom.setBounds(0, 130, 420, 150);
     this.radCurrentFile.setBounds(10, 10, 115, Util.VIEW_HEIGHT);
     this.radTargetFile.setBounds(10, 42, 115, Util.VIEW_HEIGHT);
-    this.txtTargetFile.setBounds(125, 40, 230, 25);
+    this.txtTargetFile.setBounds(125, 40, 230, Util.INPUT_HEIGHT);
     this.btnSelectFile.setMargin(this.insets);
     this.btnSelectFile.setBounds(370, 40, 25, 25);
     this.pnlBottom.add(this.radCurrentFile);

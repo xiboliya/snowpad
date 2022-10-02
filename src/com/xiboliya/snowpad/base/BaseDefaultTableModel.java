@@ -44,6 +44,7 @@ public class BaseDefaultTableModel extends DefaultTableModel {
   /**
    * 表格中的单元格是否可被编辑
    */
+  @Override
   public boolean isCellEditable(int row, int column) {
     return false; // 表格中所有的单元格都不可被编辑
   }

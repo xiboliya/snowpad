@@ -42,6 +42,7 @@ public class BaseFileFilter extends FileFilter {
     this.isAcceptDirectory = isAcceptDirectory;
   }
 
+  @Override
   public boolean accept(File file) {
     if (this.isAcceptDirectory && file.isDirectory()) { // 显示目录
       return true;

@@ -51,9 +51,9 @@ import com.xiboliya.snowpad.window.TipsWindow;
 public class BookmarkPreviewDialog extends BaseDialog implements ActionListener, CaretListener {
   private static final long serialVersionUID = 1L;
   private static final String prefixLine = "Line ";
-  private JLabel lblFont = new JLabel("书签行：");
+  private JLabel lblMain = new JLabel("书签行：");
   private BaseTextArea txaMain = new BaseTextArea();
-  private JScrollPane srpFont = new JScrollPane(this.txaMain);
+  private JScrollPane srpMain = new JScrollPane(this.txaMain);
   private JButton btnOk = new JButton("跳转");
   private JButton btnCancel = new JButton("取消");
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -92,10 +92,10 @@ public class BookmarkPreviewDialog extends BaseDialog implements ActionListener,
    */
   private void init() {
     this.pnlMain.setLayout(null);
-    this.lblFont.setBounds(10, 10, 140, Util.VIEW_HEIGHT);
-    this.srpFont.setBounds(10, 30, 300, 200);
-    this.pnlMain.add(this.lblFont);
-    this.pnlMain.add(this.srpFont);
+    this.lblMain.setBounds(10, 10, 140, Util.VIEW_HEIGHT);
+    this.srpMain.setBounds(10, 30, 300, 200);
+    this.pnlMain.add(this.lblMain);
+    this.pnlMain.add(this.srpMain);
     this.btnOk.setBounds(45, 240, 90, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(185, 240, 90, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnOk);

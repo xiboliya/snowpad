@@ -65,6 +65,7 @@ public abstract class BaseDialog extends JDialog {
   /**
    * 重写父类的方法：显示或隐藏当前窗口
    */
+  @Override
   public void setVisible(boolean visible) {
     if (!this.isVisible() && visible) {
       this.setLocationRelativeTo(this.owner);

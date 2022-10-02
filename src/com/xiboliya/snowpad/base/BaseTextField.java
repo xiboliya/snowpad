@@ -67,6 +67,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   private Action actUndo = new AbstractAction() {
     private static final long serialVersionUID = 1L;
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       undoAction();
     }
@@ -75,6 +76,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   private Action actRedo = new AbstractAction() {
     private static final long serialVersionUID = 1L;
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       redoAction();
     }
@@ -222,6 +224,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 为各菜单项添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.itemPopUnDo.equals(e.getSource())) {
       this.undoAction();
@@ -306,6 +309,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 当本控件中的光标变化时，将触发此事件
    */
+  @Override
   public void caretUpdate(CaretEvent e) {
     String selText = this.getSelectedText();
     if (selText != null && selText.length() > 0) {
@@ -318,6 +322,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 当本控件中的文本发生变化时，将触发此事件
    */
+  @Override
   public void undoableEditHappened(UndoableEditEvent e) {
     this.undoManager.addEdit(e.getEdit());
     this.setMenuStateUndoRedo();
@@ -326,6 +331,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 组件获得键盘焦点时调用
    */
+  @Override
   public void focusGained(FocusEvent e) {
     try {
       Transferable tf = this.clip.getContents(this);
@@ -347,12 +353,14 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 组件失去键盘焦点时调用
    */
+  @Override
   public void focusLost(FocusEvent e) {
   }
 
   /**
    * 鼠标按键在组件上单击（按下并释放）时调用
    */
+  @Override
   public void mouseClicked(MouseEvent e) {
     this.requestFocus(); // 当鼠标点击时（左键或右键），获得焦点
     if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
@@ -365,24 +373,28 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 鼠标进入到组件上时调用
    */
+  @Override
   public void mouseEntered(MouseEvent e) {
   }
 
   /**
    * 鼠标离开组件时调用
    */
+  @Override
   public void mouseExited(MouseEvent e) {
   }
 
   /**
    * 鼠标按键在组件上按下时调用
    */
+  @Override
   public void mousePressed(MouseEvent e) {
   }
 
   /**
    * 鼠标按钮在组件上释放时调用
    */
+  @Override
   public void mouseReleased(MouseEvent e) {
   }
 

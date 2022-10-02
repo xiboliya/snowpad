@@ -234,6 +234,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
    * 
    */
   private class BaseMouseAdapter extends MouseAdapter {
+    @Override
     public void mouseClicked(MouseEvent e) {
       if (listFont.equals(e.getSource())) {
         txtFont.setText(listFont.getSelectedValue().toString());
@@ -277,6 +278,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   /**
    * "取消"按钮的处理方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
     this.isOk = false;
@@ -285,6 +287,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   /**
    * "确定"按钮的处理方法
    */
+  @Override
   public void onEnter() {
     this.dispose();
     this.isOk = true;
@@ -302,6 +305,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
@@ -313,6 +317,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   /**
    * 当列表框改变选择时，触发此事件
    */
+  @Override
   public void valueChanged(ListSelectionEvent e) {
     if (this.listFont.equals(e.getSource())) {
       if (!this.txtFont.getText().equals(this.listFont.getSelectedValue())) {
@@ -341,6 +346,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
   /**
    * 当文本框的光标发生变化时，触发此事件
    */
+  @Override
   public void caretUpdate(CaretEvent e) {
     if (this.txtFont.equals(e.getSource())) {
       this.listFont.setSelectedValue(this.txtFont.getText(), true);

@@ -43,6 +43,7 @@ public class OpenFileChooser extends JFileChooser {
   /**
    * 当用户确认时将调用此方法
    */
+  @Override
   public void approveSelection() {
     File file = this.getSelectedFile();
     FileFilter fileFilter = this.getFileFilter(); // 获取当前的文件过滤器

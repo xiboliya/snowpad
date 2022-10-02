@@ -84,7 +84,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
     this.initView();
     this.setMnemonic();
     this.addListeners();
-    this.setSize(340, 320);
+    this.setSize(340, 310);
     this.setVisible(true);
   }
 
@@ -107,10 +107,10 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
     this.pnlMain.add(this.btnReduceSource);
     this.pnlMain.add(this.srpPath);
     this.lblTargetLineSeparator.setBounds(10, 180, 130, Util.VIEW_HEIGHT);
-    this.cmbLineSeparator.setBounds(10, 205, 180, 30);
+    this.cmbLineSeparator.setBounds(10, 205, 180, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblTargetLineSeparator);
     this.pnlMain.add(this.cmbLineSeparator);
-    this.chkRetainSource.setBounds(10, 245, 150, Util.VIEW_HEIGHT);
+    this.chkRetainSource.setBounds(10, 240, 150, Util.VIEW_HEIGHT);
     this.pnlMain.add(this.chkRetainSource);
     this.btnOk.setBounds(230, 190, 90, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(230, 230, 90, Util.BUTTON_HEIGHT);

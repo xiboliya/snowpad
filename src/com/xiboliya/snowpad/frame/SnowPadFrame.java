@@ -587,8 +587,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
       }
     }
-    this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
-        this.setting, false);
+    this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult, this.setting, false);
   }
 
   /**
@@ -1451,7 +1450,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 设置各菜单项的初始状态，即是否可用
    */
   private void setMenuDefault() {
-    this.menuSort.setEnabled(false);
+    this.itemSortUp.setEnabled(false);
+    this.itemSortDown.setEnabled(false);
+    this.itemSortReverse.setEnabled(false);
     this.itemReOpen.setEnabled(false);
     this.itemReName.setEnabled(false);
     this.itemDelFile.setEnabled(false);
@@ -1583,7 +1584,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.txaMain == null || Util.isTextEmpty(this.txaMain.getText())) {
       isExist = false;
     }
-    this.menuSort.setEnabled(isExist);
+    this.itemSortUp.setEnabled(isExist);
+    this.itemSortDown.setEnabled(isExist);
+    this.itemSortReverse.setEnabled(isExist);
     this.itemCaseUp.setEnabled(isExist);
     this.itemCaseLow.setEnabled(isExist);
     this.itemLineBatchRemove.setEnabled(isExist);
@@ -4886,10 +4889,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (tf != null) {
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
         if (str != null) {
-          str = str.replaceAll(LineSeparator.WINDOWS.toString(),
-              LineSeparator.UNIX.toString()); // 将Windows格式的换行符\r\n，转换为UNIX/Linux格式
-          str = str.replaceAll(LineSeparator.MACINTOSH.toString(),
-              LineSeparator.UNIX.toString()); // 为了容错，将可能残余的\r字符替换为\n
+          // 将Windows格式的换行符\r\n，转换为UNIX/Linux格式
+          str = str.replaceAll(LineSeparator.WINDOWS.toString(), LineSeparator.UNIX.toString());
+          // 为了容错，将可能残余的\r字符替换为\n
+          str = str.replaceAll(LineSeparator.MACINTOSH.toString(), LineSeparator.UNIX.toString());
           this.txaMain.replaceSelection(str);
         }
       }
@@ -4922,8 +4925,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (!this.fontChooser.getOk()) {
       return;
     }
-    this.setting.font = this.textAreaSetting.font = this.fontChooser
-        .getTextAreaFont();
+    this.setting.font = this.textAreaSetting.font = this.fontChooser.getTextAreaFont();
     this.setTextAreaFont();
   }
 
@@ -5446,12 +5448,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
       String strTemp = stbTemp.toString();
       if (strTemp.indexOf(LineSeparator.WINDOWS.toString()) >= 0) {
-        strTemp = strTemp.replaceAll(LineSeparator.WINDOWS.toString(),
-            LineSeparator.UNIX.toString());
+        strTemp = strTemp.replaceAll(LineSeparator.WINDOWS.toString(), LineSeparator.UNIX.toString());
         this.setLineStyleString(LineSeparator.WINDOWS, true);
       } else if (strTemp.indexOf(LineSeparator.MACINTOSH.toString()) >= 0) {
-        strTemp = strTemp.replaceAll(LineSeparator.MACINTOSH.toString(),
-            LineSeparator.UNIX.toString());
+        strTemp = strTemp.replaceAll(LineSeparator.MACINTOSH.toString(), LineSeparator.UNIX.toString());
         this.setLineStyleString(LineSeparator.MACINTOSH, true);
       } else if (strTemp.indexOf(LineSeparator.UNIX.toString()) >= 0) {
         this.setLineStyleString(LineSeparator.UNIX, true);
@@ -5746,8 +5746,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 更新状态栏当前的换行符格式
    */
   private void updateStateLineStyle() {
-    this.pnlState.setStringByIndex(2, STATE_LINE_STYLE
-        + this.txaMain.getLineSeparator().getName());
+    this.pnlState.setStringByIndex(2, STATE_LINE_STYLE + this.txaMain.getLineSeparator().getName());
   }
 
   /**
@@ -5879,13 +5878,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.txaMain.getHighlighter().addHighlight(currentIndex, currentIndex + 1,
           new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
       Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter().getHighlights();
-      this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1],
-              BRACKET_COLOR_STYLE));
+      this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1], BRACKET_COLOR_STYLE));
       this.txaMain.getHighlighter().addHighlight(targetIndex, targetIndex + 1,
           new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
       arrHighlight = this.txaMain.getHighlighter().getHighlights();
-      this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1],
-              BRACKET_COLOR_STYLE));
+      this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1], BRACKET_COLOR_STYLE));
     } catch (BadLocationException x) {
       // x.printStackTrace();
     }

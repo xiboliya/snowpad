@@ -39,6 +39,7 @@ public class BaseKeyAdapter extends KeyAdapter {
     this.applyEnter = applyEnter;
   }
 
+  @Override
   public void keyPressed(KeyEvent e) {
     if (this.dialog == null) {
       return;

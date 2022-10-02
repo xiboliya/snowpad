@@ -73,7 +73,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     this.initView();
     this.setComponentEnabledByRadioButton();
     this.addListeners();
-    this.setSize(420, 260);
+    this.setSize(420, 240);
     this.setVisible(true);
   }
 
@@ -84,25 +84,25 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     this.setTitle("切割文件");
     this.pnlMain.setLayout(null);
     this.lblPath.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
-    this.txtPath.setBounds(10, 35, 270, 30);
+    this.txtPath.setBounds(10, 35, 270, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblPath);
     this.pnlMain.add(this.txtPath);
-    this.btnSelectFile.setBounds(290, 37, 110, Util.BUTTON_HEIGHT);
+    this.btnSelectFile.setBounds(290, 35, 110, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnSelectFile);
-    this.radCutSize.setBounds(10, 87, 130, Util.VIEW_HEIGHT);
-    this.txtCutSize.setBounds(140, 85, 50, 30);
-    this.cmbCutUnit.setBounds(200, 87, 100, Util.INPUT_HEIGHT);
+    this.radCutSize.setBounds(10, 80, 130, Util.VIEW_HEIGHT);
+    this.txtCutSize.setBounds(140, 80, 50, Util.INPUT_HEIGHT);
+    this.cmbCutUnit.setBounds(200, 80, 100, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.radCutSize);
     this.pnlMain.add(this.txtCutSize);
     this.pnlMain.add(this.cmbCutUnit);
-    this.radCutCount.setBounds(10, 130, 130, Util.VIEW_HEIGHT);
-    this.txtCutCount.setBounds(140, 128, 50, 30);
-    this.lblCutCount.setBounds(200, 130, 100, Util.INPUT_HEIGHT);
+    this.radCutCount.setBounds(10, 120, 130, Util.VIEW_HEIGHT);
+    this.txtCutCount.setBounds(140, 120, 50, Util.INPUT_HEIGHT);
+    this.lblCutCount.setBounds(200, 120, 100, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.radCutCount);
     this.pnlMain.add(this.txtCutCount);
     this.pnlMain.add(this.lblCutCount);
-    this.btnOk.setBounds(90, 180, 90, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(240, 180, 90, Util.BUTTON_HEIGHT);
+    this.btnOk.setBounds(90, 165, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(240, 165, 90, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnOk);
     this.pnlMain.add(this.btnCancel);
     this.bgpCut.add(this.radCutSize);

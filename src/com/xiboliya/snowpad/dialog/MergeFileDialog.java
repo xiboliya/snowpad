@@ -109,9 +109,9 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     this.pnlMain.add(this.btnDownSource);
     this.pnlMain.add(this.srpPath);
     this.lblTargetPath.setBounds(10, 180, 110, Util.VIEW_HEIGHT);
-    this.txtTargetPath.setBounds(10, 205, 270, 30);
+    this.txtTargetPath.setBounds(10, 207, 270, Util.INPUT_HEIGHT);
     this.btnTargetPath.setMargin(this.insets);
-    this.btnTargetPath.setBounds(290, 205, 30, 30);
+    this.btnTargetPath.setBounds(290, 203, 30, 30);
     this.btnTargetPath.setToolTipText("保存文件");
     this.pnlMain.add(this.lblTargetPath);
     this.pnlMain.add(this.txtTargetPath);

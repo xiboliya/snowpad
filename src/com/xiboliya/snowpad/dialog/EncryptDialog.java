@@ -118,10 +118,10 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
     // 文件
     this.pnlFile.setLayout(null);
     this.lblPathF.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
-    this.txtPathF.setBounds(10, 50, 270, 30);
+    this.txtPathF.setBounds(10, 50, 270, Util.INPUT_HEIGHT);
     this.pnlFile.add(this.lblPathF);
     this.pnlFile.add(this.txtPathF);
-    this.btnSelectFileF.setBounds(290, 52, 110, Util.BUTTON_HEIGHT);
+    this.btnSelectFileF.setBounds(290, 50, 110, Util.BUTTON_HEIGHT);
     this.pnlFile.add(this.btnSelectFileF);
 
     this.pnlBottom.setLayout(null);
@@ -157,7 +157,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
    * @param index
    *          视图的索引号
    */
-  public void setTabbedIndex(int index) {
+  private void setTabbedIndex(int index) {
     this.tpnMain.setSelectedIndex(index);
   }
 
@@ -166,7 +166,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
    * 
    * @return 当前视图的索引号
    */
-  public int getTabbedIndex() {
+  private int getTabbedIndex() {
     return this.tpnMain.getSelectedIndex();
   }
 
@@ -210,6 +210,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.chkEveryLinesT.equals(e.getSource())) {
       this.showStringEncrypt();
@@ -425,6 +426,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 默认的“取消”操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }
@@ -432,12 +434,14 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 默认的“确定”操作方法
    */
+  @Override
   public void onEnter() {
   }
 
   /**
    * 当文本框的光标发生变化时，触发此事件
    */
+  @Override
   public void caretUpdate(CaretEvent e) {
     if (this.txaTextT.equals(e.getSource())) {
       this.showStringEncrypt();
@@ -449,6 +453,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 当选项卡改变当前视图时调用
    */
+  @Override
   public void stateChanged(ChangeEvent e) {
     this.showEncrypt();
   }
@@ -456,6 +461,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 当所选项更改时调用
    */
+  @Override
   public void itemStateChanged(ItemEvent e) {
     this.showEncrypt();
   }
