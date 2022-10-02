@@ -1735,3 +1735,7 @@ src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
 2022-10-01
 1.格式化“单位换算”界面中的换算结果，删除冗余的数字0。
 src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
+
+2022-10-02
+1.“统计信息”界面中优化文件大小的显示，采用更易阅读的方式。
+src/com/xiboliya/snowpad/dialog/InformationDialog.java
