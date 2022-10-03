@@ -82,8 +82,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
     }
   }
 
-  public AboutDialog(JFrame owner, boolean modal, String[] arrStrLabel,
-      ImageIcon icon) {
+  public AboutDialog(JFrame owner, boolean modal, String[] arrStrLabel, ImageIcon icon) {
     this(owner, modal, arrStrLabel);
     if (icon != null) {
       this.lblNorth.setIcon(icon);
@@ -191,9 +190,12 @@ public class AboutDialog extends BaseDialog implements ActionListener {
       public void mouseClicked(MouseEvent e) {
         try {
           if (Util.OS_NAME.indexOf("Windows") >= 0) {
-            // 当用鼠标点击此标签时，将调用系统命令，打开网页
+            // Windows系统，将调用系统命令，打开网页
             Runtime.getRuntime().exec("cmd /c start " + strLink);
-          } else { // 如为非Windows系统，则试图使用特定浏览器打开
+          } else if (Util.OS_NAME.indexOf("Mac") >= 0) {
+            // MacOS系统，将调用系统命令，打开网页
+            Runtime.getRuntime().exec("open " + strLink);
+          } else { // 如为Unix/Linux系统，则试图使用特定浏览器打开
             openLinkByBrowser(0, strLink);
           }
         } catch (Exception x) {
@@ -213,7 +215,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
    *          链接字符串
    */
   private void openLinkByBrowser(int index, final String strLink) {
-    String[] arrBrowser = new String[] { "firefox", "opera", "chrome" };
+    String[] arrBrowser = new String[] { "chrome", "firefox", "opera" };
     if (index < 0 || index >= arrBrowser.length) {
       return;
     } else {
