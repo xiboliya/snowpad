@@ -1769,3 +1769,7 @@ src/com/xiboliya/snowpad/dialog/AboutDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/panel/StatePanel.java
 src/com/xiboliya/snowpad/util/Util.java
+
+******************************
+git tag SnowPad-V5.1-20221007
+******************************
