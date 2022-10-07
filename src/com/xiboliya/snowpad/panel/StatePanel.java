@@ -77,23 +77,6 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * 根据显示区块的数目变化而更新链表
-   */
-  private void updateLabelList() {
-    int size = this.labelList.size();
-    if (size < this.columns) {
-      for (int i = size; i < this.columns; i++) {
-        this.appendLabelList();
-      }
-    } else if (size > this.columns) {
-      for (int i = this.columns; i < size; i++) {
-        this.removeLabelList();
-      }
-    }
-    SwingUtilities.updateComponentTreeUI(this);
-  }
-
-  /**
    * 追加一个空白的显示区块
    * 
    * @return 如果追加成功则返回true，否则返回false
@@ -101,22 +84,8 @@ public class StatePanel extends JPanel {
   private boolean appendLabelList() {
     if (this.labelList.size() < this.columns) {
       JLabel lblTemp = new JLabel(" ");
-      lblTemp.setFont(Util.GLOBAL_FONT);
       this.labelList.add(lblTemp);
       this.add(lblTemp);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * 移除末端一个已存在的显示区块
-   * 
-   * @return 如果移除成功则返回true，否则返回false
-   */
-  private boolean removeLabelList() {
-    if (this.labelList.size() > 0) {
-      this.remove(this.labelList.removeLast());
       return true;
     }
     return false;
@@ -132,8 +101,7 @@ public class StatePanel extends JPanel {
    * @param alignment
    *          对齐方式
    */
-  public void setStringByIndex(int index, String strLabel,
-      StatePanelAlignment alignment) {
+  public void setStringByIndex(int index, String strLabel, StatePanelAlignment alignment) {
     this.setStringByIndex(index, strLabel);
     this.setAlignmentByIndex(index, alignment);
   }
@@ -194,18 +162,6 @@ public class StatePanel extends JPanel {
   }
 
   /**
-   * 设置显示区块的数目
-   * 
-   * @param columns
-   *          显示区块的数目
-   */
-  public void setColumns(int columns) {
-    this.checkColumns(columns);
-    this.updateLabelList();
-    this.layout.setColumns(this.columns);
-  }
-
-  /**
    * 获取显示区块的数目
    * 
    * @return 显示区块的数目
@@ -222,7 +178,7 @@ public class StatePanel extends JPanel {
    * @param alignment
    *          显示区块的对齐方式
    */
-  public void setAlignmentByIndex(int index, StatePanelAlignment alignment) {
+  private void setAlignmentByIndex(int index, StatePanelAlignment alignment) {
     JLabel lblTemp = this.labelList.get(this.checkIndex(index));
     switch (alignment) {
     case X_LEFT:
@@ -234,28 +190,6 @@ public class StatePanel extends JPanel {
     case X_RIGHT:
       lblTemp.setHorizontalAlignment(SwingConstants.RIGHT);
       break;
-    }
-  }
-
-  /**
-   * 获取指定下标的显示区块的对齐方式
-   * 
-   * @param index
-   *          显示区块的下标
-   * @return 显示区块的对齐方式
-   */
-  public StatePanelAlignment getAlignmentByIndex(int index) {
-    JLabel lblTemp = this.labelList.get(this.checkIndex(index));
-    int alignment = lblTemp.getHorizontalAlignment();
-    switch (alignment) {
-    case SwingConstants.LEFT:
-      return StatePanelAlignment.X_LEFT;
-    case SwingConstants.CENTER:
-      return StatePanelAlignment.X_CENTER;
-    case SwingConstants.RIGHT:
-      return StatePanelAlignment.X_RIGHT;
-    default:
-      return StatePanelAlignment.X_LEFT;
     }
   }
 }

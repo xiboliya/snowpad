@@ -932,7 +932,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.spnMain.setBottomComponent(this.pnlSearchResult);
     this.spnMain.setResizeWeight(0.6);
     this.tpnMain.setFocusable(false);
-    this.tpnMain.setFont(Util.GLOBAL_FONT);
     this.tpnMain.addChangeListener(this);
     this.createNew(null);
     new DropTarget(this.tpnMain, this); // 创建拖放目标，即设置某个组件接收drop操作

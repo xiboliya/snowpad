@@ -123,7 +123,6 @@ public final class Util {
   public static final int DEFAULT_BACK_FORWARD_INDEX = 0; // 光标历史位置的默认值
   public static final int MSG_LINE_SIZE = 60; // 提示框中每行字符串显示的最大字数
   public static final int PATTERN_SYNTAX_ERROR_INDEX = -2; // 正则表达式语法错误的索引值
-  public static final Font GLOBAL_FONT = new Font("宋体", Font.PLAIN, 12); // 全局的默认字体
   public static final Font TEXT_FONT = new Font("宋体", Font.PLAIN, 14); // 文本域的默认字体
   public static final Color COLOR_BRACKET = new Color(20, 20, 20, 35); // 在文本域中进行高亮匹配括号的背景颜色
   public static final Color COLOR_CURRENT_LINE = new Color(0, 100, 200, 25); // 在文本域中用于标识当前行的背景颜色
@@ -292,7 +291,8 @@ public final class Util {
    * 修改整个程序的默认字体
    */
   public static void setDefaultFont() {
-    FontUIResource fontRes = new FontUIResource(GLOBAL_FONT);
+    Font font = new Font("宋体", Font.PLAIN, 12);
+    FontUIResource fontRes = new FontUIResource(font);
     Enumeration<Object> keys = UIManager.getDefaults().keys();
     while (keys.hasMoreElements()) {
       Object key = keys.nextElement();
