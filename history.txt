@@ -1763,3 +1763,9 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2022-10-03
 1.解决macOS系统下，点击“关于”界面中的超链接无法跳转的问题。
 src/com/xiboliya/snowpad/dialog/AboutDialog.java
+
+2022-10-07
+1.删除冗余的代码。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/panel/StatePanel.java
+src/com/xiboliya/snowpad/util/Util.java
