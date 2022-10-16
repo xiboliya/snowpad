@@ -1773,3 +1773,9 @@ src/com/xiboliya/snowpad/util/Util.java
 ******************************
 git tag SnowPad-V5.1-20221007
 ******************************
+
+2022-10-16
+1.“进制转换”菜单修改为：“数字进制转换”，并调整界面布局。
+src/com/xiboliya/snowpad/dialog/NumberConvertDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
