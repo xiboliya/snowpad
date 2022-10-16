@@ -41,7 +41,7 @@ import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
 
 /**
- * "进制转换"对话框
+ * "数字进制转换"对话框
  * 
  * @author 冰原
  * 
@@ -72,7 +72,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
     this.setMnemonic();
     this.addListeners();
     this.refreshView();
-    this.setSize(420, 240);
+    this.setSize(310, 240);
     this.setVisible(true);
   }
 
@@ -83,9 +83,9 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
     this.lblWarning.setForeground(Color.RED);
     this.pnlMain.setLayout(null);
     this.lblNumber.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
-    this.lblWarning.setBounds(90, 10, 190, Util.VIEW_HEIGHT);
-    this.cmbNumber.setBounds(10, 35, 70, Util.INPUT_HEIGHT);
-    this.txtNumber.setBounds(90, 35, 190, Util.INPUT_HEIGHT);
+    this.lblWarning.setBounds(100, 10, 190, Util.VIEW_HEIGHT);
+    this.cmbNumber.setBounds(10, 35, 80, Util.INPUT_HEIGHT);
+    this.txtNumber.setBounds(100, 35, 160, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblNumber);
     this.pnlMain.add(this.lblWarning);
     this.pnlMain.add(this.cmbNumber);
@@ -95,19 +95,18 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
     this.pnlMain.add(this.btnExchange);
 
     this.lblResult.setBounds(10, 100, 70, Util.VIEW_HEIGHT);
-    this.chkUpperCase.setBounds(290, 100, 110, Util.VIEW_HEIGHT);
-    this.cmbResult.setBounds(10, 125, 70, Util.INPUT_HEIGHT);
-    this.txtResult.setBounds(90, 125, 190, Util.INPUT_HEIGHT);
-    this.btnCopy.setBounds(290, 125, 110, Util.BUTTON_HEIGHT);
+    this.chkUpperCase.setBounds(100, 100, 110, Util.VIEW_HEIGHT);
+    this.cmbResult.setBounds(10, 125, 80, Util.INPUT_HEIGHT);
+    this.txtResult.setBounds(100, 125, 160, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblResult);
     this.pnlMain.add(this.chkUpperCase);
     this.pnlMain.add(this.cmbResult);
     this.pnlMain.add(this.txtResult);
-    this.pnlMain.add(this.btnCopy);
 
-    this.btnCancel.setBounds(160, 165, 80, Util.BUTTON_HEIGHT);
+    this.btnCopy.setBounds(30, 165, 110, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(170, 165, 110, Util.BUTTON_HEIGHT);
+    this.pnlMain.add(this.btnCopy);
     this.pnlMain.add(this.btnCancel);
-    this.txtResult.setEditable(false);
   }
 
   /**
@@ -122,6 +121,7 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, C
     this.cmbNumber.setSelectedIndex(8);
     this.cmbResult.setModel(new DefaultComboBoxModel<String>(array));
     this.cmbResult.setSelectedIndex(14);
+    this.txtResult.setEditable(false);
   }
 
   /**

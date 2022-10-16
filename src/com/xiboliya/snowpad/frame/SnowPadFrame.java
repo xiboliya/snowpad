@@ -433,7 +433,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemTextAreaHistoryNext = new JMenuItem("后一个文档(X)", 'X');
   private JMenu menuTool = new JMenu("工具(T)");
   private JMenuItem itemEncrypt = new JMenuItem("加密(E)...", 'E');
-  private JMenuItem itemNumberConvert = new JMenuItem("进制转换(N)...", 'N');
+  private JMenuItem itemNumberConvert = new JMenuItem("数字进制转换(N)...", 'N');
   private JMenuItem itemCalculator = new JMenuItem("计算器(C)...", 'C');
   private JMenuItem itemCuttingFile = new JMenuItem("切割文件(T)...", 'T');
   private JMenuItem itemMergeFile = new JMenuItem("拼接文件(M)...", 'M');
@@ -531,7 +531,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private InformationDialog informationDialog = null; // 统计信息对话框
   private WindowManageDialog windowManageDialog = null; // 窗口管理对话框
   private EncryptDialog encryptDialog = null; // 加密对话框
-  private NumberConvertDialog numberConvertDialog = null; // 进制转换对话框
+  private NumberConvertDialog numberConvertDialog = null; // 数字进制转换对话框
   private CalculatorDialog calculatorDialog = null; // 计算器对话框
   private CuttingFileDialog cuttingFileDialog = null; // 切割文件对话框
   private MergeFileDialog mergeFileDialog = null; // 拼接文件对话框
@@ -4636,7 +4636,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "进制转换"的处理方法
+   * "数字进制转换"的处理方法
    */
   private void openNumberConvertDialog() {
     if (this.numberConvertDialog == null) {
