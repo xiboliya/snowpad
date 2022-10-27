@@ -1779,3 +1779,9 @@ git tag SnowPad-V5.1-20221007
 src/com/xiboliya/snowpad/dialog/NumberConvertDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2022-10-28
+1.在“工具”菜单中添加“时间戳转换”功能。
+src/com/xiboliya/snowpad/dialog/TimeStampConvertDialog.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
