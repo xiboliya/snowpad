@@ -129,6 +129,7 @@ import com.xiboliya.snowpad.dialog.ShortcutSetDialog;
 import com.xiboliya.snowpad.dialog.SignIdentifierDialog;
 import com.xiboliya.snowpad.dialog.SlicingFileDialog;
 import com.xiboliya.snowpad.dialog.TabSetDialog;
+import com.xiboliya.snowpad.dialog.TimeStampConvertDialog;
 import com.xiboliya.snowpad.dialog.UnitConvertDialog;
 import com.xiboliya.snowpad.dialog.WindowManageDialog;
 import com.xiboliya.snowpad.panel.SearchResultPanel;
@@ -433,12 +434,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemTextAreaHistoryNext = new JMenuItem("后一个文档(X)", 'X');
   private JMenu menuTool = new JMenu("工具(T)");
   private JMenuItem itemEncrypt = new JMenuItem("加密(E)...", 'E');
-  private JMenuItem itemNumberConvert = new JMenuItem("数字进制转换(N)...", 'N');
   private JMenuItem itemCalculator = new JMenuItem("计算器(C)...", 'C');
   private JMenuItem itemCuttingFile = new JMenuItem("切割文件(T)...", 'T');
   private JMenuItem itemMergeFile = new JMenuItem("拼接文件(M)...", 'M');
   private JMenuItem itemChangeEncoding = new JMenuItem("转换文件编码(D)...", 'D');
   private JMenuItem itemChangeLineSeparator = new JMenuItem("转换文件换行符(L)...", 'L');
+  private JMenuItem itemNumberConvert = new JMenuItem("数字进制转换(N)...", 'N');
+  private JMenuItem itemTimeStampConvert = new JMenuItem("时间戳转换(S)...", 'S');
   private JMenuItem itemUnitConvert = new JMenuItem("单位换算(U)...", 'U');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
@@ -531,12 +533,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private InformationDialog informationDialog = null; // 统计信息对话框
   private WindowManageDialog windowManageDialog = null; // 窗口管理对话框
   private EncryptDialog encryptDialog = null; // 加密对话框
-  private NumberConvertDialog numberConvertDialog = null; // 数字进制转换对话框
   private CalculatorDialog calculatorDialog = null; // 计算器对话框
   private CuttingFileDialog cuttingFileDialog = null; // 切割文件对话框
   private MergeFileDialog mergeFileDialog = null; // 拼接文件对话框
   private ChangeEncodingDialog changeEncodingDialog = null; // 转换文件编码对话框
   private ChangeLineSeparatorDialog changeLineSeparatorDialog = null; // 转换文件换行符对话框
+  private NumberConvertDialog numberConvertDialog = null; // 数字进制转换对话框
+  private TimeStampConvertDialog timeStampConvertDialog = null; // 时间戳转换对话框
   private UnitConvertDialog unitConvertDialog = null; // 单位换算对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
@@ -728,12 +731,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCommentForLine.addActionListener(this);
     this.itemCommentForBlock.addActionListener(this);
     this.itemEncrypt.addActionListener(this);
-    this.itemNumberConvert.addActionListener(this);
     this.itemCalculator.addActionListener(this);
     this.itemCuttingFile.addActionListener(this);
     this.itemMergeFile.addActionListener(this);
     this.itemChangeEncoding.addActionListener(this);
     this.itemChangeLineSeparator.addActionListener(this);
+    this.itemNumberConvert.addActionListener(this);
+    this.itemTimeStampConvert.addActionListener(this);
     this.itemUnitConvert.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
@@ -1144,6 +1148,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.add(this.itemStateBar);
     this.menuView.add(this.itemLineNumber);
     this.menuView.add(this.itemSearchResult);
+    this.menuView.addSeparator();
     this.menuView.add(this.itemAlwaysOnTop);
     this.menuView.add(this.itemLockResizable);
     this.menuView.addSeparator();
@@ -1199,12 +1204,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.add(this.itemWindowManage);
     this.menuBar.add(this.menuTool);
     this.menuTool.add(this.itemEncrypt);
-    this.menuTool.add(this.itemNumberConvert);
     this.menuTool.add(this.itemCalculator);
     this.menuTool.add(this.itemCuttingFile);
     this.menuTool.add(this.itemMergeFile);
     this.menuTool.add(this.itemChangeEncoding);
     this.menuTool.add(this.itemChangeLineSeparator);
+    this.menuTool.add(this.itemNumberConvert);
+    this.menuTool.add(this.itemTimeStampConvert);
     this.menuTool.add(this.itemUnitConvert);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
@@ -1378,12 +1384,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemInformation);
     this.menuItemList.add(this.itemWindowManage);
     this.menuItemList.add(this.itemEncrypt);
-    this.menuItemList.add(this.itemNumberConvert);
     this.menuItemList.add(this.itemCalculator);
     this.menuItemList.add(this.itemCuttingFile);
     this.menuItemList.add(this.itemMergeFile);
     this.menuItemList.add(this.itemChangeEncoding);
     this.menuItemList.add(this.itemChangeLineSeparator);
+    this.menuItemList.add(this.itemNumberConvert);
+    this.menuItemList.add(this.itemTimeStampConvert);
     this.menuItemList.add(this.itemUnitConvert);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
@@ -1897,6 +1904,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openEncryptDialog();
     } else if (this.itemNumberConvert.equals(e.getSource())) {
       this.openNumberConvertDialog();
+    } else if (this.itemTimeStampConvert.equals(e.getSource())) {
+      this.openTimeStampConvertDialog();
     } else if (this.itemCalculator.equals(e.getSource())) {
       this.openCalculatorDialog();
     } else if (this.itemCuttingFile.equals(e.getSource())) {
@@ -2689,6 +2698,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.numberConvertDialog != null) {
       this.numberConvertDialog.dispose();
       this.numberConvertDialog = null;
+    }
+    if (this.timeStampConvertDialog != null) {
+      this.timeStampConvertDialog.dispose();
+      this.timeStampConvertDialog = null;
     }
     if (this.calculatorDialog != null) {
       this.calculatorDialog.dispose();
@@ -4643,6 +4656,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.numberConvertDialog = new NumberConvertDialog(this, false);
     } else {
       this.numberConvertDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "时间戳转换"的处理方法
+   */
+  private void openTimeStampConvertDialog() {
+    if (this.timeStampConvertDialog == null) {
+      this.timeStampConvertDialog = new TimeStampConvertDialog(this, false);
+    } else {
+      this.timeStampConvertDialog.setVisible(true);
     }
   }
 
