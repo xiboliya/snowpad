@@ -8,7 +8,7 @@
     <tabSize note="Tab键所占字符数">4</tabSize>
     <autoComplete note="自动完成">false</autoComplete>
     <font name="宋体" note="文本域字体" size="14" style="0"/>
-    <colorStyle color1="" color2="" color3="" color4="" color5="" color6="" color7="" note="配色方案：字体颜色，背景颜色，光标颜色，选区字体颜色，选区背景颜色，匹配括号背景颜色，当前行背景颜色"/>
+    <colorStyle color1="" color2="" color3="" color4="" color5="" color6="" color7="" color8="" note="配色方案：字体颜色，背景颜色，光标颜色，选区字体颜色，选区背景颜色，匹配括号背景颜色，当前行背景颜色，匹配文本背景颜色"/>
   </TextArea>
   <FindReplace note="查找/替换的相关设置">
     <matchCase note="是否区分大小写">true</matchCase>

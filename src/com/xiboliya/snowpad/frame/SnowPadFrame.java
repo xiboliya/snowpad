@@ -176,31 +176,36 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private static final int BACK_FORWARD_MAX = 15; // 光标历史位置的最大存储个数
   private static final int TEXTAREA_HASHCODE_LIST_MAX = 15; // 最近编辑的文本域hashCode的最大存储个数
   private static final int BRACKET_COLOR_STYLE = 11; // 在文本域中进行高亮匹配括号的颜色标识值
+  private static final int WORD_COLOR_STYLE = 12; // 在文本域中进行高亮匹配文本的颜色标识值
   private static final Color[] COLOR_HIGHLIGHTS = new Color[] {
       new Color(255, 0, 0, 40), new Color(0, 255, 0, 40),
       new Color(0, 0, 255, 40), new Color(0, 255, 255, 40),
       new Color(255, 0, 255, 40) }; // 用于高亮显示的颜色，其中第4个参数表示透明度，数值越小越透明
   private static final Color[] COLOR_STYLE_1 = new Color[] {
       new Color(211, 215, 207), new Color(46, 52, 54),
-      new Color(211, 215, 207), new Color(238, 238, 236),
+      new Color(140, 220, 125), new Color(255, 200, 58),
       new Color(136, 138, 133), new Color(255, 0, 255, 35),
-      new Color(150, 150, 150, 25) };
+      new Color(150, 150, 150, 25), new Color(136, 138, 133, 70) };
   private static final Color[] COLOR_STYLE_2 = new Color[] {
       new Color(240, 240, 240), new Color(0, 128, 128),
-      new Color(240, 240, 240), new Color(22, 99, 88), new Color(240, 240, 240),
-      new Color(180, 0, 255, 35), new Color(240, 240, 10, 25) };
+      new Color(240, 240, 240), new Color(22, 99, 88),
+      new Color(240, 240, 240), new Color(180, 0, 255, 35),
+      new Color(240, 240, 10, 25), new Color(240, 240, 240, 70) };
   private static final Color[] COLOR_STYLE_3 = new Color[] {
-      new Color(46, 52, 54), new Color(215, 215, 175), new Color(46, 52, 54),
-      new Color(255, 251, 240), new Color(46, 52, 54),
-      new Color(0, 255, 180, 35), new Color(240, 100, 100, 25) };
+      new Color(46, 52, 54), new Color(215, 215, 175),
+      new Color(46, 52, 54), new Color(255, 251, 240),
+      new Color(46, 52, 54), new Color(0, 255, 180, 35),
+      new Color(240, 100, 100, 25), new Color(46, 52, 54, 70) };
   private static final Color[] COLOR_STYLE_4 = new Color[] {
-      new Color(51, 53, 49), new Color(204, 232, 207), new Color(51, 53, 49),
-      new Color(204, 232, 207), new Color(0, 60, 100),
-      new Color(20, 20, 20, 35), new Color(0, 100, 200, 25) };
+      new Color(51, 53, 49), new Color(204, 232, 207),
+      new Color(51, 53, 49), new Color(204, 232, 207),
+      new Color(0, 60, 100), new Color(20, 20, 20, 35),
+      new Color(0, 100, 200, 25), new Color(0, 60, 100, 70) };
   private static final Color[] COLOR_STYLE_5 = new Color[] {
-      new Color(189, 174, 157), new Color(42, 33, 28), new Color(5, 165, 245),
-      new Color(189, 174, 157), new Color(130, 100, 90),
-      new Color(255, 255, 0, 35), new Color(240, 200, 180, 25) };
+      new Color(189, 174, 157), new Color(42, 33, 28),
+      new Color(5, 165, 245), new Color(189, 237, 229),
+      new Color(130, 100, 90), new Color(255, 255, 0, 35),
+      new Color(240, 200, 180, 25), new Color(130, 100, 90, 70) };
   private static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1, COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
   private static final ImageIcon TAB_EXIST_READONLY_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly.png")); // 只读文件图标
   private static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current.png")); // 普通文件图标
@@ -403,6 +408,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemColorSelBack = new JMenuItem("选区背景颜色(K)...", 'K');
   private JMenuItem itemColorBracketBack = new JMenuItem("匹配括号背景颜色(E)...", 'E');
   private JMenuItem itemColorLineBack = new JMenuItem("当前行背景颜色(L)...", 'L');
+  private JMenuItem itemColorWordBack = new JMenuItem("匹配文本背景颜色(W)...", 'W');
   private JMenuItem itemColorAnti = new JMenuItem("全部反色(A)", 'A');
   private JMenuItem itemColorComplementary = new JMenuItem("全部补色(R)", 'R');
   private JMenu menuColorStyle = new JMenu("配色方案(Y)");
@@ -778,6 +784,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemColorSelBack.addActionListener(this);
     this.itemColorBracketBack.addActionListener(this);
     this.itemColorLineBack.addActionListener(this);
+    this.itemColorWordBack.addActionListener(this);
     this.itemColorAnti.addActionListener(this);
     this.itemColorComplementary.addActionListener(this);
     this.itemColorStyle1.addActionListener(this);
@@ -882,6 +889,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
           popMenuMain.show(txaMain, e.getX(), e.getY());
+        } else if (e.getClickCount() == 2) { // 双击时，查找并自动高亮与当前选区相同的本文
+          setHighlight(WORD_COLOR_STYLE);
         }
       }
     });
@@ -1172,6 +1181,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuColor.add(this.itemColorSelBack);
     this.menuColor.add(this.itemColorBracketBack);
     this.menuColor.add(this.itemColorLineBack);
+    this.menuColor.add(this.itemColorWordBack);
     this.menuColor.addSeparator();
     this.menuColor.add(this.itemColorAnti);
     this.menuColor.add(this.itemColorComplementary);
@@ -1363,6 +1373,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemColorSelBack);
     this.menuItemList.add(this.itemColorBracketBack);
     this.menuItemList.add(this.itemColorLineBack);
+    this.menuItemList.add(this.itemColorWordBack);
     this.menuItemList.add(this.itemColorAnti);
     this.menuItemList.add(this.itemColorComplementary);
     this.menuItemList.add(this.itemColorStyle1);
@@ -2077,6 +2088,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setBracketBackColor();
     } else if (this.itemColorLineBack.equals(e.getSource())) {
       this.setLineBackColor();
+    } else if (this.itemColorWordBack.equals(e.getSource())) {
+      this.setWordBackColor();
     } else if (this.itemColorAnti.equals(e.getSource())) {
       this.setColorTransform(true);
     } else if (this.itemColorComplementary.equals(e.getSource())) {
@@ -3249,7 +3262,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "高亮显示"中各格式的处理方法
    * 
    * @param style
-   *          按照某种颜色进行高亮显示，其取值有1、2、3、4、5
+   *          按照某种颜色进行高亮显示，其取值有1、2、3、4、5、12。
+   *          当取值为12时，表示进行当前选区文本的自动高亮匹配。
    */
   private void setHighlight(int style) {
     String strSelText = this.txaMain.getSelectedText();
@@ -3269,7 +3283,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         linkedList.add(index);
       }
     } while (index >= 0);
-    Color color = COLOR_HIGHLIGHTS[style - 1];
+    Color color = null;
+    if (style == WORD_COLOR_STYLE) {
+      color = this.setting.colorStyle[7];
+    } else {
+      color = COLOR_HIGHLIGHTS[style - 1];
+    }
     for (Integer startIndex : linkedList) {
       try {
         this.txaMain.getHighlighter().addHighlight(startIndex, startIndex + strSelText.length(),
@@ -3286,7 +3305,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "清除高亮"中各格式的处理方法
    * 
    * @param style
-   *          清除某种颜色的高亮显示，其取值有1、2、3、4、5和清除所有高亮（0）等共6种
+   *          清除某种颜色的高亮显示，其取值有1、2、3、4、5、0、11、12。
+   *          取值为0时，清除所有高亮。取值为11时，清除匹配括号高亮。取值为12时，清除匹配文本高亮。
    */
   private void rmHighlight(int style) {
     if (style == 0) {
@@ -3333,7 +3353,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     Color colorSelBack = this.getConvertColor(this.txaMain.getSelectionColor(), mode);
     Color colorBracketBack = this.getConvertColor(this.txaMain.getBracketBackColor(), mode);
     Color colorLineBack = this.getConvertColor(this.txaMain.getLineBackColor(), mode);
-    Color[] colorStyle = new Color[] { colorFont, colorBack, colorCaret, colorSelFont, colorSelBack, colorBracketBack, colorLineBack };
+    Color colorWordBack = this.getConvertColor(this.txaMain.getWordBackColor(), mode);
+    Color[] colorStyle = new Color[] { colorFont, colorBack, colorCaret, colorSelFont, colorSelBack, colorBracketBack, colorLineBack, colorWordBack };
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(colorStyle);
     }
@@ -3926,6 +3947,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.txaMain.getLineBackColor());
     this.changeColorStyle(color, 6);
     this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
+  }
+
+  /**
+   * "匹配文本背景颜色"的处理方法
+   */
+  private void setWordBackColor() {
+    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", this.txaMain.getWordBackColor());
+    this.changeColorStyle(color, 7);
   }
 
   /**
@@ -6150,6 +6179,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.updateStateCur();
     this.setMenuStateBySelectedText();
     this.searchTargetBracket();
+    this.rmHighlight(WORD_COLOR_STYLE);
     this.refreshBackForwardList();
   }
 

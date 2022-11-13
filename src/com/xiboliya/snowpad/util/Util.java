@@ -86,7 +86,7 @@ public final class Util {
       "单词边界换行","字符边界换行","Windows换行符格式","Unix换行符格式","Macintosh换行符格式","默认GB18030编码格式","ANSI编码格式","UTF-8编码格式","UTF-8 No BOM编码格式","Unicode Little Endian编码格式",
       "Unicode Big Endian编码格式","代码格式化-json","代码压缩-json","列表符号与编号","字体","Tab键设置","自动完成","自动换行","自动缩进","恢复默认设置","后退","前进","显示/隐藏工具栏",
       "显示/隐藏状态栏","显示/隐藏行号栏","显示/隐藏查找结果面板","前端显示","锁定窗口","多行标签","双击关闭标签","显示/隐藏指示图标","字体放大","字体缩小",
-      "字体恢复初始大小","字体颜色","背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","全部反色","全部补色",
+      "字体恢复初始大小","字体颜色","背景颜色","光标颜色","选区字体颜色","选区背景颜色","匹配括号背景颜色","当前行背景颜色","匹配文本背景颜色","全部反色","全部补色",
       "配色方案1","配色方案2","配色方案3","配色方案4","配色方案5","恢复默认配色","高亮显示格式1","高亮显示格式2","高亮显示格式3","高亮显示格式4",
       "高亮显示格式5","清除高亮格式1","清除高亮格式2","清除高亮格式3","清除高亮格式4","清除高亮格式5","清除所有高亮格式","向前切换文档","向后切换文档","前一个文档",
       "后一个文档","统计信息","窗口管理","加密","计算器","切割文件","拼接文件","转换文件编码","转换文件换行符","文本格式转换","数字进制转换","时间戳转换","单位换算","帮助主题","关于"
@@ -102,7 +102,7 @@ public final class Util {
       "","","","","","","","","","",
       "","","","","","","","","","","","","",
       "","","","","","","","","Ctrl+38","Ctrl+40",
-      "Ctrl+47","","","","","","","","","",
+      "Ctrl+47","","","","","","","","","","",
       "","","","","","","","","","",
       "","","","","","","","Ctrl+Shift+87","Ctrl+87","Alt+37",
       "Alt+39","","","","","","","","","","","","","","112"
@@ -126,13 +126,14 @@ public final class Util {
   public static final Font TEXT_FONT = new Font("宋体", Font.PLAIN, 14); // 文本域的默认字体
   public static final Color COLOR_BRACKET = new Color(20, 20, 20, 35); // 在文本域中进行高亮匹配括号的背景颜色
   public static final Color COLOR_CURRENT_LINE = new Color(0, 100, 200, 25); // 在文本域中用于标识当前行的背景颜色
+  public static final Color COLOR_WORD = new Color(0, 0, 255, 40); // 在文本域中进行高亮匹配文本的背景颜色
   public static final Color[] COLOR_STYLE_DEFAULT = new Color[] {
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.foreground"),
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.background"),
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.caretForeground"),
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionForeground"),
       (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionBackground"),
-      COLOR_BRACKET, COLOR_CURRENT_LINE }; // 文本域默认配色方案
+      COLOR_BRACKET, COLOR_CURRENT_LINE, COLOR_WORD }; // 文本域默认配色方案
   public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager.getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
   public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif")); // 主程序图标
 

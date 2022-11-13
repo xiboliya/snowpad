@@ -190,6 +190,7 @@ public final class SettingAdapter {
           String[] arrColor5 = ((Element) node).getAttribute("color5").trim().split(",");
           String[] arrColor6 = ((Element) node).getAttribute("color6").trim().split(",");
           String[] arrColor7 = ((Element) node).getAttribute("color7").trim().split(",");
+          String[] arrColor8 = ((Element) node).getAttribute("color8").trim().split(",");
           Color color1 = this.transferToColor(arrColor1, 0);
           Color color2 = this.transferToColor(arrColor2, 1);
           Color color3 = this.transferToColor(arrColor3, 2);
@@ -197,8 +198,9 @@ public final class SettingAdapter {
           Color color5 = this.transferToColor(arrColor5, 4);
           Color color6 = this.transferToColor(arrColor6, 5);
           Color color7 = this.transferToColor(arrColor7, 6);
+          Color color8 = this.transferToColor(arrColor8, 7);
           this.setting.colorStyle = new Color[] { color1, color2, color3,
-              color4, color5, color6, color7 };
+              color4, color5, color6, color7, color8 };
         }
       }
     }
@@ -504,6 +506,7 @@ public final class SettingAdapter {
             Color color5 = this.setting.colorStyle[4];
             Color color6 = this.setting.colorStyle[5];
             Color color7 = this.setting.colorStyle[6];
+            Color color8 = this.setting.colorStyle[7];
             element.setAttribute("color1", 
                 color1.getRed() + "," + color1.getGreen() + "," + color1.getBlue() + "," + color1.getAlpha());
             element.setAttribute("color2", 
@@ -518,6 +521,8 @@ public final class SettingAdapter {
                 color6.getRed() + "," + color6.getGreen() + "," + color6.getBlue() + "," + color6.getAlpha());
             element.setAttribute("color7", 
                 color7.getRed() + "," + color7.getGreen() + "," + color7.getBlue() + "," + color7.getAlpha());
+            element.setAttribute("color8", 
+                color8.getRed() + "," + color8.getGreen() + "," + color8.getBlue() + "," + color8.getAlpha());
           }
         }
       }

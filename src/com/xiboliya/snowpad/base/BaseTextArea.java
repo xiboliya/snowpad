@@ -74,6 +74,7 @@ public class BaseTextArea extends JTextArea {
   private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
   private Color bracketBackColor = Util.COLOR_BRACKET; // 需绘制的匹配括号的背景颜色
   private Color lineBackColor = Util.COLOR_CURRENT_LINE; // 需绘制的当前行的背景颜色
+  private Color wordBackColor = Util.COLOR_CURRENT_LINE; // 需绘制的匹配文本的背景颜色
   private LinkedList<PartnerBean> backForwardList = new LinkedList<PartnerBean>(); // 存放光标在文本域中历史位置的链表
   private int backForwardIndex = Util.DEFAULT_BACK_FORWARD_INDEX; // 光标历史位置，初始化为默认值
   private long fileLastModified = 0L; // 文件最后修改的时间戳，如果文件为空，则此值为0L
@@ -397,6 +398,7 @@ public class BaseTextArea extends JTextArea {
     this.setSelectionColor(colorStyle[4]);
     this.setBracketBackColor(colorStyle[5]);
     this.setLineBackColor(colorStyle[6]);
+    this.setWordBackColor(colorStyle[7]);
   }
 
   public Color[] getColorStyle() {
@@ -500,6 +502,14 @@ public class BaseTextArea extends JTextArea {
 
   public void setLineBackColor(Color lineBackColor) {
     this.lineBackColor = lineBackColor;
+  }
+
+  public Color getWordBackColor() {
+    return this.wordBackColor;
+  }
+
+  public void setWordBackColor(Color wordBackColor) {
+    this.wordBackColor = wordBackColor;
   }
 
   public LinkedList<PartnerBean> getBackForwardList() {
