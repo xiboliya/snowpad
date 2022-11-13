@@ -129,6 +129,7 @@ import com.xiboliya.snowpad.dialog.ShortcutSetDialog;
 import com.xiboliya.snowpad.dialog.SignIdentifierDialog;
 import com.xiboliya.snowpad.dialog.SlicingFileDialog;
 import com.xiboliya.snowpad.dialog.TabSetDialog;
+import com.xiboliya.snowpad.dialog.TextConvertDialog;
 import com.xiboliya.snowpad.dialog.TimeStampConvertDialog;
 import com.xiboliya.snowpad.dialog.UnitConvertDialog;
 import com.xiboliya.snowpad.dialog.WindowManageDialog;
@@ -439,6 +440,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemMergeFile = new JMenuItem("拼接文件(M)...", 'M');
   private JMenuItem itemChangeEncoding = new JMenuItem("转换文件编码(D)...", 'D');
   private JMenuItem itemChangeLineSeparator = new JMenuItem("转换文件换行符(L)...", 'L');
+  private JMenuItem itemTextConvert = new JMenuItem("文本格式转换(X)...", 'X');
   private JMenuItem itemNumberConvert = new JMenuItem("数字进制转换(N)...", 'N');
   private JMenuItem itemTimeStampConvert = new JMenuItem("时间戳转换(S)...", 'S');
   private JMenuItem itemUnitConvert = new JMenuItem("单位换算(U)...", 'U');
@@ -538,6 +540,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private MergeFileDialog mergeFileDialog = null; // 拼接文件对话框
   private ChangeEncodingDialog changeEncodingDialog = null; // 转换文件编码对话框
   private ChangeLineSeparatorDialog changeLineSeparatorDialog = null; // 转换文件换行符对话框
+  private TextConvertDialog textConvertDialog = null; // 文本格式转换对话框
   private NumberConvertDialog numberConvertDialog = null; // 数字进制转换对话框
   private TimeStampConvertDialog timeStampConvertDialog = null; // 时间戳转换对话框
   private UnitConvertDialog unitConvertDialog = null; // 单位换算对话框
@@ -736,6 +739,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemMergeFile.addActionListener(this);
     this.itemChangeEncoding.addActionListener(this);
     this.itemChangeLineSeparator.addActionListener(this);
+    this.itemTextConvert.addActionListener(this);
     this.itemNumberConvert.addActionListener(this);
     this.itemTimeStampConvert.addActionListener(this);
     this.itemUnitConvert.addActionListener(this);
@@ -1209,6 +1213,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTool.add(this.itemMergeFile);
     this.menuTool.add(this.itemChangeEncoding);
     this.menuTool.add(this.itemChangeLineSeparator);
+    this.menuTool.add(this.itemTextConvert);
     this.menuTool.add(this.itemNumberConvert);
     this.menuTool.add(this.itemTimeStampConvert);
     this.menuTool.add(this.itemUnitConvert);
@@ -1389,6 +1394,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemMergeFile);
     this.menuItemList.add(this.itemChangeEncoding);
     this.menuItemList.add(this.itemChangeLineSeparator);
+    this.menuItemList.add(this.itemTextConvert);
     this.menuItemList.add(this.itemNumberConvert);
     this.menuItemList.add(this.itemTimeStampConvert);
     this.menuItemList.add(this.itemUnitConvert);
@@ -1916,6 +1922,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openChangeEncodingDialog();
     } else if (this.itemChangeLineSeparator.equals(e.getSource())) {
       this.openChangeLineSeparatorDialog();
+    } else if (this.itemTextConvert.equals(e.getSource())) {
+      this.openTextConvertDialog();
     } else if (this.itemUnitConvert.equals(e.getSource())) {
       this.openUnitConvertDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
@@ -2722,6 +2730,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.changeLineSeparatorDialog != null) {
       this.changeLineSeparatorDialog.dispose();
       this.changeLineSeparatorDialog = null;
+    }
+    if (this.textConvertDialog != null) {
+      this.textConvertDialog.dispose();
+      this.textConvertDialog = null;
     }
     if (this.unitConvertDialog != null) {
       this.unitConvertDialog.dispose();
@@ -4722,6 +4734,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.changeLineSeparatorDialog = new ChangeLineSeparatorDialog(this, false);
     } else {
       this.changeLineSeparatorDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "文本格式转换"的处理方法
+   */
+  private void openTextConvertDialog() {
+    if (this.textConvertDialog == null) {
+      this.textConvertDialog = new TextConvertDialog(this, false, this.txaMain);
+    } else {
+      this.textConvertDialog.setTextArea(this.txaMain);
+      this.textConvertDialog.setVisible(true);
     }
   }
 
