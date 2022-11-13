@@ -1791,3 +1791,10 @@ src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/dialog/TextConvertDialog.java（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+2.文本域中双击时，自动查找并自动高亮域当前选区相同的文本。同时在“颜色设置”菜单下添加“匹配文本背景颜色”设置功能。并将此类颜色纳入配色方案中。
+res/snowpad.xml
+src/com/xiboliya/snowpad/base/BaseTextArea.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/util/Util.java
+
