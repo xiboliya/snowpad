@@ -1785,3 +1785,9 @@ src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/dialog/TimeStampConvertDialog.java（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2022-11-13
+1.在“工具”菜单中添加“文本格式转换”功能。
+src/com/xiboliya/snowpad/dialog/TextConvertDialog.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
