@@ -1798,3 +1798,6 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/util/Util.java
 
+2022-11-19
+1.“文本格式转换”界面中添加“换行符格式”和“添加BOM”功能。
+src/com/xiboliya/snowpad/dialog/TextConvertDialog.java
