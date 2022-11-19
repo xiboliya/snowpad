@@ -59,6 +59,12 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   private static final String[] ENCODING_VALUES = new String[] {
       CharEncoding.ANSI.toString(), CharEncoding.UBE.toString(),
       CharEncoding.ULE.toString(), CharEncoding.UTF8.toString(), CharEncoding.BASE.toString() };
+  // 换行符格式名称的数组
+  private static final String[] LINE_SEPARATOR_NAMES = new String[] {
+      LineSeparator.WINDOWS.getName(), LineSeparator.UNIX.getName(), LineSeparator.MACINTOSH.getName() };
+  // 换行符格式数据的数组
+  private static final String[] LINE_SEPARATOR_VALUES = new String[] {
+      LineSeparator.WINDOWS.toString(), LineSeparator.UNIX.toString(), LineSeparator.MACINTOSH.toString() };
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -70,8 +76,11 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   private JComboBox<String> cmbEncoding = new JComboBox<String>(ENCODING_NAMES);
   private JLabel lblResult = new JLabel("转为十六进制结果：");
   private BaseTextAreaSpecial txaResult = new BaseTextAreaSpecial();
-  private JLabel lblSeparator = new JLabel("结果分隔符：");
-  private BaseTextField txtSeparator = new BaseTextField(" ", true, ".{0,1}"); // 限制用户输入的字符数量不能超过1个
+  private JLabel lblResultSeparator = new JLabel("结果分隔符：");
+  private BaseTextField txtResultSeparator = new BaseTextField(" ", true, ".{0,1}"); // 限制用户输入的字符数量不能超过1个
+  private JLabel lblLineSeparator = new JLabel("换行符格式：");
+  private JComboBox<String> cmbLineSeparator = new JComboBox<String>(LINE_SEPARATOR_NAMES);
+  private JCheckBox chkAddBom = new JCheckBox("添加BOM", false);
   private JCheckBox chkUpperCase = new JCheckBox("结果大写(U)", false);
   private JButton btnCopy = new JButton("复制结果(C)");
   private JButton btnCancel = new JButton("取消");
@@ -88,7 +97,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
     this.setMnemonic();
     this.addListeners();
     this.refreshView();
-    this.setSize(420, 350);
+    this.setSize(420, 390);
     this.setVisible(true);
   }
 
@@ -101,22 +110,28 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
     this.srpText.setBounds(10, 35, 390, 80);
     this.pnlMain.add(this.lblText);
     this.pnlMain.add(this.srpText);
-    this.lblEncoding.setBounds(10, 130, 75, Util.VIEW_HEIGHT);
+    this.lblEncoding.setBounds(10, 130, 70, Util.VIEW_HEIGHT);
     this.cmbEncoding.setBounds(80, 130, 150, Util.INPUT_HEIGHT);
-    this.lblSeparator.setBounds(280, 130, 80, Util.VIEW_HEIGHT);
-    this.txtSeparator.setBounds(360, 130, 30, Util.INPUT_HEIGHT);
-    this.lblResult.setBounds(10, 155, 130, Util.VIEW_HEIGHT);
-    this.chkUpperCase.setBounds(280, 155, 110, Util.VIEW_HEIGHT);
-    this.txaResult.setBounds(10, 180, 390, 80);
+    this.lblResultSeparator.setBounds(280, 130, 80, Util.VIEW_HEIGHT);
+    this.txtResultSeparator.setBounds(360, 130, 30, Util.INPUT_HEIGHT);
+    this.lblLineSeparator.setBounds(10, 160, 80, Util.VIEW_HEIGHT);
+    this.cmbLineSeparator.setBounds(90, 160, 140, Util.INPUT_HEIGHT);
+    this.chkAddBom.setBounds(280, 160, 110, Util.VIEW_HEIGHT);
+    this.lblResult.setBounds(10, 185, 130, Util.VIEW_HEIGHT);
+    this.chkUpperCase.setBounds(280, 185, 110, Util.VIEW_HEIGHT);
+    this.txaResult.setBounds(10, 210, 390, 80);
     this.pnlMain.add(this.lblEncoding);
     this.pnlMain.add(this.cmbEncoding);
-    this.pnlMain.add(this.lblSeparator);
-    this.pnlMain.add(this.txtSeparator);
+    this.pnlMain.add(this.lblResultSeparator);
+    this.pnlMain.add(this.txtResultSeparator);
+    this.pnlMain.add(this.lblLineSeparator);
+    this.pnlMain.add(this.cmbLineSeparator);
+    this.pnlMain.add(this.chkAddBom);
     this.pnlMain.add(this.lblResult);
     this.pnlMain.add(this.chkUpperCase);
     this.pnlMain.add(this.txaResult);
-    this.btnCopy.setBounds(60, 280, 110, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(240, 280, 110, Util.BUTTON_HEIGHT);
+    this.btnCopy.setBounds(60, 310, 110, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(240, 310, 110, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnCopy);
     this.pnlMain.add(this.btnCancel);
   }
@@ -126,6 +141,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
    */
   private void initView() {
     this.cmbEncoding.setSelectedIndex(4);
+    this.cmbLineSeparator.setSelectedIndex(0);
     this.txaResult.setLineWrap(true);
     this.txaResult.setWrapStyleWord(true);
     this.txaResult.setBorder(new EtchedBorder());
@@ -136,6 +152,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
    * 为各组件设置快捷键
    */
   private void setMnemonic() {
+    this.chkAddBom.setMnemonic('B');
     this.chkUpperCase.setMnemonic('U');
     this.btnCopy.setMnemonic('C');
   }
@@ -148,9 +165,13 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
     this.txaText.addKeyListener(this.keyAdapter);
     this.cmbEncoding.addItemListener(this);
     this.cmbEncoding.addKeyListener(this.keyAdapter);
-    this.txtSeparator.addCaretListener(this);
-    this.txtSeparator.addKeyListener(this.keyAdapter);
+    this.txtResultSeparator.addCaretListener(this);
+    this.txtResultSeparator.addKeyListener(this.keyAdapter);
+    this.cmbLineSeparator.addItemListener(this);
+    this.cmbLineSeparator.addKeyListener(this.keyAdapter);
     this.txaResult.addKeyListener(this.keyAdapter);
+    this.chkAddBom.addActionListener(this);
+    this.chkAddBom.addKeyListener(this.keyAdapter);
     this.chkUpperCase.addActionListener(this);
     this.chkUpperCase.addKeyListener(this.keyAdapter);
     this.btnCopy.addActionListener(this);
@@ -164,7 +185,9 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.chkUpperCase.equals(e.getSource())) {
+    if (this.chkAddBom.equals(e.getSource())) {
+      this.toChangeBomResult();
+    } else if (this.chkUpperCase.equals(e.getSource())) {
       this.toChangeCaseResult();
     } else if (this.btnCopy.equals(e.getSource())) {
       this.toCopyResult();
@@ -181,23 +204,23 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
     if (!Util.isTextEmpty(str)) {
       this.txaText.setText(str);
     }
-    this.showEncrypt();
+    this.showResult();
   }
 
   /**
    * 显示结果
    */
-  private void showEncrypt() {
+  private void showResult() {
     String text = this.txaText.getText();
     if (Util.isTextEmpty(text)) {
       this.txaResult.setText("");
       return;
     }
-    int index = this.cmbEncoding.getSelectedIndex();
-    String encoding = ENCODING_VALUES[index];
-    // 根据不同的操作系统使用不同的换行符
-    text = text.replaceAll(LineSeparator.UNIX.toString(), Util.LINE_SEPARATOR);
-    String result = this.getHexString(text, encoding);
+    int indexEncoding = this.cmbEncoding.getSelectedIndex();
+    String encoding = ENCODING_VALUES[indexEncoding];
+    int indexSeparator = this.cmbLineSeparator.getSelectedIndex();
+    text = text.replaceAll(LineSeparator.UNIX.toString(), LINE_SEPARATOR_VALUES[indexSeparator]);
+    String result = this.getBomString(indexEncoding) + this.getHexString(text, encoding);
     this.toUpdateResult(result);
   }
 
@@ -217,7 +240,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
     StringBuilder stbHex = new StringBuilder();
     try {
       byte[] bytes = string.getBytes(encoding);
-      String strSeparator = this.txtSeparator.getText();
+      String strSeparator = this.txtResultSeparator.getText();
       for (byte item : bytes) {
         String result = Integer.toHexString(item & 0xff);
         // 不够2位的前面补0
@@ -231,6 +254,37 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
       // x.printStackTrace();
     }
     return stbHex.toString();
+  }
+
+  /**
+   * 根据编码格式获取BOM
+   * 
+   * @param indexEncoding
+   *          编码格式对应的索引
+   * @return 编码格式对应的BOM
+   */
+  private String getBomString(int indexEncoding) {
+    StringBuilder stbBom = new StringBuilder();
+    if (!this.chkAddBom.isSelected()) {
+      return stbBom.toString();
+    }
+    String strSeparator = this.txtResultSeparator.getText();
+    switch (indexEncoding) {
+      case 1:
+        stbBom.append("fe").append(strSeparator);
+        stbBom.append("ff").append(strSeparator);
+        break;
+      case 2:
+        stbBom.append("ff").append(strSeparator);
+        stbBom.append("fe").append(strSeparator);
+        break;
+      case 3:
+        stbBom.append("ef").append(strSeparator);
+        stbBom.append("bb").append(strSeparator);
+        stbBom.append("bf").append(strSeparator);
+        break;
+    }
+    return stbBom.toString();
   }
 
   /**
@@ -250,6 +304,13 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
       }
       this.txaResult.setText(result);
     }
+  }
+
+  /**
+   * "添加BOM"的处理方法
+   */
+  private void toChangeBomResult() {
+    this.showResult();
   }
 
   /**
@@ -309,7 +370,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
    */
   @Override
   public void caretUpdate(CaretEvent e) {
-    this.showEncrypt();
+    this.showResult();
   }
 
   /**
@@ -317,6 +378,6 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
    */
   @Override
   public void itemStateChanged(ItemEvent e) {
-    this.showEncrypt();
+    this.showResult();
   }
 }
