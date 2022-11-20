@@ -124,12 +124,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
 
   public FindReplaceDialog(JFrame owner, boolean modal, JTextArea txaSource, SearchResultPanel searchResultPanel,
     Setting setting, boolean visible) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
+    super(owner, modal, txaSource);
     this.setting = setting;
-    this.txaSource = txaSource;
     this.searchResultPanel = searchResultPanel;
     this.setTitle("查找");
     this.init();

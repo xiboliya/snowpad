@@ -63,11 +63,7 @@ public class BookmarkPreviewDialog extends BaseDialog implements ActionListener,
   private LinkedList<Integer> bookmarks = null;
 
   public BookmarkPreviewDialog(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.setTitle("预览书签");
     this.init();
     this.updateView();

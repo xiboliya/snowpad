@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xiboliya.snowpad.chooser;
+package com.xiboliya.snowpad.dialog;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -47,7 +47,7 @@ import com.xiboliya.snowpad.util.Util;
  * @author 冰原
  * 
  */
-public class FontChooser extends BaseDialog implements ActionListener,
+public class FontDialog extends BaseDialog implements ActionListener,
     ListSelectionListener, CaretListener {
   private static final long serialVersionUID = 1L;
   private JLabel lblFont = new JLabel("字体：");
@@ -79,12 +79,8 @@ public class FontChooser extends BaseDialog implements ActionListener,
    * @param modal
    *          是否为模式窗口
    */
-  public FontChooser(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+  public FontDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+    super(owner, modal, txaSource);
     this.setTitle("字体");
     this.init();
     this.fillFontList();
@@ -222,8 +218,7 @@ public class FontChooser extends BaseDialog implements ActionListener,
    */
   private void setView() {
     Font font = new Font(this.listFont.getSelectedValue().toString(),
-        this.listStyle.getSelectedIndex(), (Integer) this.listSize
-            .getSelectedValue());
+        this.listStyle.getSelectedIndex(), (Integer) this.listSize.getSelectedValue());
     this.lblView.setFont(font);
   }
 

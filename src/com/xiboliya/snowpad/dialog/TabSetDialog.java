@@ -53,11 +53,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   private boolean isReplaceBySpace = false; // 以空格代替Tab键
 
   public TabSetDialog(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.init();
     this.initView();
     this.addListeners();

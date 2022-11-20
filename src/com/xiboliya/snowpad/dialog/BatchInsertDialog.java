@@ -57,11 +57,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   private ButtonGroup bgpLineStartEnd = new ButtonGroup();
 
   public BatchInsertDialog(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.init();
     this.addListeners();
     this.setSize(220, 150);

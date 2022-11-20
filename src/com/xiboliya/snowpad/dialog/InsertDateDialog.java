@@ -91,11 +91,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
    *          针对操作的文本域
    */
   public InsertDateDialog(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.setTitle("插入时间/日期");
     this.init();
     this.setMnemonic();

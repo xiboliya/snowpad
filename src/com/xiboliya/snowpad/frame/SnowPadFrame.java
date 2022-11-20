@@ -90,7 +90,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.xiboliya.snowpad.base.BaseTextArea;
-import com.xiboliya.snowpad.chooser.FontChooser;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.chooser.SaveFileChooser;
 import com.xiboliya.snowpad.common.CharEncoding;
@@ -117,6 +116,7 @@ import com.xiboliya.snowpad.dialog.CuttingFileDialog;
 import com.xiboliya.snowpad.dialog.EncryptDialog;
 import com.xiboliya.snowpad.dialog.FileEncodingDialog;
 import com.xiboliya.snowpad.dialog.FindReplaceDialog;
+import com.xiboliya.snowpad.dialog.FontDialog;
 import com.xiboliya.snowpad.dialog.GotoDialog;
 import com.xiboliya.snowpad.dialog.InformationDialog;
 import com.xiboliya.snowpad.dialog.InsertCharDialog;
@@ -521,7 +521,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
 
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private SaveFileChooser saveFileChooser = null; // "保存"文件选择器
-  private FontChooser fontChooser = null; // 字体对话框
+  private FontDialog fontDialog = null; // 字体对话框
   private FindReplaceDialog findReplaceDialog = null; // 查找、替换对话框
   private GotoDialog gotoDialog = null; // 转到对话框
   private BookmarkPreviewDialog bookmarkPreviewDialog = null; // 预览书签对话框
@@ -2640,9 +2640,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void destroyAllDialogs() {
     this.openFileChooser = null;
     this.saveFileChooser = null;
-    if (this.fontChooser != null) {
-      this.fontChooser.dispose();
-      this.fontChooser = null;
+    if (this.fontDialog != null) {
+      this.fontDialog.dispose();
+      this.fontDialog = null;
     }
     if (this.findReplaceDialog != null) {
       this.findReplaceDialog.dispose();
@@ -3982,7 +3982,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openAutoCompleteDialog() {
     if (this.autoCompleteDialog == null) {
-      this.autoCompleteDialog = new AutoCompleteDialog(this, true, this.txaMain);
+      this.autoCompleteDialog = new AutoCompleteDialog(this, true, this.setting);
     } else {
       this.autoCompleteDialog.setTextArea(this.txaMain);
       this.autoCompleteDialog.setVisible(true);
@@ -4989,19 +4989,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "字体"的处理方法
    */
   private void openFontChooser() {
-    if (this.fontChooser == null) {
-      this.fontChooser = new FontChooser(this, true, this.txaMain);
+    if (this.fontDialog == null) {
+      this.fontDialog = new FontDialog(this, true, this.txaMain);
     } else {
-      this.fontChooser.updateListView();
-      this.fontChooser.setFontView();
-      this.fontChooser.setStyleView();
-      this.fontChooser.setSizeView();
-      this.fontChooser.setVisible(true);
+      this.fontDialog.updateListView();
+      this.fontDialog.setFontView();
+      this.fontDialog.setStyleView();
+      this.fontDialog.setSizeView();
+      this.fontDialog.setVisible(true);
     }
-    if (!this.fontChooser.getOk()) {
+    if (!this.fontDialog.getOk()) {
       return;
     }
-    this.setting.font = this.textAreaSetting.font = this.fontChooser.getTextAreaFont();
+    this.setting.font = this.textAreaSetting.font = this.fontDialog.getTextAreaFont();
     this.setTextAreaFont();
   }
 

@@ -29,6 +29,7 @@ import javax.swing.border.EtchedBorder;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
+import com.xiboliya.snowpad.setting.Setting;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -39,6 +40,7 @@ import com.xiboliya.snowpad.util.Util;
  */
 public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
+  private Setting setting = null; // 软件参数配置类
   private JCheckBox chkEnable = new JCheckBox("开启自动完成(E)", false);
   private JTextArea txaView = new JTextArea();
   private JButton btnClose = new JButton("关闭");
@@ -54,15 +56,12 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
    *          父窗口
    * @param modal
    *          是否为模式窗口
-   * @param txaSource
-   *          针对操作的文本域
+   * @param setting
+   *          软件参数配置类
    */
-  public AutoCompleteDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public AutoCompleteDialog(JFrame owner, boolean modal, Setting setting) {
     super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    this.setting = setting;
     this.setTitle("自动完成");
     this.init();
     this.initView();
@@ -74,6 +73,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   /**
    * 重写父类的方法：设置本窗口是否可见
    */
+  @Override
   public void setVisible(boolean visible) {
     if (visible) {
       this.initView();
@@ -103,7 +103,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
    * 初始化控件显示
    */
   private void initView() {
-    this.isAutoComplete = ((BaseTextArea) this.txaSource).getAutoComplete();
+    this.isAutoComplete = this.setting.autoComplete;
     this.chkEnable.setSelected(this.isAutoComplete);
     String strView = "";
     for (int i = 0; i < Util.AUTO_COMPLETE_BRACKETS_LEFT.length(); i++) {
@@ -147,6 +147,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }
@@ -154,6 +155,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     this.onCancel();
   }
@@ -161,6 +163,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (this.btnClose.equals(e.getSource())) {
       this.onCancel();

@@ -83,11 +83,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
   public SlicingFileDialog(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.init();
     this.initView();
     this.setComponentEnabledByRadioButton();

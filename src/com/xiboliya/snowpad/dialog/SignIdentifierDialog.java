@@ -101,13 +101,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    * @param hashtable
    *          用于显示字符的哈希表。键为标签，值为该标签下的字符序列
    */
-  public SignIdentifierDialog(JFrame owner, boolean modal, JTextArea txaSource,
-      Hashtable<String, String> hashtable) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+  public SignIdentifierDialog(JFrame owner, boolean modal, JTextArea txaSource, Hashtable<String, String> hashtable) {
+    super(owner, modal, txaSource);
     this.init();
     this.setMnemonic();
     this.addListeners();

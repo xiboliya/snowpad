@@ -42,7 +42,13 @@ public abstract class BaseDialog extends JDialog {
     super(owner, modal);
     this.init(owner);
   }
-  
+
+  public BaseDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+    super(owner, modal);
+    this.init(owner);
+    this.setTextArea(txaSource);
+  }
+
   /**
    * 初始化界面
    */

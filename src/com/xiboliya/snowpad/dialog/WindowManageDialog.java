@@ -86,11 +86,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
    *          显示文本域的选项卡组件
    */
   public WindowManageDialog(JFrame owner, boolean modal, JTextArea txaSource, JTabbedPane tpnMain) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.tpnMain = tpnMain;
     this.init();
     this.addTable();

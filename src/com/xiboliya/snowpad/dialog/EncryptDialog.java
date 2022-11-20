@@ -88,11 +88,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   private JButton btnCancel = new JButton("取消");
 
   public EncryptDialog(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.setTitle("加密值生成");
     this.init();
     this.setMnemonic();

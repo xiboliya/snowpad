@@ -67,11 +67,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
   public InformationDialog(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.setTitle("统计信息");
     this.init();
     this.addListeners();

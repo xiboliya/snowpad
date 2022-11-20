@@ -72,11 +72,7 @@ public class GotoDialog extends BaseDialog implements ActionListener, ChangeList
   private BaseTextField txtGotoPercent = new BaseTextField();
 
   public GotoDialog(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.setTitle("转到");
     this.init();
     this.updateView();

@@ -48,8 +48,7 @@ import com.xiboliya.snowpad.util.Util;
  * @author 冰原
  * 
  */
-public class InsertCharDialog extends BaseDialog implements ActionListener,
-    FocusListener {
+public class InsertCharDialog extends BaseDialog implements ActionListener, FocusListener {
   private static final long serialVersionUID = 1L;
   private static final int INSERT_MAX_ROW = 10; // 插入字符界面的最大行数
   private static final int INSERT_MAX_COLUMN = 10; // 插入字符界面的最大列数
@@ -79,13 +78,8 @@ public class InsertCharDialog extends BaseDialog implements ActionListener,
    * @param hashtable
    *          用于显示字符的哈希表。键为标签，值为该标签下的字符序列
    */
-  public InsertCharDialog(JFrame owner, boolean modal, JTextArea txaSource,
-      Hashtable<String, String> hashtable) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+  public InsertCharDialog(JFrame owner, boolean modal, JTextArea txaSource, Hashtable<String, String> hashtable) {
+    super(owner, modal, txaSource);
     this.init();
     this.addListeners();
     this.setSize(340, 275);

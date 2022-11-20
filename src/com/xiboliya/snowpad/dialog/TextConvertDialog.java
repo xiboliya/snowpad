@@ -86,11 +86,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   private JButton btnCancel = new JButton("取消");
 
   public TextConvertDialog(JFrame owner, boolean modal, JTextArea txaSource) {
-    super(owner, modal);
-    if (txaSource == null) {
-      return;
-    }
-    this.txaSource = txaSource;
+    super(owner, modal, txaSource);
     this.setTitle("文本格式转换");
     this.init();
     this.initView();
