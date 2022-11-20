@@ -76,6 +76,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   private JComboBox<String> cmbEncoding = new JComboBox<String>(ENCODING_NAMES);
   private JLabel lblResult = new JLabel("转为十六进制结果：");
   private BaseTextAreaSpecial txaResult = new BaseTextAreaSpecial();
+  private JScrollPane srpResult = new JScrollPane(this.txaResult);
   private JLabel lblResultSeparator = new JLabel("结果分隔符：");
   private BaseTextField txtResultSeparator = new BaseTextField(" ", true, ".{0,1}"); // 限制用户输入的字符数量不能超过1个
   private JLabel lblLineSeparator = new JLabel("换行符格式：");
@@ -93,7 +94,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
     this.setMnemonic();
     this.addListeners();
     this.refreshView();
-    this.setSize(420, 390);
+    this.setSize(420, 420);
     this.setVisible(true);
   }
 
@@ -103,19 +104,19 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   private void init() {
     this.pnlMain.setLayout(null);
     this.lblText.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
-    this.srpText.setBounds(10, 35, 390, 80);
+    this.srpText.setBounds(10, 35, 390, 100);
     this.pnlMain.add(this.lblText);
     this.pnlMain.add(this.srpText);
-    this.lblEncoding.setBounds(10, 130, 70, Util.VIEW_HEIGHT);
-    this.cmbEncoding.setBounds(80, 130, 150, Util.INPUT_HEIGHT);
-    this.lblResultSeparator.setBounds(280, 130, 80, Util.VIEW_HEIGHT);
-    this.txtResultSeparator.setBounds(360, 130, 30, Util.INPUT_HEIGHT);
-    this.lblLineSeparator.setBounds(10, 160, 80, Util.VIEW_HEIGHT);
-    this.cmbLineSeparator.setBounds(90, 160, 140, Util.INPUT_HEIGHT);
-    this.chkAddBom.setBounds(280, 160, 110, Util.VIEW_HEIGHT);
-    this.lblResult.setBounds(10, 185, 130, Util.VIEW_HEIGHT);
-    this.chkUpperCase.setBounds(280, 185, 110, Util.VIEW_HEIGHT);
-    this.txaResult.setBounds(10, 210, 390, 80);
+    this.lblEncoding.setBounds(10, 150, 70, Util.VIEW_HEIGHT);
+    this.cmbEncoding.setBounds(80, 150, 150, Util.INPUT_HEIGHT);
+    this.lblResultSeparator.setBounds(280, 150, 80, Util.VIEW_HEIGHT);
+    this.txtResultSeparator.setBounds(360, 150, 30, Util.INPUT_HEIGHT);
+    this.lblLineSeparator.setBounds(10, 180, 80, Util.VIEW_HEIGHT);
+    this.cmbLineSeparator.setBounds(90, 180, 140, Util.INPUT_HEIGHT);
+    this.chkAddBom.setBounds(280, 180, 110, Util.VIEW_HEIGHT);
+    this.lblResult.setBounds(10, 205, 130, Util.VIEW_HEIGHT);
+    this.chkUpperCase.setBounds(280, 205, 110, Util.VIEW_HEIGHT);
+    this.srpResult.setBounds(10, 230, 390, 100);
     this.pnlMain.add(this.lblEncoding);
     this.pnlMain.add(this.cmbEncoding);
     this.pnlMain.add(this.lblResultSeparator);
@@ -125,9 +126,9 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
     this.pnlMain.add(this.chkAddBom);
     this.pnlMain.add(this.lblResult);
     this.pnlMain.add(this.chkUpperCase);
-    this.pnlMain.add(this.txaResult);
-    this.btnCopy.setBounds(60, 310, 110, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(240, 310, 110, Util.BUTTON_HEIGHT);
+    this.pnlMain.add(this.srpResult);
+    this.btnCopy.setBounds(60, 350, 110, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(240, 350, 110, Util.BUTTON_HEIGHT);
     this.pnlMain.add(this.btnCopy);
     this.pnlMain.add(this.btnCancel);
   }
@@ -140,7 +141,6 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
     this.cmbLineSeparator.setSelectedIndex(0);
     this.txaResult.setLineWrap(true);
     this.txaResult.setWrapStyleWord(true);
-    this.txaResult.setBorder(new EtchedBorder());
     this.txaResult.setEditable(false);
   }
 
