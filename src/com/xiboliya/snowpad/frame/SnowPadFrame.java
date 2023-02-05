@@ -129,6 +129,7 @@ import com.xiboliya.snowpad.dialog.ShortcutSetDialog;
 import com.xiboliya.snowpad.dialog.SignIdentifierDialog;
 import com.xiboliya.snowpad.dialog.SlicingFileDialog;
 import com.xiboliya.snowpad.dialog.TabSetDialog;
+import com.xiboliya.snowpad.dialog.TestQuestionDialog;
 import com.xiboliya.snowpad.dialog.TextConvertDialog;
 import com.xiboliya.snowpad.dialog.TimeStampConvertDialog;
 import com.xiboliya.snowpad.dialog.UnitConvertDialog;
@@ -450,6 +451,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemNumberConvert = new JMenuItem("数字进制转换(N)...", 'N');
   private JMenuItem itemTimeStampConvert = new JMenuItem("时间戳转换(S)...", 'S');
   private JMenuItem itemUnitConvert = new JMenuItem("单位换算(U)...", 'U');
+  private JMenuItem itemTestQuestion = new JMenuItem("题库(Q)...", 'Q');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -550,6 +552,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private NumberConvertDialog numberConvertDialog = null; // 数字进制转换对话框
   private TimeStampConvertDialog timeStampConvertDialog = null; // 时间戳转换对话框
   private UnitConvertDialog unitConvertDialog = null; // 单位换算对话框
+  private TestQuestionDialog testQuestionDialog = null; // 题库对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
   /**
@@ -749,6 +752,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemNumberConvert.addActionListener(this);
     this.itemTimeStampConvert.addActionListener(this);
     this.itemUnitConvert.addActionListener(this);
+    this.itemTestQuestion.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1227,6 +1231,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTool.add(this.itemNumberConvert);
     this.menuTool.add(this.itemTimeStampConvert);
     this.menuTool.add(this.itemUnitConvert);
+    this.menuTool.add(this.itemTestQuestion);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1409,6 +1414,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemNumberConvert);
     this.menuItemList.add(this.itemTimeStampConvert);
     this.menuItemList.add(this.itemUnitConvert);
+    this.menuItemList.add(this.itemTestQuestion);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1937,6 +1943,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openTextConvertDialog();
     } else if (this.itemUnitConvert.equals(e.getSource())) {
       this.openUnitConvertDialog();
+    } else if (this.itemTestQuestion.equals(e.getSource())) {
+      this.openTestQuestionDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -2751,6 +2759,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.unitConvertDialog != null) {
       this.unitConvertDialog.dispose();
       this.unitConvertDialog = null;
+    }
+    if (this.testQuestionDialog != null) {
+      this.testQuestionDialog.dispose();
+      this.testQuestionDialog = null;
     }
     if (this.bookmarkPreviewDialog != null) {
       this.bookmarkPreviewDialog.dispose();
@@ -4786,6 +4798,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.unitConvertDialog = new UnitConvertDialog(this, false);
     } else {
       this.unitConvertDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "题库"的处理方法
+   */
+  private void openTestQuestionDialog() {
+    if (this.testQuestionDialog == null) {
+      this.testQuestionDialog = new TestQuestionDialog(this, true, this.txaMain);
+    } else {
+      this.testQuestionDialog.setTextArea(this.txaMain);
+      this.testQuestionDialog.setVisible(true);
     }
   }
 
