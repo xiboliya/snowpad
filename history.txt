@@ -1829,3 +1829,9 @@ src/com/xiboliya/snowpad/dialog/WindowManageDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2.“文本格式转换”界面，解决当结果文本超出文本域显示范围时无法显示完整的问题。
 src/com/xiboliya/snowpad/dialog/TextConvertDialog.java
+
+2023-02-05
+1.在“工具”菜单中添加“题库”功能。
+src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
