@@ -36,6 +36,7 @@ public class SaveFileChooser extends JFileChooser {
 
   public SaveFileChooser() {
     super();
+    this.setFileHidingEnabled(false);
     Util.addChoosableFileFilters(this);
   }
 
