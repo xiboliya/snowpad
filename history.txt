@@ -1835,3 +1835,8 @@ src/com/xiboliya/snowpad/dialog/TextConvertDialog.java
 src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2023-02-09
+1.文件选择器中支持显示隐藏文件和目录，以解决macOS中无法显示桌面文件和目录的问题。
+src/com/xiboliya/snowpad/chooser/OpenFileChooser.java
+src/com/xiboliya/snowpad/chooser/SaveFileChooser.java
