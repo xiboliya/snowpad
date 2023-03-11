@@ -311,6 +311,8 @@ public final class SettingAdapter {
             this.setting.viewToolBar = logic;
           } else if (key.equalsIgnoreCase("viewStateBar")) {
             this.setting.viewStateBar = logic;
+          } else if (key.equalsIgnoreCase("viewFileTree")) {
+            this.setting.viewFileTree = logic;
           } else if (key.equalsIgnoreCase("viewLineNumber")) {
             this.setting.viewLineNumber = logic;
           } else if (key.equalsIgnoreCase("viewSearchResult")) {
@@ -587,6 +589,8 @@ public final class SettingAdapter {
           node.setTextContent(String.valueOf(this.setting.viewToolBar));
         } else if (key.equalsIgnoreCase("viewStateBar")) {
           node.setTextContent(String.valueOf(this.setting.viewStateBar));
+        } else if (key.equalsIgnoreCase("viewFileTree")) {
+          node.setTextContent(String.valueOf(this.setting.viewFileTree));
         } else if (key.equalsIgnoreCase("viewLineNumber")) {
           node.setTextContent(String.valueOf(this.setting.viewLineNumber));
         } else if (key.equalsIgnoreCase("viewSearchResult")) {

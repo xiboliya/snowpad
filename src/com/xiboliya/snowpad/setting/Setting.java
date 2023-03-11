@@ -50,6 +50,7 @@ public class Setting {
   // 显示的相关设置
   public boolean viewToolBar = true; // 是否显示工具栏
   public boolean viewStateBar = true; // 是否显示状态栏
+  public boolean viewFileTree = true; // 是否显示文件树
   public boolean viewLineNumber = false; // 是否显示行号栏
   public boolean viewSearchResult = false; // 是否显示查找结果面板
   public boolean viewAlwaysOnTop = false; // 是否前端显示

@@ -19,6 +19,7 @@
   <View note="显示的相关设置">
     <viewToolBar note="是否显示工具栏">true</viewToolBar>
     <viewStateBar note="是否显示状态栏">true</viewStateBar>
+    <viewFileTree note="是否显示文件树">false</viewFileTree>
     <viewLineNumber note="是否显示行号栏">false</viewLineNumber>
     <viewSearchResult note="是否显示查找结果面板">false</viewSearchResult>
     <viewAlwaysOnTop note="是否前端显示">false</viewAlwaysOnTop>

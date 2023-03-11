@@ -134,6 +134,7 @@ import com.xiboliya.snowpad.dialog.TextConvertDialog;
 import com.xiboliya.snowpad.dialog.TimeStampConvertDialog;
 import com.xiboliya.snowpad.dialog.UnitConvertDialog;
 import com.xiboliya.snowpad.dialog.WindowManageDialog;
+import com.xiboliya.snowpad.panel.FileTreePanel;
 import com.xiboliya.snowpad.panel.SearchResultPanel;
 import com.xiboliya.snowpad.panel.StatePanel;
 import com.xiboliya.snowpad.setting.Setting;
@@ -256,7 +257,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_line_wrap.png")) }; // 工具栏禁用状态的图标
   private BaseTextArea txaMain = null; // 当前编辑的文本域
   private JTabbedPane tpnMain = new JTabbedPane(); // 显示文本域的选项卡组件
-  private JSplitPane spnMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT); // 用于分隔选项卡组件与查找结果面板的组件
+  private JSplitPane spnTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); // 用于分隔文件树面板与选项卡组件的分隔组件
+  private JSplitPane spnMain = new JSplitPane(JSplitPane.VERTICAL_SPLIT); // 用于分隔spnTop组件与查找结果面板的分隔组件
   private JToolBar tlbMain = new JToolBar(); // 显示常用按钮的工具栏组件
 
   private JMenuBar menuBar = new JMenuBar();
@@ -389,6 +391,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemForward = new JMenuItem("前进(Q)", 'Q');
   private JCheckBoxMenuItem itemToolBar = new JCheckBoxMenuItem("工具栏(T)");
   private JCheckBoxMenuItem itemStateBar = new JCheckBoxMenuItem("状态栏(S)");
+  private JCheckBoxMenuItem itemFileTree = new JCheckBoxMenuItem("文件树(U)");
   private JCheckBoxMenuItem itemLineNumber = new JCheckBoxMenuItem("行号栏(L)");
   private JCheckBoxMenuItem itemSearchResult = new JCheckBoxMenuItem("查找结果(E)");
   private JCheckBoxMenuItem itemAlwaysOnTop = new JCheckBoxMenuItem("前端显示(A)");
@@ -509,6 +512,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private StringBuilder stbTitle = new StringBuilder(Util.SOFTWARE); // 标题栏字符串
   private String strLookAndFeel = Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME; // 当前外观的完整类名
   private StatePanel pnlState = new StatePanel(4); // 状态栏面板
+  private FileTreePanel pnlFileTree = new FileTreePanel(this); // 文件树面板
   private SearchResultPanel pnlSearchResult = new SearchResultPanel(this); // 查找结果面板
   private UndoManager undoManager = null; // 撤销管理器
   private TextAreaSetting textAreaSetting = new TextAreaSetting(); // 文本域参数配置类
@@ -662,6 +666,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void init() {
     this.addToolBar();
+    this.addSplitPane();
     this.addTabbedPane();
     this.addMenuItem();
     this.addStatePanel();
@@ -868,6 +873,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelAll.addActionListener(this);
     this.itemToolBar.addActionListener(this);
     this.itemStateBar.addActionListener(this);
+    this.itemFileTree.addActionListener(this);
     this.itemLineNumber.addActionListener(this);
     this.itemSearchResult.addActionListener(this);
     this.itemReDo.addActionListener(this);
@@ -945,13 +951,23 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * 主面板上添加分隔组件
+   */
+  private void addSplitPane() {
+    this.spnTop.setLeftComponent(this.pnlFileTree);
+    this.spnTop.setRightComponent(this.tpnMain);
+    this.spnTop.setResizeWeight(0.3);
+    this.spnTop.setFocusable(false);
+    this.getContentPane().add(this.spnMain, BorderLayout.CENTER);
+    this.spnMain.setTopComponent(this.spnTop);
+    this.spnMain.setBottomComponent(this.pnlSearchResult);
+    this.spnMain.setResizeWeight(0.3);
+  }
+
+  /**
    * 主面板上添加选项卡视图
    */
   private void addTabbedPane() {
-    this.getContentPane().add(this.spnMain, BorderLayout.CENTER);
-    this.spnMain.setTopComponent(this.tpnMain);
-    this.spnMain.setBottomComponent(this.pnlSearchResult);
-    this.spnMain.setResizeWeight(0.6);
     this.tpnMain.setFocusable(false);
     this.tpnMain.addChangeListener(this);
     this.createNew(null);
@@ -1163,6 +1179,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuView.addSeparator();
     this.menuView.add(this.itemToolBar);
     this.menuView.add(this.itemStateBar);
+    this.menuView.add(this.itemFileTree);
     this.menuView.add(this.itemLineNumber);
     this.menuView.add(this.itemSearchResult);
     this.menuView.addSeparator();
@@ -1361,6 +1378,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemForward);
     this.menuItemList.add(this.itemToolBar);
     this.menuItemList.add(this.itemStateBar);
+    this.menuItemList.add(this.itemFileTree);
     this.menuItemList.add(this.itemLineNumber);
     this.menuItemList.add(this.itemSearchResult);
     this.menuItemList.add(this.itemAlwaysOnTop);
@@ -1556,6 +1574,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAutoIndent.setSelected(this.textAreaSetting.autoIndent);
     this.itemToolBar.setSelected(this.setting.viewToolBar);
     this.itemStateBar.setSelected(this.setting.viewStateBar);
+    this.itemFileTree.setSelected(this.setting.viewFileTree);
     this.itemLineNumber.setSelected(this.textAreaSetting.isLineNumberView);
     this.itemSearchResult.setSelected(this.setting.viewSearchResult);
     this.itemAlwaysOnTop.setSelected(this.setting.viewAlwaysOnTop);
@@ -1568,6 +1587,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setLineWrapStyle();
     this.setToolBar();
     this.setStateBar();
+    this.setFileTree();
     this.setSearchResult();
     this.setAlwaysOnTop();
     this.setLockResizable();
@@ -1754,6 +1774,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAutoIndent.setMnemonic('I');
     this.itemToolBar.setMnemonic('T');
     this.itemStateBar.setMnemonic('S');
+    this.itemFileTree.setMnemonic('U');
     this.itemLineNumber.setMnemonic('L');
     this.itemSearchResult.setMnemonic('E');
     this.itemAlwaysOnTop.setMnemonic('A');
@@ -2060,6 +2081,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setToolBar();
     } else if (this.itemStateBar.equals(e.getSource())) {
       this.setStateBar();
+    } else if (this.itemFileTree.equals(e.getSource())) {
+      this.setFileTree();
     } else if (this.itemLineNumber.equals(e.getSource())) {
       this.setLineNumber(this.itemLineNumber.isSelected());
     } else if (this.itemSearchResult.equals(e.getSource())) {
@@ -2837,7 +2860,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.pnlSearchResult.setVisible(enable);
     if (enable) {
       this.spnMain.setDividerSize(3);
-      this.spnMain.setDividerLocation(this.getDividerLocation());
+      this.spnMain.setDividerLocation(this.getMainDividerLocation());
     } else {
       this.spnMain.setDividerSize(0); // 隐藏分隔条
     }
@@ -2849,7 +2872,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 
    * @return 查找结果面板的位置
    */
-  private int getDividerLocation() {
+  private int getMainDividerLocation() {
     int height = this.spnMain.getHeight();
     if (height <= 0) {
       height = 280;
@@ -2876,7 +2899,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setting.viewSearchResult = isView;
     if (isView) {
       this.spnMain.setDividerSize(3);
-      this.spnMain.setDividerLocation(this.getDividerLocation());
+      this.spnMain.setDividerLocation(this.getMainDividerLocation());
     } else {
       this.spnMain.setDividerSize(0); // 隐藏分隔条
     }
@@ -5307,6 +5330,59 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * "文件树"的处理方法
+   */
+  private void setFileTree() {
+    boolean enable = this.itemFileTree.isSelected();
+    this.pnlFileTree.setVisible(enable);
+    if (enable) {
+      this.spnTop.setDividerSize(3);
+      this.spnTop.setDividerLocation(this.getTopDividerLocation());
+    } else {
+      this.spnTop.setDividerSize(0); // 隐藏分隔条
+    }
+    this.setting.viewFileTree = enable;
+  }
+
+  /**
+   * 获取查找结果面板的位置
+   * 
+   * @return 查找结果面板的位置
+   */
+  private int getTopDividerLocation() {
+    int width = this.spnTop.getWidth();
+    if (width <= 0) {
+      width = 180;
+    } else {
+      width = width / 4;
+    }
+    return width;
+  }
+
+  /**
+   * 显示或关闭文件树面板
+   * 
+   * @param isView
+   *          是否显示文件树面板，true表示显示，false表示关闭。
+   */
+  public void viewFileTree(boolean isView) {
+    if (isView && this.pnlFileTree.isVisible()) {
+      return;
+    } else if (!isView && !this.pnlFileTree.isVisible()) {
+      return;
+    }
+    this.itemFileTree.setSelected(isView);
+    this.pnlFileTree.setVisible(isView);
+    this.setting.viewFileTree = isView;
+    if (isView) {
+      this.spnTop.setDividerSize(3);
+      this.spnTop.setDividerLocation(this.getTopDividerLocation());
+    } else {
+      this.spnTop.setDividerSize(0); // 隐藏分隔条
+    }
+  }
+
+  /**
    * "重新载入文件"的处理方法
    */
   private void reOpenFile() {
@@ -5390,18 +5466,31 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     File[] files = this.openFileChooser.getSelectedFiles();
     for (File file : files) {
-      if (file != null && file.exists()) {
-        boolean toCreateNew = this.checkToCreateNew(file);
-        if (!toCreateNew && !this.saveFileBeforeAct()) {
-          return;
-        }
-        int index = this.getCurrentIndexBySameFile(file);
-        if (this.toOpenFile(file, true, toCreateNew)) {
-          this.setAfterOpenFile(index);
-          this.setFileNameAndPath(file);
-        }
+      if (!openFile(file)) {
+        break;
       }
     }
+  }
+
+  /**
+   * 打开文件
+   * 
+   * @param file 待打开的文件
+   * @return 是否需要新建文本域，true表示打开成功，false则表示文件已打开并修改，需要保存
+   */
+  public boolean openFile(File file) {
+    if (file != null && file.exists()) {
+      boolean toCreateNew = this.checkToCreateNew(file);
+      if (!toCreateNew && !this.saveFileBeforeAct()) {
+        return false;
+      }
+      int index = this.getCurrentIndexBySameFile(file);
+      if (this.toOpenFile(file, true, toCreateNew)) {
+        this.setAfterOpenFile(index);
+        this.setFileNameAndPath(file);
+      }
+    }
+    return true;
   }
 
   /**
@@ -6318,16 +6407,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         Iterator iterator = fileList.iterator(); // 获取文件列表的迭代器
         while (iterator.hasNext()) {
           File file = (File) iterator.next();
-          if (file != null && file.exists()) {
-            boolean toCreateNew = this.checkToCreateNew(file);
-            if (!toCreateNew && !this.saveFileBeforeAct()) {
-              break;
-            }
-            int index = this.getCurrentIndexBySameFile(file);
-            if (this.toOpenFile(file, true, toCreateNew)) {
-              this.setAfterOpenFile(index);
-              this.setFileNameAndPath(file);
-            }
+          if (!openFile(file)) {
+            break;
           }
         }
         e.getDropTargetContext().dropComplete(true); // 设置放置操作成功结束
