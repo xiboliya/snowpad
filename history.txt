@@ -1852,3 +1852,5 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java（添加）
 src/com/xiboliya/snowpad/setting/Setting.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/util/Util.java
+3.默认不显示“文件树”。
+src/com/xiboliya/snowpad/setting/Setting.java
