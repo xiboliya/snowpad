@@ -1791,7 +1791,7 @@ src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/dialog/TextConvertDialog.java（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
-2.文本域中双击时，自动查找并自动高亮域当前选区相同的文本。同时在“颜色设置”菜单下添加“匹配文本背景颜色”设置功能。并将此类颜色纳入配色方案中。
+2.文本域中双击时，自动查找并高亮与当前选区相同的文本。同时在“颜色设置”菜单下添加“匹配文本背景颜色”设置功能。并将此类颜色纳入配色方案中。
 res/snowpad.xml
 src/com/xiboliya/snowpad/base/BaseTextArea.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
@@ -1840,3 +1840,15 @@ src/com/xiboliya/snowpad/util/Util.java
 1.文件选择器中支持显示隐藏文件和目录，以解决macOS中无法显示桌面文件和目录的问题。
 src/com/xiboliya/snowpad/chooser/OpenFileChooser.java
 src/com/xiboliya/snowpad/chooser/SaveFileChooser.java
+
+2023-03-11
+1.将“查找/替换”对话框中的“循环查找”功能默认开启。
+res/snowpad.xml
+2.在“查看”菜单中添加“文件树”功能。“文件树”功能开启时，将在主界面文本域左侧显示一个文件树面板。可以浏览文件系统上的目录和文件，在文件上按回车键或双击鼠标即可在右侧文本域中打开该文件。
+res/snowpad.xml
+src/com/xiboliya/snowpad/base/BaseTreeCellRenderer.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/panel/FileTreePanel.java（添加）
+src/com/xiboliya/snowpad/setting/Setting.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/util/Util.java
