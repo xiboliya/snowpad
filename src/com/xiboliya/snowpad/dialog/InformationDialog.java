@@ -42,7 +42,7 @@ import com.xiboliya.snowpad.base.BaseTextArea;
  */
 public class InformationDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private static final String DATE_STYLE = "yyyy-MM-dd";
+  private static final String DATE_STYLE = "yyyy-MM-dd HH:mm:ss";
   private static final String INFO_FILE_PATH = "文件路径："; // 统计信息窗口中使用的字符串
   private static final String INFO_FILE_MODIFY_TIME = "修改时间："; // 统计信息窗口中使用的字符串
   private static final String INFO_FILE_SIZE = "文件大小："; // 统计信息窗口中使用的字符串
