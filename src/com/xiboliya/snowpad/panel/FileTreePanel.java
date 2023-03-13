@@ -26,6 +26,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -38,6 +40,7 @@ import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import com.xiboliya.snowpad.base.BaseComparator;
 import com.xiboliya.snowpad.base.BaseTreeCellRenderer;
 import com.xiboliya.snowpad.base.BaseTreeNode;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
@@ -62,6 +65,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private JTree treeMain = new JTree(treeNode);
   private KeyAdapter keyAdapter = null;
   private MouseAdapter mouseAdapter = null;
+  private BaseComparator comparator = new BaseComparator();
 
   public FileTreePanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -93,9 +97,10 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.treeMain.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); // 设置JTree组件一次只能选择一个节点
     this.treeMain.setCellRenderer(new BaseTreeCellRenderer());
     File[] roots = File.listRoots();
-    if (roots == null) {
+    if (roots == null || roots.length == 0) {
       return;
     }
+    Arrays.sort(roots, this.comparator);
     for (File root : roots) {
       this.addNextNode(treeNode, root);
     }
@@ -116,9 +121,10 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       BaseTreeNode dirNode = new BaseTreeNode(this.getViewName(file), file.getAbsolutePath());
       treeNode.add(dirNode);
       File[] files = file.listFiles();
-      if (files == null) {
+      if (files == null || files.length == 0) {
         return;
       }
+      Arrays.sort(files, this.comparator);
       for (File itemFile : files) {
         int level = dirNode.getLevel();
         if (level < 2) {
@@ -240,9 +246,10 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
           continue;
         }
         File[] files = file.listFiles();
-        if (files == null) {
+        if (files == null || files.length == 0) {
           continue;
         }
+        Arrays.sort(files, this.comparator);
         for (File itemFile : files) {
           childNode.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
         }
