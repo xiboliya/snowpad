@@ -1858,3 +1858,8 @@ src/com/xiboliya/snowpad/setting/Setting.java
 2023-03-12
 1.修改“统计信息”界面中的修改时间，精确到秒。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2023-03-13
+1.“文件树”中的文件和目录按升序排序，并忽略大小写。
+src/com/xiboliya/snowpad/base/BaseComparator.java（添加）
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
