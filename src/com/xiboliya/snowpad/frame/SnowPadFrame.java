@@ -173,7 +173,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private static final String STATE_ENCODING = "Encoding:"; // 状态栏显示信息-当前编码格式
   private static final String SIGN_CHARS = "﹟·※＊§¤⊙◎○●△▲▽▼◇◆□■☆★"; // 列表符号
   private static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "新建", "打开", "保存", "另存为", "关闭", "关闭全部", "剪切", "复制", "粘贴",
-      "撤销", "重做", "查找", "替换", "字体放大", "字体缩小", "后退", "前进", "自动换行" }; // 工具栏提示信息
+      "撤销", "重做", "查找", "替换", "字体放大", "字体缩小", "后退", "前进", "自动换行", "文件树" }; // 工具栏提示信息
   private static final int FILE_HISTORY_MAX = 15; // 最近编辑文件的最大存储个数
   private static final int BACK_FORWARD_MAX = 15; // 光标历史位置的最大存储个数
   private static final int TEXTAREA_HASHCODE_LIST_MAX = 15; // 最近编辑的文本域hashCode的最大存储个数
@@ -235,7 +235,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_font_size_minus.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_back.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_forward.png")),
-      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_line_wrap.png")) }; // 工具栏可用状态的图标
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_line_wrap.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/enable/tool_file_tree.png")) }; // 工具栏可用状态的图标
   private static final ImageIcon[] TOOL_DISABLE_ICONS = new ImageIcon[] {
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_new.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_open.png")),
@@ -254,7 +255,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_font_size_minus.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_back.png")),
       new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_forward.png")),
-      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_line_wrap.png")) }; // 工具栏禁用状态的图标
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_line_wrap.png")),
+      new ImageIcon(ClassLoader.getSystemResource("res/disable/tool_file_tree.png")) }; // 工具栏禁用状态的图标
   private BaseTextArea txaMain = null; // 当前编辑的文本域
   private JTabbedPane tpnMain = new JTabbedPane(); // 显示文本域的选项卡组件
   private JSplitPane spnTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); // 用于分隔文件树面板与选项卡组件的分隔组件
@@ -981,7 +983,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.getContentPane().add(this.tlbMain, BorderLayout.NORTH);
     for (int i = 0; i < TOOL_ENABLE_ICONS.length; i++) {
       AbstractButton btnTool = null;
-      if (i == TOOL_ENABLE_ICONS.length - 1) {
+      if (i == TOOL_ENABLE_ICONS.length - 1 || i == TOOL_ENABLE_ICONS.length - 2) {
+        // 工具栏最后2个按钮设置为开关类型
         btnTool = new JToggleButton(TOOL_DISABLE_ICONS[i]);
         btnTool.setSelectedIcon(TOOL_ENABLE_ICONS[i]);
       } else {
@@ -1583,6 +1586,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemClickToClose.setSelected(this.setting.viewClickToClose);
     this.itemTabIcon.setSelected(this.setting.viewTabIcon);
     this.toolButtonList.get(17).setSelected(this.textAreaSetting.isLineWrap);
+    this.toolButtonList.get(18).setSelected(this.setting.viewFileTree);
     this.setLineWrap();
     this.setLineWrapStyle();
     this.setToolBar();
@@ -2082,6 +2086,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemStateBar.equals(e.getSource())) {
       this.setStateBar();
     } else if (this.itemFileTree.equals(e.getSource())) {
+      this.toolButtonList.get(18).setSelected(this.itemFileTree.isSelected());
+      this.setFileTree();
+    } else if (this.toolButtonList.get(18).equals(e.getSource())) {
+      this.itemFileTree.setSelected(this.toolButtonList.get(18).isSelected());
       this.setFileTree();
     } else if (this.itemLineNumber.equals(e.getSource())) {
       this.setLineNumber(this.itemLineNumber.isSelected());
