@@ -5379,6 +5379,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (!isView && !this.pnlFileTree.isVisible()) {
       return;
     }
+    this.toolButtonList.get(18).setSelected(isView);
     this.itemFileTree.setSelected(isView);
     this.pnlFileTree.setVisible(isView);
     this.setting.viewFileTree = isView;
