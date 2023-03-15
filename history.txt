@@ -1867,3 +1867,7 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 res/disable/tool_file_tree.png（添加）
 res/enable/tool_file_tree.png（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2023-03-15
+1.解决在“文件树”面板中按ESC键或点击关闭按钮关闭面板时，工具栏中的“文件树”图标没有同步刷新状态的问题。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
