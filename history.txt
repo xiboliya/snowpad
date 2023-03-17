@@ -1871,3 +1871,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2023-03-15
 1.解决在“文件树”面板中按ESC键或点击关闭按钮关闭面板时，工具栏中的“文件树”图标没有同步刷新状态的问题。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2023-03-17
+1.“计算器”界面中扩展+-*/运算符的键盘按键支持。
+src/com/xiboliya/snowpad/dialog/CalculatorDialog.java
