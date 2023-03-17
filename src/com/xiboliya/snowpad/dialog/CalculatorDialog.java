@@ -144,6 +144,12 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
             digit(text, "7");
             break;
           case KeyEvent.VK_8:
+            if (e.getModifiers() == KeyEvent.SHIFT_MASK) {
+              multiplication(text);
+            } else {
+              digit(text, "8");
+            }
+            break;
           case KeyEvent.VK_NUMPAD8:
             digit(text, "8");
             break;
@@ -155,12 +161,14 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
             addition(text);
             break;
           case KeyEvent.VK_SUBTRACT:
+          case KeyEvent.VK_MINUS:
             subduction(text);
             break;
           case KeyEvent.VK_MULTIPLY:
             multiplication(text);
             break;
           case KeyEvent.VK_DIVIDE:
+          case KeyEvent.VK_SLASH:
             division(text);
             break;
           case KeyEvent.VK_DECIMAL:
@@ -171,6 +179,12 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
             backSpace(text);
             break;
           case KeyEvent.VK_EQUALS:
+            if (e.getModifiers() == KeyEvent.SHIFT_MASK) {
+              addition(text);
+            } else {
+              onEnter();
+            }
+            break;
           case KeyEvent.VK_ENTER:
             onEnter();
             break;
