@@ -1875,3 +1875,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2023-03-17
 1.“计算器”界面中扩展+-*/运算符的键盘按键支持。
 src/com/xiboliya/snowpad/dialog/CalculatorDialog.java
+
+2023-03-22
+1.“计算器”界面中扩展%运算符的键盘按键支持。
+src/com/xiboliya/snowpad/dialog/CalculatorDialog.java
