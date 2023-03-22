@@ -132,6 +132,12 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
             digit(text, "4");
             break;
           case KeyEvent.VK_5:
+            if (e.getModifiers() == KeyEvent.SHIFT_MASK) {
+              percent(text);
+            } else {
+              digit(text, "5");
+            }
+            break;
           case KeyEvent.VK_NUMPAD5:
             digit(text, "5");
             break;
