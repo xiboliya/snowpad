@@ -6281,6 +6281,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           if (result == JOptionPane.YES_OPTION) {
             if (txaTemp.getFrozen()) {
               this.itemFrozenFile.setSelected(false);
+              this.itemPopFrozenFile.setSelected(false);
               this.frozenFile();
             }
             this.reOpenFile();
