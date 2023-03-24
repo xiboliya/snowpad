@@ -1881,3 +1881,7 @@ src/com/xiboliya/snowpad/dialog/CalculatorDialog.java
 src/com/xiboliya/snowpad/dialog/CalculatorDialog.java
 2.解决已“冻结”的文件，当被其他程序修改后，在弹出的窗口中选择解除冻结重新加载的话，右键快捷菜单中没有同步更新状态的问题。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2023-03-24
+1.“文件树”添加拖拽功能，将文件拖拽到右侧文本域中可以打开该文件。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
