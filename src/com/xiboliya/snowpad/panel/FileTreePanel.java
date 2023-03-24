@@ -19,6 +19,13 @@ package com.xiboliya.snowpad.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Insets;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSource;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -52,7 +59,7 @@ import com.xiboliya.snowpad.util.Util;
  * @author 冰原
  * 
  */
-public class FileTreePanel extends JPanel implements ActionListener, TreeExpansionListener {
+public class FileTreePanel extends JPanel implements ActionListener, TreeExpansionListener, DragGestureListener {
   private static final long serialVersionUID = 1L;
   private static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // 关闭图标
   private SnowPadFrame owner;
@@ -66,6 +73,8 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private KeyAdapter keyAdapter = null;
   private MouseAdapter mouseAdapter = null;
   private BaseComparator comparator = new BaseComparator();
+  private DragSource dragSource = new DragSource();
+  private DragGestureRecognizer dragGestureRecognizer = null;
 
   public FileTreePanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -88,6 +97,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.add(new JScrollPane(this.treeMain), BorderLayout.CENTER);
     this.initFileTree();
     this.setVisible(true);
+    this.dragGestureRecognizer = this.dragSource.createDefaultDragGestureRecognizer(this.treeMain, DnDConstants.ACTION_COPY_OR_MOVE, this);
   }
 
   /**
@@ -262,5 +272,40 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
    */
   @Override
   public void treeCollapsed(TreeExpansionEvent e) {
+  }
+
+  /**
+   * 已经检测到与平台有关的拖动启动动作时调用
+   */
+  @Override
+  public void dragGestureRecognized(DragGestureEvent e) {
+    TreePath treePath = this.treeMain.getSelectionPath();
+    if (treePath == null) {
+      return;
+    }
+    BaseTreeNode node = (BaseTreeNode)treePath.getLastPathComponent();
+    if (node.isLeaf()) {
+      // 打开文件
+      final File file = new File(node.getContent());
+      if (!file.isDirectory()) {
+        Transferable transferable = new Transferable() {
+          @Override
+          public DataFlavor[] getTransferDataFlavors() {
+            return new DataFlavor[]{DataFlavor.javaFileListFlavor};
+          }
+
+          @Override
+          public boolean isDataFlavorSupported(DataFlavor flavor) {
+            return DataFlavor.javaFileListFlavor.equals(flavor);
+          }
+
+          @Override
+          public Object getTransferData(DataFlavor flavor) {
+            return Arrays.asList(file);
+          }
+        };
+        this.dragSource.startDrag(e, DragSource.DefaultCopyDrop, transferable, null);
+      }
+    }
   }
 }
