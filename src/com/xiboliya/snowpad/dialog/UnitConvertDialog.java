@@ -50,7 +50,7 @@ import com.xiboliya.snowpad.util.Util;
 public class UnitConvertDialog extends BaseDialog implements ActionListener, CaretListener, ItemListener {
   private static final long serialVersionUID = 1L;
   // 单位类型
-  private static final String[] UNIT_TYPES = new String[] {"存储", "时间", "长度", "面积", "体积", "质量"};
+  private static final String[] UNIT_TYPES = new String[] {"存储", "时间", "长度", "面积", "体积", "质量", "角度"};
   // 存储单位
   private static final String[] UNIT_TYPE_MEMORY_NAME =
     new String[] {"比特(bit)", "字节(B)", "千字节(KB)", "兆字节(MB)", "千兆字节(GB)", "太字节(TB)", "拍字节(PB)", "艾字节(EB)"};
@@ -62,13 +62,16 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
     new String[] {"皮米(pm)", "纳米(nm)", "微米(um)", "毫米(mm)", "厘米(cm)", "分米(dm)", "米(m)", "千米(km)"};
   // 面积单位
   private static final String[] UNIT_TYPE_AREA_NAME =
-    new String[] {"平方毫米(m㎡)", "平方厘米(m㎡)", "平方分米(m㎡)", "平方米(m㎡)", "公亩(are)", "公顷(ha)", "平方千米(k㎡)"};
+    new String[] {"平方毫米(m㎡)", "平方厘米(c㎡)", "平方分米(d㎡)", "平方米(㎡)", "公亩(are)", "公顷(ha)", "平方千米(k㎡)"};
   // 体积单位
   private static final String[] UNIT_TYPE_VOLUME_NAME =
     new String[] {"立方毫米(mm³)", "微升(ul)", "立方厘米(cm³)", "毫升(ml)", "厘升(cl)", "分升(dl)", "立方分米(dm³)", "升(l)", "公石(hl)", "立方米(m³)", "立方千米(km³)"};
   // 质量单位
   private static final String[] UNIT_TYPE_WEIGHT_NAME =
     new String[] {"微克(μg)", "毫克(mg)", "克拉(ct)", "克(g)", "千克(kg)", "公担(q)", "吨(t)"};
+  // 角度单位
+  private static final String[] UNIT_TYPE_ANGLE_NAME =
+    new String[] {"秒(″)", "分(′)", "角度(°)", "弧度(rad)"};
   // 存储换算比例
   private static final int[] UNIT_TYPE_MEMORY_RATE = new int[] {1, 8, 1024, 1024, 1024, 1024, 1024, 1024};
   // 时间换算比例
@@ -81,6 +84,8 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
   private static final int[] UNIT_TYPE_VOLUME_RATE = new int[] {1, 1, 1000, 1, 10, 10, 10, 1, 100, 10, 1000000000};
   // 质量换算比例
   private static final int[] UNIT_TYPE_WEIGHT_RATE = new int[] {1, 1000, 200, 5, 1000, 100, 10};
+  // 角度换算比例
+  private static final double[] UNIT_TYPE_ANGLE_RATE = new double[] {1, 60, 60, 180 / Math.PI};
 
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
@@ -184,6 +189,9 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
       case 5:
         unitType = UNIT_TYPE_WEIGHT_NAME;
         break;
+      case 6:
+        unitType = UNIT_TYPE_ANGLE_NAME;
+        break;
     }
     this.cmbNumber.setModel(new DefaultComboBoxModel<String>(unitType));
     this.cmbNumber.setSelectedIndex(0);
@@ -249,6 +257,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
     } else {
       int index = this.cmbUnitType.getSelectedIndex();
       int[] unitTypeRate = null;
+      double[] unitTypeRateDouble = null;
       switch (index) {
         case 0:
           unitTypeRate = UNIT_TYPE_MEMORY_RATE;
@@ -268,6 +277,9 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
         case 5:
           unitTypeRate = UNIT_TYPE_WEIGHT_RATE;
           break;
+        case 6:
+          unitTypeRateDouble = UNIT_TYPE_ANGLE_RATE;
+          break;
       }
       int indexNumber = this.cmbNumber.getSelectedIndex();
       int indexResult = this.cmbResult.getSelectedIndex();
@@ -278,14 +290,22 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
           int count = indexNumber - indexResult;
           BigDecimal rate = new BigDecimal(1);
           for (; count > 0; count--) {
-            rate = rate.multiply(new BigDecimal(unitTypeRate[indexResult + count]));
+            if (unitTypeRate != null) {
+              rate = rate.multiply(new BigDecimal(unitTypeRate[indexResult + count]));
+            } else {
+              rate = rate.multiply(new BigDecimal(unitTypeRateDouble[indexResult + count]));
+            }
           }
           result = number.multiply(rate).toString();
         } else if (indexNumber < indexResult) {
           int count = indexResult - indexNumber;
           BigDecimal rate = new BigDecimal(1);
           for (; count > 0; count--) {
-            rate = rate.multiply(new BigDecimal(unitTypeRate[indexNumber + count]));
+            if (unitTypeRate != null) {
+              rate = rate.multiply(new BigDecimal(unitTypeRate[indexNumber + count]));
+            } else {
+              rate = rate.multiply(new BigDecimal(unitTypeRateDouble[indexNumber + count]));
+            }
           }
           // 此处的divide方法需要添加后面2个参数，以设置保留小数的精度。如果不设置，在无法除尽的时候会报错。
           result = number.divide(rate, 30, BigDecimal.ROUND_HALF_UP).toString();
