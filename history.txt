@@ -1885,3 +1885,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2023-03-24
 1.“文件树”添加拖拽功能，将文件拖拽到右侧文本域中可以打开该文件。
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+
+2023-03-26
+1.在“单位换算”界面中添加：角度单位换算。
+src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
