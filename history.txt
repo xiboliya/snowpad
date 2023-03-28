@@ -1889,3 +1889,9 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 2023-03-26
 1.在“单位换算”界面中添加：角度单位换算。
 src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
+
+2023-03-28
+1.在“工具”菜单中添加“三角函数”功能。
+src/com/xiboliya/snowpad/dialog/TrigonometricDialog.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
