@@ -132,6 +132,7 @@ import com.xiboliya.snowpad.dialog.TabSetDialog;
 import com.xiboliya.snowpad.dialog.TestQuestionDialog;
 import com.xiboliya.snowpad.dialog.TextConvertDialog;
 import com.xiboliya.snowpad.dialog.TimeStampConvertDialog;
+import com.xiboliya.snowpad.dialog.TrigonometricDialog;
 import com.xiboliya.snowpad.dialog.UnitConvertDialog;
 import com.xiboliya.snowpad.dialog.WindowManageDialog;
 import com.xiboliya.snowpad.panel.FileTreePanel;
@@ -456,6 +457,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemNumberConvert = new JMenuItem("数字进制转换(N)...", 'N');
   private JMenuItem itemTimeStampConvert = new JMenuItem("时间戳转换(S)...", 'S');
   private JMenuItem itemUnitConvert = new JMenuItem("单位换算(U)...", 'U');
+  private JMenuItem itemTrigonometric = new JMenuItem("三角函数(R)...", 'R');
   private JMenuItem itemTestQuestion = new JMenuItem("题库(Q)...", 'Q');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
@@ -558,6 +560,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private NumberConvertDialog numberConvertDialog = null; // 数字进制转换对话框
   private TimeStampConvertDialog timeStampConvertDialog = null; // 时间戳转换对话框
   private UnitConvertDialog unitConvertDialog = null; // 单位换算对话框
+  private TrigonometricDialog trigonometricDialog = null; // 三角函数对话框
   private TestQuestionDialog testQuestionDialog = null; // 题库对话框
   private HelpFrame helpFrame = null; // 帮助主题窗口
 
@@ -759,6 +762,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemNumberConvert.addActionListener(this);
     this.itemTimeStampConvert.addActionListener(this);
     this.itemUnitConvert.addActionListener(this);
+    this.itemTrigonometric.addActionListener(this);
     this.itemTestQuestion.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
@@ -1251,6 +1255,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTool.add(this.itemNumberConvert);
     this.menuTool.add(this.itemTimeStampConvert);
     this.menuTool.add(this.itemUnitConvert);
+    this.menuTool.add(this.itemTrigonometric);
     this.menuTool.add(this.itemTestQuestion);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
@@ -1435,6 +1440,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemNumberConvert);
     this.menuItemList.add(this.itemTimeStampConvert);
     this.menuItemList.add(this.itemUnitConvert);
+    this.menuItemList.add(this.itemTrigonometric);
     this.menuItemList.add(this.itemTestQuestion);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
@@ -1968,6 +1974,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openTextConvertDialog();
     } else if (this.itemUnitConvert.equals(e.getSource())) {
       this.openUnitConvertDialog();
+    } else if (this.itemTrigonometric.equals(e.getSource())) {
+      this.openTrigonometricDialog();
     } else if (this.itemTestQuestion.equals(e.getSource())) {
       this.openTestQuestionDialog();
     } else if (this.itemLineWrap.equals(e.getSource())) {
@@ -2790,6 +2798,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.unitConvertDialog != null) {
       this.unitConvertDialog.dispose();
       this.unitConvertDialog = null;
+    }
+    if (this.trigonometricDialog != null) {
+      this.trigonometricDialog.dispose();
+      this.trigonometricDialog = null;
     }
     if (this.testQuestionDialog != null) {
       this.testQuestionDialog.dispose();
@@ -4829,6 +4841,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.unitConvertDialog = new UnitConvertDialog(this, false);
     } else {
       this.unitConvertDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "三角函数"的处理方法
+   */
+  private void openTrigonometricDialog() {
+    if (this.trigonometricDialog == null) {
+      this.trigonometricDialog = new TrigonometricDialog(this, false);
+    } else {
+      this.trigonometricDialog.setVisible(true);
     }
   }
 
