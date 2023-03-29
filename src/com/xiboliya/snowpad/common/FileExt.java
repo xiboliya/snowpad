@@ -29,6 +29,10 @@ public enum FileExt {
    */
   ADA,
   /**
+   * Android接口定义语言源文件
+   */
+  AIDL,
+  /**
    * ActionScript脚本语言源文件
    */
   AS,
@@ -72,6 +76,10 @@ public enum FileExt {
    * Go语言源文件
    */
   GO,
+  /**
+   * gradle构建脚本文件
+   */
+  GRADLE,
   /**
    * Groovy语言源文件
    */
@@ -132,6 +140,10 @@ public enum FileExt {
    * Objective-C语言源文件
    */
   M,
+  /**
+   * MarkDown标记语言源文件
+   */
+  MD,
   /**
    * Makefile布署文件
    */
@@ -216,6 +228,8 @@ public enum FileExt {
     switch (this) {
     case ADA:
       return ".ada";
+    case AIDL:
+      return ".aidl";
     case AS:
       return ".as";
     case ASP:
@@ -238,6 +252,8 @@ public enum FileExt {
       return ".dtd";
     case GO:
       return ".go";
+    case GRADLE:
+      return ".gradle";
     case GROOVY:
       return ".groovy";
     case H:
@@ -268,6 +284,8 @@ public enum FileExt {
       return ".lua";
     case M:
       return ".m";
+    case MD:
+      return ".md";
     case MK:
       return ".mk";
     case PAS:
@@ -320,6 +338,8 @@ public enum FileExt {
     switch (this) {
     case ADA:
       return "Ada语言源文件(.ada)";
+    case AIDL:
+      return "Android接口定义语言源文件(.aidl)";
     case AS:
       return "ActionScript脚本语言源文件(.as)";
     case ASP:
@@ -342,6 +362,8 @@ public enum FileExt {
       return "文档类型定义文件(.dtd)";
     case GO:
       return "Go语言源文件(.go)";
+    case GRADLE:
+      return "gradle构建脚本文件(.gradle)";
     case GROOVY:
       return "Groovy语言源文件(.groovy)";
     case H:
@@ -372,6 +394,8 @@ public enum FileExt {
       return "Lua可嵌入式脚本语言文件(.lua)";
     case M:
       return "Objective-C语言源文件(.m)";
+    case MD:
+      return "MarkDown标记语言源文件(.md)";
     case MK:
       return "Makefile布署文件(.mk)";
     case PAS:
@@ -426,6 +450,7 @@ public enum FileExt {
     case LUA:
     case SQL:
       return "-- ";
+    case AIDL:
     case AS:
     case C:
     case CPP:
@@ -433,6 +458,7 @@ public enum FileExt {
     case D:
     case DART:
     case GO:
+    case GRADLE:
     case GROOVY:
     case H:
     case JAVA:
@@ -477,6 +503,7 @@ public enum FileExt {
    */
   public String getCommentForBlockBegin() {
     switch (this) {
+    case AIDL:
     case AS:
     case C:
     case CPP:
@@ -485,6 +512,7 @@ public enum FileExt {
     case D:
     case DART:
     case GO:
+    case GRADLE:
     case GROOVY:
     case H:
     case JAVA:
@@ -530,6 +558,7 @@ public enum FileExt {
    */
   public String getCommentForBlockEnd() {
     switch (this) {
+    case AIDL:
     case AS:
     case C:
     case CPP:
@@ -538,6 +567,7 @@ public enum FileExt {
     case D:
     case DART:
     case GO:
+    case GRADLE:
     case GROOVY:
     case H:
     case JAVA:
