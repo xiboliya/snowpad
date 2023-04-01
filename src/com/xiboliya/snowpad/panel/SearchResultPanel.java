@@ -89,6 +89,8 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
     this.pnlTitle.setBorder(new EmptyBorder(0, 5, 0, 0));
     this.btnTitleClose.setMargin(new Insets(0, 0, 0, 0));
     this.btnTitleClose.setIcon(CLOSE_ICON);
+    this.btnTitleClose.setFocusable(false);
+    this.btnTitleClose.setToolTipText("关闭");
     this.pnlTitle.add(this.lblTitleText, BorderLayout.WEST);
     this.pnlTitle.add(this.btnTitleClose, BorderLayout.EAST);
     this.srpMain.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); // 始终显示垂直滚动条

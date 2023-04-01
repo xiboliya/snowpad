@@ -96,9 +96,11 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.btnRefresh.setMargin(new Insets(0, 0, 0, 0));
     this.btnRefresh.setIcon(REFRESH_ICON);
     this.btnRefresh.setFocusable(false);
+    this.btnRefresh.setToolTipText("刷新");
     this.btnClose.setMargin(new Insets(0, 0, 0, 0));
     this.btnClose.setIcon(CLOSE_ICON);
     this.btnClose.setFocusable(false);
+    this.btnClose.setToolTipText("关闭");
     this.pnlBtn.add(this.btnRefresh);
     this.pnlBtn.add(this.btnClose);
     this.pnlTitle.setLayout(this.layoutTitle);
