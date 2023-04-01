@@ -1906,3 +1906,6 @@ res/enable/tool_file_tree.png
 2.“文件树”面板右上角添加“刷新”按钮。
 res/refresh.png（添加）
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+3.“文件树”和“查找结果”面板中添加右上角按钮的提示信息。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
+src/com/xiboliya/snowpad/panel/SearchResultPanel.java
