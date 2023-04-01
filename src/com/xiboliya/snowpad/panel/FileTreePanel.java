@@ -18,6 +18,7 @@
 package com.xiboliya.snowpad.panel;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -61,15 +62,19 @@ import com.xiboliya.snowpad.util.Util;
  */
 public class FileTreePanel extends JPanel implements ActionListener, TreeExpansionListener, DragGestureListener {
   private static final long serialVersionUID = 1L;
+  private static final ImageIcon REFRESH_ICON = new ImageIcon(ClassLoader.getSystemResource("res/refresh.png")); // 刷新图标
   private static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // 关闭图标
   private SnowPadFrame owner;
   private JLabel lblTitleText = new JLabel("文件树");
-  private JButton btnTitleClose = new JButton();
+  private JButton btnRefresh = new JButton();
+  private JButton btnClose = new JButton();
+  private GridLayout layoutBtn = new GridLayout(1, 2);
+  private JPanel pnlBtn = new JPanel();
   private JPanel pnlTitle = new JPanel();
   private BorderLayout layoutTitle = new BorderLayout();
   private BorderLayout layout = new BorderLayout();
   private BaseTreeNode treeNode = new BaseTreeNode("文件系统");
-  private JTree treeMain = new JTree(treeNode);
+  private JTree treeMain = new JTree(this.treeNode);
   private KeyAdapter keyAdapter = null;
   private MouseAdapter mouseAdapter = null;
   private BaseComparator comparator = new BaseComparator();
@@ -87,12 +92,19 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
    */
   private void init() {
     this.setLayout(this.layout);
+    this.pnlBtn.setLayout(this.layoutBtn);
+    this.btnRefresh.setMargin(new Insets(0, 0, 0, 0));
+    this.btnRefresh.setIcon(REFRESH_ICON);
+    this.btnRefresh.setFocusable(false);
+    this.btnClose.setMargin(new Insets(0, 0, 0, 0));
+    this.btnClose.setIcon(CLOSE_ICON);
+    this.btnClose.setFocusable(false);
+    this.pnlBtn.add(this.btnRefresh);
+    this.pnlBtn.add(this.btnClose);
     this.pnlTitle.setLayout(this.layoutTitle);
     this.pnlTitle.setBorder(new EmptyBorder(0, 5, 0, 0));
-    this.btnTitleClose.setMargin(new Insets(0, 0, 0, 0));
-    this.btnTitleClose.setIcon(CLOSE_ICON);
     this.pnlTitle.add(this.lblTitleText, BorderLayout.WEST);
-    this.pnlTitle.add(this.btnTitleClose, BorderLayout.EAST);
+    this.pnlTitle.add(this.pnlBtn, BorderLayout.EAST);
     this.add(this.pnlTitle, BorderLayout.NORTH);
     this.add(new JScrollPane(this.treeMain), BorderLayout.CENTER);
     this.initFileTree();
@@ -106,16 +118,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private void initFileTree() {
     this.treeMain.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); // 设置JTree组件一次只能选择一个节点
     this.treeMain.setCellRenderer(new BaseTreeCellRenderer());
-    File[] roots = File.listRoots();
-    if (roots == null || roots.length == 0) {
-      return;
-    }
-    Arrays.sort(roots, this.comparator);
-    for (File root : roots) {
-      this.addNextNode(treeNode, root);
-    }
-    this.treeMain.expandRow(0); // 展开第一级节点
-    this.treeMain.setSelectionRow(0); // 选择首行节点
+    this.refresh();
   }
 
   /**
@@ -185,7 +188,8 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
         }
       }
     };
-    this.btnTitleClose.addActionListener(this);
+    this.btnRefresh.addActionListener(this);
+    this.btnClose.addActionListener(this);
     this.treeMain.addTreeExpansionListener(this);
     this.treeMain.addKeyListener(this.keyAdapter);
     this.treeMain.addMouseListener(this.mouseAdapter);
@@ -220,6 +224,25 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   }
 
   /**
+   * 刷新文件树
+   */
+  private void refresh() {
+    this.treeNode.removeAllChildren();
+    this.treeMain.updateUI();
+    File[] roots = File.listRoots();
+    if (roots == null || roots.length == 0) {
+      return;
+    }
+    Arrays.sort(roots, this.comparator);
+    for (File root : roots) {
+      this.addNextNode(this.treeNode, root);
+    }
+    this.treeMain.expandRow(0); // 展开第一级节点
+    this.treeMain.setSelectionRow(0); // 选择首行节点
+    this.treeMain.updateUI();
+  }
+
+  /**
    * 关闭面板
    */
   private void close() {
@@ -231,7 +254,9 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnTitleClose.equals(e.getSource())) {
+    if (this.btnRefresh.equals(e.getSource())) {
+      this.refresh();
+    } else if (this.btnClose.equals(e.getSource())) {
       this.close();
     }
   }
