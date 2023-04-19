@@ -288,9 +288,10 @@ public class GotoDialog extends BaseDialog implements ActionListener, ChangeList
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCancel.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnCancel.equals(source)) {
       this.onCancel();
-    } else if (this.btnGoto.equals(e.getSource())) {
+    } else if (this.btnGoto.equals(source)) {
       this.onEnter();
     }
   }

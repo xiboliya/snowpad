@@ -231,11 +231,12 @@ public class FontDialog extends BaseDialog implements ActionListener,
   private class BaseMouseAdapter extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
-      if (listFont.equals(e.getSource())) {
+      Object source = e.getSource();
+      if (listFont.equals(source)) {
         txtFont.setText(listFont.getSelectedValue().toString());
-      } else if (listStyle.equals(e.getSource())) {
+      } else if (listStyle.equals(source)) {
         txtStyle.setText(listStyle.getSelectedValue().toString());
-      } else if (listSize.equals(e.getSource())) {
+      } else if (listSize.equals(source)) {
         txtSize.setText(listSize.getSelectedValue().toString());
       }
       if (e.getClickCount() == 2) { // 鼠标双击时，执行操作
@@ -302,9 +303,10 @@ public class FontDialog extends BaseDialog implements ActionListener,
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCancel.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnCancel.equals(source)) {
       this.onCancel();
-    } else if (this.btnOk.equals(e.getSource())) {
+    } else if (this.btnOk.equals(source)) {
       this.onEnter();
     }
   }
@@ -314,15 +316,16 @@ public class FontDialog extends BaseDialog implements ActionListener,
    */
   @Override
   public void valueChanged(ListSelectionEvent e) {
-    if (this.listFont.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.listFont.equals(source)) {
       if (!this.txtFont.getText().equals(this.listFont.getSelectedValue())) {
         this.txtFont.setText(this.listFont.getSelectedValue().toString());
       }
-    } else if (this.listStyle.equals(e.getSource())) {
+    } else if (this.listStyle.equals(source)) {
       if (!this.txtStyle.getText().equals(this.listStyle.getSelectedValue())) {
         this.txtStyle.setText(this.listStyle.getSelectedValue().toString());
       }
-    } else if (this.listSize.equals(e.getSource())) {
+    } else if (this.listSize.equals(source)) {
       try {
         String strSize = this.txtSize.getText();
         if (strSize.length() > 0) {
@@ -343,11 +346,12 @@ public class FontDialog extends BaseDialog implements ActionListener,
    */
   @Override
   public void caretUpdate(CaretEvent e) {
-    if (this.txtFont.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.txtFont.equals(source)) {
       this.listFont.setSelectedValue(this.txtFont.getText(), true);
-    } else if (this.txtStyle.equals(e.getSource())) {
+    } else if (this.txtStyle.equals(source)) {
       this.listStyle.setSelectedValue(this.txtStyle.getText(), true);
-    } else if (this.txtSize.equals(e.getSource())) {
+    } else if (this.txtSize.equals(source)) {
       try {
         String strSize = this.txtSize.getText();
         if (strSize.length() > 0) {

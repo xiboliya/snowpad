@@ -235,13 +235,14 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCopy.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnCopy.equals(source)) {
       this.toCopyResult();
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
-    } else if (this.btnExchange.equals(e.getSource())) {
+    } else if (this.btnExchange.equals(source)) {
       this.exchange();
-    } else if (this.chkUpperCase.equals(e.getSource())) {
+    } else if (this.chkUpperCase.equals(source)) {
       this.toChangeCaseResult();
     }
   }

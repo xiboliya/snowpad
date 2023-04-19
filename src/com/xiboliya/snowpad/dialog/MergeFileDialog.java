@@ -377,19 +377,20 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnOk.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnOk.equals(source)) {
       this.onEnter();
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
-    } else if (this.btnAddSource.equals(e.getSource())) {
+    } else if (this.btnAddSource.equals(source)) {
       this.addSourceFile();
-    } else if (this.btnReduceSource.equals(e.getSource())) {
+    } else if (this.btnReduceSource.equals(source)) {
       this.reduceSourceFile();
-    } else if (this.btnUpSource.equals(e.getSource())) {
+    } else if (this.btnUpSource.equals(source)) {
       this.upSourceFile();
-    } else if (this.btnDownSource.equals(e.getSource())) {
+    } else if (this.btnDownSource.equals(source)) {
       this.downSourceFile();
-    } else if (this.btnTargetPath.equals(e.getSource())) {
+    } else if (this.btnTargetPath.equals(source)) {
       this.selectFile();
     }
   }

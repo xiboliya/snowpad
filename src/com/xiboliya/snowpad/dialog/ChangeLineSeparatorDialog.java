@@ -392,13 +392,14 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnOk.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnOk.equals(source)) {
       this.onEnter();
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
-    } else if (this.btnAddSource.equals(e.getSource())) {
+    } else if (this.btnAddSource.equals(source)) {
       this.addSourceFile();
-    } else if (this.btnReduceSource.equals(e.getSource())) {
+    } else if (this.btnReduceSource.equals(source)) {
       this.reduceSourceFile();
     }
   }

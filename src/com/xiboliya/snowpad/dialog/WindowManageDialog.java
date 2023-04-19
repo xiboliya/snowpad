@@ -195,19 +195,20 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnOk.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnOk.equals(source)) {
       this.onEnter();
-    } else if (this.btnSave.equals(e.getSource())) {
+    } else if (this.btnSave.equals(source)) {
       this.saveFiles();
-    } else if (this.btnClose.equals(e.getSource())) {
+    } else if (this.btnClose.equals(source)) {
       this.closeFiles();
-    } else if (this.btnSort.equals(e.getSource())) {
+    } else if (this.btnSort.equals(source)) {
       this.sortFiles();
-    } else if (this.btnMoveUp.equals(e.getSource())) {
+    } else if (this.btnMoveUp.equals(source)) {
       this.moveFiles(true);
-    } else if (this.btnMoveDown.equals(e.getSource())) {
+    } else if (this.btnMoveDown.equals(source)) {
       this.moveFiles(false);
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
     }
   }

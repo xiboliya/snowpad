@@ -165,9 +165,10 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnClose.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnClose.equals(source)) {
       this.onCancel();
-    } else if (this.chkEnable.equals(e.getSource())) {
+    } else if (this.chkEnable.equals(source)) {
       this.setAutoComplete(this.chkEnable.isSelected());
     }
   }

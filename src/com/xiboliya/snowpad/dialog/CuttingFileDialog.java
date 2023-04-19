@@ -163,15 +163,16 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnOk.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnOk.equals(source)) {
       this.onEnter();
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
-    } else if (this.btnSelectFile.equals(e.getSource())) {
+    } else if (this.btnSelectFile.equals(source)) {
       this.selectFile();
-    } else if (this.radCutSize.equals(e.getSource())) {
+    } else if (this.radCutSize.equals(source)) {
       this.setComponentEnabledByRadioButton();
-    } else if (this.radCutCount.equals(e.getSource())) {
+    } else if (this.radCutCount.equals(source)) {
       this.setComponentEnabledByRadioButton();
     }
   }

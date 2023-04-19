@@ -298,13 +298,14 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
    * 为各菜单项添加事件的处理方法
    */
   public void actionPerformed(ActionEvent e) {
-    if (this.itemPopClear.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.itemPopClear.equals(source)) {
       this.clear();
-    } else if (this.itemPopRemoveCurrent.equals(e.getSource())) {
+    } else if (this.itemPopRemoveCurrent.equals(source)) {
       this.removeCurrent();
-    } else if (this.itemPopCopyCurrentLine.equals(e.getSource())) {
+    } else if (this.itemPopCopyCurrentLine.equals(source)) {
       this.copyCurrentLine();
-    } else if (this.btnTitleClose.equals(e.getSource())) {
+    } else if (this.btnTitleClose.equals(source)) {
       this.close();
     }
   }

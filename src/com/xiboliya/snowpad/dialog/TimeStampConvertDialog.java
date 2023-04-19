@@ -152,9 +152,10 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCopy.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnCopy.equals(source)) {
       this.toCopyResult();
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
     }
   }

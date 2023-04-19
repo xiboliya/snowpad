@@ -208,15 +208,16 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.chkEveryLinesT.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.chkEveryLinesT.equals(source)) {
       this.showStringEncrypt();
-    } else if (this.btnSelectFileF.equals(e.getSource())) {
+    } else if (this.btnSelectFileF.equals(source)) {
       this.selectFile();
-    } else if (this.chkUpperCase.equals(e.getSource())) {
+    } else if (this.chkUpperCase.equals(source)) {
       this.toChangeCaseResult();
-    } else if (this.btnCopy.equals(e.getSource())) {
+    } else if (this.btnCopy.equals(source)) {
       this.toCopyResult();
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
     }
   }
@@ -439,9 +440,10 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
    */
   @Override
   public void caretUpdate(CaretEvent e) {
-    if (this.txaTextT.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.txaTextT.equals(source)) {
       this.showStringEncrypt();
-    } else if (this.txtPathF.equals(e.getSource())) {
+    } else if (this.txtPathF.equals(source)) {
       this.showFileEncrypt();
     }
   }

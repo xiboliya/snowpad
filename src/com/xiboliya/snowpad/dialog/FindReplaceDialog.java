@@ -454,70 +454,71 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCancelF.equals(e.getSource())) { // 查找
+    Object source = e.getSource();
+    if (this.btnCancelF.equals(source)) { // 查找
       this.onCancel();
-    } else if (this.btnFindF.equals(e.getSource())) {
+    } else if (this.btnFindF.equals(source)) {
       this.onEnter();
-    } else if (this.btnCountAllF.equals(e.getSource())) {
+    } else if (this.btnCountAllF.equals(source)) {
       this.getTextCountAll();
-    } else if (this.btnCountSelF.equals(e.getSource())) {
+    } else if (this.btnCountSelF.equals(source)) {
       this.getTextCountSel();
-    } else if (this.btnSearchInFileF.equals(e.getSource())) {
+    } else if (this.btnSearchInFileF.equals(source)) {
       this.searchInFile();
-    } else if (this.btnCopyResultLinesF.equals(e.getSource())) {
+    } else if (this.btnCopyResultLinesF.equals(source)) {
       this.copyResultLines();
-    } else if (this.chkMatchCaseF.equals(e.getSource())) {
+    } else if (this.chkMatchCaseF.equals(source)) {
       this.setting.matchCase = this.isMatchCase = this.chkMatchCaseF.isSelected();
       this.chkMatchCaseR.setSelected(this.isMatchCase);
-    } else if (this.chkIsWrapF.equals(e.getSource())) {
+    } else if (this.chkIsWrapF.equals(source)) {
       boolean selected = this.chkIsWrapF.isSelected();
       this.setting.isWrap = this.isWrap = selected;
       this.chkIsWrapR.setSelected(selected);
-    } else if (this.radDefaultF.equals(e.getSource())) {
+    } else if (this.radDefaultF.equals(source)) {
       this.radDefaultR.setSelected(true);
       this.setting.searchStyle = this.searchStyle = SearchStyle.DEFAULT;
-    } else if (this.radTransferF.equals(e.getSource())) {
+    } else if (this.radTransferF.equals(source)) {
       this.radTransferR.setSelected(true);
       this.setting.searchStyle = this.searchStyle = SearchStyle.TRANSFER;
-    } else if (this.radPatternF.equals(e.getSource())) {
+    } else if (this.radPatternF.equals(source)) {
       this.radPatternR.setSelected(true);
       this.setting.searchStyle = this.searchStyle = SearchStyle.PATTERN;
-    } else if (this.radFindDownF.equals(e.getSource())) {
+    } else if (this.radFindDownF.equals(source)) {
       this.setting.findDown = this.isFindDown = true;
       this.radFindDownR.setSelected(true);
-    } else if (this.radFindUpF.equals(e.getSource())) {
+    } else if (this.radFindUpF.equals(source)) {
       this.setting.findDown = this.isFindDown = false;
       this.radFindUpR.setSelected(true);
-    } else if (this.btnCancelR.equals(e.getSource())) { // 替换
+    } else if (this.btnCancelR.equals(source)) { // 替换
       this.onCancel();
-    } else if (this.btnFindR.equals(e.getSource())) {
+    } else if (this.btnFindR.equals(source)) {
       this.findText(this.isFindDown);
-    } else if (this.btnReplaceR.equals(e.getSource())) {
+    } else if (this.btnReplaceR.equals(source)) {
       this.onEnter();
-    } else if (this.btnReplaceAllR.equals(e.getSource())) {
+    } else if (this.btnReplaceAllR.equals(source)) {
       this.replaceAllText();
-    } else if (this.btnReplaceSelR.equals(e.getSource())) {
+    } else if (this.btnReplaceSelR.equals(source)) {
       this.replaceSelText();
-    } else if (this.chkMatchCaseR.equals(e.getSource())) {
+    } else if (this.chkMatchCaseR.equals(source)) {
       this.setting.matchCase = this.isMatchCase = this.chkMatchCaseR.isSelected();
       this.chkMatchCaseF.setSelected(this.isMatchCase);
-    } else if (this.chkIsWrapR.equals(e.getSource())) {
+    } else if (this.chkIsWrapR.equals(source)) {
       boolean selected = this.chkIsWrapR.isSelected();
       this.setting.isWrap = this.isWrap = selected;
       this.chkIsWrapF.setSelected(selected);
-    } else if (this.radDefaultR.equals(e.getSource())) {
+    } else if (this.radDefaultR.equals(source)) {
       this.radDefaultF.setSelected(true);
       this.setting.searchStyle = this.searchStyle = SearchStyle.DEFAULT;
-    } else if (this.radTransferR.equals(e.getSource())) {
+    } else if (this.radTransferR.equals(source)) {
       this.radTransferF.setSelected(true);
       this.setting.searchStyle = this.searchStyle = SearchStyle.TRANSFER;
-    } else if (this.radPatternR.equals(e.getSource())) {
+    } else if (this.radPatternR.equals(source)) {
       this.radPatternF.setSelected(true);
       this.setting.searchStyle = this.searchStyle = SearchStyle.PATTERN;
-    } else if (this.radFindDownR.equals(e.getSource())) {
+    } else if (this.radFindDownR.equals(source)) {
       this.setting.findDown = this.isFindDown = true;
       this.radFindDownF.setSelected(true);
-    } else if (this.radFindUpR.equals(e.getSource())) {
+    } else if (this.radFindUpR.equals(source)) {
       this.setting.findDown = this.isFindDown = false;
       this.radFindUpF.setSelected(true);
     }
@@ -929,7 +930,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    */
   @Override
   public void caretUpdate(CaretEvent e) {
-    if (this.txtFindTextF.equals(e.getSource())) { // 查找
+    Object source = e.getSource();
+    if (this.txtFindTextF.equals(source)) { // 查找
       this.strFind = this.txtFindTextF.getText();
       if (Util.isTextEmpty(this.strFind)) {
         this.btnFindF.setEnabled(false);
@@ -942,7 +944,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         this.btnSearchInFileF.setEnabled(true);
         this.btnCopyResultLinesF.setEnabled(true);
       }
-    } else if (this.txtFindTextR.equals(e.getSource())) { // 替换
+    } else if (this.txtFindTextR.equals(source)) { // 替换
       this.strFind = this.txtFindTextR.getText();
       if (Util.isTextEmpty(this.strFind)) {
         this.btnFindR.setEnabled(false);

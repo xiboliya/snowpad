@@ -1830,403 +1830,404 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.itemAbout.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.itemAbout.equals(source)) {
       this.showAbout();
-    } else if (this.itemCopy.equals(e.getSource())
-        || this.itemPopCopy.equals(e.getSource())
-        || this.toolButtonList.get(7).equals(e.getSource())) {
+    } else if (this.itemCopy.equals(source)
+        || this.itemPopCopy.equals(source)
+        || this.toolButtonList.get(7).equals(source)) {
       this.copyText();
-    } else if (this.itemCut.equals(e.getSource())
-        || this.itemPopCut.equals(e.getSource())
-        || this.toolButtonList.get(6).equals(e.getSource())) {
+    } else if (this.itemCut.equals(source)
+        || this.itemPopCut.equals(source)
+        || this.toolButtonList.get(6).equals(source)) {
       this.cutText();
-    } else if (this.itemInsertChar.equals(e.getSource())) {
+    } else if (this.itemInsertChar.equals(source)) {
       this.openInsertCharDialog();
-    } else if (this.itemInsertDateTime.equals(e.getSource())) {
+    } else if (this.itemInsertDateTime.equals(source)) {
       this.openInsertDateDialog();
-    } else if (this.itemDel.equals(e.getSource())
-        || this.itemPopDel.equals(e.getSource())) {
+    } else if (this.itemDel.equals(source)
+        || this.itemPopDel.equals(source)) {
       this.deleteText();
-    } else if (this.itemSlicing.equals(e.getSource())) {
+    } else if (this.itemSlicing.equals(source)) {
       this.openSlicingFileDialog();
-    } else if (this.itemCaseUp.equals(e.getSource())) {
+    } else if (this.itemCaseUp.equals(source)) {
       this.switchCase(true);
-    } else if (this.itemCaseLow.equals(e.getSource())) {
+    } else if (this.itemCaseLow.equals(source)) {
       this.switchCase(false);
-    } else if (this.itemExit.equals(e.getSource())) {
+    } else if (this.itemExit.equals(source)) {
       this.exit();
-    } else if (this.itemFind.equals(e.getSource())
-        || this.toolButtonList.get(11).equals(e.getSource())) {
+    } else if (this.itemFind.equals(source)
+        || this.toolButtonList.get(11).equals(source)) {
       this.openFindDialog();
-    } else if (this.itemFindNext.equals(e.getSource())) {
+    } else if (this.itemFindNext.equals(source)) {
       this.findNextText(true);
-    } else if (this.itemFindPrevious.equals(e.getSource())) {
+    } else if (this.itemFindPrevious.equals(source)) {
       this.findNextText(false);
-    } else if (this.itemSelFindNext.equals(e.getSource())) {
+    } else if (this.itemSelFindNext.equals(source)) {
       this.findSelNextText(true);
-    } else if (this.itemSelFindPrevious.equals(e.getSource())) {
+    } else if (this.itemSelFindPrevious.equals(source)) {
       this.findSelNextText(false);
-    } else if (this.itemQuickFindDown.equals(e.getSource())) {
+    } else if (this.itemQuickFindDown.equals(source)) {
       this.quickFindText(true);
-    } else if (this.itemQuickFindUp.equals(e.getSource())) {
+    } else if (this.itemQuickFindUp.equals(source)) {
       this.quickFindText(false);
-    } else if (this.itemFont.equals(e.getSource())) {
+    } else if (this.itemFont.equals(source)) {
       this.openFontChooser();
-    } else if (this.itemGoto.equals(e.getSource())) {
+    } else if (this.itemGoto.equals(source)) {
       this.openGotoDialog();
-    } else if (this.itemBookmarkSwitch.equals(e.getSource())) {
+    } else if (this.itemBookmarkSwitch.equals(source)) {
       this.bookmarkSwitch();
-    } else if (this.itemBookmarkNext.equals(e.getSource())) {
+    } else if (this.itemBookmarkNext.equals(source)) {
       this.bookmarkNext();
-    } else if (this.itemBookmarkPrevious.equals(e.getSource())) {
+    } else if (this.itemBookmarkPrevious.equals(source)) {
       this.bookmarkPrevious();
-    } else if (this.itemBookmarkPreview.equals(e.getSource())) {
+    } else if (this.itemBookmarkPreview.equals(source)) {
       this.bookmarkPreview();
-    } else if (this.itemBookmarkCopy.equals(e.getSource())) {
+    } else if (this.itemBookmarkCopy.equals(source)) {
       this.bookmarkCopy();
-    } else if (this.itemBookmarkCut.equals(e.getSource())) {
+    } else if (this.itemBookmarkCut.equals(source)) {
       this.bookmarkCut();
-    } else if (this.itemBookmarkClear.equals(e.getSource())) {
+    } else if (this.itemBookmarkClear.equals(source)) {
       this.bookmarkClear();
-    } else if (this.itemFindBracket.equals(e.getSource())) {
+    } else if (this.itemFindBracket.equals(source)) {
       this.findTargetBracket();
-    } else if (this.itemToCopyFileName.equals(e.getSource())
-        || this.itemPopToCopyFileName.equals(e.getSource())) {
+    } else if (this.itemToCopyFileName.equals(source)
+        || this.itemPopToCopyFileName.equals(source)) {
       this.toCopyFileName();
-    } else if (this.itemToCopyFilePath.equals(e.getSource())
-        || this.itemPopToCopyFilePath.equals(e.getSource())) {
+    } else if (this.itemToCopyFilePath.equals(source)
+        || this.itemPopToCopyFilePath.equals(source)) {
       this.toCopyFilePath();
-    } else if (this.itemToCopyDirPath.equals(e.getSource())
-        || this.itemPopToCopyDirPath.equals(e.getSource())) {
+    } else if (this.itemToCopyDirPath.equals(source)
+        || this.itemPopToCopyDirPath.equals(source)) {
       this.toCopyDirPath();
-    } else if (this.itemToCopyAllText.equals(e.getSource())) {
+    } else if (this.itemToCopyAllText.equals(source)) {
       this.toCopyAllText();
-    } else if (this.itemLineCopy.equals(e.getSource())) {
+    } else if (this.itemLineCopy.equals(source)) {
       this.copyLines();
-    } else if (this.itemLineDel.equals(e.getSource())) {
+    } else if (this.itemLineDel.equals(source)) {
       this.deleteLines();
-    } else if (this.itemLineDelDuplicate.equals(e.getSource())) {
+    } else if (this.itemLineDelDuplicate.equals(source)) {
       this.deleteDuplicateLines();
-    } else if (this.itemLineDelEmpty.equals(e.getSource())) {
+    } else if (this.itemLineDelEmpty.equals(source)) {
       this.deleteEmptyLines();
-    } else if (this.itemLineDelToStart.equals(e.getSource())) {
+    } else if (this.itemLineDelToStart.equals(source)) {
       this.deleteLineToStart();
-    } else if (this.itemLineDelToEnd.equals(e.getSource())) {
+    } else if (this.itemLineDelToEnd.equals(source)) {
       this.deleteLineToEnd();
-    } else if (this.itemLineDelToFileStart.equals(e.getSource())) {
+    } else if (this.itemLineDelToFileStart.equals(source)) {
       this.deleteLineToFileStart();
-    } else if (this.itemLineDelToFileEnd.equals(e.getSource())) {
+    } else if (this.itemLineDelToFileEnd.equals(source)) {
       this.deleteLineToFileEnd();
-    } else if (this.itemLineToUp.equals(e.getSource())) {
+    } else if (this.itemLineToUp.equals(source)) {
       this.moveLineToUp();
-    } else if (this.itemLineToDown.equals(e.getSource())) {
+    } else if (this.itemLineToDown.equals(source)) {
       this.moveLineToDown();
-    } else if (this.itemLineToCopy.equals(e.getSource())) {
+    } else if (this.itemLineToCopy.equals(source)) {
       this.toCopyCurLine();
-    } else if (this.itemLineToCut.equals(e.getSource())) {
+    } else if (this.itemLineToCut.equals(source)) {
       this.toCutCurLine();
-    } else if (this.itemLineBatchRemove.equals(e.getSource())) {
+    } else if (this.itemLineBatchRemove.equals(source)) {
       this.openBatchRemoveDialog();
-    } else if (this.itemLineBatchInsert.equals(e.getSource())) {
+    } else if (this.itemLineBatchInsert.equals(source)) {
       this.openBatchInsertDialog();
-    } else if (this.itemLineBatchSeparate.equals(e.getSource())) {
+    } else if (this.itemLineBatchSeparate.equals(source)) {
       this.openBatchSeparateDialog();
-    } else if (this.itemLineBatchJoin.equals(e.getSource())) {
+    } else if (this.itemLineBatchJoin.equals(source)) {
       this.openBatchJoinDialog();
-    } else if (this.itemLineBatchMerge.equals(e.getSource())) {
+    } else if (this.itemLineBatchMerge.equals(source)) {
       this.mergeLines();
-    } else if (this.itemLineBatchRewrite.equals(e.getSource())) {
+    } else if (this.itemLineBatchRewrite.equals(source)) {
       this.rewriteLines();
-    } else if (this.itemSortUp.equals(e.getSource())) {
+    } else if (this.itemSortUp.equals(source)) {
       this.sortLines(true);
-    } else if (this.itemSortDown.equals(e.getSource())) {
+    } else if (this.itemSortDown.equals(source)) {
       this.sortLines(false);
-    } else if (this.itemSortReverse.equals(e.getSource())) {
+    } else if (this.itemSortReverse.equals(source)) {
       this.reverseLines();
-    } else if (this.itemIndentAdd.equals(e.getSource())) {
+    } else if (this.itemIndentAdd.equals(source)) {
       this.toIndent(true);
-    } else if (this.itemIndentBack.equals(e.getSource())) {
+    } else if (this.itemIndentBack.equals(source)) {
       this.toIndent(false);
-    } else if (this.itemSelCopy.equals(e.getSource())) {
+    } else if (this.itemSelCopy.equals(source)) {
       this.copySelectedText();
-    } else if (this.itemSelInvert.equals(e.getSource())) {
+    } else if (this.itemSelInvert.equals(source)) {
       this.invertSelectedText();
-    } else if (this.itemTrimStart.equals(e.getSource())) {
+    } else if (this.itemTrimStart.equals(source)) {
       this.trimLines(0);
-    } else if (this.itemTrimEnd.equals(e.getSource())) {
+    } else if (this.itemTrimEnd.equals(source)) {
       this.trimLines(1);
-    } else if (this.itemTrimAll.equals(e.getSource())) {
+    } else if (this.itemTrimAll.equals(source)) {
       this.trimLines(2);
-    } else if (this.itemTrimSelected.equals(e.getSource())) {
+    } else if (this.itemTrimSelected.equals(source)) {
       this.trimSelected();
-    } else if (this.itemHelp.equals(e.getSource())) {
+    } else if (this.itemHelp.equals(source)) {
       this.showHelpFrame();
-    } else if (this.itemEncrypt.equals(e.getSource())) {
+    } else if (this.itemEncrypt.equals(source)) {
       this.openEncryptDialog();
-    } else if (this.itemNumberConvert.equals(e.getSource())) {
+    } else if (this.itemNumberConvert.equals(source)) {
       this.openNumberConvertDialog();
-    } else if (this.itemTimeStampConvert.equals(e.getSource())) {
+    } else if (this.itemTimeStampConvert.equals(source)) {
       this.openTimeStampConvertDialog();
-    } else if (this.itemCalculator.equals(e.getSource())) {
+    } else if (this.itemCalculator.equals(source)) {
       this.openCalculatorDialog();
-    } else if (this.itemCuttingFile.equals(e.getSource())) {
+    } else if (this.itemCuttingFile.equals(source)) {
       this.openCuttingFileDialog();
-    } else if (this.itemMergeFile.equals(e.getSource())) {
+    } else if (this.itemMergeFile.equals(source)) {
       this.openMergeFileDialog();
-    } else if (this.itemChangeEncoding.equals(e.getSource())) {
+    } else if (this.itemChangeEncoding.equals(source)) {
       this.openChangeEncodingDialog();
-    } else if (this.itemChangeLineSeparator.equals(e.getSource())) {
+    } else if (this.itemChangeLineSeparator.equals(source)) {
       this.openChangeLineSeparatorDialog();
-    } else if (this.itemTextConvert.equals(e.getSource())) {
+    } else if (this.itemTextConvert.equals(source)) {
       this.openTextConvertDialog();
-    } else if (this.itemUnitConvert.equals(e.getSource())) {
+    } else if (this.itemUnitConvert.equals(source)) {
       this.openUnitConvertDialog();
-    } else if (this.itemTrigonometric.equals(e.getSource())) {
+    } else if (this.itemTrigonometric.equals(source)) {
       this.openTrigonometricDialog();
-    } else if (this.itemTestQuestion.equals(e.getSource())) {
+    } else if (this.itemTestQuestion.equals(source)) {
       this.openTestQuestionDialog();
-    } else if (this.itemLineWrap.equals(e.getSource())) {
+    } else if (this.itemLineWrap.equals(source)) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
-    } else if (this.toolButtonList.get(17).equals(e.getSource())) {
+    } else if (this.toolButtonList.get(17).equals(source)) {
       this.itemLineWrap.setSelected(this.toolButtonList.get(17).isSelected());
       this.setLineWrap();
-    } else if (this.itemLineWrapByWord.equals(e.getSource())) {
+    } else if (this.itemLineWrapByWord.equals(source)) {
       this.setLineWrapStyle();
-    } else if (this.itemLineWrapByChar.equals(e.getSource())) {
+    } else if (this.itemLineWrapByChar.equals(source)) {
       this.setLineWrapStyle();
-    } else if (this.itemLineStyleWin.equals(e.getSource())) {
+    } else if (this.itemLineStyleWin.equals(source)) {
       this.setLineStyleString(LineSeparator.WINDOWS, false);
-    } else if (this.itemLineStyleUnix.equals(e.getSource())) {
+    } else if (this.itemLineStyleUnix.equals(source)) {
       this.setLineStyleString(LineSeparator.UNIX, false);
-    } else if (this.itemLineStyleMac.equals(e.getSource())) {
+    } else if (this.itemLineStyleMac.equals(source)) {
       this.setLineStyleString(LineSeparator.MACINTOSH, false);
-    } else if (this.itemCharsetGB18030.equals(e.getSource())) {
+    } else if (this.itemCharsetGB18030.equals(source)) {
       this.setCharEncoding(CharEncoding.GB18030, false);
-    } else if (this.itemCharsetANSI.equals(e.getSource())) {
+    } else if (this.itemCharsetANSI.equals(source)) {
       this.setCharEncoding(CharEncoding.ANSI, false);
-    } else if (this.itemCharsetUTF8.equals(e.getSource())) {
+    } else if (this.itemCharsetUTF8.equals(source)) {
       this.setCharEncoding(CharEncoding.UTF8, false);
-    } else if (this.itemCharsetUTF8_NO_BOM.equals(e.getSource())) {
+    } else if (this.itemCharsetUTF8_NO_BOM.equals(source)) {
       this.setCharEncoding(CharEncoding.UTF8_NO_BOM, false);
-    } else if (this.itemCharsetULE.equals(e.getSource())) {
+    } else if (this.itemCharsetULE.equals(source)) {
       this.setCharEncoding(CharEncoding.ULE, false);
-    } else if (this.itemCharsetUBE.equals(e.getSource())) {
+    } else if (this.itemCharsetUBE.equals(source)) {
       this.setCharEncoding(CharEncoding.UBE, false);
-    } else if (this.itemFormatJson.equals(e.getSource())) {
+    } else if (this.itemFormatJson.equals(source)) {
       this.formatJson();
-    } else if (this.itemCompressJson.equals(e.getSource())) {
+    } else if (this.itemCompressJson.equals(source)) {
       this.compressJson();
-    } else if (this.itemSignIdentifier.equals(e.getSource())) {
+    } else if (this.itemSignIdentifier.equals(source)) {
       this.openSignIdentifierDialog();
-    } else if (this.itemAutoIndent.equals(e.getSource())) {
+    } else if (this.itemAutoIndent.equals(source)) {
       this.setAutoIndent();
-    } else if (this.itemPreferences.equals(e.getSource())) {
+    } else if (this.itemPreferences.equals(source)) {
       this.openPreferencesDialog();
-    } else if (this.itemReset.equals(e.getSource())) {
+    } else if (this.itemReset.equals(source)) {
       this.resetSetting();
-    } else if (this.itemNew.equals(e.getSource())
-        || this.toolButtonList.get(0).equals(e.getSource())) {
+    } else if (this.itemNew.equals(source)
+        || this.toolButtonList.get(0).equals(source)) {
       this.createNew(null);
-    } else if (this.itemOpen.equals(e.getSource())
-        || this.toolButtonList.get(1).equals(e.getSource())) {
+    } else if (this.itemOpen.equals(source)
+        || this.toolButtonList.get(1).equals(source)) {
       this.openFile();
-    } else if (this.itemOpenByEncoding.equals(e.getSource())) {
+    } else if (this.itemOpenByEncoding.equals(source)) {
       this.openFileByEncoding();
-    } else if (this.itemReOpen.equals(e.getSource())
-        || this.itemPopReOpen.equals(e.getSource())) {
+    } else if (this.itemReOpen.equals(source)
+        || this.itemPopReOpen.equals(source)) {
       this.reOpenFile();
-    } else if (this.itemReName.equals(e.getSource())
-        || this.itemPopReName.equals(e.getSource())) {
+    } else if (this.itemReName.equals(source)
+        || this.itemPopReName.equals(source)) {
       this.reNameFile();
-    } else if (this.itemPaste.equals(e.getSource())
-        || this.itemPopPaste.equals(e.getSource())
-        || this.toolButtonList.get(8).equals(e.getSource())) {
+    } else if (this.itemPaste.equals(source)
+        || this.itemPopPaste.equals(source)
+        || this.toolButtonList.get(8).equals(source)) {
       this.pasteText();
-    } else if (this.itemSelAll.equals(e.getSource())
-        || this.itemPopSelAll.equals(e.getSource())) {
+    } else if (this.itemSelAll.equals(source)
+        || this.itemPopSelAll.equals(source)) {
       this.selectAll();
-    } else if (this.itemUnDo.equals(e.getSource())
-        || this.itemPopUnDo.equals(e.getSource())
-        || this.toolButtonList.get(9).equals(e.getSource())) {
+    } else if (this.itemUnDo.equals(source)
+        || this.itemPopUnDo.equals(source)
+        || this.toolButtonList.get(9).equals(source)) {
       this.undoAction();
-    } else if (this.itemReDo.equals(e.getSource())
-        || this.itemPopReDo.equals(e.getSource())
-        || this.toolButtonList.get(10).equals(e.getSource())) {
+    } else if (this.itemReDo.equals(source)
+        || this.itemPopReDo.equals(source)
+        || this.toolButtonList.get(10).equals(source)) {
       this.redoAction();
-    } else if (this.itemReplace.equals(e.getSource())
-        || this.toolButtonList.get(12).equals(e.getSource())) {
+    } else if (this.itemReplace.equals(source)
+        || this.toolButtonList.get(12).equals(source)) {
       this.openReplaceDialog();
-    } else if (this.itemSave.equals(e.getSource())
-        || this.itemPopSave.equals(e.getSource())
-        || this.toolButtonList.get(2).equals(e.getSource())) {
+    } else if (this.itemSave.equals(source)
+        || this.itemPopSave.equals(source)
+        || this.toolButtonList.get(2).equals(source)) {
       this.saveFile(false);
-    } else if (this.itemSaveAs.equals(e.getSource())
-        || this.itemPopSaveAs.equals(e.getSource())
-        || this.toolButtonList.get(3).equals(e.getSource())) {
+    } else if (this.itemSaveAs.equals(source)
+        || this.itemPopSaveAs.equals(source)
+        || this.toolButtonList.get(3).equals(source)) {
       this.saveAsFile();
-    } else if (this.itemClose.equals(e.getSource())
-        || this.itemPopCloseCurrent.equals(e.getSource())
-        || this.toolButtonList.get(4).equals(e.getSource())) {
+    } else if (this.itemClose.equals(source)
+        || this.itemPopCloseCurrent.equals(source)
+        || this.toolButtonList.get(4).equals(source)) {
       this.closeFile(true);
-    } else if (this.itemCloseOther.equals(e.getSource())
-        || this.itemPopCloseOthers.equals(e.getSource())) {
+    } else if (this.itemCloseOther.equals(source)
+        || this.itemPopCloseOthers.equals(source)) {
       this.closeOthers();
-    } else if (this.itemCloseLeft.equals(e.getSource())
-        || this.itemPopCloseLeft.equals(e.getSource())) {
+    } else if (this.itemCloseLeft.equals(source)
+        || this.itemPopCloseLeft.equals(source)) {
       this.closeLeft();
-    } else if (this.itemCloseRight.equals(e.getSource())
-        || this.itemPopCloseRight.equals(e.getSource())) {
+    } else if (this.itemCloseRight.equals(source)
+        || this.itemPopCloseRight.equals(source)) {
       this.closeRight();
-    } else if (this.itemCloseAll.equals(e.getSource())
-        || this.toolButtonList.get(5).equals(e.getSource())) {
+    } else if (this.itemCloseAll.equals(source)
+        || this.toolButtonList.get(5).equals(source)) {
       this.closeAll();
-    } else if (this.itemFrozenFile.equals(e.getSource())) {
+    } else if (this.itemFrozenFile.equals(source)) {
       this.itemPopFrozenFile.setSelected(this.itemFrozenFile.isSelected());
       this.frozenFile();
-    } else if (this.itemPopFrozenFile.equals(e.getSource())) {
+    } else if (this.itemPopFrozenFile.equals(source)) {
       this.itemFrozenFile.setSelected(this.itemPopFrozenFile.isSelected());
       this.frozenFile();
-    } else if (this.itemPrint.equals(e.getSource())) {
+    } else if (this.itemPrint.equals(source)) {
       this.print();
-    } else if (this.itemDelFile.equals(e.getSource())
-        || this.itemPopDelFile.equals(e.getSource())) {
+    } else if (this.itemDelFile.equals(source)
+        || this.itemPopDelFile.equals(source)) {
       this.deleteFile();
-    } else if (this.itemBack.equals(e.getSource())
-        || this.toolButtonList.get(15).equals(e.getSource())) {
+    } else if (this.itemBack.equals(source)
+        || this.toolButtonList.get(15).equals(source)) {
       this.back();
-    } else if (this.itemForward.equals(e.getSource())
-        || this.toolButtonList.get(16).equals(e.getSource())) {
+    } else if (this.itemForward.equals(source)
+        || this.toolButtonList.get(16).equals(source)) {
       this.forward();
-    } else if (this.itemToolBar.equals(e.getSource())) {
+    } else if (this.itemToolBar.equals(source)) {
       this.setToolBar();
-    } else if (this.itemStateBar.equals(e.getSource())) {
+    } else if (this.itemStateBar.equals(source)) {
       this.setStateBar();
-    } else if (this.itemFileTree.equals(e.getSource())) {
+    } else if (this.itemFileTree.equals(source)) {
       this.toolButtonList.get(18).setSelected(this.itemFileTree.isSelected());
       this.setFileTree();
-    } else if (this.toolButtonList.get(18).equals(e.getSource())) {
+    } else if (this.toolButtonList.get(18).equals(source)) {
       this.itemFileTree.setSelected(this.toolButtonList.get(18).isSelected());
       this.setFileTree();
-    } else if (this.itemLineNumber.equals(e.getSource())) {
+    } else if (this.itemLineNumber.equals(source)) {
       this.setLineNumber(this.itemLineNumber.isSelected());
-    } else if (this.itemSearchResult.equals(e.getSource())) {
+    } else if (this.itemSearchResult.equals(source)) {
       this.setSearchResult();
-    } else if (this.itemAlwaysOnTop.equals(e.getSource())) {
+    } else if (this.itemAlwaysOnTop.equals(source)) {
       this.setAlwaysOnTop();
-    } else if (this.itemLockResizable.equals(e.getSource())) {
+    } else if (this.itemLockResizable.equals(source)) {
       this.setLockResizable();
-    } else if (this.itemTabPolicy.equals(e.getSource())) {
+    } else if (this.itemTabPolicy.equals(source)) {
       this.setTabLayoutPolicy();
-    } else if (this.itemClickToClose.equals(e.getSource())) {
+    } else if (this.itemClickToClose.equals(source)) {
       this.setClickToClose();
-    } else if (this.itemTabIcon.equals(e.getSource())) {
+    } else if (this.itemTabIcon.equals(source)) {
       this.setTabIcon();
-    } else if (this.itemFontSizePlus.equals(e.getSource())
-        || this.toolButtonList.get(13).equals(e.getSource())) {
+    } else if (this.itemFontSizePlus.equals(source)
+        || this.toolButtonList.get(13).equals(source)) {
       this.setFontSizePlus();
-    } else if (this.itemFontSizeMinus.equals(e.getSource())
-        || this.toolButtonList.get(14).equals(e.getSource())) {
+    } else if (this.itemFontSizeMinus.equals(source)
+        || this.toolButtonList.get(14).equals(source)) {
       this.setFontSizeMinus();
-    } else if (this.itemFontSizeReset.equals(e.getSource())) {
+    } else if (this.itemFontSizeReset.equals(source)) {
       this.setFontSizeReset();
-    } else if (this.itemColorFont.equals(e.getSource())) {
+    } else if (this.itemColorFont.equals(source)) {
       this.setFontColor();
-    } else if (this.itemColorBack.equals(e.getSource())) {
+    } else if (this.itemColorBack.equals(source)) {
       this.setBackColor();
-    } else if (this.itemColorCaret.equals(e.getSource())) {
+    } else if (this.itemColorCaret.equals(source)) {
       this.setCaretColor();
-    } else if (this.itemColorSelFont.equals(e.getSource())) {
+    } else if (this.itemColorSelFont.equals(source)) {
       this.setSelFontColor();
-    } else if (this.itemColorSelBack.equals(e.getSource())) {
+    } else if (this.itemColorSelBack.equals(source)) {
       this.setSelBackColor();
-    } else if (this.itemColorBracketBack.equals(e.getSource())) {
+    } else if (this.itemColorBracketBack.equals(source)) {
       this.setBracketBackColor();
-    } else if (this.itemColorLineBack.equals(e.getSource())) {
+    } else if (this.itemColorLineBack.equals(source)) {
       this.setLineBackColor();
-    } else if (this.itemColorWordBack.equals(e.getSource())) {
+    } else if (this.itemColorWordBack.equals(source)) {
       this.setWordBackColor();
-    } else if (this.itemColorAnti.equals(e.getSource())) {
+    } else if (this.itemColorAnti.equals(source)) {
       this.setColorTransform(true);
-    } else if (this.itemColorComplementary.equals(e.getSource())) {
+    } else if (this.itemColorComplementary.equals(source)) {
       this.setColorTransform(false);
-    } else if (this.itemColorStyle1.equals(e.getSource())) {
+    } else if (this.itemColorStyle1.equals(source)) {
       this.setColorStyle(1);
-    } else if (this.itemColorStyle2.equals(e.getSource())) {
+    } else if (this.itemColorStyle2.equals(source)) {
       this.setColorStyle(2);
-    } else if (this.itemColorStyle3.equals(e.getSource())) {
+    } else if (this.itemColorStyle3.equals(source)) {
       this.setColorStyle(3);
-    } else if (this.itemColorStyle4.equals(e.getSource())) {
+    } else if (this.itemColorStyle4.equals(source)) {
       this.setColorStyle(4);
-    } else if (this.itemColorStyle5.equals(e.getSource())) {
+    } else if (this.itemColorStyle5.equals(source)) {
       this.setColorStyle(5);
-    } else if (this.itemColorStyleDefault.equals(e.getSource())) {
+    } else if (this.itemColorStyleDefault.equals(source)) {
       this.setColorStyle(0);
-    } else if (this.itemHighlight1.equals(e.getSource())
-        || this.itemPopHighlight1.equals(e.getSource())) {
+    } else if (this.itemHighlight1.equals(source)
+        || this.itemPopHighlight1.equals(source)) {
       this.setHighlight(1);
-    } else if (this.itemHighlight2.equals(e.getSource())
-        || this.itemPopHighlight2.equals(e.getSource())) {
+    } else if (this.itemHighlight2.equals(source)
+        || this.itemPopHighlight2.equals(source)) {
       this.setHighlight(2);
-    } else if (this.itemHighlight3.equals(e.getSource())
-        || this.itemPopHighlight3.equals(e.getSource())) {
+    } else if (this.itemHighlight3.equals(source)
+        || this.itemPopHighlight3.equals(source)) {
       this.setHighlight(3);
-    } else if (this.itemHighlight4.equals(e.getSource())
-        || this.itemPopHighlight4.equals(e.getSource())) {
+    } else if (this.itemHighlight4.equals(source)
+        || this.itemPopHighlight4.equals(source)) {
       this.setHighlight(4);
-    } else if (this.itemHighlight5.equals(e.getSource())
-        || this.itemPopHighlight5.equals(e.getSource())) {
+    } else if (this.itemHighlight5.equals(source)
+        || this.itemPopHighlight5.equals(source)) {
       this.setHighlight(5);
-    } else if (this.itemRmHighlight1.equals(e.getSource())
-        || this.itemPopRmHighlight1.equals(e.getSource())) {
+    } else if (this.itemRmHighlight1.equals(source)
+        || this.itemPopRmHighlight1.equals(source)) {
       this.rmHighlight(1);
-    } else if (this.itemRmHighlight2.equals(e.getSource())
-        || this.itemPopRmHighlight2.equals(e.getSource())) {
+    } else if (this.itemRmHighlight2.equals(source)
+        || this.itemPopRmHighlight2.equals(source)) {
       this.rmHighlight(2);
-    } else if (this.itemRmHighlight3.equals(e.getSource())
-        || this.itemPopRmHighlight3.equals(e.getSource())) {
+    } else if (this.itemRmHighlight3.equals(source)
+        || this.itemPopRmHighlight3.equals(source)) {
       this.rmHighlight(3);
-    } else if (this.itemRmHighlight4.equals(e.getSource())
-        || this.itemPopRmHighlight4.equals(e.getSource())) {
+    } else if (this.itemRmHighlight4.equals(source)
+        || this.itemPopRmHighlight4.equals(source)) {
       this.rmHighlight(4);
-    } else if (this.itemRmHighlight5.equals(e.getSource())
-        || this.itemPopRmHighlight5.equals(e.getSource())) {
+    } else if (this.itemRmHighlight5.equals(source)
+        || this.itemPopRmHighlight5.equals(source)) {
       this.rmHighlight(5);
-    } else if (this.itemRmHighlightAll.equals(e.getSource())
-        || this.itemPopRmHighlightAll.equals(e.getSource())) {
+    } else if (this.itemRmHighlightAll.equals(source)
+        || this.itemPopRmHighlightAll.equals(source)) {
       this.rmHighlight(0);
-    } else if (this.itemInformation.equals(e.getSource())) {
+    } else if (this.itemInformation.equals(source)) {
       this.openInformationDialog();
-    } else if (this.itemWindowManage.equals(e.getSource())) {
+    } else if (this.itemWindowManage.equals(source)) {
       this.openWindowManageDialog();
-    } else if (this.itemTextAreaSwitchPrevious.equals(e.getSource())) {
+    } else if (this.itemTextAreaSwitchPrevious.equals(source)) {
       this.textAreaSwitch(false);
-    } else if (this.itemTextAreaSwitchNext.equals(e.getSource())) {
+    } else if (this.itemTextAreaSwitchNext.equals(source)) {
       this.textAreaSwitch(true);
-    } else if (this.itemTextAreaHistoryBack.equals(e.getSource())) {
+    } else if (this.itemTextAreaHistoryBack.equals(source)) {
       this.textAreaHistory(false);
-    } else if (this.itemTextAreaHistoryNext.equals(e.getSource())) {
+    } else if (this.itemTextAreaHistoryNext.equals(source)) {
       this.textAreaHistory(true);
-    } else if (this.itemCommentForLine.equals(e.getSource())
-        || this.itemPopCommentForLine.equals(e.getSource())) {
+    } else if (this.itemCommentForLine.equals(source)
+        || this.itemPopCommentForLine.equals(source)) {
       this.setCommentForLine();
-    } else if (this.itemCommentForBlock.equals(e.getSource())
-        || this.itemPopCommentForBlock.equals(e.getSource())) {
+    } else if (this.itemCommentForBlock.equals(source)
+        || this.itemPopCommentForBlock.equals(source)) {
       this.setCommentForBlock();
-    } else if (this.itemTabSet.equals(e.getSource())) {
+    } else if (this.itemTabSet.equals(source)) {
       this.openTabSetDialog();
-    } else if (this.itemAutoComplete.equals(e.getSource())) {
+    } else if (this.itemAutoComplete.equals(source)) {
       this.openAutoCompleteDialog();
-    } else if (this.itemShortcutManage.equals(e.getSource())) {
+    } else if (this.itemShortcutManage.equals(source)) {
       this.openShortcutManageDialog();
-    } else if (this.itemClearFileHistory.equals(e.getSource())) {
+    } else if (this.itemClearFileHistory.equals(source)) {
       this.clearFileHistory();
     } else if (FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
-      JMenuItem itemFile = (JMenuItem) e.getSource();
+      JMenuItem itemFile = (JMenuItem) source;
       this.openFileHistory(itemFile.getText());
     } else if (e.getActionCommand() != null
         && e.getActionCommand().startsWith(Util.LOOK_AND_FEEL)) { // 当前系统支持的外观菜单
-      JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) e.getSource();
+      JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) source;
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
     }

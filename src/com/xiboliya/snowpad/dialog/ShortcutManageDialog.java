@@ -215,15 +215,16 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnEdit.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnEdit.equals(source)) {
       this.onEnter();
-    } else if (this.btnRemove.equals(e.getSource())) {
+    } else if (this.btnRemove.equals(source)) {
       this.removeShortcut();
-    } else if (this.btnKeyCheck.equals(e.getSource())) {
+    } else if (this.btnKeyCheck.equals(source)) {
       this.keyCheck();
-    } else if (this.btnReset.equals(e.getSource())) {
+    } else if (this.btnReset.equals(source)) {
       this.resetShortcuts();
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
     }
   }

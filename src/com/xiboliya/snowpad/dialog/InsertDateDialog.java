@@ -280,13 +280,14 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCancel.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnCancel.equals(source)) {
       this.onCancel();
-    } else if (this.btnOk.equals(e.getSource())) {
+    } else if (this.btnOk.equals(source)) {
       this.onEnter();
-    } else if (this.radSelect.equals(e.getSource())) {
+    } else if (this.radSelect.equals(source)) {
       this.setComponentEnabledByRadioButton();
-    } else if (this.radUser.equals(e.getSource())) {
+    } else if (this.radUser.equals(source)) {
       this.setComponentEnabledByRadioButton();
     }
   }

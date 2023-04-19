@@ -226,19 +226,20 @@ public class BaseTextField extends JTextField implements ActionListener,
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.itemPopUnDo.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.itemPopUnDo.equals(source)) {
       this.undoAction();
-    } else if (this.itemPopReDo.equals(e.getSource())) {
+    } else if (this.itemPopReDo.equals(source)) {
       this.redoAction();
-    } else if (this.itemPopCut.equals(e.getSource())) {
+    } else if (this.itemPopCut.equals(source)) {
       this.cut();
-    } else if (this.itemPopCopy.equals(e.getSource())) {
+    } else if (this.itemPopCopy.equals(source)) {
       this.copy();
-    } else if (this.itemPopPaste.equals(e.getSource())) {
+    } else if (this.itemPopPaste.equals(source)) {
       this.paste();
-    } else if (this.itemPopDel.equals(e.getSource())) {
+    } else if (this.itemPopDel.equals(source)) {
       this.deleteText();
-    } else if (this.itemPopSelAll.equals(e.getSource())) {
+    } else if (this.itemPopSelAll.equals(source)) {
       this.selectAll();
     }
   }

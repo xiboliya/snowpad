@@ -200,15 +200,16 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnOk.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnOk.equals(source)) {
       this.onEnter();
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
-    } else if (this.radCurrentFile.equals(e.getSource())) {
+    } else if (this.radCurrentFile.equals(source)) {
       this.setComponentEnabledByRadioButton();
-    } else if (this.radTargetFile.equals(e.getSource())) {
+    } else if (this.radTargetFile.equals(source)) {
       this.setComponentEnabledByRadioButton();
-    } else if (this.btnSelectFile.equals(e.getSource())) {
+    } else if (this.btnSelectFile.equals(source)) {
       this.selectFile();
     }
   }

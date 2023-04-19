@@ -200,9 +200,10 @@ public class BookmarkPreviewDialog extends BaseDialog implements ActionListener,
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCancel.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnCancel.equals(source)) {
       this.onCancel();
-    } else if (this.btnOk.equals(e.getSource())) {
+    } else if (this.btnOk.equals(source)) {
       this.onEnter();
     }
   }

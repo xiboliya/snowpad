@@ -256,9 +256,10 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnRefresh.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnRefresh.equals(source)) {
       this.refresh();
-    } else if (this.btnClose.equals(e.getSource())) {
+    } else if (this.btnClose.equals(source)) {
       this.close();
     }
   }

@@ -795,9 +795,10 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
    * 为各组件添加事件的处理方法
    */
   public void actionPerformed(ActionEvent e) {
-    if (this.btnOk.equals(e.getSource())) {
+    Object source = e.getSource();
+    if (this.btnOk.equals(source)) {
       this.onEnter();
-    } else if (this.btnCancel.equals(e.getSource())) {
+    } else if (this.btnCancel.equals(source)) {
       this.onCancel();
     }
   }
