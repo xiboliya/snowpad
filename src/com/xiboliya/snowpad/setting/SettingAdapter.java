@@ -20,9 +20,6 @@ package com.xiboliya.snowpad.setting;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -96,8 +93,9 @@ public final class SettingAdapter {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     try {
       DocumentBuilder builder = factory.newDocumentBuilder();
+      this.initShortcuts();
       if (!this.file.exists()) {
-        this.createSettingFile();
+        return;
       }
       Document document = builder.parse(this.file);
       Element root = document.getDocumentElement();
@@ -430,7 +428,6 @@ public final class SettingAdapter {
    *          节点列表
    */
   private void parseShortcuts(NodeList nodeList) {
-    this.initShortcuts();
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node.hasChildNodes()) {
@@ -465,10 +462,8 @@ public final class SettingAdapter {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     try {
       DocumentBuilder builder = factory.newDocumentBuilder();
-      if (!this.file.exists()) {
-        this.createSettingFile();
-      }
-      Document document = builder.parse(this.file);
+      URL url = ClassLoader.getSystemResource("res/" + Util.SETTING_XML);
+      Document document = builder.parse(url.openStream());
       Element root = document.getDocumentElement();
       NodeList nodeList = root.getElementsByTagName("TextArea");
       saveTextArea(nodeList);
@@ -713,35 +708,11 @@ public final class SettingAdapter {
   }
 
   /**
-   * 创建默认的XML配置文件
+   * 删除XML配置文件
    */
-  public void createSettingFile() {
-    URL url = ClassLoader.getSystemResource("res/" + Util.SETTING_XML);
-    InputStreamReader inputStreamReader = null;
-    StringBuilder stbTemp = new StringBuilder();
-    FileOutputStream fileOutputStream = null;
-    char[] chrBuf = new char[Util.BUFFER_LENGTH];
-    int len = 0;
-    try {
-      inputStreamReader = new InputStreamReader(url.openStream(), "UTF-8");
-      while ((len = inputStreamReader.read(chrBuf)) != -1) {
-        stbTemp.append(chrBuf, 0, len);
-      }
-      String strText = stbTemp.toString();
-      byte[] byteStr = strText.getBytes("UTF-8");
-      fileOutputStream = new FileOutputStream(this.file);
-      fileOutputStream.write(byteStr);
-    } catch (Exception x) {
-      // x.printStackTrace();
-    } finally {
-      try {
-        inputStreamReader.close();
-        fileOutputStream.flush();
-        fileOutputStream.close();
-      } catch (IOException x) {
-        // x.printStackTrace();
-      }
+  public void deleteSettingFile() {
+    if (this.file.exists()) {
+      this.file.delete();
     }
   }
-
 }

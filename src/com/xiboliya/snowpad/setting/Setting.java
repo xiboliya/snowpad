@@ -43,10 +43,10 @@ public class Setting {
   public int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数
   public CharEncoding defaultCharEncoding = CharEncoding.GB18030; // 默认字符编码格式
   public Font font = Util.TEXT_FONT; // 文本域字体
-  public Color[] colorStyle = null; // 配色方案
+  public Color[] colorStyle = Util.COLOR_STYLE_DEFAULT; // 配色方案
   // 查找/替换的相关设置
   public boolean matchCase = true; // 是否区分大小写
-  public boolean isWrap = false; // 是否循环查找
+  public boolean isWrap = true; // 是否循环查找
   public boolean findDown = true; // 是否向下查找
   public SearchStyle searchStyle = SearchStyle.DEFAULT; // 搜索模式
   // 显示的相关设置
@@ -61,7 +61,7 @@ public class Setting {
   public boolean viewClickToClose = true; // 是否双击关闭标签
   public boolean viewTabIcon = true; // 是否显示指示图标
   public int viewLookAndFeel = -1; // 当前外观的索引号
-  public int[] viewFrameSize = null; // 窗口大小
+  public int[] viewFrameSize = new int[]{Util.DEFAULT_FRAME_WIDTH, Util.DEFAULT_FRAME_HEIGHT}; // 窗口大小
   // 所有已打开的文件
   public LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // 存放所有已打开的文件名的链表
   // 所有自定义快捷键的设置

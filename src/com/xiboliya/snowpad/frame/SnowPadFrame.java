@@ -2256,7 +2256,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setting = new Setting();
     this.initTextAreaSetting();
     this.settingAdapter.setSetting(this.setting);
-    this.settingAdapter.createSettingFile();
+    this.settingAdapter.deleteSettingFile();
     this.settingAdapter.initShortcuts();
     this.setMenuDefaultSetting();
     this.setMenuAccelerator();
