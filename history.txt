@@ -1928,4 +1928,7 @@ src/com/xiboliya/snowpad/setting/Setting.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/setting/TextAreaSetting.java
 src/com/xiboliya/snowpad/util/Util.java
-
+2.优化xml配置文件读写逻辑，解决当使用老版本的配置文件时，无法保存新添加的配置项的问题。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/Setting.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
