@@ -37,6 +37,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.FileHistoryBean;
 import com.xiboliya.snowpad.common.SearchStyle;
 import com.xiboliya.snowpad.util.Util;
@@ -156,6 +157,8 @@ public final class SettingAdapter {
             this.setting.tabSize = size;
           } else if (key.equalsIgnoreCase("autoComplete")) {
             this.setting.autoComplete = logic;
+          } else if (key.equalsIgnoreCase("defaultCharEncoding")) {
+            this.setting.defaultCharEncoding = this.transferToCharEncoding(value);
           }
         }
       } else {
@@ -207,12 +210,35 @@ public final class SettingAdapter {
   }
 
   /**
+   * 将字符串转化为字符编码格式
+   * 
+   * @param value 字符串
+   * @return 字符编码格式
+   */
+  private CharEncoding transferToCharEncoding(String value) {
+    if ("US-ASCII".equalsIgnoreCase(value)) {
+      return CharEncoding.ANSI;
+    } else if ("UTF-16BE".equalsIgnoreCase(value)) {
+      return CharEncoding.UBE;
+    } else if ("UTF-16LE".equalsIgnoreCase(value)) {
+      return CharEncoding.ULE;
+    } else if ("UTF-8".equalsIgnoreCase(value)) {
+      return CharEncoding.UTF8;
+    } else if ("UTF-8-NO-BOM".equalsIgnoreCase(value)) {
+      return CharEncoding.UTF8_NO_BOM;
+    } else {
+      return CharEncoding.GB18030;
+    }
+  }
+
+  /**
    * 将red、green、blue、alpha各颜色分量组成的字符串数组，转化为颜色
    * 
    * @param arrColor
    *          各颜色分量的字符串数组
    * @param index
    *          当前颜色在配色方案中的索引值
+   * @return 颜色
    */
   private Color transferToColor(String[] arrColor, int index) {
     int red = -1;
@@ -491,6 +517,8 @@ public final class SettingAdapter {
           node.setTextContent(String.valueOf(this.setting.tabSize));
         } else if (key.equalsIgnoreCase("autoComplete")) {
           node.setTextContent(String.valueOf(this.setting.autoComplete));
+        } else if (key.equalsIgnoreCase("defaultCharEncoding")) {
+          node.setTextContent(this.setting.defaultCharEncoding.getValue());
         }
       } else {
         if (node.getNodeName().equalsIgnoreCase("font")) {

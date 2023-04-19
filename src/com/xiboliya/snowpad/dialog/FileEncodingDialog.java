@@ -41,7 +41,7 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   private static final String[] FILE_ENCODINGS = new String[] { "自动检测",
       CharEncoding.ANSI.getName(), CharEncoding.UBE.getName(),
       CharEncoding.ULE.getName(), CharEncoding.UTF8.getName(),
-      CharEncoding.UTF8_NO_BOM.getName(), CharEncoding.BASE.getName() }; // 选择编码格式的数组
+      CharEncoding.UTF8_NO_BOM.getName(), CharEncoding.GB18030.getName() }; // 选择编码格式的数组
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblEncoding = new JLabel("文件编码格式：");
   private JComboBox<String> cmbEncoding = new JComboBox<String>(FILE_ENCODINGS);
@@ -145,7 +145,7 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
       this.charEncoding = CharEncoding.UTF8_NO_BOM;
       break;
     case 6:
-      this.charEncoding = CharEncoding.BASE;
+      this.charEncoding = CharEncoding.GB18030;
       break;
     }
   }

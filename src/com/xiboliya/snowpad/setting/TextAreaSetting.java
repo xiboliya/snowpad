@@ -34,7 +34,7 @@ public class TextAreaSetting {
   public boolean isLineWrap = true; // 是否自动换行
   public boolean isWrapStyleWord = true; // 是否单词边界换行
   public LineSeparator lineSeparator = LineSeparator.DEFAULT; // 换行符格式
-  public CharEncoding charEncoding = CharEncoding.BASE; // 字符编码格式
+  public CharEncoding charEncoding = CharEncoding.GB18030; // 字符编码格式
   public Font font = Util.TEXT_FONT; // 文本域字体
   public boolean autoIndent = false; // 是否可自动缩进
   public boolean tabReplaceBySpace = false; // 是否以空格代替Tab键

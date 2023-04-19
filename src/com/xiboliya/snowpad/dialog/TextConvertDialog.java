@@ -54,11 +54,11 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   // 编码格式名称的数组
   private static final String[] ENCODING_NAMES = new String[] {
       CharEncoding.ANSI.getName(), CharEncoding.UBE.getName(),
-      CharEncoding.ULE.getName(), CharEncoding.UTF8.getName(), CharEncoding.BASE.getName() };
+      CharEncoding.ULE.getName(), CharEncoding.UTF8.getName(), CharEncoding.GB18030.getName() };
   // 编码格式数据的数组
   private static final String[] ENCODING_VALUES = new String[] {
       CharEncoding.ANSI.toString(), CharEncoding.UBE.toString(),
-      CharEncoding.ULE.toString(), CharEncoding.UTF8.toString(), CharEncoding.BASE.toString() };
+      CharEncoding.ULE.toString(), CharEncoding.UTF8.toString(), CharEncoding.GB18030.toString() };
   // 换行符格式名称的数组
   private static final String[] LINE_SEPARATOR_NAMES = new String[] {
       LineSeparator.WINDOWS.getName(), LineSeparator.UNIX.getName(), LineSeparator.MACINTOSH.getName() };

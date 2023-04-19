@@ -58,7 +58,7 @@ import com.xiboliya.snowpad.window.TipsWindow;
  */
 public class ChangeEncodingDialog extends BaseDialog implements ActionListener, ListSelectionListener {
   private static final long serialVersionUID = 1L;
-  private static final String[] FILE_ENCODINGS = new String[] { CharEncoding.BASE.getName(),
+  private static final String[] FILE_ENCODINGS = new String[] { CharEncoding.GB18030.getName(),
       CharEncoding.ANSI.getName(), CharEncoding.UBE.getName(),
       CharEncoding.ULE.getName(), CharEncoding.UTF8.getName(),
       CharEncoding.UTF8_NO_BOM.getName() }; // 选择编码格式的数组
@@ -78,7 +78,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Insets insets = new Insets(0, 0, 0, 0);
   private DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
-  private CharEncoding charEncoding = CharEncoding.BASE;
+  private CharEncoding charEncoding = CharEncoding.GB18030;
 
   public ChangeEncodingDialog(JFrame owner, boolean modal) {
     super(owner, modal);
@@ -378,7 +378,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
     int index = this.cmbEncoding.getSelectedIndex();
     switch (index) {
     case 0:
-      this.charEncoding = CharEncoding.BASE;
+      this.charEncoding = CharEncoding.GB18030;
       break;
     case 1:
       this.charEncoding = CharEncoding.ANSI;

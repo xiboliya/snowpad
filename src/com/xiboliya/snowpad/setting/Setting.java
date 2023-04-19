@@ -22,6 +22,7 @@ import java.awt.Font;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.FileHistoryBean;
 import com.xiboliya.snowpad.common.SearchStyle;
 import com.xiboliya.snowpad.util.Util;
@@ -40,6 +41,7 @@ public class Setting {
   public boolean tabReplaceBySpace = false; // 是否以空格代替Tab键
   public boolean autoComplete = false; // 是否自动完成
   public int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数
+  public CharEncoding defaultCharEncoding = CharEncoding.GB18030; // 默认字符编码格式
   public Font font = Util.TEXT_FONT; // 文本域字体
   public Color[] colorStyle = null; // 配色方案
   // 查找/替换的相关设置
@@ -62,6 +64,6 @@ public class Setting {
   public int[] viewFrameSize = null; // 窗口大小
   // 所有已打开的文件
   public LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // 存放所有已打开的文件名的链表
-  // 所有快捷键的设置
+  // 所有自定义快捷键的设置
   public HashMap<String, String> shortcutMap = new HashMap<String, String>(); // 存放所有快捷键的设置的哈希表
 }

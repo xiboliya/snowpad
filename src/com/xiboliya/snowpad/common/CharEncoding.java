@@ -25,13 +25,13 @@ package com.xiboliya.snowpad.common;
  */
 public enum CharEncoding {
   /**
+   * GB18030格式编码
+   */
+  GB18030,
+  /**
    * ANSI格式编码
    */
   ANSI,
-  /**
-   * 默认格式编码
-   */
-  BASE,
   /**
    * Unicode Big Endian格式编码
    */
@@ -53,6 +53,8 @@ public enum CharEncoding {
    */
   public String toString() {
     switch (this) {
+    case GB18030:
+      return "GB18030";
     case ANSI:
       return "US-ASCII";
     case UBE:
@@ -62,7 +64,6 @@ public enum CharEncoding {
     case UTF8:
     case UTF8_NO_BOM:
       return "UTF-8";
-    case BASE:
     default:
       return "GB18030";
     }
@@ -75,6 +76,8 @@ public enum CharEncoding {
    */
   public String getName() {
     switch (this) {
+    case GB18030:
+      return "GB18030";
     case ANSI:
       return "ANSI";
     case UBE:
@@ -85,7 +88,30 @@ public enum CharEncoding {
       return "UTF-8";
     case UTF8_NO_BOM:
       return "UTF-8 No BOM";
-    case BASE:
+    default:
+      return "GB18030";
+    }
+  }
+
+  /**
+   * 获取编码格式的值
+   * 
+   * @return 编码格式的值
+   */
+  public String getValue() {
+    switch (this) {
+    case GB18030:
+      return "GB18030";
+    case ANSI:
+      return "US-ASCII";
+    case UBE:
+      return "UTF-16BE";
+    case ULE:
+      return "UTF-16LE";
+    case UTF8:
+      return "UTF-8";
+    case UTF8_NO_BOM:
+      return "UTF-8-NO-BOM";
     default:
       return "GB18030";
     }

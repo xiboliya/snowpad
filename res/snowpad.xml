@@ -6,8 +6,9 @@
     <autoIndent note="是否可自动缩进">false</autoIndent>
     <tabReplaceBySpace note="是否以空格代替Tab键">false</tabReplaceBySpace>
     <tabSize note="Tab键所占字符数">4</tabSize>
-    <autoComplete note="自动完成">false</autoComplete>
-    <font name="宋体" note="文本域字体" size="14" style="0"/>
+    <autoComplete note="是否自动完成">false</autoComplete>
+    <defaultCharEncoding note="默认字符编码格式">GB18030</defaultCharEncoding>
+    <font name="宋体" size="14" style="0" note="文本域字体"/>
     <colorStyle color1="" color2="" color3="" color4="" color5="" color6="" color7="" color8="" note="配色方案：字体颜色，背景颜色，光标颜色，选区字体颜色，选区背景颜色，匹配括号背景颜色，当前行背景颜色，匹配文本背景颜色"/>
   </TextArea>
   <FindReplace note="查找/替换的相关设置">
@@ -27,13 +28,13 @@
     <viewTabPolicy note="是否显示多行标签">true</viewTabPolicy>
     <viewClickToClose note="是否双击关闭标签">true</viewClickToClose>
     <viewTabIcon note="是否显示指示图标">true</viewTabIcon>
-    <viewLookAndFeel note="当前外观">-1</viewLookAndFeel>
+    <viewLookAndFeel note="当前外观的索引号">-1</viewLookAndFeel>
     <viewFrameSize width="600" height="500" note="窗口大小"/>
   </View>
   <Files note="所有已打开的文件">
     <file/>
   </Files>
-  <Shortcuts note="自定义快捷键的设置">
+  <Shortcuts note="所有自定义快捷键的设置">
     <shortcut/>
   </Shortcuts>
 </Setting>

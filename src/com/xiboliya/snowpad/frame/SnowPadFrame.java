@@ -124,6 +124,7 @@ import com.xiboliya.snowpad.dialog.InsertDateDialog;
 import com.xiboliya.snowpad.dialog.KeyCheckDialog;
 import com.xiboliya.snowpad.dialog.MergeFileDialog;
 import com.xiboliya.snowpad.dialog.NumberConvertDialog;
+import com.xiboliya.snowpad.dialog.PreferencesDialog;
 import com.xiboliya.snowpad.dialog.ShortcutManageDialog;
 import com.xiboliya.snowpad.dialog.ShortcutSetDialog;
 import com.xiboliya.snowpad.dialog.SignIdentifierDialog;
@@ -372,13 +373,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemShortcutManage = new JMenuItem("快捷键管理(H)...", 'H');
   private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
   private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
+  private JMenuItem itemPreferences = new JMenuItem("首选项(E)...", 'E');
   private JMenuItem itemReset = new JMenuItem("恢复默认设置(R)...", 'R');
   private JMenu menuLineStyle = new JMenu("换行符格式(S)");
   private JRadioButtonMenuItem itemLineStyleWin = new JRadioButtonMenuItem(LineSeparator.WINDOWS.getName() + "格式");
   private JRadioButtonMenuItem itemLineStyleUnix = new JRadioButtonMenuItem(LineSeparator.UNIX.getName() + "格式");
   private JRadioButtonMenuItem itemLineStyleMac = new JRadioButtonMenuItem(LineSeparator.MACINTOSH.getName() + "格式");
   private JMenu menuCharset = new JMenu("字符编码格式(C)");
-  private JRadioButtonMenuItem itemCharsetBASE = new JRadioButtonMenuItem("默认格式(" + CharEncoding.BASE.toString() + ")");
+  private JRadioButtonMenuItem itemCharsetGB18030 = new JRadioButtonMenuItem("GB18030格式");
   private JRadioButtonMenuItem itemCharsetANSI = new JRadioButtonMenuItem("ANSI格式");
   private JRadioButtonMenuItem itemCharsetUTF8 = new JRadioButtonMenuItem("UTF-8格式");
   private JRadioButtonMenuItem itemCharsetUTF8_NO_BOM = new JRadioButtonMenuItem("UTF-8 No BOM格式");
@@ -539,6 +541,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private TabSetDialog tabSetDialog = null; // Tab字符设置对话框
   private AutoCompleteDialog autoCompleteDialog = null; // 自动完成对话框
   private ShortcutManageDialog shortcutManageDialog = null; // 快捷键管理对话框
+  private PreferencesDialog preferencesDialog = null; // 首选项对话框
   private InsertCharDialog insertCharDialog = null; // 插入字符对话框
   private InsertDateDialog insertDateDialog = null; // 插入时间/日期对话框
   private FileEncodingDialog fileEncodingDialog = null; // 文件编码格式对话框
@@ -656,6 +659,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.setting != null) {
       this.textAreaSetting.isLineWrap = this.setting.isLineWrap;
       this.textAreaSetting.isWrapStyleWord = this.setting.isWrapStyleWord;
+      this.textAreaSetting.charEncoding = this.setting.defaultCharEncoding;
       this.textAreaSetting.font = this.setting.font;
       this.textAreaSetting.autoIndent = this.setting.autoIndent;
       this.textAreaSetting.tabReplaceBySpace = this.setting.tabReplaceBySpace;
@@ -771,7 +775,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineStyleWin.addActionListener(this);
     this.itemLineStyleUnix.addActionListener(this);
     this.itemLineStyleMac.addActionListener(this);
-    this.itemCharsetBASE.addActionListener(this);
+    this.itemCharsetGB18030.addActionListener(this);
     this.itemCharsetANSI.addActionListener(this);
     this.itemCharsetUTF8.addActionListener(this);
     this.itemCharsetUTF8_NO_BOM.addActionListener(this);
@@ -781,6 +785,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCompressJson.addActionListener(this);
     this.itemSignIdentifier.addActionListener(this);
     this.itemAutoIndent.addActionListener(this);
+    this.itemPreferences.addActionListener(this);
     this.itemReset.addActionListener(this);
     this.itemAlwaysOnTop.addActionListener(this);
     this.itemLockResizable.addActionListener(this);
@@ -1158,8 +1163,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuLineStyle.add(this.itemLineStyleUnix);
     this.menuLineStyle.add(this.itemLineStyleMac);
     this.menuStyle.add(this.menuCharset);
-    this.menuCharset.add(this.itemCharsetBASE);
-    this.menuCharset.addSeparator();
+    this.menuCharset.add(this.itemCharsetGB18030);
     this.menuCharset.add(this.itemCharsetANSI);
     this.menuCharset.add(this.itemCharsetUTF8);
     this.menuCharset.add(this.itemCharsetUTF8_NO_BOM);
@@ -1179,6 +1183,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStyle.add(this.itemLineWrap);
     this.menuStyle.add(this.itemAutoIndent);
     this.menuStyle.addSeparator();
+    this.menuStyle.add(this.itemPreferences);
     this.menuStyle.add(this.itemReset);
     this.menuBar.add(this.menuView);
     this.menuView.add(this.itemBack);
@@ -1267,7 +1272,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.bgpLineStyle.add(this.itemLineStyleWin);
     this.bgpLineStyle.add(this.itemLineStyleUnix);
     this.bgpLineStyle.add(this.itemLineStyleMac);
-    this.bgpCharset.add(this.itemCharsetBASE);
+    this.bgpCharset.add(this.itemCharsetGB18030);
     this.bgpCharset.add(this.itemCharsetANSI);
     this.bgpCharset.add(this.itemCharsetUTF8);
     this.bgpCharset.add(this.itemCharsetUTF8_NO_BOM);
@@ -1367,7 +1372,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemLineStyleWin);
     this.menuItemList.add(this.itemLineStyleUnix);
     this.menuItemList.add(this.itemLineStyleMac);
-    this.menuItemList.add(this.itemCharsetBASE);
+    this.menuItemList.add(this.itemCharsetGB18030);
     this.menuItemList.add(this.itemCharsetANSI);
     this.menuItemList.add(this.itemCharsetUTF8);
     this.menuItemList.add(this.itemCharsetUTF8_NO_BOM);
@@ -1381,6 +1386,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemAutoComplete);
     this.menuItemList.add(this.itemLineWrap);
     this.menuItemList.add(this.itemAutoIndent);
+    this.menuItemList.add(this.itemPreferences);
     this.menuItemList.add(this.itemReset);
     this.menuItemList.add(this.itemBack);
     this.menuItemList.add(this.itemForward);
@@ -1569,8 +1575,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setMenuDefaultInit() {
     this.setMenuReset();
-    this.setLineStyleString(LineSeparator.DEFAULT, true);
-    this.setCharEncoding(CharEncoding.BASE, true);
+    this.setLineStyleString(this.textAreaSetting.lineSeparator, true);
+    this.setCharEncoding(this.textAreaSetting.charEncoding, true);
   }
 
   /**
@@ -1768,6 +1774,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineStyleUnix.setMnemonic('U');
     this.itemLineStyleMac.setMnemonic('M');
     this.menuCharset.setMnemonic('C');
+    this.itemCharsetGB18030.setMnemonic('G');
     this.itemCharsetANSI.setMnemonic('A');
     this.itemCharsetUTF8.setMnemonic('U');
     this.itemCharsetUTF8_NO_BOM.setMnemonic('N');
@@ -1994,8 +2001,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setLineStyleString(LineSeparator.UNIX, false);
     } else if (this.itemLineStyleMac.equals(e.getSource())) {
       this.setLineStyleString(LineSeparator.MACINTOSH, false);
-    } else if (this.itemCharsetBASE.equals(e.getSource())) {
-      this.setCharEncoding(CharEncoding.BASE, false);
+    } else if (this.itemCharsetGB18030.equals(e.getSource())) {
+      this.setCharEncoding(CharEncoding.GB18030, false);
     } else if (this.itemCharsetANSI.equals(e.getSource())) {
       this.setCharEncoding(CharEncoding.ANSI, false);
     } else if (this.itemCharsetUTF8.equals(e.getSource())) {
@@ -2014,6 +2021,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openSignIdentifierDialog();
     } else if (this.itemAutoIndent.equals(e.getSource())) {
       this.setAutoIndent();
+    } else if (this.itemPreferences.equals(e.getSource())) {
+      this.openPreferencesDialog();
     } else if (this.itemReset.equals(e.getSource())) {
       this.resetSetting();
     } else if (this.itemNew.equals(e.getSource())
@@ -2220,6 +2229,17 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) e.getSource();
       this.setLookAndFeel(itemInfo.getActionCommand().substring(
           (Util.LOOK_AND_FEEL + Util.PARAM_SPLIT).length()));
+    }
+  }
+
+  /**
+   * "首选项"的处理方法
+   */
+  private void openPreferencesDialog() {
+    if (this.preferencesDialog == null) {
+      this.preferencesDialog = new PreferencesDialog(this, true, this.setting, this.textAreaSetting);
+    } else {
+      this.preferencesDialog.setVisible(true);
     }
   }
 
@@ -2714,6 +2734,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (this.shortcutManageDialog != null) {
       this.shortcutManageDialog.dispose();
       this.shortcutManageDialog = null;
+    }
+    if (this.preferencesDialog != null) {
+      this.preferencesDialog.dispose();
+      this.preferencesDialog = null;
     }
     if (this.insertCharDialog != null) {
       this.insertCharDialog.dispose();
@@ -3707,7 +3731,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.itemCharsetANSI.setSelected(true);
       break;
     default:
-      this.itemCharsetBASE.setSelected(true);
+      this.itemCharsetGB18030.setSelected(true);
       break;
     }
   }

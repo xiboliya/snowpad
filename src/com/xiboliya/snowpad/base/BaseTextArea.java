@@ -54,7 +54,7 @@ public class BaseTextArea extends JTextArea {
   private String title = Util.NEW_FILE_NAME; // 在标签中显示的标题
   private LinkedList<PartnerBean> highlighterList = new LinkedList<PartnerBean>(); // 存放文本域中所有高亮对象的链表
   private LineSeparator lineSeparator = LineSeparator.DEFAULT; // 换行符格式
-  private CharEncoding charEncoding = CharEncoding.BASE; // 字符编码格式
+  private CharEncoding charEncoding = CharEncoding.GB18030; // 字符编码格式
   private KeyAdapter autoIndentKeyAdapter = null; // 用于自动缩进的键盘适配器
   private KeyAdapter tabReplaceKeyAdapter = null; // 用于设置以空格代替Tab键的键盘适配器
   private KeyAdapter autoCompleteKeyAdapter = null; // 用于设置自动完成的键盘适配器
