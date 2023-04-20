@@ -1983,3 +1983,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/Setting.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/setting/TextAreaSetting.java（删除）
+
+******************************
+git tag SnowPad-V5.2-20230420
+******************************
