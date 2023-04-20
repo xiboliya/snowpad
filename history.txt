@@ -1971,3 +1971,6 @@ src/com/xiboliya/snowpad/panel/SearchResultPanel.java
 2023-04-20
 1.“时间戳转换”界面中调大输入框和结果框的显示宽度。
 src/com/xiboliya/snowpad/dialog/TimeStampConvertDialog.java
+2.优化TextAreaSetting类：去掉冗余的5个字段，因为在BaseTextArea类中已有定义。
+src/com/xiboliya/snowpad/base/BaseTextArea.java
+src/com/xiboliya/snowpad/setting/TextAreaSetting.java
