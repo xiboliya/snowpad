@@ -1974,3 +1974,12 @@ src/com/xiboliya/snowpad/dialog/TimeStampConvertDialog.java
 2.优化TextAreaSetting类：去掉冗余的5个字段，因为在BaseTextArea类中已有定义。
 src/com/xiboliya/snowpad/base/BaseTextArea.java
 src/com/xiboliya/snowpad/setting/TextAreaSetting.java
+2.“首选项”界面中添加“默认换行符”设置功能，并简化设置逻辑，删除TextAreaSetting类。
+res/snowpad.xml
+src/com/xiboliya/snowpad/base/BaseTextArea.java
+src/com/xiboliya/snowpad/common/LineSeparator.java
+src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/Setting.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/setting/TextAreaSetting.java（删除）
