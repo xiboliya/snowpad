@@ -144,11 +144,6 @@ public class BaseTextArea extends JTextArea {
     this.setColorStyle(textAreaSetting.colorStyle);
     this.setTabSize(textAreaSetting.tabSize);
     this.setAutoComplete(textAreaSetting.autoComplete);
-    this.setSaved(textAreaSetting.isSaved);
-    this.setTextChanged(textAreaSetting.isTextChanged);
-    this.setStyleChanged(textAreaSetting.isStyleChanged);
-    this.setFileExistsLabel(textAreaSetting.fileExistsLabel);
-    this.setFileChangedLabel(textAreaSetting.fileChangedLabel);
     this.setLineNumberView(textAreaSetting.isLineNumberView);
   }
 
