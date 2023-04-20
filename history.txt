@@ -1967,3 +1967,7 @@ src/com/xiboliya/snowpad/dialog/WindowManageDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
 src/com/xiboliya/snowpad/panel/SearchResultPanel.java
+
+2023-04-20
+1.“时间戳转换”界面中调大输入框和结果框的显示宽度。
+src/com/xiboliya/snowpad/dialog/TimeStampConvertDialog.java
