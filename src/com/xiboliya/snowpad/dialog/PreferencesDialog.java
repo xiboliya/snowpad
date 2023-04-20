@@ -32,8 +32,8 @@ import javax.swing.JTabbedPane;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.common.CharEncoding;
+import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.setting.Setting;
-import com.xiboliya.snowpad.setting.TextAreaSetting;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -52,25 +52,29 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private static final String[] ENCODING_VALUES = new String[] {
       CharEncoding.GB18030.getValue(), CharEncoding.ANSI.getValue(), CharEncoding.UTF8.getValue(),
       CharEncoding.UTF8_NO_BOM.getValue(), CharEncoding.ULE.getValue(), CharEncoding.UBE.getValue() };
+  // 换行符格式名称的数组
+  private static final String[] LINE_SEPARATOR_VALUES = new String[] {
+      LineSeparator.DEFAULT.getValue(), LineSeparator.UNIX.getValue(), LineSeparator.MACINTOSH.getValue(), LineSeparator.WINDOWS.getValue() };
   private Setting setting = null; // 软件参数配置类
-  private TextAreaSetting textAreaSetting = null; // 用于初始化文本域的属性配置类
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
   private CharEncoding charEncoding = CharEncoding.GB18030; // 字符编码格式
+  private LineSeparator lineSeparator = LineSeparator.DEFAULT; // 换行符格式
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   // 新建
   private JPanel pnlNew = new JPanel();
   private JLabel lblEncoding = new JLabel("默认字符编码：");
   private JComboBox<String> cmbEncoding = new JComboBox<String>(ENCODING_NAMES);
+  private JLabel lblLineSeparator = new JLabel("默认换行符：");
+  private JComboBox<String> cmbLineSeparator = new JComboBox<String>(LINE_SEPARATOR_VALUES);
   // 主界面
   private JPanel pnlBottom = new JPanel();
   private JButton btnCancel = new JButton("关闭");
 
-  public PreferencesDialog(JFrame owner, boolean modal, Setting setting, TextAreaSetting textAreaSetting) {
+  public PreferencesDialog(JFrame owner, boolean modal, Setting setting) {
     super(owner, modal);
     this.setting = setting;
-    this.textAreaSetting = textAreaSetting;
     this.setTitle("首选项");
     this.init();
     this.initView();
@@ -88,8 +92,12 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.pnlNew.setLayout(null);
     this.lblEncoding.setBounds(10, 10, 100, Util.VIEW_HEIGHT);
     this.cmbEncoding.setBounds(110, 10, 150, Util.INPUT_HEIGHT);
+    this.lblLineSeparator.setBounds(10, 50, 100, Util.VIEW_HEIGHT);
+    this.cmbLineSeparator.setBounds(110, 50, 150, Util.INPUT_HEIGHT);
     this.pnlNew.add(this.lblEncoding);
     this.pnlNew.add(this.cmbEncoding);
+    this.pnlNew.add(this.lblLineSeparator);
+    this.pnlNew.add(this.cmbLineSeparator);
     // 主界面
     this.tpnMain.add(this.pnlNew, "新建");
     this.pnlMain.add(this.tpnMain, BorderLayout.CENTER);
@@ -106,6 +114,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private void initView() {
     this.charEncoding = this.setting.defaultCharEncoding;
     this.cmbEncoding.setSelectedItem(this.charEncoding.getName());
+    this.lineSeparator = this.setting.defaultLineSeparator;
+    this.cmbLineSeparator.setSelectedItem(this.lineSeparator.getValue());
   }
 
   /**
@@ -120,6 +130,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private void addListeners() {
     this.cmbEncoding.addKeyListener(this.keyAdapter);
     this.cmbEncoding.addItemListener(this);
+    this.cmbLineSeparator.addKeyListener(this.keyAdapter);
+    this.cmbLineSeparator.addItemListener(this);
     this.btnCancel.addActionListener(this);
     this.btnCancel.addKeyListener(this.buttonKeyAdapter);
   }
@@ -149,7 +161,29 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
         this.charEncoding = CharEncoding.UBE;
         break;
     }
-    this.setting.defaultCharEncoding = this.textAreaSetting.charEncoding = this.charEncoding;
+    this.setting.defaultCharEncoding = this.charEncoding;
+  }
+
+  /**
+   * 设置换行符格式
+   */
+  private void updateLineSeparator() {
+    int index = this.cmbLineSeparator.getSelectedIndex();
+    switch (index) {
+      case 0:
+        this.lineSeparator = LineSeparator.DEFAULT;
+        break;
+      case 1:
+        this.lineSeparator = LineSeparator.UNIX;
+        break;
+      case 2:
+        this.lineSeparator = LineSeparator.MACINTOSH;
+        break;
+      case 3:
+        this.lineSeparator = LineSeparator.WINDOWS;
+        break;
+    }
+    this.setting.defaultLineSeparator = this.lineSeparator;
   }
 
   /**
@@ -185,6 +219,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     Object source = e.getSource();
     if (this.cmbEncoding.equals(source)) {
       this.updateEncoding();
+    } else if (this.cmbLineSeparator.equals(source)) {
+      this.updateLineSeparator();
     }
   }
 }

@@ -37,7 +37,7 @@ import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.common.FileExt;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.common.PartnerBean;
-import com.xiboliya.snowpad.setting.TextAreaSetting;
+import com.xiboliya.snowpad.setting.Setting;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -88,9 +88,9 @@ public class BaseTextArea extends JTextArea {
     this.init();
   }
 
-  public BaseTextArea(TextAreaSetting textAreaSetting) {
+  public BaseTextArea(Setting setting) {
     this();
-    this.loadSetting(textAreaSetting);
+    this.loadSetting(setting);
   }
 
   private void init() {
@@ -130,21 +130,21 @@ public class BaseTextArea extends JTextArea {
     this.setDocument(this.document);
   }
 
-  private void loadSetting(TextAreaSetting textAreaSetting) {
-    if (textAreaSetting == null) {
+  private void loadSetting(Setting setting) {
+    if (setting == null) {
       return;
     }
-    this.setLineWrap(textAreaSetting.isLineWrap);
-    this.setWrapStyleWord(textAreaSetting.isWrapStyleWord);
-    this.setLineSeparator(textAreaSetting.lineSeparator);
-    this.setCharEncoding(textAreaSetting.charEncoding);
-    this.setFont(textAreaSetting.font);
-    this.setAutoIndent(textAreaSetting.autoIndent);
-    this.setTabReplaceBySpace(textAreaSetting.tabReplaceBySpace);
-    this.setColorStyle(textAreaSetting.colorStyle);
-    this.setTabSize(textAreaSetting.tabSize);
-    this.setAutoComplete(textAreaSetting.autoComplete);
-    this.setLineNumberView(textAreaSetting.isLineNumberView);
+    this.setLineWrap(setting.isLineWrap);
+    this.setWrapStyleWord(setting.isWrapStyleWord);
+    this.setLineSeparator(setting.defaultLineSeparator);
+    this.setCharEncoding(setting.defaultCharEncoding);
+    this.setFont(setting.font);
+    this.setAutoIndent(setting.autoIndent);
+    this.setTabReplaceBySpace(setting.tabReplaceBySpace);
+    this.setColorStyle(setting.colorStyle);
+    this.setTabSize(setting.tabSize);
+    this.setAutoComplete(setting.autoComplete);
+    this.setLineNumberView(setting.viewLineNumber);
   }
 
   private void disableShortcut() {

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import com.xiboliya.snowpad.common.CharEncoding;
+import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.common.FileHistoryBean;
 import com.xiboliya.snowpad.common.SearchStyle;
 import com.xiboliya.snowpad.util.Util;
@@ -42,6 +43,7 @@ public class Setting {
   public boolean autoComplete = false; // 是否自动完成
   public int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数
   public CharEncoding defaultCharEncoding = CharEncoding.GB18030; // 默认字符编码格式
+  public LineSeparator defaultLineSeparator = LineSeparator.DEFAULT; // 默认换行符格式
   public Font font = Util.TEXT_FONT; // 文本域字体
   public Color[] colorStyle = Util.COLOR_STYLE_DEFAULT; // 配色方案
   // 查找/替换的相关设置

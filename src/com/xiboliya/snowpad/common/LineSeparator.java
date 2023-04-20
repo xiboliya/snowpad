@@ -82,4 +82,22 @@ public enum LineSeparator {
       }
     }
   }
+
+  /**
+   * 获取换行符格式的值
+   * 
+   * @return 换行符格式的值
+   */
+  public String getValue() {
+    switch (this) {
+    case UNIX:
+      return "Unix";
+    case MACINTOSH:
+      return "Macintosh";
+    case WINDOWS:
+      return "Windows";
+    default:
+      return "跟随系统";
+    }
+  }
 }

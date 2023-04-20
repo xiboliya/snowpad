@@ -35,6 +35,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.xiboliya.snowpad.common.CharEncoding;
+import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.common.FileHistoryBean;
 import com.xiboliya.snowpad.common.SearchStyle;
 import com.xiboliya.snowpad.util.Util;
@@ -157,6 +158,8 @@ public final class SettingAdapter {
             this.setting.autoComplete = logic;
           } else if (key.equalsIgnoreCase("defaultCharEncoding")) {
             this.setting.defaultCharEncoding = this.transferToCharEncoding(value);
+          } else if (key.equalsIgnoreCase("defaultLineSeparator")) {
+            this.setting.defaultLineSeparator = this.transferToLineSeparator(value);
           }
         }
       } else {
@@ -226,6 +229,24 @@ public final class SettingAdapter {
       return CharEncoding.UTF8_NO_BOM;
     } else {
       return CharEncoding.GB18030;
+    }
+  }
+
+  /**
+   * 将字符串转化为换行符格式
+   * 
+   * @param value 字符串
+   * @return 换行符格式
+   */
+  private LineSeparator transferToLineSeparator(String value) {
+    if ("Unix".equalsIgnoreCase(value)) {
+      return LineSeparator.UNIX;
+    } else if ("Macintosh".equalsIgnoreCase(value)) {
+      return LineSeparator.MACINTOSH;
+    } else if ("Windows".equalsIgnoreCase(value)) {
+      return LineSeparator.WINDOWS;
+    } else {
+      return LineSeparator.DEFAULT;
     }
   }
 
@@ -514,6 +535,8 @@ public final class SettingAdapter {
           node.setTextContent(String.valueOf(this.setting.autoComplete));
         } else if (key.equalsIgnoreCase("defaultCharEncoding")) {
           node.setTextContent(this.setting.defaultCharEncoding.getValue());
+        } else if (key.equalsIgnoreCase("defaultLineSeparator")) {
+          node.setTextContent(this.setting.defaultLineSeparator.getValue());
         }
       } else {
         if (node.getNodeName().equalsIgnoreCase("font")) {
