@@ -82,14 +82,14 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
     this.pnlMain.setLayout(null);
     this.lblTimeStamp.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
     this.cmbUnit.setBounds(10, 35, 90, Util.INPUT_HEIGHT);
-    this.txtTimeStamp.setBounds(110, 35, 160, Util.INPUT_HEIGHT);
+    this.txtTimeStamp.setBounds(110, 35, 180, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblTimeStamp);
     this.pnlMain.add(this.cmbUnit);
     this.pnlMain.add(this.txtTimeStamp);
 
     this.lblTime.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
     this.cmbTimeZone.setBounds(10, 95, 90, Util.INPUT_HEIGHT);
-    this.txtTime.setBounds(110, 95, 160, Util.INPUT_HEIGHT);
+    this.txtTime.setBounds(110, 95, 180, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblTime);
     this.pnlMain.add(this.cmbTimeZone);
     this.pnlMain.add(this.txtTime);
