@@ -43,7 +43,7 @@ import com.xiboliya.snowpad.util.Util;
  */
 public class AboutDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private int lines = 1; // 显示标签的行数
+  private static final int LINES = 10; // 显示标签的行数
   private GridLayout layout = null;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlCenter = new JPanel();
@@ -58,35 +58,10 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private LinkedList<JLabel> labelList = new LinkedList<JLabel>(); // 存放显示标签的链表
 
-  public AboutDialog(JFrame owner) {
-    this(owner, true, 1);
-  }
-
   public AboutDialog(JFrame owner, boolean modal) {
-    this(owner, modal, 1);
-  }
-
-  public AboutDialog(JFrame owner, boolean modal, int lines) {
     super(owner, modal);
-    this.checkLines(lines);
     this.init();
     this.addListeners();
-  }
-
-  public AboutDialog(JFrame owner, boolean modal, String[] arrStrLabel) {
-    this(owner, modal, arrStrLabel.length);
-    if (arrStrLabel.length > 0) {
-      for (int i = 0; i < this.lines; i++) {
-        this.labelList.get(i).setText(arrStrLabel[i]);
-      }
-    }
-  }
-
-  public AboutDialog(JFrame owner, boolean modal, String[] arrStrLabel, ImageIcon icon) {
-    this(owner, modal, arrStrLabel);
-    if (icon != null) {
-      this.lblNorth.setIcon(icon);
-    }
   }
 
   /**
@@ -102,66 +77,50 @@ public class AboutDialog extends BaseDialog implements ActionListener {
     this.pnlMain.add(this.pnlNorth, BorderLayout.NORTH);
     this.pnlMain.add(this.pnlEast, BorderLayout.EAST);
     this.pnlMain.add(this.pnlSouth, BorderLayout.SOUTH);
-    this.layout = new GridLayout(this.lines, 1);
+    this.layout = new GridLayout(LINES, 1);
     this.pnlCenter.setLayout(this.layout);
     this.initLabelList();
     this.pnlMain.add(this.pnlCenter, BorderLayout.CENTER);
+    this.lblNorth.setIcon(Util.SW_ICON);
   }
 
   /**
    * 初始化链表
    */
   private void initLabelList() {
-    for (int i = 0; i < this.lines; i++) {
-      this.appendLabelList();
+    String strGithubCode = "https://github.com/xiboliya/snowpad";
+    String strCodeCloud = "https://gitee.com/xiboliya/snowpad";
+    String strGitCode = "https://gitcode.net/chenzhengfeng/snowpad";
+    String strCoding = "https://xiboliya.coding.net/p/SnowPad/d/SnowPad/git";
+    String[] arrStrLabel = new String[] {
+        "软件名称：" + Util.SOFTWARE,
+        "软件版本：" + Util.VERSION,
+        "软件作者：冰原",
+        "作者QQ：155222113",
+        "作者邮箱：chenzhengfeng@163.com",
+        "<html>GitHub：<a href='" + strGithubCode + "'>" + strGithubCode + "</a></html>",
+        "<html>Gitee：<a href='" + strCodeCloud + "'>" + strCodeCloud + "</a></html>",
+        "<html>GitCode：<a href='" + strGitCode + "'>" + strGitCode + "</a></html>",
+        "<html>Coding：<a href='" + strCoding + "'>" + strCoding + "</a></html>",
+        "软件版权：遵循GNU GPL第三版开源许可协议的相关条款" };
+    for (int i = 0; i < LINES; i++) {
+      this.appendLabelList(arrStrLabel[i]);
     }
+    this.addLinkByIndex(5, strGithubCode);
+    this.addLinkByIndex(6, strCodeCloud);
+    this.addLinkByIndex(7, strGitCode);
+    this.addLinkByIndex(8, strCoding);
   }
 
   /**
    * 追加一个空的显示标签
    * 
-   * @return 如果追加成功则返回true，否则返回false
+   * @param strLabel 标签显示文本
    */
-  private boolean appendLabelList() {
-    if (this.labelList.size() < this.lines) {
-      JLabel lblTemp = new JLabel(" ");
-      this.labelList.add(lblTemp);
-      this.pnlCenter.add(lblTemp);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * 格式化显示标签行数
-   * 
-   * @param lines
-   *          显示标签的行数
-   * @return 经过格式化后的显示标签行数
-   */
-  private int checkLines(int lines) {
-    if (lines <= 0) {
-      this.lines = 1;
-    } else {
-      this.lines = lines;
-    }
-    return this.lines;
-  }
-
-  /**
-   * 格式化下标
-   * 
-   * @param index
-   *          下标
-   * @return 经过格式化后的下标
-   */
-  private int checkIndex(int index) {
-    if (index < 0) {
-      index = 0;
-    } else if (index >= this.labelList.size()) {
-      index = this.labelList.size() - 1;
-    }
-    return index;
+  private void appendLabelList(String strLabel) {
+    JLabel lblTemp = new JLabel(strLabel);
+    this.labelList.add(lblTemp);
+    this.pnlCenter.add(lblTemp);
   }
 
   /**
@@ -175,13 +134,11 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   /**
    * 为指定下标的标签设置链接
    * 
-   * @param index
-   *          标签的下标
-   * @param strLink
-   *          链接字符串
+   * @param index 标签的下标
+   * @param strLink 链接字符串
    */
-  public void addLinkByIndex(int index, final String strLink) {
-    if (index < 0 || index >= lines || Util.isTextEmpty(strLink)) {
+  private void addLinkByIndex(int index, final String strLink) {
+    if (index < 0 || index >= LINES || Util.isTextEmpty(strLink)) {
       return;
     }
     JLabel lblTemp = this.labelList.get(index);
@@ -209,10 +166,8 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   /**
    * 使用特定的浏览器打开链接
    * 
-   * @param index
-   *          浏览器数组的索引
-   * @param strLink
-   *          链接字符串
+   * @param index 浏览器数组的索引
+   * @param strLink 链接字符串
    */
   private void openLinkByBrowser(int index, final String strLink) {
     String[] arrBrowser = new String[] { "chrome", "firefox", "opera" };
@@ -227,29 +182,6 @@ public class AboutDialog extends BaseDialog implements ActionListener {
         // x.printStackTrace();
       }
     }
-  }
-
-  /**
-   * 为指定下标的标签设置字符串
-   * 
-   * @param index
-   *          标签的下标
-   * @param strLabel
-   *          设置的字符串
-   */
-  public void setStringByIndex(int index, String strLabel) {
-    this.labelList.get(this.checkIndex(index)).setText(strLabel);
-  }
-
-  /**
-   * 获取指定下标的标签的字符串
-   * 
-   * @param index
-   *          标签的下标
-   * @return 标签的字符串
-   */
-  public String getStringByIndex(int index) {
-    return this.labelList.get(this.checkIndex(index)).getText();
   }
 
   /**

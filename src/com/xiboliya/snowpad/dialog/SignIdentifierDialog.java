@@ -27,8 +27,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -58,6 +56,7 @@ import com.xiboliya.snowpad.util.Util;
 public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     FocusListener, ChangeListener, UndoableEditListener {
   private static final long serialVersionUID = 1L;
+  private static final String SIGN_CHARS = "﹟·※＊§¤⊙◎○●△▲▽▼◇◆□■☆★"; // 列表符号
   private static final String SIGN_CHARS_VIEW = "__________\n__________\n__________"; // 预览界面的初始化字符串
   private static final String IDENTIFIER_TIANGAN = "甲乙丙丁戊己庚辛壬癸"; // 十天干
   private static final String IDENTIFIER_DIZHI = "子丑寅卯辰巳午未申酉戌亥"; // 十二地支
@@ -98,16 +97,14 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    *          是否为模式对话框
    * @param txaSource
    *          针对操作的文本域
-   * @param hashtable
-   *          用于显示字符的哈希表。键为标签，值为该标签下的字符序列
    */
-  public SignIdentifierDialog(JFrame owner, boolean modal, JTextArea txaSource, Hashtable<String, String> hashtable) {
+  public SignIdentifierDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal, txaSource);
     this.init();
     this.setMnemonic();
     this.addListeners();
     this.setSize(330, 310);
-    this.fillTabbedPane(hashtable);
+    this.fillTabbedPane();
     this.setVisible(true);
   }
 
@@ -156,20 +153,10 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
 
   /**
    * 填充所有标签页的字符
-   * 
-   * @param hashtable
-   *          用于显示字符的哈希表。键为标签，值为该标签下的字符序列
    */
-  private void fillTabbedPane(Hashtable<String, String> hashtable) {
-    if (hashtable.isEmpty()) {
-      return;
-    }
-    Enumeration<String> enumeration = hashtable.keys();
-    while (enumeration.hasMoreElements()) {
-      String strTitle = enumeration.nextElement();
-      String strElement = hashtable.get(strTitle);
-      this.fillElements(strElement, strTitle);
-    }
+  private void fillTabbedPane() {
+    this.fillElements(Util.IDENTIFIER_CHARS, "编号");
+    this.fillElements(SIGN_CHARS, "符号");
   }
 
   /**

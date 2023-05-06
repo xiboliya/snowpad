@@ -27,8 +27,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -50,6 +48,12 @@ import com.xiboliya.snowpad.util.Util;
  */
 public class InsertCharDialog extends BaseDialog implements ActionListener, FocusListener {
   private static final long serialVersionUID = 1L;
+  private static final String INSERT_SPECIAL = "﹡＊♀♂㊣㈱卍卐℡⊕◎〓○●△▲▽▼◇◆□■☆★◢◣◤◥︳ˉ–—﹏﹋＿￣﹍﹉﹎﹊┄┆┅┇┈┊┉┋↑↓←→↖↗↙↘∥∣／＼∕﹨╳▂▃▄▅▆▇█▉▊▋▌▍▎▏▁▔▕┳┻┫┣┃━┏┓┗┛╋╱╲╮╭╯╰"; // 特殊符号
+  private static final String INSERT_PUNCTUATION = "，、。．；：？﹖?！︰∶…‥′＇｀‵＂〃～~‖ˇ﹐﹑.﹒﹔﹕¨﹗（）︵︶｛｝︷︸〔〕︹︺【】︻︼〖〗［］《》︽︾〈〉︿﹀「」﹁﹂『』﹃﹄﹙﹚﹛﹜﹝﹞‘’“”〝〞ˋˊ§々"; // 标点符号
+  private static final String INSERT_MATH = "≈≡≠＝≒≤≥≦≧＜＞≮≯±＋－×÷／∫∮∝∞∧∨∑∏∪∩∈∵∴∷⊥∥∠⌒⊙≌∽√﹢﹣﹤﹥﹦∟⊿π℅﹟＃#＆﹠&※№㏒㏑"; // 数学符号
+  private static final String INSERT_UNIT = "°′″＄￥〒￠￡％℃℉﹩$﹪‰＠﹫㏕㎜㎝㎞㏎㎡㎎㎏㏄¤"; // 单位符号
+  private static final String INSERT_DIGIT = "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇①②③④⑤⑥⑦⑧⑨⑩㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ"; // 数字符号
+  private static final String INSERT_PINYIN = "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ"; // 拼音符号
   private static final int INSERT_MAX_ROW = 10; // 插入字符界面的最大行数
   private static final int INSERT_MAX_COLUMN = 10; // 插入字符界面的最大列数
   private static final int INSERT_MAX_ELEMENT = INSERT_MAX_ROW * INSERT_MAX_COLUMN; // 插入字符界面的最大元素数
@@ -75,15 +79,13 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
    *          是否为模式对话框
    * @param txaSource
    *          针对操作的文本域
-   * @param hashtable
-   *          用于显示字符的哈希表。键为标签，值为该标签下的字符序列
    */
-  public InsertCharDialog(JFrame owner, boolean modal, JTextArea txaSource, Hashtable<String, String> hashtable) {
+  public InsertCharDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal, txaSource);
     this.init();
     this.addListeners();
     this.setSize(340, 275);
-    this.fillTabbedPane(hashtable);
+    this.fillTabbedPane();
     this.setVisible(true);
   }
 
@@ -115,20 +117,14 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
 
   /**
    * 填充所有标签页的字符
-   * 
-   * @param hashtable
-   *          用于显示字符的哈希表。键为标签，值为该标签下的字符序列
    */
-  private void fillTabbedPane(Hashtable<String, String> hashtable) {
-    if (hashtable.isEmpty()) {
-      return;
-    }
-    Enumeration<String> enumeration = hashtable.keys();
-    while (enumeration.hasMoreElements()) {
-      String strTitle = enumeration.nextElement();
-      String strElement = hashtable.get(strTitle);
-      this.fillElements(strElement, strTitle);
-    }
+  private void fillTabbedPane() {
+    this.fillElements(INSERT_SPECIAL, "特殊符号");
+    this.fillElements(INSERT_PUNCTUATION, "标点符号");
+    this.fillElements(INSERT_MATH, "数学符号");
+    this.fillElements(INSERT_UNIT, "单位符号");
+    this.fillElements(INSERT_DIGIT, "数字符号");
+    this.fillElements(INSERT_PINYIN, "拼音符号");
   }
 
   /**

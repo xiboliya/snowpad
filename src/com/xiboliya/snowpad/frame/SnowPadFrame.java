@@ -84,7 +84,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -159,12 +158,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     CaretListener, UndoableEditListener, WindowFocusListener, ChangeListener, DropTargetListener, ComponentListener {
   private static final long serialVersionUID = 1L; // 序列化运行时使用的一个版本号，以与当前可序列化类相关联
   private static final String FILE_HISTORY = "FileHistory"; // 用于标识最近编辑的文件
-  private static final String INSERT_SPECIAL = "﹡＊♀♂㊣㈱卍卐℡⊕◎〓○●△▲▽▼◇◆□■☆★◢◣◤◥︳ˉ–—﹏﹋＿￣﹍﹉﹎﹊┄┆┅┇┈┊┉┋↑↓←→↖↗↙↘∥∣／＼∕﹨╳▂▃▄▅▆▇█▉▊▋▌▍▎▏▁▔▕┳┻┫┣┃━┏┓┗┛╋╱╲╮╭╯╰"; // 特殊符号
-  private static final String INSERT_PUNCTUATION = "，、。．；：？﹖?！︰∶…‥′＇｀‵＂〃～~‖ˇ﹐﹑.﹒﹔﹕¨﹗（）︵︶｛｝︷︸〔〕︹︺【】︻︼〖〗［］《》︽︾〈〉︿﹀「」﹁﹂『』﹃﹄﹙﹚﹛﹜﹝﹞‘’“”〝〞ˋˊ§々"; // 标点符号
-  private static final String INSERT_MATH = "≈≡≠＝≒≤≥≦≧＜＞≮≯±＋－×÷／∫∮∝∞∧∨∑∏∪∩∈∵∴∷⊥∥∠⌒⊙≌∽√﹢﹣﹤﹥﹦∟⊿π℅﹟＃#＆﹠&※№㏒㏑"; // 数学符号
-  private static final String INSERT_UNIT = "°′″＄￥〒￠￡％℃℉﹩$﹪‰＠﹫㏕㎜㎝㎞㏎㎡㎎㎏㏄¤"; // 单位符号
-  private static final String INSERT_DIGIT = "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇①②③④⑤⑥⑦⑧⑨⑩㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ"; // 数字符号
-  private static final String INSERT_PINYIN = "āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜüêɑńňǹɡㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ"; // 拼音符号
   private static final String STATE_CHARS = "Chars:"; // 状态栏显示信息-文本总字符数
   private static final String STATE_LINES = "Lines:"; // 状态栏显示信息-文本总行数
   private static final String STATE_CUR_LINE = "Ln:"; // 状态栏显示信息-光标当前行号
@@ -172,7 +165,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private static final String STATE_CUR_SELECT = "Sel:"; // 状态栏显示信息-当前选择的字符数
   private static final String STATE_LINE_STYLE = "LineStyle:"; // 状态栏显示信息-当前换行符格式
   private static final String STATE_ENCODING = "Encoding:"; // 状态栏显示信息-当前编码格式
-  private static final String SIGN_CHARS = "﹟·※＊§¤⊙◎○●△▲▽▼◇◆□■☆★"; // 列表符号
   private static final String[] TOOL_TOOLTIP_TEXTS = new String[] { "新建", "打开", "保存", "另存为", "关闭", "关闭全部", "剪切", "复制", "粘贴",
       "撤销", "重做", "查找", "替换", "字体放大", "字体缩小", "后退", "前进", "自动换行", "文件树" }; // 工具栏提示信息
   private static final int FILE_HISTORY_MAX = 15; // 最近编辑文件的最大存储个数
@@ -3209,10 +3201,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openSignIdentifierDialog() {
     if (this.signIdentifierDialog == null) {
-      Hashtable<String, String> hashtable = new Hashtable<String, String>();
-      hashtable.put("符号", SIGN_CHARS);
-      hashtable.put("编号", Util.IDENTIFIER_CHARS);
-      this.signIdentifierDialog = new SignIdentifierDialog(this, true, this.txaMain, hashtable);
+      this.signIdentifierDialog = new SignIdentifierDialog(this, true, this.txaMain);
     } else {
       this.signIdentifierDialog.setTextArea(this.txaMain);
       this.signIdentifierDialog.setVisible(true);
@@ -3765,14 +3754,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openInsertCharDialog() {
     if (this.insertCharDialog == null) {
-      Hashtable<String, String> hashtable = new Hashtable<String, String>();
-      hashtable.put("特殊符号", INSERT_SPECIAL);
-      hashtable.put("标点符号", INSERT_PUNCTUATION);
-      hashtable.put("数学符号", INSERT_MATH);
-      hashtable.put("单位符号", INSERT_UNIT);
-      hashtable.put("数字符号", INSERT_DIGIT);
-      hashtable.put("拼音符号", INSERT_PINYIN);
-      this.insertCharDialog = new InsertCharDialog(this, false, this.txaMain, hashtable);
+      this.insertCharDialog = new InsertCharDialog(this, false, this.txaMain);
     } else if (!this.insertCharDialog.isVisible()) {
       this.insertCharDialog.setTextArea(this.txaMain);
       this.insertCharDialog.setVisible(true);
@@ -4704,28 +4686,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void showAbout() {
     if (this.aboutDialog == null) {
-      final String strQQ = "155222113";
-      final String strEmail = "chenzhengfeng@163.com";
-      final String strGithubCode = "https://github.com/xiboliya/snowpad";
-      final String strCodeCloud = "https://gitee.com/xiboliya/snowpad";
-      final String strGitCode = "https://gitcode.net/chenzhengfeng/snowpad";
-      final String strCoding = "https://xiboliya.coding.net/p/SnowPad/d/SnowPad/git";
-      String[] arrStrLabel = new String[] {
-          "软件名称：" + Util.SOFTWARE,
-          "软件版本：" + Util.VERSION,
-          "软件作者：冰原",
-          "作者QQ：" + strQQ,
-          "作者邮箱：" + strEmail,
-          "<html>GitHub：<a href='" + strGithubCode + "'>" + strGithubCode + "</a></html>",
-          "<html>Gitee：<a href='" + strCodeCloud + "'>" + strCodeCloud + "</a></html>",
-          "<html>GitCode：<a href='" + strGitCode + "'>" + strGitCode + "</a></html>",
-          "<html>Coding：<a href='" + strCoding + "'>" + strCoding + "</a></html>",
-          "软件版权：遵循GNU GPL第三版开源许可协议的相关条款" };
-      this.aboutDialog = new AboutDialog(this, true, arrStrLabel, Util.SW_ICON);
-      this.aboutDialog.addLinkByIndex(5, strGithubCode);
-      this.aboutDialog.addLinkByIndex(6, strCodeCloud);
-      this.aboutDialog.addLinkByIndex(7, strGitCode);
-      this.aboutDialog.addLinkByIndex(8, strCoding);
+      this.aboutDialog = new AboutDialog(this, true);
       this.aboutDialog.pack(); // 自动调整窗口大小，以适应各组件
     }
     this.aboutDialog.setVisible(true);
