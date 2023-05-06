@@ -1987,3 +1987,10 @@ src/com/xiboliya/snowpad/setting/TextAreaSetting.java（删除）
 ******************************
 git tag SnowPad-V5.2-20230420
 ******************************
+
+2023-05-06
+1.简化关于、插入特殊字符、列表符号与编号界面的初始化传参，优化逻辑。
+src/com/xiboliya/snowpad/dialog/AboutDialog.java
+src/com/xiboliya/snowpad/dialog/InsertCharDialog.java
+src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
