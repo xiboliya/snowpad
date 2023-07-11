@@ -1999,3 +1999,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 1.在“编辑”->“排序”菜单下添加“乱序”功能。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2023-07-11
+1.将“编辑”->“排序”菜单修改为：“排序行”。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
