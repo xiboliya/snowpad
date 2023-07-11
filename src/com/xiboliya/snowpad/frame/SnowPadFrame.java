@@ -313,7 +313,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemLineBatchJoin = new JMenuItem("拼接行(J)...", 'J');
   private JMenuItem itemLineBatchMerge = new JMenuItem("合并行(M)", 'M');
   private JMenuItem itemLineBatchRewrite = new JMenuItem("逐行复写(C)", 'C');
-  private JMenu menuSort = new JMenu("排序");
+  private JMenu menuSort = new JMenu("排序行");
   private JMenuItem itemSortUp = new JMenuItem("升序");
   private JMenuItem itemSortDown = new JMenuItem("降序");
   private JMenuItem itemSortReverse = new JMenuItem("反序");
@@ -3480,7 +3480,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "排序"的处理方法
+   * "排序行"的处理方法
    * 
    * @param order
    *          排序的顺序，升序为true，降序为false
