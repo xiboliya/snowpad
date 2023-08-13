@@ -2007,3 +2007,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2023-07-30
 1.在查找、替换对话框中添加“剪切结果行”功能。
 src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+
+2023-08-13
+1.扩展TipsWindow提示窗口，增加背景颜色、显示时长、显示大小的参数。
+src/com/xiboliya/snowpad/window/TipsWindow.java
