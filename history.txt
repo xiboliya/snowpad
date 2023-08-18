@@ -2011,3 +2011,10 @@ src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
 2023-08-13
 1.扩展TipsWindow提示窗口，增加背景颜色、显示时长、显示大小的参数。
 src/com/xiboliya/snowpad/window/TipsWindow.java
+
+2023-08-18
+1.优化查找逻辑，将原先的不同场景使用的2个查找方法整合为1个方法。
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/panel/SearchResultPanel.java
+src/com/xiboliya/snowpad/util/Util.java
