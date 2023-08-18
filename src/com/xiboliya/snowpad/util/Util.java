@@ -311,6 +311,8 @@ public final class Util {
    *          查找的字符串
    * @param txcSource
    *          文本组件
+   * @param caretPos
+   *          指定的起始索引
    * @param isFindDown
    *          是否向下查找
    * @param isMatchCase
@@ -321,12 +323,12 @@ public final class Util {
    *          搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
-  public static int findText(String strFindText, JTextComponent txcSource,
+  public static int findText(String strFindText, JTextComponent txcSource, int caretPos,
     boolean isFindDown, boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
     if (isFindDown) {
-      return findDownText(strFindText, txcSource, isMatchCase, isWrap, searchStyle);
+      return findDownText(strFindText, txcSource, caretPos, isMatchCase, isWrap, searchStyle);
     } else {
-      return findUpText(strFindText, txcSource, isMatchCase, isWrap, searchStyle);
+      return findUpText(strFindText, txcSource, caretPos, isMatchCase, isWrap, searchStyle);
     }
   }
 
@@ -337,6 +339,8 @@ public final class Util {
    *          查找的字符串
    * @param txcSource
    *          文本组件
+   * @param caretPos
+   *          指定的起始索引
    * @param isMatchCase
    *          是否区分大小写
    * @param isWrap
@@ -345,7 +349,7 @@ public final class Util {
    *          搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
-  private static int findDownText(String strFindText, JTextComponent txcSource,
+  private static int findDownText(String strFindText, JTextComponent txcSource, int caretPos,
       boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
     if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
       return -1;
@@ -366,7 +370,9 @@ public final class Util {
       }
       strSourceAll = strSourceAll.toLowerCase();
     }
-    int caretPos = txcSource.getCaretPosition();
+    if (caretPos < 0) {
+      caretPos = txcSource.getCaretPosition();
+    }
     String strSource = strSourceAll.substring(caretPos);
     if (searchStyle == SearchStyle.PATTERN) {
       try {
@@ -408,6 +414,8 @@ public final class Util {
    *          查找的字符串
    * @param txcSource
    *          文本组件
+   * @param caretPos
+   *          指定的起始索引
    * @param isMatchCase
    *          是否区分大小写
    * @param isWrap
@@ -416,7 +424,7 @@ public final class Util {
    *          搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
-  private static int findUpText(String strFindText, JTextComponent txcSource,
+  private static int findUpText(String strFindText, JTextComponent txcSource, int caretPos,
       boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
     if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
       return -1;
@@ -428,7 +436,9 @@ public final class Util {
       transfer_count = len1 - len2;
     }
     int result = -1;
-    int caretPos = txcSource.getCaretPosition();
+    if (caretPos < 0) {
+      caretPos = txcSource.getCaretPosition();
+    }
     String strSel = txcSource.getSelectedText();
     if (strSel != null) {
       if (!isMatchCase) {
@@ -488,71 +498,14 @@ public final class Util {
   }
 
   /**
-   * 以给定的起始索引在文本组件中查找字符串
-   * 
-   * @param strFindText
-   *          查找的字符串
-   * @param txcSource
-   *          文本组件
-   * @param caretPos
-   *          指定的起始索引
-   * @param isMatchCase
-   *          是否区分大小写
-   * @param searchStyle
-   *          搜索模式
-   * @return 查找的字符串位于文本组件中的索引
-   */
-  public static int findText(String strFindText, JTextComponent txcSource, int caretPos,
-      boolean isMatchCase, SearchStyle searchStyle) {
-    if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
-      return -1;
-    }
-    if (searchStyle == SearchStyle.TRANSFER) {
-      int len1 = strFindText.length();
-      strFindText = transfer(strFindText);
-      int len2 = strFindText.length();
-      transfer_count = len1 - len2;
-    }
-    int result = -1;
-    String strSourceAll = txcSource.getText();
-    if (!isMatchCase) {
-      if (searchStyle == SearchStyle.PATTERN) {
-        strFindText = "(?i)" + strFindText; // 正则表达式中，可用(?i)打开不区分大小写的属性
-      } else {
-        strFindText = strFindText.toLowerCase();
-      }
-      strSourceAll = strSourceAll.toLowerCase();
-    }
-    String strSource = strSourceAll.substring(caretPos);
-    if (searchStyle == SearchStyle.PATTERN) {
-      try {
-        matcher = Pattern.compile(strFindText).matcher(strSource);
-      } catch (PatternSyntaxException x) {
-        // x.printStackTrace();
-        return PATTERN_SYNTAX_ERROR_INDEX;
-      }
-      matcher_length = 0;
-      if (matcher.find()) {
-        result = caretPos + matcher.start();
-        matcher_length = matcher.end() - matcher.start();
-      }
-    } else {
-      int index = strSource.indexOf(strFindText);
-      if (index >= 0) {
-        result = caretPos + index;
-      }
-    }
-    return result;
-  }
-
-  /**
    * 根据文件开头的BOM（如果存在的话），判断文件的编码格式。 文本文件有各种不同的编码格式，如果判断有误，则会导致显示或保存错误。
-   * 为了标识文件的编码格式，便于编辑和保存，则在文件开头加入了BOM，用以标识编码格式。 UTF-8格式：0xef 0xbb 0xbf， Unicode
-   * Little Endian格式：0xff 0xfe， Unicode Big Endian格式：0xfe
-   * 0xff。而ANSI格式是没有BOM的。另有一种不含BOM的UTF-8格式的文件，则不易与ANSI相区分，因此需要进一步检测。
+   * 为了标识文件的编码格式，便于编辑和保存，则在文件开头加入了BOM，用以标识编码格式。 
+   * UTF-8格式：0xef 0xbb 0xbf。
+   * Unicode Little Endian格式：0xff 0xfe。
+   * Unicode Big Endian格式：0xfe 0xff。
+   * 而ANSI格式是没有BOM的。另有一种不含BOM的UTF-8格式的文件，则不易与ANSI相区分，因此需要进一步检测。
    * 
-   * @param file
-   *          待判断的文件
+   * @param file 待判断的文件
    */
   public static CharEncoding checkFileEncoding(File file) {
     FileInputStream fileInputStream = null;
@@ -702,7 +655,7 @@ public final class Util {
     boolean hasCtrl = false; // 是否含有Ctrl键
     boolean hasAlt = false; // 是否含有Alt键
     boolean hasShift = false; // 是否含有Shift键
-    boolean hasCommand = false; // 是否含有Shift键
+    boolean hasCommand = false; // 是否含有Command键
     String[] arrKeys = shortcut.split("\\+");
     for (String str : arrKeys) {
       if (CTRL.equalsIgnoreCase(str)) {

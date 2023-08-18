@@ -4531,7 +4531,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void quickFindText(boolean isFindDown) {
     String strFindText = this.txaMain.getSelectedText();
     if (!Util.isTextEmpty(strFindText)) {
-      int index = Util.findText(strFindText, this.txaMain, isFindDown, true,
+      int index = Util.findText(strFindText, this.txaMain, -1, isFindDown, true,
           true, SearchStyle.DEFAULT);
       if (index >= 0) {
         this.txaMain.select(index, index + strFindText.length());

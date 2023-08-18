@@ -281,7 +281,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
     }
     if (strLine.startsWith(prefixLine)) {
       int startIndex = currentLine.getStartIndex();
-      Util.findText(prefixLine + "\\d+:", this.txaMain, startIndex, true, SearchStyle.PATTERN);
+      Util.findText(prefixLine + "\\d+:", this.txaMain, startIndex, true, true, false, SearchStyle.PATTERN);
       strLine = strLine.substring(Util.matcher_length);
     }
     this.owner.setClipboardContents(strLine);
