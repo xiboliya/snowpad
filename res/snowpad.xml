@@ -14,6 +14,7 @@
   </TextArea>
   <FindReplace note="查找/替换的相关设置">
     <matchCase note="是否区分大小写">true</matchCase>
+    <matchWholeWord note="是否全词匹配">false</matchWholeWord>
     <isWrap note="是否循环查找">true</isWrap>
     <findDown note="是否向下查找">true</findDown>
     <searchStyle note="搜索模式">0</searchStyle>

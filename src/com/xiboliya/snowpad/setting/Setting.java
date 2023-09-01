@@ -48,6 +48,7 @@ public class Setting {
   public Color[] colorStyle = Util.COLOR_STYLE_DEFAULT; // 配色方案
   // 查找/替换的相关设置
   public boolean matchCase = true; // 是否区分大小写
+  public boolean matchWholeWord = false; // 是否全词匹配
   public boolean isWrap = true; // 是否循环查找
   public boolean findDown = true; // 是否向下查找
   public SearchStyle searchStyle = SearchStyle.DEFAULT; // 搜索模式

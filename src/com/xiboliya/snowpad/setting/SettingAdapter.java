@@ -303,6 +303,8 @@ public final class SettingAdapter {
           }
           if (key.equalsIgnoreCase("matchCase")) {
             this.setting.matchCase = logic;
+          } else if (key.equalsIgnoreCase("matchWholeWord")) {
+            this.setting.matchWholeWord = logic;
           } else if (key.equalsIgnoreCase("isWrap")) {
             this.setting.isWrap = logic;
           } else if (key.equalsIgnoreCase("findDown")) {
@@ -593,6 +595,8 @@ public final class SettingAdapter {
         String key = node.getParentNode().getNodeName();
         if (key.equalsIgnoreCase("matchCase")) {
           node.setTextContent(String.valueOf(this.setting.matchCase));
+        } else if (key.equalsIgnoreCase("matchWholeWord")) {
+          node.setTextContent(String.valueOf(this.setting.matchWholeWord));
         } else if (key.equalsIgnoreCase("isWrap")) {
           node.setTextContent(String.valueOf(this.setting.isWrap));
         } else if (key.equalsIgnoreCase("findDown")) {

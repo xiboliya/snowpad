@@ -317,6 +317,8 @@ public final class Util {
    *          是否向下查找
    * @param isMatchCase
    *          是否区分大小写
+   * @param isMatchWholeWord
+   *          是否全词匹配
    * @param isWrap
    *          是否循环查找
    * @param searchStyle
@@ -324,11 +326,14 @@ public final class Util {
    * @return 查找的字符串位于文本组件中的索引
    */
   public static int findText(String strFindText, JTextComponent txcSource, int caretPos,
-    boolean isFindDown, boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
+    boolean isFindDown, boolean isMatchCase, boolean isMatchWholeWord, boolean isWrap, SearchStyle searchStyle) {
+    if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
+      return -1;
+    }
     if (isFindDown) {
-      return findDownText(strFindText, txcSource, caretPos, isMatchCase, isWrap, searchStyle);
+      return findDownText(strFindText, txcSource, caretPos, isMatchCase, isMatchWholeWord, isWrap, searchStyle);
     } else {
-      return findUpText(strFindText, txcSource, caretPos, isMatchCase, isWrap, searchStyle);
+      return findUpText(strFindText, txcSource, caretPos, isMatchCase, isMatchWholeWord, isWrap, searchStyle);
     }
   }
 
@@ -343,6 +348,8 @@ public final class Util {
    *          指定的起始索引
    * @param isMatchCase
    *          是否区分大小写
+   * @param isMatchWholeWord
+   *          是否全词匹配
    * @param isWrap
    *          是否循环查找
    * @param searchStyle
@@ -350,10 +357,8 @@ public final class Util {
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findDownText(String strFindText, JTextComponent txcSource, int caretPos,
-      boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
-    if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
-      return -1;
-    }
+      boolean isMatchCase, boolean isMatchWholeWord, boolean isWrap, SearchStyle searchStyle) {
+    String strOriginalFindText = strFindText;
     if (searchStyle == SearchStyle.TRANSFER) {
       int len1 = strFindText.length();
       strFindText = transfer(strFindText);
@@ -403,6 +408,27 @@ public final class Util {
           result = strSourceAll.indexOf(strFindText);
         }
       }
+      // 进行全词匹配
+      if (isMatchWholeWord && result >= 0) {
+        if (!isMatchWholeWord(strSourceAll, result, strFindText.length())) {
+          int resultEnd = result + strFindText.length();
+          if (isWrap) {
+            if (result <= caretPos) {
+              return findDownText(strOriginalFindText, txcSource, resultEnd, isMatchCase, isMatchWholeWord, false, searchStyle);
+            } else if (resultEnd == strSourceAll.length()) {
+              return findDownText(strOriginalFindText, txcSource, 0, isMatchCase, isMatchWholeWord, false, searchStyle);
+            } else {
+              return findDownText(strOriginalFindText, txcSource, resultEnd, isMatchCase, isMatchWholeWord, true, searchStyle);
+            }
+          } else {
+            if (resultEnd == strSourceAll.length()) {
+              result = -1;
+            } else {
+              return findDownText(strOriginalFindText, txcSource, resultEnd, isMatchCase, isMatchWholeWord, false, searchStyle);
+            }
+          }
+        }
+      }
     }
     return result;
   }
@@ -418,6 +444,8 @@ public final class Util {
    *          指定的起始索引
    * @param isMatchCase
    *          是否区分大小写
+   * @param isMatchWholeWord
+   *          是否全词匹配
    * @param isWrap
    *          是否循环查找
    * @param searchStyle
@@ -425,10 +453,8 @@ public final class Util {
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findUpText(String strFindText, JTextComponent txcSource, int caretPos,
-      boolean isMatchCase, boolean isWrap, SearchStyle searchStyle) {
-    if (isTextEmpty(strFindText) || txcSource == null || isTextEmpty(txcSource.getText())) {
-      return -1;
-    }
+      boolean isMatchCase, boolean isMatchWholeWord, boolean isWrap, SearchStyle searchStyle) {
+    String strOriginalFindText = strFindText;
     if (searchStyle == SearchStyle.TRANSFER) {
       int len1 = strFindText.length();
       strFindText = transfer(strFindText);
@@ -438,24 +464,24 @@ public final class Util {
     int result = -1;
     if (caretPos < 0) {
       caretPos = txcSource.getCaretPosition();
-    }
-    String strSel = txcSource.getSelectedText();
-    if (strSel != null) {
-      if (!isMatchCase) {
-        if (searchStyle == SearchStyle.PATTERN) {
-          if (strSel.matches("(?i)" + strFindText)) { // 正则表达式中，可用(?i)打开不区分大小写的属性
+      String strSel = txcSource.getSelectedText();
+      if (strSel != null) {
+        if (!isMatchCase) {
+          if (searchStyle == SearchStyle.PATTERN) {
+            if (strSel.matches("(?i)" + strFindText)) { // 正则表达式中，可用(?i)打开不区分大小写的属性
+              caretPos -= strSel.length();
+            }
+          } else if (strSel.equalsIgnoreCase(strFindText)) {
             caretPos -= strSel.length();
           }
-        } else if (strSel.equalsIgnoreCase(strFindText)) {
-          caretPos -= strSel.length();
-        }
-      } else {
-        if (searchStyle == SearchStyle.PATTERN) {
-          if (strSel.matches(strFindText)) {
+        } else {
+          if (searchStyle == SearchStyle.PATTERN) {
+            if (strSel.matches(strFindText)) {
+              caretPos -= strSel.length();
+            }
+          } else if (strSel.equals(strFindText)) {
             caretPos -= strSel.length();
           }
-        } else if (strSel.equals(strFindText)) {
-          caretPos -= strSel.length();
         }
       }
     }
@@ -493,8 +519,76 @@ public final class Util {
       if (result < 0 && isWrap) {
         result = strSourceAll.lastIndexOf(strFindText);
       }
+      // 进行全词匹配
+      if (isMatchWholeWord && result >= 0) {
+        if (!isMatchWholeWord(strSourceAll, result, strFindText.length())) {
+          if (isWrap) {
+            if (result >= caretPos) {
+              return findUpText(strOriginalFindText, txcSource, result, isMatchCase, isMatchWholeWord, false, searchStyle);
+            } else if (result == 0) {
+              return findUpText(strOriginalFindText, txcSource, strSourceAll.length(), isMatchCase, isMatchWholeWord, false, searchStyle);
+            } else {
+              return findUpText(strOriginalFindText, txcSource, result, isMatchCase, isMatchWholeWord, true, searchStyle);
+            }
+          } else {
+            if (result == 0) {
+              result = -1;
+            } else {
+              return findUpText(strOriginalFindText, txcSource, result, isMatchCase, isMatchWholeWord, false, searchStyle);
+            }
+          }
+        }
+      }
     }
     return result;
+  }
+
+  /**
+   * 是否满足全词匹配条件
+   * 
+   * @param strSourceAll 查找的所有文本
+   * @param result 当前查找到的字符串起始索引
+   * @param findTextLength 查找的字符串实际长度
+   * @return 是否满足全词匹配条件，满足条件返回true，反之返回false
+   */
+  public static boolean isMatchWholeWord(String strSourceAll, int result, int findTextLength) {
+    if (result < 0) {
+      return false;
+    }
+    boolean isStartBlank = false;
+    boolean isEndBlank = false;
+    if (result == 0) {
+      isStartBlank = true;
+    } else {
+      char character = strSourceAll.charAt(result - 1);
+      switch (character) {
+        case ' ':
+        case '\t':
+        case '\n':
+          isStartBlank = true;
+          break;
+        default:
+          break;
+      }
+    }
+    int resultEnd = result + findTextLength;
+    if (isStartBlank) {
+      if (resultEnd == strSourceAll.length()) {
+        isEndBlank = true;
+      } else {
+        char character = strSourceAll.charAt(resultEnd);
+        switch (character) {
+          case ' ':
+          case '\t':
+          case '\n':
+            isEndBlank = true;
+            break;
+          default:
+            break;
+        }
+      }
+    }
+    return isStartBlank && isEndBlank;
   }
 
   /**
