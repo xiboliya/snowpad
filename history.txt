@@ -2018,3 +2018,13 @@ src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/panel/SearchResultPanel.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2023-09-01
+1.在查找、替换对话框中添加“全词匹配”功能。
+res/snowpad.xml
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/panel/SearchResultPanel.java
+src/com/xiboliya/snowpad/setting/Setting.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/util/Util.java
