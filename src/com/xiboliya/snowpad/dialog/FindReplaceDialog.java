@@ -98,6 +98,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private JButton btnSearchInFileF = new JButton("文件中查找(I)");
   private JButton btnCopyResultLinesF = new JButton("复制结果行(L)");
   private JButton btnCutResultLinesF = new JButton("剪切结果行(X)");
+  private JButton btnDelResultLinesF = new JButton("删除结果行(M)");
   private JButton btnCancelF = new JButton("取消");
   private ButtonGroup bgpSearchStyleF = new ButtonGroup();
   private ButtonGroup bgpFindUpDownF = new ButtonGroup();
@@ -137,7 +138,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.initView();
     this.setMnemonic();
     this.addListeners();
-    this.setSize(400, 315);
+    this.setSize(400, 350);
     this.setVisible(visible);
   }
 
@@ -175,19 +176,22 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnSearchInFileF.setEnabled(false);
     this.btnCopyResultLinesF.setEnabled(false);
     this.btnCutResultLinesF.setEnabled(false);
+    this.btnDelResultLinesF.setEnabled(false);
     this.btnFindF.setBounds(270, 10, 110, Util.BUTTON_HEIGHT);
     this.btnCountAllF.setBounds(270, 45, 110, Util.BUTTON_HEIGHT);
     this.btnCountSelF.setBounds(270, 80, 110, Util.BUTTON_HEIGHT);
     this.btnSearchInFileF.setBounds(270, 115, 110, Util.BUTTON_HEIGHT);
     this.btnCopyResultLinesF.setBounds(270, 150, 110, Util.BUTTON_HEIGHT);
     this.btnCutResultLinesF.setBounds(270, 185, 110, Util.BUTTON_HEIGHT);
-    this.btnCancelF.setBounds(270, 220, 110, Util.BUTTON_HEIGHT);
+    this.btnDelResultLinesF.setBounds(270, 220, 110, Util.BUTTON_HEIGHT);
+    this.btnCancelF.setBounds(270, 255, 110, Util.BUTTON_HEIGHT);
     this.pnlFind.add(this.btnFindF);
     this.pnlFind.add(this.btnCountAllF);
     this.pnlFind.add(this.btnCountSelF);
     this.pnlFind.add(this.btnSearchInFileF);
     this.pnlFind.add(this.btnCopyResultLinesF);
     this.pnlFind.add(this.btnCutResultLinesF);
+    this.pnlFind.add(this.btnDelResultLinesF);
     this.pnlFind.add(this.btnCancelF);
     this.bgpSearchStyleF.add(this.radDefaultF);
     this.bgpSearchStyleF.add(this.radTransferF);
@@ -401,6 +405,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnSearchInFileF.setMnemonic('I');
     this.btnCopyResultLinesF.setMnemonic('L');
     this.btnCutResultLinesF.setMnemonic('X');
+    this.btnDelResultLinesF.setMnemonic('M');
     this.radFindUpF.setMnemonic('U');
     this.radFindDownF.setMnemonic('D');
     // 替换
@@ -431,6 +436,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnSearchInFileF.addActionListener(this);
     this.btnCopyResultLinesF.addActionListener(this);
     this.btnCutResultLinesF.addActionListener(this);
+    this.btnDelResultLinesF.addActionListener(this);
     this.btnCancelF.addActionListener(this);
     this.radFindDownF.addActionListener(this);
     this.radFindUpF.addActionListener(this);
@@ -456,6 +462,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnSearchInFileF.addKeyListener(this.buttonKeyAdapter);
     this.btnCopyResultLinesF.addKeyListener(this.buttonKeyAdapter);
     this.btnCutResultLinesF.addKeyListener(this.buttonKeyAdapter);
+    this.btnDelResultLinesF.addKeyListener(this.buttonKeyAdapter);
     // 替换
     this.txtFindTextR.addCaretListener(this);
     this.btnFindR.addActionListener(this);
@@ -510,6 +517,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       this.copyResultLines();
     } else if (this.btnCutResultLinesF.equals(source)) {
       this.cutResultLines();
+    } else if (this.btnDelResultLinesF.equals(source)) {
+      this.delResultLines();
     } else if (this.chkMatchCaseF.equals(source)) {
       this.setting.matchCase = this.isMatchCase = this.chkMatchCaseF.isSelected();
       this.chkMatchCaseR.setSelected(this.isMatchCase);
@@ -1000,7 +1009,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       String strSource = this.txaSource.getText();
       StringBuilder stbResult = new StringBuilder(); // 结果字符串
       int lineNumUsed = -1; // 最近一次使用的行号
-      int times = 0; // 复制的行数
+      int times = 0; // 剪切的行数
       // 行号集合
       LinkedList<Integer> listLineNum = new LinkedList<Integer>();
       try {
@@ -1034,6 +1043,73 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         }
         this.txaSource.setText(stbResult.toString());
         TipsWindow.show(this, "共剪切 " + times + " 行。");
+      } catch (BadLocationException x) {
+         x.printStackTrace();
+      }
+    }
+  }
+
+  /**
+   * “删除结果行”的处理方法
+   */
+  private void delResultLines() {
+    LinkedList<SearchBean> listIndex = new LinkedList<SearchBean>();
+    int index = 0;
+    if (!Util.isTextEmpty(this.strFind)) {
+      while (index >= 0) {
+        index = Util.findText(this.strFind, this.txaSource, index,
+            true, this.isMatchCase, this.isMatchWholeWord, false, this.searchStyle);
+        if (index >= 0) {
+          SearchBean searchBean = new SearchBean();
+          searchBean.setStart(index);
+          if (this.searchStyle == SearchStyle.PATTERN) {
+            index = index + Util.matcher_length;
+          } else if (this.searchStyle == SearchStyle.TRANSFER) {
+            index = index + this.strFind.length() - Util.transfer_count;
+          } else {
+            index = index + this.strFind.length();
+          }
+          searchBean.setEnd(index);
+          listIndex.add(searchBean);
+        }
+      }
+    }
+    if (listIndex.isEmpty()) {
+      if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
+        TipsWindow.show(this, "正则表达式语法错误，请修改！");
+      } else {
+        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      }
+    } else {
+      int lineNumUsed = -1; // 最近一次使用的行号
+      int times = 0; // 删除的行数
+      // 行号集合
+      LinkedList<Integer> listLineNum = new LinkedList<Integer>();
+      try {
+        for (SearchBean searchBean : listIndex) {
+          int lineNumStart = this.txaSource.getLineOfOffset(searchBean.getStart());
+          if (lineNumUsed >= lineNumStart) {
+            continue;
+          }
+          int lineNumEnd = this.txaSource.getLineOfOffset(searchBean.getEnd());
+          lineNumUsed = lineNumEnd;
+          int size = lineNumEnd - lineNumStart;
+          StringBuilder stbLine = new StringBuilder();
+          for (int i = 0; i <= size; i++) {
+            times++;
+            if (!listLineNum.contains(lineNumStart + i)) {
+              listLineNum.add(lineNumStart + i);
+            }
+          }
+        }
+        Collections.sort(listLineNum);
+        StringBuilder stbResult = new StringBuilder(this.txaSource.getText());
+        int size = listLineNum.size();
+        for (int i = size - 1; i >= 0; i--) {
+          stbResult.delete(this.txaSource.getLineStartOffset(listLineNum.get(i)), this.txaSource.getLineEndOffset(listLineNum.get(i)));
+        }
+        this.txaSource.setText(stbResult.toString());
+        TipsWindow.show(this, "共删除 " + times + " 行。");
       } catch (BadLocationException x) {
          x.printStackTrace();
       }
@@ -1075,12 +1151,14 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         this.btnSearchInFileF.setEnabled(false);
         this.btnCopyResultLinesF.setEnabled(false);
         this.btnCutResultLinesF.setEnabled(false);
+        this.btnDelResultLinesF.setEnabled(false);
       } else {
         this.btnFindF.setEnabled(true);
         this.btnCountAllF.setEnabled(true);
         this.btnSearchInFileF.setEnabled(true);
         this.btnCopyResultLinesF.setEnabled(true);
         this.btnCutResultLinesF.setEnabled(true);
+        this.btnDelResultLinesF.setEnabled(true);
       }
     } else if (this.txtFindTextR.equals(source)) { // 替换
       this.strFind = this.txtFindTextR.getText();
