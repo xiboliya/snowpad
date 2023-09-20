@@ -599,7 +599,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             this.txaMain.setFrozen(bean.getFrozen());
             this.itemFrozenFile.setSelected(bean.getFrozen());
             this.itemPopFrozenFile.setSelected(bean.getFrozen());
-            this.setAfterOpenFile(Util.DEFAULT_CARET_INDEX);
+            this.setAfterOpenFile(Util.checkCaretPosition(this.txaMain, bean.getCaretIndex()));
             this.setFileNameAndPath(file);
           }
         }
@@ -3893,7 +3893,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.fileHistoryList.remove(index);
         this.menuFileHistory.remove(index);
       }
-      this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen()));
+      this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getCaretPosition()));
       this.menuFileHistory.add(itemFile);
       this.setFileHistoryMenuEnabled();
     }
@@ -4715,7 +4715,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (file != null && file.exists()) {
         try {
           String strFile = file.getCanonicalPath();
-          this.setting.fileHistoryList.add(new FileHistoryBean(strFile, textArea.getFrozen()));
+          this.setting.fileHistoryList.add(new FileHistoryBean(strFile, textArea.getFrozen(), textArea.getCaretPosition()));
         } catch (Exception x) {
           // x.printStackTrace();
         }

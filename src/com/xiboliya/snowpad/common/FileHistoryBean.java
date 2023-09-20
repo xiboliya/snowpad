@@ -26,6 +26,7 @@ package com.xiboliya.snowpad.common;
 public class FileHistoryBean {
   private String fileName = null;
   private boolean isFrozen = false;
+  private int caretIndex = 0;
 
   /**
    * 构造方法
@@ -40,10 +41,13 @@ public class FileHistoryBean {
    *          文件名
    * @param isFrozen
    *          是否冻结文件
+   * @param caretIndex
+   *          光标位置
    */
-  public FileHistoryBean(String fileName, boolean isFrozen) {
+  public FileHistoryBean(String fileName, boolean isFrozen, int caretIndex) {
     this.setFileName(fileName);
     this.setFrozen(isFrozen);
+    this.setCaretIndex(caretIndex);
   }
 
   /**
@@ -65,6 +69,15 @@ public class FileHistoryBean {
   }
 
   /**
+   * 获取光标位置
+   * 
+   * @return 光标位置
+   */
+  public int getCaretIndex() {
+    return this.caretIndex;
+  }
+
+  /**
    * 设置文件名
    * 
    * @param fileName
@@ -82,5 +95,15 @@ public class FileHistoryBean {
    */
   public void setFrozen(boolean isFrozen) {
     this.isFrozen = isFrozen;
+  }
+
+  /**
+   * 设置光标位置
+   * 
+   * @param caretIndex
+   *          光标位置
+   */
+  public void setCaretIndex(int caretIndex) {
+    this.caretIndex = caretIndex;
   }
 }

@@ -189,13 +189,11 @@ public final class Util {
    * @return 处理过的插入点位置
    */
   public static int checkCaretPosition(JTextArea txaSource, int index) {
-    if (txaSource == null) {
+    if (txaSource == null || index < 0) {
       return DEFAULT_CARET_INDEX;
     }
     int totalIndex = txaSource.getText().length();
-    if (index < 0) {
-      index = 0;
-    } else if (index > totalIndex) {
+    if (index > totalIndex) {
       index = totalIndex;
     }
     return index;

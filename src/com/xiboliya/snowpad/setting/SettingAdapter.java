@@ -426,8 +426,6 @@ public final class SettingAdapter {
         String value = node.getTextContent().trim();
         if (!Util.isTextEmpty(value)) {
           if (key.equalsIgnoreCase("file")) {
-            String strFrozen = ((Element) node.getParentNode()).getAttribute("isFrozen");
-            boolean isFrozen = "true".equalsIgnoreCase(strFrozen);
             boolean isExist = false;
             for (FileHistoryBean bean : this.setting.fileHistoryList) {
               if (value.equals(bean.getFileName())) {
@@ -436,7 +434,16 @@ public final class SettingAdapter {
               }
             }
             if (!isExist) {
-              this.setting.fileHistoryList.add(new FileHistoryBean(value, isFrozen));
+              String strFrozen = ((Element) node.getParentNode()).getAttribute("isFrozen");
+              String strCaretIndex = ((Element) node.getParentNode()).getAttribute("caretIndex");
+              boolean isFrozen = "true".equalsIgnoreCase(strFrozen);
+              int caretIndex = Util.DEFAULT_CARET_INDEX;
+              try {
+                caretIndex = Integer.parseInt(strCaretIndex);
+              } catch (NumberFormatException x) {
+                // x.printStackTrace();
+              }
+              this.setting.fileHistoryList.add(new FileHistoryBean(value, isFrozen, caretIndex));
             }
           }
         }
@@ -693,6 +700,7 @@ public final class SettingAdapter {
       e = document.createElement("file");
       e.setTextContent(bean.getFileName());
       e.setAttribute("isFrozen", String.valueOf(bean.getFrozen()));
+      e.setAttribute("caretIndex", String.valueOf(bean.getCaretIndex()));
       nodeList.item(0).appendChild(e);
     }
     nodeList.item(0).appendChild(document.createTextNode("\n  "));
