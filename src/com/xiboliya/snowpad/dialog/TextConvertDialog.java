@@ -23,7 +23,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -35,6 +34,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextAreaSpecial;
@@ -83,8 +83,8 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   private JComboBox<String> cmbLineSeparator = new JComboBox<String>(LINE_SEPARATOR_NAMES);
   private JCheckBox chkAddBom = new JCheckBox("添加BOM", false);
   private JCheckBox chkUpperCase = new JCheckBox("结果大写(U)", false);
-  private JButton btnCopy = new JButton("复制结果(C)");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnCopy = new BaseButton("复制结果(C)");
+  private BaseButton btnCancel = new BaseButton("取消");
 
   public TextConvertDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal, txaSource);

@@ -20,7 +20,6 @@ package com.xiboliya.snowpad.dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -30,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.setting.Setting;
@@ -68,8 +68,8 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   private JCheckBox chkShift = new JCheckBox(Util.SHIFT);
   private JCheckBox chkCommand = new JCheckBox(Util.COMMAND);
   private JComboBox<String> cmbShortcuts = null;
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private boolean isOk = false; // 用于标识是否点击了确定按钮
   private String keyName = ""; // 功能名称
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);

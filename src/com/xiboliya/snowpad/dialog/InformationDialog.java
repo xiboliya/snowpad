@@ -20,16 +20,17 @@ package com.xiboliya.snowpad.dialog;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
@@ -62,7 +63,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   private GridBagConstraints gbc = new GridBagConstraints(); // 网格袋布局类布置组件的约束
   private JTextArea txaFile = new JTextArea();
   private JTextArea txaDoc = new JTextArea();
-  private JButton btnOk = new JButton(" 确定 ");
+  private BaseButton btnOk = new BaseButton(" 确定 ");
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
@@ -106,6 +107,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
     this.pnlCenter.setLayout(this.gblMain);
     this.pnlCenter.add(this.txaDoc);
     this.pnlMain.add(this.pnlCenter, BorderLayout.CENTER);
+    this.btnOk.setMargin(new Insets(3, 15, 3, 15));
     this.pnlSouth.add(this.btnOk);
     this.pnlMain.add(this.pnlSouth, BorderLayout.SOUTH);
 

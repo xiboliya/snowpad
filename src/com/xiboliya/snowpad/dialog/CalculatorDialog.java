@@ -19,7 +19,6 @@ package com.xiboliya.snowpad.dialog;
 
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -28,11 +27,11 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -53,7 +52,6 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseTextField txtView = new BaseTextField();
   private JPanel pnlButton = new JPanel(new GridLayout(5, 4, 5, 5));
-  private Insets insets = new Insets(0, 0, 0, 0);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private LinkedList<String> list = new LinkedList<String>();
 
@@ -92,10 +90,9 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   private void fillGridLayout() {
     for (int i = 0; i < CALCULATOR_ITEM.length(); i++) {
       char item = CALCULATOR_ITEM.charAt(i);
-      JButton btnItem = new JButton(String.valueOf(item));
+      BaseButton btnItem = new BaseButton(String.valueOf(item));
       btnItem.setActionCommand(String.valueOf(item));
       btnItem.setFont(CALCULATOR_ITEM_FONT);
-      btnItem.setMargin(this.insets);
       btnItem.setFocusable(false);
       btnItem.addActionListener(this);
       btnItem.addKeyListener(this.buttonKeyAdapter);

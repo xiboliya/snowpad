@@ -20,7 +20,6 @@ package com.xiboliya.snowpad.panel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -28,7 +27,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -41,6 +39,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import java.util.LinkedList;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.common.CurrentLine;
 import com.xiboliya.snowpad.common.SearchBean;
@@ -61,7 +60,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // 关闭图标
   private LinkedList<SearchResult> searchResults = new LinkedList<SearchResult>();
   private JLabel lblTitleText = new JLabel("查找结果");
-  private JButton btnTitleClose = new JButton();
+  private BaseButton btnTitleClose = new BaseButton();
   private BaseTextArea txaMain = new BaseTextArea();
   private JScrollPane srpMain = new JScrollPane(this.txaMain);
   private JPanel pnlTitle = new JPanel();
@@ -87,7 +86,6 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
     this.setLayout(this.layout);
     this.pnlTitle.setLayout(this.layoutTitle);
     this.pnlTitle.setBorder(new EmptyBorder(0, 5, 0, 0));
-    this.btnTitleClose.setMargin(new Insets(0, 0, 0, 0));
     this.btnTitleClose.setIcon(CLOSE_ICON);
     this.btnTitleClose.setFocusable(false);
     this.btnTitleClose.setToolTipText("关闭");

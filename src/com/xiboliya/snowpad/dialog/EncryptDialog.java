@@ -27,7 +27,6 @@ import java.security.MessageDigest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigInteger;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -42,6 +41,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextAreaSpecial;
@@ -75,7 +75,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   private JPanel pnlFile = new JPanel();
   private JLabel lblPathF = new JLabel("输入文件路径：");
   private BaseTextField txtPathF = new BaseTextField();
-  private JButton btnSelectFileF = new JButton("选择文件(S)");
+  private BaseButton btnSelectFileF = new BaseButton("选择文件(S)");
 
   private JPanel pnlBottom = new JPanel();
   private JLabel lblDigestType = new JLabel("加密类型：");
@@ -84,8 +84,8 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   private BaseTextAreaSpecial txaEncrypt = new BaseTextAreaSpecial();
   private JScrollPane srpEncrypt = new JScrollPane(this.txaEncrypt);
   private JCheckBox chkUpperCase = new JCheckBox("结果大写(U)", false);
-  private JButton btnCopy = new JButton("复制结果(C)");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnCopy = new BaseButton("复制结果(C)");
+  private BaseButton btnCancel = new BaseButton("取消");
 
   public EncryptDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal, txaSource);

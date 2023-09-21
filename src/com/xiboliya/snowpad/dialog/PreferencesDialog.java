@@ -18,17 +18,18 @@
 package com.xiboliya.snowpad.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.common.CharEncoding;
@@ -70,7 +71,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private JComboBox<String> cmbLineSeparator = new JComboBox<String>(LINE_SEPARATOR_VALUES);
   // 主界面
   private JPanel pnlBottom = new JPanel();
-  private JButton btnCancel = new JButton("关闭");
+  private BaseButton btnCancel = new BaseButton("关闭");
 
   public PreferencesDialog(JFrame owner, boolean modal, Setting setting) {
     super(owner, modal);
@@ -103,7 +104,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.pnlMain.add(this.tpnMain, BorderLayout.CENTER);
     this.tpnMain.setSelectedIndex(0);
     this.tpnMain.setFocusable(false);
-    this.btnCancel.setSize(100, Util.BUTTON_HEIGHT);
+    this.btnCancel.setMargin(new Insets(3, 15, 3, 15));
     this.pnlBottom.add(this.btnCancel);
     this.pnlMain.add(this.pnlBottom, BorderLayout.SOUTH);
   }

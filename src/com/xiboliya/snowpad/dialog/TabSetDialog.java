@@ -19,13 +19,13 @@ package com.xiboliya.snowpad.dialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
@@ -45,8 +45,8 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   private JLabel lblTabSize = new JLabel("Tab键所占字符数：");
   private BaseTextField txtTabSize = new BaseTextField(true, "\\d{0,2}"); // 限制用户只能输入数字，并且不能超过2位
   private JCheckBox chkReplaceBySpace = new JCheckBox("以空格代替Tab键(R)", false);
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数

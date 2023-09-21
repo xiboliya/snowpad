@@ -23,7 +23,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,6 +33,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
@@ -54,8 +54,8 @@ public class BookmarkPreviewDialog extends BaseDialog implements ActionListener,
   private JLabel lblMain = new JLabel("书签行：");
   private BaseTextArea txaMain = new BaseTextArea();
   private JScrollPane srpMain = new JScrollPane(this.txaMain);
-  private JButton btnOk = new JButton("跳转");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("跳转");
+  private BaseButton btnCancel = new BaseButton("取消");
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);

@@ -17,14 +17,12 @@
 
 package com.xiboliya.snowpad.dialog;
 
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,6 +34,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -57,20 +56,19 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   private SaveFileChooser saveFileChooser = null; // "保存"文件选择器
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblSourcePath = new JLabel("源文件路径：");
-  private JButton btnAddSource = new JButton("+");
-  private JButton btnReduceSource = new JButton("-");
-  private JButton btnUpSource = new JButton("↑");
-  private JButton btnDownSource = new JButton("↓");
+  private BaseButton btnAddSource = new BaseButton("+");
+  private BaseButton btnReduceSource = new BaseButton("-");
+  private BaseButton btnUpSource = new BaseButton("↑");
+  private BaseButton btnDownSource = new BaseButton("↓");
   private JList<String> listPath = new JList<String>();
   private JScrollPane srpPath = new JScrollPane(this.listPath);
   private JLabel lblTargetPath = new JLabel("保存文件路径：");
   private BaseTextField txtTargetPath = new BaseTextField();
-  private JButton btnTargetPath = new JButton("...");
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnTargetPath = new BaseButton("...");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private Insets insets = new Insets(0, 0, 0, 0);
   private DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
 
   public MergeFileDialog(JFrame owner, boolean modal) {
@@ -90,16 +88,12 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     this.pnlMain.setLayout(null);
     this.lblSourcePath.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
     this.srpPath.setBounds(10, 35, 270, 135);
-    this.btnAddSource.setMargin(this.insets);
     this.btnAddSource.setBounds(290, 35, 30, 30);
     this.btnAddSource.setToolTipText("添加文件");
-    this.btnReduceSource.setMargin(this.insets);
     this.btnReduceSource.setBounds(290, 70, 30, 30);
     this.btnReduceSource.setToolTipText("移除文件");
-    this.btnUpSource.setMargin(this.insets);
     this.btnUpSource.setBounds(290, 105, 30, 30);
     this.btnUpSource.setToolTipText("上移文件");
-    this.btnDownSource.setMargin(this.insets);
     this.btnDownSource.setBounds(290, 140, 30, 30);
     this.btnDownSource.setToolTipText("下移文件");
     this.pnlMain.add(this.lblSourcePath);
@@ -110,7 +104,6 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     this.pnlMain.add(this.srpPath);
     this.lblTargetPath.setBounds(10, 180, 110, Util.VIEW_HEIGHT);
     this.txtTargetPath.setBounds(10, 207, 270, Util.INPUT_HEIGHT);
-    this.btnTargetPath.setMargin(this.insets);
     this.btnTargetPath.setBounds(290, 203, 30, 30);
     this.btnTargetPath.setToolTipText("保存文件");
     this.pnlMain.add(this.lblTargetPath);

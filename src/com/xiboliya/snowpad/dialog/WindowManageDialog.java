@@ -23,7 +23,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.Vector;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,6 +35,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseDefaultTableModel;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
@@ -58,13 +58,13 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   private JPanel pnlRight = new JPanel(null);
   private JTable tabMain = null; // 显示数据的表格组件
   private JScrollPane spnMain = null;
-  private JButton btnOk = new JButton("激活");
-  private JButton btnSave = new JButton("保存");
-  private JButton btnClose = new JButton("关闭");
-  private JButton btnSort = new JButton("排序");
-  private JButton btnMoveUp = new JButton("上移");
-  private JButton btnMoveDown = new JButton("下移");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("激活");
+  private BaseButton btnSave = new BaseButton("保存");
+  private BaseButton btnClose = new BaseButton("关闭");
+  private BaseButton btnSort = new BaseButton("排序");
+  private BaseButton btnMoveUp = new BaseButton("上移");
+  private BaseButton btnMoveDown = new BaseButton("下移");
+  private BaseButton btnCancel = new BaseButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Vector<Vector<String>> cells = new Vector<Vector<String>>();

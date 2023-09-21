@@ -19,13 +19,13 @@ package com.xiboliya.snowpad.dialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
@@ -43,7 +43,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   private Setting setting = null; // 软件参数配置类
   private JCheckBox chkEnable = new JCheckBox("开启自动完成(E)", false);
   private JTextArea txaView = new JTextArea();
-  private JButton btnClose = new JButton("关闭");
+  private BaseButton btnClose = new BaseButton("关闭");
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);

@@ -27,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -63,8 +63,8 @@ public class TrigonometricDialog extends BaseDialog implements ActionListener, C
   private JLabel lblTrigonometric = new JLabel("三角函数：");
   private JComboBox<String> cmbTrigonometric = new JComboBox<String>();
   private BaseTextField txtResult = new BaseTextField();
-  private JButton btnCopy = new JButton("复制结果(C)");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnCopy = new BaseButton("复制结果(C)");
+  private BaseButton btnCancel = new BaseButton("取消");
 
   public TrigonometricDialog(JFrame owner, boolean modal) {
     super(owner, modal);

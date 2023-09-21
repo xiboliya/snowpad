@@ -22,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -36,6 +35,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -63,8 +63,8 @@ public class FontDialog extends BaseDialog implements ActionListener,
   private JScrollPane srpFont = new JScrollPane(this.listFont);
   private JScrollPane srpStyle = new JScrollPane(this.listStyle);
   private JScrollPane srpSize = new JScrollPane(this.listSize);
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);

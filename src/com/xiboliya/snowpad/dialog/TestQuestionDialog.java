@@ -23,7 +23,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Collections;
 import java.util.LinkedList;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -77,8 +77,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   private BaseTextField txtCountS = new BaseTextField(true, "\\d*");
   // 按钮
   private JPanel pnlBottom = new JPanel();
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private LinkedList<String> testList = new LinkedList<String>(); // 存放题目的链表
 
@@ -147,7 +147,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     this.tpnMain.add(this.pnlCommon, "标准");
     this.tpnMain.add(this.pnlSpecial, "专项");
     this.pnlMain.add(this.tpnMain);
-    
+
     // 按钮
     this.pnlBottom.setLayout(null);
     this.pnlBottom.setBounds(0, 195, 280, 85);

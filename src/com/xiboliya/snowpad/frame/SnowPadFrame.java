@@ -21,7 +21,6 @@ import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -89,6 +88,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.chooser.SaveFileChooser;
@@ -971,7 +971,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         btnTool = new JToggleButton(TOOL_DISABLE_ICONS[i]);
         btnTool.setSelectedIcon(TOOL_ENABLE_ICONS[i]);
       } else {
-        btnTool = new JButton(TOOL_ENABLE_ICONS[i]);
+        btnTool = new BaseButton(TOOL_ENABLE_ICONS[i]);
         btnTool.setDisabledIcon(TOOL_DISABLE_ICONS[i]);
       }
       btnTool.setToolTipText(TOOL_TOOLTIP_TEXTS[i]);

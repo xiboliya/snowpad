@@ -25,7 +25,6 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -40,6 +39,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -69,8 +69,8 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   private JLabel lblWarning = new JLabel("");
   private BaseTextField txtUser = new BaseTextField(DATE_STYLES[0]);
   private JLabel lblView = new JLabel("");
-  private JButton btnOk = new JButton("插入");
-  private JButton btnCancel = new JButton("关闭");
+  private BaseButton btnOk = new BaseButton("插入");
+  private BaseButton btnCancel = new BaseButton("关闭");
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);

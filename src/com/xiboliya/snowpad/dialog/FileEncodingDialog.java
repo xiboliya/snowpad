@@ -19,12 +19,12 @@ package com.xiboliya.snowpad.dialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.common.CharEncoding;
@@ -45,8 +45,8 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblEncoding = new JLabel("文件编码格式：");
   private JComboBox<String> cmbEncoding = new JComboBox<String>(FILE_ENCODINGS);
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private CharEncoding charEncoding = null;
   private boolean isOk = false;
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);

@@ -17,7 +17,6 @@
 
 package com.xiboliya.snowpad.dialog;
 
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -26,7 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,6 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
@@ -74,11 +73,10 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private JRadioButton radCurrentFile = new JRadioButton("拆分当前文件", true);
   private JRadioButton radTargetFile = new JRadioButton("拆分指定文件：", false);
   private BaseTextField txtTargetFile = new BaseTextField();
-  private JButton btnSelectFile = new JButton("...");
+  private BaseButton btnSelectFile = new BaseButton("...");
   private ButtonGroup bgpFile = new ButtonGroup();
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
-  private Insets insets = new Insets(0, 0, 0, 0);
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
@@ -116,7 +114,6 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     this.radCurrentFile.setBounds(10, 10, 115, Util.VIEW_HEIGHT);
     this.radTargetFile.setBounds(10, 42, 115, Util.VIEW_HEIGHT);
     this.txtTargetFile.setBounds(125, 40, 230, Util.INPUT_HEIGHT);
-    this.btnSelectFile.setMargin(this.insets);
     this.btnSelectFile.setBounds(370, 40, 25, 25);
     this.pnlBottom.add(this.radCurrentFile);
     this.pnlBottom.add(this.radTargetFile);

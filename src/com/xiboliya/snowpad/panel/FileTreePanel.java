@@ -19,7 +19,6 @@ package com.xiboliya.snowpad.panel;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -37,7 +36,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -48,6 +46,7 @@ import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseComparator;
 import com.xiboliya.snowpad.base.BaseTreeCellRenderer;
 import com.xiboliya.snowpad.base.BaseTreeNode;
@@ -66,8 +65,8 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // 关闭图标
   private SnowPadFrame owner;
   private JLabel lblTitleText = new JLabel("文件树");
-  private JButton btnRefresh = new JButton();
-  private JButton btnClose = new JButton();
+  private BaseButton btnRefresh = new BaseButton();
+  private BaseButton btnClose = new BaseButton();
   private GridLayout layoutBtn = new GridLayout(1, 2);
   private JPanel pnlBtn = new JPanel();
   private JPanel pnlTitle = new JPanel();
@@ -93,11 +92,9 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private void init() {
     this.setLayout(this.layout);
     this.pnlBtn.setLayout(this.layoutBtn);
-    this.btnRefresh.setMargin(new Insets(0, 0, 0, 0));
     this.btnRefresh.setIcon(REFRESH_ICON);
     this.btnRefresh.setFocusable(false);
     this.btnRefresh.setToolTipText("刷新");
-    this.btnClose.setMargin(new Insets(0, 0, 0, 0));
     this.btnClose.setIcon(CLOSE_ICON);
     this.btnClose.setFocusable(false);
     this.btnClose.setToolTipText("关闭");

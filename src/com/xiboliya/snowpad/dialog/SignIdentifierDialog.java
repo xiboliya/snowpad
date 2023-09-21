@@ -27,7 +27,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,6 +40,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -75,8 +75,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private JTabbedPane tpnMain = new JTabbedPane();
   private GridLayout gridLayout = new GridLayout(5, 4, 5, 5);
   private GridLayout specialGridLayout = new GridLayout(5, 2, 5, 5);
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private JLabel lblStart = new JLabel("起始编号：");
   private BaseTextField txtStart = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
   private JLabel lblModifier = new JLabel("编号修饰：");

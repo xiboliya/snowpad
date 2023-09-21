@@ -26,7 +26,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.math.BigDecimal;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -36,6 +35,7 @@ import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -97,13 +97,13 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
   private JComboBox<String> cmbNumber = new JComboBox<String>();
   private BaseTextField txtNumber = new BaseTextField();
   private JLabel lblWarning = new JLabel("警告：含有非法字符或超出范围！");
-  private JButton btnExchange = new JButton("互换单位");
+  private BaseButton btnExchange = new BaseButton("互换单位");
   private JLabel lblResult = new JLabel("换算结果：");
   private JCheckBox chkUpperCase = new JCheckBox("结果大写(U)", false);
   private JComboBox<String> cmbResult = new JComboBox<String>();
   private BaseTextField txtResult = new BaseTextField();
-  private JButton btnCopy = new JButton("复制结果(C)");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnCopy = new BaseButton("复制结果(C)");
+  private BaseButton btnCancel = new BaseButton("取消");
 
   public UnitConvertDialog(JFrame owner, boolean modal) {
     super(owner, modal);

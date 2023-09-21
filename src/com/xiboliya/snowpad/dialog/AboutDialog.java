@@ -20,17 +20,18 @@ package com.xiboliya.snowpad.dialog;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.util.Util;
@@ -54,7 +55,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   private JLabel lblWest = new JLabel(" ");
   private JLabel lblNorth = new JLabel();
   private JLabel lblEast = new JLabel(" ");
-  private JButton btnOk = new JButton(" 确定 ");
+  private BaseButton btnOk = new BaseButton(" 确定 ");
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private LinkedList<JLabel> labelList = new LinkedList<JLabel>(); // 存放显示标签的链表
 
@@ -69,6 +70,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
    */
   private void init() {
     this.setTitle("关于");
+    this.btnOk.setMargin(new Insets(3, 15, 3, 15));
     this.pnlWest.add(this.lblWest);
     this.pnlNorth.add(this.lblNorth);
     this.pnlEast.add(this.lblEast);

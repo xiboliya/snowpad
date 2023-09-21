@@ -17,7 +17,6 @@
 
 package com.xiboliya.snowpad.dialog;
 
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -27,7 +26,6 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -41,6 +39,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.common.CharEncoding;
@@ -65,18 +64,17 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblSourcePath = new JLabel("源文件路径：");
-  private JButton btnAddSource = new JButton("+");
-  private JButton btnReduceSource = new JButton("-");
+  private BaseButton btnAddSource = new BaseButton("+");
+  private BaseButton btnReduceSource = new BaseButton("-");
   private JList<String> listPath = new JList<String>();
   private JScrollPane srpPath = new JScrollPane(this.listPath);
   private JLabel lblTargetEncoding = new JLabel("转为文件编码：");
   private JComboBox<String> cmbEncoding = new JComboBox<String>(FILE_ENCODINGS);
   private JCheckBox chkRetainSource = new JCheckBox("转换后保留源文件(R)", true);
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private Insets insets = new Insets(0, 0, 0, 0);
   private DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
   private CharEncoding charEncoding = CharEncoding.GB18030;
 
@@ -98,10 +96,8 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
     this.pnlMain.setLayout(null);
     this.lblSourcePath.setBounds(10, 10, 110, Util.VIEW_HEIGHT);
     this.srpPath.setBounds(10, 35, 270, 135);
-    this.btnAddSource.setMargin(this.insets);
     this.btnAddSource.setBounds(290, 35, 30, 30);
     this.btnAddSource.setToolTipText("添加文件");
-    this.btnReduceSource.setMargin(this.insets);
     this.btnReduceSource.setBounds(290, 70, 30, 30);
     this.btnReduceSource.setToolTipText("移除文件");
     this.pnlMain.add(this.lblSourcePath);

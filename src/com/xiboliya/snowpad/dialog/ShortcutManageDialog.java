@@ -22,7 +22,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,6 +34,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDefaultTableModel;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
@@ -62,11 +62,11 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private JPanel pnlRight = new JPanel(null);
   private JTable tabMain = null; // 显示数据的表格组件
   private JScrollPane spnMain = null;
-  private JButton btnEdit = new JButton("编辑(E)");
-  private JButton btnRemove = new JButton("清除(D)");
-  private JButton btnKeyCheck = new JButton("按键检测(K)");
-  private JButton btnReset = new JButton("恢复默认(R)");
-  private JButton btnCancel = new JButton("关闭");
+  private BaseButton btnEdit = new BaseButton("编辑(E)");
+  private BaseButton btnRemove = new BaseButton("清除(D)");
+  private BaseButton btnKeyCheck = new BaseButton("按键检测(K)");
+  private BaseButton btnReset = new BaseButton("恢复默认(R)");
+  private BaseButton btnCancel = new BaseButton("关闭");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Vector<Vector<String>> cells = new Vector<Vector<String>>();

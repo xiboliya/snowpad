@@ -27,7 +27,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,6 +35,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.util.Util;
@@ -63,8 +63,8 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
   private JPanel pnlRight = new JPanel(null);
   private JTabbedPane tpnMain = new JTabbedPane();
   private GridLayout gridLayout = new GridLayout(INSERT_MAX_ROW, INSERT_MAX_COLUMN, 0, 0);
-  private JButton btnOk = new JButton("插入");
-  private JButton btnCancel = new JButton("关闭");
+  private BaseButton btnOk = new BaseButton("插入");
+  private BaseButton btnCancel = new BaseButton("关闭");
   private JLabel lblView = new JLabel();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();

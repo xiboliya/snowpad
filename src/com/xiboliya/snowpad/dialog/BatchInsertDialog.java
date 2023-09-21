@@ -21,7 +21,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +28,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -50,8 +50,8 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   private JRadioButton radLineStart = new JRadioButton("行首(S)", false);
   private JRadioButton radLineEnd = new JRadioButton("行尾(E)", true);
   private JPanel pnlLineStartEnd = new JPanel(new GridLayout(2, 1));
-  private JButton btnOk = new JButton("确定");
-  private JButton btnCancel = new JButton("取消");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private ButtonGroup bgpLineStartEnd = new ButtonGroup();
