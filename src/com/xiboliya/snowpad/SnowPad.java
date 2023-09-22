@@ -37,8 +37,7 @@ public class SnowPad {
   /**
    * 程序的总入口，可在运行时指定所打开的文件，并可以为多个
    * 
-   * @param args
-   *          命令行参数，如：java -jar SnowPad.jar test1.pl test2.pl，
+   * @param args 命令行参数，如：java -jar SnowPad.jar test1.pl test2.pl，
    *          表示打开当前目录中的test1.pl、test2.pl文件
    */
   public static void main(final String[] args) {

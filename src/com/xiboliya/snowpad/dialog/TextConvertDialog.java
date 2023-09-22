@@ -224,10 +224,8 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   /**
    * 获取字符串的十六进制形式
    * 
-   * @param string
-   *          字符串
-   * @param encoding
-   *          编码类型
+   * @param string 字符串
+   * @param encoding 编码类型
    * @return 字符串的十六进制形式
    */
   private String getHexString(String string, String encoding) {
@@ -256,8 +254,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   /**
    * 根据编码格式获取BOM
    * 
-   * @param indexEncoding
-   *          编码格式对应的索引
+   * @param indexEncoding 编码格式对应的索引
    * @return 编码格式对应的BOM
    */
   private String getBomString(int indexEncoding) {
@@ -287,8 +284,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   /**
    * 更新结果
    * 
-   * @param result
-   *          结果
+   * @param result 结果
    */
   private void toUpdateResult(String result) {
     if (Util.isTextEmpty(result)) {
@@ -336,8 +332,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   /**
    * 设置系统剪贴板的内容
    * 
-   * @param strText
-   *          要存入剪贴板的文本
+   * @param strText 要存入剪贴板的文本
    */
   private void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {

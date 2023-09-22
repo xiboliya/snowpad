@@ -76,14 +76,10 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   /**
    * 构造方法
    * 
-   * @param owner
-   *          用于显示该对话框的父组件
-   * @param modal
-   *          是否为模式对话框
-   * @param txaSource
-   *          针对操作的文本域
-   * @param tpnMain
-   *          显示文本域的选项卡组件
+   * @param owner 用于显示该对话框的父组件
+   * @param modal 是否为模式对话框
+   * @param txaSource 针对操作的文本域
+   * @param tpnMain 显示文本域的选项卡组件
    */
   public WindowManageDialog(JFrame owner, boolean modal, JTextArea txaSource, JTabbedPane tpnMain) {
     super(owner, modal, txaSource);
@@ -216,8 +212,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   /**
    * 表格视图中待操作的行所表示的文件路径
    * 
-   * @param index
-   *          表格视图中待操作的行索引
+   * @param index 表格视图中待操作的行索引
    * @return 当前行所表示的文件路径
    */
   private String getFilePath(int index) {
@@ -267,8 +262,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
   /**
    * "上移/下移"的操作方法
    * 
-   * @param isUp
-   *          移动方向，true表示上移，false表示下移。
+   * @param isUp 移动方向，true表示上移，false表示下移。
    */
   private void moveFiles(boolean isUp) {
     int rowCount = this.tabMain.getRowCount();

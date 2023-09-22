@@ -31,8 +31,7 @@ public class CodeStyle {
    * 压缩json字符串，即清除json字符串中冗余的空白字符，
    * 包括：制表符、换行符、键值外部的空格
    * 
-   * @param json
-   *          待处理的json字符串
+   * @param json 待处理的json字符串
    * @return 处理后的json字符串
    */
   public static String compressJson(String json) {
@@ -63,10 +62,8 @@ public class CodeStyle {
    * 格式化json字符串
    * 
    * @author  yanghaitao
-   * @param json
-   *          待格式化的json字符串
-   * @param indentSize
-   *          每组空白字符的个数
+   * @param json 待格式化的json字符串
+   * @param indentSize 每组空白字符的个数
    * @return 格式化后的json字符串
    */
   public static String formatJson(String json, int indentSize) {
@@ -129,10 +126,8 @@ public class CodeStyle {
    * 获取当前的空格缩进字符串
    * 
    * @author  yanghaitao
-   * @param indentSize
-   *          每组空白字符的个数
-   * @param count
-   *          空白字符组的数量
+   * @param indentSize 每组空白字符的个数
+   * @param count 空白字符组的数量
    * @return 空格字符串
    */
   private static String indent(int indentSize, int count) {

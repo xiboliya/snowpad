@@ -154,8 +154,7 @@ public class BatchSeparateDialog extends BaseDialog implements ActionListener {
   /**
    * 从行首/行尾以指定的偏移量分割行
    * 
-   * @param offset
-   *          从行首/行尾进行分割的偏移量
+   * @param offset 从行首/行尾进行分割的偏移量
    */
   private void toSeparateText(int offset) {
     CurrentLines currentLines = new CurrentLines(this.txaSource);

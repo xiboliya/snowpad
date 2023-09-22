@@ -343,8 +343,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
   /**
    * 根据转换的文件换行符获取新的文件名
    * 
-   * @param fileName
-   *          文件名
+   * @param fileName 文件名
    * @return 转换后的新文件名
    */
   private String getFileNameWithLineSeparator(String fileName) {

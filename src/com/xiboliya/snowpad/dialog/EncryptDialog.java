@@ -150,8 +150,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 设置选项卡的当前视图
    * 
-   * @param index
-   *          视图的索引号
+   * @param index 视图的索引号
    */
   private void setTabbedIndex(int index) {
     this.tpnMain.setSelectedIndex(index);
@@ -290,10 +289,8 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 获取字符串的加密值
    * 
-   * @param string
-   *          字符串
-   * @param digestType
-   *          加密类型，支持：MD5、SHA、SHA-224、SHA-256、SHA-384、SHA-512
+   * @param string 待加密的字符串
+   * @param digestType 加密类型，支持：MD5、SHA、SHA-224、SHA-256、SHA-384、SHA-512
    * @return 字符串的加密值
    */
   private String getStringDigest(String string, String digestType) {
@@ -335,10 +332,8 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 获取文件的加密值
    * 
-   * @param file
-   *          文件
-   * @param digestType
-   *          加密类型，支持：MD5、SHA、SHA-224、SHA-256、SHA-384、SHA-512
+   * @param file 待加密的文件
+   * @param digestType 加密类型，支持：MD5、SHA、SHA-224、SHA-256、SHA-384、SHA-512
    * @return 文件的加密值
    */
   private String getFileDigest(File file, String digestType) {
@@ -367,8 +362,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 更新加密值
    * 
-   * @param encrypt
-   *          加密值
+   * @param encrypt 加密值
    */
   private void toUpdateEncrypt(String encrypt) {
     if (Util.isTextEmpty(encrypt)) {
@@ -409,8 +403,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   /**
    * 设置系统剪贴板的内容
    * 
-   * @param strText
-   *          要存入剪贴板的文本
+   * @param strText 要存入剪贴板的文本
    */
   private void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {

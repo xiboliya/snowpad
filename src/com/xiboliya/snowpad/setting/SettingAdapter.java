@@ -54,8 +54,7 @@ public final class SettingAdapter {
   /**
    * 带参数的构造方法
    * 
-   * @param setting
-   *          软件参数配置类
+   * @param setting 软件参数配置类
    */
   public SettingAdapter(Setting setting) {
     this.setSetting(setting);
@@ -80,8 +79,7 @@ public final class SettingAdapter {
   /**
    * 设置软件参数配置类
    * 
-   * @param setting
-   *          软件参数配置类
+   * @param setting 软件参数配置类
    */
   public void setSetting(Setting setting) {
     this.setting = setting;
@@ -118,8 +116,7 @@ public final class SettingAdapter {
   /**
    * TextArea节点的解析方法
    * 
-   * @param nodeList
-   *          节点列表
+   * @param nodeList 节点列表
    */
   private void parseTextArea(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
@@ -253,10 +250,8 @@ public final class SettingAdapter {
   /**
    * 将red、green、blue、alpha各颜色分量组成的字符串数组，转化为颜色
    * 
-   * @param arrColor
-   *          各颜色分量的字符串数组
-   * @param index
-   *          当前颜色在配色方案中的索引值
+   * @param arrColor 各颜色分量的字符串数组
+   * @param index 当前颜色在配色方案中的索引值
    * @return 颜色
    */
   private Color transferToColor(String[] arrColor, int index) {
@@ -284,8 +279,7 @@ public final class SettingAdapter {
   /**
    * FindReplace节点的解析方法
    * 
-   * @param nodeList
-   *          节点列表
+   * @param nodeList 节点列表
    */
   private void parseFindReplace(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
@@ -337,8 +331,7 @@ public final class SettingAdapter {
   /**
    * View节点的解析方法
    * 
-   * @param nodeList
-   *          节点列表
+   * @param nodeList 节点列表
    */
   private void parseView(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
@@ -412,8 +405,7 @@ public final class SettingAdapter {
   /**
    * Files节点的解析方法
    * 
-   * @param nodeList
-   *          节点列表
+   * @param nodeList 节点列表
    */
   private void parseFiles(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
@@ -454,8 +446,7 @@ public final class SettingAdapter {
   /**
    * Shortcuts节点的解析方法
    * 
-   * @param nodeList
-   *          节点列表
+   * @param nodeList 节点列表
    */
   private void parseShortcuts(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
@@ -519,8 +510,7 @@ public final class SettingAdapter {
   /**
    * TextArea节点的保存方法
    * 
-   * @param nodeList
-   *          节点列表
+   * @param nodeList 节点列表
    */
   private void saveTextArea(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
@@ -589,8 +579,7 @@ public final class SettingAdapter {
   /**
    * FindReplace节点的保存方法
    * 
-   * @param nodeList
-   *          节点列表
+   * @param nodeList 节点列表
    */
   private void saveFindReplace(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
@@ -631,8 +620,7 @@ public final class SettingAdapter {
   /**
    * View节点的保存方法
    * 
-   * @param nodeList
-   *          节点列表
+   * @param nodeList 节点列表
    */
   private void saveView(NodeList nodeList) {
     for (int i = 0; i < nodeList.getLength(); i++) {
@@ -678,12 +666,9 @@ public final class SettingAdapter {
   /**
    * Files节点的保存方法
    * 
-   * @param nodeList
-   *          节点列表
-   * @param element
-   *          父级标签元素
-   * @param document
-   *          整个XML文档
+   * @param nodeList 节点列表
+   * @param element 父级标签元素
+   * @param document 整个XML文档
    */
   private void saveFiles(NodeList nodeList, Element element, Document document) {
     String str = "\n    ";
@@ -709,12 +694,9 @@ public final class SettingAdapter {
   /**
    * Shortcuts节点的保存方法
    * 
-   * @param nodeList
-   *          节点列表
-   * @param element
-   *          父级标签元素
-   * @param document
-   *          整个XML文档
+   * @param nodeList 节点列表
+   * @param element 父级标签元素
+   * @param document 整个XML文档
    */
   private void saveShortcuts(NodeList nodeList, Element element, Document document) {
     String str = "\n    ";

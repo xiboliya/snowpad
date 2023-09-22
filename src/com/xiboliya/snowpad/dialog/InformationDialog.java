@@ -161,10 +161,8 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   /**
    * 格式化文件大小的显示
    * 
-   * @param fileSize
-   *          文件字节数
-   * @param unitIndex
-   *          文件大小的单位索引值
+   * @param fileSize 文件字节数
+   * @param unitIndex 文件大小的单位索引值
    * @return 格式化后的文件大小的显示
    */
   private String formatFileSize(float fileSize, int unitIndex) {

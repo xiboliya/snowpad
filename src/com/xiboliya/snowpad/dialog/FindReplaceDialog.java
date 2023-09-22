@@ -311,8 +311,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 设置选项卡的当前视图
    * 
-   * @param index
-   *          视图的索引号
+   * @param index 视图的索引号
    */
   public void setTabbedIndex(int index) {
     this.tpnMain.setSelectedIndex(index);
@@ -351,10 +350,8 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 设置查找的字符串
    * 
-   * @param strFind
-   *          查找的字符串
-   * @param isUpdate
-   *          是否同步更新文本框的显示，更新为true，不更新为false
+   * @param strFind 查找的字符串
+   * @param isUpdate 是否同步更新文本框的显示，更新为true，不更新为false
    */
   public void setFindText(String strFind, boolean isUpdate) {
     this.strFind = strFind;
@@ -381,8 +378,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 设置用于替换的字符串
    * 
-   * @param strReplace
-   *          用于替换的字符串
+   * @param strReplace 用于替换的字符串
    */
   public void setReplaceText(String strReplace) {
     this.txtReplaceTextR.setText(strReplace);
@@ -611,8 +607,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 查找字符串
    * 
-   * @param isFindDown
-   *          查找的方向，如果向下查找则为true，反之则为false
+   * @param isFindDown 查找的方向，如果向下查找则为true，反之则为false
    * @return 查找结果，如果查找成功返回true，反之则为false
    */
   public boolean findText(boolean isFindDown) {
@@ -640,8 +635,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 弹出提示框，针对当前窗口不显示的情况下，做兼容处理
    * 
-   * @param message
-   *          提示框显示文本
+   * @param message 提示框显示文本
    */
   private void showMessageDialog(String message) {
     if (Util.isTextEmpty(message)) {
@@ -697,8 +691,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 多次替换字符串
    * 
-   * @param isSel
-   *          是否针对选区操作，true表示选区操作，false表示全文操作
+   * @param isSel 是否针对选区操作，true表示选区操作，false表示全文操作
    */
   private void replaceText(boolean isSel) {
     String str = this.txaSource.getText();
@@ -825,8 +818,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   /**
    * 在给定的文本中统计字符串次数
    * 
-   * @param strText
-   *          给定的文本
+   * @param strText 给定的文本
    * @return 字符串出现次数
    */
   private int getTextCount(String strText) {

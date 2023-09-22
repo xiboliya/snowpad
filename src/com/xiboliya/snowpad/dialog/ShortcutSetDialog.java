@@ -88,8 +88,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   /**
    * 重写父类的方法：设置本窗口是否可见
    * 
-   * @param isVisible
-   *          设置本窗口是否可见，如果可见则为true
+   * @param isVisible 设置本窗口是否可见，如果可见则为true
    */
   public void setVisible(boolean isVisible) {
     if (isVisible) {
@@ -216,8 +215,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   /**
    * 检测下拉列表中选择的按键是否支持单独设置为快捷键
    * 
-   * @param index
-   *          下拉列表中当前选择项的索引
+   * @param index 下拉列表中当前选择项的索引
    * @return 是否支持单独设置为快捷键，如支持单独设置返回true，不支持返回false
    */
   private boolean isSingleKey(int index) {
@@ -234,8 +232,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   /**
    * 检测当前设置的快捷键是否与其他功能的快捷键重复
    * 
-   * @param shortcut
-   *          当前设置的快捷键
+   * @param shortcut 当前设置的快捷键
    * @return 是否与其他快捷键重复，如重复返回true，不重复返回false
    */
   private boolean isRepeatedShortcut(String shortcut) {

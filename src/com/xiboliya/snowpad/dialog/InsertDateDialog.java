@@ -83,12 +83,9 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   /**
    * 构造方法
    * 
-   * @param owner
-   *          父窗口
-   * @param modal
-   *          是否为模式窗口
-   * @param txaSource
-   *          针对操作的文本域
+   * @param owner 父窗口
+   * @param modal 是否为模式窗口
+   * @param txaSource 针对操作的文本域
    */
   public InsertDateDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal, txaSource);
@@ -178,8 +175,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   /**
    * 根据自定义输入框是否符合规范，来更新警告标签的显示
    * 
-   * @param warning
-   *          是否需要显示警告，需要显示则为true，反之为false
+   * @param warning 是否需要显示警告，需要显示则为true，反之为false
    */
   private void updateWarning(boolean warning) {
     if (warning) {

@@ -37,8 +37,7 @@ public class CurrentLine {
   /**
    * 构造方法
    * 
-   * @param txaSource
-   *          当前的文本域
+   * @param txaSource 当前的文本域
    */
   public CurrentLine(JTextArea txaSource) {
     this.txaSource = txaSource;

@@ -65,10 +65,8 @@ public class TipsWindow extends JWindow implements ActionListener {
   /**
    * 显示信息提示窗口
    * 
-   * @param owner
-   *          当前窗口的所有者
-   * @param message
-   *          信息提示窗口显示的文本
+   * @param owner 当前窗口的所有者
+   * @param message 信息提示窗口显示的文本
    */
   public static void show(Window owner, String message) {
     if (Util.isTextEmpty(message)) {

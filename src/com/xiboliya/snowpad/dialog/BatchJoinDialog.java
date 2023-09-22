@@ -134,8 +134,7 @@ public class BatchJoinDialog extends BaseDialog implements ActionListener {
   /**
    * 以指定的行数拼接行
    * 
-   * @param lines
-   *          拼接的行数
+   * @param lines 拼接的行数
    */
   private void toJoinText(int lines) {
     CurrentLines currentLines = new CurrentLines(this.txaSource);

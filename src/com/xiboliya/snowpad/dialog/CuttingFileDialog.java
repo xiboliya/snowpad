@@ -196,6 +196,9 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     }
   }
 
+  /**
+   * 切割文件
+   */
   private void cuttingFile() {
     String strPath = this.txtPath.getText();
     if (Util.isTextEmpty(strPath)) {

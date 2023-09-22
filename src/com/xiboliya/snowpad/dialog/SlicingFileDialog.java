@@ -233,8 +233,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 按照关键字对文件进行拆分
    *
-   * @param isSingle
-   *          是否为单行关键字
+   * @param isSingle 是否为单行关键字
    */
   private void slicingFile(boolean isSingle) {
     String keyword = this.txtKeywordS.getText();
@@ -256,8 +255,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 拆分当前文件
    * 
-   * @param keyword
-   *          关键字
+   * @param keyword 关键字
    */
   private void slicingCurrentFile(String keyword) {
     BaseTextArea textArea = (BaseTextArea) this.txaSource;
@@ -308,8 +306,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 拆分指定文件
    * 
-   * @param keyword
-   *          关键字
+   * @param keyword 关键字
    */
   private void slicingTargetFile(String keyword) {
     String strPath = this.txtTargetFile.getText();
@@ -427,8 +424,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   /**
    * 将文本保存到文件
    * 
-   * @param file
-   *          保存的文件
+   * @param file 保存的文件
    */
   private void toSaveFile(File file, String strText, CharEncoding charEncoding, LineSeparator lineSeparator) throws Exception {
     FileOutputStream fileOutputStream = null;

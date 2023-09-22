@@ -52,12 +52,9 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   /**
    * 构造方法
    * 
-   * @param owner
-   *          父窗口
-   * @param modal
-   *          是否为模式窗口
-   * @param setting
-   *          软件参数配置类
+   * @param owner 父窗口
+   * @param modal 是否为模式窗口
+   * @param setting 软件参数配置类
    */
   public AutoCompleteDialog(JFrame owner, boolean modal, Setting setting) {
     super(owner, modal);

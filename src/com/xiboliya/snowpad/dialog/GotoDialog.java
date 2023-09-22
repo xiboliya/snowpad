@@ -145,8 +145,7 @@ public class GotoDialog extends BaseDialog implements ActionListener, ChangeList
   /**
    * 设置选项卡的当前视图
    * 
-   * @param index
-   *          视图的索引号
+   * @param index 视图的索引号
    */
   private void setTabbedIndex(int index) {
     this.tpnMain.setSelectedIndex(index);

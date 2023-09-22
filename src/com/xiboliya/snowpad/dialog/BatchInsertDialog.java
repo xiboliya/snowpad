@@ -144,8 +144,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   /**
    * 在行首/行尾插入字符串
    * 
-   * @param strInsert
-   *          在行首/行尾插入的字符串
+   * @param strInsert 在行首/行尾插入的字符串
    */
   private void toInsertText(String strInsert) {
     CurrentLines currentLines = new CurrentLines(this.txaSource);

@@ -58,10 +58,8 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 构造方法
    * 
-   * @param owner
-   *          用于显示该对话框的父组件
-   * @param modal
-   *          是否为模式对话框
+   * @param owner 用于显示该对话框的父组件
+   * @param modal 是否为模式对话框
    */
   public CalculatorDialog(JFrame owner, boolean modal) {
     super(owner, modal);
@@ -244,8 +242,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 退格按钮的处理方法
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    */
   private void backSpace(String text) {
     if (!Util.isTextEmpty(text)) {
@@ -256,8 +253,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 百分号按钮的处理方法
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    */
   private void percent(String text) {
     if (!Util.isTextEmpty(text)) {
@@ -273,8 +269,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 圆周率按钮的处理方法
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    */
   private void pi(String text) {
     if (!Util.isTextEmpty(text)) {
@@ -294,8 +289,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 小数点按钮的处理方法
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    */
   private void dot(String text) {
     if (!Util.isTextEmpty(text)) {
@@ -315,8 +309,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 加号按钮的处理方法
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    */
   private void addition(String text) {
     if (!Util.isTextEmpty(text)) {
@@ -334,8 +327,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 减号按钮的处理方法
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    */
   private void subduction(String text) {
     if (!Util.isTextEmpty(text)) {
@@ -353,8 +345,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 乘号按钮的处理方法
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    */
   private void multiplication(String text) {
     if (!Util.isTextEmpty(text)) {
@@ -370,8 +361,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 除号按钮的处理方法
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    */
   private void division(String text) {
     if (!Util.isTextEmpty(text)) {
@@ -387,10 +377,8 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 数字按钮的处理方法
    * 
-   * @param text
-   *          算式
-   * @param number
-   *          当前按钮的数字
+   * @param text 算式
+   * @param number 当前按钮的数字
    */
   private void digit(String text, String number) {
     if (!Util.isTextEmpty(text)) {
@@ -408,8 +396,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 对算式进行计算
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    */
   private void equal(String text) {
     this.list.clear();
@@ -548,10 +535,8 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 乘法
    * 
-   * @param index
-   *          运算符位于算式中的索引值
-   * @param size
-   *          算式的元素总数
+   * @param index 运算符位于算式中的索引值
+   * @param size 算式的元素总数
    * @return 是否运算成功，如果有语法错误则返回false
    */
   private boolean calculateMultiplication(int index, int size) {
@@ -578,10 +563,8 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 判断在乘法算式中是否存在值为0的乘数
    * 
-   * @param previous
-   *          乘法算式中的第一个乘数
-   * @param next
-   *          乘法算式中的第二个乘数
+   * @param previous 乘法算式中的第一个乘数
+   * @param next 乘法算式中的第二个乘数
    * @return 在乘法算式中是否存在值为0的乘数，如果含有则返回true
    */
   private boolean isHasZero(String previous, String next) {
@@ -596,8 +579,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 判断字符串表示的数字是否为0
    * 
-   * @param number
-   *          表示数字的字符串
+   * @param number 表示数字的字符串
    * @return 字符串表示的数字是否为0，如果为0则返回true
    */
   private boolean isZero(String number) {
@@ -619,10 +601,8 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 除法
    * 
-   * @param index
-   *          运算符位于算式中的索引值
-   * @param size
-   *          算式的元素总数
+   * @param index 运算符位于算式中的索引值
+   * @param size 算式的元素总数
    * @return 是否运算成功，如果有语法错误则返回false
    */
   private boolean calculateDivision(int index, int size) {
@@ -643,10 +623,8 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 加法
    * 
-   * @param index
-   *          运算符位于算式中的索引值
-   * @param size
-   *          算式的元素总数
+   * @param index 运算符位于算式中的索引值
+   * @param size 算式的元素总数
    * @return 是否运算成功，如果有语法错误则返回false
    */
   private boolean calculateAddition(int index, int size) {
@@ -667,10 +645,8 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 减法
    * 
-   * @param index
-   *          运算符位于算式中的索引值
-   * @param size
-   *          算式的元素总数
+   * @param index 运算符位于算式中的索引值
+   * @param size 算式的元素总数
    * @return 是否运算成功，如果有语法错误则返回false
    */
   private boolean calculateSubduction(int index, int size) {
@@ -701,8 +677,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 字符串是否为运算符
    * 
-   * @param str
-   *          字符串
+   * @param str 字符串
    * @return 字符串是否为运算符
    */
   private boolean isOperator(String str) {
@@ -717,8 +692,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 算式中最后一个元素是否是数字，并且含有小数点
    * 
-   * @param text
-   *          算式
+   * @param text 算式
    * @return 最后一个元素是否是数字，并且含有小数点为true
    */
   private boolean hasDot(String text) {
@@ -739,8 +713,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   /**
    * 获取运算结果的补位0或小数点的索引值
    * 
-   * @param result
-   *          运算结果
+   * @param result 运算结果
    * @return 运算结果的补位0或小数点的索引值
    */
   private int getZeroIndex(String result) {

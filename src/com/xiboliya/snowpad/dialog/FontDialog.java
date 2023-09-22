@@ -74,10 +74,8 @@ public class FontDialog extends BaseDialog implements ActionListener,
   /**
    * 构造方法
    * 
-   * @param owner
-   *          父窗口
-   * @param modal
-   *          是否为模式窗口
+   * @param owner 父窗口
+   * @param modal 是否为模式窗口
    */
   public FontDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal, txaSource);

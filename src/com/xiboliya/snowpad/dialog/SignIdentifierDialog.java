@@ -91,12 +91,9 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 构造方法
    * 
-   * @param owner
-   *          用于显示该对话框的父组件
-   * @param modal
-   *          是否为模式对话框
-   * @param txaSource
-   *          针对操作的文本域
+   * @param owner 用于显示该对话框的父组件
+   * @param modal 是否为模式对话框
+   * @param txaSource 针对操作的文本域
    */
   public SignIdentifierDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal, txaSource);
@@ -162,10 +159,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 填充一个标签页的字符
    * 
-   * @param strElement
-   *          字符序列
-   * @param strTitle
-   *          标签页标题
+   * @param strElement 字符序列
+   * @param strTitle 标签页标题
    */
   private void fillElements(String strElement, String strTitle) {
     if (Util.isTextEmpty(strElement) || Util.isTextEmpty(strTitle)) {
@@ -204,10 +199,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 创建一个文本标签
    * 
-   * @param strElement
-   *          显示的字符
-   * @param isSpecial
-   *          是否为特殊格式
+   * @param strElement 显示的字符
+   * @param isSpecial 是否为特殊格式
    * @return 新创建的文本标签
    */
   private JLabel createElement(String strElement, boolean isSpecial) {
@@ -234,8 +227,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 使用或预览当前选中的符号或编号方式
    * 
-   * @param isView
-   *          是否为预览模式，当为true时表示为预览当前模式，否则为使用当前模式
+   * @param isView 是否为预览模式，当为true时表示为预览当前模式，否则为使用当前模式
    */
   private void signIdentifier(boolean isView) {
     String[] arrText = null;
@@ -282,12 +274,9 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 为指定的字符串数组添加当前选中的符号或编号
    * 
-   * @param arrText
-   *          待处理的字符串数组
-   * @param isSpecial
-   *          是否为特殊格式
-   * @param start
-   *          起始编号
+   * @param arrText 待处理的字符串数组
+   * @param isSpecial 是否为特殊格式
+   * @param start 起始编号
    */
   private void toConvertArray(String[] arrText, boolean isSpecial, int start) {
     int n = 0;
@@ -341,8 +330,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 将给定的数字转换为全角数字格式
    * 
-   * @param number
-   *          待转换的数字
+   * @param number 待转换的数字
    * @return 转换后的字符串
    */
   private String intToFullWidth(int number) {
@@ -360,10 +348,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 将给定的数字转换为汉字格式
    * 
-   * @param number
-   *          待转换的数字
-   * @param isTraditional
-   *          是否转换为繁体汉字，为true表示转换为繁体，反之转换为简体
+   * @param number 待转换的数字
+   * @param isTraditional 是否转换为繁体汉字，为true表示转换为繁体，反之转换为简体
    * @return 转换后的字符串
    */
   private String intToChinese(int number, boolean isTraditional) {
@@ -415,8 +401,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 将给定的数字转换为干支
    * 
-   * @param number
-   *          待转换的数字
+   * @param number 待转换的数字
    * @return 转换后的字符串
    */
   private String intToGanZhi(int number) {
@@ -428,10 +413,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 将给定的数字转换为英文字母
    * 
-   * @param number
-   *          待转换的数字
-   * @param isUpperCase
-   *          是否转换为大写，为true表示转换为大写，反之转换为小写
+   * @param number 待转换的数字
+   * @param isUpperCase 是否转换为大写，为true表示转换为大写，反之转换为小写
    * @return 转换后的字符串
    */
   private String intToLetter(int number, boolean isUpperCase) {

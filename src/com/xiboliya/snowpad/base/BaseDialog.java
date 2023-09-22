@@ -82,8 +82,7 @@ public abstract class BaseDialog extends JDialog {
   /**
    * 设置当前编辑的文本域
    * 
-   * @param txaSource
-   *          当前编辑的文本域
+   * @param txaSource 当前编辑的文本域
    */
   public void setTextArea(JTextArea txaSource) {
     if (txaSource != null) {

@@ -562,10 +562,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 带参数的构造方法，通过配置文件进行设置
    * 
-   * @param setting
-   *          软件参数配置类
-   * @param settingAdapter
-   *          用于解析和保存软件配置文件的工具类
+   * @param setting 软件参数配置类
+   * @param settingAdapter 用于解析和保存软件配置文件的工具类
    */
   public SnowPadFrame(Setting setting, SettingAdapter settingAdapter) {
     this.setting = setting;
@@ -2270,8 +2268,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "文档切换-向后/向前"的处理方法
    * 
-   * @param isNext
-   *          切换文档的方向，true表示向后，false表示向前。
+   * @param isNext 切换文档的方向，true表示向后，false表示向前。
    */
   private void textAreaSwitch(boolean isNext) {
     int index = this.tpnMain.getSelectedIndex();
@@ -2295,8 +2292,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "文档切换-前一个/后一个"的处理方法
    * 
-   * @param isNext
-   *          切换文档的方向，true表示后一个，false表示前一个。
+   * @param isNext 切换文档的方向，true表示后一个，false表示前一个。
    */
   private void textAreaHistory(boolean isNext) {
     int size = this.textAreaHashCodeList.size();
@@ -2325,8 +2321,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 根据hashCode获取文本域所在选项卡组件的索引值
    * 
-   * @param hashCode
-   *          文本域的hashCode
+   * @param hashCode 文本域的hashCode
    * @return 索引值
    */
   private int getTextAreaIndex(int hashCode) {
@@ -2402,10 +2397,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 是否已经进行单行注释
    * 
-   * @param currentLines
-   *          表示当前多行文本的属性类
-   * @param comment
-   *          单行注释字符串
+   * @param currentLines 表示当前多行文本的属性类
+   * @param comment 单行注释字符串
    * @return 是否已经进行单行注释，是返回true，否返回false
    */
   private boolean isCommentForLine(CurrentLines currentLines, String comment) {
@@ -2475,12 +2468,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 是否已经进行区块注释
    * 
-   * @param currentLines
-   *          表示当前多行文本的属性类
-   * @param commentBegin
-   *          区块注释首部字符串
-   * @param commentEnd
-   *          区块注释尾部字符串
+   * @param currentLines 表示当前多行文本的属性类
+   * @param commentBegin 区块注释首部字符串
+   * @param commentEnd 区块注释尾部字符串
    * @return 是否已经进行区块注释，是返回true，否返回false
    */
   private boolean isCommentForBlock(CurrentLines currentLines, String commentBegin, String commentEnd) {
@@ -2648,8 +2638,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 设置为"切换外观"下某个外观的处理方法
    * 
-   * @param className
-   *          将要设置的外观完整类名
+   * @param className 将要设置的外观完整类名
    */
   private void setLookAndFeel(String className) {
     if (this.strLookAndFeel.equals(className)) {
@@ -2846,8 +2835,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "行号栏"的处理方法
    * 
-   * @param enable
-   *          是否显示行号栏
+   * @param enable 是否显示行号栏
    */
   private void setLineNumber(boolean enable) {
     LineNumberView lineNumberView = null;
@@ -2909,8 +2897,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 显示或关闭查找结果面板
    * 
-   * @param isView
-   *          是否显示查找结果面板，true表示显示，false表示关闭。
+   * @param isView 是否显示查找结果面板，true表示显示，false表示关闭。
    */
   public void viewSearchResult(boolean isView) {
     if (isView && this.pnlSearchResult.isVisible()) {
@@ -2932,8 +2919,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "查找结果"面板中双击跳转的处理方法
    * 
-   * @param hashCode
-   *          需要激活的文本域的hashCode
+   * @param hashCode 需要激活的文本域的hashCode
    */
   public void searchResultToSwitchFile(int hashCode) {
     int index = this.getTextAreaIndex(hashCode);
@@ -2963,9 +2949,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "关闭"的处理方法
    * 
-   * @param check
-   *          是否检查当前文件的修改状态，如果为true表示需要检查，反之则不需要检查。
-   * 
+   * @param check 是否检查当前文件的修改状态，如果为true表示需要检查，反之则不需要检查。
    * @return 成功关闭文件时返回true，未能关闭时返回false
    */
   private boolean closeFile(boolean check) {
@@ -2985,8 +2969,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 文本域的文件路径，用于窗口管理界面的相关操作
    * 
-   * @param textArea
-   *          文本域
+   * @param textArea 文本域
    * @return 当前文本域的文件路径
    */
   private String getFilePathForWindowManage(BaseTextArea textArea) {
@@ -2999,8 +2982,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "窗口管理"界面中"激活"的处理方法
    * 
-   * @param switchPath
-   *          需要激活的文件路径
+   * @param switchPath 需要激活的文件路径
    */
   public void windowManageToSwitchFile(String switchPath) {
     if (Util.isTextEmpty(switchPath)) {
@@ -3018,8 +3000,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "窗口管理"界面中"保存"的处理方法
    * 
-   * @param savePaths
-   *          需要保存的文件路径列表
+   * @param savePaths 需要保存的文件路径列表
    */
   public void windowManageToSaveFile(LinkedList<String> savePaths) {
     for (String savePath : savePaths) {
@@ -3037,8 +3018,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "窗口管理"界面中"关闭"的处理方法
    * 
-   * @param closePaths
-   *          需要关闭的文件路径列表
+   * @param closePaths 需要关闭的文件路径列表
    */
   public void windowManageToCloseFile(LinkedList<String> closePaths) {
     for (String closePath : closePaths) {
@@ -3064,10 +3044,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "窗口管理"界面中"排序"的处理方法
    * 
-   * @param sortedPaths
-   *          需要排序的文件路径列表
-   * @param index
-   *          当前选择的文件索引值
+   * @param sortedPaths 需要排序的文件路径列表
+   * @param index 当前选择的文件索引值
    */
   public void windowManageToSortFile(LinkedList<String> sortedPaths, int index) {
     if (sortedPaths == null) {
@@ -3220,8 +3198,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "缩进"的处理方法
    * 
-   * @param indent
-   *          缩进的方向，缩进为true，退格为false
+   * @param indent 缩进的方向，缩进为true，退格为false
    */
   private void toIndent(boolean indent) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
@@ -3273,8 +3250,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "选定查找"的处理方法
    * 
-   * @param isFindDown
-   *          查找的方向，如果向下查找则为true，反之则为false
+   * @param isFindDown 查找的方向，如果向下查找则为true，反之则为false
    */
   private void findSelNextText(boolean isFindDown) {
     String strSel = this.txaMain.getSelectedText();
@@ -3317,8 +3293,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "高亮显示"中各格式的处理方法
    * 
-   * @param style
-   *          按照某种颜色进行高亮显示，其取值有1、2、3、4、5、12。
+   * @param style 按照某种颜色进行高亮显示，其取值有1、2、3、4、5、12。
    *          当取值为12时，表示进行当前选区文本的自动高亮匹配。
    */
   private void setHighlight(int style) {
@@ -3360,8 +3335,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "清除高亮"中各格式的处理方法
    * 
-   * @param style
-   *          清除某种颜色的高亮显示，其取值有1、2、3、4、5、0、11、12。
+   * @param style 清除某种颜色的高亮显示，其取值有1、2、3、4、5、0、11、12。
    *          取值为0时，清除所有高亮。取值为11时，清除匹配括号高亮。取值为12时，清除匹配文本高亮。
    */
   private void rmHighlight(int style) {
@@ -3398,8 +3372,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "颜色设置"中"全部反色/全部补色"的处理方法
    * 
-   * @param mode
-   *          用于标识反色/补色，如果为true表示反色，反之则为补色
+   * @param mode 用于标识反色/补色，如果为true表示反色，反之则为补色
    */
   private void setColorTransform(boolean mode) {
     Color colorFont = this.getConvertColor(this.txaMain.getForeground(), mode);
@@ -3420,10 +3393,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 将指定的rgb模式颜色转化为反色/补色
    * 
-   * @param color
-   *          待处理的rgb模式颜色
-   * @param mode
-   *          用于标识反色/补色，如果为true表示反色，反之则为补色
+   * @param color 待处理的rgb模式颜色
+   * @param mode 用于标识反色/补色，如果为true表示反色，反之则为补色
    * @return 处理后的颜色
    */
   private Color getConvertColor(Color color, boolean mode) {
@@ -3464,8 +3435,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 设置"配色方案"的处理方法
    * 
-   * @param style
-   *          配色方案序号，有1、2、3、4、5以及默认配色（0）等共6种
+   * @param style 配色方案序号，有1、2、3、4、5以及默认配色（0）等共6种
    */
   private void setColorStyle(int style) {
     if (style > 0 && style <= COLOR_STYLES.length) {
@@ -3482,8 +3452,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "排序行"的处理方法
    * 
-   * @param order
-   *          排序的顺序，升序为true，降序为false
+   * @param order 排序的顺序，升序为true，降序为false
    */
   private void sortLines(boolean order) {
     if (Util.isTextEmpty(this.txaMain.getText())) {
@@ -3711,10 +3680,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 设置"字符编码格式"的处理方法
    * 
-   * @param encoding
-   *          字符编码格式的枚举值
-   * @param isUpdateMenu
-   *          是否更新菜单的选择
+   * @param encoding 字符编码格式的枚举值
+   * @param isUpdateMenu 是否更新菜单的选择
    */
   private void setCharEncoding(CharEncoding encoding, boolean isUpdateMenu) {
     if (isUpdateMenu) {
@@ -3757,10 +3724,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 设置"换行符格式"的处理方法
    * 
-   * @param lineSeparator
-   *          待采用的换行符
-   * @param isUpdateMenu
-   *          是否更新菜单的选择
+   * @param lineSeparator 待采用的换行符
+   * @param isUpdateMenu 是否更新菜单的选择
    */
   private void setLineStyleString(LineSeparator lineSeparator, boolean isUpdateMenu) {
     if (isUpdateMenu) {
@@ -3877,8 +3842,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 添加最近编辑的文件子菜单
    * 
-   * @param strFile
-   *          完整的文件路径
+   * @param strFile 完整的文件路径
    */
   private void addFileHistoryItem(String strFile) {
     if (Util.isTextEmpty(strFile)) {
@@ -3902,8 +3866,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 检测文件名是否已存在
    * 
-   * @param strFile
-   *          完整的文件路径
+   * @param strFile 完整的文件路径
    * @return 将要添加到最近编辑的索引，-1表示产生异常
    */
   private int checkFileInHistory(String strFile) {
@@ -3936,8 +3899,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 打开最近编辑的文件
    * 
-   * @param strFile
-   *          最近编辑的完整文件路径
+   * @param strFile 最近编辑的完整文件路径
    */
   private void openFileHistory(String strFile) {
     if (Util.isTextEmpty(strFile)) {
@@ -3963,10 +3925,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 更改配色方案
    * 
-   * @param color
-   *          待设置的颜色
-   * @param index
-   *          配色方案中需要修改的颜色索引
+   * @param color 待设置的颜色
+   * @param index 配色方案中需要修改的颜色索引
    */
   private void changeColorStyle(Color color, int index) {
     if (color != null) {
@@ -4099,8 +4059,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "快捷键管理"界面中修改快捷键的处理方法
    * 
-   * @param index
-   *          需要修改快捷键的菜单项的索引值
+   * @param index 需要修改快捷键的菜单项的索引值
    */
   public void shortcutManageToSetMenuAccelerator(int index) {
     if (index < 0) {
@@ -4146,8 +4105,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 清除空白的处理方法
    * 
-   * @param position
-   *          清除空白的位置，0为“行首”空白，1为“行尾”空白，2为“行首+行尾”空白
+   * @param position 清除空白的位置，0为“行首”空白，1为“行尾”空白，2为“行首+行尾”空白
    */
   private void trimLines(int position) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
@@ -4184,10 +4142,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 清除一行文本的空白
    * 
-   * @param strLine
-   *          待处理的一行文本
-   * @param position
-   *          清除空白的位置，true为“行首”空白，false为“行尾”空白
+   * @param strLine 待处理的一行文本
+   * @param position 清除空白的位置，true为“行首”空白，false为“行尾”空白
    * @return 清除指定空白后的文本
    */
   private String trimLine(String strLine, boolean position) {
@@ -4279,8 +4235,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 设置系统剪贴板的内容
    * 
-   * @param strText
-   *          要存入剪贴板的文本
+   * @param strText 要存入剪贴板的文本
    */
   public void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {
@@ -4525,8 +4480,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "快速查找"的处理方法
    * 
-   * @param isFindDown
-   *          查找方向：向下查找为true，向上查找为false
+   * @param isFindDown 查找方向：向下查找为true，向上查找为false
    */
   private void quickFindText(boolean isFindDown) {
     String strFindText = this.txaMain.getSelectedText();
@@ -4542,8 +4496,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "切换大小写"的处理方法
    * 
-   * @param isCaseUp
-   *          为true表示切换为大写，为false表示切换为小写
+   * @param isCaseUp 为true表示切换为大写，为false表示切换为小写
    */
   private void switchCase(boolean isCaseUp) {
     String strSel = this.txaMain.getSelectedText();
@@ -4934,8 +4887,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "新建"的处理方法
    * 
-   * @param file
-   *          待打开的文件
+   * @param file 待打开的文件
    */
   private void createNew(File file) {
     BaseTextArea txaNew = new BaseTextArea(this.setting);
@@ -4965,8 +4917,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 获取当前编辑的文件扩展名类型
    * 
-   * @param fileName
-   *          当前编辑的文件名
+   * @param fileName 当前编辑的文件名
    * @return 用于标识文件扩展名类型
    */
   private FileExt getFileExtByName(String fileName) {
@@ -5134,8 +5085,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "查找下一个"的处理方法
    * 
-   * @param isFindDown
-   *          查找的方向，如果向下查找则为true，反之则为false
+   * @param isFindDown 查找的方向，如果向下查找则为true，反之则为false
    */
   private void findNextText(boolean isFindDown) {
     String strSel = this.checkSelText();
@@ -5404,8 +5354,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 显示或关闭文件树面板
    * 
-   * @param isView
-   *          是否显示文件树面板，true表示显示，false表示关闭。
+   * @param isView 是否显示文件树面板，true表示显示，false表示关闭。
    */
   public void viewFileTree(boolean isView) {
     if (isView && this.pnlFileTree.isVisible()) {
@@ -5476,8 +5425,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 打开文件后的设置
    * 
-   * @param index
-   *          文本域的插入点位置
+   * @param index 文本域的插入点位置
    */
   private void setAfterOpenFile(int index) {
     this.txaMain.setCaretPosition(Util.checkCaretPosition(this.txaMain, index)); // 设置插入点位置
@@ -5539,8 +5487,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 检测是否需要新建文本域
    * 
-   * @param file
-   *          待打开的文件
+   * @param file 待打开的文件
    * @return 是否需要新建文本域，true表示需要新建，反之则不需要新建
    */
   private boolean checkToCreateNew(File file) {
@@ -5564,8 +5511,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 检测文件是否已打开
    * 
-   * @param file
-   *          待打开的文件
+   * @param file 待打开的文件
    * @return 文件是否已打开，true表示已打开，反之则表示未打开
    */
   private boolean isFileOpened(File file) {
@@ -5585,8 +5531,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 如果新打开的文件与当前编辑的文件相同，则获取当前文本域的插入点位置，否则返回默认位置
    * 
-   * @param file
-   *          新打开的文件
+   * @param file 新打开的文件
    * @return 将要设置的插入点位置
    */
   private int getCurrentIndexBySameFile(File file) {
@@ -5641,12 +5586,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 打开文件并将内容显示在文本域中
    * 
-   * @param file
-   *          打开的文件
-   * @param isAutoCheckEncoding
-   *          是否自动检测编码格式
-   * @param toCreateNew
-   *          是否需要新建文本域
+   * @param file 打开的文件
+   * @param isAutoCheckEncoding 是否自动检测编码格式
+   * @param toCreateNew 是否需要新建文本域
    */
   private boolean toOpenFile(File file, boolean isAutoCheckEncoding, boolean toCreateNew) {
     int result = this.checkBigFile(file);
@@ -5713,8 +5655,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 检测待打开的文件是否较大，如果是则弹出提示框，提供给用户选项
    * 
-   * @param file
-   *          待打开的文件
+   * @param file 待打开的文件
    * @return 用户选择的选项：YES_OPTION、NO_OPTION、CLOSED_OPTION
    */
   private int checkBigFile(File file) {
@@ -5730,8 +5671,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * "保存"的处理方法
    * 
-   * @param isSaveAs
-   *          是否为"另存为"
+   * @param isSaveAs 是否为"另存为"
    * @return 是否保存成功，如果成功返回true，如果失败则为false
    */
   private boolean saveFile(boolean isSaveAs) {
@@ -5800,8 +5740,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 将文本域中的文本保存到文件
    * 
-   * @param file
-   *          保存的文件
+   * @param file 保存的文件
    */
   private void toSaveFile(File file) throws Exception {
     FileOutputStream fileOutputStream = null;
@@ -5856,8 +5795,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 在保存文件失败后，弹出提示框
    * 
-   * @param file
-   *          当前编辑的文件
+   * @param file 当前编辑的文件
    */
   private void showSaveErrorDialog(File file) {
     JOptionPane.showMessageDialog(this,
@@ -5884,8 +5822,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 设置文件的名称和路径
    * 
-   * @param file
-   *          当前编辑的文件
+   * @param file 当前编辑的文件
    */
   private void setFileNameAndPath(File file) {
     this.txaMain.setFile(file);
@@ -5916,8 +5853,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 设置某些菜单的显示状态
    * 
-   * @param enable
-   *          菜单的显示状态，true表示显示，反之表示不显示
+   * @param enable 菜单的显示状态，true表示显示，反之表示不显示
    */
   private void setAutoMenuEnabled(boolean enable) {
     this.itemReOpen.setEnabled(enable);
@@ -5991,12 +5927,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 查找当前光标处括号的匹配括号所在的索引值
    * 
-   * @param charCurrent
-   *          当前光标处的字符
-   * @param currentIndex
-   *          当前光标插入点的索引值
-   * @param strMain
-   *          当前文本域的文本
+   * @param charCurrent 当前光标处的字符
+   * @param currentIndex 当前光标插入点的索引值
+   * @param strMain 当前文本域的文本
    * @return 匹配括号的索引值。如果未找到匹配括号，则返回-1
    */
   private int getBracketTargetIndex(char charCurrent, int currentIndex,
@@ -6225,8 +6158,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 检查并回退最近编辑的文本域的索引值
    * 
-   * @param index
-   *          被删除的元素索引值
+   * @param index 被删除的元素索引值
    */
   private void checkTextAreaHistoryIndex(int index) {
     // 被删除的元素索引值小于等于最近编辑的索引值，则回退索引值

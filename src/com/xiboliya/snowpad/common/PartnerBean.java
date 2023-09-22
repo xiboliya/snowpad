@@ -36,10 +36,8 @@ public class PartnerBean {
   /**
    * 构造方法
    * 
-   * @param object
-   *          将要保存的值
-   * @param index
-   *          将要保存的键
+   * @param object 将要保存的值
+   * @param index 将要保存的键
    */
   public PartnerBean(Object object, int index) {
     this.setObject(object);
@@ -67,8 +65,7 @@ public class PartnerBean {
   /**
    * 设置当前值
    * 
-   * @param object
-   *          将要保存的值
+   * @param object 将要保存的值
    */
   public void setObject(Object object) {
     this.object = object;
@@ -77,8 +74,7 @@ public class PartnerBean {
   /**
    * 设置当前键
    * 
-   * @param index
-   *          将要保存的键
+   * @param index 将要保存的键
    */
   public void setIndex(int index) {
     this.index = index;

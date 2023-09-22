@@ -45,8 +45,7 @@ public class BasePlainDocument extends PlainDocument {
   /**
    * 带参数的构造方法
    * 
-   * @param content
-   *          描述可编辑的字符序列内容的接口
+   * @param content 描述可编辑的字符序列内容的接口
    */
   public BasePlainDocument(AbstractDocument.Content content) {
     super(content);
@@ -55,10 +54,8 @@ public class BasePlainDocument extends PlainDocument {
   /**
    * 带参数的构造方法
    * 
-   * @param content
-   *          描述可编辑的字符序列内容的接口
-   * @param pattern
-   *          限制用户输入的正则表达式
+   * @param content 描述可编辑的字符序列内容的接口
+   * @param pattern 限制用户输入的正则表达式
    */
   public BasePlainDocument(AbstractDocument.Content content, String pattern) {
     super(content);
@@ -68,8 +65,7 @@ public class BasePlainDocument extends PlainDocument {
   /**
    * 带参数的构造方法
    * 
-   * @param pattern
-   *          限制用户输入的正则表达式
+   * @param pattern 限制用户输入的正则表达式
    */
   public BasePlainDocument(String pattern) {
     super();
@@ -79,8 +75,7 @@ public class BasePlainDocument extends PlainDocument {
   /**
    * 设置正则表达式
    * 
-   * @param pattern
-   *          限制用户输入的正则表达式
+   * @param pattern 限制用户输入的正则表达式
    */
   public void setPatternByString(String pattern) {
     this.pattern = Pattern.compile(pattern);
@@ -97,12 +92,9 @@ public class BasePlainDocument extends PlainDocument {
   /**
    * 向文档中插入字符串
    * 
-   * @param offset
-   *          起始偏移量
-   * @param str
-   *          要插入的字符串
-   * @param set
-   *          插入内容的属性
+   * @param offset 起始偏移量
+   * @param str 要插入的字符串
+   * @param set 插入内容的属性
    */
   @Override
   public void insertString(int offset, String str, AttributeSet set)

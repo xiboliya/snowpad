@@ -54,8 +54,7 @@ public class SearchBean {
   /**
    * 设置文件中start偏移量
    * 
-   * @param start
-   *          文件中start偏移量
+   * @param start 文件中start偏移量
    */
   public void setStart(int start) {
     this.start = start;
@@ -64,8 +63,7 @@ public class SearchBean {
   /**
    * 设置文件中end偏移量
    * 
-   * @param end
-   *          文件中end偏移量
+   * @param end 文件中end偏移量
    */
   public void setEnd(int end) {
     this.end = end;

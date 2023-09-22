@@ -79,16 +79,11 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   /**
    * 构造方法
    * 
-   * @param owner
-   *          用于显示该对话框的父组件
-   * @param modal
-   *          是否为模式对话框
-   * @param txaSource
-   *          针对操作的文本域
-   * @param setting
-   *          软件参数配置类
-   * @param settingAdapter
-   *          用于解析和保存软件配置文件的工具类
+   * @param owner 用于显示该对话框的父组件
+   * @param modal 是否为模式对话框
+   * @param txaSource 针对操作的文本域
+   * @param setting 软件参数配置类
+   * @param settingAdapter 用于解析和保存软件配置文件的工具类
    */
   public ShortcutManageDialog(JFrame owner, boolean modal, JTextArea txaSource, Setting setting, SettingAdapter settingAdapter) {
     super(owner, modal, txaSource);

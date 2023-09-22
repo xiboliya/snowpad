@@ -85,12 +85,9 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 构造方法
    * 
-   * @param owner
-   *          用于显示该对话框的父组件
-   * @param modal
-   *          是否为模式对话框
-   * @param txaSource
-   *          针对操作的文本域
+   * @param owner 用于显示该对话框的父组件
+   * @param modal 是否为模式对话框
+   * @param txaSource 针对操作的文本域
    */
   public TestQuestionDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal, txaSource);
@@ -184,8 +181,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 刷新标签的文本
    * 
-   * @param isResult
-   *          是否显示“结果”
+   * @param isResult 是否显示“结果”
    */
   private void refreshLabelText(boolean isResult) {
     int index = this.getTabbedIndex();
@@ -401,10 +397,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目加减法初级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel1(int start, int end) {
     this.testList.clear();
@@ -427,10 +421,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目加减法中级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel2(int start, int end) {
     this.testList.clear();
@@ -455,10 +447,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目加减法高级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel3(int start, int end) {
     this.testList.clear();
@@ -495,10 +485,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目加减法特级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel4(int start, int end) {
     this.testList.clear();
@@ -543,10 +531,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目乘法初级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel5(int start, int end) {
     this.testList.clear();
@@ -560,10 +546,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目乘法中级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel6(int start, int end) {
     this.testList.clear();
@@ -585,10 +569,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目乘法高级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel7(int start, int end) {
     this.testList.clear();
@@ -604,10 +586,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目乘法特级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel8(int start, int end) {
     this.testList.clear();
@@ -637,10 +617,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目除法初级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel9(int start, int end) {
     this.testList.clear();
@@ -659,10 +637,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目除法中级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel10(int start, int end) {
     this.testList.clear();
@@ -682,10 +658,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目除法高级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel11(int start, int end) {
     this.testList.clear();
@@ -708,10 +682,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目除法特级
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListLevel12(int start, int end) {
     this.testList.clear();
@@ -740,10 +712,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 数学题目退位减法
    * 
-   * @param start
-   *          最小值
-   * @param end
-   *          最大值
+   * @param start 最小值
+   * @param end 最大值
    */
   private void getListSpecial1(int start, int end) {
     this.testList.clear();
@@ -763,8 +733,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 获取数字的个位数
    * 
-   * @param number
-   *          数字
+   * @param number 数字
    * @return 数字的个位数
    */
   private int getSingle(int number) {

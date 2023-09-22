@@ -55,8 +55,7 @@ public class LineNumberView extends JComponent {
   /**
    * 自定义的构造方法
    * 
-   * @param txaSource
-   *          将要显示此行号组件的文本域
+   * @param txaSource 将要显示此行号组件的文本域
    */
   public LineNumberView(JTextArea txaSource) {
     if (txaSource != null) {
@@ -107,8 +106,7 @@ public class LineNumberView extends JComponent {
   /**
    * 设置最大显示行数，并根据此行数设置此组件的首选大小
    * 
-   * @param row
-   *          最大显示行数
+   * @param row 最大显示行数
    */
   private void setPreferredLine(int row) {
     // 为了解决不在前台的情况下初始化时，行号栏宽度较小的问题，最小设置两位数行号的宽度
@@ -126,8 +124,7 @@ public class LineNumberView extends JComponent {
   /**
    * 设置此组件的字体
    * 
-   * @param font
-   *          将设置的字体
+   * @param font 将设置的字体
    */
   @Override
   public void setFont(Font font) {
@@ -144,8 +141,7 @@ public class LineNumberView extends JComponent {
   /**
    * 绘制此组件
    * 
-   * @param g
-   *          Graphics类是所有图形上下文的抽象基类，允许应用程序在组件以及闭屏图像上进行绘制。
+   * @param g Graphics类是所有图形上下文的抽象基类，允许应用程序在组件以及闭屏图像上进行绘制。
    */
   @Override
   protected synchronized void paintComponent(Graphics g) {

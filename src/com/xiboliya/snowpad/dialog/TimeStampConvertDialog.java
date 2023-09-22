@@ -208,8 +208,7 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
   /**
    * 设置系统剪贴板的内容
    * 
-   * @param strText
-   *          要存入剪贴板的文本
+   * @param strText 要存入剪贴板的文本
    */
   private void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {

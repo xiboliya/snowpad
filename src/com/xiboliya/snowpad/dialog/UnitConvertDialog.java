@@ -330,8 +330,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
   /**
    * 格式化结果字符串，删除冗余的数字0
    * 
-   * @param result
-   *          结果字符串
+   * @param result 结果字符串
    * @return 格式化后的结果字符串
    */
   private String formatDivideResult(String result) {
@@ -394,8 +393,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
   /**
    * 设置系统剪贴板的内容
    * 
-   * @param strText
-   *          要存入剪贴板的文本
+   * @param strText 要存入剪贴板的文本
    */
   private void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {

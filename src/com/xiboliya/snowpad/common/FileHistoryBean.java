@@ -37,12 +37,9 @@ public class FileHistoryBean {
   /**
    * 构造方法
    * 
-   * @param fileName
-   *          文件名
-   * @param isFrozen
-   *          是否冻结文件
-   * @param caretIndex
-   *          光标位置
+   * @param fileName 文件名
+   * @param isFrozen 是否冻结文件
+   * @param caretIndex 光标位置
    */
   public FileHistoryBean(String fileName, boolean isFrozen, int caretIndex) {
     this.setFileName(fileName);
@@ -80,8 +77,7 @@ public class FileHistoryBean {
   /**
    * 设置文件名
    * 
-   * @param fileName
-   *          文件名
+   * @param fileName 文件名
    */
   public void setFileName(String fileName) {
     this.fileName = fileName;
@@ -90,8 +86,7 @@ public class FileHistoryBean {
   /**
    * 设置是否冻结文件
    * 
-   * @param isFrozen
-   *          是否冻结文件
+   * @param isFrozen 是否冻结文件
    */
   public void setFrozen(boolean isFrozen) {
     this.isFrozen = isFrozen;
@@ -100,8 +95,7 @@ public class FileHistoryBean {
   /**
    * 设置光标位置
    * 
-   * @param caretIndex
-   *          光标位置
+   * @param caretIndex 光标位置
    */
   public void setCaretIndex(int caretIndex) {
     this.caretIndex = caretIndex;

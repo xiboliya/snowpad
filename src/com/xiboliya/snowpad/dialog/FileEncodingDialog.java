@@ -63,8 +63,7 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   /**
    * 重写父类的方法：设置本窗口是否可见
    * 
-   * @param isVisible
-   *          设置本窗口是否可见，如果可见则为true
+   * @param isVisible 设置本窗口是否可见，如果可见则为true
    */
   public void setVisible(boolean isVisible) {
     if (isVisible) {

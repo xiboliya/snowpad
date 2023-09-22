@@ -93,8 +93,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 带参数的构造方法
    * 
-   * @param str
-   *          初始化的字符串
+   * @param str 初始化的字符串
    */
   public BaseTextField(String str) {
     super(str);
@@ -104,10 +103,8 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 带参数的构造方法
    * 
-   * @param isSetDocument
-   *          是否重新设置Document文档
-   * @param pattern
-   *          限制用户输入的正则表达式
+   * @param isSetDocument 是否重新设置Document文档
+   * @param pattern 限制用户输入的正则表达式
    */
   public BaseTextField(boolean isSetDocument, String pattern) {
     super();
@@ -120,12 +117,9 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 带参数的构造方法
    * 
-   * @param str
-   *          初始化的字符串
-   * @param isSetDocument
-   *          是否重新设置Document文档
-   * @param pattern
-   *          限制用户输入的正则表达式
+   * @param str 初始化的字符串
+   * @param isSetDocument 是否重新设置Document文档
+   * @param pattern 限制用户输入的正则表达式
    */
   public BaseTextField(String str, boolean isSetDocument, String pattern) {
     this(isSetDocument, pattern);
@@ -293,8 +287,7 @@ public class BaseTextField extends JTextField implements ActionListener,
   /**
    * 根据本控件中选择的字符串是否为空，设置相关菜单的状态
    * 
-   * @param isNull
-   *          选择是否为空
+   * @param isNull 选择是否为空
    */
   private void setMenuStateBySelectedText(boolean isNull) {
     if (!this.isEditable()) {

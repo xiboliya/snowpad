@@ -262,8 +262,7 @@ public class BaseTextArea extends JTextArea {
   /**
    * 判断当前是否已注册监听器
    * 
-   * @param keyListener
-   *          键盘监听器
+   * @param keyListener 键盘监听器
    * @return 是否已注册过监听器，已注册返回true
    */
   public boolean hasKeyListener(KeyListener keyListener) {

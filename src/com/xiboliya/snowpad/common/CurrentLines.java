@@ -65,8 +65,7 @@ public class CurrentLines {
   /**
    * 构造方法
    * 
-   * @param txaSource
-   *          当前的文本域
+   * @param txaSource 当前的文本域
    */
   public CurrentLines(JTextArea txaSource) {
     this(txaSource, LineExtend.EXTEND_WITHOUT);
@@ -75,10 +74,8 @@ public class CurrentLines {
   /**
    * 构造方法
    * 
-   * @param txaSource
-   *          当前的文本域
-   * @param lineExtend
-   *          是否扩展上下行，如果为true则在当前多行的前后各扩展一行，即扩大多行的范围；如果为false则不扩展
+   * @param txaSource 当前的文本域
+   * @param lineExtend 是否扩展上下行，如果为true则在当前多行的前后各扩展一行，即扩大多行的范围；如果为false则不扩展
    */
   public CurrentLines(JTextArea txaSource, LineExtend lineExtend) {
     this.txaSource = txaSource;

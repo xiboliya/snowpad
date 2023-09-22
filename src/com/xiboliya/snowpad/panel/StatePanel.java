@@ -94,12 +94,9 @@ public class StatePanel extends JPanel {
   /**
    * 为指定下标的显示区块设置字符串和对齐方式
    * 
-   * @param index
-   *          显示区块的下标
-   * @param strLabel
-   *          设置的字符串
-   * @param alignment
-   *          对齐方式
+   * @param index 显示区块的下标
+   * @param strLabel 设置的字符串
+   * @param alignment 对齐方式
    */
   public void setStringByIndex(int index, String strLabel, StatePanelAlignment alignment) {
     this.setStringByIndex(index, strLabel);
@@ -109,10 +106,8 @@ public class StatePanel extends JPanel {
   /**
    * 为指定下标的显示区块设置字符串
    * 
-   * @param index
-   *          显示区块的下标
-   * @param strLabel
-   *          设置的字符串
+   * @param index 显示区块的下标
+   * @param strLabel 设置的字符串
    */
   public void setStringByIndex(int index, String strLabel) {
     this.labelList.get(this.checkIndex(index)).setText(strLabel);
@@ -121,8 +116,7 @@ public class StatePanel extends JPanel {
   /**
    * 获取指定下标的显示区块的字符串
    * 
-   * @param index
-   *          显示区块的下标
+   * @param index 显示区块的下标
    * @return 显示区块的字符串
    */
   public String getStringByIndex(int index) {
@@ -132,8 +126,7 @@ public class StatePanel extends JPanel {
   /**
    * 格式化下标
    * 
-   * @param index
-   *          下标
+   * @param index 下标
    * @return 经过格式化的下标
    */
   private int checkIndex(int index) {
@@ -148,8 +141,7 @@ public class StatePanel extends JPanel {
   /**
    * 格式化显示区块数目
    * 
-   * @param columns
-   *          显示区块的数目
+   * @param columns 显示区块的数目
    * @return 经过格式化的显示区块的数目
    */
   private int checkColumns(int columns) {
@@ -173,10 +165,8 @@ public class StatePanel extends JPanel {
   /**
    * 为指定下标的显示区块设置对齐方式
    * 
-   * @param index
-   *          显示区块的下标
-   * @param alignment
-   *          显示区块的对齐方式
+   * @param index 显示区块的下标
+   * @param alignment 显示区块的对齐方式
    */
   private void setAlignmentByIndex(int index, StatePanelAlignment alignment) {
     JLabel lblTemp = this.labelList.get(this.checkIndex(index));

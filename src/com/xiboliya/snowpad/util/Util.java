@@ -150,8 +150,7 @@ public final class Util {
   /**
    * 判断给定的字符串是否为空
    * 
-   * @param str
-   *          待判断的字符串
+   * @param str 待判断的字符串
    */
   public static boolean isTextEmpty(String str) {
     return (str == null || str.isEmpty());
@@ -160,8 +159,7 @@ public final class Util {
   /**
    * 为文件选择器添加预定义的文件过滤器
    * 
-   * @param fileChooser
-   *          要处理的文件选择器
+   * @param fileChooser 要处理的文件选择器
    */
   public static void addChoosableFileFilters(JFileChooser fileChooser) {
     FileExt[] arrFileExt = FileExt.values(); // 获取包含枚举所有成员的数组
@@ -182,10 +180,8 @@ public final class Util {
   /**
    * 检测或重新设置文本域插入点
    * 
-   * @param txaSource
-   *          当前文本域
-   * @param index
-   *          待检测的插入点位置
+   * @param txaSource 当前文本域
+   * @param index 待检测的插入点位置
    * @return 处理过的插入点位置
    */
   public static int checkCaretPosition(JTextArea txaSource, int index) {
@@ -202,8 +198,7 @@ public final class Util {
   /**
    * 将给定字符串重新分行，以适应对话框的显示
    * 
-   * @param str
-   *          待处理的字符串
+   * @param str 待处理的字符串
    * @return 处理过的字符串
    */
   public static String convertToMsg(String str) {
@@ -233,10 +228,8 @@ public final class Util {
   /**
    * 获取文本域中当前选区内的所有行
    * 
-   * @param txaSource
-   *          特定的文本域
-   * @param currentLines
-   *          表示当前多行文本的属性类
+   * @param txaSource 特定的文本域
+   * @param currentLines 表示当前多行文本的属性类
    * @return 保存当前选区内所有行的字符数组
    */
   public static String[] getCurrentLinesArray(JTextArea txaSource, CurrentLines currentLines) {
@@ -266,12 +259,9 @@ public final class Util {
   /**
    * 格式化欲保存的文件名
    * 
-   * @param strFileName
-   *          文件的完整路径
-   * @param fileFilter
-   *          当前的文件类型过滤器
-   * @param strExt
-   *          欲保存文件的扩展名
+   * @param strFileName 文件的完整路径
+   * @param fileFilter 当前的文件类型过滤器
+   * @param strExt 欲保存文件的扩展名
    * @return 格式化后的文件
    */
   public static File checkFileName(String strFileName, BaseFileFilter fileFilter, String strExt) {
@@ -305,22 +295,14 @@ public final class Util {
   /**
    * 在文本组件中查找字符串
    * 
-   * @param strFindText
-   *          查找的字符串
-   * @param txcSource
-   *          文本组件
-   * @param caretPos
-   *          指定的起始索引
-   * @param isFindDown
-   *          是否向下查找
-   * @param isMatchCase
-   *          是否区分大小写
-   * @param isMatchWholeWord
-   *          是否全词匹配
-   * @param isWrap
-   *          是否循环查找
-   * @param searchStyle
-   *          搜索模式
+   * @param strFindText 查找的字符串
+   * @param txcSource 文本组件
+   * @param caretPos 指定的起始索引
+   * @param isFindDown 是否向下查找
+   * @param isMatchCase 是否区分大小写
+   * @param isMatchWholeWord 是否全词匹配
+   * @param isWrap 是否循环查找
+   * @param searchStyle 搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
   public static int findText(String strFindText, JTextComponent txcSource, int caretPos,
@@ -338,20 +320,13 @@ public final class Util {
   /**
    * 在文本组件中向下查找字符串
    * 
-   * @param strFindText
-   *          查找的字符串
-   * @param txcSource
-   *          文本组件
-   * @param caretPos
-   *          指定的起始索引
-   * @param isMatchCase
-   *          是否区分大小写
-   * @param isMatchWholeWord
-   *          是否全词匹配
-   * @param isWrap
-   *          是否循环查找
-   * @param searchStyle
-   *          搜索模式
+   * @param strFindText 查找的字符串
+   * @param txcSource 文本组件
+   * @param caretPos 指定的起始索引
+   * @param isMatchCase 是否区分大小写
+   * @param isMatchWholeWord 是否全词匹配
+   * @param isWrap 是否循环查找
+   * @param searchStyle 搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findDownText(String strFindText, JTextComponent txcSource, int caretPos,
@@ -434,20 +409,13 @@ public final class Util {
   /**
    * 在文本组件中向上查找字符串
    * 
-   * @param strFindText
-   *          查找的字符串
-   * @param txcSource
-   *          文本组件
-   * @param caretPos
-   *          指定的起始索引
-   * @param isMatchCase
-   *          是否区分大小写
-   * @param isMatchWholeWord
-   *          是否全词匹配
-   * @param isWrap
-   *          是否循环查找
-   * @param searchStyle
-   *          搜索模式
+   * @param strFindText 查找的字符串
+   * @param txcSource 文本组件
+   * @param caretPos 指定的起始索引
+   * @param isMatchCase 是否区分大小写
+   * @param isMatchWholeWord 是否全词匹配
+   * @param isWrap 是否循环查找
+   * @param searchStyle 搜索模式
    * @return 查找的字符串位于文本组件中的索引
    */
   private static int findUpText(String strFindText, JTextComponent txcSource, int caretPos,
@@ -637,8 +605,7 @@ public final class Util {
    * 1.对于单字节的字符，字节的第一位设为0，后面7位为这个符号的unicode码。因此对于英语字母，UTF-8编码和ASCII码是相同的。
    * 2.对于n字节的字符(n>1 && n<=6)，第一个字节的前n位都为1，第n+1位为0，后面字节的前两位都为10。剩下的其他位，即为此字符的unicode码。
    * 
-   * @param file
-   *          待判断的文件
+   * @param file 待判断的文件
    * @return 是否为UTF8无BOM格式，是UTF8无BOM格式返回true，反之返回false
    */
   private static boolean isUTF8NoBom(File file) {
@@ -704,8 +671,7 @@ public final class Util {
   /**
    * 删除目录下的所有文件
    * 
-   * @param file
-   *          目录文件
+   * @param file 目录文件
    */
   public static void deleteAllFiles(File file) {
     if (!file.exists()) {
@@ -724,8 +690,7 @@ public final class Util {
   /**
    * 将给定的字符串进行转义替换，即将字符串中的\n替换为换行符，\t替换为tab字符
    * 
-   * @param strSource
-   *          处理的字符串
+   * @param strSource 处理的字符串
    * @return 替换后的字符串
    */
   public static String transfer(String strSource) {
@@ -735,8 +700,7 @@ public final class Util {
   /**
    * 将给定的快捷键组合的常量字符串形式转换为快捷键描述
    * 
-   * @param shortcut
-   *          表示快捷键组合的常量字符串
+   * @param shortcut 表示快捷键组合的常量字符串
    * @return 表示快捷键描述的字符串
    */
   public static String transferShortcut(String shortcut) {
@@ -785,8 +749,7 @@ public final class Util {
   /**
    * 将给定的字符串形式的按键常量转换为按键描述
    * 
-   * @param strKeyCode
-   *          表示按键常量的字符串
+   * @param strKeyCode 表示按键常量的字符串
    * @return 表示按键描述的字符串
    */
   public static String transferKeyCode(String strKeyCode) {
@@ -803,8 +766,7 @@ public final class Util {
   /**
    * 将给定的快捷键组合的常量字符串形式转换为可用于快捷键设置的对象
    * 
-   * @param shortcut
-   *          表示快捷键组合的常量字符串
+   * @param shortcut 表示快捷键组合的常量字符串
    * @return 表示可用于快捷键设置的对象
    */
   public static KeyStroke transferKeyStroke(String shortcut) {
@@ -841,8 +803,7 @@ public final class Util {
   /**
    * 检测文件以及所在的目录是否存在
    * 
-   * @param file
-   *          被检测的文件
+   * @param file 被检测的文件
    * @return 被检测文件是否存在，如果存在返回true，反之则为false
    */
   public static boolean checkFile(File file) {

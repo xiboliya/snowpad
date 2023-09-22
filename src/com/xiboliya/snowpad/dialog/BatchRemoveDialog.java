@@ -154,8 +154,7 @@ public class BatchRemoveDialog extends BaseDialog implements ActionListener {
   /**
    * 从行首/行尾切除一定数目的字符
    * 
-   * @param offset
-   *          从行首/行尾切除字符的个数
+   * @param offset 从行首/行尾切除字符的个数
    */
   private void toRemoveText(int offset) {
     CurrentLines currentLines = new CurrentLines(this.txaSource);

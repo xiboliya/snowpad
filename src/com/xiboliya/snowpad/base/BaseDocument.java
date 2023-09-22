@@ -32,12 +32,9 @@ public class BaseDocument extends PlainDocument {
   /**
    * 将字符串插入文档
    * 
-   * @param offset
-   *          起始偏移量
-   * @param str
-   *          要插入的字符串
-   * @param attr
-   *          插入内容的属性
+   * @param offset 起始偏移量
+   * @param str 要插入的字符串
+   * @param attr 插入内容的属性
    */
   @Override
   public void insertString(int offset, String str, AttributeSet attr) {
@@ -54,10 +51,8 @@ public class BaseDocument extends PlainDocument {
   /**
    * 从文档中移除字符串
    * 
-   * @param offset
-   *          起始偏移量
-   * @param len
-   *          要移除的字符数
+   * @param offset 起始偏移量
+   * @param len 要移除的字符数
    */
   @Override
   public void remove(int offset, int len) {

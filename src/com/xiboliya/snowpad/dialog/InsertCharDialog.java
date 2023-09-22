@@ -73,12 +73,9 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
   /**
    * 构造方法
    * 
-   * @param owner
-   *          用于显示该对话框的父组件
-   * @param modal
-   *          是否为模式对话框
-   * @param txaSource
-   *          针对操作的文本域
+   * @param owner 用于显示该对话框的父组件
+   * @param modal 是否为模式对话框
+   * @param txaSource 针对操作的文本域
    */
   public InsertCharDialog(JFrame owner, boolean modal, JTextArea txaSource) {
     super(owner, modal, txaSource);
@@ -130,10 +127,8 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
   /**
    * 填充一个标签页的字符
    * 
-   * @param strElement
-   *          字符序列
-   * @param strTitle
-   *          标签页标题
+   * @param strElement 字符序列
+   * @param strTitle 标签页标题
    */
   private void fillElements(String strElement, String strTitle) {
     if (Util.isTextEmpty(strElement) || Util.isTextEmpty(strTitle)) {
@@ -160,8 +155,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
   /**
    * 创建一个文本标签
    * 
-   * @param strElement
-   *          显示的字符
+   * @param strElement 显示的字符
    * @return 新创建的文本标签
    */
   private JLabel createElement(String strElement) {
@@ -182,8 +176,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
   /**
    * 预览当前选中的字符
    * 
-   * @param strView
-   *          当前选中文本标签的字符
+   * @param strView 当前选中文本标签的字符
    */
   private void setView(String strView) {
     this.lblView.setText(strView);

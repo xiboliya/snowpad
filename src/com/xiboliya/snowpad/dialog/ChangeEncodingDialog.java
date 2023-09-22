@@ -345,8 +345,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
   /**
    * 根据转换的文件编码获取新的文件名
    * 
-   * @param fileName
-   *          文件名
+   * @param fileName 文件名
    * @return 转换后的新文件名
    */
   private String getFileNameWithEncoding(String fileName) {
