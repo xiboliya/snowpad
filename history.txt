@@ -2130,3 +2130,11 @@ src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/view/LineNumberView.java
 src/com/xiboliya/snowpad/window/TipsWindow.java
+
+2023-09-27
+1.编码格式的显示采用简短格式。
+src/com/xiboliya/snowpad/common/CharEncoding.java
+src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/util/Util.java
