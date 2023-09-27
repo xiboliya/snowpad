@@ -374,11 +374,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JRadioButtonMenuItem itemLineStyleMac = new JRadioButtonMenuItem(LineSeparator.MACINTOSH.getName() + "格式");
   private JMenu menuCharset = new JMenu("字符编码格式(C)");
   private JRadioButtonMenuItem itemCharsetGB18030 = new JRadioButtonMenuItem("GB18030格式");
-  private JRadioButtonMenuItem itemCharsetANSI = new JRadioButtonMenuItem("ANSI格式");
+  private JRadioButtonMenuItem itemCharsetANSI = new JRadioButtonMenuItem("US-ASCII格式");
   private JRadioButtonMenuItem itemCharsetUTF8 = new JRadioButtonMenuItem("UTF-8格式");
-  private JRadioButtonMenuItem itemCharsetUTF8_NO_BOM = new JRadioButtonMenuItem("UTF-8 No BOM格式");
-  private JRadioButtonMenuItem itemCharsetULE = new JRadioButtonMenuItem("Unicode Little Endian格式");
-  private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem("Unicode Big Endian格式");
+  private JRadioButtonMenuItem itemCharsetUTF8_NO_BOM = new JRadioButtonMenuItem("UTF-8-NO-BOM格式");
+  private JRadioButtonMenuItem itemCharsetULE = new JRadioButtonMenuItem("UTF-16LE格式");
+  private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem("UTF-16BE格式");
   private JMenu menuFormat = new JMenu("代码格式化(M)");
   private JMenuItem itemFormatJson = new JMenuItem("json");
   private JMenu menuCompress = new JMenu("代码压缩(P)");

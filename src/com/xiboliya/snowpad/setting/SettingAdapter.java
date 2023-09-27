@@ -533,7 +533,7 @@ public final class SettingAdapter {
         } else if (key.equalsIgnoreCase("autoComplete")) {
           node.setTextContent(String.valueOf(this.setting.autoComplete));
         } else if (key.equalsIgnoreCase("defaultCharEncoding")) {
-          node.setTextContent(this.setting.defaultCharEncoding.getValue());
+          node.setTextContent(this.setting.defaultCharEncoding.getName());
         } else if (key.equalsIgnoreCase("defaultLineSeparator")) {
           node.setTextContent(this.setting.defaultLineSeparator.getValue());
         }

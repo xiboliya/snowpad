@@ -79,30 +79,6 @@ public enum CharEncoding {
     case GB18030:
       return "GB18030";
     case ANSI:
-      return "ANSI";
-    case UBE:
-      return "Unicode Big Endian";
-    case ULE:
-      return "Unicode Little Endian";
-    case UTF8:
-      return "UTF-8";
-    case UTF8_NO_BOM:
-      return "UTF-8 No BOM";
-    default:
-      return "GB18030";
-    }
-  }
-
-  /**
-   * 获取编码格式的值
-   * 
-   * @return 编码格式的值
-   */
-  public String getValue() {
-    switch (this) {
-    case GB18030:
-      return "GB18030";
-    case ANSI:
       return "US-ASCII";
     case UBE:
       return "UTF-16BE";

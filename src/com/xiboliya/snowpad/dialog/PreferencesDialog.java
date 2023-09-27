@@ -51,8 +51,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
       CharEncoding.UTF8_NO_BOM.getName(), CharEncoding.ULE.getName(), CharEncoding.UBE.getName() };
   // 编码格式数据的数组
   private static final String[] ENCODING_VALUES = new String[] {
-      CharEncoding.GB18030.getValue(), CharEncoding.ANSI.getValue(), CharEncoding.UTF8.getValue(),
-      CharEncoding.UTF8_NO_BOM.getValue(), CharEncoding.ULE.getValue(), CharEncoding.UBE.getValue() };
+      CharEncoding.GB18030.getName(), CharEncoding.ANSI.getName(), CharEncoding.UTF8.getName(),
+      CharEncoding.UTF8_NO_BOM.getName(), CharEncoding.ULE.getName(), CharEncoding.UBE.getName() };
   // 换行符格式名称的数组
   private static final String[] LINE_SEPARATOR_VALUES = new String[] {
       LineSeparator.DEFAULT.getValue(), LineSeparator.UNIX.getValue(), LineSeparator.MACINTOSH.getValue(), LineSeparator.WINDOWS.getValue() };
