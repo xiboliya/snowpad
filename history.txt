@@ -2138,3 +2138,12 @@ src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2023-10-08
+1.如果待打开的文件中含有非文本数据，则认为是二进制文件，弹出提示框提示用户选择打开方式：文本方式、二进制方式、取消。其中二进制方式，会将文件的每个字节以十六进制形式显示在文本域中，每行16个字节，各字节间以空格分隔。
+src/com/xiboliya/snowpad/SnowPad.java
+src/com/xiboliya/snowpad/base/BaseTextArea.java
+src/com/xiboliya/snowpad/common/FileHistoryBean.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/util/Util.java
