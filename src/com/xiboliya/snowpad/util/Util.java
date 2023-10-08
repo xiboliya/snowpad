@@ -669,6 +669,50 @@ public final class Util {
   }
 
   /**
+   * 判断文件是否为二进制文件
+   * 
+   * @param file 待判断的文件
+   * @return 文件是否为二进制文件，是二进制文件返回true，反之返回false
+   */
+  public static boolean isBinary(File file) {
+    int maxLength = 1024 * 1024;
+    long length = file.length();
+    if (length > maxLength){
+      length = maxLength;
+    }
+    FileInputStream fileInputStream = null;
+    try {
+      fileInputStream = new FileInputStream(file);
+      if (length >= 2) {
+        int item1 = fileInputStream.read();
+        int item2 = fileInputStream.read();
+        if ((item1 == 0xff && item2 == 0xfe) || (item1 == 0xfe && item2 == 0xff)) {
+          // UTF-16LE、UTF-16BE格式文件中可能含有补位的0，容易误判，所以提前返回
+          return false;
+        } else {
+          length-=2;
+        }
+      }
+      for (int i = 0; i < length; i++) {
+        int item = fileInputStream.read();
+        // 小于32，并排除制表符、换行符、回车符之外的字符都为控制字符
+        if (item < 32 && item != 9 && item != 10 && item != 13) {
+          return true;
+        }
+      }
+    } catch (Exception x) {
+      // x.printStackTrace();
+    } finally {
+      try {
+        fileInputStream.close();
+      } catch (IOException x) {
+        // x.printStackTrace();
+      }
+    }
+    return false;
+  }
+
+  /**
    * 删除目录下的所有文件
    * 
    * @param file 目录文件

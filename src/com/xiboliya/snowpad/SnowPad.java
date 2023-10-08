@@ -68,7 +68,7 @@ public class SnowPad {
             }
           }
           if (!isExist) {
-            setting.fileHistoryList.add(new FileHistoryBean(arg, false, Util.DEFAULT_CARET_INDEX));
+            setting.fileHistoryList.add(new FileHistoryBean(arg, false, false, Util.DEFAULT_CARET_INDEX));
           }
         }
         new SnowPadFrame(setting, settingAdapter); // 初始化界面和设置的同时打开文件
