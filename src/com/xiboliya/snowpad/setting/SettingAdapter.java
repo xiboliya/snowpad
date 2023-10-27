@@ -427,17 +427,17 @@ public final class SettingAdapter {
             }
             if (!isExist) {
               String strFrozen = ((Element) node.getParentNode()).getAttribute("isFrozen");
-              String strBinary = ((Element) node.getParentNode()).getAttribute("isBinary");
+              String strDisplayBinary = ((Element) node.getParentNode()).getAttribute("isDisplayBinary");
               String strCaretIndex = ((Element) node.getParentNode()).getAttribute("caretIndex");
               boolean isFrozen = "true".equalsIgnoreCase(strFrozen);
-              boolean isBinary = "true".equalsIgnoreCase(strBinary);
+              boolean isDisplayBinary = "true".equalsIgnoreCase(strDisplayBinary);
               int caretIndex = Util.DEFAULT_CARET_INDEX;
               try {
                 caretIndex = Integer.parseInt(strCaretIndex);
               } catch (NumberFormatException x) {
                 // x.printStackTrace();
               }
-              this.setting.fileHistoryList.add(new FileHistoryBean(value, isFrozen, isBinary, caretIndex));
+              this.setting.fileHistoryList.add(new FileHistoryBean(value, isFrozen, isDisplayBinary, caretIndex));
             }
           }
         }
@@ -687,7 +687,7 @@ public final class SettingAdapter {
       e = document.createElement("file");
       e.setTextContent(bean.getFileName());
       e.setAttribute("isFrozen", String.valueOf(bean.getFrozen()));
-      e.setAttribute("isBinary", String.valueOf(bean.getBinary()));
+      e.setAttribute("isDisplayBinary", String.valueOf(bean.getDisplayBinary()));
       e.setAttribute("caretIndex", String.valueOf(bean.getCaretIndex()));
       nodeList.item(0).appendChild(e);
     }

@@ -26,7 +26,7 @@ package com.xiboliya.snowpad.common;
 public class FileHistoryBean {
   private String fileName = null;
   private boolean isFrozen = false;
-  private boolean isBinary = false;
+  private boolean isDisplayBinary = false;
   private int caretIndex = 0;
 
   /**
@@ -40,13 +40,13 @@ public class FileHistoryBean {
    * 
    * @param fileName 文件名
    * @param isFrozen 是否冻结文件
-   * @param isBinary 是否为二进制文件
+   * @param isDisplayBinary 是否以二进制视图显示
    * @param caretIndex 光标位置
    */
-  public FileHistoryBean(String fileName, boolean isFrozen, boolean isBinary, int caretIndex) {
+  public FileHistoryBean(String fileName, boolean isFrozen, boolean isDisplayBinary, int caretIndex) {
     this.setFileName(fileName);
     this.setFrozen(isFrozen);
-    this.setBinary(isBinary);
+    this.setDisplayBinary(isDisplayBinary);
     this.setCaretIndex(caretIndex);
   }
 
@@ -69,12 +69,12 @@ public class FileHistoryBean {
   }
 
   /**
-   * 获取是否为二进制文件
+   * 获取是否以二进制视图显示
    * 
-   * @return 是否为二进制文件
+   * @return 是否以二进制视图显示
    */
-  public boolean getBinary() {
-    return this.isBinary;
+  public boolean getDisplayBinary() {
+    return this.isDisplayBinary;
   }
 
   /**
@@ -105,12 +105,12 @@ public class FileHistoryBean {
   }
 
   /**
-   * 设置是否为二进制文件
+   * 设置是否以二进制视图显示
    * 
-   * @param isBinary 是否为二进制文件
+   * @param isDisplayBinary 是否以二进制视图显示
    */
-  public void setBinary(boolean isBinary) {
-    this.isBinary = isBinary;
+  public void setDisplayBinary(boolean isDisplayBinary) {
+    this.isDisplayBinary = isDisplayBinary;
   }
 
   /**

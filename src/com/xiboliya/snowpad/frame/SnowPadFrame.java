@@ -79,7 +79,6 @@ import java.awt.event.WindowFocusListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.Arrays;
@@ -143,6 +142,7 @@ import com.xiboliya.snowpad.setting.Setting;
 import com.xiboliya.snowpad.setting.SettingAdapter;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.view.LineNumberView;
+import com.xiboliya.snowpad.window.TipsWindow;
 
 /**
  * 冰雪记事本 打造一个与Windows的“记事本”功能相同的java版本。
@@ -379,6 +379,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JRadioButtonMenuItem itemCharsetUTF8_NO_BOM = new JRadioButtonMenuItem("UTF-8-NO-BOM格式");
   private JRadioButtonMenuItem itemCharsetULE = new JRadioButtonMenuItem("UTF-16LE格式");
   private JRadioButtonMenuItem itemCharsetUBE = new JRadioButtonMenuItem("UTF-16BE格式");
+  private JMenu menuDisplay = new JMenu("文件视图(D)");
+  private JRadioButtonMenuItem itemDisplayText = new JRadioButtonMenuItem("文本视图(T)");
+  private JRadioButtonMenuItem itemDisplayBinary = new JRadioButtonMenuItem("二进制视图(B)");
   private JMenu menuFormat = new JMenu("代码格式化(M)");
   private JMenuItem itemFormatJson = new JMenuItem("json");
   private JMenu menuCompress = new JMenu("代码压缩(P)");
@@ -500,6 +503,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private ButtonGroup bgpLineWrapStyle = new ButtonGroup(); // 用于存放换行方式的按钮组
   private ButtonGroup bgpLineStyle = new ButtonGroup(); // 用于存放换行符格式的按钮组
   private ButtonGroup bgpCharset = new ButtonGroup(); // 用于存放字符编码格式的按钮组
+  private ButtonGroup bgpDisplay = new ButtonGroup(); // 用于存放文件视图的按钮组
   private ButtonGroup bgpLookAndFeel = new ButtonGroup(); // 用于存放外观的按钮组
   private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private File file = null; // 当前编辑的文件
@@ -584,15 +588,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (!Util.isTextEmpty(bean.getFileName())) {
         File file = new File(bean.getFileName());
         if (file.exists()) {
-          boolean isBinary = bean.getBinary();
+          boolean isDisplayBinary = bean.getDisplayBinary();
           boolean isOpen = false;
           if (!toCreateNew) {
-            isOpen = this.toOpenFile(file, isBinary, true, false);
+            isOpen = this.toOpenFile(file, false, isDisplayBinary, true, false);
             if (isOpen) {
               toCreateNew = true; // 保证第一个被打开的文件在当前文本域中显示，其后的文件都需要新建文本域
             }
           } else {
-            isOpen = this.toOpenFile(file, isBinary, true, true);
+            isOpen = this.toOpenFile(file, false, isDisplayBinary, true, true);
           }
           if (isOpen) {
             this.txaMain.setFrozen(bean.getFrozen());
@@ -752,6 +756,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemCharsetUTF8_NO_BOM.addActionListener(this);
     this.itemCharsetULE.addActionListener(this);
     this.itemCharsetUBE.addActionListener(this);
+    this.itemDisplayText.addActionListener(this);
+    this.itemDisplayBinary.addActionListener(this);
     this.itemFormatJson.addActionListener(this);
     this.itemCompressJson.addActionListener(this);
     this.itemSignIdentifier.addActionListener(this);
@@ -1141,6 +1147,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuCharset.add(this.itemCharsetUTF8_NO_BOM);
     this.menuCharset.add(this.itemCharsetULE);
     this.menuCharset.add(this.itemCharsetUBE);
+    this.menuStyle.add(this.menuDisplay);
+    this.menuDisplay.add(this.itemDisplayText);
+    this.menuDisplay.add(this.itemDisplayBinary);
     this.menuStyle.add(this.menuFormat);
     this.menuFormat.add(this.itemFormatJson);
     this.menuStyle.add(this.menuCompress);
@@ -1250,6 +1259,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.bgpCharset.add(this.itemCharsetUTF8_NO_BOM);
     this.bgpCharset.add(this.itemCharsetULE);
     this.bgpCharset.add(this.itemCharsetUBE);
+    this.bgpDisplay.add(this.itemDisplayText);
+    this.bgpDisplay.add(this.itemDisplayBinary);
     this.initMenuItemList();
   }
 
@@ -1351,6 +1362,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemCharsetUTF8_NO_BOM);
     this.menuItemList.add(this.itemCharsetULE);
     this.menuItemList.add(this.itemCharsetUBE);
+    this.menuItemList.add(this.itemDisplayText);
+    this.menuItemList.add(this.itemDisplayBinary);
     this.menuItemList.add(this.itemFormatJson);
     this.menuItemList.add(this.itemCompressJson);
     this.menuItemList.add(this.itemSignIdentifier);
@@ -1551,6 +1564,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setMenuReset();
     this.setLineStyleString(this.setting.defaultLineSeparator, true);
     this.setCharEncoding(this.setting.defaultCharEncoding, true);
+    this.setDisplayBinary(false, true);
   }
 
   /**
@@ -1708,11 +1722,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setMenuStateFrozen() {
     boolean isFrozen = this.txaMain.getFrozen();
-    boolean isBinary = this.txaMain.getBinary();
+    boolean isDisplayBinary = this.txaMain.getDisplayBinary();
     this.itemFrozenFile.setSelected(isFrozen);
     this.itemPopFrozenFile.setSelected(isFrozen);
-    this.itemFrozenFile.setEnabled(!isBinary);
-    this.itemPopFrozenFile.setEnabled(!isBinary);
+    this.itemFrozenFile.setEnabled(!isDisplayBinary);
+    this.itemPopFrozenFile.setEnabled(!isDisplayBinary);
   }
 
   /**
@@ -1752,12 +1766,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineStyleUnix.setMnemonic('U');
     this.itemLineStyleMac.setMnemonic('M');
     this.menuCharset.setMnemonic('C');
+    this.menuDisplay.setMnemonic('D');
     this.itemCharsetGB18030.setMnemonic('G');
     this.itemCharsetANSI.setMnemonic('A');
     this.itemCharsetUTF8.setMnemonic('U');
     this.itemCharsetUTF8_NO_BOM.setMnemonic('N');
     this.itemCharsetULE.setMnemonic('L');
     this.itemCharsetUBE.setMnemonic('B');
+    this.itemDisplayText.setMnemonic('T');
+    this.itemDisplayBinary.setMnemonic('B');
     this.menuFormat.setMnemonic('M');
     this.menuCompress.setMnemonic('P');
     this.menuInsert.setMnemonic('I');
@@ -1994,6 +2011,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setCharEncoding(CharEncoding.ULE, false);
     } else if (this.itemCharsetUBE.equals(source)) {
       this.setCharEncoding(CharEncoding.UBE, false);
+    } else if (this.itemDisplayText.equals(source)) {
+      this.setDisplayBinary(false, false);
+    } else if (this.itemDisplayBinary.equals(source)) {
+      this.setDisplayBinary(true, false);
     } else if (this.itemFormatJson.equals(source)) {
       this.formatJson();
     } else if (this.itemCompressJson.equals(source)) {
@@ -3767,6 +3788,51 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
+   * 设置"文件视图"的处理方法
+   * 
+   * @param isDisplayBinary 是否采用二进制视图，true表示二进制视图，false表示文本视图
+   * @param isUpdateMenu 是否更新菜单的选择
+   */
+  private void setDisplayBinary(boolean isDisplayBinary, boolean isUpdateMenu) {
+    if (isUpdateMenu) {
+      this.txaMain.setDisplayBinary(isDisplayBinary);
+      this.setDisplaySelected();
+    } else if (this.txaMain.getDisplayBinary() != isDisplayBinary) {
+      // 文件视图是否切换成功
+      boolean changed = false;
+      if (this.saveFileBeforeAct()) {
+        File file = this.txaMain.getFile();
+        if (file != null && file.exists()) {
+          this.txaMain.setDisplayBinary(isDisplayBinary);
+          // 以新视图打开文件，需要先解除冻结，否则无法重新加载
+          this.txaMain.setFrozen(false);
+          int index = this.getCurrentIndexBySameFile(file);
+          if (this.toOpenFile(file, false, isDisplayBinary, true, false)) {
+            changed = true;
+            this.setAfterOpenFile(index);
+            this.setFileNameAndPath(file);
+          }
+        }
+      }
+      if (!changed) {
+        this.setDisplaySelected();
+        TipsWindow.show(this, "文件视图切换失败！", TipsWindow.Background.RED);
+      }
+    }
+  }
+
+  /**
+   * 根据采用的文件视图，更新菜单的选择
+   */
+  private void setDisplaySelected() {
+    if (this.txaMain.getDisplayBinary()) {
+      this.itemDisplayBinary.setSelected(true);
+    } else {
+      this.itemDisplayText.setSelected(true);
+    }
+  }
+
+  /**
    * 插入"特殊字符"的处理方法
    */
   private void openInsertCharDialog() {
@@ -3859,7 +3925,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.fileHistoryList.remove(index);
         this.menuFileHistory.remove(index);
       }
-      this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getBinary(), this.txaMain.getCaretPosition()));
+      this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getDisplayBinary(), this.txaMain.getCaretPosition()));
       this.menuFileHistory.add(itemFile);
       this.setFileHistoryMenuEnabled();
     }
@@ -3914,7 +3980,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         return;
       }
       int index = this.getCurrentIndexBySameFile(file);
-      if (this.toOpenFile(file, false, true, toCreateNew)) {
+      if (this.toOpenFile(file, true, false, true, toCreateNew)) {
         this.setAfterOpenFile(index);
         this.setFileNameAndPath(file);
       }
@@ -4670,7 +4736,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (file != null && file.exists()) {
         try {
           String strFile = file.getCanonicalPath();
-          this.setting.fileHistoryList.add(new FileHistoryBean(strFile, textArea.getFrozen(), textArea.getBinary(), textArea.getCaretPosition()));
+          this.setting.fileHistoryList.add(new FileHistoryBean(strFile, textArea.getFrozen(), textArea.getDisplayBinary(), textArea.getCaretPosition()));
         } catch (Exception x) {
           // x.printStackTrace();
         }
@@ -4866,12 +4932,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private boolean saveFileBeforeAct() {
     if (this.txaMain.getTextChanged() || this.txaMain.getStyleChanged()) {
-      String strChanged = "内容";
-      if (this.txaMain.getTextChanged() && this.txaMain.getStyleChanged()) {
-        strChanged = "内容与格式";
-      } else if (this.txaMain.getStyleChanged()) {
-        strChanged = "格式";
-      }
+      String strChanged = this.getChangedType();
       String str = "\"" + this.txaMain.getTitle() + "\" 的" + strChanged + "已经修改。\n想保存文件吗？";
       if (this.file != null) {
         str = "文件：" + this.file + " 的" + strChanged + "已经修改。\n想保存文件吗？";
@@ -4884,6 +4945,21 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     }
     return true;
+  }
+
+  /**
+   * 获取当前编辑的文本内容或格式修改的类型
+   * 
+   * @return 当前编辑的文本内容或格式修改的类型
+   */
+  private String getChangedType() {
+    String strChanged = "内容";
+    if (this.txaMain.getTextChanged() && this.txaMain.getStyleChanged()) {
+      strChanged = "内容与格式";
+    } else if (this.txaMain.getStyleChanged()) {
+      strChanged = "格式";
+    }
+    return strChanged;
   }
 
   /**
@@ -5384,14 +5460,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     if (this.txaMain.getTextChanged() || this.txaMain.getStyleChanged()) {
-      String strTemp = "内容";
-      if (this.txaMain.getTextChanged() && this.txaMain.getStyleChanged()) {
-        strTemp = "内容与格式";
-      } else if (this.txaMain.getStyleChanged()) {
-        strTemp = "格式";
-      }
+      String strChanged = this.getChangedType();
       int result = JOptionPane.showConfirmDialog(this,
-          Util.convertToMsg("文件：" + this.file + " 的" + strTemp + "已经修改。\n想放弃修改重新载入吗？"),
+          Util.convertToMsg("文件：" + this.file + " 的" + strChanged + "已经修改。\n想放弃修改重新载入吗？"),
           Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
       if (result != JOptionPane.YES_OPTION) {
         return;
@@ -5399,7 +5470,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     if (this.file.exists()) {
       int index = this.getCurrentIndexBySameFile(this.file);
-      this.toOpenFile(this.file, this.txaMain.getBinary(), true, false);
+      this.toOpenFile(this.file, false, this.txaMain.getDisplayBinary(), true, false);
       this.setAfterOpenFile(index);
       this.setTextPrefix();
       this.setStylePrefix();
@@ -5438,6 +5509,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.txaMain.setUndoIndex(Util.DEFAULT_UNDO_INDEX); // 撤销标识符恢复默认值
     this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
     this.setMenuStateBackForward(); // 设置后退和前进菜单的状态
+    this.setDisplaySelected();
     this.setMenuStateFrozen();
     this.setMenuStateReOpenAndReName();
     this.setMenuStateDelFile();
@@ -5476,7 +5548,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         return false;
       }
       int index = this.getCurrentIndexBySameFile(file);
-      if (this.toOpenFile(file, false, true, toCreateNew)) {
+      if (this.toOpenFile(file, true, false, true, toCreateNew)) {
         this.setAfterOpenFile(index);
         this.setFileNameAndPath(file);
       }
@@ -5572,9 +5644,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       boolean isOpen = false;
       if (charEncoding != null) {
         this.setCharEncoding(charEncoding, true);
-        isOpen = this.toOpenFile(file, false, false, false);
+        isOpen = this.toOpenFile(file, false, false, false, false);
       } else {
-        isOpen = this.toOpenFile(file, false, true, false);
+        isOpen = this.toOpenFile(file, false, false, true, false);
       }
       if (isOpen) {
         this.setAfterOpenFile(index);
@@ -5587,22 +5659,25 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 打开文件并将内容显示在文本域中
    * 
    * @param file 打开的文件
-   * @param isBinary 是否为二进制文件
-   * @param isAutoCheckEncoding 是否自动检测编码格式
+   * @param isCheckBinary 是否自动检测二进制数据
+   * @param isDisplayBinary 是否以二进制视图显示
+   * @param isCheckEncoding 是否自动检测编码格式
    * @param toCreateNew 是否需要新建文本域
    * @return 是否成功打开文件，成功打开返回true
    */
-  private boolean toOpenFile(File file, boolean isBinary, boolean isAutoCheckEncoding, boolean toCreateNew) {
+  private boolean toOpenFile(File file, boolean isCheckBinary, boolean isDisplayBinary, boolean isCheckEncoding, boolean toCreateNew) {
     int result = this.checkBigFile(file);
     if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
       return false;
     }
-    if (!isBinary) {
+    if (isCheckBinary) {
+      // 自动检测时，先将二进制视图恢复为默认
+      isDisplayBinary = false;
       result = this.checkBinaryFile(file);
       if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
         return false;
       } else if (result == JOptionPane.NO_OPTION) {
-        isBinary = true;
+        isDisplayBinary = true;
       }
     }
     FileInputStream fileInputStream = null;
@@ -5613,14 +5688,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       } else if (file != null) {
         this.txaMain.setFile(file);
       }
-      this.txaMain.setBinary(isBinary);
-      if (isAutoCheckEncoding) {
+      this.txaMain.setDisplayBinary(isDisplayBinary);
+      if (isCheckEncoding) {
         this.setCharEncoding(Util.checkFileEncoding(file), true);
       }
       String strCharset = this.txaMain.getCharEncoding().toString();
       fileInputStream = new FileInputStream(file);
       StringBuilder stbTemp = new StringBuilder();
-      if (isBinary) {
+      if (isDisplayBinary) {
         // 二进制方式打开
         long length = file.length();
         for (int i = 0; i < length; i++) {
@@ -5669,7 +5744,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setLineStyleString(LineSeparator.DEFAULT, true);
       }
       this.txaMain.setText(strTemp);
-      if (isBinary) {
+      if (isDisplayBinary) {
         // 二进制方式打开，则默认冻结文件
         this.txaMain.setFrozen(true);
       }
@@ -5848,7 +5923,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       try {
         fileOutputStream.flush();
         fileOutputStream.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }
@@ -5917,7 +5992,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setMenuStateReOpenAndReName() {
     boolean enable = true;
-    if (this.txaMain.getFile() == null || this.txaMain.getBinary()) {
+    if (this.txaMain.getFile() == null || this.txaMain.getDisplayBinary()) {
       enable = false;
     }
     this.itemReName.setEnabled(enable);
@@ -5942,7 +6017,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 设置换行符格式与字符编码格式菜单项的状态
    */
   private void setMenuStateLineStyleAndCharset() {
-    boolean enable = !this.txaMain.getBinary();
+    boolean enable = !this.txaMain.getDisplayBinary();
     this.menuLineStyle.setEnabled(enable);
     this.menuCharset.setEnabled(enable);
   }
@@ -5997,7 +6072,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 更新状态栏当前的换行符格式
    */
   private void updateStateLineStyle() {
-    if (this.txaMain.getBinary()) {
+    if (this.txaMain.getDisplayBinary()) {
       this.pnlState.setStringByIndex(2, STATE_LINE_STYLE + "Unsupport");
     } else {
       this.pnlState.setStringByIndex(2, STATE_LINE_STYLE + this.txaMain.getLineSeparator().getName());
@@ -6008,7 +6083,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 更新状态栏当前的字符编码格式
    */
   private void updateStateEncoding() {
-    if (this.txaMain.getBinary()) {
+    if (this.txaMain.getDisplayBinary()) {
       this.pnlState.setStringByIndex(3, STATE_ENCODING + "Unsupport");
     } else {
       this.pnlState.setStringByIndex(3, STATE_ENCODING + this.txaMain.getCharEncoding().getName());
@@ -6405,29 +6480,30 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   @Override
   public void stateChanged(ChangeEvent e) {
-    if (this.tpnMain.equals(e.getSource())) {
-      BaseTextArea baseTextArea = this.getCurrentTextArea();
-      if (baseTextArea != null) {
-        this.txaMain = baseTextArea;
-        this.txaMain.requestFocus();
-        this.setAutoTitle();
-        this.setLineStyleString(this.txaMain.getLineSeparator(), true);
-        this.setCharEncoding(this.txaMain.getCharEncoding(), true);
-        this.updateStateAll();
-        this.updateStateCur();
-        this.setMenuStateReOpenAndReName();
-        this.setMenuStateDelFile();
-        this.setMenuStateLineStyleAndCharset();
-        this.setTextAreaInDialogs();
-        this.undoManager = this.txaMain.getUndoManager();
-        this.setMenuStateUndoRedo();
-        this.setMenuStateBackForward();
-        this.setMenuStateComment();
-        this.setMenuStateByTextArea();
-        this.setMenuStateBySelectedText();
-        this.setMenuStateFrozen();
-        this.refreshTextAreaHashCodeList();
-      }
+    BaseTextArea baseTextArea = this.getCurrentTextArea();
+    if (baseTextArea != null) {
+      this.txaMain = baseTextArea;
+      this.txaMain.requestFocus();
+      this.setAutoTitle();
+      this.setLineStyleSelected();
+      this.setCharEncodingSelected();
+      this.setDisplaySelected();
+      this.updateStateAll();
+      this.updateStateCur();
+      this.updateStateLineStyle();
+      this.updateStateEncoding();
+      this.setMenuStateReOpenAndReName();
+      this.setMenuStateDelFile();
+      this.setMenuStateLineStyleAndCharset();
+      this.setTextAreaInDialogs();
+      this.undoManager = this.txaMain.getUndoManager();
+      this.setMenuStateUndoRedo();
+      this.setMenuStateBackForward();
+      this.setMenuStateComment();
+      this.setMenuStateByTextArea();
+      this.setMenuStateBySelectedText();
+      this.setMenuStateFrozen();
+      this.refreshTextAreaHashCodeList();
     }
   }
 
