@@ -2147,3 +2147,11 @@ src/com/xiboliya/snowpad/common/FileHistoryBean.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2023-10-27
+1.在“格式”菜单中添加“文件视图”功能，可以将当前文件切换为文本视图或二进制视图。
+src/com/xiboliya/snowpad/base/BaseTextArea.java
+src/com/xiboliya/snowpad/common/FileHistoryBean.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/util/Util.java
