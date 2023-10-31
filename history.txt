@@ -2155,3 +2155,7 @@ src/com/xiboliya/snowpad/common/FileHistoryBean.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2023-10-31
+1.“列表符号与编号”界面中“编号修饰”更名为“修饰字符”，改为最多支持2个字符，并且在编号或符号模式下都可以使用。
+src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
