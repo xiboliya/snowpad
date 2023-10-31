@@ -79,8 +79,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private BaseButton btnCancel = new BaseButton("取消");
   private JLabel lblStart = new JLabel("起始编号：");
   private BaseTextField txtStart = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
-  private JLabel lblModifier = new JLabel("编号修饰：");
-  private BaseTextField txtModifier = new BaseTextField(".", true, ".{0,1}"); // 限制用户输入的字符数量不能超过1个
+  private JLabel lblModifier = new JLabel("修饰字符：");
+  private BaseTextField txtModifier = new BaseTextField(".", true, ".{0,2}"); // 限制用户输入的字符数量不能超过2个
   private JCheckBox chkSkipEmptyLine = new JCheckBox("跳过空行(S)", false);
   private JTextArea txaView = new JTextArea();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
@@ -282,8 +282,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     int n = 0;
     int k = 0;
     boolean isSkipEmptyLine = this.chkSkipEmptyLine.isSelected();
+    String strModifier = this.txtModifier.getText();
     if (isSpecial) {
-      String strModifier = this.txtModifier.getText();
       int index = 0;
       for (; index < SIGN_IDENTIFIER_NAMES.length; index++) {
         if (this.strSignIdentifier.equals(SIGN_IDENTIFIER_NAMES[index])) {
@@ -321,7 +321,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     } else {
       for (; n < arrText.length; n++) {
         if (!isSkipEmptyLine || !Util.isTextEmpty(arrText[n])) {
-          arrText[n] = this.strSignIdentifier + arrText[n];
+          arrText[n] = this.strSignIdentifier + strModifier + arrText[n];
         }
       }
     }
@@ -519,13 +519,9 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     if (this.tpnMain.getSelectedIndex() == 0) {
       this.txtStart.setEnabled(true);
       this.txtStart.setFocusable(true);
-      this.txtModifier.setEnabled(true);
-      this.txtModifier.setFocusable(true);
     } else if (this.tpnMain.getSelectedIndex() == 1) {
       this.txtStart.setEnabled(false);
       this.txtStart.setFocusable(false);
-      this.txtModifier.setEnabled(false);
-      this.txtModifier.setFocusable(false);
     }
   }
 
