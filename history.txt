@@ -2159,3 +2159,7 @@ src/com/xiboliya/snowpad/util/Util.java
 2023-10-31
 1.“列表符号与编号”界面中“编号修饰”更名为“修饰字符”，改为最多支持2个字符，并且在编号或符号模式下都可以使用。
 src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
+
+2023-11-04
+1.调整TipsWindow提示窗口的各种背景颜色RGB色值，以改善视觉效果。
+src/com/xiboliya/snowpad/window/TipsWindow.java
