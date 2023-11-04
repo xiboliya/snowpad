@@ -36,11 +36,11 @@ import com.xiboliya.snowpad.util.Util;
  */
 public class TipsWindow extends JWindow implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private static final Color BG_RED = new Color(200, 60, 0);
+  private static final Color BG_RED = new Color(255, 70, 90);
   private static final Color BG_PINK = new Color(255, 180, 180);
-  private static final Color BG_PURPLE = new Color(200, 120, 150);
-  private static final Color BG_GREEN = new Color(60, 210, 90);
-  private static final Color BG_BLUE = new Color(60, 120, 180);
+  private static final Color BG_PURPLE = new Color(200, 125, 210);
+  private static final Color BG_GREEN = new Color(80, 255, 150);
+  private static final Color BG_BLUE = new Color(80, 180, 255);
   private JLabel lblMain = new JLabel();
   private Timer timer = null;
 
