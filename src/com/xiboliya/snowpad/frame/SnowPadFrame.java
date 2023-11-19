@@ -88,6 +88,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.xiboliya.snowpad.base.BaseButton;
+import com.xiboliya.snowpad.base.BaseNumberFormatException;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.chooser.SaveFileChooser;
@@ -1722,11 +1723,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setMenuStateFrozen() {
     boolean isFrozen = this.txaMain.getFrozen();
-    boolean isDisplayBinary = this.txaMain.getDisplayBinary();
     this.itemFrozenFile.setSelected(isFrozen);
     this.itemPopFrozenFile.setSelected(isFrozen);
-    this.itemFrozenFile.setEnabled(!isDisplayBinary);
-    this.itemPopFrozenFile.setEnabled(!isDisplayBinary);
   }
 
   /**
@@ -4620,7 +4618,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.toSaveFile(fileReName);
     } catch (Exception x) {
       // x.printStackTrace();
-      this.showSaveErrorDialog(fileReName);
+      this.showSaveErrorDialog(fileReName, x);
       return;
     }
     this.file.delete(); // 删除原文件
@@ -5484,7 +5482,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           this.toSaveFile(this.file);
         } catch (Exception x) {
           // x.printStackTrace();
-          this.showSaveErrorDialog(this.file);
+          this.showSaveErrorDialog(this.file, x);
           return;
         }
         this.setAfterSaveFile();
@@ -5744,10 +5742,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         this.setLineStyleString(LineSeparator.DEFAULT, true);
       }
       this.txaMain.setText(strTemp);
-      if (isDisplayBinary) {
-        // 二进制方式打开，则默认冻结文件
-        this.txaMain.setFrozen(true);
-      }
       this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
       this.txaMain.setFileExistsLabel(true);
       this.txaMain.setFileChangedLabel(false);
@@ -5832,7 +5826,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           this.toSaveFile(file);
         } catch (Exception x) {
           // x.printStackTrace();
-          this.showSaveErrorDialog(file);
+          this.showSaveErrorDialog(file, x);
           return false;
         }
         this.setFileNameAndPath(file);
@@ -5846,7 +5840,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           this.toSaveFile(this.file);
         } catch (Exception x) {
           // x.printStackTrace();
-          this.showSaveErrorDialog(this.file);
+          this.showSaveErrorDialog(this.file, x);
           return false;
         }
         this.txaMain.setFileLastModified(this.file.lastModified()); // 设置文件最后修改的时间戳
@@ -5880,37 +5874,39 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @param file 保存的文件
    */
   private void toSaveFile(File file) throws Exception {
+    String strText = this.txaMain.getText();
+    strText = strText.replaceAll(LineSeparator.UNIX.toString(),
+        this.txaMain.getLineSeparator().toString());
+    String[] byteArray = null;
+    // 检测二进制视图下，字符格式是否合法
+    if (this.txaMain.getDisplayBinary()) {
+      strText = strText.replaceAll("\n", " ");
+      byteArray = strText.split(" ");
+      for (String byteStr : byteArray) {
+        int byteInt = 0;
+        try {
+          byteInt = Integer.parseInt(byteStr, 16);
+        } catch (NumberFormatException x) {
+          throw new BaseNumberFormatException("字符：" + byteStr + " 格式错误，必须是合法的十六进制数字！");
+        }
+        if (byteInt < 0 || byteInt > 0xff) {
+          throw new BaseNumberFormatException("字节：" + byteStr + " 超出合法范围，应在0~ff之间！");
+        }
+      }
+    }
     FileOutputStream fileOutputStream = null;
     try {
       fileOutputStream = new FileOutputStream(file);
-      String strText = this.txaMain.getText();
-      strText = strText.replaceAll(LineSeparator.UNIX.toString(),
-          this.txaMain.getLineSeparator().toString());
-      byte[] byteStr;
-      int[] charBOM = new int[] { -1, -1, -1 }; // 根据当前的字符编码，存放BOM的数组
-      switch (this.txaMain.getCharEncoding()) {
-      case UTF8:
-        charBOM[0] = 0xef;
-        charBOM[1] = 0xbb;
-        charBOM[2] = 0xbf;
-        break;
-      case ULE:
-        charBOM[0] = 0xff;
-        charBOM[1] = 0xfe;
-        break;
-      case UBE:
-        charBOM[0] = 0xfe;
-        charBOM[1] = 0xff;
-        break;
-      }
-      byteStr = strText.getBytes(this.txaMain.getCharEncoding().toString());
-      for (int i = 0; i < charBOM.length; i++) {
-        if (charBOM[i] == -1) {
-          break;
+      if (this.txaMain.getDisplayBinary()) {
+        for (String byteStr : byteArray) {
+          int byteInt = Integer.parseInt(byteStr, 16);
+          fileOutputStream.write(byteInt);
         }
-        fileOutputStream.write(charBOM[i]);
+      } else {
+        this.saveBOM(fileOutputStream);
+        byte[] byteStr = strText.getBytes(this.txaMain.getCharEncoding().toString());
+        fileOutputStream.write(byteStr);
       }
-      fileOutputStream.write(byteStr);
       this.addFileHistoryItem(file.getCanonicalPath()); // 添加最近编辑的文件列表
       this.txaMain.setFileExistsLabel(true);
       this.txaMain.setFileChangedLabel(false);
@@ -5929,15 +5925,45 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
   }
 
+  private void saveBOM(FileOutputStream fileOutputStream) throws Exception {
+    int[] charBOM = new int[] { -1, -1, -1 }; // 根据当前的字符编码，存放BOM的数组
+    switch (this.txaMain.getCharEncoding()) {
+    case UTF8:
+      charBOM[0] = 0xef;
+      charBOM[1] = 0xbb;
+      charBOM[2] = 0xbf;
+      break;
+    case ULE:
+      charBOM[0] = 0xff;
+      charBOM[1] = 0xfe;
+      break;
+    case UBE:
+      charBOM[0] = 0xfe;
+      charBOM[1] = 0xff;
+      break;
+    }
+    for (int i = 0; i < charBOM.length; i++) {
+      if (charBOM[i] == -1) {
+        break;
+      }
+      fileOutputStream.write(charBOM[i]);
+    }
+  }
+
   /**
    * 在保存文件失败后，弹出提示框
    * 
    * @param file 当前编辑的文件
+   * @param exception 保存文件时出现的异常
    */
-  private void showSaveErrorDialog(File file) {
-    JOptionPane.showMessageDialog(this,
-        Util.convertToMsg("文件：" + file.getAbsolutePath() + "\n保存失败！请确认文件名是否有非法字符或是否有写权限！"),
-        Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
+  private void showSaveErrorDialog(File file, Exception exception) {
+    String msg = "文件：" + file.getAbsolutePath() + "\n保存失败！";
+    if (exception instanceof BaseNumberFormatException) {
+      msg += exception.getMessage();
+    } else {
+      msg += "请确认文件名是否有非法字符或是否有写权限！";
+    }
+    JOptionPane.showMessageDialog(this, Util.convertToMsg(msg), Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
   }
 
   /**
@@ -5992,7 +6018,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setMenuStateReOpenAndReName() {
     boolean enable = true;
-    if (this.txaMain.getFile() == null || this.txaMain.getDisplayBinary()) {
+    if (this.txaMain.getFile() == null) {
       enable = false;
     }
     this.itemReName.setEnabled(enable);
@@ -6386,7 +6412,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
             this.toSaveFile(this.file);
           } catch (Exception x) {
             // x.printStackTrace();
-            this.showSaveErrorDialog(this.file);
+            this.showSaveErrorDialog(this.file, x);
             this.tpnMain.setIconAt(i, this.getTabIcon(txaTemp));
             continue; // 如果保存出现异常，则继续下一个文件的检测
           }
