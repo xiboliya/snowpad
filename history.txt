@@ -2163,3 +2163,8 @@ src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
 2023-11-04
 1.调整TipsWindow提示窗口的各种背景颜色RGB色值，以改善视觉效果。
 src/com/xiboliya/snowpad/window/TipsWindow.java
+
+2023-11-19
+1.二进制视图时，支持文件编辑、保存。
+src/com/xiboliya/snowpad/base/BaseNumberFormatException.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
