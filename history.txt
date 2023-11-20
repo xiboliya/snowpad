@@ -2168,3 +2168,7 @@ src/com/xiboliya/snowpad/window/TipsWindow.java
 1.二进制视图时，支持文件编辑、保存。
 src/com/xiboliya/snowpad/base/BaseNumberFormatException.java（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2023-11-20
+1.二进制视图下保存文件时，添加兼容处理，支持多空格、多制表符作为间隔符。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
