@@ -5880,9 +5880,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     String[] byteArray = null;
     // 检测二进制视图下，字符格式是否合法
     if (this.txaMain.getDisplayBinary()) {
-      strText = strText.replaceAll("\n", " ");
+      strText = strText.replaceAll("\n", " ").replaceAll("\t", " ");
       byteArray = strText.split(" ");
       for (String byteStr : byteArray) {
+        if (Util.isTextEmpty(byteStr)) {
+          // 跳过空字符串
+          continue;
+        }
         int byteInt = 0;
         try {
           byteInt = Integer.parseInt(byteStr, 16);
@@ -5899,6 +5903,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       fileOutputStream = new FileOutputStream(file);
       if (this.txaMain.getDisplayBinary()) {
         for (String byteStr : byteArray) {
+          if (Util.isTextEmpty(byteStr)) {
+            // 跳过空字符串
+            continue;
+          }
           int byteInt = Integer.parseInt(byteStr, 16);
           fileOutputStream.write(byteInt);
         }
