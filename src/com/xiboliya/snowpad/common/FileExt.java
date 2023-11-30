@@ -109,6 +109,10 @@ public enum FileExt {
    */
   JAVA,
   /**
+   * Julia语言源文件
+   */
+  JL,
+  /**
    * javaScript脚本语言源文件
    */
   JS,
@@ -209,6 +213,10 @@ public enum FileExt {
    */
   SWIFT,
   /**
+   * TypeScript语言源文件
+   */
+  TS,
+  /**
    * 普通文本文件
    */
   TXT,
@@ -268,6 +276,8 @@ public enum FileExt {
       return ".ini";
     case JAVA:
       return ".java";
+    case JL:
+      return ".jl";
     case JS:
       return ".js";
     case JSON:
@@ -318,6 +328,8 @@ public enum FileExt {
       return ".st";
     case SWIFT:
       return ".swift";
+    case TS:
+      return ".ts";
     case TXT:
       return ".txt";
     case VB:
@@ -378,6 +390,8 @@ public enum FileExt {
       return "初始化设置文件(.ini)";
     case JAVA:
       return "java语言源文件(.java)";
+    case JL:
+      return "Julia语言源文件(.jl)";
     case JS:
       return "javaScript脚本语言源文件(.js)";
     case JSON:
@@ -428,6 +442,8 @@ public enum FileExt {
       return "Smalltalk语言源文件(.st)";
     case SWIFT:
       return "Swift语言源文件(.swift)";
+    case TS:
+      return "TypeScript语言源文件(.ts)";
     case TXT:
       return "普通文本文件(.txt)";
     case VB:
@@ -472,12 +488,14 @@ public enum FileExt {
     case RUST:
     case SCALA:
     case SWIFT:
+    case TS:
       return "// ";
     case INF:
     case INI:
     case LISP:
     case REG:
       return "; ";
+    case JL:
     case MK:
     case PL:
     case PROPERTIES:
@@ -526,12 +544,15 @@ public enum FileExt {
     case SCALA:
     case SQL:
     case SWIFT:
+    case TS:
       return "/* ";
     case DTD:
     case HTM:
     case HTML:
     case XML:
       return "<!-- ";
+    case JL:
+      return "#= ";
     case LUA:
       return "--[[ ";
     case PAS:
@@ -581,12 +602,15 @@ public enum FileExt {
     case SCALA:
     case SQL:
     case SWIFT:
+    case TS:
       return " */";
     case DTD:
     case HTM:
     case HTML:
     case XML:
       return " -->";
+    case JL:
+      return " =#";
     case LUA:
       return " --]]";
     case PAS:
