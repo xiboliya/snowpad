@@ -2172,3 +2172,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2023-11-20
 1.二进制视图下保存文件时，添加兼容处理，支持多空格、多制表符作为间隔符。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2023-11-30
+1.添加对2种编程语言源文件的支持。
+src/com/xiboliya/snowpad/common/FileExt.java
