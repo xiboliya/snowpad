@@ -2176,3 +2176,13 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2023-11-30
 1.添加对2种编程语言源文件的支持。
 src/com/xiboliya/snowpad/common/FileExt.java
+
+2023-12-04
+1.FileExt中添加默认文件类型：DEFAULT，同时修改所有牵涉到文件类型的逻辑。
+src/com/xiboliya/snowpad/base/BaseTextArea.java
+src/com/xiboliya/snowpad/common/FileExt.java
+src/com/xiboliya/snowpad/dialog/ChangeEncodingDialog.java
+src/com/xiboliya/snowpad/dialog/ChangeLineSeparatorDialog.java
+src/com/xiboliya/snowpad/dialog/WindowManageDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
