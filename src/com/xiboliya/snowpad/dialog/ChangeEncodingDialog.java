@@ -354,18 +354,16 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
     }
     FileExt[] arrFileExt = FileExt.values(); // 获取包含枚举所有成员的数组
     String result = fileName;
-    FileExt fileExt = null;
+    FileExt fileExt = FileExt.DEFAULT;
     for (FileExt tempFileExt : arrFileExt) {
-      if (fileName.toLowerCase().endsWith(tempFileExt.toString().toLowerCase())) {
+      if (!FileExt.DEFAULT.equals(tempFileExt) && fileName.toLowerCase().endsWith(tempFileExt.toString().toLowerCase())) {
         result = fileName.substring(0, fileName.length() - tempFileExt.toString().length());
         fileExt = tempFileExt;
         break;
       }
     }
     result += "_" + this.charEncoding;
-    if (fileExt != null) {
-      result += fileExt;
-    }
+    result += fileExt;
     return result;
   }
 

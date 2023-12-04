@@ -40,7 +40,6 @@ import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseDefaultTableModel;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
-import com.xiboliya.snowpad.common.FileExt;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
 import com.xiboliya.snowpad.util.Util;
 
@@ -145,7 +144,12 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
       cellsLine = new Vector<String>();
       cellsLine.add(textArea.getPrefix() + textArea.getTitle());
       cellsLine.add(path);
-      cellsLine.add(textArea.getFileExt().toString().substring(1));
+      String strFileExt = textArea.getFileExt().toString();
+      if (Util.isTextEmpty(strFileExt)) {
+        cellsLine.add("");
+      } else {
+        cellsLine.add(strFileExt.substring(1));
+      }
       this.cells.add(cellsLine);
     }
     this.baseDefaultTableModel.setDataVector(this.cells, this.cellsTitle);

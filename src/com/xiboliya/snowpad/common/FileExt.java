@@ -25,6 +25,10 @@ package com.xiboliya.snowpad.common;
  */
 public enum FileExt {
   /**
+   * 未知文件，此为默认类型
+   */
+  DEFAULT,
+  /**
    * Ada语言源文件
    */
   ADA,
@@ -337,7 +341,7 @@ public enum FileExt {
     case XML:
       return ".xml";
     default:
-      return ".txt";
+      return "";
     }
   }
 
@@ -451,7 +455,7 @@ public enum FileExt {
     case XML:
       return "可扩展标记语言文件(.xml)";
     default:
-      return "普通文本文件(.txt)";
+      return "";
     }
   }
 

@@ -166,6 +166,9 @@ public final class Util {
     BaseFileFilter fileFilter = null;
     BaseFileFilter defFileFilter = null; // 默认选择的文件过滤器
     for (FileExt fileExt : arrFileExt) { // 遍历枚举的所有成员
+      if (FileExt.DEFAULT.equals(fileExt)) {
+        continue;
+      }
       fileFilter = new BaseFileFilter(fileExt.toString(), fileExt.getDescription());
       fileChooser.addChoosableFileFilter(fileFilter);
       if (fileExt.equals(FileExt.TXT)) {

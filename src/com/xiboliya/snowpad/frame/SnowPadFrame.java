@@ -4998,9 +4998,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private FileExt getFileExtByName(String fileName) {
     FileExt[] arrFileExt = FileExt.values(); // 获取包含枚举所有成员的数组
-    FileExt fileExt = FileExt.TXT; // 当前的文件类型
+    FileExt fileExt = FileExt.DEFAULT; // 当前的文件类型
     for (FileExt tempFileExt : arrFileExt) {
-      if (fileName.toLowerCase().endsWith(tempFileExt.toString().toLowerCase())) {
+      if (!FileExt.DEFAULT.equals(tempFileExt) && fileName.toLowerCase().endsWith(tempFileExt.toString().toLowerCase())) {
         fileExt = tempFileExt;
         break;
       }

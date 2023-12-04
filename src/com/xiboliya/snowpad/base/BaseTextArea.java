@@ -50,7 +50,7 @@ public class BaseTextArea extends JTextArea {
   private static final long serialVersionUID = 1L;
   private int newFileIndex = 0; // 新建文件的序号
   private File file = null; // 编辑的文件
-  private FileExt fileExt = FileExt.TXT; // 文件扩展名类型
+  private FileExt fileExt = FileExt.DEFAULT; // 文件扩展名类型
   private String title = Util.NEW_FILE_NAME; // 在标签中显示的标题
   private LinkedList<PartnerBean> highlighterList = new LinkedList<PartnerBean>(); // 存放文本域中所有高亮对象的链表
   private LineSeparator lineSeparator = LineSeparator.DEFAULT; // 换行符格式
