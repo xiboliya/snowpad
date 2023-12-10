@@ -2186,3 +2186,9 @@ src/com/xiboliya/snowpad/dialog/ChangeLineSeparatorDialog.java
 src/com/xiboliya/snowpad/dialog/WindowManageDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2023-12-10
+1.将“查看”->“颜色设置”菜单中的：字体颜色、背景颜色、光标颜色、选区字体颜色、选区背景颜色、匹配括号背景颜色、当前行背景颜色、匹配文本背景颜色功能删除，转移到“首选项”界面中新增的“颜色”选项卡中。
+src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
