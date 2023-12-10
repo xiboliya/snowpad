@@ -407,14 +407,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemFontSizeMinus = new JMenuItem("缩小(S)", 'S');
   private JMenuItem itemFontSizeReset = new JMenuItem("恢复初始(D)", 'D');
   private JMenu menuColor = new JMenu("颜色设置(C)");
-  private JMenuItem itemColorFont = new JMenuItem("字体颜色(F)...", 'F');
-  private JMenuItem itemColorBack = new JMenuItem("背景颜色(B)...", 'B');
-  private JMenuItem itemColorCaret = new JMenuItem("光标颜色(C)...", 'C');
-  private JMenuItem itemColorSelFont = new JMenuItem("选区字体颜色(T)...", 'T');
-  private JMenuItem itemColorSelBack = new JMenuItem("选区背景颜色(K)...", 'K');
-  private JMenuItem itemColorBracketBack = new JMenuItem("匹配括号背景颜色(E)...", 'E');
-  private JMenuItem itemColorLineBack = new JMenuItem("当前行背景颜色(L)...", 'L');
-  private JMenuItem itemColorWordBack = new JMenuItem("匹配文本背景颜色(W)...", 'W');
   private JMenuItem itemColorAnti = new JMenuItem("全部反色(A)", 'A');
   private JMenuItem itemColorComplementary = new JMenuItem("全部补色(R)", 'R');
   private JMenu menuColorStyle = new JMenu("配色方案(Y)");
@@ -775,14 +767,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFontSizePlus.addActionListener(this);
     this.itemFontSizeMinus.addActionListener(this);
     this.itemFontSizeReset.addActionListener(this);
-    this.itemColorFont.addActionListener(this);
-    this.itemColorBack.addActionListener(this);
-    this.itemColorCaret.addActionListener(this);
-    this.itemColorSelFont.addActionListener(this);
-    this.itemColorSelBack.addActionListener(this);
-    this.itemColorBracketBack.addActionListener(this);
-    this.itemColorLineBack.addActionListener(this);
-    this.itemColorWordBack.addActionListener(this);
     this.itemColorAnti.addActionListener(this);
     this.itemColorComplementary.addActionListener(this);
     this.itemColorStyle1.addActionListener(this);
@@ -1189,15 +1173,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuFontSize.add(this.itemFontSizeMinus);
     this.menuFontSize.add(this.itemFontSizeReset);
     this.menuView.add(this.menuColor);
-    this.menuColor.add(this.itemColorFont);
-    this.menuColor.add(this.itemColorBack);
-    this.menuColor.add(this.itemColorCaret);
-    this.menuColor.add(this.itemColorSelFont);
-    this.menuColor.add(this.itemColorSelBack);
-    this.menuColor.add(this.itemColorBracketBack);
-    this.menuColor.add(this.itemColorLineBack);
-    this.menuColor.add(this.itemColorWordBack);
-    this.menuColor.addSeparator();
     this.menuColor.add(this.itemColorAnti);
     this.menuColor.add(this.itemColorComplementary);
     this.menuView.add(this.menuColorStyle);
@@ -1390,14 +1365,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemFontSizePlus);
     this.menuItemList.add(this.itemFontSizeMinus);
     this.menuItemList.add(this.itemFontSizeReset);
-    this.menuItemList.add(this.itemColorFont);
-    this.menuItemList.add(this.itemColorBack);
-    this.menuItemList.add(this.itemColorCaret);
-    this.menuItemList.add(this.itemColorSelFont);
-    this.menuItemList.add(this.itemColorSelBack);
-    this.menuItemList.add(this.itemColorBracketBack);
-    this.menuItemList.add(this.itemColorLineBack);
-    this.menuItemList.add(this.itemColorWordBack);
     this.menuItemList.add(this.itemColorAnti);
     this.menuItemList.add(this.itemColorComplementary);
     this.menuItemList.add(this.itemColorStyle1);
@@ -2130,22 +2097,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.setFontSizeMinus();
     } else if (this.itemFontSizeReset.equals(source)) {
       this.setFontSizeReset();
-    } else if (this.itemColorFont.equals(source)) {
-      this.setFontColor();
-    } else if (this.itemColorBack.equals(source)) {
-      this.setBackColor();
-    } else if (this.itemColorCaret.equals(source)) {
-      this.setCaretColor();
-    } else if (this.itemColorSelFont.equals(source)) {
-      this.setSelFontColor();
-    } else if (this.itemColorSelBack.equals(source)) {
-      this.setSelBackColor();
-    } else if (this.itemColorBracketBack.equals(source)) {
-      this.setBracketBackColor();
-    } else if (this.itemColorLineBack.equals(source)) {
-      this.setLineBackColor();
-    } else if (this.itemColorWordBack.equals(source)) {
-      this.setWordBackColor();
     } else if (this.itemColorAnti.equals(source)) {
       this.setColorTransform(true);
     } else if (this.itemColorComplementary.equals(source)) {
@@ -2237,7 +2188,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openPreferencesDialog() {
     if (this.preferencesDialog == null) {
-      this.preferencesDialog = new PreferencesDialog(this, true, this.setting);
+      this.preferencesDialog = new PreferencesDialog(this, true, this.txaMain, this.setting);
     } else {
       this.preferencesDialog.setVisible(true);
     }
@@ -3408,6 +3359,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(colorStyle);
     }
+    this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
     this.setting.colorStyle = colorStyle;
   }
 
@@ -3994,7 +3946,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @param color 待设置的颜色
    * @param index 配色方案中需要修改的颜色索引
    */
-  private void changeColorStyle(Color color, int index) {
+  public void changeColorStyle(Color color, int index) {
     if (color != null) {
       Color[] colorStyle = this.txaMain.getColorStyle();
       if (colorStyle == null) {
@@ -4004,73 +3956,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       for (BaseTextArea textArea : this.textAreaList) {
         textArea.setColorStyle(colorStyle);
       }
+      this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
       this.setting.colorStyle = colorStyle;
     }
-  }
-
-  /**
-   * "字体颜色"的处理方法
-   */
-  private void setFontColor() {
-    Color color = JColorChooser.showDialog(this, "字体颜色", this.txaMain.getForeground());
-    this.changeColorStyle(color, 0);
-  }
-
-  /**
-   * "背景颜色"的处理方法
-   */
-  private void setBackColor() {
-    Color color = JColorChooser.showDialog(this, "背景颜色", this.txaMain.getBackground());
-    this.changeColorStyle(color, 1);
-  }
-
-  /**
-   * "光标颜色"的处理方法
-   */
-  private void setCaretColor() {
-    Color color = JColorChooser.showDialog(this, "光标颜色", this.txaMain.getCaretColor());
-    this.changeColorStyle(color, 2);
-  }
-
-  /**
-   * "选区字体颜色"的处理方法
-   */
-  private void setSelFontColor() {
-    Color color = JColorChooser.showDialog(this, "选区字体颜色", this.txaMain.getSelectedTextColor());
-    this.changeColorStyle(color, 3);
-  }
-
-  /**
-   * "选区背景颜色"的处理方法
-   */
-  private void setSelBackColor() {
-    Color color = JColorChooser.showDialog(this, "选区背景颜色", this.txaMain.getSelectionColor());
-    this.changeColorStyle(color, 4);
-  }
-
-  /**
-   * "匹配括号背景颜色"的处理方法
-   */
-  private void setBracketBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", this.txaMain.getBracketBackColor());
-    this.changeColorStyle(color, 5);
-  }
-
-  /**
-   * "当前行背景颜色"的处理方法
-   */
-  private void setLineBackColor() {
-    Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.txaMain.getLineBackColor());
-    this.changeColorStyle(color, 6);
-    this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
-  }
-
-  /**
-   * "匹配文本背景颜色"的处理方法
-   */
-  private void setWordBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", this.txaMain.getWordBackColor());
-    this.changeColorStyle(color, 7);
   }
 
   /**
