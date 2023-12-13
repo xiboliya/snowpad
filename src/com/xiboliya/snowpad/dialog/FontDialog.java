@@ -27,7 +27,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
@@ -38,6 +37,7 @@ import javax.swing.event.ListSelectionListener;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
 
@@ -77,7 +77,7 @@ public class FontDialog extends BaseDialog implements ActionListener,
    * @param owner 父窗口
    * @param modal 是否为模式窗口
    */
-  public FontDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public FontDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.setTitle("字体");
     this.init();

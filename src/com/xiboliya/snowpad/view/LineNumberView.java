@@ -27,7 +27,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.util.LinkedList;
 import javax.swing.JComponent;
-import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
 
 import com.xiboliya.snowpad.base.BaseTextArea;
@@ -57,9 +56,9 @@ public class LineNumberView extends JComponent {
    * 
    * @param txaSource 将要显示此行号组件的文本域
    */
-  public LineNumberView(JTextArea txaSource) {
+  public LineNumberView(BaseTextArea txaSource) {
     if (txaSource != null) {
-      this.txaSource = (BaseTextArea)txaSource;
+      this.txaSource = txaSource;
       this.setFont(this.txaSource.getFont());
       this.setPreferredLine(this.txaSource.getLineCount());
     } else {

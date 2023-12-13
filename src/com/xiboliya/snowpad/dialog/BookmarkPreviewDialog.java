@@ -28,7 +28,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
@@ -62,7 +61,7 @@ public class BookmarkPreviewDialog extends BaseDialog implements ActionListener,
   private Color color = new Color(0, 0, 0, 0);
   private LinkedList<Integer> bookmarks = null;
 
-  public BookmarkPreviewDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public BookmarkPreviewDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.setTitle("预览书签");
     this.init();
@@ -106,7 +105,7 @@ public class BookmarkPreviewDialog extends BaseDialog implements ActionListener,
    */
   private void updateView() {
     StringBuilder stbLines = new StringBuilder();
-    this.bookmarks = ((BaseTextArea)this.txaSource).getBookmarks();
+    this.bookmarks = this.txaSource.getBookmarks();
     String text = this.txaSource.getText();
     int lineCount = this.txaSource.getLineCount();
     try {

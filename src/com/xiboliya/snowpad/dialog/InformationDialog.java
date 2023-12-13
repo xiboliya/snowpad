@@ -67,7 +67,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
-  public InformationDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public InformationDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.setTitle("统计信息");
     this.init();
@@ -126,7 +126,7 @@ public class InformationDialog extends BaseDialog implements ActionListener {
    * 初始化相关信息
    */
   private void initInfo() {
-    File file = ((BaseTextArea) this.txaSource).getFile();
+    File file = this.txaSource.getFile();
     if (file != null) {
       this.txaFile.setVisible(true);
       long fileSize = file.length();

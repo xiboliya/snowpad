@@ -28,7 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -38,6 +37,7 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDefaultTableModel;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.dialog.KeyCheckDialog;
 import com.xiboliya.snowpad.dialog.ShortcutSetDialog;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
@@ -85,7 +85,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
    * @param setting 软件参数配置类
    * @param settingAdapter 用于解析和保存软件配置文件的工具类
    */
-  public ShortcutManageDialog(JFrame owner, boolean modal, JTextArea txaSource, Setting setting, SettingAdapter settingAdapter) {
+  public ShortcutManageDialog(JFrame owner, boolean modal, BaseTextArea txaSource, Setting setting, SettingAdapter settingAdapter) {
     super(owner, modal, txaSource);
     this.setting = setting;
     this.settingAdapter = settingAdapter;

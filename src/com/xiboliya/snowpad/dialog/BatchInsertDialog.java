@@ -25,12 +25,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.util.Util;
@@ -56,7 +56,7 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private ButtonGroup bgpLineStartEnd = new ButtonGroup();
 
-  public BatchInsertDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public BatchInsertDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.init();
     this.addListeners();

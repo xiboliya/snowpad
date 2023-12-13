@@ -28,13 +28,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.common.FileExt;
+import com.xiboliya.snowpad.common.LineExtend;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.common.PartnerBean;
 import com.xiboliya.snowpad.setting.Setting;
@@ -161,8 +161,7 @@ public class BaseTextArea extends JTextArea {
    * 按回车键时进行缩进
    */
   private void toAutoIndent() {
-    CurrentLines currentLines = new CurrentLines(this,
-        CurrentLines.LineExtend.EXTEND_UP);
+    CurrentLines currentLines = new CurrentLines(this, LineExtend.EXTEND_UP);
     String strContentExtend = currentLines.getStrContentExtend();
     if (strContentExtend == null) {
       return;
@@ -276,7 +275,7 @@ public class BaseTextArea extends JTextArea {
       try {
         this.file = file.getCanonicalFile(); // 获取此抽象路径名的规范形式
         this.setTitle(this.file.getName());
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     } else {

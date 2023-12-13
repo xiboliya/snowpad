@@ -22,7 +22,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
@@ -33,7 +32,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
@@ -80,7 +78,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
-  public SlicingFileDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public SlicingFileDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.init();
     this.initView();
@@ -258,8 +256,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
    * @param keyword 关键字
    */
   private void slicingCurrentFile(String keyword) {
-    BaseTextArea textArea = (BaseTextArea) this.txaSource;
-    String strText = textArea.getText();
+    String strText = this.txaSource.getText();
     if (Util.isTextEmpty(strText)) {
       TipsWindow.show(this, "文件内容为空，无法拆分！");
       return;
@@ -269,7 +266,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       JOptionPane.showMessageDialog(this, "拆分文件失败，请检查关键字是否正确！", Util.SOFTWARE, JOptionPane.CANCEL_OPTION);
       return;
     }
-    File file = textArea.getFile();
+    File file = this.txaSource.getFile();
     if (file != null && file.exists()) {
       File fileSplit = new File(file + "_split");
       if (fileSplit.exists()) {
@@ -291,7 +288,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
         try {
           count++;
           File fileText = new File(fileSplit + "/" + count + ".txt");
-          toSaveFile(fileText, text, textArea.getCharEncoding(), textArea.getLineSeparator());
+          toSaveFile(fileText, text, this.txaSource.getCharEncoding(), this.txaSource.getLineSeparator());
         } catch (Exception x) {
           // x.printStackTrace();
         }
@@ -414,7 +411,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
     } finally {
       try {
         inputStreamReader.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }
@@ -463,7 +460,7 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener {
       try {
         fileOutputStream.flush();
         fileOutputStream.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }

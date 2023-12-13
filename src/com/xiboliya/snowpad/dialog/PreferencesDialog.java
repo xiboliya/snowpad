@@ -32,7 +32,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
@@ -100,7 +99,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private JPanel pnlBottom = new JPanel();
   private BaseButton btnCancel = new BaseButton("关闭");
 
-  public PreferencesDialog(JFrame owner, boolean modal, JTextArea txaSource, Setting setting) {
+  public PreferencesDialog(JFrame owner, boolean modal, BaseTextArea txaSource, Setting setting) {
     super(owner, modal, txaSource);
     this.setting = setting;
     this.setTitle("首选项");
@@ -207,11 +206,11 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lblColorSelFontView.setBackground(colorSelFont);
     Color colorSelBack = this.txaSource.getSelectionColor();
     this.lblColorSelBackView.setBackground(colorSelBack);
-    Color colorBracketBack = ((BaseTextArea)this.txaSource).getBracketBackColor();
+    Color colorBracketBack = this.txaSource.getBracketBackColor();
     this.lblColorBracketBackView.setBackground(colorBracketBack);
-    Color colorLineBack = ((BaseTextArea)this.txaSource).getLineBackColor();
+    Color colorLineBack = this.txaSource.getLineBackColor();
     this.lblColorLineBackView.setBackground(colorLineBack);
-    Color colorWordBack = ((BaseTextArea)this.txaSource).getWordBackColor();
+    Color colorWordBack = this.txaSource.getWordBackColor();
     this.lblColorWordBackView.setBackground(colorWordBack);
   }
 
@@ -363,7 +362,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "匹配括号背景颜色"的处理方法
    */
   private void setBracketBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", ((BaseTextArea)this.txaSource).getBracketBackColor());
+    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", this.txaSource.getBracketBackColor());
     if (color == null) {
       return;
     }
@@ -376,7 +375,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "当前行背景颜色"的处理方法
    */
   private void setLineBackColor() {
-    Color color = JColorChooser.showDialog(this, "当前行背景颜色", ((BaseTextArea)this.txaSource).getLineBackColor());
+    Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.txaSource.getLineBackColor());
     if (color == null) {
       return;
     }
@@ -389,7 +388,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "匹配文本背景颜色"的处理方法
    */
   private void setWordBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", ((BaseTextArea)this.txaSource).getWordBackColor());
+    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", this.txaSource.getWordBackColor());
     if (color == null) {
       return;
     }

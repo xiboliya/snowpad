@@ -31,13 +31,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -77,7 +77,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
    * @param modal 是否为模式对话框
    * @param txaSource 针对操作的文本域
    */
-  public InsertCharDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public InsertCharDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.init();
     this.addListeners();
@@ -100,7 +100,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
     this.btnOk.setBounds(10, 30, 85, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(10, 70, 85, Util.BUTTON_HEIGHT);
     this.lblView.setBounds(6, 125, 96, 96);
-    this.lblView.setBorder(new EtchedBorder());
+    this.lblView.setBorder(this.etchedBorder);
     this.lblView.setHorizontalAlignment(SwingConstants.CENTER);
     this.lblView.setOpaque(true);
     this.pnlRight.add(this.btnOk);

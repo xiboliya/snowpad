@@ -20,7 +20,6 @@ package com.xiboliya.snowpad.dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.io.RandomAccessFile;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -334,7 +333,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
           } finally {
             try {
               randomAccessFile.close();
-            } catch (IOException x) {
+            } catch (Exception x) {
               // x.printStackTrace();
             }
           }
@@ -359,7 +358,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     } finally {
       try {
         randomAccessFile.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }

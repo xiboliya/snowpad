@@ -43,6 +43,7 @@ import javax.swing.event.UndoableEditListener;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.util.Util;
@@ -95,7 +96,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    * @param modal 是否为模式对话框
    * @param txaSource 针对操作的文本域
    */
-  public SignIdentifierDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public SignIdentifierDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.init();
     this.setMnemonic();

@@ -35,7 +35,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
@@ -45,6 +44,7 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextAreaSpecial;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
@@ -87,7 +87,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   private BaseButton btnCopy = new BaseButton("复制结果(C)");
   private BaseButton btnCancel = new BaseButton("取消");
 
-  public EncryptDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public EncryptDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.setTitle("加密值生成");
     this.init();
@@ -341,19 +341,24 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
       return "";
     }
     MessageDigest digest = null;
-    FileInputStream in = null;
+    FileInputStream fileInputStream = null;
     byte[] buffer = new byte[1024];
     int len;
     try {
       digest = MessageDigest.getInstance(digestType);
-      in = new FileInputStream(file);
-      while ((len = in.read(buffer)) != -1) {
+      fileInputStream = new FileInputStream(file);
+      while ((len = fileInputStream.read(buffer)) != -1) {
         digest.update(buffer, 0, len);
       }
-      in.close();
     } catch (Exception x) {
       // x.printStackTrace();
       return "";
+    } finally {
+      try {
+        fileInputStream.close();
+      } catch (Exception x) {
+        // x.printStackTrace();
+      }
     }
     BigInteger bigInt = new BigInteger(1, digest.digest());
     return bigInt.toString(16);

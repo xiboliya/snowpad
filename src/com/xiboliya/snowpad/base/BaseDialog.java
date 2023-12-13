@@ -20,7 +20,6 @@ package com.xiboliya.snowpad.base;
 import java.awt.Window;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 
 /**
  * 用于统一行为的JDialog窗口类
@@ -31,7 +30,7 @@ import javax.swing.JTextArea;
 public abstract class BaseDialog extends JDialog {
   private static final long serialVersionUID = 1L;
   private Window owner = null;
-  protected JTextArea txaSource = null; // protected成员可被同一包中的所有类以及不同包中的子类访问
+  protected BaseTextArea txaSource = null; // protected成员可被同一包中的所有类以及不同包中的子类访问
 
   public BaseDialog(JFrame owner, boolean modal) {
     super(owner, modal);
@@ -43,7 +42,7 @@ public abstract class BaseDialog extends JDialog {
     this.init(owner);
   }
 
-  public BaseDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public BaseDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal);
     this.init(owner);
     this.setTextArea(txaSource);
@@ -84,7 +83,7 @@ public abstract class BaseDialog extends JDialog {
    * 
    * @param txaSource 当前编辑的文本域
    */
-  public void setTextArea(JTextArea txaSource) {
+  public void setTextArea(BaseTextArea txaSource) {
     if (txaSource != null) {
       this.txaSource = txaSource;
     }

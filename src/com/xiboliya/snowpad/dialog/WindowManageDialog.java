@@ -28,7 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -80,7 +79,7 @@ public class WindowManageDialog extends BaseDialog implements ActionListener, Li
    * @param txaSource 针对操作的文本域
    * @param tpnMain 显示文本域的选项卡组件
    */
-  public WindowManageDialog(JFrame owner, boolean modal, JTextArea txaSource, JTabbedPane tpnMain) {
+  public WindowManageDialog(JFrame owner, boolean modal, BaseTextArea txaSource, JTabbedPane tpnMain) {
     super(owner, modal, txaSource);
     this.tpnMain = tpnMain;
     this.init();

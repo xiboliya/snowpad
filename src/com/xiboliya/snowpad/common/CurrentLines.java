@@ -42,27 +42,6 @@ public class CurrentLines {
   private LineExtend lineExtend = LineExtend.EXTEND_WITHOUT; // 是否扩展上下行
 
   /**
-   * 标识扩展上下行方式的枚举
-   * 
-   * @author 冰原
-   * 
-   */
-  public static enum LineExtend {
-    /**
-     * 不进行扩展
-     */
-    EXTEND_WITHOUT,
-    /**
-     * 向上扩展
-     */
-    EXTEND_UP,
-    /**
-     * 向下扩展
-     */
-    EXTEND_DOWN;
-  }
-
-  /**
    * 构造方法
    * 
    * @param txaSource 当前的文本域

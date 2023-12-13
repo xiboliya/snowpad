@@ -20,7 +20,6 @@ package com.xiboliya.snowpad.frame;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.IOException;
 import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -132,7 +131,7 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
     } finally {
       try {
         reader.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }

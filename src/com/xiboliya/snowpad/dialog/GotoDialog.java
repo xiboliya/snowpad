@@ -24,7 +24,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
@@ -32,6 +31,7 @@ import javax.swing.text.BadLocationException;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.CurrentLine;
 import com.xiboliya.snowpad.util.Util;
@@ -71,7 +71,7 @@ public class GotoDialog extends BaseDialog implements ActionListener, ChangeList
   private JLabel lblGotoPercent = new JLabel("转到百分比：");
   private BaseTextField txtGotoPercent = new BaseTextField();
 
-  public GotoDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public GotoDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.setTitle("转到");
     this.init();

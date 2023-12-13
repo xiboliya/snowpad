@@ -29,7 +29,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -37,6 +36,7 @@ import javax.swing.event.CaretListener;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextAreaSpecial;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.CharEncoding;
@@ -86,7 +86,7 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   private BaseButton btnCopy = new BaseButton("复制结果(C)");
   private BaseButton btnCancel = new BaseButton("取消");
 
-  public TextConvertDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public TextConvertDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.setTitle("文本格式转换");
     this.init();

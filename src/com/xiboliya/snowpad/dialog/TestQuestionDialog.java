@@ -29,11 +29,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.window.TipsWindow;
@@ -89,7 +89,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
    * @param modal 是否为模式对话框
    * @param txaSource 针对操作的文本域
    */
-  public TestQuestionDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public TestQuestionDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.init();
     this.addListeners();

@@ -23,7 +23,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -583,7 +582,7 @@ public final class Util {
     } finally {
       try {
         fileInputStream.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }
@@ -623,7 +622,7 @@ public final class Util {
     } finally {
       try {
         fileInputStream.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
         return false;
       }
@@ -708,7 +707,7 @@ public final class Util {
     } finally {
       try {
         fileInputStream.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }

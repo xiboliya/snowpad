@@ -23,7 +23,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
@@ -52,7 +51,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   private int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数
   private boolean isReplaceBySpace = false; // 以空格代替Tab键
 
-  public TabSetDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public TabSetDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.init();
     this.initView();
@@ -98,7 +97,7 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
     this.tabSize = this.txaSource.getTabSize();
     this.txtTabSize.setText(String.valueOf(this.tabSize));
     this.txtTabSize.selectAll();
-    this.isReplaceBySpace = ((BaseTextArea) this.txaSource).getTabReplaceBySpace();
+    this.isReplaceBySpace = this.txaSource.getTabReplaceBySpace();
     this.chkReplaceBySpace.setSelected(this.isReplaceBySpace);
   }
 

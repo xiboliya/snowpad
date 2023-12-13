@@ -31,7 +31,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.CaretEvent;
@@ -42,6 +41,7 @@ import javax.swing.event.ListSelectionListener;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.window.TipsWindow;
@@ -87,7 +87,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
    * @param modal 是否为模式窗口
    * @param txaSource 针对操作的文本域
    */
-  public InsertDateDialog(JFrame owner, boolean modal, JTextArea txaSource) {
+  public InsertDateDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
     this.setTitle("插入时间/日期");
     this.init();

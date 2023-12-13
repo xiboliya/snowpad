@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
@@ -285,7 +284,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
     } finally {
       try {
         inputStreamReader.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }
@@ -334,7 +333,7 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
       try {
         fileOutputStream.flush();
         fileOutputStream.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }

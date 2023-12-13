@@ -98,6 +98,7 @@ import com.xiboliya.snowpad.common.CurrentLine;
 import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.common.FileExt;
 import com.xiboliya.snowpad.common.FileHistoryBean;
+import com.xiboliya.snowpad.common.LineExtend;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.common.PartnerBean;
 import com.xiboliya.snowpad.common.SearchStyle;
@@ -3565,7 +3566,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "上移当前行"的处理方法
    */
   private void moveLineToUp() {
-    CurrentLines currentLines = new CurrentLines(this.txaMain, CurrentLines.LineExtend.EXTEND_UP);
+    CurrentLines currentLines = new CurrentLines(this.txaMain, LineExtend.EXTEND_UP);
     String strContentExtend = currentLines.getStrContentExtend();
     if (strContentExtend == null) {
       return;
@@ -3588,7 +3589,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "下移当前行"的处理方法
    */
   private void moveLineToDown() {
-    CurrentLines currentLines = new CurrentLines(this.txaMain, CurrentLines.LineExtend.EXTEND_DOWN);
+    CurrentLines currentLines = new CurrentLines(this.txaMain, LineExtend.EXTEND_DOWN);
     String strContentExtend = currentLines.getStrContentExtend();
     if (strContentExtend == null) {
       return;
@@ -4908,7 +4909,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     LinkedList<Integer> indexList = new LinkedList<Integer>();
     for (int i = 0; i < size; i++) {
-      BaseTextArea txa = (BaseTextArea) this.textAreaList.get(i);
+      BaseTextArea txa = this.textAreaList.get(i);
       int newFileIndex = txa.getNewFileIndex();
       if (newFileIndex > 0) {
         indexList.add(newFileIndex);

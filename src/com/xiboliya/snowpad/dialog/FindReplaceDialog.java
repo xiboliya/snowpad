@@ -36,7 +36,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -128,7 +127,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private JPanel pnlSearchStyleR = new JPanel(new GridLayout(3, 1));
   private JPanel pnlFindUpDownR = new JPanel(new GridLayout(2, 1));
 
-  public FindReplaceDialog(JFrame owner, boolean modal, JTextArea txaSource, SearchResultPanel searchResultPanel,
+  public FindReplaceDialog(JFrame owner, boolean modal, BaseTextArea txaSource, SearchResultPanel searchResultPanel,
     Setting setting, boolean visible) {
     super(owner, modal, txaSource);
     this.setting = setting;
@@ -896,7 +895,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
     } else {
-      SearchResult searchResult = new SearchResult((BaseTextArea)this.txaSource, this.strFind, listIndex);
+      SearchResult searchResult = new SearchResult(this.txaSource, this.strFind, listIndex);
       this.searchResultPanel.refreshResult(searchResult);
       ((SnowPadFrame) this.getOwner()).viewSearchResult(true);
       this.dispose();

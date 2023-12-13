@@ -20,8 +20,6 @@ package com.xiboliya.snowpad.dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.RandomAccessFile;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
@@ -292,7 +290,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     } finally {
       try {
         randomAccessFile.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }
@@ -354,7 +352,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     } finally {
       try {
         randomAccessFile.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }
@@ -371,7 +369,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener {
     } finally {
       try {
         randomAccessFile.close();
-      } catch (IOException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }
