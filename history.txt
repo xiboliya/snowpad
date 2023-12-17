@@ -2227,3 +2227,7 @@ src/com/xiboliya/snowpad/frame/HelpFrame.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/view/LineNumberView.java
+
+2023-12-17
+1.“格式”->“快捷键管理”界面中允许：剪切、复制、粘贴、全选、删除功能修改快捷键。
+src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
