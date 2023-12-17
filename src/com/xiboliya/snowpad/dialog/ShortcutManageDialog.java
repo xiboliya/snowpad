@@ -30,8 +30,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDefaultTableModel;
@@ -54,7 +52,6 @@ import com.xiboliya.snowpad.util.Util;
 public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] { "功能", "快捷键" }; // 表格标题
-  private static final String[] CAN_NOT_MODIFIED_SHORTCUT_NAMES = new String[] {"剪切","复制","粘贴","全选","删除"}; // 不可修改的快捷键名称
   private Setting setting = null; // 软件参数配置类
   private SettingAdapter settingAdapter = null; // 用于解析和保存软件配置文件的工具类
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -74,7 +71,6 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private BaseDefaultTableModel baseDefaultTableModel = null;
   private ShortcutSetDialog shortcutSetDialog = null;
   private KeyCheckDialog keyCheckDialog = null;
-  private boolean enabled = true; // 用于标识"编辑"和"清除"按钮是否可用
 
   /**
    * 构造方法
@@ -143,24 +139,6 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.tabMain.getTableHeader().setReorderingAllowed(false); // 不可整列移动
     this.spnMain = new JScrollPane(this.tabMain);
     this.pnlLeft.add(this.spnMain, BorderLayout.CENTER);
-    this.tabMain.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-      public void valueChanged(ListSelectionEvent e) {
-        int index = tabMain.getSelectedRow();
-        if (index < 0) {
-          return;
-        }
-        String strName = tabMain.getValueAt(index, 0).toString();
-        enabled = true;
-        for (String str : CAN_NOT_MODIFIED_SHORTCUT_NAMES) {
-          if (str.equalsIgnoreCase(strName)) {
-            enabled = false;
-            break;
-          }
-        }
-        btnEdit.setEnabled(enabled);
-        btnRemove.setEnabled(enabled);
-      }
-    });
   }
 
   /**
