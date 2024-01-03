@@ -40,6 +40,7 @@ import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.common.FileExt;
 import com.xiboliya.snowpad.common.SearchStyle;
+import com.xiboliya.snowpad.setting.Setting;
 
 /**
  * 实用工具类，包括可重用的各种属性和方法。设计为final类型，使本类不可被继承
@@ -139,6 +140,8 @@ public final class Util {
   public static int transfer_count = 0; // 查找或替换时，启用“转义扩展”后被转义的字符个数
   public static int matcher_length = 0; // 通过正则表达式成功匹配的字符个数
   private static Matcher matcher = null; // 通过解释Pattern对指定文本执行匹配操作的引擎
+
+  public static Setting setting = new Setting(); // 软件参数配置类
 
   /**
    * 由于此类为工具类，故将构造方法私有化

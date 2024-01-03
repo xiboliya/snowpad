@@ -41,7 +41,6 @@ import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
-import com.xiboliya.snowpad.setting.Setting;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -63,7 +62,6 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   // 换行符格式名称的数组
   private static final String[] LINE_SEPARATOR_VALUES = new String[] {
       LineSeparator.DEFAULT.getValue(), LineSeparator.UNIX.getValue(), LineSeparator.MACINTOSH.getValue(), LineSeparator.WINDOWS.getValue() };
-  private Setting setting = null; // 软件参数配置类
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
   private CharEncoding charEncoding = CharEncoding.GB18030; // 字符编码格式
@@ -99,9 +97,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private JPanel pnlBottom = new JPanel();
   private BaseButton btnCancel = new BaseButton("关闭");
 
-  public PreferencesDialog(JFrame owner, boolean modal, BaseTextArea txaSource, Setting setting) {
+  public PreferencesDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
-    this.setting = setting;
     this.setTitle("首选项");
     this.init();
     this.initView();
@@ -191,9 +188,9 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    */
   private void initView() {
     // 新建
-    this.charEncoding = this.setting.defaultCharEncoding;
+    this.charEncoding = Util.setting.defaultCharEncoding;
     this.cmbEncoding.setSelectedItem(this.charEncoding.getName());
-    this.lineSeparator = this.setting.defaultLineSeparator;
+    this.lineSeparator = Util.setting.defaultLineSeparator;
     this.cmbLineSeparator.setSelectedItem(this.lineSeparator.getValue());
     // 颜色
     Color colorFont = this.txaSource.getForeground();
@@ -268,7 +265,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
         this.charEncoding = CharEncoding.UBE;
         break;
     }
-    this.setting.defaultCharEncoding = this.charEncoding;
+    Util.setting.defaultCharEncoding = this.charEncoding;
   }
 
   /**
@@ -290,7 +287,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
         this.lineSeparator = LineSeparator.WINDOWS;
         break;
     }
-    this.setting.defaultLineSeparator = this.lineSeparator;
+    Util.setting.defaultLineSeparator = this.lineSeparator;
   }
 
   /**

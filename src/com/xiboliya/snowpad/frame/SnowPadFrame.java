@@ -512,7 +512,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private FileTreePanel pnlFileTree = new FileTreePanel(this); // 文件树面板
   private SearchResultPanel pnlSearchResult = new SearchResultPanel(this); // 查找结果面板
   private UndoManager undoManager = null; // 撤销管理器
-  private Setting setting = null; // 软件参数配置类
   private SettingAdapter settingAdapter = null; // 用于解析和保存软件配置文件的工具类
   private boolean clickToClose = true; // 是否双击关闭当前标签
   private boolean isTabIconView = true; // 是否显示标签的文件状态指示图标
@@ -560,11 +559,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   /**
    * 带参数的构造方法，通过配置文件进行设置
    * 
-   * @param setting 软件参数配置类
    * @param settingAdapter 用于解析和保存软件配置文件的工具类
    */
-  public SnowPadFrame(Setting setting, SettingAdapter settingAdapter) {
-    this.setting = setting;
+  public SnowPadFrame(SettingAdapter settingAdapter) {
     this.settingAdapter = settingAdapter;
     this.setTitle(this.stbTitle.toString());
     this.setSize();
@@ -574,11 +571,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.init();
     this.setIcon();
     this.setVisible(true);
-    if (this.setting.fileHistoryList.isEmpty()) {
+    if (Util.setting.fileHistoryList.isEmpty()) {
       return;
     }
     boolean toCreateNew = false; // 用于标识新打开的文件，是要在当前文本域中打开，还是要新建文本域
-    for (FileHistoryBean bean : this.setting.fileHistoryList) {
+    for (FileHistoryBean bean : Util.setting.fileHistoryList) {
       if (!Util.isTextEmpty(bean.getFileName())) {
         File file = new File(bean.getFileName());
         if (file.exists()) {
@@ -600,7 +597,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
       }
     }
-    this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult, this.setting, false);
+    this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult, false);
   }
 
   /**
@@ -609,9 +606,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void setSize() {
     int width = Util.DEFAULT_FRAME_WIDTH;
     int height = Util.DEFAULT_FRAME_HEIGHT;
-    if (this.setting.viewFrameSize != null) {
-      width = this.setting.viewFrameSize[0];
-      height = this.setting.viewFrameSize[1];
+    if (Util.setting.viewFrameSize != null) {
+      width = Util.setting.viewFrameSize[0];
+      height = Util.setting.viewFrameSize[1];
     }
     if (width > 0 && height > 0) {
       this.setSize(width, height);
@@ -1531,8 +1528,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setMenuDefaultInit() {
     this.setMenuReset();
-    this.setLineStyleString(this.setting.defaultLineSeparator, true);
-    this.setCharEncoding(this.setting.defaultCharEncoding, true);
+    this.setLineStyleString(Util.setting.defaultLineSeparator, true);
+    this.setCharEncoding(Util.setting.defaultCharEncoding, true);
     this.setDisplayBinary(false, true);
   }
 
@@ -1540,22 +1537,22 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 设置部分菜单的状态与功能
    */
   private void setMenuReset() {
-    this.itemLineWrap.setSelected(this.setting.isLineWrap);
-    this.itemLineWrapByWord.setSelected(this.setting.isWrapStyleWord);
-    this.itemLineWrapByChar.setSelected(!this.setting.isWrapStyleWord);
-    this.itemAutoIndent.setSelected(this.setting.autoIndent);
-    this.itemToolBar.setSelected(this.setting.viewToolBar);
-    this.itemStateBar.setSelected(this.setting.viewStateBar);
-    this.itemFileTree.setSelected(this.setting.viewFileTree);
-    this.itemLineNumber.setSelected(this.setting.viewLineNumber);
-    this.itemSearchResult.setSelected(this.setting.viewSearchResult);
-    this.itemAlwaysOnTop.setSelected(this.setting.viewAlwaysOnTop);
-    this.itemLockResizable.setSelected(this.setting.viewLockResizable);
-    this.itemTabPolicy.setSelected(this.setting.viewTabPolicy);
-    this.itemClickToClose.setSelected(this.setting.viewClickToClose);
-    this.itemTabIcon.setSelected(this.setting.viewTabIcon);
-    this.toolButtonList.get(17).setSelected(this.setting.isLineWrap);
-    this.toolButtonList.get(18).setSelected(this.setting.viewFileTree);
+    this.itemLineWrap.setSelected(Util.setting.isLineWrap);
+    this.itemLineWrapByWord.setSelected(Util.setting.isWrapStyleWord);
+    this.itemLineWrapByChar.setSelected(!Util.setting.isWrapStyleWord);
+    this.itemAutoIndent.setSelected(Util.setting.autoIndent);
+    this.itemToolBar.setSelected(Util.setting.viewToolBar);
+    this.itemStateBar.setSelected(Util.setting.viewStateBar);
+    this.itemFileTree.setSelected(Util.setting.viewFileTree);
+    this.itemLineNumber.setSelected(Util.setting.viewLineNumber);
+    this.itemSearchResult.setSelected(Util.setting.viewSearchResult);
+    this.itemAlwaysOnTop.setSelected(Util.setting.viewAlwaysOnTop);
+    this.itemLockResizable.setSelected(Util.setting.viewLockResizable);
+    this.itemTabPolicy.setSelected(Util.setting.viewTabPolicy);
+    this.itemClickToClose.setSelected(Util.setting.viewClickToClose);
+    this.itemTabIcon.setSelected(Util.setting.viewTabIcon);
+    this.toolButtonList.get(17).setSelected(Util.setting.isLineWrap);
+    this.toolButtonList.get(18).setSelected(Util.setting.viewFileTree);
     this.setLineWrap();
     this.setLineWrapStyle();
     this.setToolBar();
@@ -1576,10 +1573,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.setLookAndFeel(Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME);
     this.setMenuReset();
     for (BaseTextArea textArea : this.textAreaList) {
-      textArea.setTabSize(this.setting.tabSize);
-      textArea.setTabReplaceBySpace(this.setting.tabReplaceBySpace);
-      textArea.setAutoIndent(this.setting.autoIndent);
-      textArea.setAutoComplete(this.setting.autoComplete);
+      textArea.setTabSize(Util.setting.tabSize);
+      textArea.setTabReplaceBySpace(Util.setting.tabReplaceBySpace);
+      textArea.setAutoIndent(Util.setting.autoIndent);
+      textArea.setAutoComplete(Util.setting.autoComplete);
     }
     this.setTextAreaFont();
     this.setColorStyle(0);
@@ -1782,7 +1779,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     int size = this.menuItemList.size();
     for (int i = 0; i < size; i++) {
       JMenuItem item = this.menuItemList.get(i);
-      item.setAccelerator(Util.transferKeyStroke(this.setting.shortcutMap.get(Util.SHORTCUT_NAMES[i])));
+      item.setAccelerator(Util.transferKeyStroke(Util.setting.shortcutMap.get(Util.SHORTCUT_NAMES[i])));
     }
   }
 
@@ -2189,7 +2186,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openPreferencesDialog() {
     if (this.preferencesDialog == null) {
-      this.preferencesDialog = new PreferencesDialog(this, true, this.txaMain, this.setting);
+      this.preferencesDialog = new PreferencesDialog(this, true, this.txaMain);
     } else {
       this.preferencesDialog.setVisible(true);
     }
@@ -2205,8 +2202,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (result != JOptionPane.YES_OPTION) {
       return;
     }
-    this.setting = new Setting();
-    this.settingAdapter.setSetting(this.setting);
+    Util.setting = new Setting();
+    this.settingAdapter.setSetting(Util.setting);
     this.settingAdapter.deleteSettingFile();
     this.settingAdapter.initShortcuts();
     this.setMenuDefaultSetting();
@@ -2461,14 +2458,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "双击关闭标签"的处理方法
    */
   private void setClickToClose() {
-    this.setting.viewClickToClose = this.clickToClose = this.itemClickToClose.isSelected();
+    Util.setting.viewClickToClose = this.clickToClose = this.itemClickToClose.isSelected();
   }
 
   /**
    * "指示图标"的处理方法
    */
   private void setTabIcon() {
-    this.setting.viewTabIcon = this.isTabIconView = this.itemTabIcon.isSelected();
+    Util.setting.viewTabIcon = this.isTabIconView = this.itemTabIcon.isSelected();
     int tabCount = this.tpnMain.getTabCount();
     for (int i = 0; i < tabCount; i++) {
       this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
@@ -2605,7 +2602,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       this.tpnMain.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
-    this.setting.viewTabPolicy = this.itemTabPolicy.isSelected();
+    Util.setting.viewTabPolicy = this.itemTabPolicy.isSelected();
   }
 
   /**
@@ -2640,7 +2637,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         break;
       }
     }
-    this.setting.viewLookAndFeel = index;
+    Util.setting.viewLookAndFeel = index;
   }
 
   /**
@@ -2796,9 +2793,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       itemInfo.addActionListener(this);
       this.menuLookAndFeel.add(itemInfo);
       this.bgpLookAndFeel.add(itemInfo);
-      if (this.setting.viewLookAndFeel < 0 && Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME.equals(className)) {
+      if (Util.setting.viewLookAndFeel < 0 && Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME.equals(className)) {
         itemInfo.setSelected(true);
-      } else if (this.setting.viewLookAndFeel >= 0 && this.setting.viewLookAndFeel == index) {
+      } else if (Util.setting.viewLookAndFeel >= 0 && Util.setting.viewLookAndFeel == index) {
         itemInfo.setSelected(true);
       }
       index++;
@@ -2823,14 +2820,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         srp.setRowHeaderView(null);
       }
     }
-    this.setting.viewLineNumber = enable;
+    Util.setting.viewLineNumber = enable;
   }
 
   /**
    * 在开启"行号栏"设置的情况下，新建或打开新文件时，添加行号栏的显示
    */
   private void setLineNumberForNew() {
-    if (this.setting.viewLineNumber && this.itemLineNumber.isEnabled()) {
+    if (Util.setting.viewLineNumber && this.itemLineNumber.isEnabled()) {
       LineNumberView lineNumberView = new LineNumberView(this.textAreaList.getLast());
       JScrollPane srp = ((JScrollPane) this.tpnMain.getComponentAt(this.tpnMain.getTabCount() - 1));
       srp.setRowHeaderView(lineNumberView);
@@ -2849,7 +2846,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       this.spnMain.setDividerSize(0); // 隐藏分隔条
     }
-    this.setting.viewSearchResult = enable;
+    Util.setting.viewSearchResult = enable;
   }
 
   /**
@@ -2880,7 +2877,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     }
     this.itemSearchResult.setSelected(isView);
     this.pnlSearchResult.setVisible(isView);
-    this.setting.viewSearchResult = isView;
+    Util.setting.viewSearchResult = isView;
     if (isView) {
       this.spnMain.setDividerSize(3);
       this.spnMain.setDividerLocation(this.getMainDividerLocation());
@@ -2906,14 +2903,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setTextAreaFont() {
     for (BaseTextArea textArea : this.textAreaList) {
-      textArea.setFont(this.setting.font);
+      textArea.setFont(Util.setting.font);
     }
-    if (this.setting.viewLineNumber) {
+    if (Util.setting.viewLineNumber) {
       JScrollPane srp = null;
       for (int i = 0; i < this.tpnMain.getTabCount(); i++) {
         srp = (JScrollPane) this.tpnMain.getComponentAt(i);
         if (srp.getRowHeader() != null && srp.getRowHeader().getView() != null) {
-          srp.getRowHeader().getView().setFont(this.setting.font);
+          srp.getRowHeader().getView().setFont(Util.setting.font);
         }
       }
     }
@@ -3228,8 +3225,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void findSelNextText(boolean isFindDown) {
     String strSel = this.txaMain.getSelectedText();
     if (this.findReplaceDialog == null) {
-      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
-          this.setting, false);
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult, false);
     } else {
       this.findReplaceDialog.setTextArea(this.txaMain);
     }
@@ -3289,7 +3285,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } while (index >= 0);
     Color color = null;
     if (style == WORD_COLOR_STYLE) {
-      color = this.setting.colorStyle[7];
+      color = Util.setting.colorStyle[7];
     } else {
       color = COLOR_HIGHLIGHTS[style - 1];
     }
@@ -3361,7 +3357,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       textArea.setColorStyle(colorStyle);
     }
     this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
-    this.setting.colorStyle = colorStyle;
+    Util.setting.colorStyle = colorStyle;
   }
 
   /**
@@ -3413,12 +3409,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setColorStyle(int style) {
     if (style > 0 && style <= COLOR_STYLES.length) {
-      this.setting.colorStyle = COLOR_STYLES[style - 1];
+      Util.setting.colorStyle = COLOR_STYLES[style - 1];
     } else {
-      this.setting.colorStyle = Util.COLOR_STYLE_DEFAULT;
+      Util.setting.colorStyle = Util.COLOR_STYLE_DEFAULT;
     }
     for (BaseTextArea textArea : this.textAreaList) {
-      textArea.setColorStyle(this.setting.colorStyle);
+      textArea.setColorStyle(Util.setting.colorStyle);
     }
     this.searchTargetBracket();
   }
@@ -3559,7 +3555,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setAutoIndent(enable);
     }
-    this.setting.autoIndent = enable;
+    Util.setting.autoIndent = enable;
   }
 
   /**
@@ -3803,7 +3799,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setWrapStyleWord(isByWord);
     }
-    this.setting.isWrapStyleWord = isByWord;
+    Util.setting.isWrapStyleWord = isByWord;
   }
 
   /**
@@ -3958,7 +3954,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         textArea.setColorStyle(colorStyle);
       }
       this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
-      this.setting.colorStyle = colorStyle;
+      Util.setting.colorStyle = colorStyle;
     }
   }
 
@@ -3978,8 +3974,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       textArea.setTabSize(tabSize);
       textArea.setTabReplaceBySpace(enable);
     }
-    this.setting.tabSize = tabSize;
-    this.setting.tabReplaceBySpace = enable;
+    Util.setting.tabSize = tabSize;
+    Util.setting.tabReplaceBySpace = enable;
   }
 
   /**
@@ -3987,7 +3983,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openAutoCompleteDialog() {
     if (this.autoCompleteDialog == null) {
-      this.autoCompleteDialog = new AutoCompleteDialog(this, true, this.setting);
+      this.autoCompleteDialog = new AutoCompleteDialog(this, true);
     } else {
       this.autoCompleteDialog.setTextArea(this.txaMain);
       this.autoCompleteDialog.setVisible(true);
@@ -3996,7 +3992,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setAutoComplete(enable);
     }
-    this.setting.autoComplete = enable;
+    Util.setting.autoComplete = enable;
   }
 
   /**
@@ -4005,7 +4001,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void openShortcutManageDialog() {
     if (this.shortcutManageDialog == null) {
       this.shortcutManageDialog = new ShortcutManageDialog(this, true,
-          this.txaMain, this.setting, this.settingAdapter);
+          this.txaMain, this.settingAdapter);
     } else {
       this.shortcutManageDialog.setVisible(true);
     }
@@ -4021,7 +4017,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     JMenuItem item = this.menuItemList.get(index);
-    item.setAccelerator(Util.transferKeyStroke(this.setting.shortcutMap.get(Util.SHORTCUT_NAMES[index])));
+    item.setAccelerator(Util.transferKeyStroke(Util.setting.shortcutMap.get(Util.SHORTCUT_NAMES[index])));
   }
 
   /**
@@ -4032,7 +4028,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (font.getSize() >= Util.MAX_FONT_SIZE) {
       return;
     }
-    this.setting.font = new Font(font.getFamily(), font.getStyle(), font.getSize() + 1);
+    Util.setting.font = new Font(font.getFamily(), font.getStyle(), font.getSize() + 1);
     this.setTextAreaFont();
   }
 
@@ -4044,7 +4040,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (font.getSize() <= Util.MIN_FONT_SIZE) {
       return;
     }
-    this.setting.font = new Font(font.getFamily(), font.getStyle(), font.getSize() - 1);
+    Util.setting.font = new Font(font.getFamily(), font.getStyle(), font.getSize() - 1);
     this.setTextAreaFont();
   }
 
@@ -4053,7 +4049,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setFontSizeReset() {
     Font font = this.txaMain.getFont();
-    this.setting.font = new Font(font.getFamily(), font.getStyle(), Util.TEXT_FONT.getSize());
+    Util.setting.font = new Font(font.getFamily(), font.getStyle(), Util.TEXT_FONT.getSize());
     this.setTextAreaFont();
   }
 
@@ -4271,7 +4267,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setLockResizable() {
     this.setResizable(!this.itemLockResizable.isSelected());
-    this.setting.viewLockResizable = this.itemLockResizable.isSelected();
+    Util.setting.viewLockResizable = this.itemLockResizable.isSelected();
   }
 
   /**
@@ -4279,7 +4275,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setAlwaysOnTop() {
     this.setAlwaysOnTop(this.itemAlwaysOnTop.isSelected());
-    this.setting.viewAlwaysOnTop = this.itemAlwaysOnTop.isSelected();
+    Util.setting.viewAlwaysOnTop = this.itemAlwaysOnTop.isSelected();
   }
 
   /**
@@ -4615,7 +4611,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void exit() {
     boolean toExit = true;
-    this.setting.fileHistoryList.clear();
+    Util.setting.fileHistoryList.clear();
     for (int i = 0; i < this.textAreaList.size(); i++) {
       this.tpnMain.setSelectedIndex(i);
       BaseTextArea textArea = this.textAreaList.get(i);
@@ -4623,7 +4619,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       if (file != null && file.exists()) {
         try {
           String strFile = file.getCanonicalPath();
-          this.setting.fileHistoryList.add(new FileHistoryBean(strFile, textArea.getFrozen(), textArea.getDisplayBinary(), textArea.getCaretPosition()));
+          Util.setting.fileHistoryList.add(new FileHistoryBean(strFile, textArea.getFrozen(), textArea.getDisplayBinary(), textArea.getCaretPosition()));
         } catch (Exception x) {
           // x.printStackTrace();
         }
@@ -4808,8 +4804,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       textArea.setLineWrap(isLineWrap);
     }
     this.itemLineNumber.setEnabled(!isLineWrap); // 如果开启了"自动换行"，则"行号栏"功能失效
-    this.setLineNumber(this.setting.viewLineNumber); // 设置行号栏是否显示
-    this.setting.isLineWrap = isLineWrap;
+    this.setLineNumber(Util.setting.viewLineNumber); // 设置行号栏是否显示
+    Util.setting.isLineWrap = isLineWrap;
   }
 
   /**
@@ -4855,7 +4851,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * @param file 待打开的文件
    */
   private void createNew(File file) {
-    BaseTextArea txaNew = new BaseTextArea(this.setting);
+    BaseTextArea txaNew = new BaseTextArea(Util.setting);
     JScrollPane srpNew = new JScrollPane(txaNew);
     String title = null;
     if (file != null) {
@@ -5006,7 +5002,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     if (!this.fontDialog.getOk()) {
       return;
     }
-    this.setting.font = this.fontDialog.getTextAreaFont();
+    Util.setting.font = this.fontDialog.getTextAreaFont();
     this.setTextAreaFont();
   }
 
@@ -5031,8 +5027,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openFindDialog() {
     if (this.findReplaceDialog == null) {
-      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
-          this.setting, true);
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult, true);
     } else {
       this.findReplaceDialog.setTextArea(this.txaMain);
       this.txaMain.requestFocus();
@@ -5055,8 +5050,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private void findNextText(boolean isFindDown) {
     String strSel = this.checkSelText();
     if (this.findReplaceDialog == null) {
-      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
-          this.setting, true);
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult, true);
       this.findReplaceDialog.setTabbedIndex(0); // 打开查找选项卡
       if (!Util.isTextEmpty(strSel)) {
         this.findReplaceDialog.setFindText(strSel, true);
@@ -5079,8 +5073,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void openReplaceDialog() {
     if (this.findReplaceDialog == null) {
-      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult,
-          this.setting, true);
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult, true);
     } else {
       this.findReplaceDialog.setTextArea(this.txaMain);
       this.findReplaceDialog.setVisible(true);
@@ -5275,7 +5268,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setToolBar() {
     this.tlbMain.setVisible(this.itemToolBar.isSelected());
-    this.setting.viewToolBar = this.itemToolBar.isSelected();
+    Util.setting.viewToolBar = this.itemToolBar.isSelected();
   }
 
   /**
@@ -5283,7 +5276,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void setStateBar() {
     this.pnlState.setVisible(this.itemStateBar.isSelected());
-    this.setting.viewStateBar = this.itemStateBar.isSelected();
+    Util.setting.viewStateBar = this.itemStateBar.isSelected();
   }
 
   /**
@@ -5298,7 +5291,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       this.spnTop.setDividerSize(0); // 隐藏分隔条
     }
-    this.setting.viewFileTree = enable;
+    Util.setting.viewFileTree = enable;
   }
 
   /**
@@ -5330,7 +5323,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.toolButtonList.get(18).setSelected(isView);
     this.itemFileTree.setSelected(isView);
     this.pnlFileTree.setVisible(isView);
-    this.setting.viewFileTree = isView;
+    Util.setting.viewFileTree = isView;
     if (isView) {
       this.spnTop.setDividerSize(3);
       this.spnTop.setDividerLocation(this.getTopDividerLocation());
@@ -6130,11 +6123,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFindBracket.setEnabled(true);
     try {
       this.txaMain.getHighlighter().addHighlight(currentIndex, currentIndex + 1,
-          new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
+          new DefaultHighlighter.DefaultHighlightPainter(Util.setting.colorStyle[5]));
       Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter().getHighlights();
       this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1], BRACKET_COLOR_STYLE));
       this.txaMain.getHighlighter().addHighlight(targetIndex, targetIndex + 1,
-          new DefaultHighlighter.DefaultHighlightPainter(this.setting.colorStyle[5]));
+          new DefaultHighlighter.DefaultHighlightPainter(Util.setting.colorStyle[5]));
       arrHighlight = this.txaMain.getHighlighter().getHighlights();
       this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1], BRACKET_COLOR_STYLE));
     } catch (BadLocationException x) {
@@ -6502,11 +6495,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (state == MAXIMIZED_VERT) {
       height = 0;
     }
-    if (this.setting.viewFrameSize == null) {
-      this.setting.viewFrameSize = new int[] { width, height };
+    if (Util.setting.viewFrameSize == null) {
+      Util.setting.viewFrameSize = new int[] { width, height };
     } else {
-      this.setting.viewFrameSize[0] = width;
-      this.setting.viewFrameSize[1] = height;
+      Util.setting.viewFrameSize[0] = width;
+      Util.setting.viewFrameSize[1] = height;
     }
   }
 

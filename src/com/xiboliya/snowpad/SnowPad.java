@@ -22,7 +22,6 @@ import javax.swing.UIManager;
 
 import com.xiboliya.snowpad.common.FileHistoryBean;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
-import com.xiboliya.snowpad.setting.Setting;
 import com.xiboliya.snowpad.setting.SettingAdapter;
 import com.xiboliya.snowpad.util.Util;
 
@@ -43,15 +42,14 @@ public class SnowPad {
   public static void main(final String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
-        Setting setting = new Setting();
-        SettingAdapter settingAdapter = new SettingAdapter(setting);
+        SettingAdapter settingAdapter = new SettingAdapter(Util.setting);
         settingAdapter.parse();
         try {
-          if (setting.viewLookAndFeel < 0) {
+          if (Util.setting.viewLookAndFeel < 0) {
             UIManager.setLookAndFeel(Util.SYSTEM_LOOK_AND_FEEL_CLASS_NAME);
           } else {
             UIManager
-                .setLookAndFeel(Util.LOOK_AND_FEEL_INFOS[setting.viewLookAndFeel]
+                .setLookAndFeel(Util.LOOK_AND_FEEL_INFOS[Util.setting.viewLookAndFeel]
                     .getClassName());
           }
         } catch (Exception x) {
@@ -61,17 +59,17 @@ public class SnowPad {
         System.setProperty("java.awt.im.style", "on-the-spot"); // 去掉文本框输入中文时所弹出的输入窗口
         for (String arg : args) {
           boolean isExist = false;
-          for (FileHistoryBean bean : setting.fileHistoryList) {
+          for (FileHistoryBean bean : Util.setting.fileHistoryList) {
             if (arg.equals(bean.getFileName())) {
               isExist = true;
               break;
             }
           }
           if (!isExist) {
-            setting.fileHistoryList.add(new FileHistoryBean(arg, false, false, Util.DEFAULT_CARET_INDEX));
+            Util.setting.fileHistoryList.add(new FileHistoryBean(arg, false, false, Util.DEFAULT_CARET_INDEX));
           }
         }
-        new SnowPadFrame(setting, settingAdapter); // 初始化界面和设置的同时打开文件
+        new SnowPadFrame(settingAdapter); // 初始化界面和设置的同时打开文件
       }
     });
   }

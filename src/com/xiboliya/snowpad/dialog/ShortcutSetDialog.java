@@ -32,7 +32,6 @@ import javax.swing.border.EtchedBorder;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
-import com.xiboliya.snowpad.setting.Setting;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -59,7 +58,6 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     KeyEvent.VK_EQUALS, KeyEvent.VK_MINUS, KeyEvent.VK_CAPS_LOCK, KeyEvent.VK_WINDOWS, KeyEvent.VK_CONTEXT_MENU, KeyEvent.VK_SCROLL_LOCK, KeyEvent.VK_PAUSE }; // 所有可以用作快捷键的按键常量
   private static final int[] SINGLE_KEY_CODES = new int[] { KeyEvent.VK_F1, KeyEvent.VK_F2, KeyEvent.VK_F3, KeyEvent.VK_F4, KeyEvent.VK_F5, KeyEvent.VK_F6,
     KeyEvent.VK_F7, KeyEvent.VK_F8, KeyEvent.VK_F9, KeyEvent.VK_F10, KeyEvent.VK_F11, KeyEvent.VK_F12 }; // 可以单独用作快捷键的按键常量
-  private Setting setting = null; // 软件参数配置类
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblName = new JLabel("功能名称：");
   private JLabel lblNameView = new JLabel();
@@ -75,9 +73,8 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
-  public ShortcutSetDialog(JDialog owner, boolean modal, Setting setting, String keyName) {
+  public ShortcutSetDialog(JDialog owner, boolean modal, String keyName) {
     super(owner, modal);
-    this.setting = setting;
     this.keyName = keyName;
     this.init();
     this.addListeners();
@@ -144,7 +141,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   private void refreshKeyView() {
     if (!Util.isTextEmpty(this.keyName)) {
       this.lblNameView.setText(this.keyName);
-      String keyValue = this.setting.shortcutMap.get(this.keyName);
+      String keyValue = Util.setting.shortcutMap.get(this.keyName);
       boolean hasCtrl = false;
       boolean hasAlt = false;
       boolean hasShift = false;
@@ -241,7 +238,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
     }
     boolean label = false;
     for (String name : Util.SHORTCUT_NAMES) {
-      if (shortcut.equalsIgnoreCase(this.setting.shortcutMap.get(name))) {
+      if (shortcut.equalsIgnoreCase(Util.setting.shortcutMap.get(name))) {
         if (!name.equalsIgnoreCase(keyName)) { // 排除当前设置的功能
           label = true;
           break;
@@ -308,7 +305,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
             Util.SOFTWARE, JOptionPane.NO_OPTION);
         return;
       }
-      this.setting.shortcutMap.put(keyName, shortcutCode);
+      Util.setting.shortcutMap.put(keyName, shortcutCode);
     }
     this.dispose();
     this.isOk = true;

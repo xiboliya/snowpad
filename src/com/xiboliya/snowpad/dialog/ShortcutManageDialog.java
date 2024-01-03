@@ -39,7 +39,6 @@ import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.dialog.KeyCheckDialog;
 import com.xiboliya.snowpad.dialog.ShortcutSetDialog;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
-import com.xiboliya.snowpad.setting.Setting;
 import com.xiboliya.snowpad.setting.SettingAdapter;
 import com.xiboliya.snowpad.util.Util;
 
@@ -52,7 +51,6 @@ import com.xiboliya.snowpad.util.Util;
 public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private static final String[] SHORTCUT_MANAGE_TABLE_TITLE_TEXTS = new String[] { "功能", "快捷键" }; // 表格标题
-  private Setting setting = null; // 软件参数配置类
   private SettingAdapter settingAdapter = null; // 用于解析和保存软件配置文件的工具类
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlLeft = new JPanel(new BorderLayout());
@@ -78,12 +76,10 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
    * @param owner 用于显示该对话框的父组件
    * @param modal 是否为模式对话框
    * @param txaSource 针对操作的文本域
-   * @param setting 软件参数配置类
    * @param settingAdapter 用于解析和保存软件配置文件的工具类
    */
-  public ShortcutManageDialog(JFrame owner, boolean modal, BaseTextArea txaSource, Setting setting, SettingAdapter settingAdapter) {
+  public ShortcutManageDialog(JFrame owner, boolean modal, BaseTextArea txaSource, SettingAdapter settingAdapter) {
     super(owner, modal, txaSource);
-    this.setting = setting;
     this.settingAdapter = settingAdapter;
     this.init();
     this.setMnemonic();
@@ -152,7 +148,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
       cellsLine = new Vector<String>();
       String name = Util.SHORTCUT_NAMES[i];
       cellsLine.add(name);
-      cellsLine.add(Util.transferShortcut(this.setting.shortcutMap.get(name)));
+      cellsLine.add(Util.transferShortcut(Util.setting.shortcutMap.get(name)));
       this.cells.add(cellsLine);
     }
   }
@@ -207,7 +203,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
    */
   private void removeShortcut() {
     int index = this.tabMain.getSelectedRow();
-    this.setting.shortcutMap.put(this.tabMain.getValueAt(index, 0).toString(), "");
+    Util.setting.shortcutMap.put(this.tabMain.getValueAt(index, 0).toString(), "");
     this.tabMain.setValueAt("", index, 1);
     ((SnowPadFrame) this.getOwner()).shortcutManageToSetMenuAccelerator(index);
   }
@@ -244,7 +240,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     int index = this.tabMain.getSelectedRow();
     String keyName = this.tabMain.getValueAt(index, 0).toString();
     if (this.shortcutSetDialog == null) {
-      this.shortcutSetDialog = new ShortcutSetDialog(this, true, this.setting, keyName);
+      this.shortcutSetDialog = new ShortcutSetDialog(this, true, keyName);
     } else {
       this.shortcutSetDialog.setKeyName(keyName);
       this.shortcutSetDialog.setVisible(true);
@@ -252,7 +248,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     if (!this.shortcutSetDialog.getOk()) {
       return;
     }
-    this.tabMain.setValueAt(Util.transferShortcut(this.setting.shortcutMap.get(keyName).toString()), index, 1);
+    this.tabMain.setValueAt(Util.transferShortcut(Util.setting.shortcutMap.get(keyName).toString()), index, 1);
     ((SnowPadFrame) this.getOwner()).shortcutManageToSetMenuAccelerator(index);
   }
 

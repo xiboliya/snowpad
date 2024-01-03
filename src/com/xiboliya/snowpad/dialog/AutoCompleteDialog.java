@@ -29,7 +29,6 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
-import com.xiboliya.snowpad.setting.Setting;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -40,7 +39,6 @@ import com.xiboliya.snowpad.util.Util;
  */
 public class AutoCompleteDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private Setting setting = null; // 软件参数配置类
   private JCheckBox chkEnable = new JCheckBox("开启自动完成(E)", false);
   private JTextArea txaView = new JTextArea();
   private BaseButton btnClose = new BaseButton("关闭");
@@ -54,11 +52,9 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
    * 
    * @param owner 父窗口
    * @param modal 是否为模式窗口
-   * @param setting 软件参数配置类
    */
-  public AutoCompleteDialog(JFrame owner, boolean modal, Setting setting) {
+  public AutoCompleteDialog(JFrame owner, boolean modal) {
     super(owner, modal);
-    this.setting = setting;
     this.setTitle("自动完成");
     this.init();
     this.initView();
@@ -100,7 +96,7 @@ public class AutoCompleteDialog extends BaseDialog implements ActionListener {
    * 初始化控件显示
    */
   private void initView() {
-    this.isAutoComplete = this.setting.autoComplete;
+    this.isAutoComplete = Util.setting.autoComplete;
     this.chkEnable.setSelected(this.isAutoComplete);
     String strView = "";
     for (int i = 0; i < Util.AUTO_COMPLETE_BRACKETS_LEFT.length(); i++) {
