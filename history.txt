@@ -2231,3 +2231,14 @@ src/com/xiboliya/snowpad/view/LineNumberView.java
 2023-12-17
 1.“格式”->“快捷键管理”界面中允许：剪切、复制、粘贴、全选、删除功能修改快捷键。
 src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
+
+2024-01-03
+1.代码优化：在Util中定义Setting类的实例作为全局变量，供其他文件使用。
+src/com/xiboliya/snowpad/SnowPad.java
+src/com/xiboliya/snowpad/dialog/AutoCompleteDialog.java
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
+src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
+src/com/xiboliya/snowpad/dialog/ShortcutSetDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
