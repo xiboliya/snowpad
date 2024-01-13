@@ -2242,3 +2242,12 @@ src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
 src/com/xiboliya/snowpad/dialog/ShortcutSetDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2024-01-13
+1.撤销、重做、剪切、复制、粘贴、删除、全选功能修改快捷键后，自动同步到文本框和文本域中。
+src/com/xiboliya/snowpad/base/BaseTextAreaSpecial.java
+src/com/xiboliya/snowpad/base/BaseTextField.java
+src/com/xiboliya/snowpad/event/ShortcutListener.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/manager/ListenerManager.java（添加）
+src/com/xiboliya/snowpad/util/Util.java
