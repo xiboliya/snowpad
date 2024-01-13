@@ -137,6 +137,7 @@ import com.xiboliya.snowpad.dialog.TimeStampConvertDialog;
 import com.xiboliya.snowpad.dialog.TrigonometricDialog;
 import com.xiboliya.snowpad.dialog.UnitConvertDialog;
 import com.xiboliya.snowpad.dialog.WindowManageDialog;
+import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.panel.FileTreePanel;
 import com.xiboliya.snowpad.panel.SearchResultPanel;
 import com.xiboliya.snowpad.panel.StatePanel;
@@ -4017,7 +4018,15 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       return;
     }
     JMenuItem item = this.menuItemList.get(index);
-    item.setAccelerator(Util.transferKeyStroke(Util.setting.shortcutMap.get(Util.SHORTCUT_NAMES[index])));
+    String shortcutName = Util.SHORTCUT_NAMES[index];
+    item.setAccelerator(Util.transferKeyStroke(Util.setting.shortcutMap.get(shortcutName)));
+    for (String name : Util.EDIT_SHORTCUT_NAMES) {
+      if (name.equals(shortcutName)) {
+        // 通知快捷键变化
+        ListenerManager.getInstance().postShortcutEvent();
+        break;
+      }
+    }
   }
 
   /**

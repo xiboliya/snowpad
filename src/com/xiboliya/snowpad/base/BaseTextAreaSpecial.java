@@ -43,6 +43,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import com.xiboliya.snowpad.common.LineSeparator;
+import com.xiboliya.snowpad.event.ShortcutListener;
+import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -52,7 +54,7 @@ import com.xiboliya.snowpad.util.Util;
  * 
  */
 public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
-    CaretListener, UndoableEditListener, MouseListener, FocusListener {
+    CaretListener, UndoableEditListener, MouseListener, FocusListener, ShortcutListener {
   private static final long serialVersionUID = 1L;
   private UndoManager undoManager = new UndoManager(); // 撤销管理器
   private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
@@ -64,22 +66,67 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
   private JMenuItem itemPopPaste = new JMenuItem("粘贴(P)", 'P');
   private JMenuItem itemPopDel = new JMenuItem("删除(D)", 'D');
   private JMenuItem itemPopSelAll = new JMenuItem("全选(A)", 'A');
-  // 用于撤销的动作
+  // 撤销的动作
   private Action actUndo = new AbstractAction() {
     private static final long serialVersionUID = 1L;
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      undoAction();
+      undo();
     }
   };
-  // 用于重做的动作
+  // 重做的动作
   private Action actRedo = new AbstractAction() {
     private static final long serialVersionUID = 1L;
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      redoAction();
+      redo();
+    }
+  };
+  // 剪切的动作
+  private Action actCut = new AbstractAction() {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      cut();
+    }
+  };
+  // 复制的动作
+  private Action actCopy = new AbstractAction() {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      copy();
+    }
+  };
+  // 粘贴的动作
+  private Action actPaste = new AbstractAction() {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      paste();
+    }
+  };
+  // 删除的动作
+  private Action actDelete = new AbstractAction() {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      deleteText();
+    }
+  };
+  // 全选的动作
+  private Action actSelectAll = new AbstractAction() {
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      selectAll();
     }
   };
 
@@ -133,7 +180,6 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
     this.addPopMenu();
     this.setMenuDefault();
     this.addListeners();
-    this.setInputActionMap();
   }
 
   /**
@@ -160,19 +206,40 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
   private void setInputActionMap() {
     InputMap inputMap = this.getInputMap();
     ActionMap actionMap = this.getActionMap();
-    // 将组合键与特定字符串绑定（如果未建立与Action的映射，则会屏蔽该组合键）
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK),
-        Util.CTRL_Z);
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_DOWN_MASK),
-        Util.CTRL_Y);
-    inputMap.put(
-        KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK),
-        Util.CTRL_H);
-    // 将特定字符串与Action建立映射
-    actionMap.put(Util.CTRL_Z, this.actUndo);
-    actionMap.put(Util.CTRL_Y, this.actRedo);
+    inputMap.clear();
+    actionMap.clear();
+    // 撤销
+    String strUndo = "撤销";
+    inputMap.put(Util.transferKeyStroke(Util.setting.shortcutMap.get(strUndo)), strUndo);
+    actionMap.put(strUndo, this.actUndo);
+    // 重做
+    String strRedo = "重做";
+    inputMap.put(Util.transferKeyStroke(Util.setting.shortcutMap.get(strRedo)), strRedo);
+    actionMap.put(strRedo, this.actRedo);
+    // 剪切
+    String strCut = "剪切";
+    inputMap.put(Util.transferKeyStroke(Util.setting.shortcutMap.get(strCut)), strCut);
+    actionMap.put(strCut, this.actCut);
+    // 复制
+    String strCopy = "复制";
+    inputMap.put(Util.transferKeyStroke(Util.setting.shortcutMap.get(strCopy)), strCopy);
+    actionMap.put(strCopy, this.actCopy);
+    // 粘贴
+    String strPaste = "粘贴";
+    inputMap.put(Util.transferKeyStroke(Util.setting.shortcutMap.get(strPaste)), strPaste);
+    actionMap.put(strPaste, this.actPaste);
+    // 删除
+    String strDelete = "删除";
+    String shortcutDelete = Util.setting.shortcutMap.get(strDelete);
+    // 当删除的快捷键为Delete时，不绑定动作，避免出现绑定后未选择文本时Delete键失效的问题
+    if (!String.valueOf(KeyEvent.VK_DELETE).equals(shortcutDelete)) {
+      inputMap.put(Util.transferKeyStroke(shortcutDelete), strDelete);
+      actionMap.put(strDelete, this.actDelete);
+    }
+    // 全选
+    String strSelectAll = "全选";
+    inputMap.put(Util.transferKeyStroke(Util.setting.shortcutMap.get(strSelectAll)), strSelectAll);
+    actionMap.put(strSelectAll, this.actSelectAll);
   }
 
   /**
@@ -204,15 +271,34 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
   }
 
   /**
+   * 通知此组件已有了父组件
+   */
+  @Override
+  public void addNotify() {
+    super.addNotify();
+    this.setInputActionMap();
+    ListenerManager.getInstance().addShortcutListener(this);
+  }
+
+  /**
+   * 通知此组件不再有父组件
+   */
+  @Override
+  public void removeNotify() {
+    super.removeNotify();
+    ListenerManager.getInstance().removeShortcutListener(this);
+  }
+
+  /**
    * 为各菜单项添加事件的处理方法
    */
   @Override
   public void actionPerformed(ActionEvent e) {
     Object source = e.getSource();
     if (this.itemPopUnDo.equals(source)) {
-      this.undoAction();
+      this.undo();
     } else if (this.itemPopReDo.equals(source)) {
-      this.redoAction();
+      this.redo();
     } else if (this.itemPopCut.equals(source)) {
       this.cut();
     } else if (this.itemPopCopy.equals(source)) {
@@ -259,7 +345,7 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
   /**
    * "撤销"的处理方法
    */
-  private void undoAction() {
+  private void undo() {
     if (!this.isEditable()) {
       return;
     }
@@ -272,7 +358,7 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
   /**
    * "重做"的处理方法
    */
-  private void redoAction() {
+  private void redo() {
     if (!this.isEditable()) {
       return;
     }
@@ -401,6 +487,14 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
    */
   @Override
   public void mouseReleased(MouseEvent e) {
+  }
+
+  /**
+   * 快捷键变化时调用
+   */
+  @Override
+  public void shortcutChanged() {
+    this.setInputActionMap();
   }
 
 }

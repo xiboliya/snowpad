@@ -107,6 +107,7 @@ public final class Util {
       "","","","","","","","Ctrl+Shift+87","Ctrl+87","Alt+37",
       "Alt+39","","","","","","","","","","","","","","","","112"
       }; // 快捷键的值
+  public static final String[] EDIT_SHORTCUT_NAMES = new String[] { "撤销","重做","剪切","复制","粘贴","全选","删除" }; // 用于编辑的快捷键的名称
   public static final int DEFAULT_FRAME_WIDTH = 600; // 窗口默认宽度
   public static final int DEFAULT_FRAME_HEIGHT = 500; // 窗口默认高度
   public static final int DEFAULT_CARET_INDEX = 0; // 文本域默认插入点位置
