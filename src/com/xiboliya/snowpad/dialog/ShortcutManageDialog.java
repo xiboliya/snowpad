@@ -61,8 +61,9 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private JScrollPane spnMain = null;
   private BaseButton btnEdit = new BaseButton("编辑(E)");
   private BaseButton btnRemove = new BaseButton("清除(D)");
-  private BaseButton btnKeyCheck = new BaseButton("按键检测(K)");
   private BaseButton btnReset = new BaseButton("恢复默认(R)");
+  private BaseButton btnKeyCheck = new BaseButton("按键检测(K)");
+  private BaseButton btnResetAll = new BaseButton("全部恢复默认(A)");
   private BaseButton btnCancel = new BaseButton("关闭");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -103,14 +104,16 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.pnlMain.add(this.pnlRight, BorderLayout.EAST);
     this.btnEdit.setBounds(10, 20, 120, Util.BUTTON_HEIGHT);
     this.btnRemove.setBounds(10, 55, 120, Util.BUTTON_HEIGHT);
-    this.btnKeyCheck.setBounds(10, 105, 120, Util.BUTTON_HEIGHT);
-    this.btnReset.setBounds(10, 155, 120, Util.BUTTON_HEIGHT);
+    this.btnReset.setBounds(10, 90, 120, Util.BUTTON_HEIGHT);
+    this.btnKeyCheck.setBounds(10, 125, 120, Util.BUTTON_HEIGHT);
+    this.btnResetAll.setBounds(10, 160, 120, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(10, 205, 120, Util.BUTTON_HEIGHT);
     this.pnlRight.setPreferredSize(new Dimension(140, 275)); // 设置面板的最适尺寸
     this.pnlRight.add(this.btnEdit);
     this.pnlRight.add(this.btnRemove);
-    this.pnlRight.add(this.btnKeyCheck);
     this.pnlRight.add(this.btnReset);
+    this.pnlRight.add(this.btnKeyCheck);
+    this.pnlRight.add(this.btnResetAll);
     this.pnlRight.add(this.btnCancel);
   }
 
@@ -120,8 +123,9 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private void setMnemonic() {
     this.btnEdit.setMnemonic('E');
     this.btnRemove.setMnemonic('D');
-    this.btnKeyCheck.setMnemonic('K');
     this.btnReset.setMnemonic('R');
+    this.btnKeyCheck.setMnemonic('K');
+    this.btnResetAll.setMnemonic('A');
   }
 
   /**
@@ -170,13 +174,15 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private void addListeners() {
     this.btnEdit.addActionListener(this);
     this.btnRemove.addActionListener(this);
-    this.btnKeyCheck.addActionListener(this);
     this.btnReset.addActionListener(this);
+    this.btnKeyCheck.addActionListener(this);
+    this.btnResetAll.addActionListener(this);
     this.btnCancel.addActionListener(this);
     this.btnEdit.addKeyListener(this.buttonKeyAdapter);
     this.btnRemove.addKeyListener(this.buttonKeyAdapter);
-    this.btnKeyCheck.addKeyListener(this.buttonKeyAdapter);
     this.btnReset.addKeyListener(this.buttonKeyAdapter);
+    this.btnKeyCheck.addKeyListener(this.buttonKeyAdapter);
+    this.btnResetAll.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addKeyListener(this.buttonKeyAdapter);
     this.tabMain.addKeyListener(this.keyAdapter);
     this.tabMain.addMouseListener(new MouseAdapter() {
@@ -199,9 +205,11 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
       this.onEnter();
     } else if (this.btnRemove.equals(source)) {
       this.removeShortcut();
+    } else if (this.btnReset.equals(source)) {
+      this.resetShortcut();
     } else if (this.btnKeyCheck.equals(source)) {
       this.keyCheck();
-    } else if (this.btnReset.equals(source)) {
+    } else if (this.btnResetAll.equals(source)) {
       this.resetShortcuts();
     } else if (this.btnCancel.equals(source)) {
       this.onCancel();
@@ -219,6 +227,17 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
+   * "恢复默认"的操作方法
+   */
+  private void resetShortcut() {
+    int index = this.tabMain.getSelectedRow();
+    String shortcutValue = Util.SHORTCUT_VALUES[index];
+    Util.setting.shortcutMap.put(this.tabMain.getValueAt(index, 0).toString(), shortcutValue);
+    this.tabMain.setValueAt(Util.transferShortcut(shortcutValue), index, 1);
+    ((SnowPadFrame) this.getOwner()).shortcutManageToSetMenuAccelerator(index);
+  }
+
+  /**
    * "按键检测"的操作方法
    */
   private void keyCheck() {
@@ -230,7 +249,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   }
 
   /**
-   * "恢复默认"的操作方法
+   * "全部恢复默认"的操作方法
    */
   private void resetShortcuts() {
     int result = JOptionPane.showConfirmDialog(this, "此操作将恢复所有的快捷键设置！\n是否继续？", Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
