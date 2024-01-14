@@ -87,6 +87,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
    * 
    * @param isVisible 设置本窗口是否可见，如果可见则为true
    */
+  @Override
   public void setVisible(boolean isVisible) {
     if (isVisible) {
       this.isOk = false;
@@ -188,25 +189,30 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
    * @return 当前界面中设置的快捷键
    */
   private String getShortcutCode(int index) {
-    boolean hasCtrl = false;
-    boolean hasAlt = false;
-    boolean hasShift = false;
-    String value = KEY_UNDEFINED;
-    String shortcut = "";
-    if (this.chkCommand.isSelected()) {
-      shortcut = Util.COMMAND + "+" + shortcut;
+    StringBuilder stbShortcut = new StringBuilder();
+    boolean hasCtrl = this.chkCtrl.isSelected();
+    boolean hasAlt = this.chkAlt.isSelected();
+    boolean hasShift = this.chkShift.isSelected();
+    boolean hasCommand = this.chkCommand.isSelected();
+    if (index == 0 && !hasCtrl && !hasAlt && !hasShift && !hasCommand) {
+      return stbShortcut.toString();
     }
-    if (this.chkShift.isSelected()) {
-      shortcut = Util.SHIFT + "+" + shortcut;
+    if (hasCtrl) {
+      stbShortcut.append(Util.CTRL).append("+");
     }
-    if (this.chkAlt.isSelected()) {
-      shortcut = Util.ALT + "+" + shortcut;
+    if (hasAlt) {
+      stbShortcut.append(Util.ALT).append("+");
     }
-    if (this.chkCtrl.isSelected()) {
-      shortcut = Util.CTRL + "+" + shortcut;
+    if (hasShift) {
+      stbShortcut.append(Util.SHIFT).append("+");
     }
-    shortcut += String.valueOf(ALL_KEY_CODES[index - 1]);
-    return shortcut;
+    if (hasCommand) {
+      stbShortcut.append(Util.COMMAND).append("+");
+    }
+    if (index > 0) {
+      stbShortcut.append(String.valueOf(ALL_KEY_CODES[index - 1]));
+    }
+    return stbShortcut.toString();
   }
 
   /**
@@ -249,6 +255,18 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   }
 
   /**
+   * 保存功能快捷键
+   * 
+   * @param keyName 功能名称
+   * @param shortcut 当前设置的快捷键
+   */
+  private void saveShortcut(String keyName, String shortcut) {
+    Util.setting.shortcutMap.put(keyName, shortcut);
+    this.dispose();
+    this.isOk = true;
+  }
+
+  /**
    * 添加事件监听器
    */
   private void addListeners() {
@@ -266,6 +284,7 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     Object source = e.getSource();
     if (this.btnOk.equals(source)) {
@@ -287,33 +306,37 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     int index = this.cmbShortcuts.getSelectedIndex();
+    String shortcutCode = this.getShortcutCode(index);
+    if (Util.isTextEmpty(shortcutCode)) {
+      int result = JOptionPane.showConfirmDialog(this, "当前没有选择任何按键，继续操作会清除此功能快捷键，是否继续？",
+          Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+      if (result == JOptionPane.YES_OPTION) {
+        this.saveShortcut(keyName, shortcutCode);
+      }
+      return;
+    }
     if (index <= 0) {
       JOptionPane.showMessageDialog(this, "请在右侧的下拉列表中选择一个按键！",
           Util.SOFTWARE, JOptionPane.NO_OPTION);
-      return;
     } else if (!this.chkCtrl.isSelected() && !this.chkAlt.isSelected() && !this.chkShift.isSelected() && !this.chkCommand.isSelected()
       && !this.isSingleKey(index)) {
       JOptionPane.showMessageDialog(this, "请在左侧选择一个或多个控制按键！",
           Util.SOFTWARE, JOptionPane.NO_OPTION);
-      return;
+    } else if (this.isRepeatedShortcut(shortcutCode)) {
+      JOptionPane.showMessageDialog(this, "当前快捷键已被占用，请重新设置！",
+          Util.SOFTWARE, JOptionPane.NO_OPTION);
     } else {
-      String shortcutCode = this.getShortcutCode(index);
-      if (this.isRepeatedShortcut(shortcutCode)) {
-        JOptionPane.showMessageDialog(this, "当前快捷键已被占用，请重新设置！",
-            Util.SOFTWARE, JOptionPane.NO_OPTION);
-        return;
-      }
-      Util.setting.shortcutMap.put(keyName, shortcutCode);
+      this.saveShortcut(keyName, shortcutCode);
     }
-    this.dispose();
-    this.isOk = true;
   }
 
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
     this.isOk = false;

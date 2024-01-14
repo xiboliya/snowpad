@@ -754,14 +754,15 @@ public final class Util {
    * @return 表示快捷键描述的字符串
    */
   public static String transferShortcut(String shortcut) {
-    String value = "";
+    StringBuilder stbValue = new StringBuilder();
     if (isTextEmpty(shortcut)) {
-      return value;
+      return stbValue.toString();
     }
     boolean hasCtrl = false; // 是否含有Ctrl键
     boolean hasAlt = false; // 是否含有Alt键
     boolean hasShift = false; // 是否含有Shift键
     boolean hasCommand = false; // 是否含有Command键
+    String singleKey = "";
     String[] arrKeys = shortcut.split("\\+");
     for (String str : arrKeys) {
       if (CTRL.equalsIgnoreCase(str)) {
@@ -773,27 +774,23 @@ public final class Util {
       } else if (COMMAND.equalsIgnoreCase(str)) {
         hasCommand = true;
       } else { // 除控制键之外的按键
-        String strKey = transferKeyCode(str);
-        if (!isTextEmpty(strKey)) {
-          value = strKey;
-        }
+        singleKey = transferKeyCode(str);
       }
     }
-    if (!isTextEmpty(value)) {
-      if (hasShift) {
-        value = SHIFT + "+" + value;
-      }
-      if (hasAlt) {
-        value = ALT + "+" + value;
-      }
-      if (hasCtrl) {
-        value = CTRL + "+" + value;
-      }
-      if (hasCommand) {
-        value = COMMAND + "+" + value;
-      }
+    if (hasCtrl) {
+      stbValue.append(CTRL).append("+");
     }
-    return value;
+    if (hasAlt) {
+      stbValue.append(ALT).append("+");
+    }
+    if (hasShift) {
+      stbValue.append(SHIFT).append("+");
+    }
+    if (hasCommand) {
+      stbValue.append(COMMAND).append("+");
+    }
+    stbValue.append(singleKey);
+    return stbValue.toString();
   }
 
   /**

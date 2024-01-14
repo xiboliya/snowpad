@@ -258,7 +258,7 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     if (!this.shortcutSetDialog.getOk()) {
       return;
     }
-    this.tabMain.setValueAt(Util.transferShortcut(Util.setting.shortcutMap.get(keyName).toString()), index, 1);
+    this.tabMain.setValueAt(Util.transferShortcut(Util.setting.shortcutMap.get(keyName)), index, 1);
     ((SnowPadFrame) this.getOwner()).shortcutManageToSetMenuAccelerator(index);
   }
 
