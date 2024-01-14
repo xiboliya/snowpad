@@ -21,6 +21,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -177,6 +179,14 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
     this.btnReset.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addKeyListener(this.buttonKeyAdapter);
     this.tabMain.addKeyListener(this.keyAdapter);
+    this.tabMain.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if (e.getClickCount() == 2) { // 双击
+          onEnter();
+        }
+      }
+    });
   }
 
   /**
