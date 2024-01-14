@@ -2255,3 +2255,7 @@ src/com/xiboliya/snowpad/util/Util.java
 2024-01-14
 1.在“快捷键管理”界面中支持双击左侧列表中的功能跳转到快捷键编辑界面。
 src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
+2.在“快捷键编辑”界面中支持清除快捷键。
+src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
+src/com/xiboliya/snowpad/dialog/ShortcutSetDialog.java
+src/com/xiboliya/snowpad/util/Util.java
