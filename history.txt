@@ -2261,3 +2261,5 @@ src/com/xiboliya/snowpad/dialog/ShortcutSetDialog.java
 src/com/xiboliya/snowpad/util/Util.java
 3.解决在“快捷键管理”或“快捷键编辑”界面中清除快捷键后，下次启动软件时，会恢复为默认快捷键的问题。
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
+4.在“快捷键编辑”界面中将“恢复默认”按钮改为“全部恢复默认”，并添加“恢复默认”功能，用于恢复当前功能的默认快捷键。
+src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
