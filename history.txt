@@ -2251,3 +2251,7 @@ src/com/xiboliya/snowpad/event/ShortcutListener.java（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/manager/ListenerManager.java（添加）
 src/com/xiboliya/snowpad/util/Util.java
+
+2024-01-14
+1.在“快捷键管理”界面中支持双击左侧列表中的功能跳转到快捷键编辑界面。
+src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
