@@ -460,7 +460,10 @@ public final class SettingAdapter {
         if (node.getNodeName().equalsIgnoreCase("shortcut")) {
           String strName = ((Element) node).getAttribute("name").trim();
           String strValue = ((Element) node).getAttribute("value").trim();
-          if (!Util.isTextEmpty(strName) && !Util.isTextEmpty(strValue)) {
+          if (strValue == null) {
+            strValue = "";
+          }
+          if (!Util.isTextEmpty(strName)) {
             this.setting.shortcutMap.put(strName, strValue);
           }
         }
@@ -702,7 +705,7 @@ public final class SettingAdapter {
    * @param document 整个XML文档
    */
   private void saveShortcuts(NodeList nodeList, Element element, Document document) {
-    String str = "\n    ";
+    final String str = "\n    ";
     int length = nodeList.getLength();
     for (int i = 0; i < length; i++) {
       Node node = nodeList.item(0);
@@ -714,7 +717,7 @@ public final class SettingAdapter {
     int size = Util.SHORTCUT_NAMES.length;
     for ( int i = 0; i < size; i++) {
       String name = Util.SHORTCUT_NAMES[i];
-      String value = this.setting.shortcutMap.get(name).toString();
+      String value = this.setting.shortcutMap.get(name);
       if (Util.SHORTCUT_VALUES[i].equalsIgnoreCase(value)) { // 快捷键与默认统一的话，最终不写入XML配置文件
         continue;
       }
