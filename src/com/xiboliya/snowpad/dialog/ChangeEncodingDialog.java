@@ -47,6 +47,7 @@ import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.window.TipsWindow;
+import com.xiboliya.snowpad.window.TipsWindow.Background;
 
 /**
  * "转换文件编码"对话框
@@ -236,7 +237,7 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
       }
     }
     if (failFileNames.isEmpty()) {
-      TipsWindow.show(this, "转换文件编码成功！");
+      TipsWindow.show(this, "转换文件编码成功！", Background.GREEN);
     } else {
       StringBuilder stbFileNames = new StringBuilder();
       for (String fileName : failFileNames) {

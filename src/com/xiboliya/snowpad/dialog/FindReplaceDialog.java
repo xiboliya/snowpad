@@ -55,6 +55,7 @@ import com.xiboliya.snowpad.frame.SnowPadFrame;
 import com.xiboliya.snowpad.panel.SearchResultPanel;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.window.TipsWindow;
+import com.xiboliya.snowpad.window.TipsWindow.Background;
 
 /**
  * "查找"和"替换"对话框
@@ -769,7 +770,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           this.txaSource.setText(stbTextAll.toString());
           this.txaSource.setCaretPosition(Util.checkCaretPosition(this.txaSource, newPos));
         }
-        TipsWindow.show(this, "共替换 " + times + " 处。");
+        TipsWindow.show(this, "共替换 " + times + " 处。", Background.GREEN);
       } else {
         JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
       }
@@ -796,7 +797,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private void getTextCountAll() {
     int times = this.getTextCount(this.txaSource.getText());
     if (times >= 0) {
-      TipsWindow.show(this, "共找到 " + times + " 处。");
+      TipsWindow.show(this, "共找到 " + times + " 处。", TipsWindow.Background.GREEN);
     }
   }
 
@@ -806,7 +807,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private void getTextCountSel() {
     int times = this.getTextCount(this.txaSource.getSelectedText());
     if (times >= 0) {
-      TipsWindow.show(this, "共找到 " + times + " 处。");
+      TipsWindow.show(this, "共找到 " + times + " 处。", TipsWindow.Background.GREEN);
     }
   }
 
@@ -954,7 +955,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           stbResult.append(stbLine);
         }
         ((SnowPadFrame) this.getOwner()).setClipboardContents(stbResult.toString());
-        TipsWindow.show(this, "共复制 " + times + " 行。");
+        TipsWindow.show(this, "共复制 " + times + " 行。", Background.GREEN);
       } catch (BadLocationException x) {
          x.printStackTrace();
       }
@@ -1029,7 +1030,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           stbResult.delete(this.txaSource.getLineStartOffset(listLineNum.get(i)), this.txaSource.getLineEndOffset(listLineNum.get(i)));
         }
         this.txaSource.setText(stbResult.toString());
-        TipsWindow.show(this, "共剪切 " + times + " 行。");
+        TipsWindow.show(this, "共剪切 " + times + " 行。", Background.GREEN);
       } catch (BadLocationException x) {
          x.printStackTrace();
       }
@@ -1096,7 +1097,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           stbResult.delete(this.txaSource.getLineStartOffset(listLineNum.get(i)), this.txaSource.getLineEndOffset(listLineNum.get(i)));
         }
         this.txaSource.setText(stbResult.toString());
-        TipsWindow.show(this, "共删除 " + times + " 行。");
+        TipsWindow.show(this, "共删除 " + times + " 行。", Background.GREEN);
       } catch (BadLocationException x) {
          x.printStackTrace();
       }

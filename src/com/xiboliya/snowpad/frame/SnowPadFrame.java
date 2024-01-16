@@ -3764,7 +3764,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
       if (!changed) {
         this.setDisplaySelected();
-        TipsWindow.show(this, "文件视图切换失败！", TipsWindow.Background.RED);
+        TipsWindow.show(this, "文件视图切换失败！");
       }
     }
   }

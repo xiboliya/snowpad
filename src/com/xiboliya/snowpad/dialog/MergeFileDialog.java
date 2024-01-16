@@ -41,6 +41,7 @@ import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.chooser.SaveFileChooser;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.window.TipsWindow;
+import com.xiboliya.snowpad.window.TipsWindow.Background;
 
 /**
  * "拼接文件"对话框
@@ -341,7 +342,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
       }
     }
     if (result) {
-      TipsWindow.show(this, "拼接文件完成！");
+      TipsWindow.show(this, "拼接文件完成！", Background.GREEN);
     } else {
       TipsWindow.show(this, "拼接文件失败！");
     }
