@@ -2263,3 +2263,11 @@ src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 4.在“快捷键管理”界面中将“恢复默认”按钮改为“全部恢复默认”，并添加“恢复默认”功能，用于恢复当前功能的默认快捷键。
 src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
+
+2024-01-16
+1.修改各界面中部分TipsWindow提示窗口的背景颜色，比如：完成提示、统计次数提示等改为绿色。
+src/com/xiboliya/snowpad/dialog/ChangeEncodingDialog.java
+src/com/xiboliya/snowpad/dialog/ChangeLineSeparatorDialog.java
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+src/com/xiboliya/snowpad/dialog/MergeFileDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
