@@ -2271,3 +2271,8 @@ src/com/xiboliya/snowpad/dialog/ChangeLineSeparatorDialog.java
 src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
 src/com/xiboliya/snowpad/dialog/MergeFileDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2024-01-25
+1.“切换大小写”菜单下添加“大小写互换”功能。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
