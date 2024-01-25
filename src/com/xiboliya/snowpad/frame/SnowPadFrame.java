@@ -291,6 +291,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenu menuCase = new JMenu("切换大小写");
   private JMenuItem itemCaseUp = new JMenuItem("切换为大写");
   private JMenuItem itemCaseLow = new JMenuItem("切换为小写");
+  private JMenuItem itemCaseExchange = new JMenuItem("大小写互换");
   private JMenu menuCopyToClip = new JMenu("复制到剪贴板");
   private JMenuItem itemToCopyFileName = new JMenuItem("当前文件名(F)", 'F');
   private JMenuItem itemToCopyFilePath = new JMenuItem("当前文件路径(P)", 'P');
@@ -666,6 +667,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSlicing.addActionListener(this);
     this.itemCaseUp.addActionListener(this);
     this.itemCaseLow.addActionListener(this);
+    this.itemCaseExchange.addActionListener(this);
     this.itemQuickFindDown.addActionListener(this);
     this.itemQuickFindUp.addActionListener(this);
     this.itemExit.addActionListener(this);
@@ -1042,6 +1044,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuEdit.add(this.menuCase);
     this.menuCase.add(this.itemCaseUp);
     this.menuCase.add(this.itemCaseLow);
+    this.menuCase.add(this.itemCaseExchange);
     this.menuEdit.add(this.menuCopyToClip);
     this.menuCopyToClip.add(this.itemToCopyFileName);
     this.menuCopyToClip.add(this.itemToCopyFilePath);
@@ -1271,6 +1274,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemSlicing);
     this.menuItemList.add(this.itemCaseUp);
     this.menuItemList.add(this.itemCaseLow);
+    this.menuItemList.add(this.itemCaseExchange);
     this.menuItemList.add(this.itemToCopyFileName);
     this.menuItemList.add(this.itemToCopyFilePath);
     this.menuItemList.add(this.itemToCopyDirPath);
@@ -1480,6 +1484,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemDel.setEnabled(false);
     this.itemCaseUp.setEnabled(false);
     this.itemCaseLow.setEnabled(false);
+    this.itemCaseExchange.setEnabled(false);
     this.itemFind.setEnabled(false);
     this.itemFindNext.setEnabled(false);
     this.itemFindPrevious.setEnabled(false);
@@ -1610,6 +1615,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSortRandom.setEnabled(isExist);
     this.itemCaseUp.setEnabled(isExist);
     this.itemCaseLow.setEnabled(isExist);
+    this.itemCaseExchange.setEnabled(isExist);
     this.itemLineBatchRemove.setEnabled(isExist);
     this.itemLineBatchInsert.setEnabled(isExist);
     this.itemLineBatchSeparate.setEnabled(isExist);
@@ -1813,6 +1819,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.switchCase(true);
     } else if (this.itemCaseLow.equals(source)) {
       this.switchCase(false);
+    } else if (this.itemCaseExchange.equals(source)) {
+      this.exchangeCase();
     } else if (this.itemExit.equals(source)) {
       this.exit();
     } else if (this.itemFind.equals(source)
@@ -4471,6 +4479,32 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else {
       this.txaMain.replaceSelection(strSel.toLowerCase());
     }
+    this.txaMain.select(start, end);
+  }
+
+  /**
+   * "大小写互换"的处理方法
+   */
+  private void exchangeCase() {
+    String strSel = this.txaMain.getSelectedText();
+    if (Util.isTextEmpty(strSel)) {
+      this.txaMain.selectAll();
+      strSel = this.txaMain.getText();
+    }
+    int start = this.txaMain.getSelectionStart();
+    int end = this.txaMain.getSelectionEnd();
+    char[] arraySel = strSel.toCharArray();
+    StringBuilder stbSel = new StringBuilder();
+    for (char character : arraySel) {
+      if (Character.isUpperCase(character)) {
+        stbSel.append(Character.toLowerCase(character));
+      } else if (Character.isLowerCase(character)) {
+        stbSel.append(Character.toUpperCase(character));
+      } else {
+        stbSel.append(character);
+      }
+    }
+    this.txaMain.replaceSelection(stbSel.toString());
     this.txaMain.select(start, end);
   }
 
