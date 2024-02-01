@@ -2276,3 +2276,8 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 1.“切换大小写”菜单下添加“大小写互换”功能。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2024-02-01
+1.“查看”菜单中添加“光标定位”功能，主要有：定位到行首、定位到行尾、定位到文件首、定位到文件尾。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
