@@ -433,13 +433,18 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemRmHighlight5 = new JMenuItem("格式(5)", '5');
   private JMenuItem itemRmHighlightAll = new JMenuItem("所有格式(0)", '0');
   private JMenu menuLookAndFeel = new JMenu("切换外观(K)");
-  private JMenuItem itemInformation = new JMenuItem("统计信息(N)...", 'N');
-  private JMenuItem itemWindowManage = new JMenuItem("窗口管理(W)...", 'W');
   private JMenu menuTextAreaSwitch = new JMenu("文档切换(I)");
   private JMenuItem itemTextAreaSwitchPrevious = new JMenuItem("向前切换(P)", 'P');
   private JMenuItem itemTextAreaSwitchNext = new JMenuItem("向后切换(N)", 'N');
   private JMenuItem itemTextAreaHistoryBack = new JMenuItem("前一个文档(B)", 'B');
   private JMenuItem itemTextAreaHistoryNext = new JMenuItem("后一个文档(X)", 'X');
+  private JMenu menuCursorNavigation = new JMenu("光标定位(V)");
+  private JMenuItem itemCursorNavigationLineStart = new JMenuItem("定位到行首(S)", 'S');
+  private JMenuItem itemCursorNavigationLineEnd = new JMenuItem("定位到行尾(E)", 'E');
+  private JMenuItem itemCursorNavigationFileStart = new JMenuItem("定位到文件首(T)", 'T');
+  private JMenuItem itemCursorNavigationFileEnd = new JMenuItem("定位到文件尾(D)", 'D');
+  private JMenuItem itemInformation = new JMenuItem("统计信息(N)...", 'N');
+  private JMenuItem itemWindowManage = new JMenuItem("窗口管理(W)...", 'W');
   private JMenu menuTool = new JMenu("工具(T)");
   private JMenuItem itemEncrypt = new JMenuItem("加密(E)...", 'E');
   private JMenuItem itemCalculator = new JMenuItem("计算器(C)...", 'C');
@@ -793,6 +798,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTextAreaSwitchNext.addActionListener(this);
     this.itemTextAreaHistoryBack.addActionListener(this);
     this.itemTextAreaHistoryNext.addActionListener(this);
+    this.itemCursorNavigationLineStart.addActionListener(this);
+    this.itemCursorNavigationLineEnd.addActionListener(this);
+    this.itemCursorNavigationFileStart.addActionListener(this);
+    this.itemCursorNavigationFileEnd.addActionListener(this);
     this.itemNew.addActionListener(this);
     this.itemOpen.addActionListener(this);
     this.itemOpenByEncoding.addActionListener(this);
@@ -1205,6 +1214,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTextAreaSwitch.add(this.itemTextAreaSwitchNext);
     this.menuTextAreaSwitch.add(this.itemTextAreaHistoryBack);
     this.menuTextAreaSwitch.add(this.itemTextAreaHistoryNext);
+    this.menuView.add(this.menuCursorNavigation);
+    this.menuCursorNavigation.add(this.itemCursorNavigationLineStart);
+    this.menuCursorNavigation.add(this.itemCursorNavigationLineEnd);
+    this.menuCursorNavigation.add(this.itemCursorNavigationFileStart);
+    this.menuCursorNavigation.add(this.itemCursorNavigationFileEnd);
     this.menuView.addSeparator();
     this.menuView.add(this.itemInformation);
     this.menuView.add(this.itemWindowManage);
@@ -1391,6 +1405,10 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemTextAreaSwitchNext);
     this.menuItemList.add(this.itemTextAreaHistoryBack);
     this.menuItemList.add(this.itemTextAreaHistoryNext);
+    this.menuItemList.add(this.itemCursorNavigationLineStart);
+    this.menuItemList.add(this.itemCursorNavigationLineEnd);
+    this.menuItemList.add(this.itemCursorNavigationFileStart);
+    this.menuItemList.add(this.itemCursorNavigationFileEnd);
     this.menuItemList.add(this.itemInformation);
     this.menuItemList.add(this.itemWindowManage);
     this.menuItemList.add(this.itemEncrypt);
@@ -2165,6 +2183,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.textAreaHistory(false);
     } else if (this.itemTextAreaHistoryNext.equals(source)) {
       this.textAreaHistory(true);
+    } else if (this.itemCursorNavigationLineStart.equals(source)) {
+      this.cursorNavigationLine(true);
+    } else if (this.itemCursorNavigationLineEnd.equals(source)) {
+      this.cursorNavigationLine(false);
+    } else if (this.itemCursorNavigationFileStart.equals(source)) {
+      this.cursorNavigationFile(true);
+    } else if (this.itemCursorNavigationFileEnd.equals(source)) {
+      this.cursorNavigationFile(false);
     } else if (this.itemCommentForLine.equals(source)
         || this.itemPopCommentForLine.equals(source)) {
       this.setCommentForLine();
@@ -2295,6 +2321,47 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.isInTextAreaHistory = true;
     int index = this.getTextAreaIndex(hashCode);
     this.tpnMain.setSelectedIndex(index);
+  }
+
+  /**
+   * "光标定位到行首/行尾"的处理方法
+   * 
+   * @param isStart 定位的方向，true表示定位到行首，false表示定位到行尾。
+   */
+  private void cursorNavigationLine(boolean isStart) {
+    CurrentLine currentLine = new CurrentLine(this.txaMain);
+    int lineNum = currentLine.getLineNum();
+    int offset = 0;
+    try {
+      if (isStart) {
+        // 获取指定行起始处的偏移量，指定行号的取值范围：x>=0 && x<文本域总行数
+        offset = this.txaMain.getLineStartOffset(lineNum);
+      } else {
+        // 获取指定行结尾处的偏移量，指定行号的取值范围：x>=0 && x<文本域总行数
+        offset = this.txaMain.getLineEndOffset(lineNum);
+        String strLine = currentLine.getStrLine();
+        // 非空行时，需要去除回车符的索引
+        if (!Util.isTextEmpty(strLine)) {
+          offset--;
+        }
+      }
+      this.txaMain.setCaretPosition(offset);
+    } catch (BadLocationException x) {
+      // x.printStackTrace();
+    }
+  }
+
+  /**
+   * "光标定位到文件首/文件尾"的处理方法
+   * 
+   * @param isStart 定位的方向，true表示定位到文件首，false表示定位到文件尾。
+   */
+  private void cursorNavigationFile(boolean isStart) {
+    int offset = 0;
+    if (!isStart) {
+      offset = this.txaMain.getText().length();
+    }
+    this.txaMain.setCaretPosition(offset);
   }
 
   /**
