@@ -2340,8 +2340,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         // 获取指定行结尾处的偏移量，指定行号的取值范围：x>=0 && x<文本域总行数
         offset = this.txaMain.getLineEndOffset(lineNum);
         String strLine = currentLine.getStrLine();
-        // 非空行时，需要去除回车符的索引
-        if (!Util.isTextEmpty(strLine)) {
+        int lineCount = this.txaMain.getLineCount();
+        // 非最后一行、非空行时，需要去除回车符的索引
+        if (lineCount != lineNum + 1 && !Util.isTextEmpty(strLine)) {
           offset--;
         }
       }
