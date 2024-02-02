@@ -2281,3 +2281,7 @@ src/com/xiboliya/snowpad/util/Util.java
 1.“查看”菜单中添加“光标定位”功能，主要有：定位到行首、定位到行尾、定位到文件首、定位到文件尾。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2024-02-02
+1.解决“定位到行尾”时，当前行为文件最后一行并且不是空行时，会定位到该行倒数第二个字符的问题。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
