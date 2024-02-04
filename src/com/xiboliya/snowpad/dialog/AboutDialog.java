@@ -44,7 +44,6 @@ import com.xiboliya.snowpad.util.Util;
  */
 public class AboutDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private static final int LINES = 10; // 显示标签的行数
   private GridLayout layout = null;
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlCenter = new JPanel();
@@ -79,9 +78,9 @@ public class AboutDialog extends BaseDialog implements ActionListener {
     this.pnlMain.add(this.pnlNorth, BorderLayout.NORTH);
     this.pnlMain.add(this.pnlEast, BorderLayout.EAST);
     this.pnlMain.add(this.pnlSouth, BorderLayout.SOUTH);
-    this.layout = new GridLayout(LINES, 1);
-    this.pnlCenter.setLayout(this.layout);
     this.initLabelList();
+    this.layout = new GridLayout(this.labelList.size(), 1);
+    this.pnlCenter.setLayout(this.layout);
     this.pnlMain.add(this.pnlCenter, BorderLayout.CENTER);
     this.lblNorth.setIcon(Util.SW_ICON);
   }
@@ -93,7 +92,6 @@ public class AboutDialog extends BaseDialog implements ActionListener {
     String strGithubCode = "https://github.com/xiboliya/snowpad";
     String strCodeCloud = "https://gitee.com/xiboliya/snowpad";
     String strGitCode = "https://gitcode.net/chenzhengfeng/snowpad";
-    String strCoding = "https://xiboliya.coding.net/p/SnowPad/d/SnowPad/git";
     String[] arrStrLabel = new String[] {
         "软件名称：" + Util.SOFTWARE,
         "软件版本：" + Util.VERSION,
@@ -103,15 +101,14 @@ public class AboutDialog extends BaseDialog implements ActionListener {
         "<html>GitHub：<a href='" + strGithubCode + "'>" + strGithubCode + "</a></html>",
         "<html>Gitee：<a href='" + strCodeCloud + "'>" + strCodeCloud + "</a></html>",
         "<html>GitCode：<a href='" + strGitCode + "'>" + strGitCode + "</a></html>",
-        "<html>Coding：<a href='" + strCoding + "'>" + strCoding + "</a></html>",
         "软件版权：遵循GNU GPL第三版开源许可协议的相关条款" };
-    for (int i = 0; i < LINES; i++) {
+    int length = arrStrLabel.length;
+    for (int i = 0; i < length; i++) {
       this.appendLabelList(arrStrLabel[i]);
     }
     this.addLinkByIndex(5, strGithubCode);
     this.addLinkByIndex(6, strCodeCloud);
     this.addLinkByIndex(7, strGitCode);
-    this.addLinkByIndex(8, strCoding);
   }
 
   /**
@@ -140,7 +137,7 @@ public class AboutDialog extends BaseDialog implements ActionListener {
    * @param strLink 链接字符串
    */
   private void addLinkByIndex(int index, final String strLink) {
-    if (index < 0 || index >= LINES || Util.isTextEmpty(strLink)) {
+    if (index < 0 || index >= this.labelList.size() || Util.isTextEmpty(strLink)) {
       return;
     }
     JLabel lblTemp = this.labelList.get(index);
