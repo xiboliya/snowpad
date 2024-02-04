@@ -2285,3 +2285,7 @@ src/com/xiboliya/snowpad/util/Util.java
 2024-02-02
 1.解决“定位到行尾”时，当前行为文件最后一行并且不是空行时，会定位到该行倒数第二个字符的问题。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2024-02-04
+1.调整“关于”界面的显示内容，去掉Coding。
+src/com/xiboliya/snowpad/dialog/AboutDialog.java
