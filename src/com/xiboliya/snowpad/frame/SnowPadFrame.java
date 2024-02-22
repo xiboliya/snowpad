@@ -458,6 +458,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemUnitConvert = new JMenuItem("单位换算(U)...", 'U');
   private JMenuItem itemTrigonometric = new JMenuItem("三角函数(R)...", 'R');
   private JMenuItem itemTestQuestion = new JMenuItem("题库(Q)...", 'Q');
+  private JMenu menuProfessionalTool = new JMenu("专业工具(P)");
+  private JMenuItem itemCompressGradle = new JMenuItem("精简Gradle依赖(C)", 'C');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -742,6 +744,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemUnitConvert.addActionListener(this);
     this.itemTrigonometric.addActionListener(this);
     this.itemTestQuestion.addActionListener(this);
+    this.itemCompressGradle.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1235,6 +1238,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTool.add(this.itemUnitConvert);
     this.menuTool.add(this.itemTrigonometric);
     this.menuTool.add(this.itemTestQuestion);
+    this.menuTool.add(this.menuProfessionalTool);
+    this.menuProfessionalTool.add(this.itemCompressGradle);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1423,6 +1428,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemUnitConvert);
     this.menuItemList.add(this.itemTrigonometric);
     this.menuItemList.add(this.itemTestQuestion);
+    this.menuItemList.add(this.itemCompressGradle);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1525,6 +1531,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemBack.setEnabled(false);
     this.itemForward.setEnabled(false);
     this.itemLineNumber.setEnabled(false);
+    this.itemCompressGradle.setEnabled(false);
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
     this.itemPopDel.setEnabled(false);
@@ -1647,6 +1654,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemSelFindPrevious.setEnabled(isExist);
     this.itemReplace.setEnabled(isExist);
     this.itemGoto.setEnabled(isExist);
+    this.itemCompressGradle.setEnabled(isExist);
     this.itemSelAll.setEnabled(isExist);
     this.itemPopSelAll.setEnabled(isExist);
     this.toolButtonList.get(11).setEnabled(isExist);
@@ -1795,6 +1803,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuPopCopyToClip.setMnemonic('P');
     this.itemFrozenFile.setMnemonic('Z');
     this.itemPopFrozenFile.setMnemonic('Z');
+    this.menuProfessionalTool.setMnemonic('P');
   }
 
   /**
@@ -1973,6 +1982,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openTrigonometricDialog();
     } else if (this.itemTestQuestion.equals(source)) {
       this.openTestQuestionDialog();
+    } else if (this.itemCompressGradle.equals(source)) {
+      this.compressGradle();
     } else if (this.itemLineWrap.equals(source)) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -4891,6 +4902,87 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.testQuestionDialog.setTextArea(this.txaMain);
       this.testQuestionDialog.setVisible(true);
     }
+  }
+
+  /**
+   * "精简Gradle依赖"的处理方法
+   */
+  private void compressGradle() {
+    String strSource = this.txaMain.getText();
+    String[] findTextArray = new String[]{"+--- ", "\\--- ", "|    ", "     ", " (*)", " (c)"};
+    for (String findText : findTextArray) {
+      strSource = this.replaceAllText(findText, "", strSource);
+    }
+    this.txaMain.setText(strSource);
+    this.selectAll();
+    this.toCompressGradle();
+    this.deleteDuplicateLines();
+    this.sortLines(true);
+  }
+
+  /**
+   * 替换所有文本
+   * @param strFindText 查找的字符串
+   * @param strReplaceText 替换的字符串
+   * @param strSource 文本
+   * @return 替换后的文本
+   */
+  private String replaceAllText(String strFindText, String strReplaceText, String strSource) {
+    if (Util.isTextEmpty(strFindText)) {
+      return strSource;
+    }
+    StringBuilder stbTextAll = new StringBuilder(strSource);
+    StringBuilder stbTextAllTemp = new StringBuilder(stbTextAll);
+    int caretPos = 0; // 当前从哪个索引值开始搜索字符串
+    int times = 0; // 循环次数
+    int findLength = strFindText.length();
+    int replaceLength = strReplaceText.length();
+    int indexTemp = 0;
+    for (int index = 0; caretPos >= 0; times++) {
+      index = stbTextAllTemp.indexOf(strFindText, caretPos);
+      if (index >= 0) {
+        indexTemp = index - (findLength - replaceLength) * times;
+        stbTextAll.replace(indexTemp, indexTemp + findLength, strReplaceText);
+        caretPos = index + findLength;
+      } else {
+        break;
+      }
+    }
+    return stbTextAll.toString();
+  }
+
+  /**
+   * 解析并精简Gradle依赖列表
+   */
+  private void toCompressGradle() {
+    String[] linesArray = Util.getCurrentLinesArray(this.txaMain, null);
+    StringBuilder stbLines = new StringBuilder();
+    for (String line : linesArray) {
+      // 如果当前行中不含两个冒号(:)，说明是非法内容，忽略此行
+      if (!line.matches(".+:.+:.+")) {
+        continue;
+      }
+      String strArrow = " -> ";
+      int arrowIndex = line.indexOf(strArrow);
+      if (arrowIndex <= 0) {
+        // 如果当前行中不含箭头，说明是最终依赖版本，直接记录此行
+        stbLines.append(line).append("\n");
+      } else {
+        // 如果当前行中含有箭头，说明有依赖版本自动升级，需要继续处理
+        String[] lineArray = line.split(strArrow);
+        String strLineEnd = lineArray[1];
+        if (strLineEnd.matches(".+:.+:.+")) {
+          stbLines.append(strLineEnd).append("\n");
+          continue;
+        }
+        String strLineStart = lineArray[0];
+        int index = strLineStart.lastIndexOf(":");
+        if (index > 0) {
+          stbLines.append(strLineStart.substring(0, index + 1)).append(strLineEnd).append("\n");
+        }
+      }
+    }
+    this.txaMain.setText(stbLines.toString());
   }
 
   /**
