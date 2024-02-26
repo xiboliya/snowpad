@@ -2294,3 +2294,7 @@ src/com/xiboliya/snowpad/dialog/AboutDialog.java
 1.在“工具”菜单中添加“专业工具”->“精简Gradle依赖”功能，可将在Android开发中的Gradle依赖树精简为单纯的依赖版本列表。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2024-02-26
+1.精简Gradle依赖时，优化代码，以使撤销一次即可恢复到操作之前的文本。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
