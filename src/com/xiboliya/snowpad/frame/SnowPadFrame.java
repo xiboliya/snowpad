@@ -4908,16 +4908,71 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "精简Gradle依赖"的处理方法
    */
   private void compressGradle() {
+    // 删除Gradle依赖树中的用于表示层次的字符
     String strSource = this.txaMain.getText();
     String[] findTextArray = new String[]{"+--- ", "\\--- ", "|    ", "     ", " (*)", " (c)"};
     for (String findText : findTextArray) {
       strSource = this.replaceAllText(findText, "", strSource);
     }
-    this.txaMain.setText(strSource);
-    this.selectAll();
-    this.toCompressGradle();
-    this.deleteDuplicateLines();
-    this.sortLines(true);
+
+    // 解析并精简Gradle依赖列表
+    strSource = this.toCompressGradle(strSource);
+
+    // 删除重复行
+    String[] arrText = strSource.split("\n", -1); // 将文本分行处理，包括末尾的多处空行
+    int arrSize = arrText.length;
+    if (arrSize <= 1) {
+      this.txaMain.setText(strSource);
+      return;
+    }
+    ArrayList<String> listText = new ArrayList<String>(arrSize);
+    Collections.addAll(listText, arrText);
+    StringBuilder stbSource = new StringBuilder();
+    for (int i = 0; i < arrSize; i++) {
+      String str1 = listText.get(i);
+      stbSource.append(str1 + "\n");
+      if (Util.isTextEmpty(str1) || i >= (arrSize - 1)) {
+        continue;
+      }
+      for (int j = i + 1; j < arrSize; j++) {
+        String str2 = listText.get(j);
+        if (str1.equals(str2)) {
+          // 删除重复行
+          listText.remove(j);
+          j--;
+          arrSize--;
+        }
+      }
+    }
+    stbSource.deleteCharAt(stbSource.length() - 1); // 删除字符串末尾多余的换行符
+    strSource = stbSource.toString();
+
+    // 升序排序行
+    arrText = strSource.split("\n", -1); // 将文本分行处理，包括末尾的多处空行
+    arrSize = arrText.length;
+    if (arrSize <= 1) {
+      this.txaMain.setText(strSource);
+      return;
+    }
+    for (int i = 0; i < arrText.length; i++) { // 冒泡排序
+      for (int j = 0; j < i; j++) {
+        if (arrText[i].compareTo(arrText[j]) < 0) {
+          String str = arrText[i];
+          arrText[i] = arrText[j];
+          arrText[j] = str;
+        }
+      }
+    }
+    stbSource = new StringBuilder();
+    for (String str : arrText) {
+      stbSource.append(str + "\n");
+    }
+    if (stbSource.toString().startsWith("\n")) {
+      stbSource.deleteCharAt(0); // 删除字符串开头多余的换行符
+    } else {
+      stbSource.deleteCharAt(stbSource.length() - 1); // 删除字符串末尾多余的换行符
+    }
+    this.txaMain.setText(stbSource.toString());
   }
 
   /**
@@ -4953,9 +5008,11 @@ public class SnowPadFrame extends JFrame implements ActionListener,
 
   /**
    * 解析并精简Gradle依赖列表
+   * @param strSource 文本
+   * @return 精简Gradle依赖列表后的文本
    */
-  private void toCompressGradle() {
-    String[] linesArray = Util.getCurrentLinesArray(this.txaMain, null);
+  private String toCompressGradle(String strSource) {
+    String[] linesArray = strSource.split("\n", -1); // 将文本分行处理，包括末尾的多处空行
     StringBuilder stbLines = new StringBuilder();
     for (String line : linesArray) {
       // 如果当前行中不含两个冒号(:)，说明是非法内容，忽略此行
@@ -4982,7 +5039,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         }
       }
     }
-    this.txaMain.setText(stbLines.toString());
+    return stbLines.toString();
   }
 
   /**
