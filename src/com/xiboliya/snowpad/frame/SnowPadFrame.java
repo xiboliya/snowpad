@@ -80,6 +80,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -460,6 +461,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemTestQuestion = new JMenuItem("题库(Q)...", 'Q');
   private JMenu menuProfessionalTool = new JMenu("专业工具(P)");
   private JMenuItem itemCompressGradle = new JMenuItem("精简Gradle依赖(C)", 'C');
+  private JMenu menuStatisticsTool = new JMenu("统计工具(A)");
+  private JMenuItem itemAddition = new JMenuItem("求和(A)", 'A');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -745,6 +748,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTrigonometric.addActionListener(this);
     this.itemTestQuestion.addActionListener(this);
     this.itemCompressGradle.addActionListener(this);
+    this.itemAddition.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1240,6 +1244,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuTool.add(this.itemTestQuestion);
     this.menuTool.add(this.menuProfessionalTool);
     this.menuProfessionalTool.add(this.itemCompressGradle);
+    this.menuTool.add(this.menuStatisticsTool);
+    this.menuStatisticsTool.add(this.itemAddition);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1429,6 +1435,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemTrigonometric);
     this.menuItemList.add(this.itemTestQuestion);
     this.menuItemList.add(this.itemCompressGradle);
+    this.menuItemList.add(this.itemAddition);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1532,6 +1539,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemForward.setEnabled(false);
     this.itemLineNumber.setEnabled(false);
     this.itemCompressGradle.setEnabled(false);
+    this.itemAddition.setEnabled(false);
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
     this.itemPopDel.setEnabled(false);
@@ -1681,6 +1689,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopCut.setEnabled(isExist);
     this.itemPopDel.setEnabled(isExist);
     this.itemTrimSelected.setEnabled(isExist);
+    this.itemAddition.setEnabled(isExist);
     this.menuHighlight.setEnabled(isExist);
     this.menuPopHighlight.setEnabled(isExist);
     this.toolButtonList.get(6).setEnabled(isExist);
@@ -1804,6 +1813,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemFrozenFile.setMnemonic('Z');
     this.itemPopFrozenFile.setMnemonic('Z');
     this.menuProfessionalTool.setMnemonic('P');
+    this.menuStatisticsTool.setMnemonic('A');
   }
 
   /**
@@ -1984,6 +1994,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.openTestQuestionDialog();
     } else if (this.itemCompressGradle.equals(source)) {
       this.compressGradle();
+    } else if (this.itemAddition.equals(source)) {
+      this.addition();
     } else if (this.itemLineWrap.equals(source)) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -5040,6 +5052,38 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       }
     }
     return stbLines.toString();
+  }
+
+  /**
+   * "求和"的处理方法
+   */
+  private void addition() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
+    BigDecimal result = new BigDecimal(0);
+    for (String text : arrText) {
+      if (Util.isTextEmpty(text.trim())) {
+        continue;
+      }
+      try {
+        BigDecimal number = new BigDecimal(text.trim());
+        result = result.add(number);
+      } catch (Exception x) {
+        // x.printStackTrace();
+        TipsWindow.show(this, "计算失败，请检查是否为数字！");
+        return;
+      }
+    }
+    int endIndex = currentLines.getEndIndex();
+    String strText = this.txaMain.getText();
+    String strResult = null;
+    if (endIndex == strText.length() && !strText.endsWith("\n")) {
+      strResult = "\n求和=" + result;
+    } else {
+      strResult = "求和=" + result + "\n";
+    }
+    this.txaMain.insert(strResult, endIndex);
+    this.txaMain.select(this.txaMain.getSelectionStart(), this.txaMain.getSelectionEnd() + strResult.length());
   }
 
   /**
