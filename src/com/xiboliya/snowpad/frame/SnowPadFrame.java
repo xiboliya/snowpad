@@ -463,6 +463,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemCompressGradle = new JMenuItem("精简Gradle依赖(C)", 'C');
   private JMenu menuStatisticsTool = new JMenu("统计工具(A)");
   private JMenuItem itemAddition = new JMenuItem("求和(A)", 'A');
+  private JMenuItem itemAverage = new JMenuItem("平均值(V)", 'V');
+  private JMenuItem itemMaximum = new JMenuItem("最大值(X)", 'X');
+  private JMenuItem itemMinimum = new JMenuItem("最小值(N)", 'N');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -749,6 +752,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemTestQuestion.addActionListener(this);
     this.itemCompressGradle.addActionListener(this);
     this.itemAddition.addActionListener(this);
+    this.itemAverage.addActionListener(this);
+    this.itemMaximum.addActionListener(this);
+    this.itemMinimum.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1246,6 +1252,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuProfessionalTool.add(this.itemCompressGradle);
     this.menuTool.add(this.menuStatisticsTool);
     this.menuStatisticsTool.add(this.itemAddition);
+    this.menuStatisticsTool.add(this.itemAverage);
+    this.menuStatisticsTool.add(this.itemMaximum);
+    this.menuStatisticsTool.add(this.itemMinimum);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1436,6 +1445,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemTestQuestion);
     this.menuItemList.add(this.itemCompressGradle);
     this.menuItemList.add(this.itemAddition);
+    this.menuItemList.add(this.itemAverage);
+    this.menuItemList.add(this.itemMaximum);
+    this.menuItemList.add(this.itemMinimum);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1540,6 +1552,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemLineNumber.setEnabled(false);
     this.itemCompressGradle.setEnabled(false);
     this.itemAddition.setEnabled(false);
+    this.itemAverage.setEnabled(false);
+    this.itemMaximum.setEnabled(false);
+    this.itemMinimum.setEnabled(false);
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
     this.itemPopDel.setEnabled(false);
@@ -1690,6 +1705,9 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemPopDel.setEnabled(isExist);
     this.itemTrimSelected.setEnabled(isExist);
     this.itemAddition.setEnabled(isExist);
+    this.itemAverage.setEnabled(isExist);
+    this.itemMaximum.setEnabled(isExist);
+    this.itemMinimum.setEnabled(isExist);
     this.menuHighlight.setEnabled(isExist);
     this.menuPopHighlight.setEnabled(isExist);
     this.toolButtonList.get(6).setEnabled(isExist);
@@ -1996,6 +2014,12 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       this.compressGradle();
     } else if (this.itemAddition.equals(source)) {
       this.addition();
+    } else if (this.itemAverage.equals(source)) {
+      this.average();
+    } else if (this.itemMaximum.equals(source)) {
+      this.maximum();
+    } else if (this.itemMinimum.equals(source)) {
+      this.minimum();
     } else if (this.itemLineWrap.equals(source)) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -5081,6 +5105,134 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       strResult = "\n求和=" + result;
     } else {
       strResult = "求和=" + result + "\n";
+    }
+    this.txaMain.insert(strResult, endIndex);
+    this.txaMain.select(this.txaMain.getSelectionStart(), this.txaMain.getSelectionEnd() + strResult.length());
+  }
+
+  /**
+   * "平均值"的处理方法
+   */
+  private void average() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
+    BigDecimal result = new BigDecimal(0);
+    int count = 0;
+    for (String text : arrText) {
+      if (Util.isTextEmpty(text.trim())) {
+        continue;
+      }
+      try {
+        BigDecimal number = new BigDecimal(text.trim());
+        result = result.add(number);
+        count++;
+      } catch (Exception x) {
+        // x.printStackTrace();
+        TipsWindow.show(this, "计算失败，请检查是否为数字！");
+        return;
+      }
+    }
+    try {
+      result = result.divide(new BigDecimal(count), 10, BigDecimal.ROUND_HALF_UP);
+    } catch (Exception x) {
+      // x.printStackTrace();
+      TipsWindow.show(this, "计算失败，请检查是否为数字！");
+      return;
+    }
+    StringBuilder stbResult = new StringBuilder(result.toString());
+    // 删除末尾多余的0和.
+    while (stbResult.charAt(stbResult.length() - 1) == '0' || stbResult.charAt(stbResult.length() - 1) == '.') {
+      stbResult.deleteCharAt(stbResult.length() - 1);
+    }
+    int endIndex = currentLines.getEndIndex();
+    String strText = this.txaMain.getText();
+    String strResult = null;
+    if (endIndex == strText.length() && !strText.endsWith("\n")) {
+      strResult = "\n平均值=" + stbResult;
+    } else {
+      strResult = "平均值=" + stbResult + "\n";
+    }
+    this.txaMain.insert(strResult, endIndex);
+    this.txaMain.select(this.txaMain.getSelectionStart(), this.txaMain.getSelectionEnd() + strResult.length());
+  }
+
+  /**
+   * "最大值"的处理方法
+   */
+  private void maximum() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
+    long result = 0;
+    int length = arrText.length;
+    int count = 0;
+    for (String text : arrText) {
+      if (Util.isTextEmpty(text.trim())) {
+        continue;
+      }
+      try {
+        if (count == 0) {
+          result = Long.parseLong(text.trim());
+        } else {
+          long value = Long.parseLong(text.trim());
+          if (result < value) {
+            result = value;
+          }
+        }
+        count++;
+      } catch (Exception x) {
+        // x.printStackTrace();
+        TipsWindow.show(this, "计算失败，请检查是否为数字！");
+        return;
+      }
+    }
+    int endIndex = currentLines.getEndIndex();
+    String strText = this.txaMain.getText();
+    String strResult = null;
+    if (endIndex == strText.length() && !strText.endsWith("\n")) {
+      strResult = "\n最大值=" + result;
+    } else {
+      strResult = "最大值=" + result + "\n";
+    }
+    this.txaMain.insert(strResult, endIndex);
+    this.txaMain.select(this.txaMain.getSelectionStart(), this.txaMain.getSelectionEnd() + strResult.length());
+  }
+
+  /**
+   * "最小值"的处理方法
+   */
+  private void minimum() {
+    CurrentLines currentLines = new CurrentLines(this.txaMain);
+    String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
+    long result = 0;
+    int length = arrText.length;
+    int count = 0;
+    for (String text : arrText) {
+      if (Util.isTextEmpty(text.trim())) {
+        continue;
+      }
+      try {
+        if (count == 0) {
+          result = Long.parseLong(text.trim());
+        } else {
+          long value = Long.parseLong(text.trim());
+          if (result > value) {
+            result = value;
+          }
+        }
+        count++;
+      } catch (Exception x) {
+        // x.printStackTrace();
+        TipsWindow.show(this, "计算失败，请检查是否为数字！");
+        return;
+      }
+    }
+    int endIndex = currentLines.getEndIndex();
+    String strText = this.txaMain.getText();
+    String strResult = null;
+    if (endIndex == strText.length() && !strText.endsWith("\n")) {
+      strResult = "\n最小值=" + result;
+    } else {
+      strResult = "最小值=" + result + "\n";
     }
     this.txaMain.insert(strResult, endIndex);
     this.txaMain.select(this.txaMain.getSelectionStart(), this.txaMain.getSelectionEnd() + strResult.length());
