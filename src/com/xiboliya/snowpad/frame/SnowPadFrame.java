@@ -466,6 +466,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private JMenuItem itemAverage = new JMenuItem("平均值(V)", 'V');
   private JMenuItem itemMaximum = new JMenuItem("最大值(X)", 'X');
   private JMenuItem itemMinimum = new JMenuItem("最小值(N)", 'N');
+  private JMenuItem itemNumberSortUp = new JMenuItem("升序排列(U)", 'U');
+  private JMenuItem itemNumberSortDown = new JMenuItem("降序排列(D)", 'D');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -755,6 +757,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAverage.addActionListener(this);
     this.itemMaximum.addActionListener(this);
     this.itemMinimum.addActionListener(this);
+    this.itemNumberSortUp.addActionListener(this);
+    this.itemNumberSortDown.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1255,6 +1259,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuStatisticsTool.add(this.itemAverage);
     this.menuStatisticsTool.add(this.itemMaximum);
     this.menuStatisticsTool.add(this.itemMinimum);
+    this.menuStatisticsTool.add(this.itemNumberSortUp);
+    this.menuStatisticsTool.add(this.itemNumberSortDown);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1448,6 +1454,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.menuItemList.add(this.itemAverage);
     this.menuItemList.add(this.itemMaximum);
     this.menuItemList.add(this.itemMinimum);
+    this.menuItemList.add(this.itemNumberSortUp);
+    this.menuItemList.add(this.itemNumberSortDown);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1555,6 +1563,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAverage.setEnabled(false);
     this.itemMaximum.setEnabled(false);
     this.itemMinimum.setEnabled(false);
+    this.itemNumberSortUp.setEnabled(false);
+    this.itemNumberSortDown.setEnabled(false);
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
     this.itemPopDel.setEnabled(false);
@@ -1708,6 +1718,8 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     this.itemAverage.setEnabled(isExist);
     this.itemMaximum.setEnabled(isExist);
     this.itemMinimum.setEnabled(isExist);
+    this.itemNumberSortUp.setEnabled(isExist);
+    this.itemNumberSortDown.setEnabled(isExist);
     this.menuHighlight.setEnabled(isExist);
     this.menuPopHighlight.setEnabled(isExist);
     this.toolButtonList.get(6).setEnabled(isExist);
@@ -2017,9 +2029,13 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     } else if (this.itemAverage.equals(source)) {
       this.average();
     } else if (this.itemMaximum.equals(source)) {
-      this.maximum();
+      this.compare(true);
     } else if (this.itemMinimum.equals(source)) {
-      this.minimum();
+      this.compare(false);
+    } else if (this.itemNumberSortUp.equals(source)) {
+      this.numberSort(true);
+    } else if (this.itemNumberSortDown.equals(source)) {
+      this.numberSort(false);
     } else if (this.itemLineWrap.equals(source)) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -5094,7 +5110,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         result = result.add(number);
       } catch (Exception x) {
         // x.printStackTrace();
-        TipsWindow.show(this, "计算失败，请检查是否为数字！");
+        TipsWindow.show(this, "统计失败，请检查是否为数字！");
         return;
       }
     }
@@ -5128,7 +5144,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
         count++;
       } catch (Exception x) {
         // x.printStackTrace();
-        TipsWindow.show(this, "计算失败，请检查是否为数字！");
+        TipsWindow.show(this, "统计失败，请检查是否为数字！");
         return;
       }
     }
@@ -5136,7 +5152,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
       result = result.divide(new BigDecimal(count), 10, BigDecimal.ROUND_HALF_UP);
     } catch (Exception x) {
       // x.printStackTrace();
-      TipsWindow.show(this, "计算失败，请检查是否为数字！");
+      TipsWindow.show(this, "统计失败，请检查是否为数字！");
       return;
     }
     StringBuilder stbResult = new StringBuilder(result.toString());
@@ -5157,85 +5173,98 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   /**
-   * "最大值"的处理方法
+   * "最大值/最小值"的处理方法
+   * @param isMaximum 是否统计最大值，true为最大值，false为最小值
    */
-  private void maximum() {
+  private void compare(boolean isMaximum) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
     String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
-    long result = 0;
-    int length = arrText.length;
-    int count = 0;
+    BigDecimal result = null;
     for (String text : arrText) {
       if (Util.isTextEmpty(text.trim())) {
         continue;
       }
       try {
-        if (count == 0) {
-          result = Long.parseLong(text.trim());
+        if (result == null) {
+          result = new BigDecimal(text.trim());
         } else {
-          long value = Long.parseLong(text.trim());
-          if (result < value) {
-            result = value;
+          BigDecimal value = new BigDecimal(text.trim());
+          if (isMaximum) {
+            if (result.compareTo(value) < 0) {
+              result = value;
+            }
+          } else {
+            if (result.compareTo(value) > 0) {
+              result = value;
+            }
           }
         }
-        count++;
       } catch (Exception x) {
         // x.printStackTrace();
-        TipsWindow.show(this, "计算失败，请检查是否为数字！");
+        TipsWindow.show(this, "统计失败，请检查是否为数字！");
         return;
       }
     }
     int endIndex = currentLines.getEndIndex();
     String strText = this.txaMain.getText();
     String strResult = null;
-    if (endIndex == strText.length() && !strText.endsWith("\n")) {
-      strResult = "\n最大值=" + result;
+    if (isMaximum) {
+      strResult = "最大值=";
     } else {
-      strResult = "最大值=" + result + "\n";
+      strResult = "最小值=";
+    }
+    if (endIndex == strText.length() && !strText.endsWith("\n")) {
+      strResult = "\n" + strResult + result;
+    } else {
+      strResult = strResult + result + "\n";
     }
     this.txaMain.insert(strResult, endIndex);
     this.txaMain.select(this.txaMain.getSelectionStart(), this.txaMain.getSelectionEnd() + strResult.length());
   }
 
   /**
-   * "最小值"的处理方法
+   * "统计排列"的处理方法
+   * @param order 排序的顺序，升序为true，降序为false
    */
-  private void minimum() {
+  private void numberSort(boolean order) {
     CurrentLines currentLines = new CurrentLines(this.txaMain);
     String[] arrText = Util.getCurrentLinesArray(this.txaMain, currentLines);
-    long result = 0;
     int length = arrText.length;
-    int count = 0;
-    for (String text : arrText) {
-      if (Util.isTextEmpty(text.trim())) {
-        continue;
-      }
-      try {
-        if (count == 0) {
-          result = Long.parseLong(text.trim());
-        } else {
-          long value = Long.parseLong(text.trim());
-          if (result > value) {
-            result = value;
+    for (int i = 0; i < length; i++) { // 冒泡排序
+      for (int j = 0; j < i; j++) {
+        try {
+          BigDecimal value1 = new BigDecimal(arrText[i].trim());
+          BigDecimal value2 = new BigDecimal(arrText[j].trim());
+          if (value1.compareTo(value2) < 0) {
+            String str = arrText[i];
+            arrText[i] = arrText[j];
+            arrText[j] = str;
           }
+        } catch (Exception x) {
+           x.printStackTrace();
+          TipsWindow.show(this, "统计失败，请检查是否为数字！");
+          return;
         }
-        count++;
-      } catch (Exception x) {
-        // x.printStackTrace();
-        TipsWindow.show(this, "计算失败，请检查是否为数字！");
-        return;
       }
     }
-    int endIndex = currentLines.getEndIndex();
-    String strText = this.txaMain.getText();
-    String strResult = null;
-    if (endIndex == strText.length() && !strText.endsWith("\n")) {
-      strResult = "\n最小值=" + result;
-    } else {
-      strResult = "最小值=" + result + "\n";
+    StringBuilder stbSorted = new StringBuilder();
+    if (order) { // 升序
+      for (String str : arrText) {
+        stbSorted.append(str + "\n");
+      }
+      if (stbSorted.toString().startsWith("\n")) {
+        stbSorted.deleteCharAt(0); // 删除字符串开头多余的换行符
+      } else {
+        stbSorted.deleteCharAt(stbSorted.length() - 1); // 删除字符串末尾多余的换行符
+      }
+      this.txaMain.replaceSelection(stbSorted.toString());
+    } else { // 降序
+      for (String str : arrText) {
+        stbSorted.insert(0, str + "\n");
+      }
+      this.txaMain.replaceSelection(stbSorted.deleteCharAt(stbSorted.length() - 1).toString()); // 删除字符串末尾多余的换行符
     }
-    this.txaMain.insert(strResult, endIndex);
-    this.txaMain.select(this.txaMain.getSelectionStart(), this.txaMain.getSelectionEnd() + strResult.length());
+    this.txaMain.select(currentLines.getStartIndex(), currentLines.getEndIndex());
   }
 
   /**
