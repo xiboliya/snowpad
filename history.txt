@@ -2309,3 +2309,7 @@ src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
 
+2024-03-10
+1.在“统计工具”菜单中添加：“升序排列”、“降序排列”功能。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
