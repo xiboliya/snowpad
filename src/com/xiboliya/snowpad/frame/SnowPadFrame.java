@@ -530,8 +530,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private SearchResultPanel pnlSearchResult = new SearchResultPanel(this); // 查找结果面板
   private UndoManager undoManager = null; // 撤销管理器
   private SettingAdapter settingAdapter = null; // 用于解析和保存软件配置文件的工具类
-  private boolean clickToClose = true; // 是否双击关闭当前标签
-  private boolean isTabIconView = true; // 是否显示标签的文件状态指示图标
   private boolean checking = false; // 是否正在检测所有文件的状态
   private boolean isInTextAreaHistory = false; // 是否处于最近编辑的文本域的历史状态
   private int targetBracketIndex = -1; // 匹配括号的索引值
@@ -919,7 +917,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
           if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
             popMenuTabbed.show(tpnMain, x, y);
           } else if (e.getClickCount() == 2) { // 双击时，关闭当前标签
-            if (clickToClose) {
+            if (Util.setting.viewClickToClose) {
               closeFile(true);
             }
           }
@@ -2598,14 +2596,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * "双击关闭标签"的处理方法
    */
   private void setClickToClose() {
-    Util.setting.viewClickToClose = this.clickToClose = this.itemClickToClose.isSelected();
+    Util.setting.viewClickToClose = this.itemClickToClose.isSelected();
   }
 
   /**
    * "指示图标"的处理方法
    */
   private void setTabIcon() {
-    Util.setting.viewTabIcon = this.isTabIconView = this.itemTabIcon.isSelected();
+    Util.setting.viewTabIcon = this.itemTabIcon.isSelected();
     int tabCount = this.tpnMain.getTabCount();
     for (int i = 0; i < tabCount; i++) {
       this.tpnMain.setIconAt(i, this.getTabIcon(this.textAreaList.get(i)));
@@ -2613,7 +2611,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   }
 
   private ImageIcon getTabIcon(BaseTextArea textArea) {
-    if (this.isTabIconView) {
+    if (Util.setting.viewTabIcon) {
       File fileTemp = textArea.getFile();
       boolean isFrozen = textArea.getFrozen();
       ImageIcon tabIcon = null;
