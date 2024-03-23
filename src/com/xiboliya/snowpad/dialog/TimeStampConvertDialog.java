@@ -17,7 +17,6 @@
 
 package com.xiboliya.snowpad.dialog;
 
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +37,7 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
+import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -53,7 +53,6 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private JLabel lblTimeStamp = new JLabel("时间戳：");
   private JComboBox<String> cmbUnit = new JComboBox<String>();
   private BaseTextField txtTimeStamp = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
@@ -202,20 +201,7 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
    * "复制结果"的处理方法
    */
   private void toCopyResult() {
-    this.setClipboardContents(this.txtTime.getText());
-  }
-
-  /**
-   * 设置系统剪贴板的内容
-   * 
-   * @param strText 要存入剪贴板的文本
-   */
-  private void setClipboardContents(String strText) {
-    if (Util.isTextEmpty(strText)) {
-      return;
-    }
-    StringSelection ss = new StringSelection(strText);
-    this.clip.setContents(ss, ss);
+    ListenerManager.getInstance().postClipboardEvent(this.txtTime.getText());
   }
 
   /**

@@ -18,7 +18,6 @@
 package com.xiboliya.snowpad.dialog;
 
 import java.awt.Color;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +38,7 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
+import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -90,7 +90,6 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private JLabel lblUnitType = new JLabel("单位类型：");
   private JComboBox<String> cmbUnitType = new JComboBox<String>();
   private JLabel lblNumber = new JLabel("换算数值：");
@@ -359,7 +358,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
    * "复制结果"的处理方法
    */
   private void toCopyResult() {
-    this.setClipboardContents(this.txtResult.getText());
+    ListenerManager.getInstance().postClipboardEvent(this.txtResult.getText());
   }
 
   /**
@@ -388,19 +387,6 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
       result = result.toLowerCase();
     }
     this.txtResult.setText(result);
-  }
-
-  /**
-   * 设置系统剪贴板的内容
-   * 
-   * @param strText 要存入剪贴板的文本
-   */
-  private void setClipboardContents(String strText) {
-    if (Util.isTextEmpty(strText)) {
-      return;
-    }
-    StringSelection ss = new StringSelection(strText);
-    this.clip.setContents(ss, ss);
   }
 
   /**

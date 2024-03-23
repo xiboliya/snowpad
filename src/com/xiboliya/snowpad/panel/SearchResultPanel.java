@@ -46,6 +46,7 @@ import com.xiboliya.snowpad.common.SearchBean;
 import com.xiboliya.snowpad.common.SearchResult;
 import com.xiboliya.snowpad.common.SearchStyle;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
+import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -282,7 +283,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
       Util.findText(prefixLine + "\\d+:", this.txaMain, startIndex, true, true, false, false, SearchStyle.PATTERN);
       strLine = strLine.substring(Util.matcher_length);
     }
-    this.owner.setClipboardContents(strLine);
+    ListenerManager.getInstance().postClipboardEvent(strLine);
   }
 
   /**

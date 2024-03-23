@@ -52,6 +52,7 @@ import com.xiboliya.snowpad.common.SearchBean;
 import com.xiboliya.snowpad.common.SearchResult;
 import com.xiboliya.snowpad.common.SearchStyle;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
+import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.panel.SearchResultPanel;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.window.TipsWindow;
@@ -954,7 +955,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           }
           stbResult.append(stbLine);
         }
-        ((SnowPadFrame) this.getOwner()).setClipboardContents(stbResult.toString());
+        ListenerManager.getInstance().postClipboardEvent(stbResult.toString());
         TipsWindow.show(this, "共复制 " + times + " 行。", Background.GREEN);
       } catch (BadLocationException x) {
          x.printStackTrace();
@@ -1022,7 +1023,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           }
           stbResult.append(stbLine);
         }
-        ((SnowPadFrame) this.getOwner()).setClipboardContents(stbResult.toString());
+        ListenerManager.getInstance().postClipboardEvent(stbResult.toString());
         Collections.sort(listLineNum);
         stbResult = new StringBuilder(strSource);
         int size = listLineNum.size();

@@ -18,6 +18,7 @@
 package com.xiboliya.snowpad.manager;
 
 import java.util.LinkedList;
+import com.xiboliya.snowpad.event.ClipboardListener;
 import com.xiboliya.snowpad.event.ShortcutListener;
 
 /**
@@ -29,6 +30,8 @@ import com.xiboliya.snowpad.event.ShortcutListener;
 public class ListenerManager {
   // 监听快捷键变化的接口集合
   private LinkedList<ShortcutListener> shortcutListenerList = null;
+  // 监听剪贴板变化的接口集合
+  private LinkedList<ClipboardListener> clipboardListenerList = null;
 
   private ListenerManager() {
   }
@@ -71,7 +74,44 @@ public class ListenerManager {
   public void postShortcutEvent() {
     if (this.shortcutListenerList != null) {
       for (ShortcutListener listener : this.shortcutListenerList) {
-        listener.shortcutChanged();
+        if (listener != null) {
+          listener.shortcutChanged();
+        }
+      }
+    }
+  }
+
+  /**
+   * 添加剪贴板变化监听器
+   */
+  public void addClipboardListener(ClipboardListener clipboardListener) {
+    if (this.clipboardListenerList == null) {
+      this.clipboardListenerList = new LinkedList<ClipboardListener>();
+    }
+    if (!this.clipboardListenerList.contains(clipboardListener)) {
+      this.clipboardListenerList.add(clipboardListener);
+    }
+  }
+
+  /**
+   * 移除剪贴板变化监听器
+   */
+  public void removeClipboardListener(ClipboardListener clipboardListener) {
+    if (this.clipboardListenerList != null) {
+      this.clipboardListenerList.remove(clipboardListener);
+    }
+  }
+
+  /**
+   * 通知剪贴板内容变化
+   * @param text 待设置到剪贴板的文本
+   */
+  public void postClipboardEvent(String text) {
+    if (this.clipboardListenerList != null) {
+      for (ClipboardListener listener : this.clipboardListenerList) {
+        if (listener != null) {
+          listener.contentChanged(text);
+        }
       }
     }
   }

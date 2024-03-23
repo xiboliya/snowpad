@@ -19,6 +19,8 @@ package com.xiboliya.snowpad.util;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -143,6 +145,7 @@ public final class Util {
   private static Matcher matcher = null; // 通过解释Pattern对指定文本执行匹配操作的引擎
 
   public static Setting setting = new Setting(); // 软件参数配置类
+  public static Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard(); // 剪贴板
 
   /**
    * 由于此类为工具类，故将构造方法私有化

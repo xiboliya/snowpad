@@ -17,7 +17,6 @@
 
 package com.xiboliya.snowpad.dialog;
 
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,6 +47,7 @@ import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
+import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -63,7 +63,6 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   private JTabbedPane tpnMain = new JTabbedPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   // 文本
   private JPanel pnlText = new JPanel();
@@ -402,20 +401,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
    * "复制结果"的处理方法
    */
   private void toCopyResult() {
-    this.setClipboardContents(this.txaEncrypt.getText());
-  }
-
-  /**
-   * 设置系统剪贴板的内容
-   * 
-   * @param strText 要存入剪贴板的文本
-   */
-  private void setClipboardContents(String strText) {
-    if (Util.isTextEmpty(strText)) {
-      return;
-    }
-    StringSelection ss = new StringSelection(strText);
-    this.clip.setContents(ss, ss);
+    ListenerManager.getInstance().postClipboardEvent(this.txaEncrypt.getText());
   }
 
   /**

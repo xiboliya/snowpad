@@ -31,7 +31,6 @@ import javax.swing.undo.UndoManager;
 import java.awt.Dimension;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
@@ -57,7 +56,6 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
     CaretListener, UndoableEditListener, MouseListener, FocusListener, ShortcutListener {
   private static final long serialVersionUID = 1L;
   private UndoManager undoManager = new UndoManager(); // 撤销管理器
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private JPopupMenu popMenu = new JPopupMenu();
   private JMenuItem itemPopUnDo = new JMenuItem("撤销(U)", 'U');
   private JMenuItem itemPopReDo = new JMenuItem("重做(Y)", 'Y');
@@ -318,7 +316,7 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
       return;
     }
     try {
-      Transferable tf = this.clip.getContents(this);
+      Transferable tf = Util.clipboard.getContents(this);
       if (tf != null) {
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
         if (str != null) {
@@ -425,12 +423,12 @@ public class BaseTextAreaSpecial extends JTextArea implements ActionListener,
   @Override
   public void focusGained(FocusEvent e) {
     try {
-      Transferable tf = this.clip.getContents(this);
+      Transferable tf = Util.clipboard.getContents(this);
       if (tf == null) {
         this.itemPopPaste.setEnabled(false);
       } else {
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
-        if (str != null && str.length() > 0) {
+        if (!Util.isTextEmpty(str)) {
           this.itemPopPaste.setEnabled(this.isEditable());
         }
       }

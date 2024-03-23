@@ -55,7 +55,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
@@ -138,6 +137,7 @@ import com.xiboliya.snowpad.dialog.TimeStampConvertDialog;
 import com.xiboliya.snowpad.dialog.TrigonometricDialog;
 import com.xiboliya.snowpad.dialog.UnitConvertDialog;
 import com.xiboliya.snowpad.dialog.WindowManageDialog;
+import com.xiboliya.snowpad.event.ClipboardListener;
 import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.panel.FileTreePanel;
 import com.xiboliya.snowpad.panel.SearchResultPanel;
@@ -159,8 +159,8 @@ import com.xiboliya.snowpad.window.TipsWindow;
  * @author 冰原
  * 
  */
-public class SnowPadFrame extends JFrame implements ActionListener,
-    CaretListener, UndoableEditListener, WindowFocusListener, ChangeListener, DropTargetListener, ComponentListener {
+public class SnowPadFrame extends JFrame implements ActionListener, CaretListener, UndoableEditListener, WindowFocusListener,
+    ChangeListener, DropTargetListener, ComponentListener, ClipboardListener {
   private static final long serialVersionUID = 1L; // 序列化运行时使用的一个版本号，以与当前可序列化类相关联
   private static final String FILE_HISTORY = "FileHistory"; // 用于标识最近编辑的文件
   private static final String STATE_CHARS = "Chars:"; // 状态栏显示信息-文本总字符数
@@ -516,7 +516,6 @@ public class SnowPadFrame extends JFrame implements ActionListener,
   private ButtonGroup bgpCharset = new ButtonGroup(); // 用于存放字符编码格式的按钮组
   private ButtonGroup bgpDisplay = new ButtonGroup(); // 用于存放文件视图的按钮组
   private ButtonGroup bgpLookAndFeel = new ButtonGroup(); // 用于存放外观的按钮组
-  private Clipboard clip = this.getToolkit().getSystemClipboard(); // 剪贴板
   private File file = null; // 当前编辑的文件
   private LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // 存放最近编辑的文件名的链表
   private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // 存放界面中所有文本域的链表
@@ -887,6 +886,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
     // 为窗口添加组件监听器
     this.addComponentListener(this);
     this.addTabbedPaneMouseListener();
+    ListenerManager.getInstance().addClipboardListener(this);
   }
 
   /**
@@ -4334,15 +4334,22 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    * 
    * @param strText 要存入剪贴板的文本
    */
-  public void setClipboardContents(String strText) {
+  private void setClipboardContents(String strText) {
     if (Util.isTextEmpty(strText)) {
       return;
     }
     StringSelection ss = new StringSelection(strText);
-    this.clip.setContents(ss, ss);
-    this.itemPaste.setEnabled(true);
-    this.itemPopPaste.setEnabled(true);
-    this.toolButtonList.get(8).setEnabled(true);
+    Util.clipboard.setContents(ss, ss);
+    this.setPasteMenuEnabled(true);
+  }
+
+  /**
+   * 设置"粘贴"菜单是否可用
+   */
+  private void setPasteMenuEnabled(boolean enabled) {
+    this.itemPaste.setEnabled(enabled);
+    this.itemPopPaste.setEnabled(enabled);
+    this.toolButtonList.get(8).setEnabled(enabled);
   }
 
   /**
@@ -5445,7 +5452,7 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void pasteText() {
     try {
-      Transferable tf = this.clip.getContents(this);
+      Transferable tf = Util.clipboard.getContents(this);
       if (tf != null) {
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
         if (str != null) {
@@ -6737,25 +6744,19 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   private void checkClipboard() {
     try {
-      Transferable tf = this.clip.getContents(this);
+      Transferable tf = Util.clipboard.getContents(this);
       if (tf == null) {
-        this.itemPaste.setEnabled(false);
-        this.itemPopPaste.setEnabled(false);
-        this.toolButtonList.get(8).setEnabled(false);
+        this.setPasteMenuEnabled(false);
       } else {
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板中的内容不是文本，则将抛出异常
         if (!Util.isTextEmpty(str)) {
-          this.itemPaste.setEnabled(true);
-          this.itemPopPaste.setEnabled(true);
-          this.toolButtonList.get(8).setEnabled(true);
+          this.setPasteMenuEnabled(true);
         }
       }
     } catch (Exception x) {
       // 剪贴板异常
       // x.printStackTrace();
-      this.itemPaste.setEnabled(false);
-      this.itemPopPaste.setEnabled(false);
-      this.toolButtonList.get(8).setEnabled(false);
+      this.setPasteMenuEnabled(false);
     }
   }
 
@@ -7005,6 +7006,14 @@ public class SnowPadFrame extends JFrame implements ActionListener,
    */
   @Override
   public void componentHidden(ComponentEvent e) {
+  }
+
+  /**
+   * 剪贴板内容变化时调用
+   */
+  @Override
+  public void contentChanged(String text) {
+    this.setClipboardContents(text);
   }
 
 }
