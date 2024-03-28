@@ -2334,3 +2334,12 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/manager/ListenerManager.java
 src/com/xiboliya/snowpad/panel/SearchResultPanel.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2024-03-28
+1.优化代码：简化部分界面的初始化传参，删除非必须的BaseTextArea txaSource。
+src/com/xiboliya/snowpad/dialog/FontDialog.java
+src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
+src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
+src/com/xiboliya/snowpad/dialog/TabSetDialog.java
+src/com/xiboliya/snowpad/dialog/WindowManageDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
