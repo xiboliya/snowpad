@@ -37,7 +37,6 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDefaultTableModel;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
-import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.dialog.KeyCheckDialog;
 import com.xiboliya.snowpad.dialog.ShortcutSetDialog;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
@@ -78,11 +77,10 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
    * 
    * @param owner 用于显示该对话框的父组件
    * @param modal 是否为模式对话框
-   * @param txaSource 针对操作的文本域
    * @param settingAdapter 用于解析和保存软件配置文件的工具类
    */
-  public ShortcutManageDialog(JFrame owner, boolean modal, BaseTextArea txaSource, SettingAdapter settingAdapter) {
-    super(owner, modal, txaSource);
+  public ShortcutManageDialog(JFrame owner, boolean modal, SettingAdapter settingAdapter) {
+    super(owner, modal);
     this.settingAdapter = settingAdapter;
     this.init();
     this.setMnemonic();

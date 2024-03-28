@@ -37,7 +37,6 @@ import javax.swing.border.EtchedBorder;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
-import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
@@ -97,8 +96,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private JPanel pnlBottom = new JPanel();
   private BaseButton btnCancel = new BaseButton("关闭");
 
-  public PreferencesDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
-    super(owner, modal, txaSource);
+  public PreferencesDialog(JFrame owner, boolean modal) {
+    super(owner, modal);
     this.setTitle("首选项");
     this.init();
     this.initView();
@@ -106,6 +105,17 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.addListeners();
     this.setSize(400, 280);
     this.setVisible(true);
+  }
+
+  /**
+   * 重写父类的方法：设置本窗口是否可见
+   */
+  @Override
+  public void setVisible(boolean visible) {
+    if (visible) {
+      this.initView();
+    }
+    super.setVisible(visible);
   }
 
   /**
@@ -193,21 +203,21 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lineSeparator = Util.setting.defaultLineSeparator;
     this.cmbLineSeparator.setSelectedItem(this.lineSeparator.getValue());
     // 颜色
-    Color colorFont = this.txaSource.getForeground();
+    Color colorFont = Util.setting.colorStyle[0];
     this.lblColorFontView.setBackground(colorFont);
-    Color colorBack = this.txaSource.getBackground();
+    Color colorBack = Util.setting.colorStyle[1];
     this.lblColorBackView.setBackground(colorBack);
-    Color colorCaret = this.txaSource.getCaretColor();
+    Color colorCaret = Util.setting.colorStyle[2];
     this.lblColorCaretView.setBackground(colorCaret);
-    Color colorSelFont = this.txaSource.getSelectedTextColor();
+    Color colorSelFont = Util.setting.colorStyle[3];
     this.lblColorSelFontView.setBackground(colorSelFont);
-    Color colorSelBack = this.txaSource.getSelectionColor();
+    Color colorSelBack = Util.setting.colorStyle[4];
     this.lblColorSelBackView.setBackground(colorSelBack);
-    Color colorBracketBack = this.txaSource.getBracketBackColor();
+    Color colorBracketBack = Util.setting.colorStyle[5];
     this.lblColorBracketBackView.setBackground(colorBracketBack);
-    Color colorLineBack = this.txaSource.getLineBackColor();
+    Color colorLineBack = Util.setting.colorStyle[6];
     this.lblColorLineBackView.setBackground(colorLineBack);
-    Color colorWordBack = this.txaSource.getWordBackColor();
+    Color colorWordBack = Util.setting.colorStyle[7];
     this.lblColorWordBackView.setBackground(colorWordBack);
   }
 
@@ -294,7 +304,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "字体颜色"的处理方法
    */
   private void setFontColor() {
-    Color color = JColorChooser.showDialog(this, "字体颜色", this.txaSource.getForeground());
+    Color color = JColorChooser.showDialog(this, "字体颜色", Util.setting.colorStyle[0]);
     if (color == null) {
       return;
     }
@@ -307,7 +317,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "背景颜色"的处理方法
    */
   private void setBackColor() {
-    Color color = JColorChooser.showDialog(this, "背景颜色", this.txaSource.getBackground());
+    Color color = JColorChooser.showDialog(this, "背景颜色", Util.setting.colorStyle[1]);
     if (color == null) {
       return;
     }
@@ -320,7 +330,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "光标颜色"的处理方法
    */
   private void setCaretColor() {
-    Color color = JColorChooser.showDialog(this, "光标颜色", this.txaSource.getCaretColor());
+    Color color = JColorChooser.showDialog(this, "光标颜色", Util.setting.colorStyle[2]);
     if (color == null) {
       return;
     }
@@ -333,7 +343,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "选区字体颜色"的处理方法
    */
   private void setSelFontColor() {
-    Color color = JColorChooser.showDialog(this, "选区字体颜色", this.txaSource.getSelectedTextColor());
+    Color color = JColorChooser.showDialog(this, "选区字体颜色", Util.setting.colorStyle[3]);
     if (color == null) {
       return;
     }
@@ -346,7 +356,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "选区背景颜色"的处理方法
    */
   private void setSelBackColor() {
-    Color color = JColorChooser.showDialog(this, "选区背景颜色", this.txaSource.getSelectionColor());
+    Color color = JColorChooser.showDialog(this, "选区背景颜色", Util.setting.colorStyle[4]);
     if (color == null) {
       return;
     }
@@ -359,7 +369,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "匹配括号背景颜色"的处理方法
    */
   private void setBracketBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", this.txaSource.getBracketBackColor());
+    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", Util.setting.colorStyle[5]);
     if (color == null) {
       return;
     }
@@ -372,7 +382,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "当前行背景颜色"的处理方法
    */
   private void setLineBackColor() {
-    Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.txaSource.getLineBackColor());
+    Color color = JColorChooser.showDialog(this, "当前行背景颜色", Util.setting.colorStyle[6]);
     if (color == null) {
       return;
     }
@@ -385,7 +395,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "匹配文本背景颜色"的处理方法
    */
   private void setWordBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", this.txaSource.getWordBackColor());
+    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", Util.setting.colorStyle[7]);
     if (color == null) {
       return;
     }

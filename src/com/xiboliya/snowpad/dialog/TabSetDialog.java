@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
-import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.window.TipsWindow;
@@ -51,8 +50,8 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   private int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数
   private boolean isReplaceBySpace = false; // 以空格代替Tab键
 
-  public TabSetDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
-    super(owner, modal, txaSource);
+  public TabSetDialog(JFrame owner, boolean modal) {
+    super(owner, modal);
     this.init();
     this.initView();
     this.addListeners();
@@ -94,10 +93,10 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
    * 初始化文本框
    */
   private void initView() {
-    this.tabSize = this.txaSource.getTabSize();
+    this.tabSize = Util.setting.tabSize;
     this.txtTabSize.setText(String.valueOf(this.tabSize));
     this.txtTabSize.selectAll();
-    this.isReplaceBySpace = this.txaSource.getTabReplaceBySpace();
+    this.isReplaceBySpace = Util.setting.tabReplaceBySpace;
     this.chkReplaceBySpace.setSelected(this.isReplaceBySpace);
   }
 

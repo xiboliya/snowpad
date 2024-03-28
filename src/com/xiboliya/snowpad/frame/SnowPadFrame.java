@@ -2282,7 +2282,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    */
   private void openPreferencesDialog() {
     if (this.preferencesDialog == null) {
-      this.preferencesDialog = new PreferencesDialog(this, true, this.txaMain);
+      this.preferencesDialog = new PreferencesDialog(this, true);
     } else {
       this.preferencesDialog.setVisible(true);
     }
@@ -2323,7 +2323,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    */
   private void openWindowManageDialog() {
     if (this.windowManageDialog == null) {
-      this.windowManageDialog = new WindowManageDialog(this, true, this.txaMain, this.tpnMain);
+      this.windowManageDialog = new WindowManageDialog(this, true, this.tpnMain);
     } else {
       this.windowManageDialog.setTextArea(this.txaMain);
       this.windowManageDialog.refresh();
@@ -4101,9 +4101,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    */
   private void openTabSetDialog() {
     if (this.tabSetDialog == null) {
-      this.tabSetDialog = new TabSetDialog(this, true, this.txaMain);
+      this.tabSetDialog = new TabSetDialog(this, true);
     } else {
-      this.tabSetDialog.setTextArea(this.txaMain);
       this.tabSetDialog.setVisible(true);
     }
     int tabSize = this.tabSetDialog.getTabSize();
@@ -4138,8 +4137,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    */
   private void openShortcutManageDialog() {
     if (this.shortcutManageDialog == null) {
-      this.shortcutManageDialog = new ShortcutManageDialog(this, true,
-          this.txaMain, this.settingAdapter);
+      this.shortcutManageDialog = new ShortcutManageDialog(this, true, this.settingAdapter);
     } else {
       this.shortcutManageDialog.setVisible(true);
     }
@@ -5481,7 +5479,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    */
   private void openFontChooser() {
     if (this.fontDialog == null) {
-      this.fontDialog = new FontDialog(this, true, this.txaMain);
+      this.fontDialog = new FontDialog(this, true);
     } else {
       this.fontDialog.updateListView();
       this.fontDialog.setFontView();

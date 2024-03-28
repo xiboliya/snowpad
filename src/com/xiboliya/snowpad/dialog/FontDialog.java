@@ -37,7 +37,6 @@ import javax.swing.event.ListSelectionListener;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
-import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
 
@@ -77,8 +76,8 @@ public class FontDialog extends BaseDialog implements ActionListener,
    * @param owner 父窗口
    * @param modal 是否为模式窗口
    */
-  public FontDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
-    super(owner, modal, txaSource);
+  public FontDialog(JFrame owner, boolean modal) {
+    super(owner, modal);
     this.setTitle("字体");
     this.init();
     this.fillFontList();
@@ -129,7 +128,7 @@ public class FontDialog extends BaseDialog implements ActionListener,
   private void fillFontList() {
     String[] fontFamilys = Util.FONT_FAMILY_NAMES; // 获取系统所有字体的名称列表
     this.listFont.setListData(fontFamilys);
-    Font font = this.txaSource.getFont();
+    Font font = Util.setting.font;
     this.listFont.setSelectedValue(font.getFamily(), true);
     this.listFont.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     this.setFontView();
@@ -141,7 +140,7 @@ public class FontDialog extends BaseDialog implements ActionListener,
   private void fillStyleList() {
     String[] fontStyles = new String[] { "常规", "粗体", "斜体", "粗斜体" };
     this.listStyle.setListData(fontStyles);
-    Font font = this.txaSource.getFont();
+    Font font = Util.setting.font;
     this.listStyle.setSelectedIndex(font.getStyle());
     this.listStyle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     this.setStyleView();
@@ -156,7 +155,7 @@ public class FontDialog extends BaseDialog implements ActionListener,
       fontSizes[i] = Util.MIN_FONT_SIZE + i; // Integer类的自动装箱
     }
     this.listSize.setListData(fontSizes);
-    Font font = this.txaSource.getFont();
+    Font font = Util.setting.font;
     this.listSize.setSelectedValue(font.getSize(), true);
     this.listSize.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     this.setSizeView();
@@ -166,7 +165,7 @@ public class FontDialog extends BaseDialog implements ActionListener,
    * 更新列表的显示
    */
   public void updateListView() {
-    Font font = this.txaSource.getFont();
+    Font font = Util.setting.font;
     this.listFont.setSelectedValue(font.getFamily(), true);
     this.listStyle.setSelectedIndex(font.getStyle());
     this.listSize.setSelectedValue(font.getSize(), true);
