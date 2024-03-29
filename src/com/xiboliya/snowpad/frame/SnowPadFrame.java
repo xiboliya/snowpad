@@ -119,6 +119,7 @@ import com.xiboliya.snowpad.dialog.FileEncodingDialog;
 import com.xiboliya.snowpad.dialog.FindReplaceDialog;
 import com.xiboliya.snowpad.dialog.FontDialog;
 import com.xiboliya.snowpad.dialog.GotoDialog;
+import com.xiboliya.snowpad.dialog.HelpDialog;
 import com.xiboliya.snowpad.dialog.InformationDialog;
 import com.xiboliya.snowpad.dialog.InsertCharDialog;
 import com.xiboliya.snowpad.dialog.InsertDateDialog;
@@ -568,7 +569,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private UnitConvertDialog unitConvertDialog = null; // 单位换算对话框
   private TrigonometricDialog trigonometricDialog = null; // 三角函数对话框
   private TestQuestionDialog testQuestionDialog = null; // 题库对话框
-  private HelpFrame helpFrame = null; // 帮助主题窗口
+  private HelpDialog helpDialog = null; // 帮助主题对话框
 
   /**
    * 带参数的构造方法，通过配置文件进行设置
@@ -2912,9 +2913,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.bookmarkPreviewDialog.dispose();
       this.bookmarkPreviewDialog = null;
     }
-    if (this.helpFrame != null) {
-      this.helpFrame.dispose();
-      this.helpFrame = null;
+    if (this.helpDialog != null) {
+      this.helpDialog.dispose();
+      this.helpDialog = null;
     }
   }
 
@@ -5274,11 +5275,10 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * "帮助主题"的处理方法
    */
   private void showHelpFrame() {
-    if (this.helpFrame == null) {
-      this.helpFrame = new HelpFrame();
+    if (this.helpDialog == null) {
+      this.helpDialog = new HelpDialog(this, false);
     } else {
-      this.helpFrame.setVisible(true);
-      this.helpFrame.requestFocus();
+      this.helpDialog.setVisible(true);
     }
   }
 

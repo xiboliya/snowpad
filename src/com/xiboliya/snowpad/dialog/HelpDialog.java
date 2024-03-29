@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xiboliya.snowpad.frame;
+package com.xiboliya.snowpad.dialog;
 
 import java.awt.Dimension;
 import java.io.BufferedReader;
@@ -31,16 +31,18 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeSelectionModel;
 
+import com.xiboliya.snowpad.base.BaseDialog;
+import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTreeNode;
 import com.xiboliya.snowpad.util.Util;
 
 /**
- * "帮助主题"JFrame窗口
+ * "帮助主题"对话框
  * 
  * @author 冰原
  * 
  */
-public class HelpFrame extends JFrame implements TreeSelectionListener {
+public class HelpDialog extends BaseDialog implements TreeSelectionListener {
   private static final long serialVersionUID = 1L;
   private static final String HELP_TITLE = "帮助主题";
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -49,13 +51,14 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
   private BaseTreeNode treeNode = new BaseTreeNode(Util.SOFTWARE);
   private JTree treeMain = new JTree(treeNode);
   private JTextArea txaMain = new JTextArea();
+  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
 
-  public HelpFrame() {
+  public HelpDialog(JFrame owner, boolean modal) {
+    super(owner, modal);
+    this.setResizable(true);
     this.setTitle(this.stbTitle.toString());
     this.setSize(400, 400);
     this.setMinimumSize(new Dimension(300, 300)); // 设置主界面的最小尺寸
-    this.setLocationRelativeTo(null); // 使窗口居中显示
-    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.init();
     this.addListeners();
     this.initTree();
@@ -153,6 +156,8 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
    */
   private void addListeners() {
     this.treeMain.addTreeSelectionListener(this);
+    this.treeMain.addKeyListener(this.keyAdapter);
+    this.txaMain.addKeyListener(this.keyAdapter);
   }
 
   /**
@@ -166,6 +171,21 @@ public class HelpFrame extends JFrame implements TreeSelectionListener {
     this.stbTitle = new StringBuilder(HELP_TITLE + " - " + treeNode.toString());
     this.setTitle(this.stbTitle.toString());
     this.txaMain.setText(treeNode.getContent());
+  }
+
+  /**
+   * 默认的"确定"操作方法
+   */
+  @Override
+  public void onEnter() {
+  }
+
+  /**
+   * 默认的"取消"操作方法
+   */
+  @Override
+  public void onCancel() {
+    this.dispose();
   }
 
 }
