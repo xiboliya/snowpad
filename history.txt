@@ -2343,3 +2343,9 @@ src/com/xiboliya/snowpad/dialog/ShortcutManageDialog.java
 src/com/xiboliya/snowpad/dialog/TabSetDialog.java
 src/com/xiboliya/snowpad/dialog/WindowManageDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2024-03-29
+1.将“帮助主题”界面由Frame改为Dialog类型。
+src/com/xiboliya/snowpad/frame/HelpFrame.java（删除）
+src/com/xiboliya/snowpad/dialog/HelpDialog.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
