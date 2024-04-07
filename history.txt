@@ -2349,3 +2349,9 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/frame/HelpFrame.java（删除）
 src/com/xiboliya/snowpad/dialog/HelpDialog.java（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2024-04-07
+1.优化代码：将BigDecimal.divide方法的第三个参数改为官方推荐的枚举RoundingMode.HALF_UP。
+src/com/xiboliya/snowpad/dialog/CalculatorDialog.java
+src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
