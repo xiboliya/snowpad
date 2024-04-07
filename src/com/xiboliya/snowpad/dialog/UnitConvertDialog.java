@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -308,7 +309,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
             }
           }
           // 此处的divide方法需要添加后面2个参数，以设置保留小数的精度。如果不设置，在无法除尽的时候会报错。
-          result = number.divide(rate, 30, BigDecimal.ROUND_HALF_UP).toString();
+          result = number.divide(rate, 30, RoundingMode.HALF_UP).toString();
           result = this.formatDivideResult(result);
         }
         if (this.chkUpperCase.isSelected()) {

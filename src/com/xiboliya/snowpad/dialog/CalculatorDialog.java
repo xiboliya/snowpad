@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -611,7 +612,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
     try {
       BigDecimal number1 = new BigDecimal(previous);
       BigDecimal number2 = new BigDecimal(next);
-      BigDecimal number = number1.divide(number2, 10, BigDecimal.ROUND_HALF_UP);
+      BigDecimal number = number1.divide(number2, 10, RoundingMode.HALF_UP);
       this.list.set(index - 1, number.toString());
     } catch (Exception x) {
       // x.printStackTrace();

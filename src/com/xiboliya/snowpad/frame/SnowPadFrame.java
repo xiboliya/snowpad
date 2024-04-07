@@ -80,6 +80,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -1905,7 +1906,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     } else if (this.itemQuickFindUp.equals(source)) {
       this.quickFindText(false);
     } else if (this.itemFont.equals(source)) {
-      this.openFontChooser();
+      this.openFontDialog();
     } else if (this.itemGoto.equals(source)) {
       this.openGotoDialog();
     } else if (this.itemBookmarkSwitch.equals(source)) {
@@ -5153,7 +5154,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       }
     }
     try {
-      result = result.divide(new BigDecimal(count), 10, BigDecimal.ROUND_HALF_UP);
+      result = result.divide(new BigDecimal(count), 10, RoundingMode.HALF_UP);
     } catch (Exception x) {
       // x.printStackTrace();
       TipsWindow.show(this, "统计失败，请检查是否为数字！");
@@ -5477,7 +5478,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   /**
    * "字体"的处理方法
    */
-  private void openFontChooser() {
+  private void openFontDialog() {
     if (this.fontDialog == null) {
       this.fontDialog = new FontDialog(this, true);
     } else {
