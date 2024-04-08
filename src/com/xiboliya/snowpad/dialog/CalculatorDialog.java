@@ -128,7 +128,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
             digit(text, "4");
             break;
           case KeyEvent.VK_5:
-            if (e.getModifiers() == KeyEvent.SHIFT_MASK) {
+            if (e.getModifiersEx() == KeyEvent.SHIFT_DOWN_MASK) {
               percent(text);
             } else {
               digit(text, "5");
@@ -146,7 +146,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
             digit(text, "7");
             break;
           case KeyEvent.VK_8:
-            if (e.getModifiers() == KeyEvent.SHIFT_MASK) {
+            if (e.getModifiersEx() == KeyEvent.SHIFT_DOWN_MASK) {
               multiplication(text);
             } else {
               digit(text, "8");
@@ -181,7 +181,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
             backSpace(text);
             break;
           case KeyEvent.VK_EQUALS:
-            if (e.getModifiers() == KeyEvent.SHIFT_MASK) {
+            if (e.getModifiersEx() == KeyEvent.SHIFT_DOWN_MASK) {
               addition(text);
             } else {
               onEnter();

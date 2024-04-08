@@ -326,7 +326,7 @@ public class FontDialog extends BaseDialog implements ActionListener,
       try {
         String strSize = this.txtSize.getText();
         if (strSize.length() > 0) {
-          if (!new Integer(strSize).equals(this.listSize.getSelectedValue())) {
+          if (!Integer.valueOf(strSize).equals(this.listSize.getSelectedValue())) {
             this.txtSize.setText(this.listSize.getSelectedValue().toString());
           }
         }
@@ -352,7 +352,7 @@ public class FontDialog extends BaseDialog implements ActionListener,
       try {
         String strSize = this.txtSize.getText();
         if (strSize.length() > 0) {
-          this.listSize.setSelectedValue(new Integer(strSize), true);
+          this.listSize.setSelectedValue(Integer.valueOf(strSize), true);
         }
       } catch (NumberFormatException x) {
         // 被转化的字符串不是数字
