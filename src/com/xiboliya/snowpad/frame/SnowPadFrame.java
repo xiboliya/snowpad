@@ -349,9 +349,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemFindPrevious = new JMenuItem("查找上一个(P)", 'P');
   private JMenuItem itemSelFindNext = new JMenuItem("选定查找下一个(T)", 'T');
   private JMenuItem itemSelFindPrevious = new JMenuItem("选定查找上一个(S)", 'S');
-  private JMenu menuQuickFind = new JMenu("快速查找(Q)");
-  private JMenuItem itemQuickFindDown = new JMenuItem("快速向下查找");
-  private JMenuItem itemQuickFindUp = new JMenuItem("快速向上查找");
+  private JMenuItem itemQuickFindDown = new JMenuItem("快速向下查找(D)", 'D');
+  private JMenuItem itemQuickFindUp = new JMenuItem("快速向上查找(U)", 'U');
   private JMenuItem itemReplace = new JMenuItem("替换(R)...", 'R');
   private JMenuItem itemGoto = new JMenuItem("转到(G)...", 'G');
   private JMenu menuBookmark = new JMenu("书签(M)");
@@ -1130,9 +1129,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuSearch.add(this.itemFindPrevious);
     this.menuSearch.add(this.itemSelFindNext);
     this.menuSearch.add(this.itemSelFindPrevious);
-    this.menuSearch.add(this.menuQuickFind);
-    this.menuQuickFind.add(this.itemQuickFindDown);
-    this.menuQuickFind.add(this.itemQuickFindUp);
+    this.menuSearch.add(this.itemQuickFindDown);
+    this.menuSearch.add(this.itemQuickFindUp);
+    this.menuSearch.addSeparator();
     this.menuSearch.add(this.itemReplace);
     this.menuSearch.add(this.itemGoto);
     this.menuSearch.add(this.menuBookmark);
@@ -1792,7 +1791,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuEdit.setMnemonic('E');
     this.menuFileHistory.setMnemonic('H');
     this.menuSearch.setMnemonic('S');
-    this.menuQuickFind.setMnemonic('Q');
     this.menuBookmark.setMnemonic('M');
     this.menuStyle.setMnemonic('O');
     this.menuView.setMnemonic('V');
