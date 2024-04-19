@@ -2360,3 +2360,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 1.优化代码：将如下的方法和常量改为官方推荐的方式：KeyEvent.getModifiers改为getModifiersEx方法、KeyEvent.SHIFT_MASK改为SHIFT_DOWN_MASK常量、new Integer改为Integer.valueOf方法。
 src/com/xiboliya/snowpad/dialog/CalculatorDialog.java
 src/com/xiboliya/snowpad/dialog/FontDialog.java
+
+2024-04-19
+1.将“快速查找”菜单删除，并将下一级菜单：快速向下查找、快速向上查找，移动到搜索菜单下。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
