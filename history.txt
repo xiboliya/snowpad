@@ -2364,3 +2364,8 @@ src/com/xiboliya/snowpad/dialog/FontDialog.java
 2024-04-19
 1.将“快速查找”菜单删除，并将下一级菜单：快速向下查找、快速向上查找，移动到搜索菜单下。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2024-04-20
+1.文本域中粘贴时，如果剪贴板内的文本超过5M，则认为是大文本，弹出提示框提示用户选择粘贴或者取消。
+src/com/xiboliya/snowpad/base/BaseTextAreaSpecial.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
