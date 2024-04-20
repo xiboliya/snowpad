@@ -5453,6 +5453,14 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       if (tf != null) {
         String str = tf.getTransferData(DataFlavor.stringFlavor).toString(); // 如果剪贴板内的内容不是文本，则将抛出异常
         if (str != null) {
+          if (str.length() > 5 * 1024 * 1024) {
+            int result = JOptionPane.showConfirmDialog(this,
+                Util.convertToMsg("文本较大，如果粘贴可能导致程序卡死！\n是否继续粘贴？"),
+                Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
+            if (result != JOptionPane.YES_OPTION) {
+              return;
+            }
+          }
           // 将Windows格式的换行符\r\n，转换为UNIX/Linux格式
           str = str.replaceAll(LineSeparator.WINDOWS.toString(), LineSeparator.UNIX.toString());
           // 为了容错，将可能残余的\r字符替换为\n
