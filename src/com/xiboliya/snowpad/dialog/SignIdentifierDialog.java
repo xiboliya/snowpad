@@ -517,13 +517,16 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    * 当监听的组件状态变化时，将触发此事件
    */
   public void stateChanged(ChangeEvent e) {
-    if (this.tpnMain.getSelectedIndex() == 0) {
+    int index = this.tpnMain.getSelectedIndex();
+    if (index == 0) {
       this.txtStart.setEnabled(true);
       this.txtStart.setFocusable(true);
-    } else if (this.tpnMain.getSelectedIndex() == 1) {
+    } else if (index == 1) {
       this.txtStart.setEnabled(false);
       this.txtStart.setFocusable(false);
     }
+    JPanel pnlTemp = (JPanel) this.tpnMain.getComponentAt(index);
+    pnlTemp.getComponent(0).requestFocus();
   }
 
   /**
