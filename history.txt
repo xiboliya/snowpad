@@ -2369,3 +2369,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 1.文本域中粘贴时，如果剪贴板内的文本超过5M，则认为是大文本，弹出提示框提示用户选择粘贴或者取消。
 src/com/xiboliya/snowpad/base/BaseTextAreaSpecial.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2024-05-06
+1.解决“列表符号与编号”界面中如果光标在“编号修饰”输入框中，此时切换“编号”或“符号”选项卡时，焦点被输入框占据，导致预览框不更新的问题。
+src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
