@@ -88,6 +88,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private EtchedBorder etchedBorder = new EtchedBorder();
   private MouseAdapter mouseAdapter = null;
   private String strSignIdentifier = ""; // 当前选中的符号或编号字符串
+  private String strModifierSign = "."; // 符号的修饰字符
+  private String strModifierIdentifier = ""; // 编号的修饰字符
 
   /**
    * 构造方法
@@ -521,9 +523,11 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     if (index == 0) {
       this.txtStart.setEnabled(true);
       this.txtStart.setFocusable(true);
+      this.txtModifier.setText(this.strModifierSign);
     } else if (index == 1) {
       this.txtStart.setEnabled(false);
       this.txtStart.setFocusable(false);
+      this.txtModifier.setText(this.strModifierIdentifier);
     }
     JPanel pnlTemp = (JPanel) this.tpnMain.getComponentAt(index);
     pnlTemp.getComponent(0).requestFocus();
@@ -533,6 +537,16 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    * 当本控件中的文本发生变化时，将触发此事件
    */
   public void undoableEditHappened(UndoableEditEvent e) {
+    Object source = e.getSource();
+    if (this.txtModifier.getDocument().equals(source)) {
+      int index = this.tpnMain.getSelectedIndex();
+      String strModifier = this.txtModifier.getText();
+      if (index == 0) {
+        this.strModifierSign = strModifier;
+      } else if (index == 1) {
+        this.strModifierIdentifier = strModifier;
+      }
+    }
     this.signIdentifier(true); // 预览当前的列表符号或编号效果
   }
 }
