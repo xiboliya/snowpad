@@ -2377,3 +2377,16 @@ src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
 2024-05-08
 1.“列表符号与编号”界面中的“修饰字符”，在编号和符号模式下区分设置，不共用字符。
 src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
+
+2024-05-09
+1.优化代码：将所有界面中监听文本组件文本变化的CaretListener、UndoableEditListener监听器统一改为更加准确的DocumentListener。
+src/com/xiboliya/snowpad/dialog/EncryptDialog.java
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+src/com/xiboliya/snowpad/dialog/FontDialog.java
+src/com/xiboliya/snowpad/dialog/InsertDateDialog.java
+src/com/xiboliya/snowpad/dialog/NumberConvertDialog.java
+src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
+src/com/xiboliya/snowpad/dialog/TextConvertDialog.java
+src/com/xiboliya/snowpad/dialog/TimeStampConvertDialog.java
+src/com/xiboliya/snowpad/dialog/TrigonometricDialog.java
+src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
