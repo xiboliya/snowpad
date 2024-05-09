@@ -37,8 +37,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
@@ -55,7 +55,7 @@ import com.xiboliya.snowpad.util.Util;
  * 
  */
 public class SignIdentifierDialog extends BaseDialog implements ActionListener,
-    FocusListener, ChangeListener, UndoableEditListener {
+    FocusListener, ChangeListener, DocumentListener {
   private static final long serialVersionUID = 1L;
   private static final String SIGN_CHARS = "﹟·※＊§¤⊙◎○●△▲▽▼◇◆□■☆★"; // 列表符号
   private static final String SIGN_CHARS_VIEW = "__________\n__________\n__________"; // 预览界面的初始化字符串
@@ -275,6 +275,19 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
+   * 保存符号或编号的修饰字符
+   */
+  private void saveModifier() {
+    int index = this.tpnMain.getSelectedIndex();
+    String strModifier = this.txtModifier.getText();
+    if (index == 0) {
+      this.strModifierSign = strModifier;
+    } else if (index == 1) {
+      this.strModifierIdentifier = strModifier;
+    }
+  }
+
+  /**
    * 为指定的字符串数组添加当前选中的符号或编号
    * 
    * @param arrText 待处理的字符串数组
@@ -455,9 +468,9 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.btnOk.addActionListener(this);
     this.btnCancel.addActionListener(this);
     this.txtStart.addKeyListener(this.keyAdapter);
-    this.txtStart.getDocument().addUndoableEditListener(this);
+    this.txtStart.getDocument().addDocumentListener(this);
     this.txtModifier.addKeyListener(this.keyAdapter);
-    this.txtModifier.getDocument().addUndoableEditListener(this);
+    this.txtModifier.getDocument().addDocumentListener(this);
     this.chkSkipEmptyLine.addKeyListener(this.keyAdapter);
     this.mouseAdapter = new MouseAdapter() {
       public void mouseClicked(MouseEvent e) {
@@ -473,6 +486,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     Object source = e.getSource();
     if (this.btnOk.equals(source)) {
@@ -485,6 +499,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     this.signIdentifier(false); // 应用当前的列表符号或编号效果
     this.dispose();
@@ -493,6 +508,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }
@@ -500,6 +516,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 当文本标签获得焦点时，将触发此事件
    */
+  @Override
   public void focusGained(FocusEvent e) {
     JLabel lblTemp = (JLabel) e.getSource();
     lblTemp.setBackground(Color.PINK);
@@ -510,6 +527,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 当文本标签失去焦点时，将触发此事件
    */
+  @Override
   public void focusLost(FocusEvent e) {
     JLabel lblTemp = (JLabel) e.getSource();
     lblTemp.setBackground(Color.WHITE);
@@ -518,6 +536,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   /**
    * 当监听的组件状态变化时，将触发此事件
    */
+  @Override
   public void stateChanged(ChangeEvent e) {
     int index = this.tpnMain.getSelectedIndex();
     if (index == 0) {
@@ -533,20 +552,34 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     pnlTemp.getComponent(0).requestFocus();
   }
 
-  /**
-   * 当本控件中的文本发生变化时，将触发此事件
-   */
-  public void undoableEditHappened(UndoableEditEvent e) {
-    Object source = e.getSource();
-    if (this.txtModifier.getDocument().equals(source)) {
-      int index = this.tpnMain.getSelectedIndex();
-      String strModifier = this.txtModifier.getText();
-      if (index == 0) {
-        this.strModifierSign = strModifier;
-      } else if (index == 1) {
-        this.strModifierIdentifier = strModifier;
-      }
+  private void execDocumentEvent(DocumentEvent e) {
+    if (this.txtModifier.getDocument().equals(e.getDocument())) {
+      this.saveModifier();
     }
     this.signIdentifier(true); // 预览当前的列表符号或编号效果
+  }
+
+  /**
+   * 当文本控件插入文本时，将触发此事件
+   */
+  @Override
+  public void insertUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
+  }
+
+  /**
+   * 当文本控件删除文本时，将触发此事件
+   */
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
+  }
+
+  /**
+   * 当文本控件修改文本时，将触发此事件
+   */
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
   }
 }

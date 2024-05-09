@@ -33,8 +33,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -53,7 +53,7 @@ import com.xiboliya.snowpad.window.TipsWindow;
  * 
  */
 public class InsertDateDialog extends BaseDialog implements ActionListener,
-    ListSelectionListener, CaretListener {
+    ListSelectionListener, DocumentListener {
   private static final long serialVersionUID = 1L;
   private static final String[] DATE_STYLES = new String[] { "yyyy-MM-dd",
       "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss:SSS", "yyyy-MM-dd KK:mm:ss",
@@ -228,7 +228,7 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
     this.radSelect.addActionListener(this);
     this.radUser.addActionListener(this);
     this.listStyles.addMouseListener(this.baseMouseAdapter);
-    this.txtUser.addCaretListener(this);
+    this.txtUser.getDocument().addDocumentListener(this);
     // 以下为各可获得焦点的组件添加键盘事件，即当用户按下Esc键时关闭对话框
     this.radSelect.addKeyListener(this.keyAdapter);
     this.listStyles.addKeyListener(this.keyAdapter);
@@ -302,13 +302,27 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   }
 
   /**
-   * 当文本框的光标发生变化时，触发此事件
+   * 当文本控件插入文本时，将触发此事件
    */
   @Override
-  public void caretUpdate(CaretEvent e) {
-    if (this.txtUser.equals(e.getSource())) {
-      this.setView();
-    }
+  public void insertUpdate(DocumentEvent e) {
+    this.setView();
+  }
+
+  /**
+   * 当文本控件删除文本时，将触发此事件
+   */
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    this.setView();
+  }
+
+  /**
+   * 当文本控件修改文本时，将触发此事件
+   */
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    this.setView();
   }
 
 }

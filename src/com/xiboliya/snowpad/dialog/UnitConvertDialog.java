@@ -32,8 +32,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
@@ -48,7 +48,7 @@ import com.xiboliya.snowpad.util.Util;
  * @author 冰原
  * 
  */
-public class UnitConvertDialog extends BaseDialog implements ActionListener, CaretListener, ItemListener {
+public class UnitConvertDialog extends BaseDialog implements ActionListener, DocumentListener, ItemListener {
   private static final long serialVersionUID = 1L;
   // 单位类型
   private static final String[] UNIT_TYPES = new String[] {"存储", "时间", "长度", "面积", "体积", "质量", "角度"};
@@ -215,7 +215,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
     this.cmbUnitType.addItemListener(this);
     this.cmbNumber.addKeyListener(this.keyAdapter);
     this.cmbNumber.addItemListener(this);
-    this.txtNumber.addCaretListener(this);
+    this.txtNumber.getDocument().addDocumentListener(this);
     this.txtNumber.addKeyListener(this.keyAdapter);
     this.cmbResult.addKeyListener(this.keyAdapter);
     this.cmbResult.addItemListener(this);
@@ -406,13 +406,27 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Car
   }
 
   /**
-   * 当文本框的光标发生变化时，触发此事件
+   * 当文本控件插入文本时，将触发此事件
    */
   @Override
-  public void caretUpdate(CaretEvent e) {
-    if (this.txtNumber.equals(e.getSource())) {
-      this.showResult();
-    }
+  public void insertUpdate(DocumentEvent e) {
+    this.showResult();
+  }
+
+  /**
+   * 当文本控件删除文本时，将触发此事件
+   */
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    this.showResult();
+  }
+
+  /**
+   * 当文本控件修改文本时，将触发此事件
+   */
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    this.showResult();
   }
 
   /**

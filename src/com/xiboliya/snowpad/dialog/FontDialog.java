@@ -29,8 +29,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -47,7 +47,7 @@ import com.xiboliya.snowpad.util.Util;
  * 
  */
 public class FontDialog extends BaseDialog implements ActionListener,
-    ListSelectionListener, CaretListener {
+    ListSelectionListener, DocumentListener {
   private static final long serialVersionUID = 1L;
   private JLabel lblFont = new JLabel("字体：");
   private JLabel lblStyle = new JLabel("字形：");
@@ -254,9 +254,9 @@ public class FontDialog extends BaseDialog implements ActionListener,
     this.listFont.addMouseListener(this.baseMouseAdapter);
     this.listStyle.addMouseListener(this.baseMouseAdapter);
     this.listSize.addMouseListener(this.baseMouseAdapter);
-    this.txtFont.addCaretListener(this);
-    this.txtStyle.addCaretListener(this);
-    this.txtSize.addCaretListener(this);
+    this.txtFont.getDocument().addDocumentListener(this);
+    this.txtStyle.getDocument().addDocumentListener(this);
+    this.txtSize.getDocument().addDocumentListener(this);
     // 以下为各可获得焦点的组件添加键盘事件，即当用户按下Esc键时关闭"字体"对话框
     this.txtFont.addKeyListener(this.keyAdapter);
     this.txtStyle.addKeyListener(this.keyAdapter);
@@ -338,26 +338,46 @@ public class FontDialog extends BaseDialog implements ActionListener,
     this.setView();
   }
 
-  /**
-   * 当文本框的光标发生变化时，触发此事件
-   */
-  @Override
-  public void caretUpdate(CaretEvent e) {
-    Object source = e.getSource();
-    if (this.txtFont.equals(source)) {
+  private void execDocumentEvent(DocumentEvent e) {
+    Object source = e.getDocument();
+    if (this.txtFont.getDocument().equals(source)) {
       this.listFont.setSelectedValue(this.txtFont.getText(), true);
-    } else if (this.txtStyle.equals(source)) {
+    } else if (this.txtStyle.getDocument().equals(source)) {
       this.listStyle.setSelectedValue(this.txtStyle.getText(), true);
-    } else if (this.txtSize.equals(source)) {
+    } else if (this.txtSize.getDocument().equals(source)) {
       try {
         String strSize = this.txtSize.getText();
         if (strSize.length() > 0) {
           this.listSize.setSelectedValue(Integer.valueOf(strSize), true);
         }
-      } catch (NumberFormatException x) {
+      } catch (Exception x) {
         // 被转化的字符串不是数字
         // x.printStackTrace();
       }
     }
+  }
+
+  /**
+   * 当文本控件插入文本时，将触发此事件
+   */
+  @Override
+  public void insertUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
+  }
+
+  /**
+   * 当文本控件删除文本时，将触发此事件
+   */
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
+  }
+
+  /**
+   * 当文本控件修改文本时，将触发此事件
+   */
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
   }
 }

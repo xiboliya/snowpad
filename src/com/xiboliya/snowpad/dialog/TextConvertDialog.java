@@ -29,8 +29,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
@@ -49,7 +49,7 @@ import com.xiboliya.snowpad.util.Util;
  * @author 冰原
  * 
  */
-public class TextConvertDialog extends BaseDialog implements ActionListener, CaretListener, ItemListener {
+public class TextConvertDialog extends BaseDialog implements ActionListener, DocumentListener, ItemListener {
   private static final long serialVersionUID = 1L;
   // 编码格式名称的数组
   private static final String[] ENCODING_NAMES = new String[] {
@@ -156,11 +156,11 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
    * 为各组件添加监听器
    */
   private void addListeners() {
-    this.txaText.addCaretListener(this);
+    this.txaText.getDocument().addDocumentListener(this);
     this.txaText.addKeyListener(this.keyAdapter);
     this.cmbEncoding.addItemListener(this);
     this.cmbEncoding.addKeyListener(this.keyAdapter);
-    this.txtResultSeparator.addCaretListener(this);
+    this.txtResultSeparator.getDocument().addDocumentListener(this);
     this.txtResultSeparator.addKeyListener(this.keyAdapter);
     this.cmbLineSeparator.addItemListener(this);
     this.cmbLineSeparator.addKeyListener(this.keyAdapter);
@@ -342,12 +342,27 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Car
   @Override
   public void onEnter() {
   }
-
   /**
-   * 当文本框的光标发生变化时，触发此事件
+   * 当文本控件插入文本时，将触发此事件
    */
   @Override
-  public void caretUpdate(CaretEvent e) {
+  public void insertUpdate(DocumentEvent e) {
+    this.showResult();
+  }
+
+  /**
+   * 当文本控件删除文本时，将触发此事件
+   */
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    this.showResult();
+  }
+
+  /**
+   * 当文本控件修改文本时，将触发此事件
+   */
+  @Override
+  public void changedUpdate(DocumentEvent e) {
     this.showResult();
   }
 

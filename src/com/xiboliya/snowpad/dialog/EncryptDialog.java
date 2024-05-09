@@ -34,8 +34,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -56,7 +56,7 @@ import com.xiboliya.snowpad.util.Util;
  * @author 冰原
  * 
  */
-public class EncryptDialog extends BaseDialog implements ActionListener, CaretListener, ChangeListener, ItemListener {
+public class EncryptDialog extends BaseDialog implements ActionListener, DocumentListener, ChangeListener, ItemListener {
   private static final long serialVersionUID = 1L;
   private static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // 加密的类型
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -180,12 +180,12 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   private void addListeners() {
     this.tpnMain.addChangeListener(this);
     // 文本
-    this.txaTextT.addCaretListener(this);
+    this.txaTextT.getDocument().addDocumentListener(this);
     this.chkEveryLinesT.addActionListener(this);
     this.txaTextT.addKeyListener(this.keyAdapter);
     this.chkEveryLinesT.addKeyListener(this.keyAdapter);
     // 文件
-    this.txtPathF.addCaretListener(this);
+    this.txtPathF.getDocument().addDocumentListener(this);
     this.btnSelectFileF.addActionListener(this);
     this.txtPathF.addKeyListener(this.keyAdapter);
     this.btnSelectFileF.addKeyListener(this.buttonKeyAdapter);
@@ -419,17 +419,37 @@ public class EncryptDialog extends BaseDialog implements ActionListener, CaretLi
   public void onEnter() {
   }
 
-  /**
-   * 当文本框的光标发生变化时，触发此事件
-   */
-  @Override
-  public void caretUpdate(CaretEvent e) {
-    Object source = e.getSource();
-    if (this.txaTextT.equals(source)) {
+  private void execDocumentEvent(DocumentEvent e) {
+    Object source = e.getDocument();
+    if (this.txaTextT.getDocument().equals(source)) {
       this.showStringEncrypt();
-    } else if (this.txtPathF.equals(source)) {
+    } else if (this.txtPathF.getDocument().equals(source)) {
       this.showFileEncrypt();
     }
+  }
+
+  /**
+   * 当文本控件插入文本时，将触发此事件
+   */
+  @Override
+  public void insertUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
+  }
+
+  /**
+   * 当文本控件删除文本时，将触发此事件
+   */
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
+  }
+
+  /**
+   * 当文本控件修改文本时，将触发此事件
+   */
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
   }
 
   /**

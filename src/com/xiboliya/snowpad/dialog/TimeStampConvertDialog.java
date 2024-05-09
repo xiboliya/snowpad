@@ -30,8 +30,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
@@ -46,7 +46,7 @@ import com.xiboliya.snowpad.util.Util;
  * @author 冰原
  * 
  */
-public class TimeStampConvertDialog extends BaseDialog implements ActionListener, CaretListener, ItemListener {
+public class TimeStampConvertDialog extends BaseDialog implements ActionListener, DocumentListener, ItemListener {
   private static final long serialVersionUID = 1L;
   // 时间戳单位类型
   private static final String[] TIMESTAMP_UNIT_TYPES = new String[] {"毫秒(ms)", "秒(s)"};
@@ -135,7 +135,7 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
   private void addListeners() {
     this.cmbUnit.addKeyListener(this.keyAdapter);
     this.cmbUnit.addItemListener(this);
-    this.txtTimeStamp.addCaretListener(this);
+    this.txtTimeStamp.getDocument().addDocumentListener(this);
     this.txtTimeStamp.addKeyListener(this.keyAdapter);
     this.cmbTimeZone.addKeyListener(this.keyAdapter);
     this.cmbTimeZone.addItemListener(this);
@@ -220,13 +220,27 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
   }
 
   /**
-   * 当文本框的光标发生变化时，触发此事件
+   * 当文本控件插入文本时，将触发此事件
    */
   @Override
-  public void caretUpdate(CaretEvent e) {
-    if (this.txtTimeStamp.equals(e.getSource())) {
-      this.showResult();
-    }
+  public void insertUpdate(DocumentEvent e) {
+    this.showResult();
+  }
+
+  /**
+   * 当文本控件删除文本时，将触发此事件
+   */
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    this.showResult();
+  }
+
+  /**
+   * 当文本控件修改文本时，将触发此事件
+   */
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    this.showResult();
   }
 
   /**

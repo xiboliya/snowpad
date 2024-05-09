@@ -37,10 +37,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import com.xiboliya.snowpad.base.BaseButton;
@@ -65,7 +65,7 @@ import com.xiboliya.snowpad.window.TipsWindow.Background;
  * 
  */
 public class FindReplaceDialog extends BaseDialog implements ActionListener,
-    CaretListener, ChangeListener, WindowFocusListener {
+    DocumentListener, ChangeListener, WindowFocusListener {
   private static final long serialVersionUID = 1L;
   private SearchResultPanel searchResultPanel; // 查找结果面板
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -422,7 +422,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private void addListeners() {
     this.tpnMain.addChangeListener(this);
     // 查找
-    this.txtFindTextF.addCaretListener(this);
+    this.txtFindTextF.getDocument().addDocumentListener(this);
     this.btnFindF.addActionListener(this);
     this.btnCountAllF.addActionListener(this);
     this.btnCountSelF.addActionListener(this);
@@ -457,7 +457,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnCutResultLinesF.addKeyListener(this.buttonKeyAdapter);
     this.btnDelResultLinesF.addKeyListener(this.buttonKeyAdapter);
     // 替换
-    this.txtFindTextR.addCaretListener(this);
+    this.txtFindTextR.getDocument().addDocumentListener(this);
     this.btnFindR.addActionListener(this);
     this.btnReplaceR.addActionListener(this);
     this.btnReplaceAllR.addActionListener(this);
@@ -1126,13 +1126,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     }
   }
 
-  /**
-   * 当文本框的光标发生变化时，触发此事件
-   */
-  @Override
-  public void caretUpdate(CaretEvent e) {
-    Object source = e.getSource();
-    if (this.txtFindTextF.equals(source)) { // 查找
+  private void execDocumentEvent(DocumentEvent e) {
+    Object source = e.getDocument();
+    if (this.txtFindTextF.getDocument().equals(source)) { // 查找
       this.strFind = this.txtFindTextF.getText();
       if (Util.isTextEmpty(this.strFind)) {
         this.btnFindF.setEnabled(false);
@@ -1149,7 +1145,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         this.btnCutResultLinesF.setEnabled(true);
         this.btnDelResultLinesF.setEnabled(true);
       }
-    } else if (this.txtFindTextR.equals(source)) { // 替换
+    } else if (this.txtFindTextR.getDocument().equals(source)) { // 替换
       this.strFind = this.txtFindTextR.getText();
       if (Util.isTextEmpty(this.strFind)) {
         this.btnFindR.setEnabled(false);
@@ -1162,6 +1158,30 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       }
     }
     this.setBtnSelEnabled();
+  }
+
+  /**
+   * 当文本控件插入文本时，将触发此事件
+   */
+  @Override
+  public void insertUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
+  }
+
+  /**
+   * 当文本控件删除文本时，将触发此事件
+   */
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
+  }
+
+  /**
+   * 当文本控件修改文本时，将触发此事件
+   */
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    this.execDocumentEvent(e);
   }
 
   /**
