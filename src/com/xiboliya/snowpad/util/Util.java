@@ -73,7 +73,6 @@ public final class Util {
   public static final String CTRL_Z = "Ctrl+Z"; // 组合键Ctrl+Z的字符串
   public static final String TEXT_PREFIX = "*"; // 文件文本修改的标题栏标识符
   public static final String STYLE_PREFIX = "※"; // 文件格式修改的标题栏标识符
-  public static final String IDENTIFIER_CHARS = "0123456"; // 列表编号类型标识符
   public static final String SYSTEM_LOOK_AND_FEEL_CLASS_NAME = UIManager.getSystemLookAndFeelClassName(); // 当前系统默认外观的完整类名
   public static final String[] FONT_FAMILY_NAMES = java.awt.GraphicsEnvironment
       .getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // 获取系统所有字体的名称列表

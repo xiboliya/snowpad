@@ -57,11 +57,13 @@ import com.xiboliya.snowpad.util.Util;
 public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     FocusListener, ChangeListener, DocumentListener {
   private static final long serialVersionUID = 1L;
+  private static final String IDENTIFIER_CHARS = "0123456789"; // 列表编号类型标识符
   private static final String SIGN_CHARS = "﹟·※＊§¤⊙◎○●△▲▽▼◇◆□■☆★"; // 列表符号
   private static final String SIGN_CHARS_VIEW = "__________\n__________\n__________"; // 预览界面的初始化字符串
   private static final String IDENTIFIER_TIANGAN = "甲乙丙丁戊己庚辛壬癸"; // 十天干
   private static final String IDENTIFIER_DIZHI = "子丑寅卯辰巳午未申酉戌亥"; // 十二地支
-  private static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "半角数字格式", "全角数字格式", "简体汉字格式", "繁体汉字格式", "小写字母格式", "大写字母格式", "干支格式" }; // 列表编号类型的显示名称
+  private static final String IDENTIFIER_QIYAO = "日月火水木金土"; // 七曜
+  private static final String[] SIGN_IDENTIFIER_NAMES = new String[] { "半角数字格式", "全角数字格式", "简体汉字格式", "繁体汉字格式", "小写字母格式", "大写字母格式", "天干格式", "地支格式", "干支格式", "七曜格式" }; // 列表编号类型的显示名称
   private static final String HALF_WIDTH_NUMBERS = "0123456789"; // 半角数字
   private static final char[] FULL_WIDTH_NUMBERS = new char[] { '０', '１', '２', '３', '４', '５', '６', '７', '８', '９' }; // 全角数字
   private static final String[] SIMPLIFIED_CHINESE_NUMBERS = new String[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" }; // 简体数字
@@ -155,7 +157,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
    * 填充所有标签页的字符
    */
   private void fillTabbedPane() {
-    this.fillElements(Util.IDENTIFIER_CHARS, "编号");
+    this.fillElements(IDENTIFIER_CHARS, "编号");
     this.fillElements(SIGN_CHARS, "符号");
   }
 
@@ -173,7 +175,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     boolean isSpecial = false;
     JPanel pnlTemp = null;
     int gridTotal = 0;
-    if (strElement.equals(Util.IDENTIFIER_CHARS)) {
+    if (strElement.equals(IDENTIFIER_CHARS)) {
       isSpecial = true;
     }
     if (isSpecial) {
@@ -209,7 +211,7 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private JLabel createElement(String strElement, boolean isSpecial) {
     JLabel lblElement = null;
     if (isSpecial) {
-      lblElement = new JLabel(SIGN_IDENTIFIER_NAMES[Util.IDENTIFIER_CHARS.indexOf(strElement)]);
+      lblElement = new JLabel(SIGN_IDENTIFIER_NAMES[IDENTIFIER_CHARS.indexOf(strElement)]);
     } else {
       lblElement = new JLabel(strElement);
       lblElement.setFont(SIGN_VIEW_FONT);
@@ -327,8 +329,17 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
           case 5: // 大写字母格式
             arrText[n] = this.intToLetter(k + start + 1, true) + strModifier + arrText[n];
             break;
-          case 6: // 干支格式
+          case 6: // 天干格式
+            arrText[n] = this.intToTianGan(k + start) + strModifier + arrText[n];
+            break;
+          case 7: // 地支格式
+            arrText[n] = this.intToDiZhi(k + start) + strModifier + arrText[n];
+            break;
+          case 8: // 干支格式
             arrText[n] = this.intToGanZhi(k + start) + strModifier + arrText[n];
+            break;
+          case 9: // 七曜格式
+            arrText[n] = this.intToQiYao(k + start) + strModifier + arrText[n];
             break;
           }
           k++;
@@ -415,6 +426,28 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   }
 
   /**
+   * 将给定的数字转换为天干
+   * 
+   * @param number 待转换的数字
+   * @return 转换后的字符串
+   */
+  private String intToTianGan(int number) {
+    int len = IDENTIFIER_TIANGAN.length();
+    return String.valueOf(IDENTIFIER_TIANGAN.charAt(number % len));
+  }
+
+  /**
+   * 将给定的数字转换为地支
+   * 
+   * @param number 待转换的数字
+   * @return 转换后的字符串
+   */
+  private String intToDiZhi(int number) {
+    int len = IDENTIFIER_DIZHI.length();
+    return String.valueOf(IDENTIFIER_DIZHI.charAt(number % len));
+  }
+
+  /**
    * 将给定的数字转换为干支
    * 
    * @param number 待转换的数字
@@ -424,6 +457,17 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     int len1 = IDENTIFIER_TIANGAN.length();
     int len2 = IDENTIFIER_DIZHI.length();
     return String.valueOf(IDENTIFIER_TIANGAN.charAt(number % len1)) + String.valueOf(IDENTIFIER_DIZHI.charAt(number % len2));
+  }
+
+  /**
+   * 将给定的数字转换为七曜
+   * 
+   * @param number 待转换的数字
+   * @return 转换后的字符串
+   */
+  private String intToQiYao(int number) {
+    int len = IDENTIFIER_QIYAO.length();
+    return String.valueOf(IDENTIFIER_QIYAO.charAt(number % len));
   }
 
   /**
