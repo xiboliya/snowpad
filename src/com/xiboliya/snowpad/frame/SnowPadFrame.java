@@ -272,7 +272,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemReOpen = new JMenuItem("重新载入文件(L)", 'L');
   private JMenuItem itemSave = new JMenuItem("保存(S)", 'S');
   private JMenuItem itemSaveAs = new JMenuItem("另存为(A)...", 'A');
-  private JMenuItem itemClose = new JMenuItem("关闭当前(C)", 'C');
+  private JMenu menuClose = new JMenu("关闭文件(C)");
+  private JMenuItem itemCloseCurrent = new JMenuItem("关闭当前(C)", 'C');
   private JMenuItem itemCloseOther = new JMenuItem("关闭其它(T)", 'T');
   private JMenuItem itemCloseLeft = new JMenuItem("关闭左侧(F)", 'F');
   private JMenuItem itemCloseRight = new JMenuItem("关闭右侧(G)", 'G');
@@ -859,7 +860,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemReplace.addActionListener(this);
     this.itemSave.addActionListener(this);
     this.itemSaveAs.addActionListener(this);
-    this.itemClose.addActionListener(this);
+    this.itemCloseCurrent.addActionListener(this);
     this.itemCloseOther.addActionListener(this);
     this.itemCloseLeft.addActionListener(this);
     this.itemCloseRight.addActionListener(this);
@@ -1040,11 +1041,12 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuFile.add(this.itemReOpen);
     this.menuFile.add(this.itemDelFile);
     this.menuFile.addSeparator();
-    this.menuFile.add(this.itemClose);
-    this.menuFile.add(this.itemCloseOther);
-    this.menuFile.add(this.itemCloseLeft);
-    this.menuFile.add(this.itemCloseRight);
-    this.menuFile.add(this.itemCloseAll);
+    this.menuFile.add(this.menuClose);
+    this.menuClose.add(this.itemCloseCurrent);
+    this.menuClose.add(this.itemCloseOther);
+    this.menuClose.add(this.itemCloseLeft);
+    this.menuClose.add(this.itemCloseRight);
+    this.menuClose.add(this.itemCloseAll);
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemFrozenFile);
     this.menuFile.addSeparator();
@@ -1294,7 +1296,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemReName);
     this.menuItemList.add(this.itemReOpen);
     this.menuItemList.add(this.itemDelFile);
-    this.menuItemList.add(this.itemClose);
+    this.menuItemList.add(this.itemCloseCurrent);
     this.menuItemList.add(this.itemCloseOther);
     this.menuItemList.add(this.itemCloseLeft);
     this.menuItemList.add(this.itemCloseRight);
@@ -1786,6 +1788,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    */
   private void setMenuMnemonic() {
     this.menuFile.setMnemonic('F');
+    this.menuClose.setMnemonic('C');
     this.menuHelp.setMnemonic('H');
     this.menuTool.setMnemonic('T');
     this.menuEdit.setMnemonic('E');
@@ -2118,7 +2121,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
         || this.itemPopSaveAs.equals(source)
         || this.toolButtonList.get(3).equals(source)) {
       this.saveAsFile();
-    } else if (this.itemClose.equals(source)
+    } else if (this.itemCloseCurrent.equals(source)
         || this.itemPopCloseCurrent.equals(source)
         || this.toolButtonList.get(4).equals(source)) {
       this.closeFile(true);
