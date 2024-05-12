@@ -268,10 +268,11 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemNew = new JMenuItem("新建(N)", 'N');
   private JMenuItem itemOpen = new JMenuItem("打开(O)...", 'O');
   private JMenuItem itemOpenByEncoding = new JMenuItem("以指定编码打开(E)...", 'E');
-  private JMenuItem itemReName = new JMenuItem("重命名(R)...", 'R');
-  private JMenuItem itemReOpen = new JMenuItem("重新载入文件(L)", 'L');
   private JMenuItem itemSave = new JMenuItem("保存(S)", 'S');
   private JMenuItem itemSaveAs = new JMenuItem("另存为(A)...", 'A');
+  private JMenuItem itemReName = new JMenuItem("重命名(R)...", 'R');
+  private JMenuItem itemReOpen = new JMenuItem("重新载入文件(L)", 'L');
+  private JMenuItem itemDelFile = new JMenuItem("删除当前文件(D)", 'D');
   private JMenu menuClose = new JMenu("关闭文件(C)");
   private JMenuItem itemCloseCurrent = new JMenuItem("关闭当前(C)", 'C');
   private JMenuItem itemCloseOther = new JMenuItem("关闭其它(T)", 'T');
@@ -280,7 +281,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemCloseAll = new JMenuItem("关闭全部(Q)", 'Q');
   private JCheckBoxMenuItem itemFrozenFile = new JCheckBoxMenuItem("冻结文件(Z)");
   private JMenuItem itemPrint = new JMenuItem("打印(P)...");
-  private JMenuItem itemDelFile = new JMenuItem("删除当前文件(D)", 'D');
+  private JMenuItem itemSaveSetting = new JMenuItem("保存设置(V)", 'V');
   private JMenu menuFileHistory = new JMenu("最近编辑(H)");
   private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表(Y)", 'Y');
   private JMenuItem itemExit = new JMenuItem("退出(X)", 'X');
@@ -290,6 +291,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemCut = new JMenuItem("剪切(T)", 'T');
   private JMenuItem itemCopy = new JMenuItem("复制(C)", 'C');
   private JMenuItem itemPaste = new JMenuItem("粘贴(P)", 'P');
+  private JMenuItem itemSelAll = new JMenuItem("全选(A)", 'A');
   private JMenuItem itemDel = new JMenuItem("删除(L)", 'L');
   private JMenuItem itemSlicing = new JMenuItem("拆分文件(S)...", 'S');
   private JMenu menuCase = new JMenu("切换大小写");
@@ -337,10 +339,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenu menuComment = new JMenu("注释(M)");
   private JMenuItem itemCommentForLine = new JMenuItem("单行注释(L)", 'L');
   private JMenuItem itemCommentForBlock = new JMenuItem("区块注释(B)", 'B');
-  private JMenuItem itemSelAll = new JMenuItem("全选(A)", 'A');
   private JMenu menuInsert = new JMenu("插入(I)");
-  private JMenuItem itemInsertDateTime = new JMenuItem("时间/日期(D)...", 'D');
   private JMenuItem itemInsertChar = new JMenuItem("特殊字符(S)...", 'S');
+  private JMenuItem itemInsertDateTime = new JMenuItem("时间/日期(D)...", 'D');
   private JMenu menuSelection = new JMenu("选区操作");
   private JMenuItem itemSelCopy = new JMenuItem("复写选区字符(W)", 'W');
   private JMenuItem itemSelInvert = new JMenuItem("反转选区字符(I)", 'I');
@@ -367,14 +368,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenu menuLineWrapStyle = new JMenu("换行方式(L)");
   private JRadioButtonMenuItem itemLineWrapByWord = new JRadioButtonMenuItem("单词边界换行(W)");
   private JRadioButtonMenuItem itemLineWrapByChar = new JRadioButtonMenuItem("字符边界换行(C)");
-  private JMenuItem itemFont = new JMenuItem("字体(F)...", 'F');
-  private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
-  private JMenuItem itemAutoComplete = new JMenuItem("自动完成(A)...", 'A');
-  private JMenuItem itemShortcutManage = new JMenuItem("快捷键管理(H)...", 'H');
-  private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
-  private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
-  private JMenuItem itemPreferences = new JMenuItem("首选项(E)...", 'E');
-  private JMenuItem itemReset = new JMenuItem("恢复默认设置(R)...", 'R');
   private JMenu menuLineStyle = new JMenu("换行符格式(S)");
   private JRadioButtonMenuItem itemLineStyleWin = new JRadioButtonMenuItem(LineSeparator.WINDOWS.getName() + "格式");
   private JRadioButtonMenuItem itemLineStyleUnix = new JRadioButtonMenuItem(LineSeparator.UNIX.getName() + "格式");
@@ -394,6 +387,14 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenu menuCompress = new JMenu("代码压缩(P)");
   private JMenuItem itemCompressJson = new JMenuItem("json");
   private JMenuItem itemSignIdentifier = new JMenuItem("列表符号与编号(G)...", 'G');
+  private JMenuItem itemFont = new JMenuItem("字体(F)...", 'F');
+  private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
+  private JMenuItem itemAutoComplete = new JMenuItem("自动完成(A)...", 'A');
+  private JMenuItem itemShortcutManage = new JMenuItem("快捷键管理(H)...", 'H');
+  private JCheckBoxMenuItem itemLineWrap = new JCheckBoxMenuItem("自动换行(W)");
+  private JCheckBoxMenuItem itemAutoIndent = new JCheckBoxMenuItem("自动缩进(I)");
+  private JMenuItem itemPreferences = new JMenuItem("首选项(E)...", 'E');
+  private JMenuItem itemReset = new JMenuItem("恢复默认设置(R)...", 'R');
   private JMenu menuView = new JMenu("查看(V)");
   private JMenuItem itemBack = new JMenuItem("后退(O)", 'O');
   private JMenuItem itemForward = new JMenuItem("前进(Q)", 'Q');
@@ -867,6 +868,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemCloseAll.addActionListener(this);
     this.itemFrozenFile.addActionListener(this);
     this.itemPrint.addActionListener(this);
+    this.itemSaveSetting.addActionListener(this);
     this.itemDelFile.addActionListener(this);
     this.itemClearFileHistory.addActionListener(this);
     this.itemSelAll.addActionListener(this);
@@ -1040,17 +1042,17 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemReOpen);
     this.menuFile.add(this.itemDelFile);
-    this.menuFile.addSeparator();
     this.menuFile.add(this.menuClose);
     this.menuClose.add(this.itemCloseCurrent);
     this.menuClose.add(this.itemCloseOther);
     this.menuClose.add(this.itemCloseLeft);
     this.menuClose.add(this.itemCloseRight);
     this.menuClose.add(this.itemCloseAll);
-    this.menuFile.addSeparator();
     this.menuFile.add(this.itemFrozenFile);
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemPrint);
+    this.menuFile.addSeparator();
+    this.menuFile.add(this.itemSaveSetting);
     this.menuFile.addSeparator();
     this.menuFile.add(this.menuFileHistory);
     this.menuFile.add(this.itemClearFileHistory);
@@ -1303,6 +1305,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemCloseAll);
     this.menuItemList.add(this.itemFrozenFile);
     this.menuItemList.add(this.itemPrint);
+    this.menuItemList.add(this.itemSaveSetting);
     this.menuItemList.add(this.itemClearFileHistory);
     this.menuItemList.add(this.itemExit);
     this.menuItemList.add(this.itemUnDo);
@@ -2145,6 +2148,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.frozenFile();
     } else if (this.itemPrint.equals(source)) {
       this.print();
+    } else if (this.itemSaveSetting.equals(source)) {
+      this.saveSetting();
     } else if (this.itemDelFile.equals(source)
         || this.itemPopDelFile.equals(source)) {
       this.deleteFile();
@@ -2719,6 +2724,26 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     } catch (Exception x) {
       // x.printStackTrace();
     }
+  }
+
+  /**
+   * "保存设置"的处理方法
+   */
+  private void saveSetting() {
+    Util.setting.fileHistoryList.clear();
+    for (int i = 0; i < this.textAreaList.size(); i++) {
+      BaseTextArea textArea = this.textAreaList.get(i);
+      File file = textArea.getFile();
+      if (file != null && file.exists()) {
+        try {
+          String strFile = file.getCanonicalPath();
+          Util.setting.fileHistoryList.add(new FileHistoryBean(strFile, textArea.getFrozen(), textArea.getDisplayBinary(), textArea.getCaretPosition()));
+        } catch (Exception x) {
+          // x.printStackTrace();
+        }
+      }
+    }
+    this.settingAdapter.save();
   }
 
   /**
