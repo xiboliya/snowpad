@@ -2399,3 +2399,6 @@ src/com/xiboliya/snowpad/util/Util.java
 2024-05-12
 1.“文件”菜单下添加“关闭文件”菜单，并将：关闭当前、关闭其它、关闭左侧、关闭右侧、关闭全部菜单移到此菜单下。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+2.“文件”菜单下添加“保存设置”功能，可以保存当前的设置和已打开的文件等信息。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
