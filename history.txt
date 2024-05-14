@@ -2402,3 +2402,9 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2.“文件”菜单下添加“保存设置”功能，可以保存当前的设置和已打开的文件等信息。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2024-05-14
+1.优化代码：解析snowpad.xml配置文件和命令行传参时，当前只检测文件字符串是否相同，现在添加检测File对象是否相同的逻辑。
+src/com/xiboliya/snowpad/SnowPad.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
