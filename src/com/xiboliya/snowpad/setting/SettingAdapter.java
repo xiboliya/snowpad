@@ -144,7 +144,7 @@ public final class SettingAdapter {
             int size = Util.DEFAULT_TABSIZE;
             try {
               size = Integer.parseInt(value);
-            } catch (NumberFormatException x) {
+            } catch (Exception x) {
               // x.printStackTrace();
             }
             if (size < Util.MIN_TABSIZE || size > Util.MAX_TABSIZE) {
@@ -168,7 +168,7 @@ public final class SettingAdapter {
           int size = 0;
           try {
             style = Integer.parseInt(strStyle);
-          } catch (NumberFormatException x) {
+          } catch (Exception x) {
             // x.printStackTrace();
           }
           if (style < 0 || style > 3) {
@@ -176,7 +176,7 @@ public final class SettingAdapter {
           }
           try {
             size = Integer.parseInt(strSize);
-          } catch (NumberFormatException x) {
+          } catch (Exception x) {
             // x.printStackTrace();
           }
           if (size < Util.MIN_FONT_SIZE || size > Util.MAX_FONT_SIZE) {
@@ -307,7 +307,7 @@ public final class SettingAdapter {
             int style = 0;
             try {
               style = Integer.parseInt(value);
-            } catch (NumberFormatException x) {
+            } catch (Exception x) {
               // x.printStackTrace();
             }
             switch (style) {
@@ -371,7 +371,7 @@ public final class SettingAdapter {
             int id = -1;
             try {
               id = Integer.parseInt(value);
-            } catch (NumberFormatException x) {
+            } catch (Exception x) {
               // x.printStackTrace();
             }
             if (id >= Util.LOOK_AND_FEEL_INFOS.length) {
@@ -388,12 +388,12 @@ public final class SettingAdapter {
           int height = Util.DEFAULT_FRAME_HEIGHT;
           try {
             width = Integer.parseInt(strWidth);
-          } catch (NumberFormatException x) {
+          } catch (Exception x) {
             // x.printStackTrace();
           }
           try {
             height = Integer.parseInt(strHeight);
-          } catch (NumberFormatException x) {
+          } catch (Exception x) {
             // x.printStackTrace();
           }
           this.setting.viewFrameSize = new int[] { width, height };
@@ -418,26 +418,31 @@ public final class SettingAdapter {
         String value = node.getTextContent().trim();
         if (!Util.isTextEmpty(value)) {
           if (key.equalsIgnoreCase("file")) {
-            boolean isExist = false;
-            for (FileHistoryBean bean : this.setting.fileHistoryList) {
-              if (value.equals(bean.getFileName())) {
-                isExist = true;
-                break;
-              }
+            File file = new File(value);
+            if (!file.exists()) {
+              return;
             }
-            if (!isExist) {
-              String strFrozen = ((Element) node.getParentNode()).getAttribute("isFrozen");
-              String strDisplayBinary = ((Element) node.getParentNode()).getAttribute("isDisplayBinary");
-              String strCaretIndex = ((Element) node.getParentNode()).getAttribute("caretIndex");
-              boolean isFrozen = "true".equalsIgnoreCase(strFrozen);
-              boolean isDisplayBinary = "true".equalsIgnoreCase(strDisplayBinary);
-              int caretIndex = Util.DEFAULT_CARET_INDEX;
-              try {
-                caretIndex = Integer.parseInt(strCaretIndex);
-              } catch (NumberFormatException x) {
-                // x.printStackTrace();
+            try {
+              boolean isExist = false;
+              String strFile = file.getCanonicalPath();
+              for (FileHistoryBean bean : this.setting.fileHistoryList) {
+                if (value.equals(bean.getFileName()) || strFile.equals(bean.getFileName())) {
+                  isExist = true;
+                  break;
+                }
               }
-              this.setting.fileHistoryList.add(new FileHistoryBean(value, isFrozen, isDisplayBinary, caretIndex));
+              if (!isExist) {
+                String strFrozen = ((Element) node.getParentNode()).getAttribute("isFrozen");
+                String strDisplayBinary = ((Element) node.getParentNode()).getAttribute("isDisplayBinary");
+                String strCaretIndex = ((Element) node.getParentNode()).getAttribute("caretIndex");
+                boolean isFrozen = "true".equalsIgnoreCase(strFrozen);
+                boolean isDisplayBinary = "true".equalsIgnoreCase(strDisplayBinary);
+                int caretIndex = Util.DEFAULT_CARET_INDEX;
+                caretIndex = Integer.parseInt(strCaretIndex);
+                this.setting.fileHistoryList.add(new FileHistoryBean(strFile, isFrozen, isDisplayBinary, caretIndex));
+              }
+            } catch (Exception x) {
+              // x.printStackTrace();
             }
           }
         }

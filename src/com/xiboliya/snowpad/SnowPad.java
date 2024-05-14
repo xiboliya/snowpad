@@ -17,6 +17,7 @@
 
 package com.xiboliya.snowpad;
 
+import java.io.File;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -52,22 +53,27 @@ public class SnowPad {
                 .setLookAndFeel(Util.LOOK_AND_FEEL_INFOS[Util.setting.viewLookAndFeel]
                     .getClassName());
           }
-        } catch (Exception x) {
-          // x.printStackTrace();
-        }
-        Util.setDefaultFont();
-        System.setProperty("java.awt.im.style", "on-the-spot"); // 去掉文本框输入中文时所弹出的输入窗口
-        for (String arg : args) {
-          boolean isExist = false;
-          for (FileHistoryBean bean : Util.setting.fileHistoryList) {
-            if (arg.equals(bean.getFileName())) {
-              isExist = true;
-              break;
+          Util.setDefaultFont();
+          System.setProperty("java.awt.im.style", "on-the-spot"); // 去掉文本框输入中文时所弹出的输入窗口
+          for (String arg : args) {
+            File file = new File(arg);
+            if (!file.exists()) {
+              continue;
+            }
+            String strFile = file.getCanonicalPath();
+            boolean isExist = false;
+            for (FileHistoryBean bean : Util.setting.fileHistoryList) {
+              if (arg.equals(bean.getFileName()) || strFile.equals(bean.getFileName())) {
+                isExist = true;
+                break;
+              }
+            }
+            if (!isExist) {
+              Util.setting.fileHistoryList.add(new FileHistoryBean(strFile, false, false, Util.DEFAULT_CARET_INDEX));
             }
           }
-          if (!isExist) {
-            Util.setting.fileHistoryList.add(new FileHistoryBean(arg, false, false, Util.DEFAULT_CARET_INDEX));
-          }
+        } catch (Exception x) {
+          // x.printStackTrace();
         }
         new SnowPadFrame(settingAdapter); // 初始化界面和设置的同时打开文件
       }

@@ -588,9 +588,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.init();
     this.setIcon();
     this.setVisible(true);
-    if (Util.setting.fileHistoryList.isEmpty()) {
-      return;
-    }
     boolean toCreateNew = false; // 用于标识新打开的文件，是要在当前文本域中打开，还是要新建文本域
     for (FileHistoryBean bean : Util.setting.fileHistoryList) {
       if (!Util.isTextEmpty(bean.getFileName())) {
