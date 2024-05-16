@@ -4027,48 +4027,44 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       return;
     }
     int index = this.checkFileInHistory(strFile);
-    if (index >= 0) {
-      JMenuItem itemFile = new JMenuItem(strFile);
-      itemFile.setActionCommand(FILE_HISTORY);
-      itemFile.addActionListener(this);
-      if (this.fileHistoryList.size() > index) {
-        this.fileHistoryList.remove(index);
-        this.menuFileHistory.remove(index);
-      }
-      this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getDisplayBinary(), this.txaMain.getCaretPosition()));
-      this.menuFileHistory.add(itemFile);
-      this.setFileHistoryMenuEnabled();
+    JMenuItem itemFile = new JMenuItem(strFile);
+    itemFile.setActionCommand(FILE_HISTORY);
+    itemFile.addActionListener(this);
+    if (this.fileHistoryList.size() > index) {
+      this.fileHistoryList.remove(index);
+      JMenuItem item = this.menuFileHistory.getItem(index);
+      item.removeActionListener(this);
+      this.menuFileHistory.remove(item);
     }
+    this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getDisplayBinary(), this.txaMain.getCaretPosition()));
+    this.menuFileHistory.add(itemFile);
+    this.setFileHistoryMenuEnabled();
   }
 
   /**
    * 检测文件名是否已存在
    * 
    * @param strFile 完整的文件路径
-   * @return 将要添加到最近编辑的索引，-1表示产生异常
+   * @return 将要添加到最近编辑的索引
    */
   private int checkFileInHistory(String strFile) {
-    if (Util.isTextEmpty(strFile)) {
-      return -1;
-    }
-    int index = -1;
     int listSize = this.fileHistoryList.size();
     if (listSize == 0) {
-      index = 0;
-    } else {
-      for (int i = 0; i < listSize; i++) {
-        FileHistoryBean bean = this.fileHistoryList.get(i);
-        if (strFile.equals(bean.getFileName())) {
-          index = i;
-          break;
-        }
+      return 0;
+    }
+    int index = -1;
+    for (int i = 0; i < listSize; i++) {
+      FileHistoryBean bean = this.fileHistoryList.get(i);
+      if (strFile.equals(bean.getFileName())) {
+        index = i;
+        break;
       }
-      if (index < 0) {
-        if (listSize >= FILE_HISTORY_MAX) {
-          index = 0;
-        } else {
-          index = listSize;
-        }
+    }
+    if (index < 0) {
+      if (listSize >= FILE_HISTORY_MAX) {
+        index = 0;
+      } else {
+        index = listSize;
       }
     }
     return index;
