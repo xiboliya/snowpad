@@ -2408,3 +2408,7 @@ src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/SnowPad.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
+
+2024-05-16
+1.优化代码：添加最近编辑的文件子菜单时，简化判断逻辑。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
