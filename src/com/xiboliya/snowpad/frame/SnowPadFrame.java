@@ -520,7 +520,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private ButtonGroup bgpDisplay = new ButtonGroup(); // 用于存放文件视图的按钮组
   private ButtonGroup bgpLookAndFeel = new ButtonGroup(); // 用于存放外观的按钮组
   private File file = null; // 当前编辑的文件
-  private LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // 存放最近编辑的文件名的链表
   private LinkedList<BaseTextArea> textAreaList = new LinkedList<BaseTextArea>(); // 存放界面中所有文本域的链表
   private LinkedList<AbstractButton> toolButtonList = new LinkedList<AbstractButton>(); // 存放工具栏中所有按钮的链表
   private LinkedList<JMenuItem> menuItemList = new LinkedList<JMenuItem>(); // 存放所有可用于快捷键设置的菜单项的链表
@@ -2727,20 +2726,20 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * "保存设置"的处理方法
    */
   private void saveSetting() {
-    Util.setting.fileHistoryList.clear();
+    LinkedList<FileHistoryBean> list = new LinkedList<FileHistoryBean>();
     for (int i = 0; i < this.textAreaList.size(); i++) {
       BaseTextArea textArea = this.textAreaList.get(i);
       File file = textArea.getFile();
       if (file != null && file.exists()) {
         try {
           String strFile = file.getCanonicalPath();
-          Util.setting.fileHistoryList.add(new FileHistoryBean(strFile, textArea.getFrozen(), textArea.getDisplayBinary(), textArea.getCaretPosition()));
+          list.add(new FileHistoryBean(strFile, textArea.getFrozen(), textArea.getDisplayBinary(), textArea.getCaretPosition()));
         } catch (Exception x) {
           // x.printStackTrace();
         }
       }
     }
-    this.settingAdapter.save();
+    this.settingAdapter.save(list);
   }
 
   /**
@@ -3778,8 +3777,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * "清空最近编辑列表"的处理方法
    */
   private void clearFileHistory() {
-    if (!this.fileHistoryList.isEmpty()) {
-      this.fileHistoryList.clear();
+    if (!Util.setting.fileHistoryList.isEmpty()) {
+      Util.setting.fileHistoryList.clear();
       this.menuFileHistory.removeAll();
       this.setFileHistoryMenuEnabled();
     }
@@ -4030,13 +4029,13 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     JMenuItem itemFile = new JMenuItem(strFile);
     itemFile.setActionCommand(FILE_HISTORY);
     itemFile.addActionListener(this);
-    if (this.fileHistoryList.size() > index) {
-      this.fileHistoryList.remove(index);
+    if (this.menuFileHistory.getItemCount() > index) {
+      Util.setting.fileHistoryList.remove(index);
       JMenuItem item = this.menuFileHistory.getItem(index);
       item.removeActionListener(this);
       this.menuFileHistory.remove(item);
     }
-    this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getDisplayBinary(), this.txaMain.getCaretPosition()));
+    Util.setting.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getDisplayBinary(), this.txaMain.getCaretPosition()));
     this.menuFileHistory.add(itemFile);
     this.setFileHistoryMenuEnabled();
   }
@@ -4048,23 +4047,24 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * @return 将要添加到最近编辑的索引
    */
   private int checkFileInHistory(String strFile) {
-    int listSize = this.fileHistoryList.size();
+    int listSize = Util.setting.fileHistoryList.size();
     if (listSize == 0) {
       return 0;
     }
     int index = -1;
     for (int i = 0; i < listSize; i++) {
-      FileHistoryBean bean = this.fileHistoryList.get(i);
+      FileHistoryBean bean = Util.setting.fileHistoryList.get(i);
       if (strFile.equals(bean.getFileName())) {
         index = i;
         break;
       }
     }
     if (index < 0) {
-      if (listSize >= FILE_HISTORY_MAX) {
+      int itemCount = this.menuFileHistory.getItemCount();
+      if (itemCount >= FILE_HISTORY_MAX) {
         index = 0;
       } else {
-        index = listSize;
+        index = itemCount;
       }
     }
     return index;
@@ -4827,7 +4827,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
         break;
       }
     }
-    this.settingAdapter.save();
+    this.settingAdapter.save(null);
     if (toExit) {
       System.exit(0);
     }

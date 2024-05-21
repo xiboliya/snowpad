@@ -23,6 +23,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.LinkedList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -488,8 +489,9 @@ public final class SettingAdapter {
 
   /**
    * 将软件设置保存到XML配置文件的方法
+   * @param list 最近编辑的文件名的链表
    */
-  public void save() {
+  public void save(LinkedList<FileHistoryBean> list) {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     try {
       DocumentBuilder builder = factory.newDocumentBuilder();
@@ -503,7 +505,7 @@ public final class SettingAdapter {
       nodeList = root.getElementsByTagName("View");
       saveView(nodeList);
       nodeList = root.getElementsByTagName("file");
-      saveFiles(nodeList, root, document);
+      saveFiles(nodeList, root, document, list);
       nodeList = root.getElementsByTagName("shortcut");
       saveShortcuts(nodeList, root, document);
       // 以下操作最终将数据写入到硬盘文件中
@@ -679,8 +681,9 @@ public final class SettingAdapter {
    * @param nodeList 节点列表
    * @param element 父级标签元素
    * @param document 整个XML文档
+   * @param list 最近编辑的文件名的链表
    */
-  private void saveFiles(NodeList nodeList, Element element, Document document) {
+  private void saveFiles(NodeList nodeList, Element element, Document document, LinkedList<FileHistoryBean> list) {
     String str = "\n    ";
     int length = nodeList.getLength();
     for (int i = 0; i < length; i++) {
@@ -689,8 +692,11 @@ public final class SettingAdapter {
     }
     nodeList = element.getElementsByTagName("Files");
     nodeList.item(0).setTextContent("");
+    if (list == null) {
+      list = this.setting.fileHistoryList;
+    }
     Element e = null;
-    for (FileHistoryBean bean : this.setting.fileHistoryList) {
+    for (FileHistoryBean bean : list) {
       nodeList.item(0).appendChild(document.createTextNode(str));
       e = document.createElement("file");
       e.setTextContent(bean.getFileName());
