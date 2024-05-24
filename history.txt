@@ -2422,3 +2422,7 @@ src/com/xiboliya/snowpad/setting/SettingAdapter.java
 1.因为打开软件的同时加载多个文件时，会有异常，所以撤销提交：删除SnowPadFrame中定义的最近编辑的文件列表，改为共用Setting中定义的文件列表。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
+
+2024-05-24
+1.添加对3种编程语言源文件的支持。
+src/com/xiboliya/snowpad/common/FileExt.java
