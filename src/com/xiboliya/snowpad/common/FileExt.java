@@ -125,6 +125,10 @@ public enum FileExt {
    */
   JSON,
   /**
+   * JSON for Humans(json改进版)
+   */
+  JSON5,
+  /**
    * Java Server Page(java服务器页面)
    */
   JSP,
@@ -217,6 +221,10 @@ public enum FileExt {
    */
   SWIFT,
   /**
+   * Tom's Obvious, Minimal Language(Toml配置文件)
+   */
+  TOML,
+  /**
    * TypeScript语言源文件
    */
   TS,
@@ -231,7 +239,11 @@ public enum FileExt {
   /**
    * Extensible Markup Language(可扩展标记语言)
    */
-  XML;
+  XML,
+  /**
+   * YAML Ain't a Markup Language(YAML不是一种标记语言)
+   */
+  YAML;
 
   /**
    * 重写父类的方法
@@ -286,6 +298,8 @@ public enum FileExt {
       return ".js";
     case JSON:
       return ".json";
+    case JSON5:
+      return ".json5";
     case JSP:
       return ".jsp";
     case KT:
@@ -332,6 +346,8 @@ public enum FileExt {
       return ".st";
     case SWIFT:
       return ".swift";
+    case TOML:
+      return ".toml";
     case TS:
       return ".ts";
     case TXT:
@@ -340,6 +356,8 @@ public enum FileExt {
       return ".vb";
     case XML:
       return ".xml";
+    case YAML:
+      return ".yaml";
     default:
       return "";
     }
@@ -400,6 +418,8 @@ public enum FileExt {
       return "javaScript脚本语言源文件(.js)";
     case JSON:
       return "javaScript对象表示法文件(.json)";
+    case JSON5:
+      return "JSON改进版文件(.json5)";
     case JSP:
       return "java服务器页面文件(.jsp)";
     case KT:
@@ -446,6 +466,8 @@ public enum FileExt {
       return "Smalltalk语言源文件(.st)";
     case SWIFT:
       return "Swift语言源文件(.swift)";
+    case TOML:
+      return "Toml配置文件(.toml)";
     case TS:
       return "TypeScript语言源文件(.ts)";
     case TXT:
@@ -454,6 +476,8 @@ public enum FileExt {
       return "VB语言源文件(.vb)";
     case XML:
       return "可扩展标记语言文件(.xml)";
+    case YAML:
+      return "Yaml语言源文件(.yaml)";
     default:
       return "";
     }
@@ -484,6 +508,7 @@ public enum FileExt {
     case JAVA:
     case JS:
     case JSON:
+    case JSON5:
     case JSP:
     case KT:
     case M:
@@ -507,6 +532,8 @@ public enum FileExt {
     case R:
     case RB:
     case SH:
+    case TOML:
+    case YAML:
       return "# ";
     case BAT:
       return ":: ";
@@ -540,6 +567,7 @@ public enum FileExt {
     case JAVA:
     case JS:
     case JSON:
+    case JSON5:
     case JSP:
     case KT:
     case M:
@@ -598,6 +626,7 @@ public enum FileExt {
     case JAVA:
     case JS:
     case JSON:
+    case JSON5:
     case JSP:
     case KT:
     case M:
