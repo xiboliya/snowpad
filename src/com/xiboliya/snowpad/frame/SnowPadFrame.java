@@ -4097,24 +4097,13 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
-   * 更改配色方案
-   * 
-   * @param color 待设置的颜色
-   * @param index 配色方案中需要修改的颜色索引
+   * 刷新文本域的配色方案
    */
-  public void changeColorStyle(Color color, int index) {
-    if (color != null) {
-      Color[] colorStyle = this.txaMain.getColorStyle();
-      if (colorStyle == null) {
-        colorStyle = Util.COLOR_STYLE_DEFAULT;
-      }
-      colorStyle[index] = color;
-      for (BaseTextArea textArea : this.textAreaList) {
-        textArea.setColorStyle(colorStyle);
-      }
-      this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
-      Util.setting.colorStyle = colorStyle;
+  public void refreshTextAreaColorStyle() {
+    for (BaseTextArea textArea : this.textAreaList) {
+      textArea.setColorStyle(Util.setting.colorStyle);
     }
+    this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
   }
 
   /**

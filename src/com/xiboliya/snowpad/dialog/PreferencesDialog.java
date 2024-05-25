@@ -65,6 +65,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private JTabbedPane tpnMain = new JTabbedPane();
   private CharEncoding charEncoding = CharEncoding.GB18030; // 字符编码格式
   private LineSeparator lineSeparator = LineSeparator.DEFAULT; // 换行符格式
+  private Color[] colorStyle = Util.COLOR_STYLE_DEFAULT; // 配色方案
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private EtchedBorder etchedBorder = new EtchedBorder();
@@ -94,7 +95,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private JLabel lblColorWordBackView = new JLabel();
   // 主界面
   private JPanel pnlBottom = new JPanel();
-  private BaseButton btnCancel = new BaseButton("关闭");
+  private BaseButton btnOk = new BaseButton("确定");
+  private BaseButton btnCancel = new BaseButton("取消");
 
   public PreferencesDialog(JFrame owner, boolean modal) {
     super(owner, modal);
@@ -103,7 +105,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.initView();
     this.setMnemonic();
     this.addListeners();
-    this.setSize(400, 280);
+    this.setSize(420, 280);
     this.setVisible(true);
   }
 
@@ -122,6 +124,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * 界面初始化
    */
   private void init() {
+    this.pnlMain.setLayout(null);
     // 新建
     this.pnlNew.setLayout(null);
     this.lblEncoding.setBounds(10, 10, 100, Util.VIEW_HEIGHT);
@@ -183,14 +186,20 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.pnlColor.add(this.lblColorWordBack);
     this.pnlColor.add(this.lblColorWordBackView);
     // 主界面
+    this.tpnMain.setBounds(0, 0, 420, 210);
     this.tpnMain.add(this.pnlNew, "新建");
     this.tpnMain.add(this.pnlColor, "颜色");
-    this.pnlMain.add(this.tpnMain, BorderLayout.CENTER);
+    this.pnlMain.add(this.tpnMain);
     this.tpnMain.setSelectedIndex(0);
     this.tpnMain.setFocusable(false);
-    this.btnCancel.setMargin(new Insets(3, 15, 3, 15));
+
+    this.pnlBottom.setLayout(null);
+    this.pnlBottom.setBounds(0, 210, 420, 70);
+    this.btnOk.setBounds(90, 10, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(240, 10, 90, Util.BUTTON_HEIGHT);
+    this.pnlBottom.add(this.btnOk);
     this.pnlBottom.add(this.btnCancel);
-    this.pnlMain.add(this.pnlBottom, BorderLayout.SOUTH);
+    this.pnlMain.add(this.pnlBottom);
   }
 
   /**
@@ -203,22 +212,23 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lineSeparator = Util.setting.defaultLineSeparator;
     this.cmbLineSeparator.setSelectedItem(this.lineSeparator.getValue());
     // 颜色
-    Color colorFont = Util.setting.colorStyle[0];
-    this.lblColorFontView.setBackground(colorFont);
-    Color colorBack = Util.setting.colorStyle[1];
-    this.lblColorBackView.setBackground(colorBack);
-    Color colorCaret = Util.setting.colorStyle[2];
-    this.lblColorCaretView.setBackground(colorCaret);
-    Color colorSelFont = Util.setting.colorStyle[3];
-    this.lblColorSelFontView.setBackground(colorSelFont);
-    Color colorSelBack = Util.setting.colorStyle[4];
-    this.lblColorSelBackView.setBackground(colorSelBack);
-    Color colorBracketBack = Util.setting.colorStyle[5];
-    this.lblColorBracketBackView.setBackground(colorBracketBack);
-    Color colorLineBack = Util.setting.colorStyle[6];
-    this.lblColorLineBackView.setBackground(colorLineBack);
-    Color colorWordBack = Util.setting.colorStyle[7];
-    this.lblColorWordBackView.setBackground(colorWordBack);
+    this.colorStyle = Util.setting.colorStyle.clone();
+    this.lblColorFontView.setBackground(this.colorStyle[0]);
+    this.lblColorFontView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.lblColorBackView.setBackground(this.colorStyle[1]);
+    this.lblColorBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.lblColorCaretView.setBackground(this.colorStyle[2]);
+    this.lblColorCaretView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.lblColorSelFontView.setBackground(this.colorStyle[3]);
+    this.lblColorSelFontView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.lblColorSelBackView.setBackground(this.colorStyle[4]);
+    this.lblColorSelBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.lblColorBracketBackView.setBackground(this.colorStyle[5]);
+    this.lblColorBracketBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.lblColorLineBackView.setBackground(this.colorStyle[6]);
+    this.lblColorLineBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.lblColorWordBackView.setBackground(this.colorStyle[7]);
+    this.lblColorWordBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
   }
 
   /**
@@ -246,6 +256,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lblColorLineBackView.addMouseListener(this);
     this.lblColorWordBackView.addMouseListener(this);
     // 主界面
+    this.btnOk.addActionListener(this);
+    this.btnOk.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addActionListener(this);
     this.btnCancel.addKeyListener(this.buttonKeyAdapter);
   }
@@ -275,7 +287,6 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
         this.charEncoding = CharEncoding.UBE;
         break;
     }
-    Util.setting.defaultCharEncoding = this.charEncoding;
   }
 
   /**
@@ -297,121 +308,110 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
         this.lineSeparator = LineSeparator.WINDOWS;
         break;
     }
-    Util.setting.defaultLineSeparator = this.lineSeparator;
   }
 
   /**
    * "字体颜色"的处理方法
    */
   private void setFontColor() {
-    Color color = JColorChooser.showDialog(this, "字体颜色", Util.setting.colorStyle[0]);
+    Color color = JColorChooser.showDialog(this, "字体颜色", this.colorStyle[0]);
     if (color == null) {
       return;
     }
     this.lblColorFontView.setBackground(color);
     this.lblColorFontView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.changeColorStyle(color, 0);
+    this.colorStyle[0] = color;
   }
 
   /**
    * "背景颜色"的处理方法
    */
   private void setBackColor() {
-    Color color = JColorChooser.showDialog(this, "背景颜色", Util.setting.colorStyle[1]);
+    Color color = JColorChooser.showDialog(this, "背景颜色", this.colorStyle[1]);
     if (color == null) {
       return;
     }
     this.lblColorBackView.setBackground(color);
     this.lblColorBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.changeColorStyle(color, 1);
+    this.colorStyle[1] = color;
   }
 
   /**
    * "光标颜色"的处理方法
    */
   private void setCaretColor() {
-    Color color = JColorChooser.showDialog(this, "光标颜色", Util.setting.colorStyle[2]);
+    Color color = JColorChooser.showDialog(this, "光标颜色", this.colorStyle[2]);
     if (color == null) {
       return;
     }
     this.lblColorCaretView.setBackground(color);
     this.lblColorCaretView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.changeColorStyle(color, 2);
+    this.colorStyle[2] = color;
   }
 
   /**
    * "选区字体颜色"的处理方法
    */
   private void setSelFontColor() {
-    Color color = JColorChooser.showDialog(this, "选区字体颜色", Util.setting.colorStyle[3]);
+    Color color = JColorChooser.showDialog(this, "选区字体颜色", this.colorStyle[3]);
     if (color == null) {
       return;
     }
     this.lblColorSelFontView.setBackground(color);
     this.lblColorSelFontView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.changeColorStyle(color, 3);
+    this.colorStyle[3] = color;
   }
 
   /**
    * "选区背景颜色"的处理方法
    */
   private void setSelBackColor() {
-    Color color = JColorChooser.showDialog(this, "选区背景颜色", Util.setting.colorStyle[4]);
+    Color color = JColorChooser.showDialog(this, "选区背景颜色", this.colorStyle[4]);
     if (color == null) {
       return;
     }
     this.lblColorSelBackView.setBackground(color);
     this.lblColorSelBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.changeColorStyle(color, 4);
+    this.colorStyle[4] = color;
   }
 
   /**
    * "匹配括号背景颜色"的处理方法
    */
   private void setBracketBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", Util.setting.colorStyle[5]);
+    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", this.colorStyle[5]);
     if (color == null) {
       return;
     }
     this.lblColorBracketBackView.setBackground(color);
     this.lblColorBracketBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.changeColorStyle(color, 5);
+    this.colorStyle[5] = color;
   }
 
   /**
    * "当前行背景颜色"的处理方法
    */
   private void setLineBackColor() {
-    Color color = JColorChooser.showDialog(this, "当前行背景颜色", Util.setting.colorStyle[6]);
+    Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.colorStyle[6]);
     if (color == null) {
       return;
     }
     this.lblColorLineBackView.setBackground(color);
     this.lblColorLineBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.changeColorStyle(color, 6);
+    this.colorStyle[6] = color;
   }
 
   /**
    * "匹配文本背景颜色"的处理方法
    */
   private void setWordBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", Util.setting.colorStyle[7]);
+    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", this.colorStyle[7]);
     if (color == null) {
       return;
     }
     this.lblColorWordBackView.setBackground(color);
     this.lblColorWordBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.changeColorStyle(color, 7);
-  }
-
-  /**
-   * 更改配色方案
-   * 
-   * @param color 待设置的颜色
-   * @param index 配色方案中需要修改的颜色索引
-   */
-  private void changeColorStyle(Color color, int index) {
-    ((SnowPadFrame) this.getOwner()).changeColorStyle(color, index);
+    this.colorStyle[7] = color;
   }
 
   /**
@@ -419,7 +419,9 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (this.btnCancel.equals(e.getSource())) {
+    if (this.btnOk.equals(e.getSource())) {
+      this.onEnter();
+    } else if (this.btnCancel.equals(e.getSource())) {
       this.onCancel();
     }
   }
@@ -437,6 +439,11 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    */
   @Override
   public void onEnter() {
+    Util.setting.defaultCharEncoding = this.charEncoding;
+    Util.setting.defaultLineSeparator = this.lineSeparator;
+    Util.setting.colorStyle = this.colorStyle;
+    ((SnowPadFrame) this.getOwner()).refreshTextAreaColorStyle();
+    this.dispose();
   }
 
   /**
