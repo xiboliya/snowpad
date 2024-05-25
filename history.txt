@@ -2426,3 +2426,8 @@ src/com/xiboliya/snowpad/setting/SettingAdapter.java
 2024-05-24
 1.添加对3种编程语言源文件的支持。
 src/com/xiboliya/snowpad/common/FileExt.java
+
+2024-05-25
+1.“首选项”界面中的“关闭”按钮更名为“取消”，并添加“确定”按钮。更改设置后，只有点击“确定”按钮才进行保存，点击“取消”按钮或关闭界面都不会保存。
+src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
