@@ -2431,3 +2431,7 @@ src/com/xiboliya/snowpad/common/FileExt.java
 1.“首选项”界面中的“关闭”按钮更名为“取消”，并添加“确定”按钮。更改设置后，只有点击“确定”按钮才进行保存，点击“取消”按钮或关闭界面都不会保存。
 src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2024-05-26
+1.修改“单位换算”界面中所有单位换算比例为浮点数，长度单位里添加“里”。
+src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
