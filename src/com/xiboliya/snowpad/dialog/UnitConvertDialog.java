@@ -60,7 +60,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
     new String[] {"纳秒(ns)", "微秒(μs)", "毫秒(ms)", "秒(s)", "分(min)", "时(h)", "天(d)", "周(w)"};
   // 长度单位
   private static final String[] UNIT_TYPE_LENGTH_NAME =
-    new String[] {"皮米(pm)", "纳米(nm)", "微米(um)", "毫米(mm)", "厘米(cm)", "分米(dm)", "米(m)", "千米(km)"};
+    new String[] {"皮米(pm)", "纳米(nm)", "微米(um)", "毫米(mm)", "厘米(cm)", "分米(dm)", "米(m)", "里", "千米(km)"};
   // 面积单位
   private static final String[] UNIT_TYPE_AREA_NAME =
     new String[] {"平方毫米(m㎡)", "平方厘米(c㎡)", "平方分米(d㎡)", "平方米(㎡)", "公亩(are)", "公顷(ha)", "平方千米(k㎡)"};
@@ -74,17 +74,17 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
   private static final String[] UNIT_TYPE_ANGLE_NAME =
     new String[] {"秒(″)", "分(′)", "角度(°)", "弧度(rad)"};
   // 存储换算比例
-  private static final int[] UNIT_TYPE_MEMORY_RATE = new int[] {1, 8, 1024, 1024, 1024, 1024, 1024, 1024};
+  private static final double[] UNIT_TYPE_MEMORY_RATE = new double[] {1, 8, 1024, 1024, 1024, 1024, 1024, 1024};
   // 时间换算比例
-  private static final int[] UNIT_TYPE_TIME_RATE = new int[] {1, 1000, 1000, 1000, 60, 60, 24, 7};
+  private static final double[] UNIT_TYPE_TIME_RATE = new double[] {1, 1000, 1000, 1000, 60, 60, 24, 7};
   // 长度换算比例
-  private static final int[] UNIT_TYPE_LENGTH_RATE = new int[] {1, 1000, 1000, 1000, 10, 10, 10, 1000};
+  private static final double[] UNIT_TYPE_LENGTH_RATE = new double[] {1, 1000, 1000, 1000, 10, 10, 10, 500, 2};
   // 面积换算比例
-  private static final int[] UNIT_TYPE_AREA_RATE = new int[] {1, 100, 100, 100, 100, 100, 100};
+  private static final double[] UNIT_TYPE_AREA_RATE = new double[] {1, 100, 100, 100, 100, 100, 100};
   // 体积换算比例
-  private static final int[] UNIT_TYPE_VOLUME_RATE = new int[] {1, 1, 1000, 1, 10, 10, 10, 1, 100, 10, 1000000000};
+  private static final double[] UNIT_TYPE_VOLUME_RATE = new double[] {1, 1, 1000, 1, 10, 10, 10, 1, 100, 10, 1000000000};
   // 质量换算比例
-  private static final int[] UNIT_TYPE_WEIGHT_RATE = new int[] {1, 1000, 200, 5, 1000, 100, 10};
+  private static final double[] UNIT_TYPE_WEIGHT_RATE = new double[] {1, 1000, 200, 5, 1000, 100, 10};
   // 角度换算比例
   private static final double[] UNIT_TYPE_ANGLE_RATE = new double[] {1, 60, 60, 180 / Math.PI};
 
@@ -127,7 +127,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
     this.lblNumber.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
     this.lblWarning.setBounds(130, 70, 190, Util.VIEW_HEIGHT);
     this.cmbNumber.setBounds(10, 95, 110, Util.INPUT_HEIGHT);
-    this.txtNumber.setBounds(130, 95, 160, Util.INPUT_HEIGHT);
+    this.txtNumber.setBounds(130, 95, 180, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblUnitType);
     this.pnlMain.add(this.cmbUnitType);
     this.pnlMain.add(this.lblNumber);
@@ -141,7 +141,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
     this.lblResult.setBounds(10, 160, 70, Util.VIEW_HEIGHT);
     this.chkUpperCase.setBounds(130, 160, 110, Util.VIEW_HEIGHT);
     this.cmbResult.setBounds(10, 185, 110, Util.INPUT_HEIGHT);
-    this.txtResult.setBounds(130, 185, 160, Util.INPUT_HEIGHT);
+    this.txtResult.setBounds(130, 185, 180, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblResult);
     this.pnlMain.add(this.chkUpperCase);
     this.pnlMain.add(this.cmbResult);
@@ -257,8 +257,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
       this.txtResult.setText("");
     } else {
       int index = this.cmbUnitType.getSelectedIndex();
-      int[] unitTypeRate = null;
-      double[] unitTypeRateDouble = null;
+      double[] unitTypeRate = null;
       switch (index) {
         case 0:
           unitTypeRate = UNIT_TYPE_MEMORY_RATE;
@@ -279,7 +278,7 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
           unitTypeRate = UNIT_TYPE_WEIGHT_RATE;
           break;
         case 6:
-          unitTypeRateDouble = UNIT_TYPE_ANGLE_RATE;
+          unitTypeRate = UNIT_TYPE_ANGLE_RATE;
           break;
       }
       int indexNumber = this.cmbNumber.getSelectedIndex();
@@ -291,22 +290,14 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
           int count = indexNumber - indexResult;
           BigDecimal rate = new BigDecimal(1);
           for (; count > 0; count--) {
-            if (unitTypeRate != null) {
-              rate = rate.multiply(new BigDecimal(unitTypeRate[indexResult + count]));
-            } else {
-              rate = rate.multiply(new BigDecimal(unitTypeRateDouble[indexResult + count]));
-            }
+            rate = rate.multiply(new BigDecimal(unitTypeRate[indexResult + count]));
           }
           result = number.multiply(rate).toString();
         } else if (indexNumber < indexResult) {
           int count = indexResult - indexNumber;
           BigDecimal rate = new BigDecimal(1);
           for (; count > 0; count--) {
-            if (unitTypeRate != null) {
-              rate = rate.multiply(new BigDecimal(unitTypeRate[indexNumber + count]));
-            } else {
-              rate = rate.multiply(new BigDecimal(unitTypeRateDouble[indexNumber + count]));
-            }
+            rate = rate.multiply(new BigDecimal(unitTypeRate[indexNumber + count]));
           }
           // 此处的divide方法需要添加后面2个参数，以设置保留小数的精度。如果不设置，在无法除尽的时候会报错。
           result = number.divide(rate, 30, RoundingMode.HALF_UP).toString();
