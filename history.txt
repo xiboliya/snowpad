@@ -2440,3 +2440,7 @@ src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
 1.“专业工具”菜单位置调整到“统计工具”后面。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+******************************
+git tag SnowPad-V5.3-20240530
+******************************
