@@ -462,8 +462,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemUnitConvert = new JMenuItem("单位换算(U)...", 'U');
   private JMenuItem itemTrigonometric = new JMenuItem("三角函数(R)...", 'R');
   private JMenuItem itemTestQuestion = new JMenuItem("题库(Q)...", 'Q');
-  private JMenu menuProfessionalTool = new JMenu("专业工具(P)");
-  private JMenuItem itemCompressGradle = new JMenuItem("精简Gradle依赖(C)", 'C');
   private JMenu menuStatisticsTool = new JMenu("统计工具(A)");
   private JMenuItem itemAddition = new JMenuItem("求和(A)", 'A');
   private JMenuItem itemAverage = new JMenuItem("平均值(V)", 'V');
@@ -471,6 +469,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemMinimum = new JMenuItem("最小值(N)", 'N');
   private JMenuItem itemNumberSortUp = new JMenuItem("升序排列(U)", 'U');
   private JMenuItem itemNumberSortDown = new JMenuItem("降序排列(D)", 'D');
+  private JMenu menuProfessionalTool = new JMenu("专业工具(P)");
+  private JMenuItem itemCompressGradle = new JMenuItem("精简Gradle依赖(C)", 'C');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -749,13 +749,13 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemUnitConvert.addActionListener(this);
     this.itemTrigonometric.addActionListener(this);
     this.itemTestQuestion.addActionListener(this);
-    this.itemCompressGradle.addActionListener(this);
     this.itemAddition.addActionListener(this);
     this.itemAverage.addActionListener(this);
     this.itemMaximum.addActionListener(this);
     this.itemMinimum.addActionListener(this);
     this.itemNumberSortUp.addActionListener(this);
     this.itemNumberSortDown.addActionListener(this);
+    this.itemCompressGradle.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1252,8 +1252,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuTool.add(this.itemUnitConvert);
     this.menuTool.add(this.itemTrigonometric);
     this.menuTool.add(this.itemTestQuestion);
-    this.menuTool.add(this.menuProfessionalTool);
-    this.menuProfessionalTool.add(this.itemCompressGradle);
     this.menuTool.add(this.menuStatisticsTool);
     this.menuStatisticsTool.add(this.itemAddition);
     this.menuStatisticsTool.add(this.itemAverage);
@@ -1261,6 +1259,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuStatisticsTool.add(this.itemMinimum);
     this.menuStatisticsTool.add(this.itemNumberSortUp);
     this.menuStatisticsTool.add(this.itemNumberSortDown);
+    this.menuTool.add(this.menuProfessionalTool);
+    this.menuProfessionalTool.add(this.itemCompressGradle);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1450,13 +1450,13 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemUnitConvert);
     this.menuItemList.add(this.itemTrigonometric);
     this.menuItemList.add(this.itemTestQuestion);
-    this.menuItemList.add(this.itemCompressGradle);
     this.menuItemList.add(this.itemAddition);
     this.menuItemList.add(this.itemAverage);
     this.menuItemList.add(this.itemMaximum);
     this.menuItemList.add(this.itemMinimum);
     this.menuItemList.add(this.itemNumberSortUp);
     this.menuItemList.add(this.itemNumberSortDown);
+    this.menuItemList.add(this.itemCompressGradle);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1559,13 +1559,13 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemBack.setEnabled(false);
     this.itemForward.setEnabled(false);
     this.itemLineNumber.setEnabled(false);
-    this.itemCompressGradle.setEnabled(false);
     this.itemAddition.setEnabled(false);
     this.itemAverage.setEnabled(false);
     this.itemMaximum.setEnabled(false);
     this.itemMinimum.setEnabled(false);
     this.itemNumberSortUp.setEnabled(false);
     this.itemNumberSortDown.setEnabled(false);
+    this.itemCompressGradle.setEnabled(false);
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
     this.itemPopDel.setEnabled(false);
@@ -1843,8 +1843,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuPopCopyToClip.setMnemonic('P');
     this.itemFrozenFile.setMnemonic('Z');
     this.itemPopFrozenFile.setMnemonic('Z');
-    this.menuProfessionalTool.setMnemonic('P');
     this.menuStatisticsTool.setMnemonic('A');
+    this.menuProfessionalTool.setMnemonic('P');
   }
 
   /**
@@ -2023,8 +2023,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.openTrigonometricDialog();
     } else if (this.itemTestQuestion.equals(source)) {
       this.openTestQuestionDialog();
-    } else if (this.itemCompressGradle.equals(source)) {
-      this.compressGradle();
     } else if (this.itemAddition.equals(source)) {
       this.addition();
     } else if (this.itemAverage.equals(source)) {
@@ -2037,6 +2035,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.numberSort(true);
     } else if (this.itemNumberSortDown.equals(source)) {
       this.numberSort(false);
+    } else if (this.itemCompressGradle.equals(source)) {
+      this.compressGradle();
     } else if (this.itemLineWrap.equals(source)) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
