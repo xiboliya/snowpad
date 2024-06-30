@@ -44,6 +44,7 @@ public class SnowPad {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
         SettingAdapter settingAdapter = new SettingAdapter(Util.setting);
+        settingAdapter.initShortcuts();
         settingAdapter.parse();
         try {
           if (Util.setting.viewLookAndFeel < 0) {

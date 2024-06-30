@@ -89,13 +89,12 @@ public final class SettingAdapter {
    * 解析XML配置文件的方法
    */
   public void parse() {
+    if (!this.file.exists()) {
+      return;
+    }
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     try {
       DocumentBuilder builder = factory.newDocumentBuilder();
-      this.initShortcuts();
-      if (!this.file.exists()) {
-        return;
-      }
       Document document = builder.parse(this.file);
       Element root = document.getDocumentElement();
       NodeList nodeList = root.getElementsByTagName("TextArea");
@@ -141,12 +140,7 @@ public final class SettingAdapter {
           } else if (key.equalsIgnoreCase("tabReplaceBySpace")) {
             this.setting.tabReplaceBySpace = logic;
           } else if (key.equalsIgnoreCase("tabSize")) {
-            int size = Util.DEFAULT_TABSIZE;
-            try {
-              size = Integer.parseInt(value);
-            } catch (Exception x) {
-              // x.printStackTrace();
-            }
+            int size = this.getInt(value, Util.DEFAULT_TABSIZE);
             if (size < Util.MIN_TABSIZE || size > Util.MAX_TABSIZE) {
               size = Util.DEFAULT_TABSIZE;
             }
@@ -164,21 +158,11 @@ public final class SettingAdapter {
           String strName = ((Element) node).getAttribute("name");
           String strStyle = ((Element) node).getAttribute("style");
           String strSize = ((Element) node).getAttribute("size");
-          int style = 0;
-          int size = 0;
-          try {
-            style = Integer.parseInt(strStyle);
-          } catch (Exception x) {
-            // x.printStackTrace();
-          }
+          int style = this.getInt(strStyle, 0);
           if (style < 0 || style > 3) {
             style = Util.TEXT_FONT.getStyle();
           }
-          try {
-            size = Integer.parseInt(strSize);
-          } catch (Exception x) {
-            // x.printStackTrace();
-          }
+          int size = this.getInt(strSize, 0);
           if (size < Util.MIN_FONT_SIZE || size > Util.MAX_FONT_SIZE) {
             size = Util.TEXT_FONT.getSize();
           }
@@ -304,12 +288,7 @@ public final class SettingAdapter {
           } else if (key.equalsIgnoreCase("findDown")) {
             this.setting.findDown = logic;
           } else if (key.equalsIgnoreCase("searchStyle")) {
-            int style = 0;
-            try {
-              style = Integer.parseInt(value);
-            } catch (Exception x) {
-              // x.printStackTrace();
-            }
+            int style = this.getInt(value, 0);
             switch (style) {
             case 1:
               this.setting.searchStyle = SearchStyle.TRANSFER;
@@ -368,12 +347,7 @@ public final class SettingAdapter {
           } else if (key.equalsIgnoreCase("viewTabIcon")) {
             this.setting.viewTabIcon = logic;
           } else if (key.equalsIgnoreCase("viewLookAndFeel")) {
-            int id = -1;
-            try {
-              id = Integer.parseInt(value);
-            } catch (Exception x) {
-              // x.printStackTrace();
-            }
+            int id = this.getInt(value, -1);
             if (id >= Util.LOOK_AND_FEEL_INFOS.length) {
               id = -1;
             }
@@ -384,18 +358,8 @@ public final class SettingAdapter {
         if (node.getNodeName().equalsIgnoreCase("viewFrameSize")) {
           String strWidth = ((Element) node).getAttribute("width");
           String strHeight = ((Element) node).getAttribute("height");
-          int width = Util.DEFAULT_FRAME_WIDTH;
-          int height = Util.DEFAULT_FRAME_HEIGHT;
-          try {
-            width = Integer.parseInt(strWidth);
-          } catch (Exception x) {
-            // x.printStackTrace();
-          }
-          try {
-            height = Integer.parseInt(strHeight);
-          } catch (Exception x) {
-            // x.printStackTrace();
-          }
+          int width = this.getInt(strWidth, Util.DEFAULT_FRAME_WIDTH);
+          int height = this.getInt(strHeight, Util.DEFAULT_FRAME_HEIGHT);
           this.setting.viewFrameSize = new int[] { width, height };
         }
       }
@@ -437,8 +401,7 @@ public final class SettingAdapter {
                 String strCaretIndex = ((Element) node.getParentNode()).getAttribute("caretIndex");
                 boolean isFrozen = "true".equalsIgnoreCase(strFrozen);
                 boolean isDisplayBinary = "true".equalsIgnoreCase(strDisplayBinary);
-                int caretIndex = Util.DEFAULT_CARET_INDEX;
-                caretIndex = Integer.parseInt(strCaretIndex);
+                int caretIndex = this.getInt(strCaretIndex, Util.DEFAULT_CARET_INDEX);
                 this.setting.fileHistoryList.add(new FileHistoryBean(strFile, isFrozen, isDisplayBinary, caretIndex));
               }
             } catch (Exception x) {
@@ -474,6 +437,22 @@ public final class SettingAdapter {
         }
       }
     }
+  }
+
+  /**
+   * 将文本转换为数字
+   * @param value 文本
+   * @param defaultValue 默认值
+   * @return 数字
+   */
+  private int getInt(String value, int defaultValue) {
+    int number = defaultValue;
+    try {
+      number = Integer.parseInt(value);
+    } catch (Exception x) {
+      // x.printStackTrace();
+    }
+    return number;
   }
 
   /**
