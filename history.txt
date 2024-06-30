@@ -2448,3 +2448,6 @@ git tag SnowPad-V5.3-20240530
 2024-06-30
 1.修改当文本域中文本为空时，可以打开“查找/替换”界面。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+2.优化snowpad.xml配置文件解析逻辑。
+src/com/xiboliya/snowpad/SnowPad.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
