@@ -1537,7 +1537,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemCaseUp.setEnabled(false);
     this.itemCaseLow.setEnabled(false);
     this.itemCaseExchange.setEnabled(false);
-    this.itemFind.setEnabled(false);
     this.itemFindNext.setEnabled(false);
     this.itemFindPrevious.setEnabled(false);
     this.itemSelFindNext.setEnabled(false);
@@ -1552,7 +1551,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemLineBatchJoin.setEnabled(false);
     this.itemLineBatchMerge.setEnabled(false);
     this.itemLineBatchRewrite.setEnabled(false);
-    this.itemReplace.setEnabled(false);
     this.itemGoto.setEnabled(false);
     this.itemFindBracket.setEnabled(false);
     this.itemTrimSelected.setEnabled(false);
@@ -1581,8 +1579,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.toolButtonList.get(7).setEnabled(false);
     this.toolButtonList.get(9).setEnabled(false);
     this.toolButtonList.get(10).setEnabled(false);
-    this.toolButtonList.get(11).setEnabled(false);
-    this.toolButtonList.get(12).setEnabled(false);
     this.toolButtonList.get(15).setEnabled(false);
     this.toolButtonList.get(16).setEnabled(false);
     this.setFileHistoryMenuEnabled();
@@ -1681,18 +1677,14 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemLineBatchJoin.setEnabled(isExist);
     this.itemLineBatchMerge.setEnabled(isExist);
     this.itemLineBatchRewrite.setEnabled(isExist);
-    this.itemFind.setEnabled(isExist);
     this.itemFindNext.setEnabled(isExist);
     this.itemFindPrevious.setEnabled(isExist);
     this.itemSelFindNext.setEnabled(isExist);
     this.itemSelFindPrevious.setEnabled(isExist);
-    this.itemReplace.setEnabled(isExist);
     this.itemGoto.setEnabled(isExist);
     this.itemCompressGradle.setEnabled(isExist);
     this.itemSelAll.setEnabled(isExist);
     this.itemPopSelAll.setEnabled(isExist);
-    this.toolButtonList.get(11).setEnabled(isExist);
-    this.toolButtonList.get(12).setEnabled(isExist);
   }
 
   /**
