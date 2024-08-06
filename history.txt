@@ -2451,3 +2451,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2.优化snowpad.xml配置文件解析逻辑。
 src/com/xiboliya/snowpad/SnowPad.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
+
+2024-08-06
+1."加密"界面中，支持从系统的文件管理器中拖拽文件到文件路径的文本域中。
+src/com/xiboliya/snowpad/dialog/EncryptDialog.java
