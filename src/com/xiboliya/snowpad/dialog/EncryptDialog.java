@@ -17,7 +17,15 @@
 
 package com.xiboliya.snowpad.dialog;
 
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -26,6 +34,8 @@ import java.security.MessageDigest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigInteger;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -56,7 +66,7 @@ import com.xiboliya.snowpad.util.Util;
  * @author 冰原
  * 
  */
-public class EncryptDialog extends BaseDialog implements ActionListener, DocumentListener, ChangeListener, ItemListener {
+public class EncryptDialog extends BaseDialog implements ActionListener, DocumentListener, ChangeListener, ItemListener, DropTargetListener {
   private static final long serialVersionUID = 1L;
   private static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // 加密的类型
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -144,6 +154,7 @@ public class EncryptDialog extends BaseDialog implements ActionListener, Documen
     this.tpnMain.setFocusable(false);
     this.pnlMain.add(this.pnlBottom);
     this.txaEncrypt.setEditable(false);
+    new DropTarget(this.txtPathF, this); // 创建拖放目标，即设置某个组件接收drop操作
   }
 
   /**
@@ -467,4 +478,61 @@ public class EncryptDialog extends BaseDialog implements ActionListener, Documen
   public void itemStateChanged(ItemEvent e) {
     this.showEncrypt();
   }
+
+  /**
+   * 当用户拖动鼠标，并进入到可放置的区域时，调用此方法。
+   */
+  @Override
+  public void dragEnter(DropTargetDragEvent e) {
+    e.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE); // 使用“拷贝、移动”方式发起拖动操作
+  }
+
+  /**
+   * 当用户拖动鼠标，并从可放置的区域移出时，调用此方法。
+   */
+  @Override
+  public void dragExit(DropTargetEvent e) {
+  }
+
+  /**
+   * 当用户拖动鼠标，并在可放置的区域内移动时，调用此方法。
+   */
+  @Override
+  public void dragOver(DropTargetDragEvent e) {
+  }
+
+  /**
+   * 当用户修改了当前放置操作后，调用此方法。
+   */
+  @Override
+  public void dropActionChanged(DropTargetDragEvent e) {
+  }
+
+  /**
+   * 当用户拖动鼠标，并在可放置的区域内放置时，调用此方法。
+   */
+  @Override
+  public synchronized void drop(DropTargetDropEvent e) {
+    try {
+      Transferable tr = e.getTransferable();
+      if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) { // 如果Transferable对象支持拖放，则进行处理
+        e.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE); // 使用“拷贝、移动”方式接收放置操作
+        List fileList = (List) tr.getTransferData(DataFlavor.javaFileListFlavor); // 从Transferable对象中获取文件列表
+        Iterator iterator = fileList.iterator(); // 获取文件列表的迭代器
+        if (iterator.hasNext()) {
+          File file = (File) iterator.next();
+          if (file != null && file.exists()) {
+            this.txtPathF.setText(file.getAbsolutePath());
+          }
+        }
+        e.getDropTargetContext().dropComplete(true); // 设置放置操作成功结束
+      } else {
+        e.rejectDrop(); // 如果Transferable对象不支持拖放，则拒绝操作
+      }
+    } catch (Exception x) {
+      // x.printStackTrace();
+      e.rejectDrop(); // 如果放置过程中出现异常，则拒绝操作
+    }
+  }
+
 }
