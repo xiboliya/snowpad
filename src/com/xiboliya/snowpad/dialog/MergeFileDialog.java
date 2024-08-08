@@ -17,10 +17,21 @@
 
 package com.xiboliya.snowpad.dialog;
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -49,7 +60,7 @@ import com.xiboliya.snowpad.window.TipsWindow.Background;
  * @author 冰原
  * 
  */
-public class MergeFileDialog extends BaseDialog implements ActionListener, ListSelectionListener {
+public class MergeFileDialog extends BaseDialog implements ActionListener, ListSelectionListener, DropTargetListener {
   private static final long serialVersionUID = 1L;
   private static final int BIG_BUFFER_LENGTH = 1024 * 1024; // 大缓冲区的大小
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
@@ -115,6 +126,7 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
     this.pnlMain.add(this.btnCancel);
     this.listPath.setModel(this.defaultListModel);
     this.listPath.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+    new DropTarget(this.listPath, this); // 创建拖放目标，即设置某个组件接收drop操作
   }
 
   /**
@@ -412,5 +424,61 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   @Override
   public void onCancel() {
     this.dispose();
+  }
+
+  /**
+   * 当用户拖动鼠标，并进入到可放置的区域时，调用此方法。
+   */
+  @Override
+  public void dragEnter(DropTargetDragEvent e) {
+    e.acceptDrag(DnDConstants.ACTION_COPY_OR_MOVE); // 使用“拷贝、移动”方式发起拖动操作
+  }
+
+  /**
+   * 当用户拖动鼠标，并从可放置的区域移出时，调用此方法。
+   */
+  @Override
+  public void dragExit(DropTargetEvent e) {
+  }
+
+  /**
+   * 当用户拖动鼠标，并在可放置的区域内移动时，调用此方法。
+   */
+  @Override
+  public void dragOver(DropTargetDragEvent e) {
+  }
+
+  /**
+   * 当用户修改了当前放置操作后，调用此方法。
+   */
+  @Override
+  public void dropActionChanged(DropTargetDragEvent e) {
+  }
+
+  /**
+   * 当用户拖动鼠标，并在可放置的区域内放置时，调用此方法。
+   */
+  @Override
+  public synchronized void drop(DropTargetDropEvent e) {
+    try {
+      Transferable tr = e.getTransferable();
+      if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) { // 如果Transferable对象支持拖放，则进行处理
+        e.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE); // 使用“拷贝、移动”方式接收放置操作
+        List fileList = (List) tr.getTransferData(DataFlavor.javaFileListFlavor); // 从Transferable对象中获取文件列表
+        Iterator iterator = fileList.iterator(); // 获取文件列表的迭代器
+        while (iterator.hasNext()) {
+          File file = (File) iterator.next();
+          if (file != null && file.exists() && !this.defaultListModel.contains(file.getAbsolutePath())) {
+            this.defaultListModel.addElement(file.getAbsolutePath());
+          }
+        }
+        e.getDropTargetContext().dropComplete(true); // 设置放置操作成功结束
+      } else {
+        e.rejectDrop(); // 如果Transferable对象不支持拖放，则拒绝操作
+      }
+    } catch (Exception x) {
+      // x.printStackTrace();
+      e.rejectDrop(); // 如果放置过程中出现异常，则拒绝操作
+    }
   }
 }
