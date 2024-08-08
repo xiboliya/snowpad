@@ -2455,3 +2455,11 @@ src/com/xiboliya/snowpad/setting/SettingAdapter.java
 2024-08-06
 1."加密"界面中，支持从系统的文件管理器中拖拽文件到文件路径的文本域中。
 src/com/xiboliya/snowpad/dialog/EncryptDialog.java
+
+2024-08-08
+1.拆分文件、切割文件、拼接文件、转换文件编码、转换文件换行符界面中，支持从系统的文件管理器中拖拽文件到文件路径的文本框或列表中。
+src/com/xiboliya/snowpad/dialog/ChangeEncodingDialog.java
+src/com/xiboliya/snowpad/dialog/ChangeLineSeparatorDialog.java
+src/com/xiboliya/snowpad/dialog/CuttingFileDialog.java
+src/com/xiboliya/snowpad/dialog/MergeFileDialog.java
+src/com/xiboliya/snowpad/dialog/SlicingFileDialog.java
