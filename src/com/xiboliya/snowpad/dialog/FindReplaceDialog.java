@@ -944,10 +944,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           }
           int lineNumEnd = this.txaSource.getLineOfOffset(searchBean.getEnd());
           lineNumUsed = lineNumEnd;
-          int size = lineNumEnd - lineNumStart;
           StringBuilder stbLine = new StringBuilder();
-          for (int i = 0; i <= size; i++) {
-            stbLine.append(strSource.substring(this.txaSource.getLineStartOffset(lineNumStart + i), this.txaSource.getLineEndOffset(lineNumStart + i)));
+          for (int i = lineNumStart; i <= lineNumEnd; i++) {
+            stbLine.append(strSource.substring(this.txaSource.getLineStartOffset(i), this.txaSource.getLineEndOffset(i)));
             if (stbLine.charAt(stbLine.length() - 1) != '\n') {
               stbLine.append('\n');
             }
@@ -1009,16 +1008,15 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           }
           int lineNumEnd = this.txaSource.getLineOfOffset(searchBean.getEnd());
           lineNumUsed = lineNumEnd;
-          int size = lineNumEnd - lineNumStart;
           StringBuilder stbLine = new StringBuilder();
-          for (int i = 0; i <= size; i++) {
-            stbLine.append(strSource.substring(this.txaSource.getLineStartOffset(lineNumStart + i), this.txaSource.getLineEndOffset(lineNumStart + i)));
+          for (int i = lineNumStart; i <= lineNumEnd; i++) {
+            stbLine.append(strSource.substring(this.txaSource.getLineStartOffset(i), this.txaSource.getLineEndOffset(i)));
             if (stbLine.charAt(stbLine.length() - 1) != '\n') {
               stbLine.append('\n');
             }
             times++;
-            if (!listLineNum.contains(lineNumStart + i)) {
-              listLineNum.add(lineNumStart + i);
+            if (!listLineNum.contains(i)) {
+              listLineNum.add(i);
             }
           }
           stbResult.append(stbLine);
@@ -1082,12 +1080,11 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           }
           int lineNumEnd = this.txaSource.getLineOfOffset(searchBean.getEnd());
           lineNumUsed = lineNumEnd;
-          int size = lineNumEnd - lineNumStart;
           StringBuilder stbLine = new StringBuilder();
-          for (int i = 0; i <= size; i++) {
+          for (int i = lineNumStart; i <= lineNumEnd; i++) {
             times++;
-            if (!listLineNum.contains(lineNumStart + i)) {
-              listLineNum.add(lineNumStart + i);
+            if (!listLineNum.contains(i)) {
+              listLineNum.add(i);
             }
           }
         }
