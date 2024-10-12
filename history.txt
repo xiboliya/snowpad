@@ -2463,3 +2463,7 @@ src/com/xiboliya/snowpad/dialog/ChangeLineSeparatorDialog.java
 src/com/xiboliya/snowpad/dialog/CuttingFileDialog.java
 src/com/xiboliya/snowpad/dialog/MergeFileDialog.java
 src/com/xiboliya/snowpad/dialog/SlicingFileDialog.java
+
+2024-10-12
+1.优化代码：查找、替换对话框中的复制结果行、剪切结果行、删除结果行的逻辑简化。
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
