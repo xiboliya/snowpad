@@ -335,11 +335,11 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
         break;
       }
       byteStr = strText.getBytes(this.charEncoding.toString());
-      for (int i = 0; i < charBOM.length; i++) {
-        if (charBOM[i] == -1) {
+      for (int ch : charBOM) {
+        if (ch == -1) {
           break;
         }
-        fileOutputStream.write(charBOM[i]);
+        fileOutputStream.write(ch);
       }
       fileOutputStream.write(byteStr);
     } catch (Exception x) {
