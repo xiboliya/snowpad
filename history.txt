@@ -2467,3 +2467,10 @@ src/com/xiboliya/snowpad/dialog/SlicingFileDialog.java
 2024-10-12
 1.优化代码：查找、替换对话框中的复制结果行、剪切结果行、删除结果行的逻辑简化。
 src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+
+2024-10-29
+1.在保存带有BOM的字符编码格式的文件时，简化写入BOM的逻辑。
+src/com/xiboliya/snowpad/dialog/ChangeEncodingDialog.java
+src/com/xiboliya/snowpad/dialog/ChangeLineSeparatorDialog.java
+src/com/xiboliya/snowpad/dialog/SlicingFileDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
