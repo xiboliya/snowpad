@@ -797,9 +797,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    */
   private void getTextCountAll() {
     int times = this.getTextCount(this.txaSource.getText());
-    if (times >= 0) {
-      TipsWindow.show(this, "共找到 " + times + " 处。", TipsWindow.Background.GREEN);
-    }
+    this.showTextCountResult(times);
   }
 
   /**
@@ -807,8 +805,19 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
    */
   private void getTextCountSel() {
     int times = this.getTextCount(this.txaSource.getSelectedText());
-    if (times >= 0) {
+    this.showTextCountResult(times);
+  }
+
+  /**
+   * 提示统计到的字符串次数
+   * 
+   * @param times 字符串次数
+   */
+  private void showTextCountResult(int times) {
+    if (times > 0) {
       TipsWindow.show(this, "共找到 " + times + " 处。", TipsWindow.Background.GREEN);
+    } else if(times == 0) {
+      TipsWindow.show(this, "共找到 " + times + " 处。", TipsWindow.Background.PINK);
     }
   }
 
