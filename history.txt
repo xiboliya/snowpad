@@ -2474,3 +2474,7 @@ src/com/xiboliya/snowpad/dialog/ChangeEncodingDialog.java
 src/com/xiboliya/snowpad/dialog/ChangeLineSeparatorDialog.java
 src/com/xiboliya/snowpad/dialog/SlicingFileDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2024-12-23
+1.在执行“查找/替换”界面中“全部统计”和“选区内统计”功能时，提示窗口的颜色区分处理：次数为0时显示粉色、次数大于0时显示绿色。
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
