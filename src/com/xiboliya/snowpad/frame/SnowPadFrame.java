@@ -115,11 +115,11 @@ import com.xiboliya.snowpad.dialog.CalculatorDialog;
 import com.xiboliya.snowpad.dialog.ChangeEncodingDialog;
 import com.xiboliya.snowpad.dialog.ChangeLineSeparatorDialog;
 import com.xiboliya.snowpad.dialog.CuttingFileDialog;
-import com.xiboliya.snowpad.dialog.EncryptDialog;
 import com.xiboliya.snowpad.dialog.FileEncodingDialog;
 import com.xiboliya.snowpad.dialog.FindReplaceDialog;
 import com.xiboliya.snowpad.dialog.FontDialog;
 import com.xiboliya.snowpad.dialog.GotoDialog;
+import com.xiboliya.snowpad.dialog.HashDialog;
 import com.xiboliya.snowpad.dialog.HelpDialog;
 import com.xiboliya.snowpad.dialog.InformationDialog;
 import com.xiboliya.snowpad.dialog.InsertCharDialog;
@@ -450,8 +450,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemInformation = new JMenuItem("统计信息(N)...", 'N');
   private JMenuItem itemWindowManage = new JMenuItem("窗口管理(W)...", 'W');
   private JMenu menuTool = new JMenu("工具(T)");
-  private JMenuItem itemEncrypt = new JMenuItem("加密(E)...", 'E');
   private JMenuItem itemCalculator = new JMenuItem("计算器(C)...", 'C');
+  private JMenuItem itemHash = new JMenuItem("散列/哈希加密(E)...", 'E');
   private JMenuItem itemCuttingFile = new JMenuItem("切割文件(T)...", 'T');
   private JMenuItem itemMergeFile = new JMenuItem("拼接文件(M)...", 'M');
   private JMenuItem itemChangeEncoding = new JMenuItem("转换文件编码(D)...", 'D');
@@ -559,8 +559,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private SignIdentifierDialog signIdentifierDialog = null; // 项目符号与编号对话框
   private InformationDialog informationDialog = null; // 统计信息对话框
   private WindowManageDialog windowManageDialog = null; // 窗口管理对话框
-  private EncryptDialog encryptDialog = null; // 加密对话框
   private CalculatorDialog calculatorDialog = null; // 计算器对话框
+  private HashDialog hashDialog = null; // 散列/哈希加密对话框
   private CuttingFileDialog cuttingFileDialog = null; // 切割文件对话框
   private MergeFileDialog mergeFileDialog = null; // 拼接文件对话框
   private ChangeEncodingDialog changeEncodingDialog = null; // 转换文件编码对话框
@@ -737,8 +737,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemTrimSelected.addActionListener(this);
     this.itemCommentForLine.addActionListener(this);
     this.itemCommentForBlock.addActionListener(this);
-    this.itemEncrypt.addActionListener(this);
     this.itemCalculator.addActionListener(this);
+    this.itemHash.addActionListener(this);
     this.itemCuttingFile.addActionListener(this);
     this.itemMergeFile.addActionListener(this);
     this.itemChangeEncoding.addActionListener(this);
@@ -1240,8 +1240,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuView.add(this.itemInformation);
     this.menuView.add(this.itemWindowManage);
     this.menuBar.add(this.menuTool);
-    this.menuTool.add(this.itemEncrypt);
     this.menuTool.add(this.itemCalculator);
+    this.menuTool.add(this.itemHash);
     this.menuTool.add(this.itemCuttingFile);
     this.menuTool.add(this.itemMergeFile);
     this.menuTool.add(this.itemChangeEncoding);
@@ -1438,8 +1438,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemCursorNavigationFileEnd);
     this.menuItemList.add(this.itemInformation);
     this.menuItemList.add(this.itemWindowManage);
-    this.menuItemList.add(this.itemEncrypt);
     this.menuItemList.add(this.itemCalculator);
+    this.menuItemList.add(this.itemHash);
     this.menuItemList.add(this.itemCuttingFile);
     this.menuItemList.add(this.itemMergeFile);
     this.menuItemList.add(this.itemChangeEncoding);
@@ -1991,8 +1991,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.trimSelected();
     } else if (this.itemHelp.equals(source)) {
       this.showHelpFrame();
-    } else if (this.itemEncrypt.equals(source)) {
-      this.openEncryptDialog();
+    } else if (this.itemHash.equals(source)) {
+      this.openHashDialog();
     } else if (this.itemNumberConvert.equals(source)) {
       this.openNumberConvertDialog();
     } else if (this.itemTimeStampConvert.equals(source)) {
@@ -2877,9 +2877,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.windowManageDialog.dispose();
       this.windowManageDialog = null;
     }
-    if (this.encryptDialog != null) {
-      this.encryptDialog.dispose();
-      this.encryptDialog = null;
+    if (this.hashDialog != null) {
+      this.hashDialog.dispose();
+      this.hashDialog = null;
     }
     if (this.numberConvertDialog != null) {
       this.numberConvertDialog.dispose();
@@ -4826,15 +4826,15 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
-   * "加密"的处理方法
+   * "散列/哈希加密"的处理方法
    */
-  private void openEncryptDialog() {
-    if (this.encryptDialog == null) {
-      this.encryptDialog = new EncryptDialog(this, false, this.txaMain);
+  private void openHashDialog() {
+    if (this.hashDialog == null) {
+      this.hashDialog = new HashDialog(this, false, this.txaMain);
     } else {
-      this.encryptDialog.setTextArea(this.txaMain);
-      this.encryptDialog.refreshView();
-      this.encryptDialog.setVisible(true);
+      this.hashDialog.setTextArea(this.txaMain);
+      this.hashDialog.refreshView();
+      this.hashDialog.setVisible(true);
     }
   }
 

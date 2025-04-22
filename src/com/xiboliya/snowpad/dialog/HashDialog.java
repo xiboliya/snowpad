@@ -61,14 +61,14 @@ import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
 
 /**
- * "加密"对话框
+ * "散列/哈希加密"对话框
  * 
  * @author 冰原
  * 
  */
-public class EncryptDialog extends BaseDialog implements ActionListener, DocumentListener, ChangeListener, ItemListener, DropTargetListener {
+public class HashDialog extends BaseDialog implements ActionListener, DocumentListener, ChangeListener, ItemListener, DropTargetListener {
   private static final long serialVersionUID = 1L;
-  private static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // 加密的类型
+  private static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512","Base64"}; // 加密的类型
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
@@ -89,16 +89,16 @@ public class EncryptDialog extends BaseDialog implements ActionListener, Documen
   private JPanel pnlBottom = new JPanel();
   private JLabel lblDigestType = new JLabel("加密类型：");
   private JComboBox<String> cmbDigestType = new JComboBox<String>(DIGEST_TYPES);
-  private JLabel lblEncrypt = new JLabel("加密值：");
+  private JLabel lblEncrypt = new JLabel("加密结果：");
   private BaseTextAreaSpecial txaEncrypt = new BaseTextAreaSpecial();
   private JScrollPane srpEncrypt = new JScrollPane(this.txaEncrypt);
   private JCheckBox chkUpperCase = new JCheckBox("结果大写(U)", false);
   private BaseButton btnCopy = new BaseButton("复制结果(C)");
   private BaseButton btnCancel = new BaseButton("取消");
 
-  public EncryptDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
+  public HashDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal, txaSource);
-    this.setTitle("加密值生成");
+    this.setTitle("散列/哈希加密");
     this.init();
     this.setMnemonic();
     this.addListeners();

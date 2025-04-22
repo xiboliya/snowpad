@@ -1,4 +1,4 @@
-0冰雪记事本简介\n\n冰雪记事本是一款纯java开发的文本编辑器。其特点如下：\n1.支持跨平台运行。支持3大操作系统：Windows、Unix/Linux和Macintosh。\n2.编辑功能。完全可替代传统的记事本程序，并在此基础上添加了很多方便实用的功能。\n3.定制功能。支持外观切换、简单的配色方案、高亮显示、自定义快捷键等功能。\n\n软件作者：冰原\nQQ：155222113\n邮箱：chenzhengfeng@163.com\nGitHub代码：https://github.com/xiboliya/snowpad\n码云：https://gitee.com/xiboliya/snowpad\nCoding：https://coding.net/u/xiboliya/p/SnowPad\nCSDN代码：https://code.csdn.net/chenzhengfeng/snowpad\n谷歌代码：http://code.google.com/p/snowpad
+0冰雪记事本简介\n\n冰雪记事本是一款纯java开发的文本编辑器。其特点如下：\n1.支持跨平台运行。支持3大操作系统：Windows、Unix/Linux和Macintosh。\n2.编辑功能。完全可替代传统的记事本程序，并在此基础上添加了很多方便实用的功能。\n3.定制功能。支持外观切换、简单的配色方案、高亮显示、自定义快捷键等功能。\n\n软件作者：冰原\nQQ：155222113\n邮箱：chenzhengfeng@163.com\nGitHub：https://github.com/xiboliya/snowpad\nGitee：https://gitee.com/xiboliya/snowpad\nGitCode：https://gitcode.net/chenzhengfeng/snowpad
 1菜单栏#位于界面顶端，几乎所有的功能都会在此菜单栏中找到。
 2文件#此菜单中包含一些与文件相关的功能。
 3新建#在编辑区新建一个文本域以供用户输入。
@@ -190,8 +190,8 @@
 3统计信息#显示当前的文件信息与当前编辑的文本域信息。
 3窗口管理#管理当前编辑的所有文档，包括：激活、保存、关闭、排序、上移、下移等功能。
 2工具#此菜单中包含一些工具类功能。
-3加密#查看指定文本或文件的加密值，包括：MD5、SHA、SHA-224、SHA-256、SHA-384、SHA-512加密算法。
 3计算器#简单的计算器，主要功能包括：整数和小数的＋－×÷四则运算，百分比%运算，圆周率π运算等。
+3散列/哈希加密#查看指定文本或文件的散列/哈希加密值，包括：MD5、SHA、SHA-224、SHA-256、SHA-384、SHA-512等散列/哈希加密算法。
 3切割文件#通过指定的切割大小或切割文件数量，将指定文件切割为多个子文件。
 3拼接文件#将多个文件拼接为一个文件。
 3转换文件编码#批量修改文件编码，支持转换后保留源文件。
