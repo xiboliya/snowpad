@@ -2478,3 +2478,10 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2024-12-23
 1.在执行“查找/替换”界面中“全部统计”和“选区内统计”功能时，提示窗口的颜色区分处理：次数为0时显示粉色、次数大于0时显示绿色。
 src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+
+2025-04-22
+1.将工具->“加密”菜单重命名为：“散列/哈希加密”，将对话框标题由“加密值生成”改为：“散列/哈希加密”。
+res/help.res
+src/com/xiboliya/snowpad/dialog/EncryptDialog.java 重命名为：HashDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
