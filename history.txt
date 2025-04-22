@@ -2485,3 +2485,5 @@ res/help.res
 src/com/xiboliya/snowpad/dialog/EncryptDialog.java 重命名为：HashDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+2.补充主菜单中各子菜单的助记符定义。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
