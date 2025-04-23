@@ -68,7 +68,7 @@ import com.xiboliya.snowpad.util.Util;
  */
 public class HashDialog extends BaseDialog implements ActionListener, DocumentListener, ChangeListener, ItemListener, DropTargetListener {
   private static final long serialVersionUID = 1L;
-  private static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512","Base64"}; // 加密的类型
+  private static final String[] DIGEST_TYPES = new String[] {"MD5","SHA","SHA-224","SHA-256","SHA-384","SHA-512"}; // 加密的类型
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
