@@ -115,6 +115,7 @@ import com.xiboliya.snowpad.dialog.CalculatorDialog;
 import com.xiboliya.snowpad.dialog.ChangeEncodingDialog;
 import com.xiboliya.snowpad.dialog.ChangeLineSeparatorDialog;
 import com.xiboliya.snowpad.dialog.CuttingFileDialog;
+import com.xiboliya.snowpad.dialog.EncryptDecryptDialog;
 import com.xiboliya.snowpad.dialog.FileEncodingDialog;
 import com.xiboliya.snowpad.dialog.FindReplaceDialog;
 import com.xiboliya.snowpad.dialog.FontDialog;
@@ -452,6 +453,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenu menuTool = new JMenu("工具(T)");
   private JMenuItem itemCalculator = new JMenuItem("计算器(C)...", 'C');
   private JMenuItem itemHash = new JMenuItem("散列/哈希加密(H)...", 'H');
+  private JMenuItem itemEncryptDecrypt = new JMenuItem("加密/解密(E)...", 'E');
   private JMenuItem itemCuttingFile = new JMenuItem("切割文件(T)...", 'T');
   private JMenuItem itemMergeFile = new JMenuItem("拼接文件(M)...", 'M');
   private JMenuItem itemChangeEncoding = new JMenuItem("转换文件编码(D)...", 'D');
@@ -561,6 +563,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private WindowManageDialog windowManageDialog = null; // 窗口管理对话框
   private CalculatorDialog calculatorDialog = null; // 计算器对话框
   private HashDialog hashDialog = null; // 散列/哈希加密对话框
+  private EncryptDecryptDialog encryptDecryptDialog = null; // 加密/解密对话框
   private CuttingFileDialog cuttingFileDialog = null; // 切割文件对话框
   private MergeFileDialog mergeFileDialog = null; // 拼接文件对话框
   private ChangeEncodingDialog changeEncodingDialog = null; // 转换文件编码对话框
@@ -739,6 +742,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemCommentForBlock.addActionListener(this);
     this.itemCalculator.addActionListener(this);
     this.itemHash.addActionListener(this);
+    this.itemEncryptDecrypt.addActionListener(this);
     this.itemCuttingFile.addActionListener(this);
     this.itemMergeFile.addActionListener(this);
     this.itemChangeEncoding.addActionListener(this);
@@ -1242,6 +1246,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuBar.add(this.menuTool);
     this.menuTool.add(this.itemCalculator);
     this.menuTool.add(this.itemHash);
+    this.menuTool.add(this.itemEncryptDecrypt);
     this.menuTool.add(this.itemCuttingFile);
     this.menuTool.add(this.itemMergeFile);
     this.menuTool.add(this.itemChangeEncoding);
@@ -1440,6 +1445,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemWindowManage);
     this.menuItemList.add(this.itemCalculator);
     this.menuItemList.add(this.itemHash);
+    this.menuItemList.add(this.itemEncryptDecrypt);
     this.menuItemList.add(this.itemCuttingFile);
     this.menuItemList.add(this.itemMergeFile);
     this.menuItemList.add(this.itemChangeEncoding);
@@ -2001,6 +2007,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.showHelpFrame();
     } else if (this.itemHash.equals(source)) {
       this.openHashDialog();
+    } else if (this.itemEncryptDecrypt.equals(source)) {
+      this.openEncryptDecryptDialog();
     } else if (this.itemNumberConvert.equals(source)) {
       this.openNumberConvertDialog();
     } else if (this.itemTimeStampConvert.equals(source)) {
@@ -4843,6 +4851,19 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.hashDialog.setTextArea(this.txaMain);
       this.hashDialog.refreshView();
       this.hashDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "加密/解密"的处理方法
+   */
+  private void openEncryptDecryptDialog() {
+    if (this.encryptDecryptDialog == null) {
+      this.encryptDecryptDialog = new EncryptDecryptDialog(this, false, this.txaMain);
+    } else {
+      this.encryptDecryptDialog.setTextArea(this.txaMain);
+      this.encryptDecryptDialog.refreshView();
+      this.encryptDecryptDialog.setVisible(true);
     }
   }
 
