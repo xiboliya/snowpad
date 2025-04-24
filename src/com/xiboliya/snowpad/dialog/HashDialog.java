@@ -430,21 +430,12 @@ public class HashDialog extends BaseDialog implements ActionListener, DocumentLi
   public void onEnter() {
   }
 
-  private void execDocumentEvent(DocumentEvent e) {
-    Object source = e.getDocument();
-    if (this.txaTextT.getDocument().equals(source)) {
-      this.showStringEncrypt();
-    } else if (this.txtPathF.getDocument().equals(source)) {
-      this.showFileEncrypt();
-    }
-  }
-
   /**
    * 当文本控件插入文本时，将触发此事件
    */
   @Override
   public void insertUpdate(DocumentEvent e) {
-    this.execDocumentEvent(e);
+    this.showEncrypt();
   }
 
   /**
@@ -452,7 +443,7 @@ public class HashDialog extends BaseDialog implements ActionListener, DocumentLi
    */
   @Override
   public void removeUpdate(DocumentEvent e) {
-    this.execDocumentEvent(e);
+    this.showEncrypt();
   }
 
   /**
@@ -460,7 +451,7 @@ public class HashDialog extends BaseDialog implements ActionListener, DocumentLi
    */
   @Override
   public void changedUpdate(DocumentEvent e) {
-    this.execDocumentEvent(e);
+    this.showEncrypt();
   }
 
   /**
