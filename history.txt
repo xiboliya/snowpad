@@ -2491,3 +2491,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2025-04-23
 1.“散列/哈希加密”界面的“加密类型”中删除错误的“Base64”选项。
 src/com/xiboliya/snowpad/dialog/HashDialog.java
+
+2025-04-24
+1.“散列/哈希加密”界面刷新逻辑优化。
+src/com/xiboliya/snowpad/dialog/HashDialog.java
