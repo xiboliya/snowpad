@@ -2495,3 +2495,8 @@ src/com/xiboliya/snowpad/dialog/HashDialog.java
 2025-04-24
 1.“散列/哈希加密”界面刷新逻辑优化。
 src/com/xiboliya/snowpad/dialog/HashDialog.java
+2.在“工具”菜单中添加“加密/解密”功能，支持Base64的加密和解密。
+res/help.res
+src/com/xiboliya/snowpad/dialog/EncryptDecryptDialog.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
