@@ -281,7 +281,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemCloseRight = new JMenuItem("关闭右侧(G)", 'G');
   private JMenuItem itemCloseAll = new JMenuItem("关闭全部(Q)", 'Q');
   private JCheckBoxMenuItem itemFrozenFile = new JCheckBoxMenuItem("冻结文件(Z)");
-  private JMenuItem itemPrint = new JMenuItem("打印(P)...");
+  private JMenuItem itemPrint = new JMenuItem("打印(P)...", 'P');
   private JMenuItem itemSaveSetting = new JMenuItem("保存设置(V)", 'V');
   private JMenu menuFileHistory = new JMenu("最近编辑(H)");
   private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表(Y)", 'Y');
@@ -384,9 +384,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JRadioButtonMenuItem itemDisplayText = new JRadioButtonMenuItem("文本视图(T)");
   private JRadioButtonMenuItem itemDisplayBinary = new JRadioButtonMenuItem("二进制视图(B)");
   private JMenu menuFormat = new JMenu("代码格式化(M)");
-  private JMenuItem itemFormatJson = new JMenuItem("json");
+  private JMenuItem itemFormatJson = new JMenuItem("Json", 'J');
   private JMenu menuCompress = new JMenu("代码压缩(P)");
-  private JMenuItem itemCompressJson = new JMenuItem("json");
+  private JMenuItem itemCompressJson = new JMenuItem("Json", 'J');
   private JMenuItem itemSignIdentifier = new JMenuItem("列表符号与编号(G)...", 'G');
   private JMenuItem itemFont = new JMenuItem("字体(F)...", 'F');
   private JMenuItem itemTabSet = new JMenuItem("Tab键设置...", 'T');
@@ -1838,6 +1838,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemClickToClose.setMnemonic('D');
     this.itemTabIcon.setMnemonic('I');
     this.menuTextAreaSwitch.setMnemonic('I');
+    this.menuCursorNavigation.setMnemonic('V');
     this.menuColor.setMnemonic('C');
     this.menuFontSize.setMnemonic('F');
     this.menuColorStyle.setMnemonic('Y');
@@ -3281,7 +3282,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
-   * 代码格式化"json"的处理方法
+   * 代码格式化"Json"的处理方法
    */
   private void formatJson() {
     String selText = this.txaMain.getSelectedText();
@@ -3303,7 +3304,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
-   * 代码压缩"json"的处理方法
+   * 代码压缩"Json"的处理方法
    */
   private void compressJson() {
     String selText = this.txaMain.getSelectedText();
