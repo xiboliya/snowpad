@@ -17,6 +17,7 @@
 
 package com.xiboliya.snowpad.dialog;
 
+import java.awt.Color;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -46,19 +50,34 @@ import com.xiboliya.snowpad.util.Util;
  * @author 冰原
  * 
  */
-public class TimeStampConvertDialog extends BaseDialog implements ActionListener, DocumentListener, ItemListener {
+public class TimeStampConvertDialog extends BaseDialog implements ActionListener, DocumentListener, ItemListener, ChangeListener {
   private static final long serialVersionUID = 1L;
   // 时间戳单位类型
   private static final String[] TIMESTAMP_UNIT_TYPES = new String[] {"毫秒(ms)", "秒(s)"};
+  private static final String[] DATE_FORMATS = new String[] {"yyyy-MM-dd HH:mm:ss:SSS", "yyyy-MM-dd HH:mm:ss"};
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
-  private JLabel lblTimeStamp = new JLabel("时间戳：");
-  private JComboBox<String> cmbUnit = new JComboBox<String>();
-  private BaseTextField txtTimeStamp = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
-  private JLabel lblTime = new JLabel("时间：");
-  private JComboBox<String> cmbTimeZone = new JComboBox<String>();
-  private BaseTextField txtTime = new BaseTextField();
+  private JTabbedPane tpnMain = new JTabbedPane();
+  // 时间戳转时间
+  private JPanel pnlStampToTime = new JPanel();
+  private JLabel lblStampS = new JLabel("时间戳：");
+  private JComboBox<String> cmbUnitS = new JComboBox<String>();
+  private BaseTextField txtStampS = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
+  private JLabel lblTimeS = new JLabel("时间：");
+  private JComboBox<String> cmbTimeZoneS = new JComboBox<String>();
+  private BaseTextField txtTimeS = new BaseTextField();
+  // 时间转时间戳
+  private JPanel pnlTimeToStamp = new JPanel();
+  private JLabel lblTimeT = new JLabel("时间：");
+  private JLabel lblTimeStyleT = new JLabel("格式：" + DATE_FORMATS[0]);
+  private JComboBox<String> cmbTimeZoneT = new JComboBox<String>();
+  private BaseTextField txtTimeT = new BaseTextField();
+  private JLabel lblStampT = new JLabel("时间戳：");
+  private JComboBox<String> cmbUnitT = new JComboBox<String>();
+  private BaseTextField txtStampT = new BaseTextField();
+
+  private JPanel pnlBottom = new JPanel();
   private BaseButton btnCopy = new BaseButton("复制结果(C)");
   private BaseButton btnCancel = new BaseButton("取消");
 
@@ -70,7 +89,7 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
     this.setMnemonic();
     this.addListeners();
     this.refreshView();
-    this.setSize(310, 210);
+    this.setSize(310, 240);
     this.setVisible(true);
   }
 
@@ -79,47 +98,82 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
    */
   private void init() {
     this.pnlMain.setLayout(null);
-    this.lblTimeStamp.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
-    this.cmbUnit.setBounds(10, 35, 90, Util.INPUT_HEIGHT);
-    this.txtTimeStamp.setBounds(110, 35, 180, Util.INPUT_HEIGHT);
-    this.pnlMain.add(this.lblTimeStamp);
-    this.pnlMain.add(this.cmbUnit);
-    this.pnlMain.add(this.txtTimeStamp);
+    // 时间戳转时间
+    this.pnlStampToTime.setLayout(null);
+    this.lblStampS.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
+    this.cmbUnitS.setBounds(10, 35, 90, Util.INPUT_HEIGHT);
+    this.txtStampS.setBounds(110, 35, 180, Util.INPUT_HEIGHT);
+    this.pnlStampToTime.add(this.lblStampS);
+    this.pnlStampToTime.add(this.cmbUnitS);
+    this.pnlStampToTime.add(this.txtStampS);
+    this.lblTimeS.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
+    this.cmbTimeZoneS.setBounds(10, 95, 90, Util.INPUT_HEIGHT);
+    this.txtTimeS.setBounds(110, 95, 180, Util.INPUT_HEIGHT);
+    this.pnlStampToTime.add(this.lblTimeS);
+    this.pnlStampToTime.add(this.cmbTimeZoneS);
+    this.pnlStampToTime.add(this.txtTimeS);
+    // 时间转时间戳
+    this.pnlTimeToStamp.setLayout(null);
+    this.lblTimeT.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
+    this.lblTimeStyleT.setBounds(80, 10, 180, Util.VIEW_HEIGHT);
+    this.lblTimeStyleT.setForeground(Color.BLUE);
+    this.cmbTimeZoneT.setBounds(10, 35, 90, Util.INPUT_HEIGHT);
+    this.txtTimeT.setBounds(110, 35, 180, Util.INPUT_HEIGHT);
+    this.pnlTimeToStamp.add(this.lblTimeT);
+    this.pnlTimeToStamp.add(this.lblTimeStyleT);
+    this.pnlTimeToStamp.add(this.cmbTimeZoneT);
+    this.pnlTimeToStamp.add(this.txtTimeT);
+    this.lblStampT.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
+    this.cmbUnitT.setBounds(10, 95, 90, Util.INPUT_HEIGHT);
+    this.txtStampT.setBounds(110, 95, 180, Util.INPUT_HEIGHT);
+    this.pnlTimeToStamp.add(this.lblStampT);
+    this.pnlTimeToStamp.add(this.cmbUnitT);
+    this.pnlTimeToStamp.add(this.txtStampT);
 
-    this.lblTime.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
-    this.cmbTimeZone.setBounds(10, 95, 90, Util.INPUT_HEIGHT);
-    this.txtTime.setBounds(110, 95, 180, Util.INPUT_HEIGHT);
-    this.pnlMain.add(this.lblTime);
-    this.pnlMain.add(this.cmbTimeZone);
-    this.pnlMain.add(this.txtTime);
-
-    this.btnCopy.setBounds(30, 135, 110, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(170, 135, 110, Util.BUTTON_HEIGHT);
-    this.pnlMain.add(this.btnCopy);
-    this.pnlMain.add(this.btnCancel);
+    this.pnlBottom.setLayout(null);
+    this.pnlBottom.setBounds(0, 160, 310, 80);
+    this.btnCopy.setBounds(30, 5, 110, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(170, 5, 110, Util.BUTTON_HEIGHT);
+    this.pnlBottom.add(this.btnCopy);
+    this.pnlBottom.add(this.btnCancel);
+    // 主界面
+    this.tpnMain.setBounds(0, 0, 310, 160);
+    this.tpnMain.add(this.pnlStampToTime, "时间戳转时间");
+    this.tpnMain.add(this.pnlTimeToStamp, "时间转时间戳");
+    this.pnlMain.add(this.tpnMain);
+    this.tpnMain.setSelectedIndex(0);
+    this.tpnMain.setFocusable(false);
+    this.pnlMain.add(this.pnlBottom);
   }
 
   /**
    * 初始化控件显示
    */
   private void initView() {
-    this.cmbUnit.setModel(new DefaultComboBoxModel<String>(TIMESTAMP_UNIT_TYPES));
-    this.cmbUnit.setSelectedIndex(0);
-    String[] array = new String[25];
+    String[] timeZoneArray = new String[25];
     int index = 0;
     for (int i = 12; i > 0; i--) {
-      array[index] = "GMT-" + i;
+      timeZoneArray[index] = "GMT-" + i;
       index++;
     }
-    array[index] = "GMT";
+    timeZoneArray[index] = "GMT";
     index++;
     for (int i = 1; i <= 12; i++) {
-      array[index] = "GMT+" + i;
+      timeZoneArray[index] = "GMT+" + i;
       index++;
     }
-    this.cmbTimeZone.setModel(new DefaultComboBoxModel<String>(array));
-    this.cmbTimeZone.setSelectedIndex(20);
-    this.txtTime.setEditable(false);
+    // 时间戳转时间
+    this.cmbUnitS.setModel(new DefaultComboBoxModel<String>(TIMESTAMP_UNIT_TYPES));
+    this.cmbUnitS.setSelectedIndex(0);
+    this.cmbTimeZoneS.setModel(new DefaultComboBoxModel<String>(timeZoneArray));
+    this.cmbTimeZoneS.setSelectedIndex(20);
+    this.txtTimeS.setEditable(false);
+    // 时间转时间戳
+    this.cmbTimeZoneT.setModel(new DefaultComboBoxModel<String>(timeZoneArray));
+    this.cmbTimeZoneT.setSelectedIndex(20);
+    this.cmbUnitT.setModel(new DefaultComboBoxModel<String>(TIMESTAMP_UNIT_TYPES));
+    this.cmbUnitT.setSelectedIndex(0);
+    this.txtStampT.setEditable(false);
   }
 
   /**
@@ -133,13 +187,23 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
    * 为各组件添加监听器
    */
   private void addListeners() {
-    this.cmbUnit.addKeyListener(this.keyAdapter);
-    this.cmbUnit.addItemListener(this);
-    this.txtTimeStamp.getDocument().addDocumentListener(this);
-    this.txtTimeStamp.addKeyListener(this.keyAdapter);
-    this.cmbTimeZone.addKeyListener(this.keyAdapter);
-    this.cmbTimeZone.addItemListener(this);
-    this.txtTime.addKeyListener(this.keyAdapter);
+    // 时间戳转时间
+    this.cmbUnitS.addKeyListener(this.keyAdapter);
+    this.cmbUnitS.addItemListener(this);
+    this.txtStampS.getDocument().addDocumentListener(this);
+    this.txtStampS.addKeyListener(this.keyAdapter);
+    this.cmbTimeZoneS.addKeyListener(this.keyAdapter);
+    this.cmbTimeZoneS.addItemListener(this);
+    this.txtTimeS.addKeyListener(this.keyAdapter);
+    // 时间转时间戳
+    this.txtTimeT.getDocument().addDocumentListener(this);
+    this.txtTimeT.addKeyListener(this.keyAdapter);
+    this.cmbTimeZoneT.addKeyListener(this.keyAdapter);
+    this.cmbTimeZoneT.addItemListener(this);
+    this.cmbUnitT.addKeyListener(this.keyAdapter);
+    this.cmbUnitT.addItemListener(this);
+    this.txtStampT.addKeyListener(this.keyAdapter);
+
     this.btnCopy.addActionListener(this);
     this.btnCopy.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addActionListener(this);
@@ -170,29 +234,66 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
    * 显示结果
    */
   private void showResult() {
-    String strTimeStamp = this.txtTimeStamp.getText();
-    if (Util.isTextEmpty(strTimeStamp)) {
-      this.txtTime.setText("");
+    if (this.tpnMain.getSelectedIndex() == 0) {
+      this.showStampToTime();
     } else {
-      int timeStampUnit = this.cmbUnit.getSelectedIndex();
-      String timeZone = this.cmbTimeZone.getSelectedItem().toString();
+      this.showTimeToStamp();
+    }
+  }
+
+  /**
+   * 显示时间戳转时间的结果
+   */
+  private void showStampToTime() {
+    String strTimeStamp = this.txtStampS.getText();
+    if (Util.isTextEmpty(strTimeStamp)) {
+      this.txtTimeS.setText("");
+    } else {
+      int timeStampUnit = this.cmbUnitS.getSelectedIndex();
+      String timeZone = this.cmbTimeZoneS.getSelectedItem().toString();
       try {
         long timeStamp = Long.parseLong(strTimeStamp);
         SimpleDateFormat simpleDateFormat = null;
+        simpleDateFormat = new SimpleDateFormat(DATE_FORMATS[timeStampUnit]);
         if (timeStampUnit == 1) {
           timeStamp *= 1000L;
-          simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        } else {
-          simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
         }
         Date date = new Date(timeStamp);
         // 设置时区
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
         String result = simpleDateFormat.format(date);
-        this.txtTime.setText(result);
+        this.txtTimeS.setText(result);
       } catch (Exception x) {
         // x.printStackTrace();
-        this.txtTime.setText("");
+        this.txtTimeS.setText("");
+      }
+    }
+  }
+
+  /**
+   * 显示时间转时间戳的结果
+   */
+  private void showTimeToStamp() {
+    String strTime = this.txtTimeT.getText();
+    if (Util.isTextEmpty(strTime)) {
+      this.txtStampT.setText("");
+    } else {
+      String timeZone = this.cmbTimeZoneT.getSelectedItem().toString();
+      int timeStampUnit = this.cmbUnitT.getSelectedIndex();
+      try {
+        SimpleDateFormat simpleDateFormat = null;
+        simpleDateFormat = new SimpleDateFormat(DATE_FORMATS[timeStampUnit]);
+        // 设置时区
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
+        Date date = simpleDateFormat.parse(strTime);
+        long result = date.getTime();
+        if (timeStampUnit == 1) {
+          result /= 1000L;
+        }
+        this.txtStampT.setText(String.valueOf(result));
+      } catch (Exception x) {
+        // x.printStackTrace();
+        this.txtStampT.setText("");
       }
     }
   }
@@ -201,7 +302,11 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
    * "复制结果"的处理方法
    */
   private void toCopyResult() {
-    ListenerManager.getInstance().postClipboardEvent(this.txtTime.getText());
+    if (this.tpnMain.getSelectedIndex() == 0) {
+      ListenerManager.getInstance().postClipboardEvent(this.txtTimeS.getText());
+    } else {
+      ListenerManager.getInstance().postClipboardEvent(this.txtStampT.getText());
+    }
   }
 
   /**
@@ -248,6 +353,18 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
    */
   @Override
   public void itemStateChanged(ItemEvent e) {
+    this.showResult();
+    if (this.cmbUnitT.equals(e.getSource())) {
+      int timeStampUnit = this.cmbUnitT.getSelectedIndex();
+      this.lblTimeStyleT.setText("格式：" + DATE_FORMATS[timeStampUnit]);
+    }
+  }
+
+  /**
+   * 当选项卡改变当前视图时调用
+   */
+  @Override
+  public void stateChanged(ChangeEvent e) {
     this.showResult();
   }
 }
