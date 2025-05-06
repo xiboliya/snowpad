@@ -2506,3 +2506,7 @@ src/com/xiboliya/snowpad/util/Util.java
 res/help.res
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2025-05-06
+1.“时间戳转换”界面中添加：“时间转时间戳”功能。
+src/com/xiboliya/snowpad/dialog/TimeStampConvertDialog.java
