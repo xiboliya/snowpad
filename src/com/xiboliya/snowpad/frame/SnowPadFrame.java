@@ -614,7 +614,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
         }
       }
     }
-    this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult, false);
   }
 
   /**
@@ -2830,6 +2829,10 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.gotoDialog.dispose();
       this.gotoDialog = null;
     }
+    if (this.bookmarkPreviewDialog != null) {
+      this.bookmarkPreviewDialog.dispose();
+      this.bookmarkPreviewDialog = null;
+    }
     if (this.aboutDialog != null) {
       this.aboutDialog.dispose();
       this.aboutDialog = null;
@@ -2894,21 +2897,17 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.windowManageDialog.dispose();
       this.windowManageDialog = null;
     }
+    if (this.calculatorDialog != null) {
+      this.calculatorDialog.dispose();
+      this.calculatorDialog = null;
+    }
     if (this.hashDialog != null) {
       this.hashDialog.dispose();
       this.hashDialog = null;
     }
-    if (this.numberConvertDialog != null) {
-      this.numberConvertDialog.dispose();
-      this.numberConvertDialog = null;
-    }
-    if (this.timeStampConvertDialog != null) {
-      this.timeStampConvertDialog.dispose();
-      this.timeStampConvertDialog = null;
-    }
-    if (this.calculatorDialog != null) {
-      this.calculatorDialog.dispose();
-      this.calculatorDialog = null;
+    if (this.encryptDecryptDialog != null) {
+      this.encryptDecryptDialog.dispose();
+      this.encryptDecryptDialog = null;
     }
     if (this.cuttingFileDialog != null) {
       this.cuttingFileDialog.dispose();
@@ -2930,6 +2929,14 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.textConvertDialog.dispose();
       this.textConvertDialog = null;
     }
+    if (this.numberConvertDialog != null) {
+      this.numberConvertDialog.dispose();
+      this.numberConvertDialog = null;
+    }
+    if (this.timeStampConvertDialog != null) {
+      this.timeStampConvertDialog.dispose();
+      this.timeStampConvertDialog = null;
+    }
     if (this.unitConvertDialog != null) {
       this.unitConvertDialog.dispose();
       this.unitConvertDialog = null;
@@ -2941,10 +2948,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (this.testQuestionDialog != null) {
       this.testQuestionDialog.dispose();
       this.testQuestionDialog = null;
-    }
-    if (this.bookmarkPreviewDialog != null) {
-      this.bookmarkPreviewDialog.dispose();
-      this.bookmarkPreviewDialog = null;
     }
     if (this.helpDialog != null) {
       this.helpDialog.dispose();
