@@ -139,6 +139,7 @@ import com.xiboliya.snowpad.dialog.TextConvertDialog;
 import com.xiboliya.snowpad.dialog.TimeStampConvertDialog;
 import com.xiboliya.snowpad.dialog.TrigonometricDialog;
 import com.xiboliya.snowpad.dialog.UnitConvertDialog;
+import com.xiboliya.snowpad.dialog.UrlEncodeDecodeDialog;
 import com.xiboliya.snowpad.dialog.WindowManageDialog;
 import com.xiboliya.snowpad.event.ClipboardListener;
 import com.xiboliya.snowpad.manager.ListenerManager;
@@ -454,6 +455,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemCalculator = new JMenuItem("计算器(C)...", 'C');
   private JMenuItem itemHash = new JMenuItem("散列/哈希加密(H)...", 'H');
   private JMenuItem itemEncryptDecrypt = new JMenuItem("加密/解密(E)...", 'E');
+  private JMenuItem itemUrlEncodeDecode = new JMenuItem("URL编码/解码(O)...", 'O');
   private JMenuItem itemCuttingFile = new JMenuItem("切割文件(T)...", 'T');
   private JMenuItem itemMergeFile = new JMenuItem("拼接文件(M)...", 'M');
   private JMenuItem itemChangeEncoding = new JMenuItem("转换文件编码(D)...", 'D');
@@ -564,6 +566,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private CalculatorDialog calculatorDialog = null; // 计算器对话框
   private HashDialog hashDialog = null; // 散列/哈希加密对话框
   private EncryptDecryptDialog encryptDecryptDialog = null; // 加密/解密对话框
+  private UrlEncodeDecodeDialog urlEncodeDecodeDialog = null; // URL编码/解码对话框
   private CuttingFileDialog cuttingFileDialog = null; // 切割文件对话框
   private MergeFileDialog mergeFileDialog = null; // 拼接文件对话框
   private ChangeEncodingDialog changeEncodingDialog = null; // 转换文件编码对话框
@@ -742,6 +745,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemCalculator.addActionListener(this);
     this.itemHash.addActionListener(this);
     this.itemEncryptDecrypt.addActionListener(this);
+    this.itemUrlEncodeDecode.addActionListener(this);
     this.itemCuttingFile.addActionListener(this);
     this.itemMergeFile.addActionListener(this);
     this.itemChangeEncoding.addActionListener(this);
@@ -1246,6 +1250,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuTool.add(this.itemCalculator);
     this.menuTool.add(this.itemHash);
     this.menuTool.add(this.itemEncryptDecrypt);
+    this.menuTool.add(this.itemUrlEncodeDecode);
     this.menuTool.add(this.itemCuttingFile);
     this.menuTool.add(this.itemMergeFile);
     this.menuTool.add(this.itemChangeEncoding);
@@ -1445,6 +1450,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemCalculator);
     this.menuItemList.add(this.itemHash);
     this.menuItemList.add(this.itemEncryptDecrypt);
+    this.menuItemList.add(this.itemUrlEncodeDecode);
     this.menuItemList.add(this.itemCuttingFile);
     this.menuItemList.add(this.itemMergeFile);
     this.menuItemList.add(this.itemChangeEncoding);
@@ -2009,6 +2015,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.openHashDialog();
     } else if (this.itemEncryptDecrypt.equals(source)) {
       this.openEncryptDecryptDialog();
+    } else if (this.itemUrlEncodeDecode.equals(source)) {
+      this.openUrlEncodeDecodeDialog();
     } else if (this.itemNumberConvert.equals(source)) {
       this.openNumberConvertDialog();
     } else if (this.itemTimeStampConvert.equals(source)) {
@@ -2908,6 +2916,10 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (this.encryptDecryptDialog != null) {
       this.encryptDecryptDialog.dispose();
       this.encryptDecryptDialog = null;
+    }
+    if (this.urlEncodeDecodeDialog != null) {
+      this.urlEncodeDecodeDialog.dispose();
+      this.urlEncodeDecodeDialog = null;
     }
     if (this.cuttingFileDialog != null) {
       this.cuttingFileDialog.dispose();
@@ -4868,6 +4880,19 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.encryptDecryptDialog.setTextArea(this.txaMain);
       this.encryptDecryptDialog.refreshView();
       this.encryptDecryptDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * "URL编码/解码"的处理方法
+   */
+  private void openUrlEncodeDecodeDialog() {
+    if (this.urlEncodeDecodeDialog == null) {
+      this.urlEncodeDecodeDialog = new UrlEncodeDecodeDialog(this, false, this.txaMain);
+    } else {
+      this.urlEncodeDecodeDialog.setTextArea(this.txaMain);
+      this.urlEncodeDecodeDialog.refreshView();
+      this.urlEncodeDecodeDialog.setVisible(true);
     }
   }
 
