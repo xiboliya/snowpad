@@ -2514,3 +2514,10 @@ src/com/xiboliya/snowpad/dialog/TimeStampConvertDialog.java
 2025-05-08
 1.删除主界面初始化时自动创建的查找/替换对话框，并补充切换外观后关闭的窗口实例。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2025-05-11
+1.在“工具”菜单中添加“URL编码/解码”功能，支持Url的编码和解码。
+res/help.res
+src/com/xiboliya/snowpad/dialog/UrlEncodeDecodeDialog.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
