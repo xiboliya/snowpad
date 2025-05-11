@@ -475,6 +475,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemNumberSortDown = new JMenuItem("降序排列(D)", 'D');
   private JMenu menuProfessionalTool = new JMenu("专业工具(P)");
   private JMenuItem itemCompressGradle = new JMenuItem("精简Gradle依赖(C)", 'C');
+  private JMenuItem itemCompressFlutter = new JMenuItem("精简Flutter依赖(F)", 'F');
   private JMenu menuHelp = new JMenu("帮助(H)");
   private JMenuItem itemHelp = new JMenuItem("帮助主题(H)", 'H');
   private JMenuItem itemAbout = new JMenuItem("关于(A)", 'A');
@@ -763,6 +764,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemNumberSortUp.addActionListener(this);
     this.itemNumberSortDown.addActionListener(this);
     this.itemCompressGradle.addActionListener(this);
+    this.itemCompressFlutter.addActionListener(this);
     this.itemHelp.addActionListener(this);
     this.itemLineWrap.addActionListener(this);
     this.itemLineWrapByWord.addActionListener(this);
@@ -1270,6 +1272,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuStatisticsTool.add(this.itemNumberSortDown);
     this.menuTool.add(this.menuProfessionalTool);
     this.menuProfessionalTool.add(this.itemCompressGradle);
+    this.menuProfessionalTool.add(this.itemCompressFlutter);
     this.menuBar.add(this.menuHelp);
     this.menuHelp.add(this.itemHelp);
     this.menuHelp.addSeparator();
@@ -1468,6 +1471,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemNumberSortUp);
     this.menuItemList.add(this.itemNumberSortDown);
     this.menuItemList.add(this.itemCompressGradle);
+    this.menuItemList.add(this.itemCompressFlutter);
     this.menuItemList.add(this.itemHelp);
     this.menuItemList.add(this.itemAbout);
   }
@@ -1575,6 +1579,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemNumberSortUp.setEnabled(false);
     this.itemNumberSortDown.setEnabled(false);
     this.itemCompressGradle.setEnabled(false);
+    this.itemCompressFlutter.setEnabled(false);
     this.itemPopCopy.setEnabled(false);
     this.itemPopCut.setEnabled(false);
     this.itemPopDel.setEnabled(false);
@@ -1694,6 +1699,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemSelFindPrevious.setEnabled(isExist);
     this.itemGoto.setEnabled(isExist);
     this.itemCompressGradle.setEnabled(isExist);
+    this.itemCompressFlutter.setEnabled(isExist);
     this.itemSelAll.setEnabled(isExist);
     this.itemPopSelAll.setEnabled(isExist);
   }
@@ -2053,6 +2059,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.numberSort(false);
     } else if (this.itemCompressGradle.equals(source)) {
       this.compressGradle();
+    } else if (this.itemCompressFlutter.equals(source)) {
+      this.compressFlutter();
     } else if (this.itemLineWrap.equals(source)) {
       this.toolButtonList.get(17).setSelected(this.itemLineWrap.isSelected());
       this.setLineWrap();
@@ -5091,6 +5099,77 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
+   * "精简Flutter依赖"的处理方法
+   */
+  private void compressFlutter() {
+    // 删除Flutter依赖树中的用于表示层次的字符
+    String strSource = this.txaMain.getText();
+    String[] findTextArray = new String[]{"├── ", "└── ", "│   ", "    "};
+    for (String findText : findTextArray) {
+      strSource = this.replaceAllText(findText, "", strSource);
+    }
+
+    // 解析并精简Flutter依赖列表
+    strSource = this.toCompressFlutter(strSource);
+
+    // 删除重复行
+    String[] arrText = strSource.split("\n", -1); // 将文本分行处理，包括末尾的多处空行
+    int arrSize = arrText.length;
+    if (arrSize <= 1) {
+      this.txaMain.setText(strSource);
+      return;
+    }
+    ArrayList<String> listText = new ArrayList<String>(arrSize);
+    Collections.addAll(listText, arrText);
+    StringBuilder stbSource = new StringBuilder();
+    for (int i = 0; i < arrSize; i++) {
+      String str1 = listText.get(i);
+      stbSource.append(str1 + "\n");
+      if (Util.isTextEmpty(str1) || i >= (arrSize - 1)) {
+        continue;
+      }
+      for (int j = i + 1; j < arrSize; j++) {
+        String str2 = listText.get(j);
+        if (str1.equals(str2)) {
+          // 删除重复行
+          listText.remove(j);
+          j--;
+          arrSize--;
+        }
+      }
+    }
+    stbSource.deleteCharAt(stbSource.length() - 1); // 删除字符串末尾多余的换行符
+    strSource = stbSource.toString();
+
+    // 升序排序行
+    arrText = strSource.split("\n", -1); // 将文本分行处理，包括末尾的多处空行
+    arrSize = arrText.length;
+    if (arrSize <= 1) {
+      this.txaMain.setText(strSource);
+      return;
+    }
+    for (int i = 0; i < arrText.length; i++) { // 冒泡排序
+      for (int j = 0; j < i; j++) {
+        if (arrText[i].compareTo(arrText[j]) < 0) {
+          String str = arrText[i];
+          arrText[i] = arrText[j];
+          arrText[j] = str;
+        }
+      }
+    }
+    stbSource = new StringBuilder();
+    for (String str : arrText) {
+      stbSource.append(str + "\n");
+    }
+    if (stbSource.toString().startsWith("\n")) {
+      stbSource.deleteCharAt(0); // 删除字符串开头多余的换行符
+    } else {
+      stbSource.deleteCharAt(stbSource.length() - 1); // 删除字符串末尾多余的换行符
+    }
+    this.txaMain.setText(stbSource.toString());
+  }
+
+  /**
    * 替换所有文本
    * @param strFindText 查找的字符串
    * @param strReplaceText 替换的字符串
@@ -5153,6 +5232,26 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
           stbLines.append(strLineStart.substring(0, index + 1)).append(strLineEnd).append("\n");
         }
       }
+    }
+    return stbLines.toString();
+  }
+
+  /**
+   * 解析并精简Flutter依赖列表
+   * @param strSource 文本
+   * @return 精简Flutter依赖列表后的文本
+   */
+  private String toCompressFlutter(String strSource) {
+    String[] linesArray = strSource.split("\n", -1); // 将文本分行处理，包括末尾的多处空行
+    StringBuilder stbLines = new StringBuilder();
+    for (String line : linesArray) {
+      // 如果当前行以三个点号(...)结尾，说明当前依赖的版本已经被其他行覆盖，忽略此行
+      // 如果当前行中不含空格，说明是非法内容，忽略此行
+      // 如果当前行含有2个及以上的空格( )，说明是非法内容，忽略此行
+      if (line.endsWith("...") || !line.contains(" ") || line.matches(".* .* .*")) {
+        continue;
+      }
+      stbLines.append(line).append("\n");
     }
     return stbLines.toString();
   }
