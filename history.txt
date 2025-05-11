@@ -2521,3 +2521,7 @@ res/help.res
 src/com/xiboliya/snowpad/dialog/UrlEncodeDecodeDialog.java（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+2.在“工具”菜单中添加“专业工具”->“精简Flutter依赖”功能，可将在Flutter开发中的依赖树精简为单纯的依赖版本列表。
+res/help.res
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
