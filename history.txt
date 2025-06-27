@@ -2529,3 +2529,5 @@ src/com/xiboliya/snowpad/util/Util.java
 2025-06-27
 1.最近编辑的菜单顺序调整，改为最后编辑的文件排在最前面。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+2.解决最近编辑菜单顺序调整后，出现的显示错乱问题。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
