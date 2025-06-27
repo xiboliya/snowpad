@@ -4058,48 +4058,44 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (Util.isTextEmpty(strFile)) {
       return;
     }
-    int index = this.checkFileInHistory(strFile);
+    int listSize = this.fileHistoryList.size();
+    if (listSize > 0) {
+      int index = -1;
+      for (int i = 0; i < listSize; i++) {
+        FileHistoryBean bean = this.fileHistoryList.get(i);
+        if (strFile.equals(bean.getFileName())) {
+          index = i;
+          break;
+        }
+      }
+      if (index >= 0) {
+        this.fileHistoryList.remove(index);
+      } else if (listSize >= FILE_HISTORY_MAX) {
+        this.fileHistoryList.remove(0);
+      }
+      int itemSize = this.menuFileHistory.getMenuComponentCount();
+      index = -1;
+      for (int i = 0; i < itemSize; i++) {
+        JMenuItem item = this.menuFileHistory.getItem(i);
+        if (strFile.equals(item.getText())) {
+          index = i;
+          item.removeActionListener(this);
+          this.menuFileHistory.remove(item);
+          break;
+        }
+      }
+      if (index == -1 && listSize >= FILE_HISTORY_MAX) {
+        JMenuItem item = this.menuFileHistory.getItem(itemSize - 1);
+        item.removeActionListener(this);
+        this.menuFileHistory.remove(item);
+      }
+    }
+    this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getDisplayBinary(), this.txaMain.getCaretPosition()));
     JMenuItem itemFile = new JMenuItem(strFile);
     itemFile.setActionCommand(FILE_HISTORY);
     itemFile.addActionListener(this);
-    if (this.fileHistoryList.size() > index) {
-      this.fileHistoryList.remove(index);
-      JMenuItem item = this.menuFileHistory.getItem(index);
-      item.removeActionListener(this);
-      this.menuFileHistory.remove(item);
-    }
-    this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getDisplayBinary(), this.txaMain.getCaretPosition()));
     this.menuFileHistory.add(itemFile, 0);
     this.setFileHistoryMenuEnabled();
-  }
-
-  /**
-   * 检测文件名是否已存在
-   * 
-   * @param strFile 完整的文件路径
-   * @return 将要添加到最近编辑的索引
-   */
-  private int checkFileInHistory(String strFile) {
-    int listSize = this.fileHistoryList.size();
-    if (listSize == 0) {
-      return 0;
-    }
-    int index = -1;
-    for (int i = 0; i < listSize; i++) {
-      FileHistoryBean bean = this.fileHistoryList.get(i);
-      if (strFile.equals(bean.getFileName())) {
-        index = i;
-        break;
-      }
-    }
-    if (index < 0) {
-      if (listSize >= FILE_HISTORY_MAX) {
-        index = 0;
-      } else {
-        index = listSize;
-      }
-    }
-    return index;
   }
 
   /**
