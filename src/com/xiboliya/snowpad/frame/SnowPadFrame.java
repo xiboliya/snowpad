@@ -4069,7 +4069,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.menuFileHistory.remove(item);
     }
     this.fileHistoryList.add(new FileHistoryBean(strFile, this.txaMain.getFrozen(), this.txaMain.getDisplayBinary(), this.txaMain.getCaretPosition()));
-    this.menuFileHistory.add(itemFile);
+    this.menuFileHistory.add(itemFile, 0);
     this.setFileHistoryMenuEnabled();
   }
 
