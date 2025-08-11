@@ -2531,3 +2531,7 @@ src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2.解决最近编辑菜单顺序调整后，出现的显示错乱问题。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2025-08-11
+1.查找结果面板中倒序排列。
+src/com/xiboliya/snowpad/panel/SearchResultPanel.java
