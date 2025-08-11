@@ -147,7 +147,8 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
    * 刷新查找结果
    */
   public void refreshResult(SearchResult searchResult) {
-    this.searchResults.add(searchResult);
+    // 倒序排列
+    this.searchResults.add(0, searchResult);
     BaseTextArea textArea = searchResult.getTextArea();
     String strSearch = searchResult.getStrSearch();
     LinkedList<SearchBean> listIndex = searchResult.getListIndex();
@@ -164,12 +165,6 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
       }
       strSource = textArea.getText();
     }
-    int index = 0;
-    try {
-      index = this.txaMain.getLineEndOffset(this.txaMain.getLineCount() - 1);
-    } catch (Exception x) {
-      // x.printStackTrace();
-    }
     StringBuilder stbMain = new StringBuilder("查找 \"" + strSearch + "\" [" + count + " 处]\n" + filePath + "\n");
     try {
       for (SearchBean searchBean : listIndex) {
@@ -180,12 +175,12 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
         }
         stbMain.append(prefixLine + (lineNum + 1) + ":" + stbLine);
       }
-      this.txaMain.append(stbMain.toString());
+      this.txaMain.insert(stbMain.toString(), 0);
     } catch (Exception x) {
        // x.printStackTrace();
     }
     this.txaMain.setSelectedTextColor(this.txaMain.getForeground());
-    this.txaMain.setCaretPosition(index);
+    this.txaMain.setCaretPosition(0);
   }
 
   /**
@@ -289,6 +284,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   /**
    * 当文本域中的光标变化时，将触发此事件
    */
+  @Override
   public void caretUpdate(CaretEvent e) {
     this.txaMain.repaint(); // 重绘当前文本域，以解决在特定情况下绘制当前行背景错乱的问题
   }
@@ -296,6 +292,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   /**
    * 为各菜单项添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     Object source = e.getSource();
     if (this.itemPopClear.equals(source)) {
