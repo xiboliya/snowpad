@@ -2535,3 +2535,17 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2025-08-11
 1.查找结果面板中倒序排列。
 src/com/xiboliya/snowpad/panel/SearchResultPanel.java
+
+2025-08-13
+1.修改部分界面中缺少按ESC键关闭界面的注册监听的问题。
+src/com/xiboliya/snowpad/dialog/ChangeEncodingDialog.java
+src/com/xiboliya/snowpad/dialog/ChangeLineSeparatorDialog.java
+2.添加单选按钮的父类：BaseRadioButton，并将程序中所有的JRadioButton单选按钮都改用此父类。用于统一设置默认边距，解决某些外观下部分按钮显示不全的问题。
+src/com/xiboliya/snowpad/base/BaseRadioButton.java（添加）
+src/com/xiboliya/snowpad/dialog/BatchInsertDialog.java
+src/com/xiboliya/snowpad/dialog/BatchRemoveDialog.java
+src/com/xiboliya/snowpad/dialog/BatchSeparateDialog.java
+src/com/xiboliya/snowpad/dialog/CuttingFileDialog.java
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+src/com/xiboliya/snowpad/dialog/InsertDateDialog.java
+src/com/xiboliya/snowpad/dialog/SlicingFileDialog.java
