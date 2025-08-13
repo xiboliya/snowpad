@@ -24,12 +24,12 @@ import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.CurrentLines;
@@ -47,8 +47,8 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JLabel lblInsert = new JLabel("插入：");
   private BaseTextField txtInsert = new BaseTextField();
-  private JRadioButton radLineStart = new JRadioButton("行首(S)", false);
-  private JRadioButton radLineEnd = new JRadioButton("行尾(E)", true);
+  private BaseRadioButton radLineStart = new BaseRadioButton("行首(S)", false);
+  private BaseRadioButton radLineEnd = new BaseRadioButton("行尾(E)", true);
   private JPanel pnlLineStartEnd = new JPanel(new GridLayout(2, 1));
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");

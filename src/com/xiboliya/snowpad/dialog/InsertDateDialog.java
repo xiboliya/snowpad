@@ -29,7 +29,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -41,6 +40,7 @@ import javax.swing.event.ListSelectionListener;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
@@ -62,10 +62,10 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
       "G yyyy-MM-dd HH:mm:ss E zZ", "yy-M-d H:m:s", "yyyy/MM/dd HH:mm:ss",
       "yyyy.MM.dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM/dd", "yyyy.MM.dd",
       "yy/MM/dd", "HH:mm:ss", "KK:mm:ss a", "HH:mm:ss:SSS" }; // 时间/日期格式字符串
-  private JRadioButton radSelect = new JRadioButton("使用选中的格式(S)", true);
+  private BaseRadioButton radSelect = new BaseRadioButton("使用选中的格式(S)", true);
   private JList<String> listStyles = new JList<String>();
   private JScrollPane srpStyles = new JScrollPane(this.listStyles);
-  private JRadioButton radUser = new JRadioButton("使用自定义格式(U)", false);
+  private BaseRadioButton radUser = new BaseRadioButton("使用自定义格式(U)", false);
   private JLabel lblWarning = new JLabel("");
   private BaseTextField txtUser = new BaseTextField(DATE_STYLES[0]);
   private JLabel lblView = new JLabel("");

@@ -40,13 +40,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextAreaSpecial;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -79,8 +79,8 @@ public class SlicingFileDialog extends BaseDialog implements ActionListener, Dro
   private JScrollPane srpKeywordM = new JScrollPane(this.txaKeywordM);
   // 文件与按钮
   private JPanel pnlBottom = new JPanel();
-  private JRadioButton radCurrentFile = new JRadioButton("拆分当前文件", true);
-  private JRadioButton radTargetFile = new JRadioButton("拆分指定文件：", false);
+  private BaseRadioButton radCurrentFile = new BaseRadioButton("拆分当前文件", true);
+  private BaseRadioButton radTargetFile = new BaseRadioButton("拆分指定文件：", false);
   private BaseTextField txtTargetFile = new BaseTextField();
   private BaseButton btnSelectFile = new BaseButton("...");
   private ButtonGroup bgpFile = new ButtonGroup();

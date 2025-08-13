@@ -39,12 +39,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.util.Util;
@@ -64,10 +64,10 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener, Dro
   private JLabel lblPath = new JLabel("输入文件路径：");
   private BaseTextField txtPath = new BaseTextField();
   private BaseButton btnSelectFile = new BaseButton("选择文件(S)");
-  private JRadioButton radCutSize = new JRadioButton("按文件大小切割：", true);
+  private BaseRadioButton radCutSize = new BaseRadioButton("按文件大小切割：", true);
   private BaseTextField txtCutSize = new BaseTextField(true, "\\d{0,4}"); // 限制用户只能输入数字，并且不能超过4位
   private JComboBox<String> cmbCutUnit = new JComboBox<String>(STORAGE_UNIT);
-  private JRadioButton radCutCount = new JRadioButton("按文件个数切割：", false);
+  private BaseRadioButton radCutCount = new BaseRadioButton("按文件个数切割：", false);
   private BaseTextField txtCutCount = new BaseTextField(true, "\\d{0,4}"); // 限制用户只能输入数字，并且不能超过4位
   private JLabel lblCutCount = new JLabel("个");
   private ButtonGroup bgpCut = new ButtonGroup();

@@ -24,12 +24,12 @@ import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.CurrentLines;
@@ -45,8 +45,8 @@ import com.xiboliya.snowpad.window.TipsWindow;
 public class BatchSeparateDialog extends BaseDialog implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private JRadioButton radLineStart = new JRadioButton("行首(S)", false);
-  private JRadioButton radLineEnd = new JRadioButton("行尾(E)", true);
+  private BaseRadioButton radLineStart = new BaseRadioButton("行首(S)", false);
+  private BaseRadioButton radLineEnd = new BaseRadioButton("行尾(E)", true);
   private JPanel pnlLineStartEnd = new JPanel(new GridLayout(2, 1));
   private JLabel lblOffset = new JLabel("偏移量：");
   private BaseTextField txtOffset = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
