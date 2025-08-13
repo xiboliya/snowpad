@@ -163,8 +163,10 @@ public class ChangeEncodingDialog extends BaseDialog implements ActionListener, 
     this.btnAddSource.addKeyListener(this.buttonKeyAdapter);
     this.btnReduceSource.addActionListener(this);
     this.btnReduceSource.addKeyListener(this.buttonKeyAdapter);
+    this.cmbEncoding.addKeyListener(this.keyAdapter);
     this.listPath.addKeyListener(this.keyAdapter);
     this.listPath.addListSelectionListener(this);
+    this.chkRetainSource.addKeyListener(this.keyAdapter);
     this.btnOk.addActionListener(this);
     this.btnOk.addKeyListener(this.buttonKeyAdapter);
     this.btnCancel.addActionListener(this);
