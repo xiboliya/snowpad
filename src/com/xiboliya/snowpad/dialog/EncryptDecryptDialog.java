@@ -113,7 +113,7 @@ public class EncryptDecryptDialog extends BaseDialog implements ActionListener, 
     this.pnlBottom.setLayout(null);
     this.pnlBottom.setBounds(0, 160, 420, 190);
     this.lblDigestType.setBounds(10, 10, 80, Util.VIEW_HEIGHT);
-    this.cmbDigestType.setBounds(90, 10, 80, Util.INPUT_HEIGHT);
+    this.cmbDigestType.setBounds(90, 10, 120, Util.INPUT_HEIGHT);
     this.lblResult.setBounds(10, 35, 70, Util.VIEW_HEIGHT);
     this.srpResult.setBounds(10, 60, 270, 80);
     this.pnlBottom.add(this.lblDigestType);

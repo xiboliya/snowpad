@@ -100,7 +100,7 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener, Dro
     this.pnlMain.add(this.btnSelectFile);
     this.radCutSize.setBounds(10, 80, 130, Util.VIEW_HEIGHT);
     this.txtCutSize.setBounds(140, 80, 50, Util.INPUT_HEIGHT);
-    this.cmbCutUnit.setBounds(200, 80, 100, Util.INPUT_HEIGHT);
+    this.cmbCutUnit.setBounds(200, 80, 120, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.radCutSize);
     this.pnlMain.add(this.txtCutSize);
     this.pnlMain.add(this.cmbCutUnit);

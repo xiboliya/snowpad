@@ -123,11 +123,11 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
   private void init() {
     this.pnlMain.setLayout(null);
     this.lblUnitType.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
-    this.cmbUnitType.setBounds(10, 35, 110, Util.INPUT_HEIGHT);
+    this.cmbUnitType.setBounds(10, 35, 140, Util.INPUT_HEIGHT);
     this.lblNumber.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
     this.lblWarning.setBounds(130, 70, 190, Util.VIEW_HEIGHT);
-    this.cmbNumber.setBounds(10, 95, 110, Util.INPUT_HEIGHT);
-    this.txtNumber.setBounds(130, 95, 180, Util.INPUT_HEIGHT);
+    this.cmbNumber.setBounds(10, 95, 140, Util.INPUT_HEIGHT);
+    this.txtNumber.setBounds(160, 95, 180, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblUnitType);
     this.pnlMain.add(this.cmbUnitType);
     this.pnlMain.add(this.lblNumber);
@@ -139,9 +139,9 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
     this.pnlMain.add(this.btnExchange);
 
     this.lblResult.setBounds(10, 160, 70, Util.VIEW_HEIGHT);
-    this.chkUpperCase.setBounds(130, 160, 110, Util.VIEW_HEIGHT);
-    this.cmbResult.setBounds(10, 185, 110, Util.INPUT_HEIGHT);
-    this.txtResult.setBounds(130, 185, 180, Util.INPUT_HEIGHT);
+    this.chkUpperCase.setBounds(160, 160, 110, Util.VIEW_HEIGHT);
+    this.cmbResult.setBounds(10, 185, 140, Util.INPUT_HEIGHT);
+    this.txtResult.setBounds(160, 185, 180, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblResult);
     this.pnlMain.add(this.chkUpperCase);
     this.pnlMain.add(this.cmbResult);

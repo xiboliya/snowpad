@@ -83,15 +83,15 @@ public class TrigonometricDialog extends BaseDialog implements ActionListener, D
   private void init() {
     this.pnlMain.setLayout(null);
     this.lblAngle.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
-    this.cmbUnit.setBounds(10, 35, 110, Util.INPUT_HEIGHT);
-    this.txtAngle.setBounds(130, 35, 160, Util.INPUT_HEIGHT);
+    this.cmbUnit.setBounds(10, 35, 120, Util.INPUT_HEIGHT);
+    this.txtAngle.setBounds(140, 35, 160, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblAngle);
     this.pnlMain.add(this.cmbUnit);
     this.pnlMain.add(this.txtAngle);
 
     this.lblTrigonometric.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
-    this.cmbTrigonometric.setBounds(10, 95, 110, Util.INPUT_HEIGHT);
-    this.txtResult.setBounds(130, 95, 160, Util.INPUT_HEIGHT);
+    this.cmbTrigonometric.setBounds(10, 95, 120, Util.INPUT_HEIGHT);
+    this.txtResult.setBounds(140, 95, 160, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblTrigonometric);
     this.pnlMain.add(this.cmbTrigonometric);
     this.pnlMain.add(this.txtResult);

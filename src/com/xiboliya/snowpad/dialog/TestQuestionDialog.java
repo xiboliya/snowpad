@@ -105,14 +105,14 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     this.pnlMain.setLayout(null);
     // 标准
     this.pnlCommon.setLayout(null);
-    this.lblLevelC.setBounds(20, 10, 110, Util.VIEW_HEIGHT);
-    this.cmbLevelC.setBounds(110, 10, 130, Util.INPUT_HEIGHT);
-    this.lblMinC.setBounds(20, 50, 110, Util.VIEW_HEIGHT);
-    this.txtMinC.setBounds(110, 50, 60, Util.INPUT_HEIGHT);
-    this.lblMaxC.setBounds(20, 90, 110, Util.VIEW_HEIGHT);
-    this.txtMaxC.setBounds(110, 90, 60, Util.INPUT_HEIGHT);
-    this.lblCountC.setBounds(20, 130, 110, Util.VIEW_HEIGHT);
-    this.txtCountC.setBounds(110, 130, 60, Util.INPUT_HEIGHT);
+    this.lblLevelC.setBounds(20, 10, 100, Util.VIEW_HEIGHT);
+    this.cmbLevelC.setBounds(100, 10, 140, Util.INPUT_HEIGHT);
+    this.lblMinC.setBounds(20, 50, 100, Util.VIEW_HEIGHT);
+    this.txtMinC.setBounds(100, 50, 140, Util.INPUT_HEIGHT);
+    this.lblMaxC.setBounds(20, 90, 100, Util.VIEW_HEIGHT);
+    this.txtMaxC.setBounds(100, 90, 140, Util.INPUT_HEIGHT);
+    this.lblCountC.setBounds(20, 130, 100, Util.VIEW_HEIGHT);
+    this.txtCountC.setBounds(100, 130, 140, Util.INPUT_HEIGHT);
     this.pnlCommon.add(this.lblLevelC);
     this.pnlCommon.add(this.cmbLevelC);
     this.pnlCommon.add(this.lblMinC);
@@ -123,14 +123,14 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     this.pnlCommon.add(this.txtCountC);
     // 专项
     this.pnlSpecial.setLayout(null);
-    this.lblLevelS.setBounds(20, 10, 110, Util.VIEW_HEIGHT);
-    this.cmbLevelS.setBounds(110, 10, 130, Util.INPUT_HEIGHT);
-    this.lblMinS.setBounds(20, 50, 110, Util.VIEW_HEIGHT);
-    this.txtMinS.setBounds(110, 50, 60, Util.INPUT_HEIGHT);
-    this.lblMaxS.setBounds(20, 90, 110, Util.VIEW_HEIGHT);
-    this.txtMaxS.setBounds(110, 90, 60, Util.INPUT_HEIGHT);
-    this.lblCountS.setBounds(20, 130, 110, Util.VIEW_HEIGHT);
-    this.txtCountS.setBounds(110, 130, 60, Util.INPUT_HEIGHT);
+    this.lblLevelS.setBounds(20, 10, 100, Util.VIEW_HEIGHT);
+    this.cmbLevelS.setBounds(100, 10, 140, Util.INPUT_HEIGHT);
+    this.lblMinS.setBounds(20, 50, 100, Util.VIEW_HEIGHT);
+    this.txtMinS.setBounds(100, 50, 140, Util.INPUT_HEIGHT);
+    this.lblMaxS.setBounds(20, 90, 100, Util.VIEW_HEIGHT);
+    this.txtMaxS.setBounds(100, 90, 140, Util.INPUT_HEIGHT);
+    this.lblCountS.setBounds(20, 130, 100, Util.VIEW_HEIGHT);
+    this.txtCountS.setBounds(100, 130, 140, Util.INPUT_HEIGHT);
     this.pnlSpecial.add(this.lblLevelS);
     this.pnlSpecial.add(this.cmbLevelS);
     this.pnlSpecial.add(this.lblMinS);
@@ -148,8 +148,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     // 按钮
     this.pnlBottom.setLayout(null);
     this.pnlBottom.setBounds(0, 195, 280, 85);
-    this.btnOk.setBounds(30, 10, 85, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(150, 10, 85, Util.BUTTON_HEIGHT);
+    this.btnOk.setBounds(30, 10, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(160, 10, 90, Util.BUTTON_HEIGHT);
     this.pnlBottom.add(this.btnOk);
     this.pnlBottom.add(this.btnCancel);
     this.pnlMain.add(this.pnlBottom);

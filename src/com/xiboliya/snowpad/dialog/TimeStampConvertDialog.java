@@ -89,7 +89,7 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
     this.setMnemonic();
     this.addListeners();
     this.refreshView();
-    this.setSize(310, 240);
+    this.setSize(340, 240);
     this.setVisible(true);
   }
 
@@ -101,43 +101,43 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
     // 时间戳转时间
     this.pnlStampToTime.setLayout(null);
     this.lblStampS.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
-    this.cmbUnitS.setBounds(10, 35, 90, Util.INPUT_HEIGHT);
-    this.txtStampS.setBounds(110, 35, 180, Util.INPUT_HEIGHT);
+    this.cmbUnitS.setBounds(10, 35, 110, Util.INPUT_HEIGHT);
+    this.txtStampS.setBounds(130, 35, 190, Util.INPUT_HEIGHT);
     this.pnlStampToTime.add(this.lblStampS);
     this.pnlStampToTime.add(this.cmbUnitS);
     this.pnlStampToTime.add(this.txtStampS);
     this.lblTimeS.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
-    this.cmbTimeZoneS.setBounds(10, 95, 90, Util.INPUT_HEIGHT);
-    this.txtTimeS.setBounds(110, 95, 180, Util.INPUT_HEIGHT);
+    this.cmbTimeZoneS.setBounds(10, 95, 110, Util.INPUT_HEIGHT);
+    this.txtTimeS.setBounds(130, 95, 190, Util.INPUT_HEIGHT);
     this.pnlStampToTime.add(this.lblTimeS);
     this.pnlStampToTime.add(this.cmbTimeZoneS);
     this.pnlStampToTime.add(this.txtTimeS);
     // 时间转时间戳
     this.pnlTimeToStamp.setLayout(null);
     this.lblTimeT.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
-    this.lblTimeStyleT.setBounds(80, 10, 180, Util.VIEW_HEIGHT);
+    this.lblTimeStyleT.setBounds(100, 10, 220, Util.VIEW_HEIGHT);
     this.lblTimeStyleT.setForeground(Color.BLUE);
-    this.cmbTimeZoneT.setBounds(10, 35, 90, Util.INPUT_HEIGHT);
-    this.txtTimeT.setBounds(110, 35, 180, Util.INPUT_HEIGHT);
+    this.cmbTimeZoneT.setBounds(10, 35, 110, Util.INPUT_HEIGHT);
+    this.txtTimeT.setBounds(130, 35, 190, Util.INPUT_HEIGHT);
     this.pnlTimeToStamp.add(this.lblTimeT);
     this.pnlTimeToStamp.add(this.lblTimeStyleT);
     this.pnlTimeToStamp.add(this.cmbTimeZoneT);
     this.pnlTimeToStamp.add(this.txtTimeT);
     this.lblStampT.setBounds(10, 70, 70, Util.VIEW_HEIGHT);
-    this.cmbUnitT.setBounds(10, 95, 90, Util.INPUT_HEIGHT);
-    this.txtStampT.setBounds(110, 95, 180, Util.INPUT_HEIGHT);
+    this.cmbUnitT.setBounds(10, 95, 110, Util.INPUT_HEIGHT);
+    this.txtStampT.setBounds(130, 95, 190, Util.INPUT_HEIGHT);
     this.pnlTimeToStamp.add(this.lblStampT);
     this.pnlTimeToStamp.add(this.cmbUnitT);
     this.pnlTimeToStamp.add(this.txtStampT);
 
     this.pnlBottom.setLayout(null);
-    this.pnlBottom.setBounds(0, 160, 310, 80);
-    this.btnCopy.setBounds(30, 5, 110, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(170, 5, 110, Util.BUTTON_HEIGHT);
+    this.pnlBottom.setBounds(0, 160, 340, 80);
+    this.btnCopy.setBounds(30, 5, 115, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(195, 5, 115, Util.BUTTON_HEIGHT);
     this.pnlBottom.add(this.btnCopy);
     this.pnlBottom.add(this.btnCancel);
     // 主界面
-    this.tpnMain.setBounds(0, 0, 310, 160);
+    this.tpnMain.setBounds(0, 0, 340, 160);
     this.tpnMain.add(this.pnlStampToTime, "时间戳转时间");
     this.tpnMain.add(this.pnlTimeToStamp, "时间转时间戳");
     this.pnlMain.add(this.tpnMain);

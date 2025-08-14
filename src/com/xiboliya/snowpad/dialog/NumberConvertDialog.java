@@ -83,8 +83,8 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, D
     this.pnlMain.setLayout(null);
     this.lblNumber.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
     this.lblWarning.setBounds(100, 10, 190, Util.VIEW_HEIGHT);
-    this.cmbNumber.setBounds(10, 35, 80, Util.INPUT_HEIGHT);
-    this.txtNumber.setBounds(100, 35, 160, Util.INPUT_HEIGHT);
+    this.cmbNumber.setBounds(10, 35, 100, Util.INPUT_HEIGHT);
+    this.txtNumber.setBounds(120, 35, 160, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblNumber);
     this.pnlMain.add(this.lblWarning);
     this.pnlMain.add(this.cmbNumber);
@@ -94,9 +94,9 @@ public class NumberConvertDialog extends BaseDialog implements ActionListener, D
     this.pnlMain.add(this.btnExchange);
 
     this.lblResult.setBounds(10, 100, 70, Util.VIEW_HEIGHT);
-    this.chkUpperCase.setBounds(100, 100, 110, Util.VIEW_HEIGHT);
-    this.cmbResult.setBounds(10, 125, 80, Util.INPUT_HEIGHT);
-    this.txtResult.setBounds(100, 125, 160, Util.INPUT_HEIGHT);
+    this.chkUpperCase.setBounds(120, 100, 110, Util.VIEW_HEIGHT);
+    this.cmbResult.setBounds(10, 125, 100, Util.INPUT_HEIGHT);
+    this.txtResult.setBounds(120, 125, 160, Util.INPUT_HEIGHT);
     this.pnlMain.add(this.lblResult);
     this.pnlMain.add(this.chkUpperCase);
     this.pnlMain.add(this.cmbResult);
