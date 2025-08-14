@@ -17,7 +17,7 @@ Coding：https://xiboliya.coding.net/p/SnowPad/d/SnowPad/git
 
 Windows系统：
 1.下载并安装ant。
-到官方主页（http://ant.apache.org）下载新版（撰写本文档时为Ant1.8.1）的ant，得到的是一个apache-ant-1.8.1-bin.zip的压缩包。将其解压到你的硬盘上，例如：D:\apache-ant-1.8.1。
+到官方主页：http://ant.apache.org 下载新版（撰写本文档时为Ant1.8.1）的ant，得到的是一个apache-ant-1.8.1-bin.zip的压缩包。将其解压到你的硬盘上，例如：D:\apache-ant-1.8.1。
 2.配置环境变量。
 不同系统打开环境变量的方式有所不同：
 Windows XP系统下依次选择：我的电脑->属性->高级->环境变量。
@@ -41,7 +41,7 @@ ant
 
 Linux或macOS系统：
 1.下载并安装ant。
-到官方主页（http://ant.apache.org）下载新版（撰写本文档时为Ant1.8.1）的ant，得到的是一个apache-ant-1.8.1-bin.zip的压缩包。将其解压到你的硬盘上，例如：~/apache-ant-1.8.1。其中~即为当前用户的home目录的简写。
+到官方主页：http://ant.apache.org 下载新版（撰写本文档时为Ant1.8.1）的ant，得到的是一个apache-ant-1.8.1-bin.zip的压缩包。将其解压到你的硬盘上，例如：~/apache-ant-1.8.1。其中~即为当前用户的home目录的简写。
 为了保证ant能够正常的执行，建议在终端中执行以下命令，添加可执行权限：
 chmod -R +x ~/apache-ant-1.8.1
 2.配置环境变量。
