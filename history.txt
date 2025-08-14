@@ -2549,3 +2549,7 @@ src/com/xiboliya/snowpad/dialog/CuttingFileDialog.java
 src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
 src/com/xiboliya/snowpad/dialog/InsertDateDialog.java
 src/com/xiboliya/snowpad/dialog/SlicingFileDialog.java
+
+2025-08-14
+1.更新readme说明文档，修改部分描述。
+readme.txt
