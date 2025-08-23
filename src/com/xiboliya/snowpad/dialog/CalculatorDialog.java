@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -51,6 +52,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   private static final Font CALCULATOR_VIEW_FONT = new Font("宋体", Font.PLAIN, 16); // 显示区域的字体
   private static final Font CALCULATOR_ITEM_FONT = new Font("宋体", Font.BOLD, 30); // 计算区域的字体
   private JPanel pnlMain = (JPanel) this.getContentPane();
+  private JLabel lblView = new JLabel();
   private BaseTextField txtView = new BaseTextField();
   private JPanel pnlButton = new JPanel(new GridLayout(5, 4, 5, 5));
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
@@ -67,7 +69,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
     this.init();
     this.fillGridLayout();
     this.addListeners();
-    this.setSize(300, 390);
+    this.setSize(300, 410);
     this.setVisible(true);
   }
 
@@ -77,11 +79,14 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   private void init() {
     this.setTitle("计算器");
     this.pnlMain.setLayout(null);
-    this.txtView.setBounds(3, 3, 290, 42);
+    this.lblView.setBounds(3, 5, 290, Util.VIEW_HEIGHT);
+    this.lblView.setHorizontalAlignment(SwingConstants.RIGHT);
+    this.txtView.setBounds(3, 23, 290, 42);
     this.txtView.setEditable(false);
     this.txtView.setFont(CALCULATOR_VIEW_FONT);
     this.txtView.setHorizontalAlignment(SwingConstants.RIGHT);
-    this.pnlButton.setBounds(3, 50, 290, 290);
+    this.pnlButton.setBounds(3, 70, 290, 290);
+    this.pnlMain.add(this.lblView);
     this.pnlMain.add(this.txtView);
     this.pnlMain.add(this.pnlButton);
   }
@@ -207,6 +212,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
     if (Util.isTextEmpty(actionCommand)) {
       return;
     }
+    this.lblView.setText("");
     String text = this.txtView.getText();
     if (actionCommand.equals("C")) {
       this.clear();
@@ -419,6 +425,7 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
           result = result.substring(0, index);
         }
         this.txtView.setText(result);
+        this.lblView.setText(text);
       }
     } else {
       TipsWindow.show(this, "语法错误，请检查！");
