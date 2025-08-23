@@ -2562,3 +2562,7 @@ src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
 src/com/xiboliya/snowpad/dialog/TimeStampConvertDialog.java
 src/com/xiboliya/snowpad/dialog/TrigonometricDialog.java
 src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
+
+2025-08-23
+1.“计算器”界面顶部添加算式显示。
+src/com/xiboliya/snowpad/dialog/CalculatorDialog.java
