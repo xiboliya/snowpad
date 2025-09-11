@@ -554,4 +554,29 @@ public class BaseTextArea extends JTextArea {
     }
     this.bookmarks.addFirst(bookmark);
   }
+
+  public void addBookmark(int bookmark) {
+    int size = this.bookmarks.size();
+    if (size == 0) {
+      this.bookmarks.addFirst(bookmark);
+      return;
+    }
+    // 如果书签已存在，则不处理
+    if (this.bookmarks.contains(bookmark)) {
+      return;
+    }
+    // 如果书签不存在，则添加
+    for (int i = size - 1; i >= 0; i--) {
+      int mark = this.bookmarks.get(i);
+      if (bookmark > mark) {
+        this.bookmarks.add(i + 1, bookmark);
+        return;
+      }
+    }
+    this.bookmarks.addFirst(bookmark);
+  }
+
+  public void clearBookmarks() {
+    this.bookmarks.clear();
+  }
 }

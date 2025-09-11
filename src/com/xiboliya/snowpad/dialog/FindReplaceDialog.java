@@ -18,6 +18,7 @@
 package com.xiboliya.snowpad.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +41,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
@@ -48,6 +48,7 @@ import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
+import com.xiboliya.snowpad.common.HighlightColorStyle;
 import com.xiboliya.snowpad.common.SearchBean;
 import com.xiboliya.snowpad.common.SearchResult;
 import com.xiboliya.snowpad.common.SearchStyle;
@@ -67,6 +68,7 @@ import com.xiboliya.snowpad.window.TipsWindow.Background;
 public class FindReplaceDialog extends BaseDialog implements ActionListener,
     DocumentListener, ChangeListener, WindowFocusListener {
   private static final long serialVersionUID = 1L;
+  private static final Color COLOR_MARK = new Color(255, 155, 155); // 标记文本的颜色
   private SearchResultPanel searchResultPanel; // 查找结果面板
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
@@ -75,6 +77,9 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private boolean isMatchWholeWord = false; // 全词匹配
   private boolean isWrap = true; // 循环查找
   private SearchStyle searchStyle = SearchStyle.DEFAULT; // 搜索模式
+  private boolean addBookmark = false; // 标记时添加书签
+  private boolean clearBookmark = false; // 标记时清除已有书签
+  private boolean clearMark = false; // 标记时清除已有标记
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private String strFind = ""; // 查找的字符串
@@ -126,6 +131,25 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private ButtonGroup bgpFindUpDownR = new ButtonGroup();
   private JPanel pnlSearchStyleR = new JPanel(new GridLayout(3, 1));
   private JPanel pnlFindUpDownR = new JPanel(new GridLayout(2, 1));
+  // 标记
+  private JPanel pnlMark = new JPanel();
+  private JLabel lblFindTextM = new JLabel("查找内容：");
+  private BaseTextField txtFindTextM = new BaseTextField();
+  private JCheckBox chkAddBookmark = new JCheckBox("添加书签(R)", false);
+  private JCheckBox chkClearBookmark = new JCheckBox("清除已有书签(L)", false);
+  private JCheckBox chkClearMark = new JCheckBox("清除已有标记(A)", false);
+  private JCheckBox chkMatchCaseM = new JCheckBox("区分大小写(C)", true);
+  private JCheckBox chkMatchWholeWordM = new JCheckBox("全词匹配(O)", false);
+  private BaseRadioButton radDefaultM = new BaseRadioButton("普通(E)", true);
+  private BaseRadioButton radTransferM = new BaseRadioButton("转义扩展(T)", false);
+  private BaseRadioButton radPatternM = new BaseRadioButton("正则表达式(P)", false);
+  private BaseButton btnMark = new BaseButton("标记(M)");
+  private BaseButton btnMarkSel = new BaseButton("选区内标记(S)");
+  private BaseButton btnClearMark = new BaseButton("清除标记(K)");
+  private BaseButton btnClearBookmark = new BaseButton("清除书签(B)");
+  private BaseButton btnCancelM = new BaseButton("取消");
+  private ButtonGroup bgpSearchStyleM = new ButtonGroup();
+  private JPanel pnlSearchStyleM = new JPanel(new GridLayout(3, 1));
 
   public FindReplaceDialog(JFrame owner, boolean modal, BaseTextArea txaSource, SearchResultPanel searchResultPanel, boolean visible) {
     super(owner, modal, txaSource);
@@ -242,9 +266,48 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.bgpSearchStyleR.add(this.radPatternR);
     this.bgpFindUpDownR.add(this.radFindDownR);
     this.bgpFindUpDownR.add(this.radFindUpR);
+    // 标记
+    this.pnlMark.setLayout(null);
+    this.lblFindTextM.setBounds(10, 10, 70, Util.VIEW_HEIGHT);
+    this.txtFindTextM.setBounds(80, 9, 180, Util.INPUT_HEIGHT);
+    this.pnlMark.add(this.lblFindTextM);
+    this.pnlMark.add(this.txtFindTextM);
+    this.chkAddBookmark.setBounds(10, 50, 110, Util.VIEW_HEIGHT);
+    this.pnlMark.add(this.chkAddBookmark);
+    this.chkClearBookmark.setBounds(10, 70, 130, Util.VIEW_HEIGHT);
+    this.pnlMark.add(this.chkClearBookmark);
+    this.chkClearMark.setBounds(10, 90, 130, Util.VIEW_HEIGHT);
+    this.pnlMark.add(this.chkClearMark);
+    this.chkMatchCaseM.setBounds(10, 110, 110, Util.VIEW_HEIGHT);
+    this.pnlMark.add(this.chkMatchCaseM);
+    this.chkMatchWholeWordM.setBounds(10, 130, 110, Util.VIEW_HEIGHT);
+    this.pnlMark.add(this.chkMatchWholeWordM);
+    this.pnlSearchStyleM.setBounds(10, 160, 130, 90);
+    this.pnlSearchStyleM.setBorder(new TitledBorder("模式"));
+    this.pnlSearchStyleM.add(this.radDefaultM);
+    this.pnlSearchStyleM.add(this.radTransferM);
+    this.pnlSearchStyleM.add(this.radPatternM);
+    this.radTransferM.setToolTipText("可使用\\n、\\t转义字符");
+    this.pnlMark.add(this.pnlSearchStyleM);
+    this.btnMark.setEnabled(false);
+    this.btnMarkSel.setEnabled(false);
+    this.btnMark.setBounds(270, 10, 110, Util.BUTTON_HEIGHT);
+    this.btnMarkSel.setBounds(270, 45, 110, Util.BUTTON_HEIGHT);
+    this.btnClearMark.setBounds(270, 80, 110, Util.BUTTON_HEIGHT);
+    this.btnClearBookmark.setBounds(270, 115, 110, Util.BUTTON_HEIGHT);
+    this.btnCancelM.setBounds(270, 150, 110, Util.BUTTON_HEIGHT);
+    this.pnlMark.add(this.btnMark);
+    this.pnlMark.add(this.btnMarkSel);
+    this.pnlMark.add(this.btnClearMark);
+    this.pnlMark.add(this.btnClearBookmark);
+    this.pnlMark.add(this.btnCancelM);
+    this.bgpSearchStyleM.add(this.radDefaultM);
+    this.bgpSearchStyleM.add(this.radTransferM);
+    this.bgpSearchStyleM.add(this.radPatternM);
     // 主界面
     this.tpnMain.add(this.pnlFind, "查找");
     this.tpnMain.add(this.pnlReplace, "替换");
+    this.tpnMain.add(this.pnlMark, "标记");
     this.pnlMain.add(this.tpnMain, BorderLayout.CENTER);
     this.setTabbedIndex(0);
     this.tpnMain.setFocusable(false);
@@ -259,10 +322,17 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.isWrap = Util.setting.isWrap;
     this.isFindDown = Util.setting.findDown;
     this.searchStyle = Util.setting.searchStyle;
+    this.addBookmark = Util.setting.addBookmark;
+    this.clearBookmark = Util.setting.clearBookmark;
+    this.clearMark = Util.setting.clearMark;
     this.chkMatchCaseF.setSelected(this.isMatchCase);
     this.chkMatchCaseR.setSelected(this.isMatchCase);
+    this.chkMatchCaseM.setSelected(this.isMatchCase);
     this.chkIsWrapF.setSelected(this.isWrap);
     this.chkIsWrapR.setSelected(this.isWrap);
+    this.chkAddBookmark.setSelected(this.addBookmark);
+    this.chkClearBookmark.setSelected(this.clearBookmark);
+    this.chkClearMark.setSelected(this.clearMark);
     if (this.isFindDown) {
       this.radFindDownF.setSelected(true);
       this.radFindDownR.setSelected(true);
@@ -274,14 +344,17 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     case DEFAULT:
       this.radDefaultF.setSelected(true);
       this.radDefaultR.setSelected(true);
+      this.radDefaultM.setSelected(true);
       break;
     case TRANSFER:
       this.radTransferF.setSelected(true);
       this.radTransferR.setSelected(true);
+      this.radTransferM.setSelected(true);
       break;
     case PATTERN:
       this.radPatternF.setSelected(true);
       this.radPatternR.setSelected(true);
+      this.radPatternM.setSelected(true);
       break;
     }
     this.refreshMatchWholeWord();
@@ -293,15 +366,21 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private void refreshMatchWholeWord() {
     // 当查找模式为正则表达式时，全词匹配功能不可用
     if (this.searchStyle == SearchStyle.PATTERN) {
+      this.isMatchWholeWord = false;
       this.chkMatchWholeWordF.setEnabled(false);
       this.chkMatchWholeWordR.setEnabled(false);
+      this.chkMatchWholeWordM.setEnabled(false);
       this.chkMatchWholeWordF.setSelected(false);
       this.chkMatchWholeWordR.setSelected(false);
+      this.chkMatchWholeWordM.setSelected(false);
     } else {
+      this.isMatchWholeWord = Util.setting.matchWholeWord;
       this.chkMatchWholeWordF.setEnabled(true);
       this.chkMatchWholeWordR.setEnabled(true);
+      this.chkMatchWholeWordM.setEnabled(true);
       this.chkMatchWholeWordF.setSelected(this.isMatchWholeWord);
       this.chkMatchWholeWordR.setSelected(this.isMatchWholeWord);
+      this.chkMatchWholeWordM.setSelected(this.isMatchWholeWord);
     }
   }
 
@@ -330,8 +409,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     int tabbedIndex = this.getTabbedIndex();
     if (tabbedIndex == 0) {
       this.txtFindTextF.selectAll();
-    } else {
+    } else if (tabbedIndex == 1) {
       this.txtFindTextR.selectAll();
+    } else {
+      this.txtFindTextM.selectAll();
     }
   }
 
@@ -355,10 +436,13 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     if (isUpdate) {
       this.txtFindTextF.setText(strFind);
       this.txtFindTextR.setText(strFind);
+      this.txtFindTextM.setText(strFind);
       if (this.getTabbedIndex() == 0) {
         this.txtFindTextF.selectAll();
       } else if (this.getTabbedIndex() == 1) {
         this.txtFindTextR.selectAll();
+      } else if (this.getTabbedIndex() == 2) {
+        this.txtFindTextM.selectAll();
       }
     }
   }
@@ -414,6 +498,19 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnReplaceSelR.setMnemonic('S');
     this.radFindUpR.setMnemonic('U');
     this.radFindDownR.setMnemonic('D');
+    // 标记
+    this.chkAddBookmark.setMnemonic('R');
+    this.chkClearBookmark.setMnemonic('L');
+    this.chkClearMark.setMnemonic('A');
+    this.chkMatchCaseM.setMnemonic('C');
+    this.chkMatchWholeWordM.setMnemonic('O');
+    this.radDefaultM.setMnemonic('E');
+    this.radTransferM.setMnemonic('T');
+    this.radPatternM.setMnemonic('P');
+    this.btnMark.setMnemonic('M');
+    this.btnMarkSel.setMnemonic('S');
+    this.btnClearMark.setMnemonic('K');
+    this.btnClearBookmark.setMnemonic('B');
   }
 
   /**
@@ -486,6 +583,35 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     this.btnFindR.addKeyListener(this.buttonKeyAdapter);
     this.btnReplaceAllR.addKeyListener(this.buttonKeyAdapter);
     this.btnReplaceSelR.addKeyListener(this.buttonKeyAdapter);
+    // 标记
+    this.txtFindTextM.getDocument().addDocumentListener(this);
+    this.btnMark.addActionListener(this);
+    this.btnMarkSel.addActionListener(this);
+    this.btnClearMark.addActionListener(this);
+    this.btnClearBookmark.addActionListener(this);
+    this.btnCancelM.addActionListener(this);
+    this.chkAddBookmark.addActionListener(this);
+    this.chkClearBookmark.addActionListener(this);
+    this.chkClearMark.addActionListener(this);
+    this.chkMatchCaseM.addActionListener(this);
+    this.chkMatchWholeWordM.addActionListener(this);
+    this.radDefaultM.addActionListener(this);
+    this.radTransferM.addActionListener(this);
+    this.radPatternM.addActionListener(this);
+    this.txtFindTextM.addKeyListener(this.keyAdapter);
+    this.chkAddBookmark.addKeyListener(this.keyAdapter);
+    this.chkClearBookmark.addKeyListener(this.keyAdapter);
+    this.chkClearMark.addKeyListener(this.keyAdapter);
+    this.chkMatchCaseM.addKeyListener(this.keyAdapter);
+    this.chkMatchWholeWordM.addKeyListener(this.keyAdapter);
+    this.radDefaultM.addKeyListener(this.keyAdapter);
+    this.radTransferM.addKeyListener(this.keyAdapter);
+    this.radPatternM.addKeyListener(this.keyAdapter);
+    this.btnMark.addKeyListener(this.buttonKeyAdapter);
+    this.btnMarkSel.addKeyListener(this.buttonKeyAdapter);
+    this.btnClearMark.addKeyListener(this.buttonKeyAdapter);
+    this.btnClearBookmark.addKeyListener(this.buttonKeyAdapter);
+    this.btnCancelM.addKeyListener(this.buttonKeyAdapter);
     // 为窗口添加焦点监听器
     this.addWindowFocusListener(this);
   }
@@ -515,23 +641,28 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     } else if (this.chkMatchCaseF.equals(source)) {
       Util.setting.matchCase = this.isMatchCase = this.chkMatchCaseF.isSelected();
       this.chkMatchCaseR.setSelected(this.isMatchCase);
+      this.chkMatchCaseM.setSelected(this.isMatchCase);
     } else if (this.chkMatchWholeWordF.equals(source)) {
       Util.setting.matchWholeWord = this.isMatchWholeWord = this.chkMatchWholeWordF.isSelected();
       this.chkMatchWholeWordR.setSelected(this.isMatchWholeWord);
+      this.chkMatchWholeWordM.setSelected(this.isMatchWholeWord);
     } else if (this.chkIsWrapF.equals(source)) {
       boolean selected = this.chkIsWrapF.isSelected();
       Util.setting.isWrap = this.isWrap = selected;
       this.chkIsWrapR.setSelected(selected);
     } else if (this.radDefaultF.equals(source)) {
       this.radDefaultR.setSelected(true);
+      this.radDefaultM.setSelected(true);
       Util.setting.searchStyle = this.searchStyle = SearchStyle.DEFAULT;
       this.refreshMatchWholeWord();
     } else if (this.radTransferF.equals(source)) {
       this.radTransferR.setSelected(true);
+      this.radTransferM.setSelected(true);
       Util.setting.searchStyle = this.searchStyle = SearchStyle.TRANSFER;
       this.refreshMatchWholeWord();
     } else if (this.radPatternF.equals(source)) {
       this.radPatternR.setSelected(true);
+      this.radPatternM.setSelected(true);
       Util.setting.searchStyle = this.searchStyle = SearchStyle.PATTERN;
       this.refreshMatchWholeWord();
     } else if (this.radFindDownF.equals(source)) {
@@ -553,9 +684,11 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     } else if (this.chkMatchCaseR.equals(source)) {
       Util.setting.matchCase = this.isMatchCase = this.chkMatchCaseR.isSelected();
       this.chkMatchCaseF.setSelected(this.isMatchCase);
+      this.chkMatchCaseM.setSelected(this.isMatchCase);
     } else if (this.chkMatchWholeWordR.equals(source)) {
       Util.setting.matchWholeWord = this.isMatchWholeWord = this.chkMatchWholeWordR.isSelected();
       this.chkMatchWholeWordF.setSelected(this.isMatchWholeWord);
+      this.chkMatchWholeWordM.setSelected(this.isMatchWholeWord);
     } else if (this.chkIsWrapR.equals(source)) {
       boolean selected = this.chkIsWrapR.isSelected();
       Util.setting.isWrap = this.isWrap = selected;
@@ -578,6 +711,45 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
     } else if (this.radFindUpR.equals(source)) {
       Util.setting.findDown = this.isFindDown = false;
       this.radFindUpF.setSelected(true);
+    } else if (this.btnCancelM.equals(source)) { // 标记
+      this.onCancel();
+    } else if (this.chkMatchCaseM.equals(source)) {
+      Util.setting.matchCase = this.isMatchCase = this.chkMatchCaseM.isSelected();
+      this.chkMatchCaseF.setSelected(this.isMatchCase);
+      this.chkMatchCaseR.setSelected(this.isMatchCase);
+    } else if (this.chkMatchWholeWordM.equals(source)) {
+      Util.setting.matchWholeWord = this.isMatchWholeWord = this.chkMatchWholeWordM.isSelected();
+      this.chkMatchWholeWordF.setSelected(this.isMatchWholeWord);
+      this.chkMatchWholeWordR.setSelected(this.isMatchWholeWord);
+    } else if (this.radDefaultM.equals(source)) {
+      this.radDefaultF.setSelected(true);
+      this.radDefaultR.setSelected(true);
+      Util.setting.searchStyle = this.searchStyle = SearchStyle.DEFAULT;
+      this.refreshMatchWholeWord();
+    } else if (this.radTransferM.equals(source)) {
+      this.radTransferF.setSelected(true);
+      this.radTransferR.setSelected(true);
+      Util.setting.searchStyle = this.searchStyle = SearchStyle.TRANSFER;
+      this.refreshMatchWholeWord();
+    } else if (this.radPatternM.equals(source)) {
+      this.radPatternF.setSelected(true);
+      this.radPatternR.setSelected(true);
+      Util.setting.searchStyle = this.searchStyle = SearchStyle.PATTERN;
+      this.refreshMatchWholeWord();
+    } else if (this.chkAddBookmark.equals(source)) {
+      Util.setting.addBookmark = this.addBookmark = this.chkAddBookmark.isSelected();
+    } else if (this.chkClearBookmark.equals(source)) {
+      Util.setting.clearBookmark = this.clearBookmark = this.chkClearBookmark.isSelected();
+    } else if (this.chkClearMark.equals(source)) {
+      Util.setting.clearMark = this.clearMark = this.chkClearMark.isSelected();
+    } else if (this.btnMark.equals(source)) {
+      this.mark();
+    } else if (this.btnMarkSel.equals(source)) {
+      this.markSel();
+    } else if (this.btnClearMark.equals(source)) {
+      this.clearMark();
+    } else if (this.btnClearBookmark.equals(source)) {
+      this.clearBookmark();
     }
   }
 
@@ -717,16 +889,13 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         if (this.searchStyle == SearchStyle.PATTERN) {
           stbFindTextTemp = new StringBuilder("(?i)" + stbFindTextTemp); // 正则表达式中，可用(?i)打开不区分大小写的属性
         } else {
-          stbFindTextTemp = new StringBuilder(stbFindTextTemp.toString()
-              .toLowerCase());
+          stbFindTextTemp = new StringBuilder(stbFindTextTemp.toString().toLowerCase());
         }
-        stbTextAllTemp = new StringBuilder(stbTextAllTemp.toString()
-            .toLowerCase());
+        stbTextAllTemp = new StringBuilder(stbTextAllTemp.toString().toLowerCase());
       }
       if (this.searchStyle == SearchStyle.PATTERN) {
         try {
-          this.matcher = Pattern.compile(stbFindTextTemp.toString()).matcher(
-              stbTextAll);
+          this.matcher = Pattern.compile(stbFindTextTemp.toString()).matcher(stbTextAll);
         } catch (PatternSyntaxException x) {
           TipsWindow.show(this, "正则表达式语法错误，请修改！");
           return;
@@ -741,8 +910,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           times++;
         }
         if (times > 0) {
-          stbTextAll = new StringBuilder(this.matcher
-              .replaceAll(strReplaceText));
+          stbTextAll = new StringBuilder(this.matcher.replaceAll(strReplaceText));
         }
       } else {
         int findLength = stbFindTextTemp.length();
@@ -752,8 +920,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
           index = stbTextAllTemp.indexOf(stbFindTextTemp.toString(), caretPos);
           if (index >= 0) {
             indexTemp = index - (findLength - replaceLength) * times;
-            stbTextAll.replace(indexTemp, indexTemp + findLength,
-                strReplaceText);
+            stbTextAll.replace(indexTemp, indexTemp + findLength, strReplaceText);
             caretPos = index + findLength;
             if (caretPos < oldPos) {
               newPos -= offset;
@@ -965,7 +1132,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         }
         ListenerManager.getInstance().postClipboardEvent(stbResult.toString());
         TipsWindow.show(this, "共复制 " + times + " 行。", Background.GREEN);
-      } catch (BadLocationException x) {
+      } catch (Exception x) {
          x.printStackTrace();
       }
     }
@@ -1039,7 +1206,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         }
         this.txaSource.setText(stbResult.toString());
         TipsWindow.show(this, "共剪切 " + times + " 行。", Background.GREEN);
-      } catch (BadLocationException x) {
+      } catch (Exception x) {
          x.printStackTrace();
       }
     }
@@ -1105,10 +1272,165 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         }
         this.txaSource.setText(stbResult.toString());
         TipsWindow.show(this, "共删除 " + times + " 行。", Background.GREEN);
-      } catch (BadLocationException x) {
+      } catch (Exception x) {
          x.printStackTrace();
       }
     }
+  }
+
+  /**
+   * “标记”的处理方法
+   */
+  private void mark() {
+    if (this.clearMark) {
+      this.clearMark();
+    }
+    if (this.clearBookmark) {
+      this.clearBookmark();
+    }
+    LinkedList<SearchBean> listIndex = new LinkedList<SearchBean>();
+    int index = 0;
+    if (!Util.isTextEmpty(this.strFind)) {
+      while (index >= 0) {
+        index = Util.findText(this.strFind, this.txaSource, index,
+            true, this.isMatchCase, this.isMatchWholeWord, false, this.searchStyle);
+        if (index >= 0) {
+          SearchBean searchBean = new SearchBean();
+          searchBean.setStart(index);
+          if (this.searchStyle == SearchStyle.PATTERN) {
+            index = index + Util.matcher_length;
+          } else if (this.searchStyle == SearchStyle.TRANSFER) {
+            index = index + this.strFind.length() - Util.transfer_count;
+          } else {
+            index = index + this.strFind.length();
+          }
+          searchBean.setEnd(index);
+          listIndex.add(searchBean);
+        }
+      }
+    }
+    if (listIndex.isEmpty()) {
+      if (index == Util.PATTERN_SYNTAX_ERROR_INDEX) {
+        TipsWindow.show(this, "正则表达式语法错误，请修改！");
+      } else {
+        JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
+      }
+    } else {
+      for (SearchBean searchBean : listIndex) {
+        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), COLOR_MARK, HighlightColorStyle.STYLE_MARK.getIndex());
+      }
+      if (this.addBookmark) {
+        try {
+          for (SearchBean searchBean : listIndex) {
+            int lineNum = this.txaSource.getLineOfOffset(searchBean.getStart());
+            this.txaSource.addBookmark(lineNum);
+          }
+          ((SnowPadFrame)this.getOwner()).repaintLineNumberView();
+        } catch (Exception x) {
+          // x.printStackTrace();
+        }
+      }
+    }
+  }
+
+  /**
+   * “选区内标记”的处理方法
+   */
+  private void markSel() {
+    if (this.clearMark) {
+      this.clearMark();
+    }
+    if (this.clearBookmark) {
+      this.clearBookmark();
+    }
+    LinkedList<SearchBean> listIndex = new LinkedList<SearchBean>();
+    String str = this.txaSource.getSelectedText();
+    int selStart = this.txaSource.getSelectionStart();
+    String strFindText = this.txtFindTextM.getText();
+    StringBuilder stbTextAll = new StringBuilder(str);
+    if (this.searchStyle == SearchStyle.TRANSFER) {
+      strFindText = Util.transfer(strFindText);
+    }
+    StringBuilder stbFindText = new StringBuilder(strFindText);
+    if (!this.isMatchCase) {
+      if (this.searchStyle == SearchStyle.PATTERN) {
+        stbFindText = new StringBuilder("(?i)" + stbFindText); // 正则表达式中，可用(?i)打开不区分大小写的属性
+      } else {
+        stbFindText = new StringBuilder(stbFindText.toString().toLowerCase());
+      }
+      stbTextAll = new StringBuilder(stbTextAll.toString().toLowerCase());
+    }
+    if (this.searchStyle == SearchStyle.PATTERN) {
+      try {
+        this.matcher = Pattern.compile(stbFindText.toString()).matcher(stbTextAll);
+      } catch (PatternSyntaxException x) {
+        TipsWindow.show(this, "正则表达式语法错误，请修改！");
+        return;
+      }
+      while (this.matcher.find()) {
+        SearchBean searchBean = new SearchBean();
+        int start = selStart + this.matcher.start();
+        int end = selStart + this.matcher.end();
+        searchBean.setStart(start);
+        searchBean.setEnd(end);
+        listIndex.add(searchBean);
+      }
+    } else {
+      int findLength = stbFindText.length();
+      int caretPos = 0; // 当前从哪个索引值开始搜索字符串
+      for (int index = 0; caretPos >= 0;) {
+        index = stbTextAll.indexOf(stbFindText.toString(), caretPos);
+        if (index >= 0) {
+          // 全词匹配判断
+          if (this.isMatchWholeWord && !Util.isMatchWholeWord(stbTextAll.toString(), index, findLength)) {
+            caretPos = index + findLength;
+            continue;
+          }
+          SearchBean searchBean = new SearchBean();
+          int start = selStart + index;
+          int end = start + findLength;
+          searchBean.setStart(start);
+          searchBean.setEnd(end);
+          listIndex.add(searchBean);
+          caretPos = index + findLength;
+        } else {
+          break;
+        }
+      }
+    }
+    if (listIndex.isEmpty()) {
+      JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
+    } else {
+      for (SearchBean searchBean : listIndex) {
+        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), COLOR_MARK, HighlightColorStyle.STYLE_MARK.getIndex());
+      }
+      if (this.addBookmark) {
+        try {
+          for (SearchBean searchBean : listIndex) {
+            int lineNum = this.txaSource.getLineOfOffset(searchBean.getStart());
+            this.txaSource.addBookmark(lineNum);
+          }
+          ((SnowPadFrame)this.getOwner()).repaintLineNumberView();
+        } catch (Exception x) {
+          // x.printStackTrace();
+        }
+      }
+    }
+  }
+
+  /**
+   * “清除标记”的处理方法
+   */
+  private void clearMark() {
+    Util.rmHighlight(this.txaSource, HighlightColorStyle.STYLE_MARK.getIndex());
+  }
+
+  /**
+   * “清除书签”的处理方法
+   */
+  private void clearBookmark() {
+    this.txaSource.clearBookmarks();
+    ((SnowPadFrame)this.getOwner()).repaintLineNumberView();
   }
 
   /**
@@ -1123,11 +1445,17 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       } else {
         this.btnCountSelF.setEnabled(true);
       }
-    } else {
+    } else if (this.tpnMain.getSelectedIndex() == 1) {
       if (isSelEmpty || Util.isTextEmpty(this.txtFindTextR.getText())) {
         this.btnReplaceSelR.setEnabled(false);
       } else {
         this.btnReplaceSelR.setEnabled(true);
+      }
+    } else if (this.tpnMain.getSelectedIndex() == 2) {
+      if (isSelEmpty || Util.isTextEmpty(this.txtFindTextM.getText())) {
+        this.btnMarkSel.setEnabled(false);
+      } else {
+        this.btnMarkSel.setEnabled(true);
       }
     }
   }
@@ -1161,6 +1489,15 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         this.btnFindR.setEnabled(true);
         this.btnReplaceR.setEnabled(true);
         this.btnReplaceAllR.setEnabled(true);
+      }
+    } else if (this.txtFindTextM.getDocument().equals(source)) { // 标记
+      this.strFind = this.txtFindTextM.getText();
+      if (Util.isTextEmpty(this.strFind)) {
+        this.btnMark.setEnabled(false);
+        this.btnMarkSel.setEnabled(false);
+      } else {
+        this.btnMark.setEnabled(true);
+        this.btnMarkSel.setEnabled(true);
       }
     }
     this.setBtnSelEnabled();
@@ -1203,6 +1540,10 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       this.setTitle(this.tpnMain.getTitleAt(1));
       this.txtFindTextR.setText(this.strFind);
       this.txtFindTextR.selectAll();
+    } else if (this.tpnMain.getSelectedIndex() == 2) {
+      this.setTitle(this.tpnMain.getTitleAt(2));
+      this.txtFindTextM.setText(this.strFind);
+      this.txtFindTextM.selectAll();
     }
     this.setBtnSelEnabled();
   }

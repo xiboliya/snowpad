@@ -35,12 +35,17 @@ import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 
 import com.xiboliya.snowpad.base.BaseFileFilter;
+import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.common.FileExt;
+import com.xiboliya.snowpad.common.HighlightColorStyle;
+import com.xiboliya.snowpad.common.PartnerBean;
 import com.xiboliya.snowpad.common.SearchStyle;
 import com.xiboliya.snowpad.setting.Setting;
 
@@ -83,7 +88,7 @@ public final class Util {
       "删除至行首","删除至行尾","删除至文件首","删除至文件尾","上移当前行","下移当前行","复制当前行","剪切当前行","批量切除行","批量插入行",
       "批量分割行","批量拼接行","批量合并行","逐行复写","升序排序","降序排序","反序排序","乱序排序","缩进","退格","清除行首空白","清除行尾空白",
       "清除行首和行尾空白","清除选区内空白","添加/取消单行注释","添加/取消区块注释","插入特殊字符","插入时间和日期","复写选区字符","反转选区字符",
-      "查找","查找下一个","查找上一个","选定查找下一个","选定查找上一个","快速向下查找","快速向上查找","替换","转到","设置/取消书签","下一个书签","上一个书签","预览书签","复制书签行","剪切书签行","清除所有书签","定位匹配括号",
+      "查找","查找下一个","查找上一个","选定查找下一个","选定查找上一个","快速向下查找","快速向上查找","替换","标记","转到","设置/取消书签","下一个书签","上一个书签","预览书签","复制书签行","剪切书签行","清除所有书签","定位匹配括号",
       "单词边界换行","字符边界换行","Windows换行符格式","Unix换行符格式","Macintosh换行符格式","GB18030编码格式","US-ASCII编码格式","UTF-8编码格式","UTF-8-NO-BOM编码格式","UTF-16LE编码格式",
       "UTF-16BE编码格式","文本视图","二进制视图","代码格式化-Json","代码压缩-Json","列表符号与编号","字体","Tab键设置","自动完成","自动换行","自动缩进","首选项","恢复默认设置","后退","前进","显示/隐藏工具栏",
       "显示/隐藏状态栏","显示/隐藏文件树","显示/隐藏行号栏","显示/隐藏查找结果面板","前端显示","锁定窗口","多行标签","双击关闭标签","显示/隐藏指示图标","字体放大","字体缩小",
@@ -99,7 +104,7 @@ public final class Util {
       "Ctrl+Alt+37","Ctrl+Alt+39","Ctrl+Alt+Shift+37","Ctrl+Alt+Shift+39","Ctrl+Shift+38","Ctrl+Shift+40","Ctrl+Shift+67","Ctrl+Shift+88","Ctrl+Shift+82","Ctrl+Shift+73",
       "Ctrl+Shift+80","Ctrl+Shift+74","Ctrl+Shift+77","Ctrl+Shift+86","Alt+38","Alt+40","Alt+47","Alt+92","Ctrl+Alt+84","Ctrl+Alt+Shift+84","Ctrl+Shift+83","Ctrl+Shift+69",
       "Ctrl+Shift+76","Ctrl+Shift+84","Ctrl+76","Ctrl+77","","116","Ctrl+82","Ctrl+73",
-      "Ctrl+70","114","Shift+114","Ctrl+114","Ctrl+Shift+114","Ctrl+75","Ctrl+Shift+75","Ctrl+72","Ctrl+71","Ctrl+Alt+75","113","Shift+113","","","","","Ctrl+66",
+      "Ctrl+70","114","Shift+114","Ctrl+114","Ctrl+Shift+114","Ctrl+Alt+114","Ctrl+Alt+Shift+114","Ctrl+72","Ctrl+75","Ctrl+71","Ctrl+Alt+75","113","Shift+113","","","","","Ctrl+66",
       "","","","","","","","","","",
       "","","","","","","","","","","","","","","","",
       "","","","","","","","","","Ctrl+38","Ctrl+40",
@@ -565,6 +570,61 @@ public final class Util {
       }
     }
     return isStartBlank && isEndBlank;
+  }
+
+  /**
+   * 添加高亮
+   * 
+   * @param txaSource 文本域
+   * @param style 清除某种颜色的高亮显示，其取值区间定义在HighlightColorStyle枚举中。
+   */
+  public static void addHighlight(BaseTextArea txaSource, int startIndex, int endIndex, Color color, int style) {
+    try {
+      txaSource.getHighlighter().addHighlight(startIndex, endIndex,
+          new DefaultHighlighter.DefaultHighlightPainter(color));
+      Highlighter.Highlight[] arrHighlight = txaSource.getHighlighter().getHighlights();
+      txaSource.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1], style));
+    } catch (Exception x) {
+      // x.printStackTrace();
+    }
+  }
+
+  /**
+   * 清除高亮
+   * 
+   * @param txaSource 文本域
+   * @param style 清除某种颜色的高亮显示，其取值区间定义在HighlightColorStyle枚举中。
+   */
+  public static void rmHighlight(BaseTextArea txaSource, int style) {
+    if (style == HighlightColorStyle.EMPTY.getIndex()) {
+      rmHighlightAll(txaSource);
+      return;
+    }
+    PartnerBean partnerBean = null;
+    for (int n = 0; n < txaSource.getHighlighterList().size(); n++) {
+      partnerBean = txaSource.getHighlighterList().get(n);
+      if (partnerBean.getIndex() == style) {
+        txaSource.getHighlighter().removeHighlight((Highlighter.Highlight) partnerBean.getObject());
+        txaSource.getHighlighterList().remove(n);
+        n--;
+      }
+    }
+  }
+
+  /**
+   * 清除所有高亮
+   */
+  private static void rmHighlightAll(BaseTextArea txaSource) {
+    PartnerBean partnerBean = null;
+    for (int n = 0; n < txaSource.getHighlighterList().size(); n++) {
+      partnerBean = txaSource.getHighlighterList().get(n);
+      int index = partnerBean.getIndex();
+      if (index >= HighlightColorStyle.STYLE_1.getIndex() && index <= HighlightColorStyle.STYLE_5.getIndex()) {
+        txaSource.getHighlighter().removeHighlight((Highlighter.Highlight) partnerBean.getObject());
+        txaSource.getHighlighterList().remove(n);
+        n--;
+      }
+    }
   }
 
   /**

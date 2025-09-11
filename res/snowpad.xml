@@ -18,6 +18,9 @@
     <isWrap note="是否循环查找">true</isWrap>
     <findDown note="是否向下查找">true</findDown>
     <searchStyle note="搜索模式">0</searchStyle>
+    <addBookmark note="是否在标记时添加书签">false</addBookmark>
+    <clearBookmark note="是否在标记时清除已有书签">false</clearBookmark>
+    <clearMark note="是否在标记时清除已有标记">false</clearMark>
   </FindReplace>
   <View note="显示的相关设置">
     <viewToolBar note="是否显示工具栏">true</viewToolBar>

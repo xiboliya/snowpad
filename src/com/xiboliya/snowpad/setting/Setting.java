@@ -52,6 +52,9 @@ public class Setting {
   public boolean isWrap = true; // 是否循环查找
   public boolean findDown = true; // 是否向下查找
   public SearchStyle searchStyle = SearchStyle.DEFAULT; // 搜索模式
+  public boolean addBookmark = false; // 是否在标记时添加书签
+  public boolean clearBookmark = false; // 是否在标记时清除已有书签
+  public boolean clearMark = false; // 是否在标记时清除已有标记
   // 显示的相关设置
   public boolean viewToolBar = true; // 是否显示工具栏
   public boolean viewStateBar = true; // 是否显示状态栏

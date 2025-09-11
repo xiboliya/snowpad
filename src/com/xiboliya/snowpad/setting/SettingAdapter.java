@@ -287,6 +287,12 @@ public final class SettingAdapter {
             this.setting.isWrap = logic;
           } else if (key.equalsIgnoreCase("findDown")) {
             this.setting.findDown = logic;
+          } else if (key.equalsIgnoreCase("addBookmark")) {
+            this.setting.addBookmark = logic;
+          } else if (key.equalsIgnoreCase("clearBookmark")) {
+            this.setting.clearBookmark = logic;
+          } else if (key.equalsIgnoreCase("clearMark")) {
+            this.setting.clearMark = logic;
           } else if (key.equalsIgnoreCase("searchStyle")) {
             int style = this.getInt(value, 0);
             switch (style) {
@@ -586,6 +592,12 @@ public final class SettingAdapter {
           node.setTextContent(String.valueOf(this.setting.isWrap));
         } else if (key.equalsIgnoreCase("findDown")) {
           node.setTextContent(String.valueOf(this.setting.findDown));
+        } else if (key.equalsIgnoreCase("addBookmark")) {
+          node.setTextContent(String.valueOf(this.setting.addBookmark));
+        } else if (key.equalsIgnoreCase("clearBookmark")) {
+          node.setTextContent(String.valueOf(this.setting.clearBookmark));
+        } else if (key.equalsIgnoreCase("clearMark")) {
+          node.setTextContent(String.valueOf(this.setting.clearMark));
         } else if (key.equalsIgnoreCase("searchStyle")) {
           int style = 0;
           switch (this.setting.searchStyle) {

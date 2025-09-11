@@ -46,7 +46,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.undo.UndoManager;
@@ -99,6 +98,7 @@ import com.xiboliya.snowpad.common.CurrentLine;
 import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.common.FileExt;
 import com.xiboliya.snowpad.common.FileHistoryBean;
+import com.xiboliya.snowpad.common.HighlightColorStyle;
 import com.xiboliya.snowpad.common.LineExtend;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.common.PartnerBean;
@@ -179,8 +179,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private static final int FILE_HISTORY_MAX = 15; // 最近编辑文件的最大存储个数
   private static final int BACK_FORWARD_MAX = 15; // 光标历史位置的最大存储个数
   private static final int TEXTAREA_HASHCODE_LIST_MAX = 15; // 最近编辑的文本域hashCode的最大存储个数
-  private static final int BRACKET_COLOR_STYLE = 11; // 在文本域中进行高亮匹配括号的颜色标识值
-  private static final int WORD_COLOR_STYLE = 12; // 在文本域中进行高亮匹配文本的颜色标识值
   private static final Color[] COLOR_HIGHLIGHTS = new Color[] {
       new Color(255, 0, 0, 40), new Color(0, 255, 0, 40),
       new Color(0, 0, 255, 40), new Color(0, 255, 255, 40),
@@ -356,6 +354,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemQuickFindDown = new JMenuItem("快速向下查找(D)", 'D');
   private JMenuItem itemQuickFindUp = new JMenuItem("快速向上查找(U)", 'U');
   private JMenuItem itemReplace = new JMenuItem("替换(R)...", 'R');
+  private JMenuItem itemMark = new JMenuItem("标记(K)...", 'K');
   private JMenuItem itemGoto = new JMenuItem("转到(G)...", 'G');
   private JMenu menuBookmark = new JMenu("书签(M)");
   private JMenuItem itemBookmarkSwitch = new JMenuItem("设置/取消书签(S)", 'S');
@@ -865,6 +864,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemPopToCopyFilePath.addActionListener(this);
     this.itemPopToCopyDirPath.addActionListener(this);
     this.itemReplace.addActionListener(this);
+    this.itemMark.addActionListener(this);
     this.itemSave.addActionListener(this);
     this.itemSaveAs.addActionListener(this);
     this.itemCloseCurrent.addActionListener(this);
@@ -908,7 +908,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
         if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
           popMenuMain.show(txaMain, e.getX(), e.getY());
         } else if (e.getClickCount() == 2) { // 双击时，查找并自动高亮与当前选区相同的本文
-          setHighlight(WORD_COLOR_STYLE);
+          setHighlight(HighlightColorStyle.STYLE_WORD.getIndex());
         }
       }
     });
@@ -1143,6 +1143,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuSearch.add(this.itemQuickFindUp);
     this.menuSearch.addSeparator();
     this.menuSearch.add(this.itemReplace);
+    this.menuSearch.add(this.itemMark);
     this.menuSearch.add(this.itemGoto);
     this.menuSearch.add(this.menuBookmark);
     this.menuBookmark.add(this.itemBookmarkSwitch);
@@ -1374,6 +1375,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemQuickFindDown);
     this.menuItemList.add(this.itemQuickFindUp);
     this.menuItemList.add(this.itemReplace);
+    this.menuItemList.add(this.itemMark);
     this.menuItemList.add(this.itemGoto);
     this.menuItemList.add(this.itemBookmarkSwitch);
     this.menuItemList.add(this.itemBookmarkNext);
@@ -2137,6 +2139,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     } else if (this.itemReplace.equals(source)
         || this.toolButtonList.get(12).equals(source)) {
       this.openReplaceDialog();
+    } else if (this.itemMark.equals(source)) {
+      this.openMarkDialog();
     } else if (this.itemSave.equals(source)
         || this.itemPopSave.equals(source)
         || this.toolButtonList.get(2).equals(source)) {
@@ -2230,37 +2234,37 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.setColorStyle(0);
     } else if (this.itemHighlight1.equals(source)
         || this.itemPopHighlight1.equals(source)) {
-      this.setHighlight(1);
+      this.setHighlight(HighlightColorStyle.STYLE_1.getIndex());
     } else if (this.itemHighlight2.equals(source)
         || this.itemPopHighlight2.equals(source)) {
-      this.setHighlight(2);
+      this.setHighlight(HighlightColorStyle.STYLE_2.getIndex());
     } else if (this.itemHighlight3.equals(source)
         || this.itemPopHighlight3.equals(source)) {
-      this.setHighlight(3);
+      this.setHighlight(HighlightColorStyle.STYLE_3.getIndex());
     } else if (this.itemHighlight4.equals(source)
         || this.itemPopHighlight4.equals(source)) {
-      this.setHighlight(4);
+      this.setHighlight(HighlightColorStyle.STYLE_4.getIndex());
     } else if (this.itemHighlight5.equals(source)
         || this.itemPopHighlight5.equals(source)) {
-      this.setHighlight(5);
+      this.setHighlight(HighlightColorStyle.STYLE_5.getIndex());
     } else if (this.itemRmHighlight1.equals(source)
         || this.itemPopRmHighlight1.equals(source)) {
-      this.rmHighlight(1);
+      Util.rmHighlight(this.txaMain, HighlightColorStyle.STYLE_1.getIndex());
     } else if (this.itemRmHighlight2.equals(source)
         || this.itemPopRmHighlight2.equals(source)) {
-      this.rmHighlight(2);
+      Util.rmHighlight(this.txaMain, HighlightColorStyle.STYLE_2.getIndex());
     } else if (this.itemRmHighlight3.equals(source)
         || this.itemPopRmHighlight3.equals(source)) {
-      this.rmHighlight(3);
+      Util.rmHighlight(this.txaMain, HighlightColorStyle.STYLE_3.getIndex());
     } else if (this.itemRmHighlight4.equals(source)
         || this.itemPopRmHighlight4.equals(source)) {
-      this.rmHighlight(4);
+      Util.rmHighlight(this.txaMain, HighlightColorStyle.STYLE_4.getIndex());
     } else if (this.itemRmHighlight5.equals(source)
         || this.itemPopRmHighlight5.equals(source)) {
-      this.rmHighlight(5);
+      Util.rmHighlight(this.txaMain, HighlightColorStyle.STYLE_5.getIndex());
     } else if (this.itemRmHighlightAll.equals(source)
         || this.itemPopRmHighlightAll.equals(source)) {
-      this.rmHighlight(0);
+      Util.rmHighlight(this.txaMain, HighlightColorStyle.EMPTY.getIndex());
     } else if (this.itemInformation.equals(source)) {
       this.openInformationDialog();
     } else if (this.itemWindowManage.equals(source)) {
@@ -2437,7 +2441,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
         }
       }
       this.txaMain.setCaretPosition(offset);
-    } catch (BadLocationException x) {
+    } catch (Exception x) {
       // x.printStackTrace();
     }
   }
@@ -3457,8 +3461,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   /**
    * "高亮显示"中各格式的处理方法
    * 
-   * @param style 按照某种颜色进行高亮显示，其取值有1、2、3、4、5、12。
-   *          当取值为12时，表示进行当前选区文本的自动高亮匹配。
+   * @param style 按照某种颜色进行高亮显示，其取值区间定义在HighlightColorStyle枚举中。
    */
   private void setHighlight(int style) {
     String strSelText = this.txaMain.getSelectedText();
@@ -3479,57 +3482,13 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       }
     } while (index >= 0);
     Color color = null;
-    if (style == WORD_COLOR_STYLE) {
+    if (style == HighlightColorStyle.STYLE_WORD.getIndex()) {
       color = Util.setting.colorStyle[7];
     } else {
-      color = COLOR_HIGHLIGHTS[style - 1];
+      color = COLOR_HIGHLIGHTS[style];
     }
     for (Integer startIndex : linkedList) {
-      try {
-        this.txaMain.getHighlighter().addHighlight(startIndex, startIndex + strSelText.length(),
-            new DefaultHighlighter.DefaultHighlightPainter(color));
-        Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter().getHighlights();
-        this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1], style));
-      } catch (BadLocationException x) {
-        // x.printStackTrace();
-      }
-    }
-  }
-
-  /**
-   * "清除高亮"中各格式的处理方法
-   * 
-   * @param style 清除某种颜色的高亮显示，其取值有1、2、3、4、5、0、11、12。
-   *          取值为0时，清除所有高亮。取值为11时，清除匹配括号高亮。取值为12时，清除匹配文本高亮。
-   */
-  private void rmHighlight(int style) {
-    if (style == 0) {
-      this.rmHighlightAll();
-      return;
-    }
-    PartnerBean partnerBean = null;
-    for (int n = 0; n < this.txaMain.getHighlighterList().size(); n++) {
-      partnerBean = this.txaMain.getHighlighterList().get(n);
-      if (partnerBean.getIndex() == style) {
-        this.txaMain.getHighlighter().removeHighlight((Highlighter.Highlight) partnerBean.getObject());
-        this.txaMain.getHighlighterList().remove(n);
-        n--;
-      }
-    }
-  }
-
-  /**
-   * "清除高亮"中"所有格式"的处理方法
-   */
-  private void rmHighlightAll() {
-    PartnerBean partnerBean = null;
-    for (int n = 0; n < this.txaMain.getHighlighterList().size(); n++) {
-      partnerBean = this.txaMain.getHighlighterList().get(n);
-      if (partnerBean.getIndex() >= 1 && partnerBean.getIndex() <= 5) {
-        this.txaMain.getHighlighter().removeHighlight((Highlighter.Highlight) partnerBean.getObject());
-        this.txaMain.getHighlighterList().remove(n);
-        n--;
-      }
+      Util.addHighlight(this.txaMain, startIndex, startIndex + strSelText.length(), color, style);
     }
   }
 
@@ -5739,6 +5698,25 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
+   * "标记"的处理方法
+   */
+  private void openMarkDialog() {
+    if (this.findReplaceDialog == null) {
+      this.findReplaceDialog = new FindReplaceDialog(this, false, this.txaMain, this.pnlSearchResult, true);
+    } else {
+      this.findReplaceDialog.setTextArea(this.txaMain);
+      this.findReplaceDialog.setVisible(true);
+    }
+    this.findReplaceDialog.setTabbedIndex(2); // 打开标记选项卡
+    String strSel = this.checkSelText();
+    if (!Util.isTextEmpty(strSel)) {
+      this.findReplaceDialog.setFindText(strSel, true);
+    } else {
+      this.findReplaceDialog.setFindTextSelect();
+    }
+  }
+
+  /**
    * "转到"的处理方法
    */
   private void openGotoDialog() {
@@ -5762,7 +5740,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   /**
    * 重绘行号栏
    */
-  private void repaintLineNumberView() {
+  public void repaintLineNumberView() {
     JViewport viewport = ((JScrollPane) this.tpnMain.getSelectedComponent()).getRowHeader();
     if (viewport != null) {
       LineNumberView lineNumberView = (LineNumberView)viewport.getView();
@@ -5791,7 +5769,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
         try {
           int offset = this.txaMain.getLineStartOffset(bookmark);
           this.txaMain.setCaretPosition(offset);
-        } catch (BadLocationException x) {
+        } catch (Exception x) {
           // x.printStackTrace();
         }
         break;
@@ -5816,7 +5794,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
         try {
           int offset = this.txaMain.getLineStartOffset(bookmark);
           this.txaMain.setCaretPosition(offset);
-        } catch (BadLocationException x) {
+        } catch (Exception x) {
           // x.printStackTrace();
         }
         break;
@@ -5852,7 +5830,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
           int start = this.txaMain.getLineStartOffset(bookmark);
           int end = this.txaMain.getLineEndOffset(bookmark);
           stbLines.append(this.txaMain.getText(start, end - start));
-        } catch (BadLocationException x) {
+        } catch (Exception x) {
           // x.printStackTrace();
         }
       }
@@ -5882,7 +5860,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
           stbLines.append(this.txaMain.getText(start, end - start));
           stbText.append(this.txaMain.getText(index, start - index));
           index = end;
-        } catch (BadLocationException x) {
+        } catch (Exception x) {
           // x.printStackTrace();
         }
       }
@@ -5891,7 +5869,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (index < size) {
       try {
         stbText.append(this.txaMain.getText(index, size - index));
-      } catch (BadLocationException x) {
+      } catch (Exception x) {
         // x.printStackTrace();
       }
     }
@@ -5908,8 +5886,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * "清除所有书签"的处理方法
    */
   private void bookmarkClear() {
-    LinkedList<Integer> bookmarks = this.txaMain.getBookmarks();
-    bookmarks.clear();
+    this.txaMain.clearBookmarks();
     this.repaintLineNumberView();
   }
 
@@ -6748,7 +6725,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * 查找当前光标处的括号的匹配括号，并进行高亮显示
    */
   private void searchTargetBracket() {
-    this.rmHighlight(BRACKET_COLOR_STYLE); // 取消上一次的括号匹配高亮
+    int colorStyle = HighlightColorStyle.STYLE_BRACKET.getIndex();
+    Util.rmHighlight(this.txaMain, colorStyle); // 取消上一次的括号匹配高亮
     String strMain = this.txaMain.getText();
     char charLeft = ' '; // 当前光标左侧的字符
     char charRight = ' '; // 当前光标右侧的字符
@@ -6771,18 +6749,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       }
     }
     this.itemFindBracket.setEnabled(true);
-    try {
-      this.txaMain.getHighlighter().addHighlight(currentIndex, currentIndex + 1,
-          new DefaultHighlighter.DefaultHighlightPainter(Util.setting.colorStyle[5]));
-      Highlighter.Highlight[] arrHighlight = this.txaMain.getHighlighter().getHighlights();
-      this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1], BRACKET_COLOR_STYLE));
-      this.txaMain.getHighlighter().addHighlight(targetIndex, targetIndex + 1,
-          new DefaultHighlighter.DefaultHighlightPainter(Util.setting.colorStyle[5]));
-      arrHighlight = this.txaMain.getHighlighter().getHighlights();
-      this.txaMain.getHighlighterList().add(new PartnerBean(arrHighlight[arrHighlight.length - 1], BRACKET_COLOR_STYLE));
-    } catch (BadLocationException x) {
-      // x.printStackTrace();
-    }
+    Util.addHighlight(this.txaMain, currentIndex, currentIndex + 1, Util.setting.colorStyle[5], colorStyle);
+    Util.addHighlight(this.txaMain, targetIndex, targetIndex + 1, Util.setting.colorStyle[5], colorStyle);
   }
 
   /**
@@ -6995,7 +6963,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.updateStateCur();
     this.setMenuStateBySelectedText();
     this.searchTargetBracket();
-    this.rmHighlight(WORD_COLOR_STYLE);
+    Util.rmHighlight(this.txaMain, HighlightColorStyle.STYLE_WORD.getIndex());
     this.refreshBackForwardList();
   }
 
