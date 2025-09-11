@@ -2566,3 +2566,15 @@ src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
 2025-08-23
 1.“计算器”界面顶部添加算式显示。
 src/com/xiboliya/snowpad/dialog/CalculatorDialog.java
+
+2025-09-11
+1.在查找、替换对话框中添加“标记”选项卡，主要功能有：在当前文本域中查找指定字符串并突出显示，包括：高亮显示、为所在行添加书签。
+res/help.res
+res/snowpad.xml
+src/com/xiboliya/snowpad/base/BaseTextArea.java
+src/com/xiboliya/snowpad/common/HighlightColorStyle.java（添加）
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/Setting.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/util/Util.java
