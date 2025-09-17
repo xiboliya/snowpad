@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import com.xiboliya.snowpad.common.CharEncoding;
+import com.xiboliya.snowpad.common.ColorStyle;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.common.FileHistoryBean;
 import com.xiboliya.snowpad.common.SearchStyle;
@@ -45,7 +46,7 @@ public class Setting {
   public CharEncoding defaultCharEncoding = CharEncoding.GB18030; // 默认字符编码格式
   public LineSeparator defaultLineSeparator = LineSeparator.DEFAULT; // 默认换行符格式
   public Font font = Util.TEXT_FONT; // 文本域字体
-  public Color[] colorStyle = Util.COLOR_STYLE_DEFAULT; // 配色方案
+  public ColorStyle colorStyle = new ColorStyle(); // 配色方案
   // 查找/替换的相关设置
   public boolean matchCase = true; // 是否区分大小写
   public boolean matchWholeWord = false; // 是否全词匹配

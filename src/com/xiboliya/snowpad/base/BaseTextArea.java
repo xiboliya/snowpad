@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 import com.xiboliya.snowpad.common.CharEncoding;
+import com.xiboliya.snowpad.common.ColorStyle;
 import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.common.FileExt;
 import com.xiboliya.snowpad.common.LineExtend;
@@ -58,7 +59,7 @@ public class BaseTextArea extends JTextArea {
   private KeyAdapter autoIndentKeyAdapter = null; // 用于自动缩进的键盘适配器
   private KeyAdapter tabReplaceKeyAdapter = null; // 用于设置以空格代替Tab键的键盘适配器
   private KeyAdapter autoCompleteKeyAdapter = null; // 用于设置自动完成的键盘适配器
-  private Color[] colorStyle = null; // 配色方案
+  private ColorStyle colorStyle = null; // 配色方案
   private boolean isSaved = false; // 文件是否已保存，如果已保存则为true
   private boolean isTextChanged = false; // 文本内容是否已修改，如果已修改则为true
   private boolean isStyleChanged = false; // 文本格式是否已修改，如果已修改则为true
@@ -73,9 +74,9 @@ public class BaseTextArea extends JTextArea {
   private BaseDocument document = new BaseDocument(); // 文本模型
   private UndoManager undoManager = new UndoManager(); // 撤销管理器
   private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
-  private Color bracketBackColor = Util.COLOR_BRACKET; // 需绘制的匹配括号的背景颜色
-  private Color lineBackColor = Util.COLOR_CURRENT_LINE; // 需绘制的当前行的背景颜色
-  private Color wordBackColor = Util.COLOR_CURRENT_LINE; // 需绘制的匹配文本的背景颜色
+  private Color bracketBackColor = Util.COLOR_DEFAULT_BRACKET_BACK; // 需绘制的匹配括号的背景颜色
+  private Color lineBackColor = Util.COLOR_DEFAULT_LINE_BACK; // 需绘制的当前行的背景颜色
+  private Color wordBackColor = Util.COLOR_DEFAULT_WORD_BACK; // 需绘制的匹配文本的背景颜色
   private LinkedList<PartnerBean> backForwardList = new LinkedList<PartnerBean>(); // 存放光标在文本域中历史位置的链表
   private int backForwardIndex = Util.DEFAULT_BACK_FORWARD_INDEX; // 光标历史位置，初始化为默认值
   private long fileLastModified = 0L; // 文件最后修改的时间戳，如果文件为空，则此值为0L
@@ -380,22 +381,22 @@ public class BaseTextArea extends JTextArea {
     return this.fileChangedLabel;
   }
 
-  public void setColorStyle(Color[] colorStyle) {
+  public void setColorStyle(ColorStyle colorStyle) {
     if (colorStyle == null) {
       return;
     }
     this.colorStyle = colorStyle;
-    this.setForeground(colorStyle[0]);
-    this.setBackground(colorStyle[1]);
-    this.setCaretColor(colorStyle[2]);
-    this.setSelectedTextColor(colorStyle[3]);
-    this.setSelectionColor(colorStyle[4]);
-    this.setBracketBackColor(colorStyle[5]);
-    this.setLineBackColor(colorStyle[6]);
-    this.setWordBackColor(colorStyle[7]);
+    this.setForeground(colorStyle.fontColor);
+    this.setBackground(colorStyle.backColor);
+    this.setCaretColor(colorStyle.caretColor);
+    this.setSelectedTextColor(colorStyle.selFontColor);
+    this.setSelectionColor(colorStyle.selBackColor);
+    this.setBracketBackColor(colorStyle.bracketBackColor);
+    this.setLineBackColor(colorStyle.lineBackColor);
+    this.setWordBackColor(colorStyle.wordBackColor);
   }
 
-  public Color[] getColorStyle() {
+  public ColorStyle getColorStyle() {
     return this.colorStyle;
   }
 

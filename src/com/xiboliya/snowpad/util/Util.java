@@ -131,16 +131,22 @@ public final class Util {
   public static final int MSG_LINE_SIZE = 60; // 提示框中每行字符串显示的最大字数
   public static final int PATTERN_SYNTAX_ERROR_INDEX = -2; // 正则表达式语法错误的索引值
   public static final Font TEXT_FONT = new Font("宋体", Font.PLAIN, 14); // 文本域的默认字体
-  public static final Color COLOR_BRACKET = new Color(20, 20, 20, 35); // 在文本域中进行高亮匹配括号的背景颜色
-  public static final Color COLOR_CURRENT_LINE = new Color(0, 100, 200, 25); // 在文本域中用于标识当前行的背景颜色
-  public static final Color COLOR_WORD = new Color(0, 0, 255, 40); // 在文本域中进行高亮匹配文本的背景颜色
-  public static final Color[] COLOR_STYLE_DEFAULT = new Color[] {
-      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.foreground"),
-      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.background"),
-      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.caretForeground"),
-      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionForeground"),
-      (Color) UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionBackground"),
-      COLOR_BRACKET, COLOR_CURRENT_LINE, COLOR_WORD }; // 文本域默认配色方案
+  // 配色方案默认颜色：字体颜色
+  public static final Color COLOR_DEFAULT_FONT = UIManager.getLookAndFeelDefaults().getColor("TextArea.foreground");
+  // 配色方案默认颜色：背景颜色
+  public static final Color COLOR_DEFAULT_BACK = UIManager.getLookAndFeelDefaults().getColor("TextArea.background");
+  // 配色方案默认颜色：光标颜色
+  public static final Color COLOR_DEFAULT_CARET = UIManager.getLookAndFeelDefaults().getColor("TextArea.caretForeground");
+  // 配色方案默认颜色：选区字体颜色
+  public static final Color COLOR_DEFAULT_SEL_FONT = UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionForeground");
+  // 配色方案默认颜色：选区背景颜色
+  public static final Color COLOR_DEFAULT_SEL_BACK = UIManager.getLookAndFeelDefaults().getColor("TextArea.selectionBackground");
+  // 配色方案默认颜色：匹配括号背景颜色
+  public static final Color COLOR_DEFAULT_BRACKET_BACK = new Color(20, 20, 20, 35);
+  // 配色方案默认颜色：当前行背景颜色
+  public static final Color COLOR_DEFAULT_LINE_BACK = new Color(0, 100, 200, 25);
+  // 配色方案默认颜色：匹配文本背景颜色
+  public static final Color COLOR_DEFAULT_WORD_BACK = new Color(0, 0, 255, 40);
   public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager.getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
   public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif")); // 主程序图标
 

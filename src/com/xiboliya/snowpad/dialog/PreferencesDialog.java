@@ -38,6 +38,7 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.common.CharEncoding;
+import com.xiboliya.snowpad.common.ColorStyle;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
 import com.xiboliya.snowpad.util.Util;
@@ -65,7 +66,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private JTabbedPane tpnMain = new JTabbedPane();
   private CharEncoding charEncoding = CharEncoding.GB18030; // 字符编码格式
   private LineSeparator lineSeparator = LineSeparator.DEFAULT; // 换行符格式
-  private Color[] colorStyle = Util.COLOR_STYLE_DEFAULT; // 配色方案
+  private ColorStyle colorStyle = null; // 配色方案
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private EtchedBorder etchedBorder = new EtchedBorder();
@@ -213,21 +214,21 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.cmbLineSeparator.setSelectedItem(this.lineSeparator.getValue());
     // 颜色
     this.colorStyle = Util.setting.colorStyle.clone();
-    this.lblColorFontView.setBackground(this.colorStyle[0]);
+    this.lblColorFontView.setBackground(this.colorStyle.fontColor);
     this.lblColorFontView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.lblColorBackView.setBackground(this.colorStyle[1]);
+    this.lblColorBackView.setBackground(this.colorStyle.backColor);
     this.lblColorBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.lblColorCaretView.setBackground(this.colorStyle[2]);
+    this.lblColorCaretView.setBackground(this.colorStyle.caretColor);
     this.lblColorCaretView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.lblColorSelFontView.setBackground(this.colorStyle[3]);
+    this.lblColorSelFontView.setBackground(this.colorStyle.selFontColor);
     this.lblColorSelFontView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.lblColorSelBackView.setBackground(this.colorStyle[4]);
+    this.lblColorSelBackView.setBackground(this.colorStyle.selBackColor);
     this.lblColorSelBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.lblColorBracketBackView.setBackground(this.colorStyle[5]);
+    this.lblColorBracketBackView.setBackground(this.colorStyle.bracketBackColor);
     this.lblColorBracketBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.lblColorLineBackView.setBackground(this.colorStyle[6]);
+    this.lblColorLineBackView.setBackground(this.colorStyle.lineBackColor);
     this.lblColorLineBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.lblColorWordBackView.setBackground(this.colorStyle[7]);
+    this.lblColorWordBackView.setBackground(this.colorStyle.wordBackColor);
     this.lblColorWordBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
   }
 
@@ -314,104 +315,104 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
    * "字体颜色"的处理方法
    */
   private void setFontColor() {
-    Color color = JColorChooser.showDialog(this, "字体颜色", this.colorStyle[0]);
+    Color color = JColorChooser.showDialog(this, "字体颜色", this.colorStyle.fontColor);
     if (color == null) {
       return;
     }
     this.lblColorFontView.setBackground(color);
     this.lblColorFontView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.colorStyle[0] = color;
+    this.colorStyle.fontColor = color;
   }
 
   /**
    * "背景颜色"的处理方法
    */
   private void setBackColor() {
-    Color color = JColorChooser.showDialog(this, "背景颜色", this.colorStyle[1]);
+    Color color = JColorChooser.showDialog(this, "背景颜色", this.colorStyle.backColor);
     if (color == null) {
       return;
     }
     this.lblColorBackView.setBackground(color);
     this.lblColorBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.colorStyle[1] = color;
+    this.colorStyle.backColor = color;
   }
 
   /**
    * "光标颜色"的处理方法
    */
   private void setCaretColor() {
-    Color color = JColorChooser.showDialog(this, "光标颜色", this.colorStyle[2]);
+    Color color = JColorChooser.showDialog(this, "光标颜色", this.colorStyle.caretColor);
     if (color == null) {
       return;
     }
     this.lblColorCaretView.setBackground(color);
     this.lblColorCaretView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.colorStyle[2] = color;
+    this.colorStyle.caretColor = color;
   }
 
   /**
    * "选区字体颜色"的处理方法
    */
   private void setSelFontColor() {
-    Color color = JColorChooser.showDialog(this, "选区字体颜色", this.colorStyle[3]);
+    Color color = JColorChooser.showDialog(this, "选区字体颜色", this.colorStyle.selFontColor);
     if (color == null) {
       return;
     }
     this.lblColorSelFontView.setBackground(color);
     this.lblColorSelFontView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.colorStyle[3] = color;
+    this.colorStyle.selFontColor = color;
   }
 
   /**
    * "选区背景颜色"的处理方法
    */
   private void setSelBackColor() {
-    Color color = JColorChooser.showDialog(this, "选区背景颜色", this.colorStyle[4]);
+    Color color = JColorChooser.showDialog(this, "选区背景颜色", this.colorStyle.selBackColor);
     if (color == null) {
       return;
     }
     this.lblColorSelBackView.setBackground(color);
     this.lblColorSelBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.colorStyle[4] = color;
+    this.colorStyle.selBackColor = color;
   }
 
   /**
    * "匹配括号背景颜色"的处理方法
    */
   private void setBracketBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", this.colorStyle[5]);
+    Color color = JColorChooser.showDialog(this, "匹配括号背景颜色", this.colorStyle.bracketBackColor);
     if (color == null) {
       return;
     }
     this.lblColorBracketBackView.setBackground(color);
     this.lblColorBracketBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.colorStyle[5] = color;
+    this.colorStyle.bracketBackColor = color;
   }
 
   /**
    * "当前行背景颜色"的处理方法
    */
   private void setLineBackColor() {
-    Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.colorStyle[6]);
+    Color color = JColorChooser.showDialog(this, "当前行背景颜色", this.colorStyle.lineBackColor);
     if (color == null) {
       return;
     }
     this.lblColorLineBackView.setBackground(color);
     this.lblColorLineBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.colorStyle[6] = color;
+    this.colorStyle.lineBackColor = color;
   }
 
   /**
    * "匹配文本背景颜色"的处理方法
    */
   private void setWordBackColor() {
-    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", this.colorStyle[7]);
+    Color color = JColorChooser.showDialog(this, "匹配文本背景颜色", this.colorStyle.wordBackColor);
     if (color == null) {
       return;
     }
     this.lblColorWordBackView.setBackground(color);
     this.lblColorWordBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
-    this.colorStyle[7] = color;
+    this.colorStyle.wordBackColor = color;
   }
 
   /**

@@ -94,6 +94,7 @@ import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.chooser.SaveFileChooser;
 import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.CodeStyle;
+import com.xiboliya.snowpad.common.ColorStyle;
 import com.xiboliya.snowpad.common.CurrentLine;
 import com.xiboliya.snowpad.common.CurrentLines;
 import com.xiboliya.snowpad.common.FileExt;
@@ -3483,7 +3484,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     } while (index >= 0);
     Color color = null;
     if (style == HighlightColorStyle.STYLE_WORD.getIndex()) {
-      color = Util.setting.colorStyle[7];
+      color = Util.setting.colorStyle.wordBackColor;
     } else {
       color = COLOR_HIGHLIGHTS[style];
     }
@@ -3498,15 +3499,15 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * @param mode 用于标识反色/补色，如果为true表示反色，反之则为补色
    */
   private void setColorTransform(boolean mode) {
-    Color colorFont = this.getConvertColor(this.txaMain.getForeground(), mode);
-    Color colorBack = this.getConvertColor(this.txaMain.getBackground(), mode);
-    Color colorCaret = this.getConvertColor(this.txaMain.getCaretColor(), mode);
-    Color colorSelFont = this.getConvertColor(this.txaMain.getSelectedTextColor(), mode);
-    Color colorSelBack = this.getConvertColor(this.txaMain.getSelectionColor(), mode);
-    Color colorBracketBack = this.getConvertColor(this.txaMain.getBracketBackColor(), mode);
-    Color colorLineBack = this.getConvertColor(this.txaMain.getLineBackColor(), mode);
-    Color colorWordBack = this.getConvertColor(this.txaMain.getWordBackColor(), mode);
-    Color[] colorStyle = new Color[] { colorFont, colorBack, colorCaret, colorSelFont, colorSelBack, colorBracketBack, colorLineBack, colorWordBack };
+    ColorStyle colorStyle = new ColorStyle();
+    colorStyle.fontColor = this.getConvertColor(this.txaMain.getForeground(), mode);
+    colorStyle.backColor = this.getConvertColor(this.txaMain.getBackground(), mode);
+    colorStyle.caretColor = this.getConvertColor(this.txaMain.getCaretColor(), mode);
+    colorStyle.selFontColor = this.getConvertColor(this.txaMain.getSelectedTextColor(), mode);
+    colorStyle.selBackColor = this.getConvertColor(this.txaMain.getSelectionColor(), mode);
+    colorStyle.bracketBackColor = this.getConvertColor(this.txaMain.getBracketBackColor(), mode);
+    colorStyle.lineBackColor = this.getConvertColor(this.txaMain.getLineBackColor(), mode);
+    colorStyle.wordBackColor = this.getConvertColor(this.txaMain.getWordBackColor(), mode);
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(colorStyle);
     }
@@ -3563,9 +3564,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    */
   private void setColorStyle(int style) {
     if (style > 0 && style <= COLOR_STYLES.length) {
-      Util.setting.colorStyle = COLOR_STYLES[style - 1];
+      Util.setting.colorStyle = new ColorStyle(COLOR_STYLES[style - 1]);
     } else {
-      Util.setting.colorStyle = Util.COLOR_STYLE_DEFAULT;
+      Util.setting.colorStyle = new ColorStyle();
     }
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(Util.setting.colorStyle);
@@ -6725,8 +6726,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * 查找当前光标处的括号的匹配括号，并进行高亮显示
    */
   private void searchTargetBracket() {
-    int colorStyle = HighlightColorStyle.STYLE_BRACKET.getIndex();
-    Util.rmHighlight(this.txaMain, colorStyle); // 取消上一次的括号匹配高亮
+    int style = HighlightColorStyle.STYLE_BRACKET.getIndex();
+    Util.rmHighlight(this.txaMain, style); // 取消上一次的括号匹配高亮
     String strMain = this.txaMain.getText();
     char charLeft = ' '; // 当前光标左侧的字符
     char charRight = ' '; // 当前光标右侧的字符
@@ -6749,8 +6750,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       }
     }
     this.itemFindBracket.setEnabled(true);
-    Util.addHighlight(this.txaMain, currentIndex, currentIndex + 1, Util.setting.colorStyle[5], colorStyle);
-    Util.addHighlight(this.txaMain, targetIndex, targetIndex + 1, Util.setting.colorStyle[5], colorStyle);
+    Util.addHighlight(this.txaMain, currentIndex, currentIndex + 1, Util.setting.colorStyle.bracketBackColor, style);
+    Util.addHighlight(this.txaMain, targetIndex, targetIndex + 1, Util.setting.colorStyle.bracketBackColor, style);
   }
 
   /**

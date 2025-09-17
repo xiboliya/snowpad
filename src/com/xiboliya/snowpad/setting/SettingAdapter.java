@@ -35,6 +35,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.xiboliya.snowpad.common.CharEncoding;
+import com.xiboliya.snowpad.common.ColorStyle;
 import com.xiboliya.snowpad.common.LineSeparator;
 import com.xiboliya.snowpad.common.FileHistoryBean;
 import com.xiboliya.snowpad.common.SearchStyle;
@@ -168,24 +169,31 @@ public final class SettingAdapter {
           }
           this.setting.font = new Font(strName, style, size);
         } else if (node.getNodeName().equalsIgnoreCase("colorStyle")) {
-          String[] arrColor1 = ((Element) node).getAttribute("color1").trim().split(",");
-          String[] arrColor2 = ((Element) node).getAttribute("color2").trim().split(",");
-          String[] arrColor3 = ((Element) node).getAttribute("color3").trim().split(",");
-          String[] arrColor4 = ((Element) node).getAttribute("color4").trim().split(",");
-          String[] arrColor5 = ((Element) node).getAttribute("color5").trim().split(",");
-          String[] arrColor6 = ((Element) node).getAttribute("color6").trim().split(",");
-          String[] arrColor7 = ((Element) node).getAttribute("color7").trim().split(",");
-          String[] arrColor8 = ((Element) node).getAttribute("color8").trim().split(",");
-          Color color1 = this.transferToColor(arrColor1, 0);
-          Color color2 = this.transferToColor(arrColor2, 1);
-          Color color3 = this.transferToColor(arrColor3, 2);
-          Color color4 = this.transferToColor(arrColor4, 3);
-          Color color5 = this.transferToColor(arrColor5, 4);
-          Color color6 = this.transferToColor(arrColor6, 5);
-          Color color7 = this.transferToColor(arrColor7, 6);
-          Color color8 = this.transferToColor(arrColor8, 7);
-          this.setting.colorStyle = new Color[] { color1, color2, color3,
-              color4, color5, color6, color7, color8 };
+          String[] arrFontColor = ((Element) node).getAttribute("fontColor").trim().split(",");
+          String[] arrBackColor = ((Element) node).getAttribute("backColor").trim().split(",");
+          String[] arrCaretColor = ((Element) node).getAttribute("caretColor").trim().split(",");
+          String[] arrSelFontColor = ((Element) node).getAttribute("selFontColor").trim().split(",");
+          String[] arrSelBackColor = ((Element) node).getAttribute("selBackColor").trim().split(",");
+          String[] arrBracketBackColor = ((Element) node).getAttribute("bracketBackColor").trim().split(",");
+          String[] arrLineBackColor = ((Element) node).getAttribute("lineBackColor").trim().split(",");
+          String[] arrWordBackColor = ((Element) node).getAttribute("wordBackColor").trim().split(",");
+          Color fontColor = this.transferToColor(arrFontColor, this.setting.colorStyle.fontColor);
+          Color backColor = this.transferToColor(arrBackColor, this.setting.colorStyle.backColor);
+          Color caretColor = this.transferToColor(arrCaretColor, this.setting.colorStyle.caretColor);
+          Color selFontColor = this.transferToColor(arrSelFontColor, this.setting.colorStyle.selFontColor);
+          Color selBackColor = this.transferToColor(arrSelBackColor, this.setting.colorStyle.selBackColor);
+          Color bracketBackColor = this.transferToColor(arrBracketBackColor, this.setting.colorStyle.bracketBackColor);
+          Color lineBackColor = this.transferToColor(arrLineBackColor, this.setting.colorStyle.lineBackColor);
+          Color wordBackColor = this.transferToColor(arrWordBackColor, this.setting.colorStyle.wordBackColor);
+          this.setting.colorStyle = new ColorStyle();
+          this.setting.colorStyle.fontColor = fontColor;
+          this.setting.colorStyle.backColor = backColor;
+          this.setting.colorStyle.caretColor = caretColor;
+          this.setting.colorStyle.selFontColor = selFontColor;
+          this.setting.colorStyle.selBackColor = selBackColor;
+          this.setting.colorStyle.bracketBackColor = bracketBackColor;
+          this.setting.colorStyle.lineBackColor = lineBackColor;
+          this.setting.colorStyle.wordBackColor = wordBackColor;
         }
       }
     }
@@ -238,7 +246,7 @@ public final class SettingAdapter {
    * @param index 当前颜色在配色方案中的索引值
    * @return 颜色
    */
-  private Color transferToColor(String[] arrColor, int index) {
+  private Color transferToColor(String[] arrColor, Color defaultColor) {
     int red = -1;
     int green = -1;
     int blue = -1;
@@ -256,7 +264,7 @@ public final class SettingAdapter {
       return new Color(red, green, blue, alpha);
     } catch (Exception x) {
       // x.printStackTrace();
-      return Util.COLOR_STYLE_DEFAULT[index];
+      return defaultColor;
     }
   }
 
@@ -541,30 +549,30 @@ public final class SettingAdapter {
         } else if (node.getNodeName().equalsIgnoreCase("colorStyle")) {
           if (this.setting.colorStyle != null) {
             Element element = (Element) node;
-            Color color1 = this.setting.colorStyle[0];
-            Color color2 = this.setting.colorStyle[1];
-            Color color3 = this.setting.colorStyle[2];
-            Color color4 = this.setting.colorStyle[3];
-            Color color5 = this.setting.colorStyle[4];
-            Color color6 = this.setting.colorStyle[5];
-            Color color7 = this.setting.colorStyle[6];
-            Color color8 = this.setting.colorStyle[7];
-            element.setAttribute("color1", 
-                color1.getRed() + "," + color1.getGreen() + "," + color1.getBlue() + "," + color1.getAlpha());
-            element.setAttribute("color2", 
-                color2.getRed() + "," + color2.getGreen() + "," + color2.getBlue() + "," + color2.getAlpha());
-            element.setAttribute("color3", 
-                color3.getRed() + "," + color3.getGreen() + "," + color3.getBlue() + "," + color3.getAlpha());
-            element.setAttribute("color4", 
-                color4.getRed() + "," + color4.getGreen() + "," + color4.getBlue() + "," + color4.getAlpha());
-            element.setAttribute("color5", 
-                color5.getRed() + "," + color5.getGreen() + "," + color5.getBlue() + "," + color5.getAlpha());
-            element.setAttribute("color6", 
-                color6.getRed() + "," + color6.getGreen() + "," + color6.getBlue() + "," + color6.getAlpha());
-            element.setAttribute("color7", 
-                color7.getRed() + "," + color7.getGreen() + "," + color7.getBlue() + "," + color7.getAlpha());
-            element.setAttribute("color8", 
-                color8.getRed() + "," + color8.getGreen() + "," + color8.getBlue() + "," + color8.getAlpha());
+            Color fontColor = this.setting.colorStyle.fontColor;
+            Color backColor = this.setting.colorStyle.backColor;
+            Color caretColor = this.setting.colorStyle.caretColor;
+            Color selFontColor = this.setting.colorStyle.selFontColor;
+            Color selBackColor = this.setting.colorStyle.selBackColor;
+            Color bracketBackColor = this.setting.colorStyle.bracketBackColor;
+            Color lineBackColor = this.setting.colorStyle.lineBackColor;
+            Color wordBackColor = this.setting.colorStyle.wordBackColor;
+            element.setAttribute("fontColor", 
+                fontColor.getRed() + "," + fontColor.getGreen() + "," + fontColor.getBlue() + "," + fontColor.getAlpha());
+            element.setAttribute("backColor", 
+                backColor.getRed() + "," + backColor.getGreen() + "," + backColor.getBlue() + "," + backColor.getAlpha());
+            element.setAttribute("caretColor", 
+                caretColor.getRed() + "," + caretColor.getGreen() + "," + caretColor.getBlue() + "," + caretColor.getAlpha());
+            element.setAttribute("selFontColor", 
+                selFontColor.getRed() + "," + selFontColor.getGreen() + "," + selFontColor.getBlue() + "," + selFontColor.getAlpha());
+            element.setAttribute("selBackColor", 
+                selBackColor.getRed() + "," + selBackColor.getGreen() + "," + selBackColor.getBlue() + "," + selBackColor.getAlpha());
+            element.setAttribute("bracketBackColor", 
+                bracketBackColor.getRed() + "," + bracketBackColor.getGreen() + "," + bracketBackColor.getBlue() + "," + bracketBackColor.getAlpha());
+            element.setAttribute("lineBackColor", 
+                lineBackColor.getRed() + "," + lineBackColor.getGreen() + "," + lineBackColor.getBlue() + "," + lineBackColor.getAlpha());
+            element.setAttribute("wordBackColor", 
+                wordBackColor.getRed() + "," + wordBackColor.getGreen() + "," + wordBackColor.getBlue() + "," + wordBackColor.getAlpha());
           }
         }
       }
