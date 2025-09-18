@@ -177,6 +177,7 @@ public final class SettingAdapter {
           String[] arrBracketBackColor = ((Element) node).getAttribute("bracketBackColor").trim().split(",");
           String[] arrLineBackColor = ((Element) node).getAttribute("lineBackColor").trim().split(",");
           String[] arrWordBackColor = ((Element) node).getAttribute("wordBackColor").trim().split(",");
+          String[] arrMarkBackColor = ((Element) node).getAttribute("markBackColor").trim().split(",");
           Color fontColor = this.transferToColor(arrFontColor, this.setting.colorStyle.fontColor);
           Color backColor = this.transferToColor(arrBackColor, this.setting.colorStyle.backColor);
           Color caretColor = this.transferToColor(arrCaretColor, this.setting.colorStyle.caretColor);
@@ -185,6 +186,7 @@ public final class SettingAdapter {
           Color bracketBackColor = this.transferToColor(arrBracketBackColor, this.setting.colorStyle.bracketBackColor);
           Color lineBackColor = this.transferToColor(arrLineBackColor, this.setting.colorStyle.lineBackColor);
           Color wordBackColor = this.transferToColor(arrWordBackColor, this.setting.colorStyle.wordBackColor);
+          Color markBackColor = this.transferToColor(arrMarkBackColor, this.setting.colorStyle.markBackColor);
           this.setting.colorStyle = new ColorStyle();
           this.setting.colorStyle.fontColor = fontColor;
           this.setting.colorStyle.backColor = backColor;
@@ -194,6 +196,7 @@ public final class SettingAdapter {
           this.setting.colorStyle.bracketBackColor = bracketBackColor;
           this.setting.colorStyle.lineBackColor = lineBackColor;
           this.setting.colorStyle.wordBackColor = wordBackColor;
+          this.setting.colorStyle.markBackColor = markBackColor;
         }
       }
     }
@@ -557,6 +560,7 @@ public final class SettingAdapter {
             Color bracketBackColor = this.setting.colorStyle.bracketBackColor;
             Color lineBackColor = this.setting.colorStyle.lineBackColor;
             Color wordBackColor = this.setting.colorStyle.wordBackColor;
+            Color markBackColor = this.setting.colorStyle.markBackColor;
             element.setAttribute("fontColor", 
                 fontColor.getRed() + "," + fontColor.getGreen() + "," + fontColor.getBlue() + "," + fontColor.getAlpha());
             element.setAttribute("backColor", 
@@ -573,6 +577,8 @@ public final class SettingAdapter {
                 lineBackColor.getRed() + "," + lineBackColor.getGreen() + "," + lineBackColor.getBlue() + "," + lineBackColor.getAlpha());
             element.setAttribute("wordBackColor", 
                 wordBackColor.getRed() + "," + wordBackColor.getGreen() + "," + wordBackColor.getBlue() + "," + wordBackColor.getAlpha());
+            element.setAttribute("markBackColor", 
+                markBackColor.getRed() + "," + markBackColor.getGreen() + "," + markBackColor.getBlue() + "," + markBackColor.getAlpha());
           }
         }
       }

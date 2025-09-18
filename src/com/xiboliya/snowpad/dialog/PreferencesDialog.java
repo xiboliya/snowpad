@@ -94,6 +94,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private JLabel lblColorLineBackView = new JLabel();
   private JLabel lblColorWordBack = new JLabel("匹配文本背景颜色：");
   private JLabel lblColorWordBackView = new JLabel();
+  private JLabel lblColorMarkBack = new JLabel("标记文本背景颜色：");
+  private JLabel lblColorMarkBackView = new JLabel();
   // 主界面
   private JPanel pnlBottom = new JPanel();
   private BaseButton btnOk = new BaseButton("确定");
@@ -170,6 +172,10 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lblColorWordBackView.setBounds(320, 70, Util.VIEW_HEIGHT, Util.VIEW_HEIGHT);
     this.lblColorWordBackView.setBorder(this.etchedBorder);
     this.lblColorWordBackView.setOpaque(true);
+    this.lblColorMarkBack.setBounds(200, 100, 120, Util.VIEW_HEIGHT);
+    this.lblColorMarkBackView.setBounds(320, 100, Util.VIEW_HEIGHT, Util.VIEW_HEIGHT);
+    this.lblColorMarkBackView.setBorder(this.etchedBorder);
+    this.lblColorMarkBackView.setOpaque(true);
     this.pnlColor.add(this.lblColorFont);
     this.pnlColor.add(this.lblColorFontView);
     this.pnlColor.add(this.lblColorBack);
@@ -186,6 +192,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.pnlColor.add(this.lblColorLineBackView);
     this.pnlColor.add(this.lblColorWordBack);
     this.pnlColor.add(this.lblColorWordBackView);
+    this.pnlColor.add(this.lblColorMarkBack);
+    this.pnlColor.add(this.lblColorMarkBackView);
     // 主界面
     this.tpnMain.setBounds(0, 0, 420, 210);
     this.tpnMain.add(this.pnlNew, "新建");
@@ -230,6 +238,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lblColorLineBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
     this.lblColorWordBackView.setBackground(this.colorStyle.wordBackColor);
     this.lblColorWordBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.lblColorMarkBackView.setBackground(this.colorStyle.markBackColor);
+    this.lblColorMarkBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
   }
 
   /**
@@ -256,6 +266,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lblColorBracketBackView.addMouseListener(this);
     this.lblColorLineBackView.addMouseListener(this);
     this.lblColorWordBackView.addMouseListener(this);
+    this.lblColorMarkBackView.addMouseListener(this);
     // 主界面
     this.btnOk.addActionListener(this);
     this.btnOk.addKeyListener(this.buttonKeyAdapter);
@@ -416,6 +427,19 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   }
 
   /**
+   * "标记文本背景颜色"的处理方法
+   */
+  private void setMarkBackColor() {
+    Color color = JColorChooser.showDialog(this, "标记文本背景颜色", this.colorStyle.markBackColor);
+    if (color == null) {
+      return;
+    }
+    this.lblColorMarkBackView.setBackground(color);
+    this.lblColorMarkBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.colorStyle.markBackColor = color;
+  }
+
+  /**
    * 为各组件添加事件的处理方法
    */
   @Override
@@ -482,6 +506,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
       this.setLineBackColor();
     } else if (this.lblColorWordBackView.equals(source)) {
       this.setWordBackColor();
+    } else if (this.lblColorMarkBackView.equals(source)) {
+      this.setMarkBackColor();
     }
   }
 

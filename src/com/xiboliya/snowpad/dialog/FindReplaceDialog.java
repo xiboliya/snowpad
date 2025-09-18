@@ -68,7 +68,6 @@ import com.xiboliya.snowpad.window.TipsWindow.Background;
 public class FindReplaceDialog extends BaseDialog implements ActionListener,
     DocumentListener, ChangeListener, WindowFocusListener {
   private static final long serialVersionUID = 1L;
-  private static final Color COLOR_MARK = new Color(255, 155, 155); // 标记文本的颜色
   private SearchResultPanel searchResultPanel; // 查找结果面板
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
@@ -1317,7 +1316,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       }
     } else {
       for (SearchBean searchBean : listIndex) {
-        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), COLOR_MARK, HighlightColorStyle.STYLE_MARK.getIndex());
+        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), this.txaSource.getMarkBackColor(), HighlightColorStyle.STYLE_MARK.getIndex());
       }
       if (this.addBookmark) {
         try {
@@ -1402,7 +1401,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
     } else {
       for (SearchBean searchBean : listIndex) {
-        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), COLOR_MARK, HighlightColorStyle.STYLE_MARK.getIndex());
+        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), this.txaSource.getMarkBackColor(), HighlightColorStyle.STYLE_MARK.getIndex());
       }
       if (this.addBookmark) {
         try {

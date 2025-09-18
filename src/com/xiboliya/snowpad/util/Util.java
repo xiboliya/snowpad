@@ -147,6 +147,8 @@ public final class Util {
   public static final Color COLOR_DEFAULT_LINE_BACK = new Color(0, 100, 200, 25);
   // 配色方案默认颜色：匹配文本背景颜色
   public static final Color COLOR_DEFAULT_WORD_BACK = new Color(0, 0, 255, 40);
+  // 配色方案默认颜色：标记文本背景颜色
+  public static final Color COLOR_DEFAULT_MARK_BACK = new Color(255, 155, 155);
   public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager.getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
   public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif")); // 主程序图标
 
