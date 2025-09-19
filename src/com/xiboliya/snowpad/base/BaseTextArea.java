@@ -78,6 +78,7 @@ public class BaseTextArea extends JTextArea {
   private Color lineBackColor = Util.COLOR_DEFAULT_LINE_BACK; // 需绘制的当前行的背景颜色
   private Color wordBackColor = Util.COLOR_DEFAULT_WORD_BACK; // 需绘制的匹配文本的背景颜色
   private Color markBackColor = Util.COLOR_DEFAULT_MARK_BACK; // 需绘制的标记文本的背景颜色
+  private Color bookmarkColor = Util.COLOR_DEFAULT_BOOKMARK; // 需绘制的书签的颜色
   private LinkedList<PartnerBean> backForwardList = new LinkedList<PartnerBean>(); // 存放光标在文本域中历史位置的链表
   private int backForwardIndex = Util.DEFAULT_BACK_FORWARD_INDEX; // 光标历史位置，初始化为默认值
   private long fileLastModified = 0L; // 文件最后修改的时间戳，如果文件为空，则此值为0L
@@ -396,6 +397,7 @@ public class BaseTextArea extends JTextArea {
     this.setLineBackColor(colorStyle.lineBackColor);
     this.setWordBackColor(colorStyle.wordBackColor);
     this.setMarkBackColor(colorStyle.markBackColor);
+    this.setBookmarkColor(colorStyle.bookmarkColor);
   }
 
   public ColorStyle getColorStyle() {
@@ -523,6 +525,14 @@ public class BaseTextArea extends JTextArea {
 
   public void setMarkBackColor(Color markBackColor) {
     this.markBackColor = markBackColor;
+  }
+
+  public Color getBookmarkColor() {
+    return this.bookmarkColor;
+  }
+
+  public void setBookmarkColor(Color bookmarkColor) {
+    this.bookmarkColor = bookmarkColor;
   }
 
   public LinkedList<PartnerBean> getBackForwardList() {

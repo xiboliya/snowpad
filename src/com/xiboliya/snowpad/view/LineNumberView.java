@@ -44,7 +44,6 @@ public class LineNumberView extends JComponent {
   private static final int LINE_NUMBER_MARGIN = 3; // 行号组件的左边距
   private static final int LINE_NUMBER_MARGIN_RIGHT = 12; // 行号组件的左边距
   private static final int LINE_NUMBER_START_OFFSET = 2; // 行号组件的起始垂直偏移量，用于对齐文本域的各行
-  private static final Color COLOR_BOOKMARK = new Color(128, 0, 128); // 书签的颜色
   private int lineHeight = 0; // 当前字体中文本行的标准高度。它是相邻文本行基线之间的距离，是leading、ascent和descent的总和。
   private int maxRowWidth = 0; // 组件显示区域中，最宽一行的字符串宽度
   private FontMetrics fontMetrics = null; // 定义字体规格的对象，该对象封装将在屏幕上显示的字体的有关信息
@@ -156,13 +155,13 @@ public class LineNumberView extends JComponent {
       g.drawString(lineNum, LINE_NUMBER_MARGIN + this.maxRowWidth - stringWidth, start);
       start += this.lineHeight;
     }
-    LinkedList<Integer> bookmarks = txaSource.getBookmarks();
+    LinkedList<Integer> bookmarks = this.txaSource.getBookmarks();
     int size = bookmarks.size();
     if (size <= 0) {
       return;
     }
     Color color = g.getColor();
-    g.setColor(COLOR_BOOKMARK);
+    g.setColor(this.txaSource.getBookmarkColor());
     int width = this.getWidth();
     int bookmarkWidth = LINE_NUMBER_MARGIN_RIGHT - 2;
     for (int i = 0; i < size; i++) {

@@ -189,31 +189,31 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       new Color(140, 220, 125), new Color(255, 200, 58),
       new Color(136, 138, 133), new Color(255, 0, 255, 35),
       new Color(150, 150, 150, 25), new Color(136, 138, 133, 70),
-      new Color(200, 50, 255) };
+      new Color(200, 50, 255), new Color(128, 0, 128) };
   private static final Color[] COLOR_STYLE_2 = new Color[] {
       new Color(240, 240, 240), new Color(0, 128, 128),
       new Color(240, 240, 240), new Color(22, 99, 88),
       new Color(240, 240, 240), new Color(180, 0, 255, 35),
       new Color(240, 240, 10, 25), new Color(240, 240, 240, 70),
-      new Color(255, 100, 50) };
+      new Color(255, 100, 50), new Color(255, 50, 100) };
   private static final Color[] COLOR_STYLE_3 = new Color[] {
       new Color(46, 52, 54), new Color(215, 215, 175),
       new Color(46, 52, 54), new Color(255, 251, 240),
       new Color(46, 52, 54), new Color(0, 255, 180, 35),
       new Color(240, 100, 100, 25), new Color(46, 52, 54, 70),
-      new Color(50, 155, 255) };
+      new Color(50, 155, 255), new Color(0, 100, 155) };
   private static final Color[] COLOR_STYLE_4 = new Color[] {
       new Color(51, 53, 49), new Color(204, 232, 207),
       new Color(51, 53, 49), new Color(204, 232, 207),
       new Color(0, 60, 100), new Color(20, 20, 20, 35),
       new Color(0, 100, 200, 25), new Color(0, 60, 100, 70),
-      new Color(255, 50, 100) };
+      new Color(255, 50, 100), new Color(205, 0, 50) };
   private static final Color[] COLOR_STYLE_5 = new Color[] {
       new Color(189, 174, 157), new Color(42, 33, 28),
       new Color(5, 165, 245), new Color(189, 237, 229),
       new Color(130, 100, 90), new Color(255, 255, 0, 35),
       new Color(240, 200, 180, 25), new Color(130, 100, 90, 70),
-      new Color(0, 100, 100) };
+      new Color(0, 100, 100), new Color(0, 155, 155) };
   private static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1, COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
   private static final ImageIcon TAB_EXIST_READONLY_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly.png")); // 只读文件图标
   private static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current.png")); // 普通文件图标
@@ -3514,6 +3514,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     colorStyle.lineBackColor = this.getConvertColor(this.txaMain.getLineBackColor(), mode);
     colorStyle.wordBackColor = this.getConvertColor(this.txaMain.getWordBackColor(), mode);
     colorStyle.markBackColor = this.getConvertColor(this.txaMain.getMarkBackColor(), mode);
+    colorStyle.bookmarkColor = this.getConvertColor(this.txaMain.getBookmarkColor(), mode);
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(colorStyle);
     }

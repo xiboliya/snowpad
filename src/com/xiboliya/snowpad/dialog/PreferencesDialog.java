@@ -96,6 +96,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private JLabel lblColorWordBackView = new JLabel();
   private JLabel lblColorMarkBack = new JLabel("标记文本背景颜色：");
   private JLabel lblColorMarkBackView = new JLabel();
+  private JLabel lblColorBookmark = new JLabel("书签颜色：");
+  private JLabel lblColorBookmarkView = new JLabel();
   // 主界面
   private JPanel pnlBottom = new JPanel();
   private BaseButton btnOk = new BaseButton("确定");
@@ -176,6 +178,10 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lblColorMarkBackView.setBounds(320, 100, Util.VIEW_HEIGHT, Util.VIEW_HEIGHT);
     this.lblColorMarkBackView.setBorder(this.etchedBorder);
     this.lblColorMarkBackView.setOpaque(true);
+    this.lblColorBookmark.setBounds(200, 130, 120, Util.VIEW_HEIGHT);
+    this.lblColorBookmarkView.setBounds(320, 130, Util.VIEW_HEIGHT, Util.VIEW_HEIGHT);
+    this.lblColorBookmarkView.setBorder(this.etchedBorder);
+    this.lblColorBookmarkView.setOpaque(true);
     this.pnlColor.add(this.lblColorFont);
     this.pnlColor.add(this.lblColorFontView);
     this.pnlColor.add(this.lblColorBack);
@@ -194,6 +200,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.pnlColor.add(this.lblColorWordBackView);
     this.pnlColor.add(this.lblColorMarkBack);
     this.pnlColor.add(this.lblColorMarkBackView);
+    this.pnlColor.add(this.lblColorBookmark);
+    this.pnlColor.add(this.lblColorBookmarkView);
     // 主界面
     this.tpnMain.setBounds(0, 0, 420, 210);
     this.tpnMain.add(this.pnlNew, "新建");
@@ -240,6 +248,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lblColorWordBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
     this.lblColorMarkBackView.setBackground(this.colorStyle.markBackColor);
     this.lblColorMarkBackView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.lblColorBookmarkView.setBackground(this.colorStyle.bookmarkColor);
+    this.lblColorBookmarkView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
   }
 
   /**
@@ -267,6 +277,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     this.lblColorLineBackView.addMouseListener(this);
     this.lblColorWordBackView.addMouseListener(this);
     this.lblColorMarkBackView.addMouseListener(this);
+    this.lblColorBookmarkView.addMouseListener(this);
     // 主界面
     this.btnOk.addActionListener(this);
     this.btnOk.addKeyListener(this.buttonKeyAdapter);
@@ -440,6 +451,19 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   }
 
   /**
+   * "书签颜色"的处理方法
+   */
+  private void setBookmarkColor() {
+    Color color = JColorChooser.showDialog(this, "书签颜色", this.colorStyle.bookmarkColor);
+    if (color == null) {
+      return;
+    }
+    this.lblColorBookmarkView.setBackground(color);
+    this.lblColorBookmarkView.repaint(); // 重绘标签，以解决在修改透明度颜色后，绘制标签背景错乱的问题
+    this.colorStyle.bookmarkColor = color;
+  }
+
+  /**
    * 为各组件添加事件的处理方法
    */
   @Override
@@ -508,6 +532,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
       this.setWordBackColor();
     } else if (this.lblColorMarkBackView.equals(source)) {
       this.setMarkBackColor();
+    } else if (this.lblColorBookmarkView.equals(source)) {
+      this.setBookmarkColor();
     }
   }
 

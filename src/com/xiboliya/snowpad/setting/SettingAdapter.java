@@ -178,6 +178,7 @@ public final class SettingAdapter {
           String[] arrLineBackColor = ((Element) node).getAttribute("lineBackColor").trim().split(",");
           String[] arrWordBackColor = ((Element) node).getAttribute("wordBackColor").trim().split(",");
           String[] arrMarkBackColor = ((Element) node).getAttribute("markBackColor").trim().split(",");
+          String[] arrBookmarkColor = ((Element) node).getAttribute("bookmarkColor").trim().split(",");
           Color fontColor = this.transferToColor(arrFontColor, this.setting.colorStyle.fontColor);
           Color backColor = this.transferToColor(arrBackColor, this.setting.colorStyle.backColor);
           Color caretColor = this.transferToColor(arrCaretColor, this.setting.colorStyle.caretColor);
@@ -187,6 +188,7 @@ public final class SettingAdapter {
           Color lineBackColor = this.transferToColor(arrLineBackColor, this.setting.colorStyle.lineBackColor);
           Color wordBackColor = this.transferToColor(arrWordBackColor, this.setting.colorStyle.wordBackColor);
           Color markBackColor = this.transferToColor(arrMarkBackColor, this.setting.colorStyle.markBackColor);
+          Color bookmarkColor = this.transferToColor(arrBookmarkColor, this.setting.colorStyle.bookmarkColor);
           this.setting.colorStyle = new ColorStyle();
           this.setting.colorStyle.fontColor = fontColor;
           this.setting.colorStyle.backColor = backColor;
@@ -197,6 +199,7 @@ public final class SettingAdapter {
           this.setting.colorStyle.lineBackColor = lineBackColor;
           this.setting.colorStyle.wordBackColor = wordBackColor;
           this.setting.colorStyle.markBackColor = markBackColor;
+          this.setting.colorStyle.bookmarkColor = bookmarkColor;
         }
       }
     }
@@ -561,6 +564,7 @@ public final class SettingAdapter {
             Color lineBackColor = this.setting.colorStyle.lineBackColor;
             Color wordBackColor = this.setting.colorStyle.wordBackColor;
             Color markBackColor = this.setting.colorStyle.markBackColor;
+            Color bookmarkColor = this.setting.colorStyle.bookmarkColor;
             element.setAttribute("fontColor", 
                 fontColor.getRed() + "," + fontColor.getGreen() + "," + fontColor.getBlue() + "," + fontColor.getAlpha());
             element.setAttribute("backColor", 
@@ -579,6 +583,8 @@ public final class SettingAdapter {
                 wordBackColor.getRed() + "," + wordBackColor.getGreen() + "," + wordBackColor.getBlue() + "," + wordBackColor.getAlpha());
             element.setAttribute("markBackColor", 
                 markBackColor.getRed() + "," + markBackColor.getGreen() + "," + markBackColor.getBlue() + "," + markBackColor.getAlpha());
+            element.setAttribute("bookmarkColor", 
+                bookmarkColor.getRed() + "," + bookmarkColor.getGreen() + "," + bookmarkColor.getBlue() + "," + bookmarkColor.getAlpha());
           }
         }
       }
