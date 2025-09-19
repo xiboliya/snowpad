@@ -2601,3 +2601,15 @@ src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2025-09-19
+1.将书签颜色纳入配色方案中，并在首选项界面中添加相应设置。
+res/help.res
+res/snowpad.xml
+src/com/xiboliya/snowpad/base/BaseTextArea.java
+src/com/xiboliya/snowpad/common/ColorStyle.java
+src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/util/Util.java
+src/com/xiboliya/snowpad/view/LineNumberView.java
