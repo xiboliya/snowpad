@@ -33,6 +33,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import javax.swing.ImageIcon;
@@ -285,7 +286,20 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
           continue;
         }
         Arrays.sort(files, this.comparator);
+        // 目录在前，文件在后
+        ArrayList<File> dirList = new ArrayList<File>();
+        ArrayList<File> fileList = new ArrayList<File>();
         for (File itemFile : files) {
+          if (itemFile.isDirectory()) {
+            dirList.add(itemFile);
+          } else {
+            fileList.add(itemFile);
+          }
+        }
+        for (File itemFile : dirList) {
+          childNode.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
+        }
+        for (File itemFile : fileList) {
           childNode.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
         }
       }
