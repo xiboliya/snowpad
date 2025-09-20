@@ -2617,3 +2617,5 @@ src/com/xiboliya/snowpad/view/LineNumberView.java
 2025-09-20
 1.解决在查找、替换对话框中进行全部替换和选区内替换时，没有添加全词匹配逻辑的问题。
 src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
+2.文件树中显示顺序调整：目录排在文件之前。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
