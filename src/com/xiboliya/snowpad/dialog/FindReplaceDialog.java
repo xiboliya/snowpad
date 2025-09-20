@@ -915,14 +915,20 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
         int findLength = stbFindTextTemp.length();
         int replaceLength = strReplaceText.length();
         int indexTemp = 0;
-        for (int index = 0; caretPos >= 0; times++) {
+        for (int index = 0; caretPos >= 0;) {
           index = stbTextAllTemp.indexOf(stbFindTextTemp.toString(), caretPos);
           if (index >= 0) {
-            indexTemp = index - (findLength - replaceLength) * times;
-            stbTextAll.replace(indexTemp, indexTemp + findLength, strReplaceText);
-            caretPos = index + findLength;
-            if (caretPos < oldPos) {
-              newPos -= offset;
+            if (!this.isMatchWholeWord ||
+                (this.isMatchWholeWord && Util.isMatchWholeWord(stbTextAllTemp.toString(), index, findLength))) {
+              indexTemp = index - (findLength - replaceLength) * times;
+              stbTextAll.replace(indexTemp, indexTemp + findLength, strReplaceText);
+              caretPos = index + findLength;
+              if (caretPos < oldPos) {
+                newPos -= offset;
+              }
+              times++;
+            } else {
+              caretPos = index + findLength;
             }
           } else {
             break;
