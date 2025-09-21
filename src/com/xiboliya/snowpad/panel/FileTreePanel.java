@@ -130,22 +130,25 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private void addNextNode(BaseTreeNode treeNode, File file) {
     if (file == null) {
       return;
-    } else if (file.isDirectory()) {
-      BaseTreeNode dirNode = new BaseTreeNode(this.getViewName(file), file.getAbsolutePath());
-      treeNode.add(dirNode);
+    }
+    if (file.isDirectory()) {
       File[] files = file.listFiles();
       if (files == null || files.length == 0) {
         return;
       }
       Arrays.sort(files, this.comparator);
+      // 目录在前，文件在后
+      ArrayList<File> fileList = new ArrayList<File>();
       for (File itemFile : files) {
-        int level = dirNode.getLevel();
-        if (level < 2) {
-          this.addNextNode(dirNode, itemFile);
+        if (itemFile.isDirectory()) {
+          treeNode.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
+        } else {
+          fileList.add(itemFile);
         }
       }
-    } else {
-      treeNode.add(new BaseTreeNode(this.getViewName(file), file.getAbsolutePath()));
+      for (File itemFile : fileList) {
+        treeNode.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
+      }
     }
   }
 
@@ -235,7 +238,9 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     }
     Arrays.sort(roots, this.comparator);
     for (File root : roots) {
-      this.addNextNode(this.treeNode, root);
+      BaseTreeNode rootNode = new BaseTreeNode(this.getViewName(root), root.getAbsolutePath());
+      this.treeNode.add(rootNode);
+      this.addNextNode(rootNode, root);
     }
     this.treeMain.expandRow(0); // 展开第一级节点
     this.treeMain.setSelectionRow(0); // 选择首行节点
@@ -281,27 +286,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
         if (!file.isDirectory()) {
           continue;
         }
-        File[] files = file.listFiles();
-        if (files == null || files.length == 0) {
-          continue;
-        }
-        Arrays.sort(files, this.comparator);
-        // 目录在前，文件在后
-        ArrayList<File> dirList = new ArrayList<File>();
-        ArrayList<File> fileList = new ArrayList<File>();
-        for (File itemFile : files) {
-          if (itemFile.isDirectory()) {
-            dirList.add(itemFile);
-          } else {
-            fileList.add(itemFile);
-          }
-        }
-        for (File itemFile : dirList) {
-          childNode.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
-        }
-        for (File itemFile : fileList) {
-          childNode.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
-        }
+        this.addNextNode(childNode, file);
       }
     }
   }
