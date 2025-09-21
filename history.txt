@@ -2619,3 +2619,7 @@ src/com/xiboliya/snowpad/view/LineNumberView.java
 src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
 2.文件树中显示顺序调整：目录排在文件之前。
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+
+2025-09-21
+1.优化文件树逻辑，并解决第一级目录没有按照目录排在文件之前的规则排序的问题。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
