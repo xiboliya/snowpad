@@ -2623,3 +2623,7 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 2025-09-21
 1.优化文件树逻辑，并解决第一级目录没有按照目录排在文件之前的规则排序的问题。
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+
+2025-09-22
+1.解决文件树种偶现的文件或目录重复的问题。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
