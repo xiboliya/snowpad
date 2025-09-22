@@ -132,6 +132,11 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       return;
     }
     if (file.isDirectory()) {
+      // 如果当前节点已经添加过子节点，则不重复添加
+      int childCount = treeNode.getChildCount();
+      if (childCount > 0) {
+        return;
+      }
       File[] files = file.listFiles();
       if (files == null || files.length == 0) {
         return;
@@ -283,10 +288,9 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       for (int i = 0; i < childCount; i++) {
         BaseTreeNode childNode = (BaseTreeNode)node.getChildAt(i);
         File file = new File(childNode.getContent());
-        if (!file.isDirectory()) {
-          continue;
+        if (file.isDirectory()) {
+          this.addNextNode(childNode, file);
         }
-        this.addNextNode(childNode, file);
       }
     }
   }
