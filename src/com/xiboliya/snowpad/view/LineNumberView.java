@@ -161,7 +161,7 @@ public class LineNumberView extends JComponent {
       return;
     }
     Color color = g.getColor();
-    g.setColor(this.txaSource.getBookmarkColor());
+    g.setColor(Util.setting.colorStyle.bookmarkColor);
     int width = this.getWidth();
     int bookmarkWidth = LINE_NUMBER_MARGIN_RIGHT - 2;
     for (int i = 0; i < size; i++) {

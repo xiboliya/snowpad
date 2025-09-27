@@ -3505,21 +3505,18 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    */
   private void setColorTransform(boolean mode) {
     ColorStyle colorStyle = new ColorStyle();
-    colorStyle.fontColor = this.getConvertColor(this.txaMain.getForeground(), mode);
-    colorStyle.backColor = this.getConvertColor(this.txaMain.getBackground(), mode);
-    colorStyle.caretColor = this.getConvertColor(this.txaMain.getCaretColor(), mode);
-    colorStyle.selFontColor = this.getConvertColor(this.txaMain.getSelectedTextColor(), mode);
-    colorStyle.selBackColor = this.getConvertColor(this.txaMain.getSelectionColor(), mode);
-    colorStyle.bracketBackColor = this.getConvertColor(this.txaMain.getBracketBackColor(), mode);
-    colorStyle.lineBackColor = this.getConvertColor(this.txaMain.getLineBackColor(), mode);
-    colorStyle.wordBackColor = this.getConvertColor(this.txaMain.getWordBackColor(), mode);
-    colorStyle.markBackColor = this.getConvertColor(this.txaMain.getMarkBackColor(), mode);
-    colorStyle.bookmarkColor = this.getConvertColor(this.txaMain.getBookmarkColor(), mode);
-    for (BaseTextArea textArea : this.textAreaList) {
-      textArea.setColorStyle(colorStyle);
-    }
-    this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
+    colorStyle.fontColor = this.getConvertColor(Util.setting.colorStyle.fontColor, mode);
+    colorStyle.backColor = this.getConvertColor(Util.setting.colorStyle.backColor, mode);
+    colorStyle.caretColor = this.getConvertColor(Util.setting.colorStyle.caretColor, mode);
+    colorStyle.selFontColor = this.getConvertColor(Util.setting.colorStyle.selFontColor, mode);
+    colorStyle.selBackColor = this.getConvertColor(Util.setting.colorStyle.selBackColor, mode);
+    colorStyle.bracketBackColor = this.getConvertColor(Util.setting.colorStyle.bracketBackColor, mode);
+    colorStyle.lineBackColor = this.getConvertColor(Util.setting.colorStyle.lineBackColor, mode);
+    colorStyle.wordBackColor = this.getConvertColor(Util.setting.colorStyle.wordBackColor, mode);
+    colorStyle.markBackColor = this.getConvertColor(Util.setting.colorStyle.markBackColor, mode);
+    colorStyle.bookmarkColor = this.getConvertColor(Util.setting.colorStyle.bookmarkColor, mode);
     Util.setting.colorStyle = colorStyle;
+    this.refreshTextAreaColorStyle();
   }
 
   /**
@@ -3575,10 +3572,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     } else {
       Util.setting.colorStyle = new ColorStyle();
     }
-    for (BaseTextArea textArea : this.textAreaList) {
-      textArea.setColorStyle(Util.setting.colorStyle);
-    }
-    this.searchTargetBracket();
+    this.refreshTextAreaColorStyle();
   }
 
   /**
@@ -4098,7 +4092,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setColorStyle(Util.setting.colorStyle);
     }
-    this.txaMain.repaint(); // 重绘当前文本域，以解决在修改颜色后，绘制当前行背景错乱的问题
+    this.searchTargetBracket();
+    this.repaintLineNumberView();
   }
 
   /**

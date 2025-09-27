@@ -1322,7 +1322,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       }
     } else {
       for (SearchBean searchBean : listIndex) {
-        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), this.txaSource.getMarkBackColor(), HighlightColorStyle.STYLE_MARK.getIndex());
+        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), Util.setting.colorStyle.markBackColor, HighlightColorStyle.STYLE_MARK.getIndex());
       }
       if (this.addBookmark) {
         try {
@@ -1407,7 +1407,7 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       JOptionPane.showMessageDialog(this, "找不到\"" + this.strFind + "\"", Util.SOFTWARE, JOptionPane.NO_OPTION);
     } else {
       for (SearchBean searchBean : listIndex) {
-        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), this.txaSource.getMarkBackColor(), HighlightColorStyle.STYLE_MARK.getIndex());
+        Util.addHighlight(this.txaSource, searchBean.getStart(), searchBean.getEnd(), Util.setting.colorStyle.markBackColor, HighlightColorStyle.STYLE_MARK.getIndex());
       }
       if (this.addBookmark) {
         try {

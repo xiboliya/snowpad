@@ -74,11 +74,6 @@ public class BaseTextArea extends JTextArea {
   private BaseDocument document = new BaseDocument(); // 文本模型
   private UndoManager undoManager = new UndoManager(); // 撤销管理器
   private int undoIndex = Util.DEFAULT_UNDO_INDEX; // 撤销标识符，初始化为默认值，此值若改变表示文本已修改
-  private Color bracketBackColor = Util.COLOR_DEFAULT_BRACKET_BACK; // 需绘制的匹配括号的背景颜色
-  private Color lineBackColor = Util.COLOR_DEFAULT_LINE_BACK; // 需绘制的当前行的背景颜色
-  private Color wordBackColor = Util.COLOR_DEFAULT_WORD_BACK; // 需绘制的匹配文本的背景颜色
-  private Color markBackColor = Util.COLOR_DEFAULT_MARK_BACK; // 需绘制的标记文本的背景颜色
-  private Color bookmarkColor = Util.COLOR_DEFAULT_BOOKMARK; // 需绘制的书签的颜色
   private LinkedList<PartnerBean> backForwardList = new LinkedList<PartnerBean>(); // 存放光标在文本域中历史位置的链表
   private int backForwardIndex = Util.DEFAULT_BACK_FORWARD_INDEX; // 光标历史位置，初始化为默认值
   private long fileLastModified = 0L; // 文件最后修改的时间戳，如果文件为空，则此值为0L
@@ -145,10 +140,10 @@ public class BaseTextArea extends JTextArea {
     this.setFont(setting.font);
     this.setAutoIndent(setting.autoIndent);
     this.setTabReplaceBySpace(setting.tabReplaceBySpace);
-    this.setColorStyle(setting.colorStyle);
     this.setTabSize(setting.tabSize);
     this.setAutoComplete(setting.autoComplete);
     this.setLineNumberView(setting.viewLineNumber);
+    this.setColorStyle(setting.colorStyle);
   }
 
   private void disableShortcut() {
@@ -247,7 +242,7 @@ public class BaseTextArea extends JTextArea {
   @Override
   protected void paintComponent(Graphics graphics) {
     super.paintComponent(graphics);
-    graphics.setColor(this.lineBackColor);
+    graphics.setColor(Util.setting.colorStyle.lineBackColor);
     try {
       Rectangle rectangle = this.modelToView(this.getCaretPosition());
       if (rectangle != null) {
@@ -393,11 +388,7 @@ public class BaseTextArea extends JTextArea {
     this.setCaretColor(colorStyle.caretColor);
     this.setSelectedTextColor(colorStyle.selFontColor);
     this.setSelectionColor(colorStyle.selBackColor);
-    this.setBracketBackColor(colorStyle.bracketBackColor);
-    this.setLineBackColor(colorStyle.lineBackColor);
-    this.setWordBackColor(colorStyle.wordBackColor);
-    this.setMarkBackColor(colorStyle.markBackColor);
-    this.setBookmarkColor(colorStyle.bookmarkColor);
+    this.repaint();
   }
 
   public ColorStyle getColorStyle() {
@@ -493,46 +484,6 @@ public class BaseTextArea extends JTextArea {
 
   public void setLineNumberView(boolean isLineNumberView) {
     this.isLineNumberView = isLineNumberView;
-  }
-
-  public Color getBracketBackColor() {
-    return this.bracketBackColor;
-  }
-
-  public void setBracketBackColor(Color bracketBackColor) {
-    this.bracketBackColor = bracketBackColor;
-  }
-
-  public Color getLineBackColor() {
-    return this.lineBackColor;
-  }
-
-  public void setLineBackColor(Color lineBackColor) {
-    this.lineBackColor = lineBackColor;
-  }
-
-  public Color getWordBackColor() {
-    return this.wordBackColor;
-  }
-
-  public void setWordBackColor(Color wordBackColor) {
-    this.wordBackColor = wordBackColor;
-  }
-
-  public Color getMarkBackColor() {
-    return this.markBackColor;
-  }
-
-  public void setMarkBackColor(Color markBackColor) {
-    this.markBackColor = markBackColor;
-  }
-
-  public Color getBookmarkColor() {
-    return this.bookmarkColor;
-  }
-
-  public void setBookmarkColor(Color bookmarkColor) {
-    this.bookmarkColor = bookmarkColor;
   }
 
   public LinkedList<PartnerBean> getBackForwardList() {
