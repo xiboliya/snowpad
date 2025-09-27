@@ -2625,5 +2625,10 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
 
 2025-09-22
-1.解决文件树种偶现的文件或目录重复的问题。
+1.解决文件树中偶现的文件或目录重复的问题。
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+
+2025-09-27
+1.“首选项”界面中的“颜色”面板改版，由原来的各颜色平铺改为使用列表切换显示和设置。
+src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
+src/com/xiboliya/snowpad/view/ColorView.java（添加）
