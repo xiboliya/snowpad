@@ -179,6 +179,8 @@ public final class SettingAdapter {
           String[] arrWordBackColor = ((Element) node).getAttribute("wordBackColor").trim().split(",");
           String[] arrMarkBackColor = ((Element) node).getAttribute("markBackColor").trim().split(",");
           String[] arrBookmarkColor = ((Element) node).getAttribute("bookmarkColor").trim().split(",");
+          String[] arrLineNumberViewFontColor = ((Element) node).getAttribute("lineNumberViewFontColor").trim().split(",");
+          String[] arrLineNumberViewBackColor = ((Element) node).getAttribute("lineNumberViewBackColor").trim().split(",");
           Color fontColor = this.transferToColor(arrFontColor, this.setting.colorStyle.fontColor);
           Color backColor = this.transferToColor(arrBackColor, this.setting.colorStyle.backColor);
           Color caretColor = this.transferToColor(arrCaretColor, this.setting.colorStyle.caretColor);
@@ -189,6 +191,8 @@ public final class SettingAdapter {
           Color wordBackColor = this.transferToColor(arrWordBackColor, this.setting.colorStyle.wordBackColor);
           Color markBackColor = this.transferToColor(arrMarkBackColor, this.setting.colorStyle.markBackColor);
           Color bookmarkColor = this.transferToColor(arrBookmarkColor, this.setting.colorStyle.bookmarkColor);
+          Color lineNumberViewFontColor = this.transferToColor(arrLineNumberViewFontColor, this.setting.colorStyle.lineNumberViewFontColor);
+          Color lineNumberViewBackColor = this.transferToColor(arrLineNumberViewBackColor, this.setting.colorStyle.lineNumberViewBackColor);
           this.setting.colorStyle = new ColorStyle();
           this.setting.colorStyle.fontColor = fontColor;
           this.setting.colorStyle.backColor = backColor;
@@ -200,6 +204,8 @@ public final class SettingAdapter {
           this.setting.colorStyle.wordBackColor = wordBackColor;
           this.setting.colorStyle.markBackColor = markBackColor;
           this.setting.colorStyle.bookmarkColor = bookmarkColor;
+          this.setting.colorStyle.lineNumberViewFontColor = lineNumberViewFontColor;
+          this.setting.colorStyle.lineNumberViewBackColor = lineNumberViewBackColor;
         }
       }
     }
@@ -565,6 +571,8 @@ public final class SettingAdapter {
             Color wordBackColor = this.setting.colorStyle.wordBackColor;
             Color markBackColor = this.setting.colorStyle.markBackColor;
             Color bookmarkColor = this.setting.colorStyle.bookmarkColor;
+            Color lineNumberViewFontColor = this.setting.colorStyle.lineNumberViewFontColor;
+            Color lineNumberViewBackColor = this.setting.colorStyle.lineNumberViewBackColor;
             element.setAttribute("fontColor", 
                 fontColor.getRed() + "," + fontColor.getGreen() + "," + fontColor.getBlue() + "," + fontColor.getAlpha());
             element.setAttribute("backColor", 
@@ -585,6 +593,10 @@ public final class SettingAdapter {
                 markBackColor.getRed() + "," + markBackColor.getGreen() + "," + markBackColor.getBlue() + "," + markBackColor.getAlpha());
             element.setAttribute("bookmarkColor", 
                 bookmarkColor.getRed() + "," + bookmarkColor.getGreen() + "," + bookmarkColor.getBlue() + "," + bookmarkColor.getAlpha());
+            element.setAttribute("lineNumberViewFontColor", 
+                lineNumberViewFontColor.getRed() + "," + lineNumberViewFontColor.getGreen() + "," + lineNumberViewFontColor.getBlue() + "," + lineNumberViewFontColor.getAlpha());
+            element.setAttribute("lineNumberViewBackColor", 
+                lineNumberViewBackColor.getRed() + "," + lineNumberViewBackColor.getGreen() + "," + lineNumberViewBackColor.getBlue() + "," + lineNumberViewBackColor.getAlpha());
           }
         }
       }

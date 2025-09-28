@@ -151,6 +151,10 @@ public final class Util {
   public static final Color COLOR_DEFAULT_MARK_BACK = new Color(255, 155, 155);
   // 配色方案默认颜色：书签颜色
   public static final Color COLOR_DEFAULT_BOOKMARK = new Color(205, 0, 100);
+  // 配色方案默认颜色：行号栏字体颜色
+  public static final Color COLOR_DEFAULT_LINE_NUMBER_VIEW_FONT = Color.GRAY;
+  // 配色方案默认颜色：行号栏背景颜色
+  public static final Color COLOR_DEFAULT_LINE_NUMBER_VIEW_BACK = new Color(230, 240, 250);
   public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager.getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
   public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif")); // 主程序图标
 

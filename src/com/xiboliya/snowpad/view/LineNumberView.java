@@ -64,7 +64,6 @@ public class LineNumberView extends JComponent {
       this.setFont(Util.TEXT_FONT);
       this.setPreferredLine(0);
     }
-    this.setForeground(Color.GRAY);
     this.addListeners();
   }
 
@@ -143,11 +142,15 @@ public class LineNumberView extends JComponent {
    */
   @Override
   protected synchronized void paintComponent(Graphics g) {
+    Color color = g.getColor();
+    g.setColor(Util.setting.colorStyle.lineNumberViewBackColor);
+    g.fillRect(0, 0, this.getWidth(), this.getHeight());
     Rectangle rect = g.getClipBounds();
     int startLineNum = (rect.y / this.lineHeight) + 1;
     int endLineNum = startLineNum + (rect.height / this.lineHeight);
     int start = (rect.y / this.lineHeight) * this.lineHeight + this.lineHeight - LINE_NUMBER_START_OFFSET;
     this.setPreferredLine(endLineNum);
+    g.setColor(Util.setting.colorStyle.lineNumberViewFontColor);
     for (int i = startLineNum; i <= endLineNum; i++) {
       String lineNum = String.valueOf(i);
       int stringWidth = this.fontMetrics.stringWidth(lineNum);
@@ -158,9 +161,9 @@ public class LineNumberView extends JComponent {
     LinkedList<Integer> bookmarks = this.txaSource.getBookmarks();
     int size = bookmarks.size();
     if (size <= 0) {
+      g.setColor(color);
       return;
     }
-    Color color = g.getColor();
     g.setColor(Util.setting.colorStyle.bookmarkColor);
     int width = this.getWidth();
     int bookmarkWidth = LINE_NUMBER_MARGIN_RIGHT - 2;

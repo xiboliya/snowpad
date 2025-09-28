@@ -49,6 +49,10 @@ public class ColorStyle implements Cloneable {
   public Color markBackColor = Util.COLOR_DEFAULT_MARK_BACK;
   // 书签颜色
   public Color bookmarkColor = Util.COLOR_DEFAULT_BOOKMARK;
+  // 行号栏字体颜色
+  public Color lineNumberViewFontColor = Util.COLOR_DEFAULT_LINE_NUMBER_VIEW_FONT;
+  // 行号栏背景颜色
+  public Color lineNumberViewBackColor = Util.COLOR_DEFAULT_LINE_NUMBER_VIEW_BACK;
 
   /**
    * 默认的构造方法
@@ -60,7 +64,7 @@ public class ColorStyle implements Cloneable {
    * 带参数的构造方法
    */
   public ColorStyle(Color[] colors) {
-    if (colors.length < 10) {
+    if (colors.length < 12) {
       return;
     }
     this.fontColor = colors[0];
@@ -73,6 +77,8 @@ public class ColorStyle implements Cloneable {
     this.wordBackColor = colors[7];
     this.markBackColor = colors[8];
     this.bookmarkColor = colors[9];
+    this.lineNumberViewFontColor = colors[10];
+    this.lineNumberViewBackColor = colors[11];
   }
 
   @Override

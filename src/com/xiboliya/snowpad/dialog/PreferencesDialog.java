@@ -68,7 +68,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   // 配色方案中各颜色名称的数组
   private static final String[] COLOR_NAMES = new String[] {
       "字体颜色", "背景颜色", "光标颜色", "选区字体颜色", "选区背景颜色",
-      "匹配括号背景颜色", "当前行背景颜色", "匹配文本背景颜色", "标记文本背景颜色", "书签颜色" };
+      "匹配括号背景颜色", "当前行背景颜色", "匹配文本背景颜色", "标记文本背景颜色", "书签颜色",
+      "行号栏字体颜色", "行号栏背景颜色" };
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
   private CharEncoding charEncoding = CharEncoding.GB18030; // 字符编码格式
@@ -285,6 +286,12 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
       case 9:
         color = this.colorStyle.bookmarkColor;
         break;
+      case 10:
+        color = this.colorStyle.lineNumberViewFontColor;
+        break;
+      case 11:
+        color = this.colorStyle.lineNumberViewBackColor;
+        break;
     }
     return color;
   }
@@ -325,6 +332,12 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
       case 9:
         this.colorStyle.bookmarkColor = color;
         break;
+      case 10:
+        this.colorStyle.lineNumberViewFontColor = color;
+        break;
+      case 11:
+        this.colorStyle.lineNumberViewBackColor = color;
+        break;
     }
   }
 
@@ -334,6 +347,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private void refreshColorView() {
     Color color = this.getCurrentColor();
     this.colorView.setColor(color);
+    // 滚动到列表中当前选择的项
+    this.listColor.ensureIndexIsVisible(this.listColor.getSelectedIndex());
   }
 
   /**
