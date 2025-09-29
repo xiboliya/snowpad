@@ -53,6 +53,16 @@ public class ColorStyle implements Cloneable {
   public Color lineNumberViewFontColor = Util.COLOR_DEFAULT_LINE_NUMBER_VIEW_FONT;
   // 行号栏背景颜色
   public Color lineNumberViewBackColor = Util.COLOR_DEFAULT_LINE_NUMBER_VIEW_BACK;
+  // 高亮显示颜色：格式1
+  public Color highlightColor1 = Util.COLOR_DEFAULT_HIGHLIGHT_COLOR_1;
+  // 高亮显示颜色：格式2
+  public Color highlightColor2 = Util.COLOR_DEFAULT_HIGHLIGHT_COLOR_2;
+  // 高亮显示颜色：格式3
+  public Color highlightColor3 = Util.COLOR_DEFAULT_HIGHLIGHT_COLOR_3;
+  // 高亮显示颜色：格式4
+  public Color highlightColor4 = Util.COLOR_DEFAULT_HIGHLIGHT_COLOR_4;
+  // 高亮显示颜色：格式5
+  public Color highlightColor5 = Util.COLOR_DEFAULT_HIGHLIGHT_COLOR_5;
 
   /**
    * 默认的构造方法
@@ -64,7 +74,7 @@ public class ColorStyle implements Cloneable {
    * 带参数的构造方法
    */
   public ColorStyle(Color[] colors) {
-    if (colors.length < 12) {
+    if (colors.length < 17) {
       return;
     }
     this.fontColor = colors[0];
@@ -79,6 +89,11 @@ public class ColorStyle implements Cloneable {
     this.bookmarkColor = colors[9];
     this.lineNumberViewFontColor = colors[10];
     this.lineNumberViewBackColor = colors[11];
+    this.highlightColor1 = colors[12];
+    this.highlightColor2 = colors[13];
+    this.highlightColor3 = colors[14];
+    this.highlightColor4 = colors[15];
+    this.highlightColor5 = colors[16];
   }
 
   @Override

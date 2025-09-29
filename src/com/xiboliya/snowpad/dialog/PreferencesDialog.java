@@ -69,7 +69,8 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private static final String[] COLOR_NAMES = new String[] {
       "字体颜色", "背景颜色", "光标颜色", "选区字体颜色", "选区背景颜色",
       "匹配括号背景颜色", "当前行背景颜色", "匹配文本背景颜色", "标记文本背景颜色", "书签颜色",
-      "行号栏字体颜色", "行号栏背景颜色" };
+      "行号栏字体颜色", "行号栏背景颜色",
+      "高亮显示颜色：格式1", "高亮显示颜色：格式2", "高亮显示颜色：格式3", "高亮显示颜色：格式4", "高亮显示颜色：格式5" };
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
   private CharEncoding charEncoding = CharEncoding.GB18030; // 字符编码格式
@@ -135,7 +136,7 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
     // 颜色
     this.pnlColor.setLayout(null);
     this.lblColorStyle.setBounds(10, 10, 100, Util.VIEW_HEIGHT);
-    this.srpColor.setBounds(10, 35, 140, 120);
+    this.srpColor.setBounds(10, 35, 160, 120);
     this.lblColor.setBounds(230, 55, 50, 50);
     this.colorView.setBounds(280, 55, 50, 50);
     this.pnlColor.add(this.lblColorStyle);
@@ -292,6 +293,21 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
       case 11:
         color = this.colorStyle.lineNumberViewBackColor;
         break;
+      case 12:
+        color = this.colorStyle.highlightColor1;
+        break;
+      case 13:
+        color = this.colorStyle.highlightColor2;
+        break;
+      case 14:
+        color = this.colorStyle.highlightColor3;
+        break;
+      case 15:
+        color = this.colorStyle.highlightColor4;
+        break;
+      case 16:
+        color = this.colorStyle.highlightColor5;
+        break;
     }
     return color;
   }
@@ -337,6 +353,21 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
         break;
       case 11:
         this.colorStyle.lineNumberViewBackColor = color;
+        break;
+      case 12:
+        this.colorStyle.highlightColor1 = color;
+        break;
+      case 13:
+        this.colorStyle.highlightColor2 = color;
+        break;
+      case 14:
+        this.colorStyle.highlightColor3 = color;
+        break;
+      case 15:
+        this.colorStyle.highlightColor4 = color;
+        break;
+      case 16:
+        this.colorStyle.highlightColor5 = color;
         break;
     }
   }

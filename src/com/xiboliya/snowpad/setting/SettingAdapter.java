@@ -181,6 +181,11 @@ public final class SettingAdapter {
           String[] arrBookmarkColor = ((Element) node).getAttribute("bookmarkColor").trim().split(",");
           String[] arrLineNumberViewFontColor = ((Element) node).getAttribute("lineNumberViewFontColor").trim().split(",");
           String[] arrLineNumberViewBackColor = ((Element) node).getAttribute("lineNumberViewBackColor").trim().split(",");
+          String[] arrHighlightColor1 = ((Element) node).getAttribute("highlightColor1").trim().split(",");
+          String[] arrHighlightColor2 = ((Element) node).getAttribute("highlightColor2").trim().split(",");
+          String[] arrHighlightColor3 = ((Element) node).getAttribute("highlightColor3").trim().split(",");
+          String[] arrHighlightColor4 = ((Element) node).getAttribute("highlightColor4").trim().split(",");
+          String[] arrHighlightColor5 = ((Element) node).getAttribute("highlightColor5").trim().split(",");
           Color fontColor = this.transferToColor(arrFontColor, this.setting.colorStyle.fontColor);
           Color backColor = this.transferToColor(arrBackColor, this.setting.colorStyle.backColor);
           Color caretColor = this.transferToColor(arrCaretColor, this.setting.colorStyle.caretColor);
@@ -193,6 +198,11 @@ public final class SettingAdapter {
           Color bookmarkColor = this.transferToColor(arrBookmarkColor, this.setting.colorStyle.bookmarkColor);
           Color lineNumberViewFontColor = this.transferToColor(arrLineNumberViewFontColor, this.setting.colorStyle.lineNumberViewFontColor);
           Color lineNumberViewBackColor = this.transferToColor(arrLineNumberViewBackColor, this.setting.colorStyle.lineNumberViewBackColor);
+          Color highlightColor1 = this.transferToColor(arrHighlightColor1, this.setting.colorStyle.highlightColor1);
+          Color highlightColor2 = this.transferToColor(arrHighlightColor2, this.setting.colorStyle.highlightColor2);
+          Color highlightColor3 = this.transferToColor(arrHighlightColor3, this.setting.colorStyle.highlightColor3);
+          Color highlightColor4 = this.transferToColor(arrHighlightColor4, this.setting.colorStyle.highlightColor4);
+          Color highlightColor5 = this.transferToColor(arrHighlightColor5, this.setting.colorStyle.highlightColor5);
           this.setting.colorStyle = new ColorStyle();
           this.setting.colorStyle.fontColor = fontColor;
           this.setting.colorStyle.backColor = backColor;
@@ -206,6 +216,11 @@ public final class SettingAdapter {
           this.setting.colorStyle.bookmarkColor = bookmarkColor;
           this.setting.colorStyle.lineNumberViewFontColor = lineNumberViewFontColor;
           this.setting.colorStyle.lineNumberViewBackColor = lineNumberViewBackColor;
+          this.setting.colorStyle.highlightColor1 = highlightColor1;
+          this.setting.colorStyle.highlightColor2 = highlightColor2;
+          this.setting.colorStyle.highlightColor3 = highlightColor3;
+          this.setting.colorStyle.highlightColor4 = highlightColor4;
+          this.setting.colorStyle.highlightColor5 = highlightColor5;
         }
       }
     }
@@ -573,6 +588,11 @@ public final class SettingAdapter {
             Color bookmarkColor = this.setting.colorStyle.bookmarkColor;
             Color lineNumberViewFontColor = this.setting.colorStyle.lineNumberViewFontColor;
             Color lineNumberViewBackColor = this.setting.colorStyle.lineNumberViewBackColor;
+            Color highlightColor1 = this.setting.colorStyle.highlightColor1;
+            Color highlightColor2 = this.setting.colorStyle.highlightColor2;
+            Color highlightColor3 = this.setting.colorStyle.highlightColor3;
+            Color highlightColor4 = this.setting.colorStyle.highlightColor4;
+            Color highlightColor5 = this.setting.colorStyle.highlightColor5;
             element.setAttribute("fontColor", 
                 fontColor.getRed() + "," + fontColor.getGreen() + "," + fontColor.getBlue() + "," + fontColor.getAlpha());
             element.setAttribute("backColor", 
@@ -597,6 +617,16 @@ public final class SettingAdapter {
                 lineNumberViewFontColor.getRed() + "," + lineNumberViewFontColor.getGreen() + "," + lineNumberViewFontColor.getBlue() + "," + lineNumberViewFontColor.getAlpha());
             element.setAttribute("lineNumberViewBackColor", 
                 lineNumberViewBackColor.getRed() + "," + lineNumberViewBackColor.getGreen() + "," + lineNumberViewBackColor.getBlue() + "," + lineNumberViewBackColor.getAlpha());
+            element.setAttribute("highlightColor1", 
+                highlightColor1.getRed() + "," + highlightColor1.getGreen() + "," + highlightColor1.getBlue() + "," + highlightColor1.getAlpha());
+            element.setAttribute("highlightColor2", 
+                highlightColor2.getRed() + "," + highlightColor2.getGreen() + "," + highlightColor2.getBlue() + "," + highlightColor2.getAlpha());
+            element.setAttribute("highlightColor3", 
+                highlightColor3.getRed() + "," + highlightColor3.getGreen() + "," + highlightColor3.getBlue() + "," + highlightColor3.getAlpha());
+            element.setAttribute("highlightColor4", 
+                highlightColor4.getRed() + "," + highlightColor4.getGreen() + "," + highlightColor4.getBlue() + "," + highlightColor4.getAlpha());
+            element.setAttribute("highlightColor5", 
+                highlightColor5.getRed() + "," + highlightColor5.getGreen() + "," + highlightColor5.getBlue() + "," + highlightColor5.getAlpha());
           }
         }
       }

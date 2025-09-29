@@ -155,6 +155,16 @@ public final class Util {
   public static final Color COLOR_DEFAULT_LINE_NUMBER_VIEW_FONT = Color.GRAY;
   // 配色方案默认颜色：行号栏背景颜色
   public static final Color COLOR_DEFAULT_LINE_NUMBER_VIEW_BACK = new Color(230, 240, 250);
+  // 配色方案默认颜色：高亮显示颜色：格式1
+  public static final Color COLOR_DEFAULT_HIGHLIGHT_COLOR_1 = new Color(255, 0, 0, 50);
+  // 配色方案默认颜色：高亮显示颜色：格式2
+  public static final Color COLOR_DEFAULT_HIGHLIGHT_COLOR_2 = new Color(0, 255, 0, 50);
+  // 配色方案默认颜色：高亮显示颜色：格式3
+  public static final Color COLOR_DEFAULT_HIGHLIGHT_COLOR_3 = new Color(0, 0, 255, 50);
+  // 配色方案默认颜色：高亮显示颜色：格式4
+  public static final Color COLOR_DEFAULT_HIGHLIGHT_COLOR_4 = new Color(0, 255, 255, 50);
+  // 配色方案默认颜色：高亮显示颜色：格式5
+  public static final Color COLOR_DEFAULT_HIGHLIGHT_COLOR_5 = new Color(128, 0, 128, 50);
   public static final UIManager.LookAndFeelInfo[] LOOK_AND_FEEL_INFOS = UIManager.getInstalledLookAndFeels(); // 当前系统可用的外观信息数组
   public static final ImageIcon SW_ICON = new ImageIcon(ClassLoader.getSystemResource("res/icon.gif")); // 主程序图标
 

@@ -10,7 +10,7 @@
     <defaultCharEncoding note="默认字符编码格式">GB18030</defaultCharEncoding>
     <defaultLineSeparator note="默认换行符格式">跟随系统</defaultLineSeparator>
     <font name="宋体" size="14" style="0" note="文本域字体"/>
-    <colorStyle fontColor="" backColor="" caretColor="" selFontColor="" selBackColor="" bracketBackColor="" lineBackColor="" wordBackColor="" markBackColor="" bookmarkColor="" lineNumberViewFontColor="" lineNumberViewBackColor="" note="配色方案：字体颜色，背景颜色，光标颜色，选区字体颜色，选区背景颜色，匹配括号背景颜色，当前行背景颜色，匹配文本背景颜色，标记文本背景颜色，书签颜色，行号栏字体颜色，行号栏背景颜色"/>
+    <colorStyle fontColor="" backColor="" caretColor="" selFontColor="" selBackColor="" bracketBackColor="" lineBackColor="" wordBackColor="" markBackColor="" bookmarkColor="" lineNumberViewFontColor="" lineNumberViewBackColor="" highlightColor1="" highlightColor2="" highlightColor3="" highlightColor4="" highlightColor5="" note="配色方案：字体颜色，背景颜色，光标颜色，选区字体颜色，选区背景颜色，匹配括号背景颜色，当前行背景颜色，匹配文本背景颜色，标记文本背景颜色，书签颜色，行号栏字体颜色，行号栏背景颜色，高亮显示颜色"/>
   </TextArea>
   <FindReplace note="查找/替换的相关设置">
     <matchCase note="是否区分大小写">true</matchCase>

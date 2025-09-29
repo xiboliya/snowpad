@@ -180,45 +180,56 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private static final int FILE_HISTORY_MAX = 15; // 最近编辑文件的最大存储个数
   private static final int BACK_FORWARD_MAX = 15; // 光标历史位置的最大存储个数
   private static final int TEXTAREA_HASHCODE_LIST_MAX = 15; // 最近编辑的文本域hashCode的最大存储个数
-  private static final Color[] COLOR_HIGHLIGHTS = new Color[] {
-      new Color(255, 0, 0, 40), new Color(0, 255, 0, 40),
-      new Color(0, 0, 255, 40), new Color(0, 255, 255, 40),
-      new Color(255, 0, 255, 40) }; // 用于高亮显示的颜色，其中第4个参数表示透明度，数值越小越透明
   private static final Color[] COLOR_STYLE_1 = new Color[] {
       new Color(211, 215, 207), new Color(46, 52, 54),
       new Color(140, 220, 125), new Color(255, 200, 58),
       new Color(136, 138, 133), new Color(255, 0, 255, 35),
       new Color(150, 150, 150, 25), new Color(136, 138, 133, 70),
       new Color(200, 50, 255), new Color(128, 0, 128),
-      new Color(105, 105, 105), new Color(240, 240, 240) };
+      new Color(105, 105, 105), new Color(240, 240, 240),
+      new Color(255, 0, 0, 90), new Color(0, 255, 0, 90),
+      new Color(0, 0, 255, 90), new Color(0, 255, 255, 90),
+      new Color(128, 0, 128, 90) };
   private static final Color[] COLOR_STYLE_2 = new Color[] {
       new Color(240, 240, 240), new Color(0, 128, 128),
       new Color(240, 240, 240), new Color(22, 99, 88),
       new Color(240, 240, 240), new Color(180, 0, 255, 35),
       new Color(240, 240, 10, 25), new Color(240, 240, 240, 70),
       new Color(255, 100, 50), new Color(255, 50, 100),
-      new Color(0, 100, 100), new Color(240, 240, 240) };
+      new Color(0, 100, 100), new Color(240, 240, 240),
+      new Color(255, 0, 0, 90), new Color(0, 255, 0, 90),
+      new Color(0, 0, 255, 90), new Color(0, 255, 255, 90),
+      new Color(128, 0, 128, 90) };
   private static final Color[] COLOR_STYLE_3 = new Color[] {
       new Color(46, 52, 54), new Color(215, 215, 175),
       new Color(46, 52, 54), new Color(255, 251, 240),
       new Color(46, 52, 54), new Color(0, 255, 180, 35),
       new Color(240, 100, 100, 25), new Color(46, 52, 54, 70),
       new Color(50, 155, 255), new Color(0, 100, 155),
-      new Color(100, 100, 100), new Color(240, 240, 240) };
+      new Color(100, 100, 100), new Color(240, 240, 240),
+      new Color(255, 0, 0, 50), new Color(0, 255, 0, 50),
+      new Color(0, 0, 255, 50), new Color(0, 255, 255, 50),
+      new Color(128, 0, 128, 50) };
   private static final Color[] COLOR_STYLE_4 = new Color[] {
       new Color(51, 53, 49), new Color(204, 232, 207),
       new Color(51, 53, 49), new Color(204, 232, 207),
       new Color(0, 60, 100), new Color(20, 20, 20, 35),
       new Color(0, 100, 200, 25), new Color(0, 60, 100, 70),
       new Color(255, 50, 100), new Color(205, 0, 50),
-      new Color(0, 155, 155), new Color(240, 240, 240) };
+      new Color(0, 155, 155), new Color(240, 240, 240),
+      new Color(255, 0, 0, 50), new Color(0, 255, 0, 50),
+      new Color(0, 0, 255, 50), new Color(0, 255, 255, 50),
+      new Color(128, 0, 128, 50) };
   private static final Color[] COLOR_STYLE_5 = new Color[] {
       new Color(189, 174, 157), new Color(42, 33, 28),
       new Color(5, 165, 245), new Color(189, 237, 229),
       new Color(130, 100, 90), new Color(255, 255, 0, 35),
       new Color(240, 200, 180, 25), new Color(130, 100, 90, 70),
       new Color(0, 100, 100), new Color(0, 155, 155),
-      new Color(100, 100, 100), new Color(240, 240, 240) };
+      new Color(100, 100, 100), new Color(240, 240, 240),
+      new Color(255, 0, 0, 90), new Color(0, 255, 0, 90),
+      new Color(0, 0, 255, 90), new Color(0, 255, 255, 90),
+      new Color(128, 0, 128, 90) };
   private static final Color[][] COLOR_STYLES = new Color[][] { COLOR_STYLE_1, COLOR_STYLE_2, COLOR_STYLE_3, COLOR_STYLE_4, COLOR_STYLE_5 }; // 文本域配色方案的数组
   private static final ImageIcon TAB_EXIST_READONLY_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_readonly.png")); // 只读文件图标
   private static final ImageIcon TAB_EXIST_CURRENT_ICON = new ImageIcon(ClassLoader.getSystemResource("res/tab_exist_current.png")); // 普通文件图标
@@ -3496,7 +3507,20 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (style == HighlightColorStyle.STYLE_WORD.getIndex()) {
       color = Util.setting.colorStyle.wordBackColor;
     } else {
-      color = COLOR_HIGHLIGHTS[style];
+      if (style == HighlightColorStyle.STYLE_1.getIndex()) {
+        color = Util.setting.colorStyle.highlightColor1;
+      } else if (style == HighlightColorStyle.STYLE_2.getIndex()) {
+        color = Util.setting.colorStyle.highlightColor2;
+      } else if (style == HighlightColorStyle.STYLE_3.getIndex()) {
+        color = Util.setting.colorStyle.highlightColor3;
+      } else if (style == HighlightColorStyle.STYLE_4.getIndex()) {
+        color = Util.setting.colorStyle.highlightColor4;
+      } else if (style == HighlightColorStyle.STYLE_5.getIndex()) {
+        color = Util.setting.colorStyle.highlightColor5;
+      }
+    }
+    if (color == null) {
+      return;
     }
     for (Integer startIndex : linkedList) {
       Util.addHighlight(this.txaMain, startIndex, startIndex + strSelText.length(), color, style);
@@ -3522,6 +3546,11 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     colorStyle.bookmarkColor = this.getConvertColor(Util.setting.colorStyle.bookmarkColor, mode);
     colorStyle.lineNumberViewFontColor = this.getConvertColor(Util.setting.colorStyle.lineNumberViewFontColor, mode);
     colorStyle.lineNumberViewBackColor = this.getConvertColor(Util.setting.colorStyle.lineNumberViewBackColor, mode);
+    colorStyle.highlightColor1 = this.getConvertColor(Util.setting.colorStyle.highlightColor1, mode);
+    colorStyle.highlightColor2 = this.getConvertColor(Util.setting.colorStyle.highlightColor2, mode);
+    colorStyle.highlightColor3 = this.getConvertColor(Util.setting.colorStyle.highlightColor3, mode);
+    colorStyle.highlightColor4 = this.getConvertColor(Util.setting.colorStyle.highlightColor4, mode);
+    colorStyle.highlightColor5 = this.getConvertColor(Util.setting.colorStyle.highlightColor5, mode);
     Util.setting.colorStyle = colorStyle;
     this.refreshTextAreaColorStyle();
   }
