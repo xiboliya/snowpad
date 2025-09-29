@@ -2658,3 +2658,7 @@ src/com/xiboliya/snowpad/dialog/PreferencesDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/util/Util.java
+
+******************************
+git tag SnowPad-V6.0-20250929
+******************************
