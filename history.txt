@@ -2662,3 +2662,7 @@ src/com/xiboliya/snowpad/util/Util.java
 ******************************
 git tag SnowPad-V6.0-20250929
 ******************************
+
+2025-11-18
+1.解决查找、替换对话框的替换tab中修改查找模式时，没有同步到标记tab的问题。
+src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
