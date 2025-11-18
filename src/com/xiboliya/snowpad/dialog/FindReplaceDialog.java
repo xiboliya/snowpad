@@ -694,14 +694,17 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
       this.chkIsWrapF.setSelected(selected);
     } else if (this.radDefaultR.equals(source)) {
       this.radDefaultF.setSelected(true);
+      this.radDefaultM.setSelected(true);
       Util.setting.searchStyle = this.searchStyle = SearchStyle.DEFAULT;
       this.refreshMatchWholeWord();
     } else if (this.radTransferR.equals(source)) {
       this.radTransferF.setSelected(true);
+      this.radTransferM.setSelected(true);
       Util.setting.searchStyle = this.searchStyle = SearchStyle.TRANSFER;
       this.refreshMatchWholeWord();
     } else if (this.radPatternR.equals(source)) {
       this.radPatternF.setSelected(true);
+      this.radPatternM.setSelected(true);
       Util.setting.searchStyle = this.searchStyle = SearchStyle.PATTERN;
       this.refreshMatchWholeWord();
     } else if (this.radFindDownR.equals(source)) {
