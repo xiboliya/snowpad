@@ -40,6 +40,7 @@ import java.util.Comparator;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -87,6 +88,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private JPopupMenu popMenuFile = new JPopupMenu();
   private JMenuItem itemPopFileOpen = new JMenuItem("打开文件(O)", 'O');
   private JMenuItem itemPopFileRename = new JMenuItem("重命名文件(R)", 'R');
+  private JMenuItem itemPopFileDelete = new JMenuItem("删除文件(D)", 'D');
   private RenameDialog renameDialog = null;
 
   public FileTreePanel(SnowPadFrame owner) {
@@ -136,6 +138,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private void initPopMenu() {
     this.popMenuFile.add(this.itemPopFileOpen);
     this.popMenuFile.add(this.itemPopFileRename);
+    this.popMenuFile.add(this.itemPopFileDelete);
     Dimension popSize = this.popMenuFile.getPreferredSize();
     popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
     this.popMenuFile.setPopupSize(popSize);
@@ -235,6 +238,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.treeMain.addMouseListener(this.mouseAdapter);
     this.itemPopFileOpen.addActionListener(this);
     this.itemPopFileRename.addActionListener(this);
+    this.itemPopFileDelete.addActionListener(this);
   }
 
   /**
@@ -386,6 +390,31 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   }
 
   /**
+   * 删除文件
+   */
+  private void deleteFile() {
+    BaseTreeNode node = this.getCurrentNode();
+    if (node == null || !node.isLeaf()) {
+      return;
+    }
+    File file = new File(node.getContent());
+    if (!file.exists()) {
+      return;
+    }
+    int result = JOptionPane.showConfirmDialog(this, Util.convertToMsg("此操作将删除磁盘文件：" + file + "\n是否继续？"),
+          Util.SOFTWARE, JOptionPane.YES_NO_CANCEL_OPTION);
+    if (result != JOptionPane.YES_OPTION) {
+      return;
+    }
+    if (file.delete()) {
+      this.refreshCurrentPath();
+    } else {
+      JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + file + "删除失败！"),
+          Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
+  /**
    * 刷新文件树
    */
   private void refresh() {
@@ -427,6 +456,8 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       this.openFile();
     } else if (this.itemPopFileRename.equals(source)) {
       this.renameFile();
+    } else if (this.itemPopFileDelete.equals(source)) {
+      this.deleteFile();
     }
   }
 
