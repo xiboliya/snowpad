@@ -18,6 +18,7 @@
 package com.xiboliya.snowpad.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -38,7 +39,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
@@ -51,6 +54,7 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseComparator;
 import com.xiboliya.snowpad.base.BaseTreeCellRenderer;
 import com.xiboliya.snowpad.base.BaseTreeNode;
+import com.xiboliya.snowpad.dialog.RenameDialog;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
 import com.xiboliya.snowpad.util.Util;
 
@@ -80,6 +84,10 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private BaseComparator comparator = new BaseComparator();
   private DragSource dragSource = new DragSource();
   private DragGestureRecognizer dragGestureRecognizer = null;
+  private JPopupMenu popMenuFile = new JPopupMenu();
+  private JMenuItem itemPopFileOpen = new JMenuItem("打开文件(O)", 'O');
+  private JMenuItem itemPopFileRename = new JMenuItem("重命名文件(R)", 'R');
+  private RenameDialog renameDialog = null;
 
   public FileTreePanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -108,6 +116,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.add(this.pnlTitle, BorderLayout.NORTH);
     this.add(new JScrollPane(this.treeMain), BorderLayout.CENTER);
     this.initFileTree();
+    this.initPopMenu();
     this.setVisible(true);
     this.dragGestureRecognizer = this.dragSource.createDefaultDragGestureRecognizer(this.treeMain, DnDConstants.ACTION_COPY_OR_MOVE, this);
   }
@@ -119,6 +128,17 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.treeMain.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); // 设置JTree组件一次只能选择一个节点
     this.treeMain.setCellRenderer(new BaseTreeCellRenderer());
     this.refresh();
+  }
+
+  /**
+   * 初始化快捷菜单
+   */
+  private void initPopMenu() {
+    this.popMenuFile.add(this.itemPopFileOpen);
+    this.popMenuFile.add(this.itemPopFileRename);
+    Dimension popSize = this.popMenuFile.getPreferredSize();
+    popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
+    this.popMenuFile.setPopupSize(popSize);
   }
 
   /**
@@ -177,7 +197,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private void addListeners() {
     this.keyAdapter = new KeyAdapter() {
       @Override
-      public void keyReleased(KeyEvent e) {
+      public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
           // 按回车键，打开文件、展开目录、折叠目录
           operate(true);
@@ -193,6 +213,18 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
         if (e.getClickCount() == 2) {
           // 双击鼠标，打开文件
           operate(false);
+        } else if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，显示快捷菜单
+          // 获取鼠标点击位置的树路径
+          int row = treeMain.getRowForLocation(e.getX(), e.getY());
+          // row为0时，表示根目录，跳过此目录
+          if (row > 0) {
+            // 选中右键点击的节点
+            treeMain.setSelectionRow(row);
+            File file = getCurrentFile();
+            if (file != null && file.isFile()) {
+              popMenuFile.show(treeMain, e.getX(), e.getY());
+            }
+          }
         }
       }
     };
@@ -201,6 +233,8 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.treeMain.addTreeExpansionListener(this);
     this.treeMain.addKeyListener(this.keyAdapter);
     this.treeMain.addMouseListener(this.mouseAdapter);
+    this.itemPopFileOpen.addActionListener(this);
+    this.itemPopFileRename.addActionListener(this);
   }
 
   /**
@@ -232,13 +266,133 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   }
 
   /**
+   * 获取当前选中的节点
+   * @return 当前选中的节点
+   */
+  private BaseTreeNode getCurrentNode() {
+    TreePath treePath = this.treeMain.getSelectionPath();
+    if (treePath == null) {
+      return null;
+    }
+    return (BaseTreeNode)treePath.getLastPathComponent();
+  }
+
+  /**
+   * 获取当前节点的父节点
+   * @return 当前节点的父节点
+   */
+  private BaseTreeNode getParentNode() {
+    BaseTreeNode node = this.getCurrentNode();
+    if (node == null) {
+      return null;
+    }
+    return (BaseTreeNode)node.getParent();
+  }
+
+  /**
+   * 获取当前选中的文件
+   * @return 当前选中的文件
+   */
+  private File getCurrentFile() {
+    BaseTreeNode node = this.getCurrentNode();
+    if (node == null) {
+      return null;
+    }
+    return new File(node.getContent());
+  }
+
+  /**
+   * 打开文件
+   */
+  private void openFile() {
+    BaseTreeNode node = this.getCurrentNode();
+    if (node == null) {
+      return;
+    }
+    if (node.isLeaf()) {
+      File file = new File(node.getContent());
+      if (!file.isDirectory()) {
+        owner.openFile(file);
+      }
+    }
+  }
+
+  /**
+   * 重命名文件
+   */
+  private void renameFile() {
+    BaseTreeNode node = this.getCurrentNode();
+    if (node == null) {
+      return;
+    }
+    if (node.isLeaf()) {
+      File file = new File(node.getContent());
+      if (file.exists()) {
+        this.openRenameDialog(file);
+        this.refreshCurrentPath();
+      }
+    }
+  }
+
+  /**
+   * 打开重命名对话框
+   * @param file 当前选中的文件
+   */
+  private void openRenameDialog(File file) {
+    if (this.renameDialog == null) {
+      this.renameDialog = new RenameDialog(this.owner, true, file);
+    } else {
+      this.renameDialog.setFile(file);
+      this.renameDialog.setVisible(true);
+    }
+  }
+
+  /**
+   * 刷新当前目录
+   */
+  private void refreshCurrentPath() {
+    BaseTreeNode parentNode = this.getParentNode();
+    if (parentNode == null) {
+      return;
+    }
+    parentNode.removeAllChildren();
+    File parentFile = new File(parentNode.getContent());
+    if (!parentFile.exists() || !parentFile.isDirectory()) {
+      this.treeMain.updateUI();
+      return;
+    }
+    File[] files = parentFile.listFiles();
+    if (files == null || files.length == 0) {
+      this.treeMain.updateUI();
+      return;
+    }
+    Arrays.sort(files, this.comparator);
+    // 重新构建子节点（目录在前，文件在后）
+    ArrayList<File> fileList = new ArrayList<File>();
+    for (File itemFile : files) {
+      if (itemFile.isDirectory()) {
+        BaseTreeNode dirNode = new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath());
+        parentNode.add(dirNode);
+        // 为子目录添加下一级节点
+        this.addNextNode(dirNode, itemFile);
+      } else {
+        fileList.add(itemFile);
+      }
+    }
+    for (File itemFile : fileList) {
+      parentNode.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
+    }
+    this.treeMain.updateUI();
+  }
+
+  /**
    * 刷新文件树
    */
   private void refresh() {
     this.treeNode.removeAllChildren();
-    this.treeMain.updateUI();
     File[] roots = File.listRoots();
     if (roots == null || roots.length == 0) {
+      this.treeMain.updateUI();
       return;
     }
     Arrays.sort(roots, this.comparator);
@@ -269,6 +423,10 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       this.refresh();
     } else if (this.btnClose.equals(source)) {
       this.close();
+    } else if (this.itemPopFileOpen.equals(source)) {
+      this.openFile();
+    } else if (this.itemPopFileRename.equals(source)) {
+      this.renameFile();
     }
   }
 
