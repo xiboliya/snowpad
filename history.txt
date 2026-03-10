@@ -2671,3 +2671,5 @@ src/com/xiboliya/snowpad/dialog/FindReplaceDialog.java
 1.在“文件树”面板中选择文件时，添加右键快捷菜单，功能包括：打开文件、重命名文件。
 src/com/xiboliya/snowpad/dialog/RenameDialog.java（添加）
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+2.在“文件树”面板中选择文件时的右键快捷菜单中添加：删除文件功能。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
