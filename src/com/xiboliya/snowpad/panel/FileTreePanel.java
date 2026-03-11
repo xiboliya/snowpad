@@ -90,6 +90,9 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private JMenuItem itemPopFileRename = new JMenuItem("重命名文件(R)", 'R');
   private JMenuItem itemPopFileDelete = new JMenuItem("删除文件(D)", 'D');
   private RenameDialog renameDialog = null;
+  private JPopupMenu popMenuDir = new JPopupMenu();
+  private JMenuItem itemPopDirRefresh = new JMenuItem("刷新目录(F)", 'F');
+  private JMenuItem itemPopDirRename = new JMenuItem("重命名目录(R)", 'R');
 
   public FileTreePanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -129,19 +132,26 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private void initFileTree() {
     this.treeMain.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION); // 设置JTree组件一次只能选择一个节点
     this.treeMain.setCellRenderer(new BaseTreeCellRenderer());
-    this.refresh();
+    this.refreshAll();
   }
 
   /**
    * 初始化快捷菜单
    */
   private void initPopMenu() {
+    // 文件菜单
     this.popMenuFile.add(this.itemPopFileOpen);
     this.popMenuFile.add(this.itemPopFileRename);
     this.popMenuFile.add(this.itemPopFileDelete);
-    Dimension popSize = this.popMenuFile.getPreferredSize();
-    popSize.width += popSize.width / 5; // 为了美观，适当加宽菜单的显示
-    this.popMenuFile.setPopupSize(popSize);
+    Dimension popSizeFile = this.popMenuFile.getPreferredSize();
+    popSizeFile.width += popSizeFile.width / 5; // 为了美观，适当加宽菜单的显示
+    this.popMenuFile.setPopupSize(popSizeFile);
+    // 目录菜单
+    this.popMenuDir.add(this.itemPopDirRefresh);
+    this.popMenuDir.add(this.itemPopDirRename);
+    Dimension popSizeDir = this.popMenuDir.getPreferredSize();
+    popSizeDir.width += popSizeDir.width / 5; // 为了美观，适当加宽菜单的显示
+    this.popMenuDir.setPopupSize(popSizeDir);
   }
 
   /**
@@ -224,8 +234,12 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
             // 选中右键点击的节点
             treeMain.setSelectionRow(row);
             File file = getCurrentFile();
-            if (file != null && file.isFile()) {
-              popMenuFile.show(treeMain, e.getX(), e.getY());
+            if (file != null) {
+              if (file.isFile()) {
+                popMenuFile.show(treeMain, e.getX(), e.getY());
+              } else if (file.isDirectory()) {
+                popMenuDir.show(treeMain, e.getX(), e.getY());
+              }
             }
           }
         }
@@ -239,6 +253,8 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.itemPopFileOpen.addActionListener(this);
     this.itemPopFileRename.addActionListener(this);
     this.itemPopFileDelete.addActionListener(this);
+    this.itemPopDirRefresh.addActionListener(this);
+    this.itemPopDirRename.addActionListener(this);
   }
 
   /**
@@ -322,19 +338,17 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   }
 
   /**
-   * 重命名文件
+   * 重命名文件/目录
    */
-  private void renameFile() {
+  private void rename() {
     BaseTreeNode node = this.getCurrentNode();
     if (node == null) {
       return;
     }
-    if (node.isLeaf()) {
-      File file = new File(node.getContent());
-      if (file.exists()) {
-        this.openRenameDialog(file);
-        this.refreshCurrentPath();
-      }
+    File file = new File(node.getContent());
+    if (file.exists()) {
+      this.openRenameDialog(file);
+      this.refreshParentPath();
     }
   }
 
@@ -352,15 +366,31 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   }
 
   /**
+   * 刷新父目录
+   */
+  private void refreshParentPath() {
+    BaseTreeNode node = this.getParentNode();
+    this.refreshPath(node);
+  }
+
+  /**
    * 刷新当前目录
    */
   private void refreshCurrentPath() {
-    BaseTreeNode parentNode = this.getParentNode();
-    if (parentNode == null) {
+    BaseTreeNode node = this.getCurrentNode();
+    this.refreshPath(node);
+  }
+
+  /**
+   * 刷新指定目录
+   * @param node 需要刷新的目录
+   */
+  private void refreshPath(BaseTreeNode node) {
+    if (node == null) {
       return;
     }
-    parentNode.removeAllChildren();
-    File parentFile = new File(parentNode.getContent());
+    node.removeAllChildren();
+    File parentFile = new File(node.getContent());
     if (!parentFile.exists() || !parentFile.isDirectory()) {
       this.treeMain.updateUI();
       return;
@@ -376,7 +406,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     for (File itemFile : files) {
       if (itemFile.isDirectory()) {
         BaseTreeNode dirNode = new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath());
-        parentNode.add(dirNode);
+        node.add(dirNode);
         // 为子目录添加下一级节点
         this.addNextNode(dirNode, itemFile);
       } else {
@@ -384,7 +414,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       }
     }
     for (File itemFile : fileList) {
-      parentNode.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
+      node.add(new BaseTreeNode(this.getViewName(itemFile), itemFile.getAbsolutePath()));
     }
     this.treeMain.updateUI();
   }
@@ -407,7 +437,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       return;
     }
     if (file.delete()) {
-      this.refreshCurrentPath();
+      this.refreshParentPath();
     } else {
       JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + file + "删除失败！"),
           Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
@@ -417,7 +447,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   /**
    * 刷新文件树
    */
-  private void refresh() {
+  private void refreshAll() {
     this.treeNode.removeAllChildren();
     File[] roots = File.listRoots();
     if (roots == null || roots.length == 0) {
@@ -449,15 +479,19 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   public void actionPerformed(ActionEvent e) {
     Object source = e.getSource();
     if (this.btnRefresh.equals(source)) {
-      this.refresh();
+      this.refreshAll();
     } else if (this.btnClose.equals(source)) {
       this.close();
     } else if (this.itemPopFileOpen.equals(source)) {
       this.openFile();
     } else if (this.itemPopFileRename.equals(source)) {
-      this.renameFile();
+      this.rename();
     } else if (this.itemPopFileDelete.equals(source)) {
       this.deleteFile();
+    } else if (this.itemPopDirRefresh.equals(source)) {
+      this.refreshCurrentPath();
+    } else if (this.itemPopDirRename.equals(source)) {
+      this.rename();
     }
   }
 
