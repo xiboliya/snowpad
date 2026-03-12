@@ -93,6 +93,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private JPopupMenu popMenuDir = new JPopupMenu();
   private JMenuItem itemPopDirRefresh = new JMenuItem("刷新目录(F)", 'F');
   private JMenuItem itemPopDirRename = new JMenuItem("重命名目录(R)", 'R');
+  private JMenuItem itemPopDirNew = new JMenuItem("新建目录(N)", 'N');
 
   public FileTreePanel(SnowPadFrame owner) {
     this.owner = owner;
@@ -149,6 +150,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     // 目录菜单
     this.popMenuDir.add(this.itemPopDirRefresh);
     this.popMenuDir.add(this.itemPopDirRename);
+    this.popMenuDir.add(this.itemPopDirNew);
     Dimension popSizeDir = this.popMenuDir.getPreferredSize();
     popSizeDir.width += popSizeDir.width / 5; // 为了美观，适当加宽菜单的显示
     this.popMenuDir.setPopupSize(popSizeDir);
@@ -255,6 +257,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.itemPopFileDelete.addActionListener(this);
     this.itemPopDirRefresh.addActionListener(this);
     this.itemPopDirRename.addActionListener(this);
+    this.itemPopDirNew.addActionListener(this);
   }
 
   /**
@@ -445,6 +448,30 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   }
 
   /**
+   * 新建目录
+   */
+  private void createNewDir() {
+    BaseTreeNode node = this.getCurrentNode();
+    if (node == null) {
+      return;
+    }
+    for (int i = 1; ; i++) {
+      File file = new File(node.getContent() + "/新建目录" + i);
+      if (!file.exists()) {
+        boolean success = file.mkdirs();
+        if (!success) {
+          JOptionPane.showMessageDialog(this, Util.convertToMsg("新建目录失败！"),
+              Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
+        } else {
+          this.refreshCurrentPath();
+        }
+        break;
+      }
+    }
+
+  }
+
+  /**
    * 刷新文件树
    */
   private void refreshAll() {
@@ -492,6 +519,8 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       this.refreshCurrentPath();
     } else if (this.itemPopDirRename.equals(source)) {
       this.rename();
+    } else if (this.itemPopDirNew.equals(source)) {
+      this.createNewDir();
     }
   }
 
