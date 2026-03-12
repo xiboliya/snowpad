@@ -2677,3 +2677,7 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 2026-03-11
 1.在“文件树”面板中选择目录时，添加右键快捷菜单，功能包括：刷新目录、重命名目录。
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+
+2026-03-12
+1.在“文件树”面板中选择目录时的右键快捷菜单中添加：新建目录功能。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
