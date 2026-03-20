@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
@@ -87,11 +88,13 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private DragGestureRecognizer dragGestureRecognizer = null;
   private JPopupMenu popMenuFile = new JPopupMenu();
   private JMenuItem itemPopFileOpen = new JMenuItem("打开文件(O)", 'O');
+  private JMenuItem itemPopFileCopy = new JMenuItem("复制文件名(C)", 'C');
   private JMenuItem itemPopFileRename = new JMenuItem("重命名文件(R)", 'R');
   private JMenuItem itemPopFileDelete = new JMenuItem("删除文件(D)", 'D');
   private RenameDialog renameDialog = null;
   private JPopupMenu popMenuDir = new JPopupMenu();
   private JMenuItem itemPopDirRefresh = new JMenuItem("刷新目录(F)", 'F');
+  private JMenuItem itemPopDirCopy = new JMenuItem("复制目录名(C)", 'C');
   private JMenuItem itemPopDirRename = new JMenuItem("重命名目录(R)", 'R');
   private JMenuItem itemPopDirNew = new JMenuItem("新建目录(N)", 'N');
 
@@ -142,6 +145,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private void initPopMenu() {
     // 文件菜单
     this.popMenuFile.add(this.itemPopFileOpen);
+    this.popMenuFile.add(this.itemPopFileCopy);
     this.popMenuFile.add(this.itemPopFileRename);
     this.popMenuFile.add(this.itemPopFileDelete);
     Dimension popSizeFile = this.popMenuFile.getPreferredSize();
@@ -149,6 +153,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.popMenuFile.setPopupSize(popSizeFile);
     // 目录菜单
     this.popMenuDir.add(this.itemPopDirRefresh);
+    this.popMenuDir.add(this.itemPopDirCopy);
     this.popMenuDir.add(this.itemPopDirRename);
     this.popMenuDir.add(this.itemPopDirNew);
     Dimension popSizeDir = this.popMenuDir.getPreferredSize();
@@ -253,9 +258,11 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.treeMain.addKeyListener(this.keyAdapter);
     this.treeMain.addMouseListener(this.mouseAdapter);
     this.itemPopFileOpen.addActionListener(this);
+    this.itemPopFileCopy.addActionListener(this);
     this.itemPopFileRename.addActionListener(this);
     this.itemPopFileDelete.addActionListener(this);
     this.itemPopDirRefresh.addActionListener(this);
+    this.itemPopDirCopy.addActionListener(this);
     this.itemPopDirRename.addActionListener(this);
     this.itemPopDirNew.addActionListener(this);
   }
@@ -337,6 +344,22 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       if (!file.isDirectory()) {
         owner.openFile(file);
       }
+    }
+  }
+
+  /**
+   * 复制文件名/目录名
+   */
+  private void copyName() {
+    BaseTreeNode node = this.getCurrentNode();
+    if (node == null) {
+      return;
+    }
+    File file = new File(node.getContent());
+    String name = file.getName();
+    if (!Util.isTextEmpty(name)) {
+      StringSelection ss = new StringSelection(name);
+      Util.clipboard.setContents(ss, ss);
     }
   }
 
@@ -511,12 +534,16 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       this.close();
     } else if (this.itemPopFileOpen.equals(source)) {
       this.openFile();
+    } else if (this.itemPopFileCopy.equals(source)) {
+      this.copyName();
     } else if (this.itemPopFileRename.equals(source)) {
       this.rename();
     } else if (this.itemPopFileDelete.equals(source)) {
       this.deleteFile();
     } else if (this.itemPopDirRefresh.equals(source)) {
       this.refreshCurrentPath();
+    } else if (this.itemPopDirCopy.equals(source)) {
+      this.copyName();
     } else if (this.itemPopDirRename.equals(source)) {
       this.rename();
     } else if (this.itemPopDirNew.equals(source)) {
