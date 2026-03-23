@@ -35,6 +35,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -70,6 +71,9 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private static final long serialVersionUID = 1L;
   private static final ImageIcon REFRESH_ICON = new ImageIcon(ClassLoader.getSystemResource("res/refresh.png")); // 刷新图标
   private static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // 关闭图标
+  // 文件大小的单位换算比例
+  private static final int UNIT_RATE = 1024;
+  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
   private SnowPadFrame owner;
   private JLabel lblTitleText = new JLabel("文件树");
   private BaseButton btnRefresh = new BaseButton();
@@ -90,6 +94,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private JMenuItem itemPopFileOpen = new JMenuItem("打开文件(O)", 'O');
   private JMenuItem itemPopFileCopy = new JMenuItem("复制文件名(C)", 'C');
   private JMenuItem itemPopFileRename = new JMenuItem("重命名文件(R)", 'R');
+  private JMenuItem itemPopFileInformation = new JMenuItem("查看文件属性(I)", 'I');
   private JMenuItem itemPopFileDelete = new JMenuItem("删除文件(D)", 'D');
   private RenameDialog renameDialog = null;
   private JPopupMenu popMenuDir = new JPopupMenu();
@@ -108,6 +113,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
    * 初始化
    */
   private void init() {
+    this.simpleDateFormat.applyPattern("yyyy-MM-dd HH:mm:ss");
     this.setLayout(this.layout);
     this.pnlBtn.setLayout(this.layoutBtn);
     this.btnRefresh.setIcon(REFRESH_ICON);
@@ -147,6 +153,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.popMenuFile.add(this.itemPopFileOpen);
     this.popMenuFile.add(this.itemPopFileCopy);
     this.popMenuFile.add(this.itemPopFileRename);
+    this.popMenuFile.add(this.itemPopFileInformation);
     this.popMenuFile.add(this.itemPopFileDelete);
     Dimension popSizeFile = this.popMenuFile.getPreferredSize();
     popSizeFile.width += popSizeFile.width / 5; // 为了美观，适当加宽菜单的显示
@@ -260,6 +267,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.itemPopFileOpen.addActionListener(this);
     this.itemPopFileCopy.addActionListener(this);
     this.itemPopFileRename.addActionListener(this);
+    this.itemPopFileInformation.addActionListener(this);
     this.itemPopFileDelete.addActionListener(this);
     this.itemPopDirRefresh.addActionListener(this);
     this.itemPopDirCopy.addActionListener(this);
@@ -389,6 +397,61 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       this.renameDialog.setFile(file);
       this.renameDialog.setVisible(true);
     }
+  }
+
+  /**
+   * 查看文件属性
+   */
+  private void showFileInformation() {
+    BaseTreeNode node = this.getCurrentNode();
+    if (node == null) {
+      return;
+    }
+    File file = new File(node.getContent());
+    if (!file.exists()) {
+      return;
+    }
+    StringBuilder stbFileInfo = new StringBuilder();
+    stbFileInfo.append("文件路径：").append(file.getAbsolutePath()).append("\n");
+    stbFileInfo.append("修改时间：").append(this.simpleDateFormat.format(file.lastModified())).append("\n");
+    stbFileInfo.append("文件大小：").append(this.formatFileSize(file.length()));
+    JOptionPane.showMessageDialog(this, Util.convertToMsg(stbFileInfo.toString()),
+        Util.SOFTWARE, JOptionPane.PLAIN_MESSAGE);
+  }
+
+  /**
+   * 格式化文件大小的显示
+   * 
+   * @param fileSize 文件字节数
+   * @return 格式化后的文件大小的显示
+   */
+  private String formatFileSize(double fileSize) {
+    if (fileSize < UNIT_RATE) {
+      return this.formatNumber(fileSize) + " B(字节)";
+    } else if (fileSize > UNIT_RATE * UNIT_RATE) {
+      float size = (float)(fileSize / UNIT_RATE / UNIT_RATE);
+      return this.formatNumber(size) + " MB(兆字节)";
+    } else {
+      float size = (float)(fileSize / UNIT_RATE);
+      return this.formatNumber(size) + " KB(千字节)";
+    }
+  }
+
+  /**
+   * 格式化数字
+   * 
+   * @param number 原始数字
+   * @return 格式化后的数字
+   */
+  private String formatNumber(double number) {
+    StringBuilder stbFileSize = new StringBuilder(String.format("%.5f", number));
+    while (stbFileSize.charAt(stbFileSize.length() - 1) == '0') {
+      stbFileSize.deleteCharAt(stbFileSize.length() - 1);
+    }
+    if (stbFileSize.charAt(stbFileSize.length() - 1) == '.') {
+      stbFileSize.deleteCharAt(stbFileSize.length() - 1);
+    }
+    return stbFileSize.toString();
   }
 
   /**
@@ -538,6 +601,8 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       this.copyName();
     } else if (this.itemPopFileRename.equals(source)) {
       this.rename();
+    } else if (this.itemPopFileInformation.equals(source)) {
+      this.showFileInformation();
     } else if (this.itemPopFileDelete.equals(source)) {
       this.deleteFile();
     } else if (this.itemPopDirRefresh.equals(source)) {
