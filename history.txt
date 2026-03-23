@@ -2685,3 +2685,7 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 2026-03-20
 1.在“文件树”面板中的右键快捷菜单中添加：复制文件名、复制目录名功能。
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+
+2026-03-23
+1.在“文件树”面板中选择文件时的右键快捷菜单中添加：查看文件属性功能。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
