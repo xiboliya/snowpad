@@ -2689,3 +2689,7 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 2026-03-23
 1.在“文件树”面板中选择文件时的右键快捷菜单中添加：查看文件属性功能。
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+
+2026-03-26
+1.在“文件树”面板中选择目录时的右键快捷菜单中添加：查看目录属性功能。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
