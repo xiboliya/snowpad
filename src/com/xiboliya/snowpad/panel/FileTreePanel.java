@@ -34,12 +34,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -47,6 +50,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
@@ -101,6 +105,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   private JMenuItem itemPopDirRefresh = new JMenuItem("刷新目录(F)", 'F');
   private JMenuItem itemPopDirCopy = new JMenuItem("复制目录名(C)", 'C');
   private JMenuItem itemPopDirRename = new JMenuItem("重命名目录(R)", 'R');
+  private JMenuItem itemPopDirInformation = new JMenuItem("查看目录属性(I)", 'I');
   private JMenuItem itemPopDirNew = new JMenuItem("新建目录(N)", 'N');
 
   public FileTreePanel(SnowPadFrame owner) {
@@ -162,6 +167,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.popMenuDir.add(this.itemPopDirRefresh);
     this.popMenuDir.add(this.itemPopDirCopy);
     this.popMenuDir.add(this.itemPopDirRename);
+    this.popMenuDir.add(this.itemPopDirInformation);
     this.popMenuDir.add(this.itemPopDirNew);
     Dimension popSizeDir = this.popMenuDir.getPreferredSize();
     popSizeDir.width += popSizeDir.width / 5; // 为了美观，适当加宽菜单的显示
@@ -272,6 +278,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     this.itemPopDirRefresh.addActionListener(this);
     this.itemPopDirCopy.addActionListener(this);
     this.itemPopDirRename.addActionListener(this);
+    this.itemPopDirInformation.addActionListener(this);
     this.itemPopDirNew.addActionListener(this);
   }
 
@@ -408,7 +415,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       return;
     }
     File file = new File(node.getContent());
-    if (!file.exists()) {
+    if (!file.isFile()) {
       return;
     }
     StringBuilder stbFileInfo = new StringBuilder();
@@ -444,7 +451,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
    * @return 格式化后的数字
    */
   private String formatNumber(double number) {
-    StringBuilder stbFileSize = new StringBuilder(String.format("%.5f", number));
+    StringBuilder stbFileSize = new StringBuilder(String.format("%.3f", number));
     while (stbFileSize.charAt(stbFileSize.length() - 1) == '0') {
       stbFileSize.deleteCharAt(stbFileSize.length() - 1);
     }
@@ -534,6 +541,108 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
   }
 
   /**
+   * 查看目录属性
+   */
+  private void showDirInformation() {
+    BaseTreeNode node = this.getCurrentNode();
+    if (node == null) {
+      return;
+    }
+    final File dir = new File(node.getContent());
+    if (!dir.isDirectory()) {
+      return;
+    }
+    final JLabel lblInfo = new JLabel();
+    this.showDirInformation(dir, null, lblInfo);
+    JOptionPane pane = new JOptionPane(lblInfo, JOptionPane.PLAIN_MESSAGE);
+    final JDialog dialog = pane.createDialog(this, Util.SOFTWARE);
+    // 非阻塞弹窗
+    dialog.setModal(false);
+
+    final SwingWorker<int[], Void> worker = new SwingWorker<int[], Void>() {
+
+      /**
+       * 子线程执行：耗时操作
+       * @return 返回结果
+       */
+      @Override
+      protected int[] doInBackground() throws Exception {
+        int[] counts = new int[]{0, 0};
+        getElementCount(dir, counts, this);
+        return counts;
+      }
+
+      /**
+       * 主线程执行：任务完成后更新UI
+       */
+      @Override
+      protected void done() {
+        // 弹窗已关闭或任务已取消，则不进行UI处理
+        if (dialog == null || !dialog.isDisplayable() || !dialog.isVisible() || this.isCancelled()) {
+          return;
+        }
+        try {
+          // 获取子线程返回的结果，即doInBackground接口的返回值
+          int[] counts = get();
+          showDirInformation(dir, counts, lblInfo);
+        } catch (Exception x) {
+          // x.printStackTrace();
+        }
+      }
+    };
+
+    pane.addPropertyChangeListener(JOptionPane.VALUE_PROPERTY, new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent e) {
+        // 监听弹窗属性变化
+        if (!worker.isCancelled()) {
+          worker.cancel(true);
+        }
+      }
+    });
+    dialog.setVisible(true);
+
+    // 启动后台任务
+    worker.execute();
+  }
+
+  private void showDirInformation(File dir, int[] counts, JLabel lblInfo) {
+    StringBuilder stbFileInfo = new StringBuilder();
+    stbFileInfo.append("目录路径：").append(dir.getAbsolutePath()).append("\n");
+    stbFileInfo.append("修改时间：").append(this.simpleDateFormat.format(dir.lastModified())).append("\n");
+    if (counts == null) {
+      stbFileInfo.append("子目录数：").append("统计中...").append("\n");
+      stbFileInfo.append("子文件数：").append("统计中...");
+    } else {
+      stbFileInfo.append("子目录数：").append(counts[0]).append("\n");
+      stbFileInfo.append("子文件数：").append(counts[1]);
+    }
+    String text = "<html>" + Util.convertToMsg(stbFileInfo.toString()).replace("\n", "<br>") + "</html>";
+    lblInfo.setText(text);
+  }
+
+  private void getElementCount(File dir, int[] counts, SwingWorker<int[], Void> worker) {
+    if (worker.isCancelled()) {
+      return;
+    }
+    File[] files = dir.listFiles();
+    if (files == null) {
+      return;
+    }
+    for (File file : files) {
+      if (worker.isCancelled()) {
+        return;
+      }
+      if (file.isDirectory()) {
+        counts[0] ++;
+        this.getElementCount(file, counts, worker);
+      } else if (file.isFile()) {
+        counts[1] ++;
+      }
+    }
+  }
+
+  /**
    * 新建目录
    */
   private void createNewDir() {
@@ -611,6 +720,8 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
       this.copyName();
     } else if (this.itemPopDirRename.equals(source)) {
       this.rename();
+    } else if (this.itemPopDirInformation.equals(source)) {
+      this.showDirInformation();
     } else if (this.itemPopDirNew.equals(source)) {
       this.createNewDir();
     }
