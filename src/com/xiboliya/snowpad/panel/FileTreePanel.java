@@ -432,15 +432,15 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
    * @param fileSize 文件字节数
    * @return 格式化后的文件大小的显示
    */
-  private String formatFileSize(double fileSize) {
+  private String formatFileSize(long fileSize) {
     if (fileSize < UNIT_RATE) {
-      return this.formatNumber(fileSize) + " B(字节)";
-    } else if (fileSize > UNIT_RATE * UNIT_RATE) {
-      float size = (float)(fileSize / UNIT_RATE / UNIT_RATE);
-      return this.formatNumber(size) + " MB(兆字节)";
+      return fileSize + " B";
+    } else if (fileSize < UNIT_RATE * UNIT_RATE) {
+      return this.formatNumber(String.format("%.3f", fileSize * 1.0f / UNIT_RATE)) + " KB";
+    } else if (fileSize < UNIT_RATE * UNIT_RATE * UNIT_RATE) {
+      return this.formatNumber(String.format("%.3f",  fileSize * 1.0f / UNIT_RATE / UNIT_RATE)) + " MB";
     } else {
-      float size = (float)(fileSize / UNIT_RATE);
-      return this.formatNumber(size) + " KB(千字节)";
+      return this.formatNumber(String.format("%.3f",  fileSize * 1.0f / UNIT_RATE / UNIT_RATE / UNIT_RATE)) + " GB";
     }
   }
 
@@ -450,15 +450,15 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
    * @param number 原始数字
    * @return 格式化后的数字
    */
-  private String formatNumber(double number) {
-    StringBuilder stbFileSize = new StringBuilder(String.format("%.3f", number));
-    while (stbFileSize.charAt(stbFileSize.length() - 1) == '0') {
-      stbFileSize.deleteCharAt(stbFileSize.length() - 1);
+  private String formatNumber(String number) {
+    StringBuilder stbNumber = new StringBuilder(number);
+    while (stbNumber.charAt(stbNumber.length() - 1) == '0') {
+      stbNumber.deleteCharAt(stbNumber.length() - 1);
     }
-    if (stbFileSize.charAt(stbFileSize.length() - 1) == '.') {
-      stbFileSize.deleteCharAt(stbFileSize.length() - 1);
+    if (stbNumber.charAt(stbNumber.length() - 1) == '.') {
+      stbNumber.deleteCharAt(stbNumber.length() - 1);
     }
-    return stbFileSize.toString();
+    return stbNumber.toString();
   }
 
   /**
@@ -559,15 +559,16 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     // 非阻塞弹窗
     dialog.setModal(false);
 
-    final SwingWorker<int[], Void> worker = new SwingWorker<int[], Void>() {
+    final SwingWorker<long[], Void> worker = new SwingWorker<long[], Void>() {
 
       /**
        * 子线程执行：耗时操作
        * @return 返回结果
        */
       @Override
-      protected int[] doInBackground() throws Exception {
-        int[] counts = new int[]{0, 0};
+      protected long[] doInBackground() throws Exception {
+        // 子目录数、子文件数、目录大小
+        long[] counts = new long[]{ 0, 0, 0 };
         getElementCount(dir, counts, this);
         return counts;
       }
@@ -583,7 +584,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
         }
         try {
           // 获取子线程返回的结果，即doInBackground接口的返回值
-          int[] counts = get();
+          long[] counts = get();
           showDirInformation(dir, counts, lblInfo);
         } catch (Exception x) {
           // x.printStackTrace();
@@ -606,22 +607,24 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     worker.execute();
   }
 
-  private void showDirInformation(File dir, int[] counts, JLabel lblInfo) {
+  private void showDirInformation(File dir, long[] counts, JLabel lblInfo) {
     StringBuilder stbFileInfo = new StringBuilder();
     stbFileInfo.append("目录路径：").append(dir.getAbsolutePath()).append("\n");
     stbFileInfo.append("修改时间：").append(this.simpleDateFormat.format(dir.lastModified())).append("\n");
     if (counts == null) {
       stbFileInfo.append("子目录数：").append("统计中...").append("\n");
-      stbFileInfo.append("子文件数：").append("统计中...");
+      stbFileInfo.append("子文件数：").append("统计中...").append("\n");
+      stbFileInfo.append("目录大小：").append("统计中...");
     } else {
       stbFileInfo.append("子目录数：").append(counts[0]).append("\n");
-      stbFileInfo.append("子文件数：").append(counts[1]);
+      stbFileInfo.append("子文件数：").append(counts[1]).append("\n");
+      stbFileInfo.append("目录大小：").append(this.formatFileSize(counts[2]));
     }
     String text = "<html>" + Util.convertToMsg(stbFileInfo.toString()).replace("\n", "<br>") + "</html>";
     lblInfo.setText(text);
   }
 
-  private void getElementCount(File dir, int[] counts, SwingWorker<int[], Void> worker) {
+  private void getElementCount(File dir, long[] counts, SwingWorker<long[], Void> worker) {
     if (worker.isCancelled()) {
       return;
     }
@@ -638,6 +641,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
         this.getElementCount(file, counts, worker);
       } else if (file.isFile()) {
         counts[1] ++;
+        counts[2] += file.length();
       }
     }
   }
