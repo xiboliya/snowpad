@@ -2697,3 +2697,9 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 2026-03-27
 1.在“文件树”面板中选择目录时的右键快捷菜单中的：查看目录属性弹窗中添加目录大小的显示。
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+
+2026-03-28
+1.统一“文件树”、统计信息页面中，统计文件/目录大小的方法。
+src/com/xiboliya/snowpad/dialog/InformationDialog.java
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
+src/com/xiboliya/snowpad/util/Util.java
