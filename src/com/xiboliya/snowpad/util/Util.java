@@ -130,6 +130,7 @@ public final class Util {
   public static final int DEFAULT_BACK_FORWARD_INDEX = 0; // 光标历史位置的默认值
   public static final int MSG_LINE_SIZE = 60; // 提示框中每行字符串显示的最大字数
   public static final int PATTERN_SYNTAX_ERROR_INDEX = -2; // 正则表达式语法错误的索引值
+  public static final int UNIT_RATE = 1024; // 文件大小的单位换算比例
   public static final Font TEXT_FONT = new Font("宋体", Font.PLAIN, 14); // 文本域的默认字体
   // 配色方案默认颜色：字体颜色
   public static final Color COLOR_DEFAULT_FONT = UIManager.getLookAndFeelDefaults().getColor("TextArea.foreground");
@@ -1015,4 +1016,40 @@ public final class Util {
     }
     return text;
   }
+
+  /**
+   * 格式化文件大小的显示
+   * 
+   * @param fileSize 文件字节数
+   * @return 格式化后的文件大小的显示
+   */
+  public static String formatFileSize(long fileSize) {
+    if (fileSize < UNIT_RATE) {
+      return fileSize + " B";
+    } else if (fileSize < UNIT_RATE * UNIT_RATE) {
+      return formatNumber(String.format("%.3f", fileSize * 1.0 / UNIT_RATE)) + " KB";
+    } else if (fileSize < UNIT_RATE * UNIT_RATE * UNIT_RATE) {
+      return formatNumber(String.format("%.3f",  fileSize * 1.0 / UNIT_RATE / UNIT_RATE)) + " MB";
+    } else {
+      return formatNumber(String.format("%.3f",  fileSize * 1.0 / UNIT_RATE / UNIT_RATE / UNIT_RATE)) + " GB";
+    }
+  }
+
+  /**
+   * 格式化数字
+   * 
+   * @param number 原始数字
+   * @return 格式化后的数字
+   */
+  private static String formatNumber(String number) {
+    StringBuilder stbNumber = new StringBuilder(number);
+    while (stbNumber.charAt(stbNumber.length() - 1) == '0') {
+      stbNumber.deleteCharAt(stbNumber.length() - 1);
+    }
+    if (stbNumber.charAt(stbNumber.length() - 1) == '.') {
+      stbNumber.deleteCharAt(stbNumber.length() - 1);
+    }
+    return stbNumber.toString();
+  }
+
 }

@@ -34,6 +34,7 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
+import com.xiboliya.snowpad.util.Util;
 
 /**
  * "统计信息"对话框
@@ -52,10 +53,6 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   private static final String INFO_DOC_DIGITS = "数字数："; // 统计信息窗口中使用的字符串
   private static final String INFO_DOC_LETTERS = "字母数："; // 统计信息窗口中使用的字符串
   private static final String INFO_DOC_BLANKS = "空格数："; // 统计信息窗口中使用的字符串
-  // 文件大小的单位换算比例
-  private static final int UNIT_RATE = 1024;
-  // 文件大小的单位
-  private static final String[] FILE_SIZE_UNIT = new String[] {"字节(B)", "千字节(KB)", "兆字节(MB)"};
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlCenter = new JPanel();
   private JPanel pnlSouth = new JPanel();
@@ -133,9 +130,9 @@ public class InformationDialog extends BaseDialog implements ActionListener {
       StringBuilder stbFileInfo = new StringBuilder();
       stbFileInfo.append(INFO_FILE_PATH).append(file.getAbsolutePath()).append("\n");
       stbFileInfo.append(INFO_FILE_MODIFY_TIME).append(this.simpleDateFormat.format(file.lastModified())).append("\n");
-      stbFileInfo.append(INFO_FILE_SIZE).append(this.formatFileSize(fileSize, 0));
-      if (fileSize >= UNIT_RATE) {
-        stbFileInfo.append(" | " + fileSize + " " + FILE_SIZE_UNIT[0]);
+      stbFileInfo.append(INFO_FILE_SIZE).append(Util.formatFileSize(fileSize));
+      if (fileSize >= Util.UNIT_RATE) {
+        stbFileInfo.append(" | " + fileSize + " B");
       }
       this.txaFile.setText(stbFileInfo.toString());
     } else {
@@ -156,26 +153,6 @@ public class InformationDialog extends BaseDialog implements ActionListener {
     }
     this.txaDoc.setText(INFO_DOC_CHARS + strText.length() + "\n" + INFO_DOC_LINES + this.txaSource.getLineCount() + "\n" +
         INFO_DOC_DIGITS + digits + "\n" + INFO_DOC_LETTERS + letters + "\n" + INFO_DOC_BLANKS + blanks);
-  }
-
-  /**
-   * 格式化文件大小的显示
-   * 
-   * @param fileSize 文件字节数
-   * @param unitIndex 文件大小的单位索引值
-   * @return 格式化后的文件大小的显示
-   */
-  private String formatFileSize(float fileSize, int unitIndex) {
-    if (fileSize < UNIT_RATE || unitIndex >= FILE_SIZE_UNIT.length - 1) {
-      String strFileSize = String.valueOf(fileSize);
-      if (strFileSize.endsWith(".0")) {
-        strFileSize = strFileSize.substring(0, strFileSize.length() - 2);
-      }
-      return strFileSize + " " + FILE_SIZE_UNIT[unitIndex];
-    }
-    fileSize = (float)(fileSize / UNIT_RATE);
-    unitIndex++;
-    return this.formatFileSize(fileSize, unitIndex);
   }
 
   /**

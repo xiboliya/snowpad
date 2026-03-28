@@ -421,44 +421,9 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     StringBuilder stbFileInfo = new StringBuilder();
     stbFileInfo.append("文件路径：").append(file.getAbsolutePath()).append("\n");
     stbFileInfo.append("修改时间：").append(this.simpleDateFormat.format(file.lastModified())).append("\n");
-    stbFileInfo.append("文件大小：").append(this.formatFileSize(file.length()));
+    stbFileInfo.append("文件大小：").append(Util.formatFileSize(file.length()));
     JOptionPane.showMessageDialog(this, Util.convertToMsg(stbFileInfo.toString()),
         Util.SOFTWARE, JOptionPane.PLAIN_MESSAGE);
-  }
-
-  /**
-   * 格式化文件大小的显示
-   * 
-   * @param fileSize 文件字节数
-   * @return 格式化后的文件大小的显示
-   */
-  private String formatFileSize(long fileSize) {
-    if (fileSize < UNIT_RATE) {
-      return fileSize + " B";
-    } else if (fileSize < UNIT_RATE * UNIT_RATE) {
-      return this.formatNumber(String.format("%.3f", fileSize * 1.0f / UNIT_RATE)) + " KB";
-    } else if (fileSize < UNIT_RATE * UNIT_RATE * UNIT_RATE) {
-      return this.formatNumber(String.format("%.3f",  fileSize * 1.0f / UNIT_RATE / UNIT_RATE)) + " MB";
-    } else {
-      return this.formatNumber(String.format("%.3f",  fileSize * 1.0f / UNIT_RATE / UNIT_RATE / UNIT_RATE)) + " GB";
-    }
-  }
-
-  /**
-   * 格式化数字
-   * 
-   * @param number 原始数字
-   * @return 格式化后的数字
-   */
-  private String formatNumber(String number) {
-    StringBuilder stbNumber = new StringBuilder(number);
-    while (stbNumber.charAt(stbNumber.length() - 1) == '0') {
-      stbNumber.deleteCharAt(stbNumber.length() - 1);
-    }
-    if (stbNumber.charAt(stbNumber.length() - 1) == '.') {
-      stbNumber.deleteCharAt(stbNumber.length() - 1);
-    }
-    return stbNumber.toString();
   }
 
   /**
@@ -618,7 +583,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     } else {
       stbFileInfo.append("子目录数：").append(counts[0]).append("\n");
       stbFileInfo.append("子文件数：").append(counts[1]).append("\n");
-      stbFileInfo.append("目录大小：").append(this.formatFileSize(counts[2]));
+      stbFileInfo.append("目录大小：").append(Util.formatFileSize(counts[2]));
     }
     String text = "<html>" + Util.convertToMsg(stbFileInfo.toString()).replace("\n", "<br>") + "</html>";
     lblInfo.setText(text);
