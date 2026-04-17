@@ -46,37 +46,40 @@ import com.xiboliya.snowpad.window.TipsWindow;
  */
 public class TestQuestionDialog extends BaseDialog implements ActionListener, ItemListener {
   private static final long serialVersionUID = 1L;
-  private static final String[] TEST_QUESTION_MATH_LEVELS = new String[] { "加减法【初级】", "加减法【中级】", "加减法【高级】", "加减法【特级】",
-      "乘法【初级】", "乘法【中级】", "乘法【高级】", "乘法【特级】", "除法【初级】", "除法【中级】", "除法【高级】", "除法【特级】" }; // 数学题库难度等级的显示名称
-  private static final String[] TEST_QUESTION_MATH_SPECIAL_LEVELS = new String[] { "退位减法" }; // 数学题库专项题目的显示名称
+  // 加减法难度等级的显示名称
+  private static final String[] TEST_QUESTION_MATH_LEVELS_1 = new String[] { "加法【初级】", "加法【中级】", "加法【高级】", "加法【特级】",
+      "减法【初级】", "减法【中级】", "减法【高级】", "减法【特级】", "加减法【初级】", "加减法【中级】", "加减法【高级】", "加减法【特级】" };
+  // 乘除法难度等级的显示名称
+  private static final String[] TEST_QUESTION_MATH_LEVELS_2 = new String[] { "乘法【初级】", "乘法【中级】", "乘法【高级】", "乘法【特级】",
+      "除法【初级】", "除法【中级】", "除法【高级】", "除法【特级】" };
+  // 数学题库专项题目的显示名称
+  private static final String[] TEST_QUESTION_MATH_SPECIAL_LEVELS = new String[] { "退位减法" };
+  // 出题规则的显示名称
+  private static final String[] TEST_QUESTION_MATH_STYLE = new String[] { "运算数范围", "计算结果范围" };
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
-  // 标准
-  private String strMinTextC = "结果最小值";
-  private String strMaxTextC = "结果最大值";
-  private JPanel pnlCommon = new JPanel();
-  private JLabel lblLevelC = new JLabel("难度等级：");
-  private JComboBox<String> cmbLevelC = new JComboBox<String>(TEST_QUESTION_MATH_LEVELS);
-  private JLabel lblMinC = new JLabel(this.strMinTextC + "：");
-  private BaseTextField txtMinC = new BaseTextField(true, "\\d*");
-  private JLabel lblMaxC = new JLabel(this.strMaxTextC + "：");
-  private BaseTextField txtMaxC = new BaseTextField(true, "\\d*");
-  private JLabel lblCountC = new JLabel("出题数目：");
-  private BaseTextField txtCountC = new BaseTextField(true, "\\d*");
+  // 加减
+  private JPanel pnlCommon1 = new JPanel();
+  private JLabel lblLevel1 = new JLabel("难度等级：");
+  private JComboBox<String> cmbLevel1 = new JComboBox<String>(TEST_QUESTION_MATH_LEVELS_1);
+  // 乘除
+  private JPanel pnlCommon2 = new JPanel();
+  private JLabel lblLevel2 = new JLabel("难度等级：");
+  private JComboBox<String> cmbLevel2 = new JComboBox<String>(TEST_QUESTION_MATH_LEVELS_2);
   // 专项
-  private String strMinTextS = "结果最小值";
-  private String strMaxTextS = "结果最大值";
   private JPanel pnlSpecial = new JPanel();
   private JLabel lblLevelS = new JLabel("题目类型：");
   private JComboBox<String> cmbLevelS = new JComboBox<String>(TEST_QUESTION_MATH_SPECIAL_LEVELS);
-  private JLabel lblMinS = new JLabel(this.strMinTextS + "：");
-  private BaseTextField txtMinS = new BaseTextField(true, "\\d*");
-  private JLabel lblMaxS = new JLabel(this.strMaxTextS + "：");
-  private BaseTextField txtMaxS = new BaseTextField(true, "\\d*");
-  private JLabel lblCountS = new JLabel("出题数目：");
-  private BaseTextField txtCountS = new BaseTextField(true, "\\d*");
   // 按钮
   private JPanel pnlBottom = new JPanel();
+  private JLabel lblStyle = new JLabel("出题规则：");
+  private JComboBox<String> cmbStyle = new JComboBox<String>(TEST_QUESTION_MATH_STYLE);
+  private JLabel lblMin = new JLabel("运算最小值：");
+  private BaseTextField txtMin = new BaseTextField(true, "\\d*");
+  private JLabel lblMax = new JLabel("运算最大值：");
+  private BaseTextField txtMax = new BaseTextField(true, "\\d*");
+  private JLabel lblCount = new JLabel("出题数目：");
+  private BaseTextField txtCount = new BaseTextField(true, "\\d*");
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
@@ -103,53 +106,52 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   private void init() {
     this.setTitle("题库");
     this.pnlMain.setLayout(null);
-    // 标准
-    this.pnlCommon.setLayout(null);
-    this.lblLevelC.setBounds(20, 10, 100, Util.VIEW_HEIGHT);
-    this.cmbLevelC.setBounds(100, 10, 140, Util.INPUT_HEIGHT);
-    this.lblMinC.setBounds(20, 50, 100, Util.VIEW_HEIGHT);
-    this.txtMinC.setBounds(100, 50, 140, Util.INPUT_HEIGHT);
-    this.lblMaxC.setBounds(20, 90, 100, Util.VIEW_HEIGHT);
-    this.txtMaxC.setBounds(100, 90, 140, Util.INPUT_HEIGHT);
-    this.lblCountC.setBounds(20, 130, 100, Util.VIEW_HEIGHT);
-    this.txtCountC.setBounds(100, 130, 140, Util.INPUT_HEIGHT);
-    this.pnlCommon.add(this.lblLevelC);
-    this.pnlCommon.add(this.cmbLevelC);
-    this.pnlCommon.add(this.lblMinC);
-    this.pnlCommon.add(this.txtMinC);
-    this.pnlCommon.add(this.lblMaxC);
-    this.pnlCommon.add(this.txtMaxC);
-    this.pnlCommon.add(this.lblCountC);
-    this.pnlCommon.add(this.txtCountC);
+    // 加减
+    this.pnlCommon1.setLayout(null);
+    this.lblLevel1.setBounds(20, 10, 100, Util.VIEW_HEIGHT);
+    this.cmbLevel1.setBounds(100, 10, 140, Util.INPUT_HEIGHT);
+    this.pnlCommon1.add(this.lblLevel1);
+    this.pnlCommon1.add(this.cmbLevel1);
+    // 乘除
+    this.pnlCommon2.setLayout(null);
+    this.lblLevel2.setBounds(20, 10, 100, Util.VIEW_HEIGHT);
+    this.cmbLevel2.setBounds(100, 10, 140, Util.INPUT_HEIGHT);
+    this.pnlCommon2.add(this.lblLevel2);
+    this.pnlCommon2.add(this.cmbLevel2);
     // 专项
     this.pnlSpecial.setLayout(null);
     this.lblLevelS.setBounds(20, 10, 100, Util.VIEW_HEIGHT);
     this.cmbLevelS.setBounds(100, 10, 140, Util.INPUT_HEIGHT);
-    this.lblMinS.setBounds(20, 50, 100, Util.VIEW_HEIGHT);
-    this.txtMinS.setBounds(100, 50, 140, Util.INPUT_HEIGHT);
-    this.lblMaxS.setBounds(20, 90, 100, Util.VIEW_HEIGHT);
-    this.txtMaxS.setBounds(100, 90, 140, Util.INPUT_HEIGHT);
-    this.lblCountS.setBounds(20, 130, 100, Util.VIEW_HEIGHT);
-    this.txtCountS.setBounds(100, 130, 140, Util.INPUT_HEIGHT);
     this.pnlSpecial.add(this.lblLevelS);
     this.pnlSpecial.add(this.cmbLevelS);
-    this.pnlSpecial.add(this.lblMinS);
-    this.pnlSpecial.add(this.txtMinS);
-    this.pnlSpecial.add(this.lblMaxS);
-    this.pnlSpecial.add(this.txtMaxS);
-    this.pnlSpecial.add(this.lblCountS);
-    this.pnlSpecial.add(this.txtCountS);
 
-    this.tpnMain.setBounds(0, 0, 280, 195);
-    this.tpnMain.add(this.pnlCommon, "标准");
+    this.tpnMain.setBounds(0, 0, 280, 75);
+    this.tpnMain.add(this.pnlCommon1, "加减");
+    this.tpnMain.add(this.pnlCommon2, "乘除");
     this.tpnMain.add(this.pnlSpecial, "专项");
     this.pnlMain.add(this.tpnMain);
 
     // 按钮
     this.pnlBottom.setLayout(null);
-    this.pnlBottom.setBounds(0, 195, 280, 85);
-    this.btnOk.setBounds(30, 10, 90, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(160, 10, 90, Util.BUTTON_HEIGHT);
+    this.pnlBottom.setBounds(0, 75, 280, 205);
+    this.lblStyle.setBounds(20, 10, 100, Util.VIEW_HEIGHT);
+    this.cmbStyle.setBounds(100, 10, 140, Util.INPUT_HEIGHT);
+    this.lblMin.setBounds(20, 40, 100, Util.VIEW_HEIGHT);
+    this.txtMin.setBounds(100, 40, 140, Util.INPUT_HEIGHT);
+    this.lblMax.setBounds(20, 70, 100, Util.VIEW_HEIGHT);
+    this.txtMax.setBounds(100, 70, 140, Util.INPUT_HEIGHT);
+    this.lblCount.setBounds(20, 100, 100, Util.VIEW_HEIGHT);
+    this.txtCount.setBounds(100, 100, 140, Util.INPUT_HEIGHT);
+    this.btnOk.setBounds(30, 130, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(160, 130, 90, Util.BUTTON_HEIGHT);
+    this.pnlBottom.add(this.lblStyle);
+    this.pnlBottom.add(this.cmbStyle);
+    this.pnlBottom.add(this.lblMin);
+    this.pnlBottom.add(this.txtMin);
+    this.pnlBottom.add(this.lblMax);
+    this.pnlBottom.add(this.txtMax);
+    this.pnlBottom.add(this.lblCount);
+    this.pnlBottom.add(this.txtCount);
     this.pnlBottom.add(this.btnOk);
     this.pnlBottom.add(this.btnCancel);
     this.pnlMain.add(this.pnlBottom);
@@ -158,12 +160,9 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   private void initData() {
-    this.txtMinC.setText("0");
-    this.txtMaxC.setText("10");
-    this.txtCountC.setText("100");
-    this.txtMinS.setText("0");
-    this.txtMaxS.setText("100");
-    this.txtCountS.setText("100");
+    this.txtMin.setText("0");
+    this.txtMax.setText("10");
+    this.txtCount.setText("100");
     this.tpnMain.setFocusable(false);
     this.btnOk.setFocusable(false);
     this.btnCancel.setFocusable(false);
@@ -181,159 +180,157 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 刷新标签的文本
    * 
-   * @param isResult 是否显示“结果”
+   * @param isResult true显示“结果”，false显示“运算 ”
    */
   private void refreshLabelText(boolean isResult) {
-    int index = this.getTabbedIndex();
-    if (index == 0) {
       if (isResult) {
-        this.strMinTextC = "结果最小值";
-        this.strMaxTextC = "结果最大值";
+        this.lblMin.setText("结果最小值：");
+        this.lblMax.setText("结果最大值：");
       } else {
-        this.strMinTextC = "运算最小值";
-        this.strMaxTextC = "运算最大值";
+        this.lblMin.setText("运算最小值：");
+        this.lblMax.setText("运算最大值：");
       }
-      this.lblMinC.setText(this.strMinTextC + "：");
-      this.lblMaxC.setText(this.strMaxTextC + "：");
-    } else {
-      if (isResult) {
-        this.strMinTextS = "结果最小值";
-        this.strMaxTextS = "结果最大值";
-      } else {
-        this.strMinTextS = "运算最小值";
-        this.strMaxTextS = "运算最大值";
-      }
-      this.lblMinS.setText(this.strMinTextS + "：");
-      this.lblMaxS.setText(this.strMaxTextS + "：");
-    }
   }
 
   /**
-   * 使用当前选中的标准出题方式
+   * 加减法按难度等级出题
    */
-  private void testQuestionCommon() {
-    String strMin = this.txtMinC.getText();
-    if (Util.isTextEmpty(strMin)) {
-      TipsWindow.show(this, "请输入" + this.strMinTextC + "！");
+  private void testQuestionCommon1() {
+    boolean isCorrect = this.checkCorrect();
+    if (!isCorrect) {
       return;
     }
-    String strMax = this.txtMaxC.getText();
-    if (Util.isTextEmpty(strMax)) {
-      TipsWindow.show(this, "请输入" + this.strMaxTextC + "！");
-      return;
-    }
-    String strCount = this.txtCountC.getText();
-    if (Util.isTextEmpty(strCount)) {
-      TipsWindow.show(this, "请输入出题数目！");
-      return;
-    }
-    int min = 0;
-    try {
-      min = Integer.parseInt(strMin);
-    } catch (NumberFormatException x) {
-      // x.printStackTrace();
-    }
-    int max = 0;
-    try {
-      max = Integer.parseInt(strMax);
-    } catch (NumberFormatException x) {
-      // x.printStackTrace();
-    }
-    if (min > max) {
-      TipsWindow.show(this, this.strMinTextC + "不能超过" + this.strMaxTextC + "！");
-      return;
-    }
-    int count = 0;
-    try {
-      count = Integer.parseInt(strCount);
-    } catch (NumberFormatException x) {
-      // x.printStackTrace();
-    }
-    if (count <= 0) {
-      TipsWindow.show(this, "出题数目必须大于0！");
-      return;
-    }
-    int level = this.cmbLevelC.getSelectedIndex();
+    int min = Integer.parseInt(this.txtMin.getText());
+    int max = Integer.parseInt(this.txtMax.getText());
+    int count = Integer.parseInt(this.txtCount.getText());
+    boolean isStyleResult = this.isStyleResult();
+    this.testList.clear();
+    int level = this.cmbLevel1.getSelectedIndex();
     switch (level) {
     case 0:
-      this.getListLevel1(min, max);
+      this.getListAddition1(min, max, isStyleResult);
       break;
     case 1:
-      this.getListLevel2(min, max);
+      this.getListAddition2(min, max, isStyleResult);
       break;
     case 2:
-      this.getListLevel3(min, max);
+      this.getListAddition3(min, max, isStyleResult);
       break;
     case 3:
-      this.getListLevel4(min, max);
+      this.getListAddition4(min, max, isStyleResult);
       break;
     case 4:
-      this.getListLevel5(min, max);
+      this.getListSubduction1(min, max, isStyleResult);
       break;
     case 5:
-      this.getListLevel6(min, max);
+      this.getListSubduction2(min, max, isStyleResult);
       break;
     case 6:
-      this.getListLevel7(min, max);
+      this.getListSubduction3(min, max, isStyleResult);
       break;
     case 7:
-      this.getListLevel8(min, max);
+      this.getListSubduction4(min, max, isStyleResult);
       break;
     case 8:
-      this.getListLevel9(min, max);
+      this.getListAdditionSubduction1(min, max, isStyleResult);
       break;
     case 9:
-      this.getListLevel10(min, max);
+      this.getListAdditionSubduction2(min, max, isStyleResult);
       break;
     case 10:
-      this.getListLevel11(min, max);
+      this.getListAdditionSubduction3(min, max, isStyleResult);
       break;
     case 11:
-      this.getListLevel12(min, max);
+      this.getListAdditionSubduction4(min, max, isStyleResult);
       break;
     }
-    Collections.shuffle(testList); // 随机打乱List内元素顺序
-    StringBuilder stbTest = new StringBuilder();
-    int size = testList.size();
-    if (count > size) {
-      int result = JOptionPane.showConfirmDialog(this, "实际题库数目只有：" + size + "个，将按照此数目出题，是否继续？",
-          Util.SOFTWARE, JOptionPane.YES_NO_OPTION);
-      if (result != JOptionPane.YES_OPTION) {
-        return;
-      }
-      count = size;
+    this.testQuestion(count);
+  }
+
+  /**
+   * 乘除法按难度等级出题
+   */
+  private void testQuestionCommon2() {
+    boolean isCorrect = this.checkCorrect();
+    if (!isCorrect) {
+      return;
     }
-    for (int i = 0; i < count; i++) {
-      String str = testList.get(i);
-      stbTest.append(str);
-      if ((i+1)%4 == 0) {
-        stbTest.append("\n");
-      } else {
-        stbTest.append("\t\t");
-      }
+    int min = Integer.parseInt(this.txtMin.getText());
+    int max = Integer.parseInt(this.txtMax.getText());
+    int count = Integer.parseInt(this.txtCount.getText());
+    boolean isStyleResult = this.isStyleResult();
+    this.testList.clear();
+    int level = this.cmbLevel2.getSelectedIndex();
+    switch (level) {
+    case 0:
+      this.getListMultiplication1(min, max, isStyleResult);
+      break;
+    case 1:
+      this.getListMultiplication2(min, max, isStyleResult);
+      break;
+    case 2:
+      this.getListMultiplication3(min, max, isStyleResult);
+      break;
+    case 3:
+      this.getListMultiplication4(min, max, isStyleResult);
+      break;
+    case 4:
+      this.getListDivision1(min, max, isStyleResult);
+      break;
+    case 5:
+      this.getListDivision2(min, max, isStyleResult);
+      break;
+    case 6:
+      this.getListDivision3(min, max, isStyleResult);
+      break;
+    case 7:
+      this.getListDivision4(min, max, isStyleResult);
+      break;
     }
-    this.txaSource.replaceSelection(stbTest.toString());
-    this.dispose();
+    this.testQuestion(count);
   }
 
   /**
    * 使用当前选中的专项出题方式
    */
   private void testQuestionSpecial() {
-    String strMin = this.txtMinS.getText();
+    boolean isCorrect = this.checkCorrect();
+    if (!isCorrect) {
+      return;
+    }
+    int min = Integer.parseInt(this.txtMin.getText());
+    int max = Integer.parseInt(this.txtMax.getText());
+    int count = Integer.parseInt(this.txtCount.getText());
+    boolean isStyleResult = this.isStyleResult();
+    this.testList.clear();
+    int level = this.cmbLevelS.getSelectedIndex();
+    switch (level) {
+    case 0:
+      this.getListSpecial1(min, max, isStyleResult);
+      break;
+    }
+    this.testQuestion(count);
+  }
+
+  /**
+   * 检查输入的值是否合法
+   * @return true显示合法，false显示不合法
+   */
+  private boolean checkCorrect() {
+    String strMin = this.txtMin.getText();
     if (Util.isTextEmpty(strMin)) {
-      TipsWindow.show(this, "请输入" + this.strMinTextS + "！");
-      return;
+      TipsWindow.show(this, "请输入最小值！");
+      return false;
     }
-    String strMax = this.txtMaxS.getText();
+    String strMax = this.txtMax.getText();
     if (Util.isTextEmpty(strMax)) {
-      TipsWindow.show(this, "请输入" + this.strMaxTextS + "！");
-      return;
+      TipsWindow.show(this, "请输入最大值！");
+      return false;
     }
-    String strCount = this.txtCountS.getText();
+    String strCount = this.txtCount.getText();
     if (Util.isTextEmpty(strCount)) {
       TipsWindow.show(this, "请输入出题数目！");
-      return;
+      return false;
     }
     int min = 0;
     try {
@@ -348,8 +345,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
       // x.printStackTrace();
     }
     if (min > max) {
-      TipsWindow.show(this, this.strMinTextS + "不能超过" + this.strMaxTextC + "！");
-      return;
+      TipsWindow.show(this, "最小值不能超过最大值！");
+      return false;
     }
     int count = 0;
     try {
@@ -359,17 +356,19 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     }
     if (count <= 0) {
       TipsWindow.show(this, "出题数目必须大于0！");
-      return;
+      return false;
     }
-    int level = this.cmbLevelS.getSelectedIndex();
-    switch (level) {
-    case 0:
-      this.getListSpecial1(min, max);
-      break;
-    }
-    Collections.shuffle(testList); // 随机打乱List内元素顺序
+    return true;
+  }
+
+  /**
+   * 出题
+   * @param count 出题数目
+   */
+  private void testQuestion(int count) {
+    Collections.shuffle(this.testList); // 随机打乱List内元素顺序
     StringBuilder stbTest = new StringBuilder();
-    int size = testList.size();
+    int size = this.testList.size();
     if (size == 0) {
       JOptionPane.showMessageDialog(this, "实际题库数目为0个，请调整出题参数！", Util.SOFTWARE, JOptionPane.NO_OPTION);
       return;
@@ -382,7 +381,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
       count = size;
     }
     for (int i = 0; i < count; i++) {
-      String str = testList.get(i);
+      String str = this.testList.get(i);
       stbTest.append(str);
       if ((i+1)%4 == 0) {
         stbTest.append("\n");
@@ -395,87 +394,138 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
-   * 数学题目加减法初级
+   * 获取出题规则是否为计算结果
+   * @return true显示为计算结果，false显示不是计算结果
+   */
+  private boolean isStyleResult() {
+    int index = this.cmbStyle.getSelectedIndex();
+    return index == 1;
+  }
+
+  /**
+   * 加法初级
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListLevel1(int start, int end) {
-    this.testList.clear();
-    for (int i = 0; i <= end; i++) {
-      for (int j = 0; j <= end; j++) {
-        int result1 = i + j;
-        int result2 = i - j;
-        // +
-        if (result1 >= start && result1 <= end) {
+  private void getListAddition1(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          int result = i + j;
+          // +
+          if (result >= start && result <= end) {
+            this.testList.add(i + "+" + j + "=");
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          // +
           this.testList.add(i + "+" + j + "=");
         }
-        // -
-        if (result2 >= start && result2 <= end) {
-          this.testList.add(i + "-" + j + "=");
+      }
+    }
+  }
+
+  /**
+   * 加法中级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListAddition2(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          int result = i + j;
+          // +
+          if (result >= start && result <= end) {
+            this.testList.add("(  )" + "+" + j + "=" + result);
+            this.testList.add(i + "+" + "(  )" + "=" + result);
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          int result = i + j;
+          // +
+          this.testList.add("(  )" + "+" + j + "=" + result);
+          this.testList.add(i + "+" + "(  )" + "=" + result);
         }
       }
     }
   }
 
   /**
-   * 数学题目加减法中级
+   * 加法高级
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListLevel2(int start, int end) {
-    this.testList.clear();
-    for (int i = 0; i <= end; i++) {
-      for (int j = 0; j <= end; j++) {
-        int result1 = i + j;
-        int result2 = i - j;
-        // +
-        if (result1 >= start && result1 <= end) {
-          this.testList.add("(  )" + "+" + j + "=" + result1);
-          this.testList.add(i + "+" + "(  )" + "=" + result1);
-        }
-        // -
-        if (result2 >= start && result2 <= end) {
-          this.testList.add("(  )" + "-" + j + "=" + result2);
-          this.testList.add(i + "-" + "(  )" + "=" + result2);
+  private void getListAddition3(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          for (int k = 0; k <= end; k++) {
+            int temp = i + j;
+            int result = i + j + k;
+            // ++
+            if (temp <= end && result >= start && result <= end) {
+              this.testList.add(i + "+" + j + "+" + k + "=");
+            }
+          }
         }
       }
-    }
-  }
-
-  /**
-   * 数学题目加减法高级
-   * 
-   * @param start 最小值
-   * @param end 最大值
-   */
-  private void getListLevel3(int start, int end) {
-    this.testList.clear();
-    for (int i = 0; i <= end; i++) {
-      for (int j = 0; j <= end; j++) {
-        for (int k = 0; k <= end; k++) {
-          int temp1 = i + j;
-          int temp2 = i - j;
-          int result1 = i + j + k;
-          int result2 = i + j - k;
-          int result3 = i - j + k;
-          int result4 = i - j - k;
-          // ++
-          if (temp1 <= end && result1 >= start && result1 <= end) {
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            // ++
             this.testList.add(i + "+" + j + "+" + k + "=");
           }
-          // +-
-          if (temp1 <= end && result2 >= start && result2 <= end) {
-            this.testList.add(i + "+" + j + "-" + k + "=");
+        }
+      }
+    }
+  }
+
+  /**
+   * 加法特级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListAddition4(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          for (int k = 0; k <= end; k++) {
+            int temp = i + j;
+            int result = i + j + k;
+            // ++
+            if (temp <= end && result >= start && result <= end) {
+              this.testList.add("(  )" + "+" + j + "+" + k + "=" + result);
+              this.testList.add(i + "+" + "(  )" + "+" + k + "=" + result);
+              this.testList.add(i + "+" + j + "+" + "(  )" + "=" + result);
+            }
           }
-          // -+
-          if (temp2 >= start && result3 >= start && result3 <= end) {
-            this.testList.add(i + "-" + j + "+" + k + "=");
-          }
-          // --
-          if (temp2 >= start && result4 >= start && result4 <= end) {
-            this.testList.add(i + "-" + j + "-" + k + "=");
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            int result = i + j + k;
+            // ++
+            this.testList.add("(  )" + "+" + j + "+" + k + "=" + result);
+            this.testList.add(i + "+" + "(  )" + "+" + k + "=" + result);
+            this.testList.add(i + "+" + j + "+" + "(  )" + "=" + result);
           }
         }
       }
@@ -483,45 +533,372 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
-   * 数学题目加减法特级
+   * 减法初级
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListLevel4(int start, int end) {
-    this.testList.clear();
-    for (int i = 0; i <= end; i++) {
-      for (int j = 0; j <= end; j++) {
-        for (int k = 0; k <= end; k++) {
-          int temp1 = i + j;
-          int temp2 = i - j;
-          int result1 = i + j + k;
-          int result2 = i + j - k;
-          int result3 = i - j + k;
-          int result4 = i - j - k;
-          // ++
-          if (temp1 <= end && result1 >= start && result1 <= end) {
+  private void getListSubduction1(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          int result = i - j;
+          // -
+          if (result >= start && result <= end) {
+            this.testList.add(i + "-" + j + "=");
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          int result = i - j;
+          // -
+          if (result >= 0) {
+            this.testList.add(i + "-" + j + "=");
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 减法中级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListSubduction2(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          int result = i - j;
+          // -
+          if (result >= start && result <= end) {
+            this.testList.add("(  )" + "-" + j + "=" + result);
+            this.testList.add(i + "-" + "(  )" + "=" + result);
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          int result = i - j;
+          // -
+          if (result >= 0) {
+            this.testList.add("(  )" + "-" + j + "=" + result);
+            this.testList.add(i + "-" + "(  )" + "=" + result);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 减法高级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListSubduction3(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          for (int k = 0; k <= end; k++) {
+            int temp = i - j;
+            int result = i - j - k;
+            // --
+            if (temp >= start && result >= start && result <= end) {
+              this.testList.add(i + "-" + j + "-" + k + "=");
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            int temp = i - j;
+            int result = i - j - k;
+            // --
+            if (temp >= 0 && result >= 0) {
+              this.testList.add(i + "-" + j + "-" + k + "=");
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 减法特级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListSubduction4(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          for (int k = 0; k <= end; k++) {
+            int temp = i - j;
+            int result = i - j - k;
+            // --
+            if (temp >= start && result >= start && result <= end) {
+              this.testList.add("(  )" + "-" + j + "-" + k + "=" + result);
+              this.testList.add(i + "-" + "(  )" + "-" + k + "=" + result);
+              this.testList.add(i + "-" + j + "-" + "(  )" + "=" + result);
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            int temp = i - j;
+            int result = i - j - k;
+            // --
+            if (temp >= 0 && result >= 0) {
+              this.testList.add("(  )" + "-" + j + "-" + k + "=" + result);
+              this.testList.add(i + "-" + "(  )" + "-" + k + "=" + result);
+              this.testList.add(i + "-" + j + "-" + "(  )" + "=" + result);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 加减法初级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListAdditionSubduction1(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          int result1 = i + j;
+          int result2 = i - j;
+          // +
+          if (result1 >= start && result1 <= end) {
+            this.testList.add(i + "+" + j + "=");
+          }
+          // -
+          if (result2 >= start && result2 <= end) {
+            this.testList.add(i + "-" + j + "=");
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          int result2 = i - j;
+          // +
+          this.testList.add(i + "+" + j + "=");
+          // -
+          if (result2 >= 0) {
+            this.testList.add(i + "-" + j + "=");
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 加减法中级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListAdditionSubduction2(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          int result1 = i + j;
+          int result2 = i - j;
+          // +
+          if (result1 >= start && result1 <= end) {
+            this.testList.add("(  )" + "+" + j + "=" + result1);
+            this.testList.add(i + "+" + "(  )" + "=" + result1);
+          }
+          // -
+          if (result2 >= start && result2 <= end) {
+            this.testList.add("(  )" + "-" + j + "=" + result2);
+            this.testList.add(i + "-" + "(  )" + "=" + result2);
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          int result1 = i + j;
+          int result2 = i - j;
+          // +
+          this.testList.add("(  )" + "+" + j + "=" + result1);
+          this.testList.add(i + "+" + "(  )" + "=" + result1);
+          // -
+          if (result2 >= 0) {
+            this.testList.add("(  )" + "-" + j + "=" + result2);
+            this.testList.add(i + "-" + "(  )" + "=" + result2);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 加减法高级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListAdditionSubduction3(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          for (int k = 0; k <= end; k++) {
+            int temp1 = i + j;
+            int temp2 = i - j;
+            int result1 = i + j + k;
+            int result2 = i + j - k;
+            int result3 = i - j + k;
+            int result4 = i - j - k;
+            // ++
+            if (result1 >= start && result1 <= end) {
+              this.testList.add(i + "+" + j + "+" + k + "=");
+            }
+            // +-
+            if (temp1 <= end && result2 >= start && result2 <= end) {
+              this.testList.add(i + "+" + j + "-" + k + "=");
+            }
+            // -+
+            if (temp2 >= start && result3 >= start && result3 <= end) {
+              this.testList.add(i + "-" + j + "+" + k + "=");
+            }
+            // --
+            if (temp2 >= start && result4 >= start && result4 <= end) {
+              this.testList.add(i + "-" + j + "-" + k + "=");
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            int temp1 = i + j;
+            int temp2 = i - j;
+            int result1 = i + j + k;
+            int result2 = i + j - k;
+            int result3 = i - j + k;
+            int result4 = i - j - k;
+            // ++
+            this.testList.add(i + "+" + j + "+" + k + "=");
+            // +-
+            if (result2 >= 0) {
+              this.testList.add(i + "+" + j + "-" + k + "=");
+            }
+            // -+
+            if (temp2 >= 0 && result3 >= 0) {
+              this.testList.add(i + "-" + j + "+" + k + "=");
+            }
+            // --
+            if (temp2 >= 0 && result4 >= 0) {
+              this.testList.add(i + "-" + j + "-" + k + "=");
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 加减法特级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListAdditionSubduction4(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          for (int k = 0; k <= end; k++) {
+            int temp1 = i + j;
+            int temp2 = i - j;
+            int result1 = i + j + k;
+            int result2 = i + j - k;
+            int result3 = i - j + k;
+            int result4 = i - j - k;
+            // ++
+            if (result1 >= start && result1 <= end) {
+              this.testList.add("(  )" + "+" + j + "+" + k + "=" + result1);
+              this.testList.add(i + "+" + "(  )" + "+" + k + "=" + result1);
+              this.testList.add(i + "+" + j + "+" + "(  )" + "=" + result1);
+            }
+            // +-
+            if (temp1 <= end && result2 >= start && result2 <= end) {
+              this.testList.add("(  )" + "+" + j + "-" + k + "=" + result2);
+              this.testList.add(i + "+" + "(  )" + "-" + k + "=" + result2);
+              this.testList.add(i + "+" + j + "-" + "(  )" + "=" + result2);
+            }
+            // -+
+            if (temp2 >= start && result3 >= start && result3 <= end) {
+              this.testList.add("(  )" + "-" + j + "+" + k + "=" + result3);
+              this.testList.add(i + "-" + "(  )" + "+" + k + "=" + result3);
+              this.testList.add(i + "-" + j + "+" + "(  )" + "=" + result3);
+            }
+            // --
+            if (temp2 >= start && result4 >= start && result4 <= end) {
+              this.testList.add("(  )" + "-" + j + "-" + k + "=" + result4);
+              this.testList.add(i + "-" + "(  )" + "-" + k + "=" + result4);
+              this.testList.add(i + "-" + j + "-" + "(  )" + "=" + result4);
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            int temp1 = i + j;
+            int temp2 = i - j;
+            int result1 = i + j + k;
+            int result2 = i + j - k;
+            int result3 = i - j + k;
+            int result4 = i - j - k;
+            // ++
             this.testList.add("(  )" + "+" + j + "+" + k + "=" + result1);
             this.testList.add(i + "+" + "(  )" + "+" + k + "=" + result1);
             this.testList.add(i + "+" + j + "+" + "(  )" + "=" + result1);
-          }
-          // +-
-          if (temp1 <= end && result2 >= start && result2 <= end) {
-            this.testList.add("(  )" + "+" + j + "-" + k + "=" + result2);
-            this.testList.add(i + "+" + "(  )" + "-" + k + "=" + result2);
-            this.testList.add(i + "+" + j + "-" + "(  )" + "=" + result2);
-          }
-          // -+
-          if (temp2 >= start && result3 >= start && result3 <= end) {
-            this.testList.add("(  )" + "-" + j + "+" + k + "=" + result3);
-            this.testList.add(i + "-" + "(  )" + "+" + k + "=" + result3);
-            this.testList.add(i + "-" + j + "+" + "(  )" + "=" + result3);
-          }
-          // --
-          if (temp2 >= start && result4 >= start && result4 <= end) {
-            this.testList.add("(  )" + "-" + j + "-" + k + "=" + result4);
-            this.testList.add(i + "-" + "(  )" + "-" + k + "=" + result4);
-            this.testList.add(i + "-" + j + "-" + "(  )" + "=" + result4);
+            // +-
+            if (result2 >= 0) {
+              this.testList.add("(  )" + "+" + j + "-" + k + "=" + result2);
+              this.testList.add(i + "+" + "(  )" + "-" + k + "=" + result2);
+              this.testList.add(i + "+" + j + "-" + "(  )" + "=" + result2);
+            }
+            // -+
+            if (temp2 >= 0 && result3 >= 0) {
+              this.testList.add("(  )" + "-" + j + "+" + k + "=" + result3);
+              this.testList.add(i + "-" + "(  )" + "+" + k + "=" + result3);
+              this.testList.add(i + "-" + j + "+" + "(  )" + "=" + result3);
+            }
+            // --
+            if (temp2 >= 0 && result4 >= 0) {
+              this.testList.add("(  )" + "-" + j + "-" + k + "=" + result4);
+              this.testList.add(i + "-" + "(  )" + "-" + k + "=" + result4);
+              this.testList.add(i + "-" + j + "-" + "(  )" + "=" + result4);
+            }
           }
         }
       }
@@ -529,85 +906,76 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
-   * 数学题目乘法初级
+   * 乘法初级
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListLevel5(int start, int end) {
-    this.testList.clear();
-    for (int i = start; i <= end; i++) {
-      for (int j = start; j <= end; j++) {
-        this.testList.add(i + "×" + j + "=");
+  private void getListMultiplication1(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          int result = i * j;
+          // ×
+          if (result >= start && result <= end) {
+            this.testList.add(i + "×" + j + "=");
+          }
+        }
       }
-    }
-  }
-
-  /**
-   * 数学题目乘法中级
-   * 
-   * @param start 最小值
-   * @param end 最大值
-   */
-  private void getListLevel6(int start, int end) {
-    this.testList.clear();
-    for (int i = start; i <= end; i++) {
-      for (int j = start; j <= end; j++) {
-        int result = i * j;
-        if (i == 0) {
-          this.testList.add("(  )" + "×" + j + "=" + result);
-        } else if (j == 0) {
-          this.testList.add(i + "×" + "(  )" + "=" + result);
-        } else {
-          this.testList.add("(  )" + "×" + j + "=" + result);
-          this.testList.add(i + "×" + "(  )" + "=" + result);
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          // ×
+          this.testList.add(i + "×" + j + "=");
         }
       }
     }
   }
 
   /**
-   * 数学题目乘法高级
+   * 乘法中级
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListLevel7(int start, int end) {
-    this.testList.clear();
-    for (int i = start; i <= end; i++) {
-      for (int j = start; j <= end; j++) {
-        for (int k = start; k <= end; k++) {
-          this.testList.add(i + "×" + j + "×" + k + "=");
-        }
-      }
-    }
-  }
-
-  /**
-   * 数学题目乘法特级
-   * 
-   * @param start 最小值
-   * @param end 最大值
-   */
-  private void getListLevel8(int start, int end) {
-    this.testList.clear();
-    for (int i = start; i <= end; i++) {
-      for (int j = start; j <= end; j++) {
-        for (int k = start; k <= end; k++) {
-          if ((i == 0 && j == 0) || (i == 0 && k == 0) || (j == 0 && k == 0)) {
+  private void getListMultiplication2(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          if (i == 0 && j == 0) {
             continue;
           }
-          int result = i * j * k;
+          int result = i * j;
+          // ×
+          if (result >= start && result <= end) {
+            if (i == 0) {
+              this.testList.add("(  )" + "×" + j + "=" + result);
+            } else if (j == 0) {
+              this.testList.add(i + "×" + "(  )" + "=" + result);
+            } else {
+              this.testList.add("(  )" + "×" + j + "=" + result);
+              this.testList.add(i + "×" + "(  )" + "=" + result);
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          if (i == 0 && j == 0) {
+            continue;
+          }
+          int result = i * j;
+          // ×
           if (i == 0) {
-            this.testList.add("(  )" + "×" + j + "×" + k + "=" + result);
+            this.testList.add("(  )" + "×" + j + "=" + result);
           } else if (j == 0) {
-            this.testList.add(i + "×" + "(  )" + "×" + k + "=" + result);
-          } else if (k == 0) {
-            this.testList.add(i + "×" + j + "×" + "(  )" + "=" + result);
+            this.testList.add(i + "×" + "(  )" + "=" + result);
           } else {
-            this.testList.add("(  )" + "×" + j + "×" + k + "=" + result);
-            this.testList.add(i + "×" + "(  )" + "×" + k + "=" + result);
-            this.testList.add(i + "×" + j + "×" + "(  )" + "=" + result);
+            this.testList.add("(  )" + "×" + j + "=" + result);
+            this.testList.add(i + "×" + "(  )" + "=" + result);
           }
         }
       }
@@ -615,18 +983,125 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
-   * 数学题目除法初级
+   * 乘法高级
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListLevel9(int start, int end) {
-    this.testList.clear();
-    for (int i = 0; i <= end; i++) {
-      for (int j = 1; j <= end; j++) {
-        if ((i % j) == 0) {
-          int result = i / j;
-          if (result >= start && result <= end) {
+  private void getListMultiplication3(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          for (int k = 0; k <= end; k++) {
+            int result = i * j * k;
+            // ××
+            if (result >= start && result <= end) {
+              this.testList.add(i + "×" + j + "×" + k + "=");
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            // ××
+            this.testList.add(i + "×" + j + "×" + k + "=");
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 乘法特级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListMultiplication4(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          for (int k = 0; k <= end; k++) {
+            if ((i == 0 && j == 0) || (i == 0 && k == 0) || (j == 0 && k == 0)) {
+              continue;
+            }
+            int result = i * j * k;
+            // ××
+            if (result >= start && result <= end) {
+              if (i == 0) {
+                this.testList.add("(  )" + "×" + j + "×" + k + "=" + result);
+              } else if (j == 0) {
+                this.testList.add(i + "×" + "(  )" + "×" + k + "=" + result);
+              } else if (k == 0) {
+                this.testList.add(i + "×" + j + "×" + "(  )" + "=" + result);
+              } else {
+                this.testList.add("(  )" + "×" + j + "×" + k + "=" + result);
+                this.testList.add(i + "×" + "(  )" + "×" + k + "=" + result);
+                this.testList.add(i + "×" + j + "×" + "(  )" + "=" + result);
+              }
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            if ((i == 0 && j == 0) || (i == 0 && k == 0) || (j == 0 && k == 0)) {
+              continue;
+            }
+            int result = i * j * k;
+            // ××
+            if (i == 0) {
+              this.testList.add("(  )" + "×" + j + "×" + k + "=" + result);
+            } else if (j == 0) {
+              this.testList.add(i + "×" + "(  )" + "×" + k + "=" + result);
+            } else if (k == 0) {
+              this.testList.add(i + "×" + j + "×" + "(  )" + "=" + result);
+            } else {
+              this.testList.add("(  )" + "×" + j + "×" + k + "=" + result);
+              this.testList.add(i + "×" + "(  )" + "×" + k + "=" + result);
+              this.testList.add(i + "×" + j + "×" + "(  )" + "=" + result);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 除法初级
+   * 
+   * @param start 最小值
+   * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
+   */
+  private void getListDivision1(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 1; j <= end; j++) {
+          if ((i % j) == 0) {
+            int result = i / j;
+            // ÷
+            if (result >= start && result <= end) {
+              this.testList.add(i + "÷" + j + "=");
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          if (j == 0) {
+            continue;
+          }
+          if ((i % j) == 0) {
+            int result = i / j;
+            // ÷
             this.testList.add(i + "÷" + j + "=");
           }
         }
@@ -635,20 +1110,45 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
-   * 数学题目除法中级
+   * 除法中级
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListLevel10(int start, int end) {
-    this.testList.clear();
-    for (int i = 0; i <= end; i++) {
-      for (int j = 1; j <= end; j++) {
-        if ((i % j) == 0) {
-          int result = i / j;
-          if (result >= start && result <= end) {
-            this.testList.add("(  )" + "÷" + j + "=" + result);
-            this.testList.add(i + "÷" + "(  )" + "=" + result);
+  private void getListDivision2(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 1; j <= end; j++) {
+          if ((i % j) == 0) {
+            int result = i / j;
+            // ÷
+            if (result >= start && result <= end) {
+              if (i == 0) {
+                this.testList.add("(  )" + "÷" + j + "=" + result);
+              } else {
+                this.testList.add("(  )" + "÷" + j + "=" + result);
+                this.testList.add(i + "÷" + "(  )" + "=" + result);
+              }
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          if (j == 0) {
+            continue;
+          }
+          if ((i % j) == 0) {
+            int result = i / j;
+            // ÷
+            if (i == 0) {
+              this.testList.add("(  )" + "÷" + j + "=" + result);
+            } else {
+              this.testList.add("(  )" + "÷" + j + "=" + result);
+              this.testList.add(i + "÷" + "(  )" + "=" + result);
+            }
           }
         }
       }
@@ -656,21 +1156,39 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
-   * 数学题目除法高级
+   * 除法高级
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListLevel11(int start, int end) {
-    this.testList.clear();
-    for (int i = 0; i <= end; i++) {
-      for (int j = 1; j <= end; j++) {
-        for (int k = 1; k <= end; k++) {
-          int temp1 = i / j;
-          int temp2 = i % j;
-          int result = i / j / k;
-          if (temp2 == 0 && (temp1 % k) == 0) {
-            if (temp1 <= end && result >= start && result <= end) {
+  private void getListDivision3(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 1; j <= end; j++) {
+          for (int k = 1; k <= end; k++) {
+            int temp1 = i / j;
+            int temp2 = i % j;
+            int result = i / j / k;
+            // ÷÷
+            if (temp2 == 0 && (temp1 % k) == 0 && result >= start && result <= end) {
+              this.testList.add(i + "÷" + j + "÷" + k + "=");
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            if (j == 0 || k == 0) {
+              continue;
+            }
+            int temp1 = i / j;
+            int temp2 = i % j;
+            int result = i / j / k;
+            // ÷÷
+            if (temp2 == 0 && (temp1 % k) == 0) {
               this.testList.add(i + "÷" + j + "÷" + k + "=");
             }
           }
@@ -680,21 +1198,45 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
-   * 数学题目除法特级
+   * 除法特级
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListLevel12(int start, int end) {
-    this.testList.clear();
-    for (int i = 0; i <= end; i++) {
-      for (int j = 1; j <= end; j++) {
-        for (int k = 1; k <= end; k++) {
-          int temp1 = i / j;
-          int temp2 = i % j;
-          int result = i / j / k;
-          if (temp2 == 0 && (temp1 % k) == 0) {
-            if (temp1 <= end && result >= start && result <= end) {
+  private void getListDivision4(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 0; i <= end; i++) {
+        for (int j = 1; j <= end; j++) {
+          for (int k = 1; k <= end; k++) {
+            int temp1 = i / j;
+            int temp2 = i % j;
+            int result = i / j / k;
+            // ÷÷
+            if (temp2 == 0 && (temp1 % k) == 0 && result >= start && result <= end) {
+              if (i == 0) {
+                this.testList.add("(  )" + "÷" + j + "÷" + k + "=" + result);
+              } else {
+                this.testList.add("(  )" + "÷" + j + "÷" + k + "=" + result);
+                this.testList.add(i + "÷" + "(  )" + "÷" + k + "=" + result);
+                this.testList.add(i + "÷" + j + "÷" + "(  )" + "=" + result);
+              }
+            }
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          for (int k = start; k <= end; k++) {
+            if (j == 0 || k == 0) {
+              continue;
+            }
+            int temp1 = i / j;
+            int temp2 = i % j;
+            int result = i / j / k;
+            // ÷÷
+            if (temp2 == 0 && (temp1 % k) == 0) {
               if (i == 0) {
                 this.testList.add("(  )" + "÷" + j + "÷" + k + "=" + result);
               } else {
@@ -710,21 +1252,35 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   }
 
   /**
-   * 数学题目退位减法
+   * 退位减法
    * 
    * @param start 最小值
    * @param end 最大值
+   * @param isStyleResult 是否按计算结果出题，true表示按计算结果出题
    */
-  private void getListSpecial1(int start, int end) {
-    this.testList.clear();
-    for (int i = 11; i <= end; i++) {
-      for (int j = 0; j <= end; j++) {
-        int result1 = i - j;
-        int single1 = this.getSingle(i);
-        int single2 = this.getSingle(j);
-        // -
-        if (result1 >= start && result1 <= end && single1 < single2) {
-          this.testList.add(i + "-" + j + "=");
+  private void getListSpecial1(int start, int end, boolean isStyleResult) {
+    if (isStyleResult) {
+      for (int i = 11; i <= end; i++) {
+        for (int j = 0; j <= end; j++) {
+          int result = i - j;
+          int single1 = this.getSingle(i);
+          int single2 = this.getSingle(j);
+          // -
+          if (result >= start && result <= end && single1 < single2) {
+            this.testList.add(i + "-" + j + "=");
+          }
+        }
+      }
+    } else {
+      for (int i = start; i <= end; i++) {
+        for (int j = start; j <= end; j++) {
+          int result = i - j;
+          int single1 = this.getSingle(i);
+          int single2 = this.getSingle(j);
+          // -
+          if (result > 0 && single1 < single2) {
+            this.testList.add(i + "-" + j + "=");
+          }
         }
       }
     }
@@ -748,21 +1304,20 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   private void addListeners() {
     this.btnOk.addActionListener(this);
     this.btnCancel.addActionListener(this);
-    this.cmbLevelC.addKeyListener(this.keyAdapter);
-    this.cmbLevelC.addItemListener(this);
-    this.txtMinC.addKeyListener(this.keyAdapter);
-    this.txtMaxC.addKeyListener(this.keyAdapter);
-    this.txtCountC.addKeyListener(this.keyAdapter);
+    this.cmbLevel1.addKeyListener(this.keyAdapter);
+    this.cmbLevel2.addKeyListener(this.keyAdapter);
     this.cmbLevelS.addKeyListener(this.keyAdapter);
-    this.cmbLevelS.addItemListener(this);
-    this.txtMinS.addKeyListener(this.keyAdapter);
-    this.txtMaxS.addKeyListener(this.keyAdapter);
-    this.txtCountS.addKeyListener(this.keyAdapter);
+    this.cmbStyle.addKeyListener(this.keyAdapter);
+    this.cmbStyle.addItemListener(this);
+    this.txtMin.addKeyListener(this.keyAdapter);
+    this.txtMax.addKeyListener(this.keyAdapter);
+    this.txtCount.addKeyListener(this.keyAdapter);
   }
 
   /**
    * 为各组件添加事件的处理方法
    */
+  @Override
   public void actionPerformed(ActionEvent e) {
     Object source = e.getSource();
     if (this.btnOk.equals(source)) {
@@ -775,18 +1330,12 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 当所选项更改时调用
    */
+  @Override
   public void itemStateChanged(ItemEvent e) {
-    int index = this.getTabbedIndex();
-    if (index == 0) {
-      int level = this.cmbLevelC.getSelectedIndex();
-      if (level > 3 && level < 8) {
-        this.refreshLabelText(false);
-      } else {
-        this.refreshLabelText(true);
-      }
-    } else {
-      int level = this.cmbLevelS.getSelectedIndex();
-      if (level > 0) {
+    Object source = e.getSource();
+    if (this.cmbStyle.equals(source)) {
+      int index = this.cmbStyle.getSelectedIndex();
+      if (index == 0) {
         this.refreshLabelText(false);
       } else {
         this.refreshLabelText(true);
@@ -797,10 +1346,13 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 默认的"确定"操作方法
    */
+  @Override
   public void onEnter() {
     if (this.getTabbedIndex() == 0) {
-      this.testQuestionCommon();
+      this.testQuestionCommon1();
     } else if (this.getTabbedIndex() == 1) {
+      this.testQuestionCommon2();
+    } else if (this.getTabbedIndex() == 2) {
       this.testQuestionSpecial();
     }
   }
@@ -808,6 +1360,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   /**
    * 默认的"取消"操作方法
    */
+  @Override
   public void onCancel() {
     this.dispose();
   }
