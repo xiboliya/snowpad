@@ -2703,3 +2703,7 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 src/com/xiboliya/snowpad/dialog/InformationDialog.java
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2026-04-17
+1.“题库”界面优化调整，共分为：加减、乘除、专项，并添加单独的加法和减法难度等级。
+src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
