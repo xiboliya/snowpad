@@ -2709,5 +2709,5 @@ src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
 
 2026-05-08
-1.“题库”界面中扩充乘除法难度等级：。
+1.“题库”界面中扩充乘除法难度等级。
 src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
