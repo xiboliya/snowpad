@@ -2711,3 +2711,7 @@ src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
 2026-05-08
 1.“题库”界面中扩充乘除法难度等级。
 src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
+
+2026-06-15
+1.“题库”界面中添加设置项：每行中题目数量、每行中题目间距。
+src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
