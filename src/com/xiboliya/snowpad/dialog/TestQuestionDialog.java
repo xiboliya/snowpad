@@ -54,6 +54,10 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
       "除法【初级】", "除法【中级】", "除法【高级】", "除法【特级】", "乘除法【初级】", "乘除法【中级】", "乘除法【高级】", "乘除法【特级】" };
   // 数学题库专项题目的显示名称
   private static final String[] TEST_QUESTION_MATH_SPECIAL_LEVELS = new String[] { "退位减法" };
+  // 每行中题目数量的显示名称
+  private static final String[] TEST_QUESTION_MATH_COUNT_IN_LINE = new String[] { "2", "3", "4", "5", "6" };
+  // 每行中题目间距的显示名称
+  private static final String[] TEST_QUESTION_MATH_SPACING_IN_LINE = new String[] { "特小", "小", "标准", "大", "特大" };
   // 出题规则的显示名称
   private static final String[] TEST_QUESTION_MATH_STYLE = new String[] { "运算数范围", "计算结果范围" };
   private JPanel pnlMain = (JPanel) this.getContentPane();
@@ -72,6 +76,10 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   private JComboBox<String> cmbLevelS = new JComboBox<String>(TEST_QUESTION_MATH_SPECIAL_LEVELS);
   // 按钮
   private JPanel pnlBottom = new JPanel();
+  private JLabel lblCountInLine = new JLabel("每行中题目数量：");
+  private JComboBox<String> cmbCountInLine = new JComboBox<String>(TEST_QUESTION_MATH_COUNT_IN_LINE);
+  private JLabel lblSpacingInLine = new JLabel("每行中题目间距：");
+  private JComboBox<String> cmbSpacingInLine = new JComboBox<String>(TEST_QUESTION_MATH_SPACING_IN_LINE);
   private JLabel lblStyle = new JLabel("出题规则：");
   private JComboBox<String> cmbStyle = new JComboBox<String>(TEST_QUESTION_MATH_STYLE);
   private JLabel lblMin = new JLabel("运算最小值：");
@@ -84,6 +92,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   private BaseButton btnCancel = new BaseButton("取消");
   private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private LinkedList<String> testList = new LinkedList<String>(); // 存放题目的链表
+  private int countInLine = 4; // 每行中题目数量
+  private int spacingInLine = 2; // 每行中题目间距，即制表符tab的数量
 
   /**
    * 构造方法
@@ -96,7 +106,7 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     super(owner, modal, txaSource);
     this.init();
     this.addListeners();
-    this.setSize(280, 280);
+    this.setSize(280, 340);
     this.setVisible(true);
   }
 
@@ -133,17 +143,25 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
 
     // 按钮
     this.pnlBottom.setLayout(null);
-    this.pnlBottom.setBounds(0, 75, 280, 205);
-    this.lblStyle.setBounds(20, 10, 100, Util.VIEW_HEIGHT);
-    this.cmbStyle.setBounds(100, 10, 140, Util.INPUT_HEIGHT);
-    this.lblMin.setBounds(20, 40, 100, Util.VIEW_HEIGHT);
-    this.txtMin.setBounds(100, 40, 140, Util.INPUT_HEIGHT);
-    this.lblMax.setBounds(20, 70, 100, Util.VIEW_HEIGHT);
-    this.txtMax.setBounds(100, 70, 140, Util.INPUT_HEIGHT);
-    this.lblCount.setBounds(20, 100, 100, Util.VIEW_HEIGHT);
-    this.txtCount.setBounds(100, 100, 140, Util.INPUT_HEIGHT);
-    this.btnOk.setBounds(30, 130, 90, Util.BUTTON_HEIGHT);
-    this.btnCancel.setBounds(160, 130, 90, Util.BUTTON_HEIGHT);
+    this.pnlBottom.setBounds(0, 75, 280, 265);
+    this.lblCountInLine.setBounds(20, 10, 140, Util.VIEW_HEIGHT);
+    this.cmbCountInLine.setBounds(140, 10, 100, Util.INPUT_HEIGHT);
+    this.lblSpacingInLine.setBounds(20, 40, 140, Util.VIEW_HEIGHT);
+    this.cmbSpacingInLine.setBounds(140, 40, 100, Util.INPUT_HEIGHT);
+    this.lblStyle.setBounds(20, 70, 100, Util.VIEW_HEIGHT);
+    this.cmbStyle.setBounds(100, 70, 140, Util.INPUT_HEIGHT);
+    this.lblMin.setBounds(20, 100, 100, Util.VIEW_HEIGHT);
+    this.txtMin.setBounds(100, 100, 140, Util.INPUT_HEIGHT);
+    this.lblMax.setBounds(20, 130, 100, Util.VIEW_HEIGHT);
+    this.txtMax.setBounds(100, 130, 140, Util.INPUT_HEIGHT);
+    this.lblCount.setBounds(20, 160, 100, Util.VIEW_HEIGHT);
+    this.txtCount.setBounds(100, 160, 140, Util.INPUT_HEIGHT);
+    this.btnOk.setBounds(30, 190, 90, Util.BUTTON_HEIGHT);
+    this.btnCancel.setBounds(160, 190, 90, Util.BUTTON_HEIGHT);
+    this.pnlBottom.add(this.lblCountInLine);
+    this.pnlBottom.add(this.cmbCountInLine);
+    this.pnlBottom.add(this.lblSpacingInLine);
+    this.pnlBottom.add(this.cmbSpacingInLine);
     this.pnlBottom.add(this.lblStyle);
     this.pnlBottom.add(this.cmbStyle);
     this.pnlBottom.add(this.lblMin);
@@ -155,11 +173,12 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     this.pnlBottom.add(this.btnOk);
     this.pnlBottom.add(this.btnCancel);
     this.pnlMain.add(this.pnlBottom);
-    
     this.initData();
   }
 
   private void initData() {
+    this.cmbCountInLine.setSelectedIndex(2);
+    this.cmbSpacingInLine.setSelectedIndex(1);
     this.txtMin.setText("0");
     this.txtMax.setText("10");
     this.txtCount.setText("100");
@@ -395,10 +414,12 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     for (int i = 0; i < count; i++) {
       String str = this.testList.get(i);
       stbTest.append(str);
-      if ((i+1)%4 == 0) {
+      if ((i+1)%this.countInLine == 0) {
         stbTest.append("\n");
       } else {
-        stbTest.append("\t\t");
+        for (int j = 0; j < this.spacingInLine; j++) {
+          stbTest.append("\t");
+        }
       }
     }
     this.txaSource.replaceSelection(stbTest.toString());
@@ -1391,6 +1412,8 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
     this.cmbLevelS.addKeyListener(this.keyAdapter);
     this.cmbStyle.addKeyListener(this.keyAdapter);
     this.cmbStyle.addItemListener(this);
+    this.cmbCountInLine.addItemListener(this);
+    this.cmbSpacingInLine.addItemListener(this);
     this.txtMin.addKeyListener(this.keyAdapter);
     this.txtMax.addKeyListener(this.keyAdapter);
     this.txtCount.addKeyListener(this.keyAdapter);
@@ -1422,6 +1445,12 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
       } else {
         this.refreshLabelText(true);
       }
+    } else if (this.cmbCountInLine.equals(source)) {
+      int index = this.cmbCountInLine.getSelectedIndex();
+      this.countInLine = index + 2;
+    } else if (this.cmbSpacingInLine.equals(source)) {
+      int index = this.cmbSpacingInLine.getSelectedIndex();
+      this.spacingInLine = index + 1;
     }
   }
 
