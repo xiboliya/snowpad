@@ -2715,3 +2715,7 @@ src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
 2026-06-15
 1.“题库”界面中添加设置项：每行中题目数量、每行中题目间距。
 src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
+
+2026-06-26
+1.在“单位换算”界面中添加：温度单位换算，包括：摄氏度、华氏度、开氏度、兰氏度、列氏度。
+src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
