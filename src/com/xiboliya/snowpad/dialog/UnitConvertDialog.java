@@ -51,7 +51,7 @@ import com.xiboliya.snowpad.util.Util;
 public class UnitConvertDialog extends BaseDialog implements ActionListener, DocumentListener, ItemListener {
   private static final long serialVersionUID = 1L;
   // 单位类型
-  private static final String[] UNIT_TYPES = new String[] {"存储", "时间", "长度", "面积", "体积", "质量", "角度"};
+  private static final String[] UNIT_TYPES = new String[] {"存储", "时间", "长度", "面积", "体积", "质量", "角度", "温度"};
   // 存储单位
   private static final String[] UNIT_TYPE_MEMORY_NAME =
     new String[] {"比特(bit)", "字节(B)", "千字节(KB)", "兆字节(MB)", "千兆字节(GB)", "太字节(TB)", "拍字节(PB)", "艾字节(EB)"};
@@ -73,6 +73,9 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
   // 角度单位
   private static final String[] UNIT_TYPE_ANGLE_NAME =
     new String[] {"秒(″)", "分(′)", "角度(°)", "弧度(rad)"};
+  // 温度单位
+  private static final String[] UNIT_TYPE_TEMPERATURE_NAME =
+    new String[] {"摄氏度(℃)", "华氏度(℉)", "开氏度(K)", "兰氏度(°R)", "列氏度(°Re)"};
   // 存储换算比例
   private static final double[] UNIT_TYPE_MEMORY_RATE = new double[] {1, 8, 1024, 1024, 1024, 1024, 1024, 1024};
   // 时间换算比例
@@ -192,6 +195,9 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
       case 6:
         unitType = UNIT_TYPE_ANGLE_NAME;
         break;
+      case 7:
+        unitType = UNIT_TYPE_TEMPERATURE_NAME;
+        break;
     }
     this.cmbNumber.setModel(new DefaultComboBoxModel<String>(unitType));
     this.cmbNumber.setSelectedIndex(0);
@@ -255,67 +261,214 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
     if (Util.isTextEmpty(strNumber)) {
       this.lblWarning.setVisible(false);
       this.txtResult.setText("");
-    } else {
+      return;
+    }
+    try {
       int index = this.cmbUnitType.getSelectedIndex();
-      double[] unitTypeRate = null;
-      switch (index) {
-        case 0:
-          unitTypeRate = UNIT_TYPE_MEMORY_RATE;
-          break;
-        case 1:
-          unitTypeRate = UNIT_TYPE_TIME_RATE;
-          break;
-        case 2:
-          unitTypeRate = UNIT_TYPE_LENGTH_RATE;
-          break;
-        case 3:
-          unitTypeRate = UNIT_TYPE_AREA_RATE;
-          break;
-        case 4:
-          unitTypeRate = UNIT_TYPE_VOLUME_RATE;
-          break;
-        case 5:
-          unitTypeRate = UNIT_TYPE_WEIGHT_RATE;
-          break;
-        case 6:
-          unitTypeRate = UNIT_TYPE_ANGLE_RATE;
-          break;
-      }
       int indexNumber = this.cmbNumber.getSelectedIndex();
       int indexResult = this.cmbResult.getSelectedIndex();
-      try {
-        BigDecimal number = new BigDecimal(strNumber);
-        String result = strNumber;
-        if (indexNumber > indexResult) {
-          int count = indexNumber - indexResult;
-          BigDecimal rate = new BigDecimal(1);
-          for (; count > 0; count--) {
-            rate = rate.multiply(new BigDecimal(unitTypeRate[indexResult + count]));
-          }
-          result = number.multiply(rate).toString();
-        } else if (indexNumber < indexResult) {
-          int count = indexResult - indexNumber;
-          BigDecimal rate = new BigDecimal(1);
-          for (; count > 0; count--) {
-            rate = rate.multiply(new BigDecimal(unitTypeRate[indexNumber + count]));
-          }
-          // 此处的divide方法需要添加后面2个参数，以设置保留小数的精度。如果不设置，在无法除尽的时候会报错。
-          result = number.divide(rate, 30, RoundingMode.HALF_UP).toString();
-          result = this.formatDivideResult(result);
-        }
-        if (this.chkUpperCase.isSelected()) {
-          result = result.toUpperCase();
-        } else {
-          result = result.toLowerCase();
-        }
-        this.txtResult.setText(result);
-        this.lblWarning.setVisible(false);
-      } catch (Exception x) {
-        // x.printStackTrace();
-        this.lblWarning.setVisible(true);
-        this.txtResult.setText("");
+      String result = strNumber;
+      switch (index) {
+        case 0:
+          result = this.getResult(strNumber, indexNumber, indexResult, UNIT_TYPE_MEMORY_RATE);
+          break;
+        case 1:
+          result = this.getResult(strNumber, indexNumber, indexResult, UNIT_TYPE_TIME_RATE);
+          break;
+        case 2:
+          result = this.getResult(strNumber, indexNumber, indexResult, UNIT_TYPE_LENGTH_RATE);
+          break;
+        case 3:
+          result = this.getResult(strNumber, indexNumber, indexResult, UNIT_TYPE_AREA_RATE);
+          break;
+        case 4:
+          result = this.getResult(strNumber, indexNumber, indexResult, UNIT_TYPE_VOLUME_RATE);
+          break;
+        case 5:
+          result = this.getResult(strNumber, indexNumber, indexResult, UNIT_TYPE_WEIGHT_RATE);
+          break;
+        case 6:
+          result = this.getResult(strNumber, indexNumber, indexResult, UNIT_TYPE_ANGLE_RATE);
+          break;
+        case 7:
+          result = this.getTemperatureResult(strNumber, indexNumber, indexResult);
+          break;
+      }
+      result = this.formatDivideResult(result);
+      if (this.chkUpperCase.isSelected()) {
+        result = result.toUpperCase();
+      } else {
+        result = result.toLowerCase();
+      }
+      this.txtResult.setText(result);
+      this.lblWarning.setVisible(false);
+    } catch (Exception x) {
+      // x.printStackTrace();
+      this.lblWarning.setVisible(true);
+      this.txtResult.setText("");
+    }
+  }
+
+  /**
+   * 获取单位换算结果
+   * 
+   * @param strNumber 待换算的数值
+   * @param indexNumber 换算数值的单位
+   * @param indexResult 换算结果的单位
+   * @param unitTypeRate 单位换算比例
+   * @return 单位换算结果
+   */
+  private String getResult(String strNumber, int indexNumber, int indexResult, double[] unitTypeRate) {
+    if (indexNumber == indexResult) {
+      return strNumber;
+    }
+    String result = strNumber;
+    if (indexNumber > indexResult) {
+      int count = indexNumber - indexResult;
+      BigDecimal rate = new BigDecimal(1);
+      for (; count > 0; count--) {
+        rate = rate.multiply(new BigDecimal(unitTypeRate[indexResult + count]));
+      }
+      BigDecimal number = new BigDecimal(strNumber);
+      result = number.multiply(rate).toString();
+    } else {
+      int count = indexResult - indexNumber;
+      BigDecimal rate = new BigDecimal(1);
+      for (; count > 0; count--) {
+        rate = rate.multiply(new BigDecimal(unitTypeRate[indexNumber + count]));
+      }
+      BigDecimal number = new BigDecimal(strNumber);
+      // 此处的divide方法需要添加后面2个参数，以设置保留小数的精度。如果不设置，在无法除尽的时候会报错。
+      result = number.divide(rate, 10, RoundingMode.HALF_UP).toString();
+    }
+    return result;
+  }
+
+  /**
+   * 获取温度单位换算结果
+   * 
+   * @param strNumber 待换算的数值
+   * @param indexNumber 换算数值的单位
+   * @param indexResult 换算结果的单位
+   * @return 温度单位换算结果
+   */
+  private String getTemperatureResult(String strNumber, int indexNumber, int indexResult) {
+    if (indexNumber == indexResult) {
+      return strNumber;
+    }
+    String result = strNumber;
+    BigDecimal number = new BigDecimal(strNumber);
+    if (indexNumber == 0) {
+      // 摄氏度
+      if (indexResult == 1) {
+        // 转华氏度
+        BigDecimal rate = new BigDecimal("1.8");
+        BigDecimal addValue = new BigDecimal("32");
+        result = number.multiply(rate).add(addValue).toString();
+      } else if (indexResult == 2) {
+        // 转开氏度
+        BigDecimal addValue = new BigDecimal("273.15");
+        result = number.add(addValue).toString();
+      } else if (indexResult == 3) {
+        // 转兰氏度
+        BigDecimal addValue = new BigDecimal("273.15");
+        BigDecimal rate = new BigDecimal("1.8");
+        result = number.add(addValue).multiply(rate).toString();
+      } else if (indexResult == 4) {
+        // 转列氏度
+        BigDecimal rate = new BigDecimal("0.8");
+        result = number.multiply(rate).toString();
+      }
+    } else if (indexNumber == 1) {
+      // 华氏度
+      if (indexResult == 0) {
+        // 转摄氏度
+        BigDecimal subtractValue = new BigDecimal("32");
+        BigDecimal rate = new BigDecimal("1.8");
+        result = number.subtract(subtractValue).divide(rate, 10, RoundingMode.HALF_UP).toString();
+      } else if (indexResult == 2) {
+        // 转开氏度
+        BigDecimal addValue = new BigDecimal("459.67");
+        BigDecimal rate = new BigDecimal("1.8");
+        result = number.add(addValue).divide(rate, 10, RoundingMode.HALF_UP).toString();
+      } else if (indexResult == 3) {
+        // 转兰氏度
+        BigDecimal addValue = new BigDecimal("459.67");
+        result = number.add(addValue).toString();
+      } else if (indexResult == 4) {
+        // 转列氏度
+        BigDecimal subtractValue = new BigDecimal("32");
+        BigDecimal rate1 = new BigDecimal("4");
+        BigDecimal rate2 = new BigDecimal("9");
+        result = number.subtract(subtractValue).multiply(rate1).divide(rate2, 10, RoundingMode.HALF_UP).toString();
+      }
+    } else if (indexNumber == 2) {
+      // 开氏度
+      if (indexResult == 0) {
+        // 转摄氏度
+        BigDecimal subtractValue = new BigDecimal("273.15");
+        result = number.subtract(subtractValue).toString();
+      } else if (indexResult == 1) {
+        // 转华氏度
+        BigDecimal rate = new BigDecimal("1.8");
+        BigDecimal subtractValue = new BigDecimal("459.67");
+        result = number.multiply(rate).subtract(subtractValue).toString();
+      } else if (indexResult == 3) {
+        // 转兰氏度
+        BigDecimal rate = new BigDecimal("1.8");
+        result = number.multiply(rate).toString();
+      } else if (indexResult == 4) {
+        // 转列氏度
+        BigDecimal subtractValue = new BigDecimal("273.15");
+        BigDecimal rate = new BigDecimal("0.8");
+        result = number.subtract(subtractValue).multiply(rate).toString();
+      }
+    } else if (indexNumber == 3) {
+      // 兰氏度
+      if (indexResult == 0) {
+        // 转摄氏度
+        BigDecimal subtractValue = new BigDecimal("491.67");
+        BigDecimal rate = new BigDecimal("1.8");
+        result = number.subtract(subtractValue).divide(rate, 10, RoundingMode.HALF_UP).toString();
+      } else if (indexResult == 1) {
+        // 转华氏度
+        BigDecimal subtractValue = new BigDecimal("459.67");
+        result = number.subtract(subtractValue).toString();
+      } else if (indexResult == 2) {
+        // 转开氏度
+        BigDecimal rate = new BigDecimal("1.8");
+        result = number.divide(rate, 10, RoundingMode.HALF_UP).toString();
+      } else if (indexResult == 4) {
+        // 转列氏度
+        BigDecimal subtractValue = new BigDecimal("491.67");
+        BigDecimal rate1 = new BigDecimal("4");
+        BigDecimal rate2 = new BigDecimal("9");
+        result = number.subtract(subtractValue).multiply(rate1).divide(rate2, 10, RoundingMode.HALF_UP).toString();
+      }
+    } else if (indexNumber == 4) {
+      // 列氏度
+      if (indexResult == 0) {
+        // 转摄氏度
+        BigDecimal rate = new BigDecimal("1.25");
+        result = number.multiply(rate).toString();
+      } else if (indexResult == 1) {
+        // 转华氏度
+        BigDecimal rate = new BigDecimal("2.25");
+        BigDecimal addValue = new BigDecimal("32");
+        result = number.multiply(rate).add(addValue).toString();
+      } else if (indexResult == 2) {
+        // 转开氏度
+        BigDecimal rate = new BigDecimal("1.25");
+        BigDecimal addValue = new BigDecimal("273.15");
+        result = number.multiply(rate).add(addValue).toString();
+      } else if (indexResult == 3) {
+        // 转兰氏度
+        BigDecimal rate = new BigDecimal("2.25");
+        BigDecimal addValue = new BigDecimal("491.67");
+        result = number.multiply(rate).add(addValue).toString();
       }
     }
+    return result;
   }
 
   /**
