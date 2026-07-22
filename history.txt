@@ -2719,3 +2719,12 @@ src/com/xiboliya/snowpad/dialog/TestQuestionDialog.java
 2026-06-26
 1.在“单位换算”界面中添加：温度单位换算，包括：摄氏度、华氏度、开氏度、兰氏度、列氏度。
 src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
+
+2026-07-22
+1.“文件”菜单下添加“收藏夹”、“添加到收藏夹”功能，用于显示用户添加到收藏夹的所有文件、将当前文件添加到收藏夹，点击收藏夹里的文件，可以快速打开该文件。
+res/help.res
+res/snowpad.xml
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/setting/Setting.java
+src/com/xiboliya/snowpad/setting/SettingAdapter.java
+src/com/xiboliya/snowpad/util/Util.java
