@@ -36,6 +36,9 @@
     <viewLookAndFeel note="当前外观的索引号">-1</viewLookAndFeel>
     <viewFrameSize width="600" height="500" note="窗口大小"/>
   </View>
+  <Favorites note="收藏夹">
+    <favorite/>
+  </Favorites>
   <Files note="所有已打开的文件">
     <file/>
   </Files>

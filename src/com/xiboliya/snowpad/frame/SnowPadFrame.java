@@ -168,6 +168,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     ChangeListener, DropTargetListener, ComponentListener, ClipboardListener {
   private static final long serialVersionUID = 1L; // 序列化运行时使用的一个版本号，以与当前可序列化类相关联
   private static final String FILE_HISTORY = "FileHistory"; // 用于标识最近编辑的文件
+  private static final String FAVORITES = "Favorites"; // 用于标识收藏夹的文件
   private static final String STATE_CHARS = "Chars:"; // 状态栏显示信息-文本总字符数
   private static final String STATE_LINES = "Lines:"; // 状态栏显示信息-文本总行数
   private static final String STATE_CUR_LINE = "Ln:"; // 状态栏显示信息-光标当前行号
@@ -304,6 +305,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JCheckBoxMenuItem itemFrozenFile = new JCheckBoxMenuItem("冻结文件(Z)");
   private JMenuItem itemPrint = new JMenuItem("打印(P)...", 'P');
   private JMenuItem itemSaveSetting = new JMenuItem("保存设置(V)", 'V');
+  private JMenu menuFavorites = new JMenu("收藏夹(F)");
+  private JMenuItem itemAddFavorite = new JMenuItem("添加到收藏夹(T)", 'T');
   private JMenu menuFileHistory = new JMenu("最近编辑(H)");
   private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表(Y)", 'Y');
   private JMenuItem itemExit = new JMenuItem("退出(X)", 'X');
@@ -535,6 +538,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemPopReOpen = new JMenuItem("重新载入(R)", 'R');
   private JMenuItem itemPopDelFile = new JMenuItem("删除文件(D)", 'D');
   private JCheckBoxMenuItem itemPopFrozenFile = new JCheckBoxMenuItem("冻结文件(Z)");
+  private JMenuItem itemPopAddFavorite = new JMenuItem("添加到收藏夹(T)", 'T');
   private JMenu menuPopCopyToClip = new JMenu("复制到剪贴板(P)");
   private JMenuItem itemPopToCopyFileName = new JMenuItem("复制文件名(F)", 'F');
   private JMenuItem itemPopToCopyFilePath = new JMenuItem("复制文件路径(P)", 'P');
@@ -638,6 +642,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
           }
         }
       }
+    }
+    for (String favorite : Util.setting.favoriteList) {
+      this.addFavorite(favorite);
     }
   }
 
@@ -882,6 +889,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemPopReOpen.addActionListener(this);
     this.itemPopDelFile.addActionListener(this);
     this.itemPopFrozenFile.addActionListener(this);
+    this.itemPopAddFavorite.addActionListener(this);
     this.itemPopToCopyFileName.addActionListener(this);
     this.itemPopToCopyFilePath.addActionListener(this);
     this.itemPopToCopyDirPath.addActionListener(this);
@@ -898,6 +906,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemPrint.addActionListener(this);
     this.itemSaveSetting.addActionListener(this);
     this.itemDelFile.addActionListener(this);
+    this.itemAddFavorite.addActionListener(this);
     this.itemClearFileHistory.addActionListener(this);
     this.itemSelAll.addActionListener(this);
     this.itemToolBar.addActionListener(this);
@@ -1081,6 +1090,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuFile.add(this.itemPrint);
     this.menuFile.addSeparator();
     this.menuFile.add(this.itemSaveSetting);
+    this.menuFile.addSeparator();
+    this.menuFile.add(this.menuFavorites);
+    this.menuFile.add(this.itemAddFavorite);
     this.menuFile.addSeparator();
     this.menuFile.add(this.menuFileHistory);
     this.menuFile.add(this.itemClearFileHistory);
@@ -1338,6 +1350,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemFrozenFile);
     this.menuItemList.add(this.itemPrint);
     this.menuItemList.add(this.itemSaveSetting);
+    this.menuItemList.add(this.itemAddFavorite);
     this.menuItemList.add(this.itemClearFileHistory);
     this.menuItemList.add(this.itemExit);
     this.menuItemList.add(this.itemUnDo);
@@ -1546,6 +1559,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.popMenuTabbed.add(this.itemPopDelFile);
     this.popMenuTabbed.addSeparator();
     this.popMenuTabbed.add(this.itemPopFrozenFile);
+    this.popMenuTabbed.add(this.itemPopAddFavorite);
     this.popMenuTabbed.addSeparator();
     this.popMenuTabbed.add(this.menuPopCopyToClip);
     this.menuPopCopyToClip.add(this.itemPopToCopyFileName);
@@ -1567,6 +1581,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemReName.setEnabled(false);
     this.itemReOpen.setEnabled(false);
     this.itemDelFile.setEnabled(false);
+    this.itemAddFavorite.setEnabled(false);
     this.itemUnDo.setEnabled(false);
     this.itemReDo.setEnabled(false);
     this.itemCut.setEnabled(false);
@@ -1613,6 +1628,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemPopReName.setEnabled(false);
     this.itemPopReOpen.setEnabled(false);
     this.itemPopDelFile.setEnabled(false);
+    this.itemPopAddFavorite.setEnabled(false);
     this.menuHighlight.setEnabled(false);
     this.menuPopHighlight.setEnabled(false);
     this.toolButtonList.get(6).setEnabled(false);
@@ -1621,6 +1637,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.toolButtonList.get(10).setEnabled(false);
     this.toolButtonList.get(15).setEnabled(false);
     this.toolButtonList.get(16).setEnabled(false);
+    this.setFavoritesMenuEnabled();
     this.setFileHistoryMenuEnabled();
   }
 
@@ -1681,6 +1698,17 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     }
     this.setTextAreaFont();
     this.setColorStyle(0);
+  }
+
+  /**
+   * 设置"收藏夹"菜单是否可用
+   */
+  private void setFavoritesMenuEnabled() {
+    if (this.menuFavorites.getItemCount() == 0) {
+      this.menuFavorites.setEnabled(false);
+    } else {
+      this.menuFavorites.setEnabled(true);
+    }
   }
 
   /**
@@ -1825,6 +1853,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuHelp.setMnemonic('H');
     this.menuTool.setMnemonic('T');
     this.menuEdit.setMnemonic('E');
+    this.menuFavorites.setMnemonic('F');
     this.menuFileHistory.setMnemonic('H');
     this.menuCase.setMnemonic('E');
     this.menuCopyToClip.setMnemonic('O');
@@ -2319,11 +2348,16 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.openAutoCompleteDialog();
     } else if (this.itemShortcutManage.equals(source)) {
       this.openShortcutManageDialog();
+    } else if (this.itemAddFavorite.equals(source) || this.itemPopAddFavorite.equals(source)) {
+      this.addFavorite();
     } else if (this.itemClearFileHistory.equals(source)) {
       this.clearFileHistory();
+    } else if (FAVORITES.equals(e.getActionCommand())) { // 收藏夹的文件菜单
+      JMenuItem itemFile = (JMenuItem) source;
+      this.openFile(itemFile.getText());
     } else if (FILE_HISTORY.equals(e.getActionCommand())) { // 最近编辑的文件菜单
       JMenuItem itemFile = (JMenuItem) source;
-      this.openFileHistory(itemFile.getText());
+      this.openFile(itemFile.getText());
     } else if (e.getActionCommand() != null
         && e.getActionCommand().startsWith(Util.LOOK_AND_FEEL)) { // 当前系统支持的外观菜单
       JRadioButtonMenuItem itemInfo = (JRadioButtonMenuItem) source;
@@ -3804,6 +3838,32 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
+   * "添加到收藏夹"的处理方法
+   */
+  private void addFavorite() {
+    String fileName = this.txaMain.getFileName();
+    if (Util.isTextEmpty(fileName)) {
+      return;
+    }
+    if (!Util.setting.favoriteList.contains(fileName)) {
+      Util.setting.favoriteList.add(fileName);
+      this.addFavorite(fileName);
+    }
+  }
+
+  /**
+   * 将指定文件添加到收藏夹
+   * @param fileName 文件完整路径
+   */
+  private void addFavorite(String fileName) {
+    JMenuItem itemFile = new JMenuItem(fileName);
+    itemFile.setActionCommand(FAVORITES);
+    itemFile.addActionListener(this);
+    this.menuFavorites.add(itemFile, 0);
+    this.setFavoritesMenuEnabled();
+  }
+
+  /**
    * "清空最近编辑列表"的处理方法
    */
   private void clearFileHistory() {
@@ -4096,11 +4156,11 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
-   * 打开最近编辑的文件
+   * 打开指定的文件
    * 
-   * @param strFile 最近编辑的完整文件路径
+   * @param strFile 完整文件路径
    */
-  private void openFileHistory(String strFile) {
+  private void openFile(String strFile) {
     if (Util.isTextEmpty(strFile)) {
       return;
     }
@@ -6059,6 +6119,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.setMenuStateFrozen();
     this.setMenuStateReOpenAndReName();
     this.setMenuStateDelFile();
+    this.setMenuStateAddFavorite();
     this.setMenuStateLineStyleAndCharset();
   }
 
@@ -6529,9 +6590,11 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemReName.setEnabled(true);
     this.itemReOpen.setEnabled(true);
     this.itemDelFile.setEnabled(true);
+    this.itemAddFavorite.setEnabled(true);
     this.itemPopReName.setEnabled(true);
     this.itemPopReOpen.setEnabled(true);
     this.itemPopDelFile.setEnabled(true);
+    this.itemPopAddFavorite.setEnabled(true);
     this.txaMain.setTextChanged(false);
     this.txaMain.setStyleChanged(false);
     this.txaMain.setSaved(true);
@@ -6593,6 +6656,18 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     }
     this.itemDelFile.setEnabled(enable);
     this.itemPopDelFile.setEnabled(enable);
+  }
+
+  /**
+   * 设置添加到收藏夹菜单项的状态
+   */
+  private void setMenuStateAddFavorite() {
+    boolean enable = true;
+    if (this.txaMain.getFile() == null) {
+      enable = false;
+    }
+    this.itemAddFavorite.setEnabled(enable);
+    this.itemPopAddFavorite.setEnabled(enable);
   }
 
   /**
@@ -7061,6 +7136,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.updateStateEncoding();
       this.setMenuStateReOpenAndReName();
       this.setMenuStateDelFile();
+      this.setMenuStateAddFavorite();
       this.setMenuStateLineStyleAndCharset();
       this.setTextAreaInDialogs();
       this.undoManager = this.txaMain.getUndoManager();

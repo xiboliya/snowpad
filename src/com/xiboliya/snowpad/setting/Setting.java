@@ -69,6 +69,8 @@ public class Setting {
   public boolean viewTabIcon = true; // 是否显示指示图标
   public int viewLookAndFeel = -1; // 当前外观的索引号
   public int[] viewFrameSize = new int[]{Util.DEFAULT_FRAME_WIDTH, Util.DEFAULT_FRAME_HEIGHT}; // 窗口大小
+  // 收藏夹
+  public LinkedList<String> favoriteList = new LinkedList<String>(); // 存放收藏夹中的文件名的链表
   // 所有已打开的文件
   public LinkedList<FileHistoryBean> fileHistoryList = new LinkedList<FileHistoryBean>(); // 存放所有已打开的文件名的链表
   // 所有自定义快捷键的设置

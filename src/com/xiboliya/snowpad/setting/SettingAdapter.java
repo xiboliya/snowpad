@@ -104,6 +104,8 @@ public final class SettingAdapter {
       parseFindReplace(nodeList);
       nodeList = root.getElementsByTagName("View");
       parseView(nodeList);
+      nodeList = root.getElementsByTagName("Favorites");
+      parseFavorites(nodeList);
       nodeList = root.getElementsByTagName("Files");
       parseFiles(nodeList);
       nodeList = root.getElementsByTagName("Shortcuts");
@@ -408,6 +410,32 @@ public final class SettingAdapter {
   }
 
   /**
+   * Favorites节点的解析方法
+   * 
+   * @param nodeList 节点列表
+   */
+  private void parseFavorites(NodeList nodeList) {
+    for (int i = 0; i < nodeList.getLength(); i++) {
+      Node node = nodeList.item(i);
+      if (node.hasChildNodes()) {
+        NodeList list = node.getChildNodes();
+        parseFavorites(list); // 递归调用
+      } else if (node.getNodeType() == Node.TEXT_NODE) {
+        String key = node.getParentNode().getNodeName();
+        String value = node.getTextContent().trim();
+        if (!Util.isTextEmpty(value)) {
+          if (key.equalsIgnoreCase("favorite")) {
+            File file = new File(value);
+            if (!this.setting.favoriteList.contains(value)) {
+              this.setting.favoriteList.add(value);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * Files节点的解析方法
    * 
    * @param nodeList 节点列表
@@ -522,6 +550,8 @@ public final class SettingAdapter {
       saveFindReplace(nodeList);
       nodeList = root.getElementsByTagName("View");
       saveView(nodeList);
+      nodeList = root.getElementsByTagName("favorite");
+      saveFavorites(nodeList, root, document);
       nodeList = root.getElementsByTagName("file");
       saveFiles(nodeList, root, document);
       nodeList = root.getElementsByTagName("shortcut");
@@ -724,6 +754,32 @@ public final class SettingAdapter {
         }
       }
     }
+  }
+
+  /**
+   * Favorites节点的保存方法
+   * 
+   * @param nodeList 节点列表
+   * @param element 父级标签元素
+   * @param document 整个XML文档
+   */
+  private void saveFavorites(NodeList nodeList, Element element, Document document) {
+    String str = "\n    ";
+    int length = nodeList.getLength();
+    for (int i = 0; i < length; i++) {
+      Node node = nodeList.item(0);
+      node.getParentNode().removeChild(node);
+    }
+    nodeList = element.getElementsByTagName("Favorites");
+    nodeList.item(0).setTextContent("");
+    Element e = null;
+    for (String favorite : this.setting.favoriteList) {
+      nodeList.item(0).appendChild(document.createTextNode(str));
+      e = document.createElement("favorite");
+      e.setTextContent(favorite);
+      nodeList.item(0).appendChild(e);
+    }
+    nodeList.item(0).appendChild(document.createTextNode("\n  "));
   }
 
   /**
