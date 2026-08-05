@@ -2734,3 +2734,5 @@ src/com/xiboliya/snowpad/util/Util.java
 src/com/xiboliya/snowpad/dialog/FavoriteManageDialog.java（添加）
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/util/Util.java
+2.解决"管理收藏夹"界面中各功能按钮可用状态错误的问题。
+src/com/xiboliya/snowpad/dialog/FavoriteManageDialog.java
