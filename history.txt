@@ -2728,3 +2728,9 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/setting/Setting.java
 src/com/xiboliya/snowpad/setting/SettingAdapter.java
 src/com/xiboliya/snowpad/util/Util.java
+
+2026-08-05
+1.“文件”-“收藏夹”菜单下添加"管理收藏夹"功能，可以打开、删除、排序收藏夹里的文件。
+src/com/xiboliya/snowpad/dialog/FavoriteManageDialog.java（添加）
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/util/Util.java
