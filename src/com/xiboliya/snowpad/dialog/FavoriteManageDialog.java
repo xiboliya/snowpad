@@ -241,33 +241,41 @@ public class FavoriteManageDialog extends BaseDialog implements ActionListener, 
    */
   private void setBtnEnabled() {
     int rowCount = this.tabMain.getRowCount();
-    if (rowCount <= 1) {
-      this.btnMoveUp.setEnabled(false);
-      this.btnMoveDown.setEnabled(false);
-      return;
-    }
     int[] indexs = this.tabMain.getSelectedRows();
-    if (indexs == null || indexs.length == 0) {
+    if (rowCount <= 0 || indexs == null || indexs.length == 0) {
+      this.btnOk.setEnabled(false);
+      this.btnDelete.setEnabled(false);
+      this.btnSort.setEnabled(false);
       this.btnMoveUp.setEnabled(false);
       this.btnMoveDown.setEnabled(false);
-      return;
-    }
-    int firstIndex = indexs[0];
-    int lastIndex = indexs[indexs.length - 1];
-    if (firstIndex >= 0 && firstIndex == lastIndex) {
-      if (firstIndex <= 0) {
-        this.btnMoveUp.setEnabled(false);
-        this.btnMoveDown.setEnabled(true);
-      } else if (firstIndex >= rowCount - 1) {
-        this.btnMoveUp.setEnabled(true);
-        this.btnMoveDown.setEnabled(false);
-      } else {
-        this.btnMoveUp.setEnabled(true);
-        this.btnMoveDown.setEnabled(true);
-      }
     } else {
-      this.btnMoveUp.setEnabled(false);
-      this.btnMoveDown.setEnabled(false);
+      this.btnOk.setEnabled(true);
+      this.btnDelete.setEnabled(true);
+      if (rowCount <= 1) {
+        this.btnSort.setEnabled(false);
+        this.btnMoveUp.setEnabled(false);
+        this.btnMoveDown.setEnabled(false);
+        return;
+      } else {
+        this.btnSort.setEnabled(true);
+      }
+      int firstIndex = indexs[0];
+      int lastIndex = indexs[indexs.length - 1];
+      if (firstIndex >= 0 && firstIndex == lastIndex) {
+        if (firstIndex <= 0) {
+          this.btnMoveUp.setEnabled(false);
+          this.btnMoveDown.setEnabled(true);
+        } else if (firstIndex >= rowCount - 1) {
+          this.btnMoveUp.setEnabled(true);
+          this.btnMoveDown.setEnabled(false);
+        } else {
+          this.btnMoveUp.setEnabled(true);
+          this.btnMoveDown.setEnabled(true);
+        }
+      } else {
+        this.btnMoveUp.setEnabled(false);
+        this.btnMoveDown.setEnabled(false);
+      }
     }
   }
 
