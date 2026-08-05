@@ -117,6 +117,7 @@ import com.xiboliya.snowpad.dialog.ChangeEncodingDialog;
 import com.xiboliya.snowpad.dialog.ChangeLineSeparatorDialog;
 import com.xiboliya.snowpad.dialog.CuttingFileDialog;
 import com.xiboliya.snowpad.dialog.EncryptDecryptDialog;
+import com.xiboliya.snowpad.dialog.FavoriteManageDialog;
 import com.xiboliya.snowpad.dialog.FileEncodingDialog;
 import com.xiboliya.snowpad.dialog.FindReplaceDialog;
 import com.xiboliya.snowpad.dialog.FontDialog;
@@ -306,6 +307,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private JMenuItem itemPrint = new JMenuItem("打印(P)...", 'P');
   private JMenuItem itemSaveSetting = new JMenuItem("保存设置(V)", 'V');
   private JMenu menuFavorites = new JMenu("收藏夹(F)");
+  private JMenuItem itemManageFavorite = new JMenuItem("管理收藏夹(M)...", 'M');
   private JMenuItem itemAddFavorite = new JMenuItem("添加到收藏夹(T)", 'T');
   private JMenu menuFileHistory = new JMenu("最近编辑(H)");
   private JMenuItem itemClearFileHistory = new JMenuItem("清空最近编辑列表(Y)", 'Y');
@@ -569,6 +571,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
 
   private OpenFileChooser openFileChooser = null; // "打开"文件选择器
   private SaveFileChooser saveFileChooser = null; // "保存"文件选择器
+  private FavoriteManageDialog favoriteManageDialog = null; // 管理收藏夹对话框
   private FontDialog fontDialog = null; // 字体对话框
   private FindReplaceDialog findReplaceDialog = null; // 查找、替换对话框
   private GotoDialog gotoDialog = null; // 转到对话框
@@ -906,6 +909,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemPrint.addActionListener(this);
     this.itemSaveSetting.addActionListener(this);
     this.itemDelFile.addActionListener(this);
+    this.itemManageFavorite.addActionListener(this);
     this.itemAddFavorite.addActionListener(this);
     this.itemClearFileHistory.addActionListener(this);
     this.itemSelAll.addActionListener(this);
@@ -1092,6 +1096,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuFile.add(this.itemSaveSetting);
     this.menuFile.addSeparator();
     this.menuFile.add(this.menuFavorites);
+    this.menuFavorites.add(this.itemManageFavorite);
     this.menuFile.add(this.itemAddFavorite);
     this.menuFile.addSeparator();
     this.menuFile.add(this.menuFileHistory);
@@ -1350,6 +1355,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.menuItemList.add(this.itemFrozenFile);
     this.menuItemList.add(this.itemPrint);
     this.menuItemList.add(this.itemSaveSetting);
+    this.menuItemList.add(this.itemManageFavorite);
     this.menuItemList.add(this.itemAddFavorite);
     this.menuItemList.add(this.itemClearFileHistory);
     this.menuItemList.add(this.itemExit);
@@ -1637,7 +1643,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.toolButtonList.get(10).setEnabled(false);
     this.toolButtonList.get(15).setEnabled(false);
     this.toolButtonList.get(16).setEnabled(false);
-    this.setFavoritesMenuEnabled();
     this.setFileHistoryMenuEnabled();
   }
 
@@ -1698,17 +1703,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     }
     this.setTextAreaFont();
     this.setColorStyle(0);
-  }
-
-  /**
-   * 设置"收藏夹"菜单是否可用
-   */
-  private void setFavoritesMenuEnabled() {
-    if (this.menuFavorites.getItemCount() == 0) {
-      this.menuFavorites.setEnabled(false);
-    } else {
-      this.menuFavorites.setEnabled(true);
-    }
   }
 
   /**
@@ -2348,6 +2342,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       this.openAutoCompleteDialog();
     } else if (this.itemShortcutManage.equals(source)) {
       this.openShortcutManageDialog();
+    } else if (this.itemManageFavorite.equals(source)) {
+      this.openFavoriteManageDialog();
     } else if (this.itemAddFavorite.equals(source) || this.itemPopAddFavorite.equals(source)) {
       this.addFavorite();
     } else if (this.itemClearFileHistory.equals(source)) {
@@ -3192,6 +3188,59 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
+   * "管理收藏夹"界面中"删除"的处理方法
+   * 
+   * @param deletePaths 需要删除的文件路径列表
+   */
+  public void favoriteManageToDeleteFile(LinkedList<String> deletePaths) {
+    if (deletePaths == null || deletePaths.isEmpty()) {
+      return;
+    }
+    for (String deletePath : deletePaths) {
+      this.removeFavorite(deletePath);
+    }
+  }
+
+  /**
+   * 将指定文件从收藏夹中删除
+   * @param fileName 文件完整路径
+   */
+  private void removeFavorite(String deletePath) {
+    Util.setting.favoriteList.remove(deletePath);
+    int count = this.menuFavorites.getItemCount();
+    for (int i = 1; i < count; i++) {
+      JMenuItem item = this.menuFavorites.getItem(i);
+      String text = item.getText();
+      if (deletePath.equals(text)) {
+        item.removeActionListener(this);
+        this.menuFavorites.remove(item);
+        break;
+      }
+    }
+  }
+
+  /**
+   * "管理收藏夹"界面中"排序"的处理方法
+   * 
+   * @param sortedPaths 需要排序的文件路径列表
+   */
+  public void favoriteManageToSortFile(LinkedList<String> sortedPaths) {
+    if (sortedPaths == null || sortedPaths.isEmpty()) {
+      return;
+    }
+    Util.setting.favoriteList = new LinkedList<String>(sortedPaths);
+    int count = this.menuFavorites.getItemCount();
+    for (int i = 1; i < count; i++) {
+      JMenuItem item = this.menuFavorites.getItem(1);
+      item.removeActionListener(this);
+      this.menuFavorites.remove(1);
+    }
+    for (String path : sortedPaths) {
+      this.addFavorite(path);
+    }
+  }
+
+  /**
    * 文本域的文件路径，用于窗口管理界面的相关操作
    * 
    * @param textArea 文本域
@@ -3859,8 +3908,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     JMenuItem itemFile = new JMenuItem(fileName);
     itemFile.setActionCommand(FAVORITES);
     itemFile.addActionListener(this);
-    this.menuFavorites.add(itemFile, 0);
-    this.setFavoritesMenuEnabled();
+    this.menuFavorites.add(itemFile);
   }
 
   /**
@@ -4160,7 +4208,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * 
    * @param strFile 完整文件路径
    */
-  private void openFile(String strFile) {
+  public void openFile(String strFile) {
     if (Util.isTextEmpty(strFile)) {
       return;
     }
@@ -4257,6 +4305,18 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
         ListenerManager.getInstance().postShortcutEvent();
         break;
       }
+    }
+  }
+
+  /**
+   * "管理收藏夹"的处理方法
+   */
+  private void openFavoriteManageDialog() {
+    if (this.favoriteManageDialog == null) {
+      this.favoriteManageDialog = new FavoriteManageDialog(this, false);
+    } else {
+      this.favoriteManageDialog.refresh();
+      this.favoriteManageDialog.setVisible(true);
     }
   }
 
