@@ -2889,6 +2889,10 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private void destroyAllDialogs() {
     this.openFileChooser = null;
     this.saveFileChooser = null;
+    if (this.favoriteManageDialog != null) {
+      this.favoriteManageDialog.dispose();
+      this.favoriteManageDialog = null;
+    }
     if (this.fontDialog != null) {
       this.fontDialog.dispose();
       this.fontDialog = null;
