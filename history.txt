@@ -2741,3 +2741,5 @@ src/com/xiboliya/snowpad/dialog/FavoriteManageDialog.java
 1."管理收藏夹"界面中新增"添加"功能，可以将多个文件添加到收藏夹。
 src/com/xiboliya/snowpad/dialog/FavoriteManageDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+2.切换外观时，添加"管理收藏夹"界面销毁的处理。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
