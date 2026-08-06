@@ -21,8 +21,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.Vector;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,6 +38,7 @@ import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseDefaultTableModel;
 import com.xiboliya.snowpad.base.BaseKeyAdapter;
+import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
 import com.xiboliya.snowpad.util.Util;
 
@@ -53,6 +56,7 @@ public class FavoriteManageDialog extends BaseDialog implements ActionListener, 
   private JPanel pnlRight = new JPanel(null);
   private JTable tabMain = null; // 显示数据的表格组件
   private JScrollPane spnMain = null;
+  private BaseButton btnAdd = new BaseButton("添加");
   private BaseButton btnOk = new BaseButton("打开");
   private BaseButton btnDelete = new BaseButton("删除");
   private BaseButton btnSort = new BaseButton("排序");
@@ -65,6 +69,7 @@ public class FavoriteManageDialog extends BaseDialog implements ActionListener, 
   private Vector<String> cellsTitle = new Vector<String>();
   private BaseDefaultTableModel baseDefaultTableModel = null;
   private TableRowSorter<TableModel> tableRowSorter = null;
+  private OpenFileChooser openFileChooser = null; // "打开"文件选择器
 
   /**
    * 构造方法
@@ -91,6 +96,7 @@ public class FavoriteManageDialog extends BaseDialog implements ActionListener, 
     this.setTitle("管理收藏夹");
     this.pnlMain.add(this.pnlLeft, BorderLayout.CENTER);
     this.pnlMain.add(this.pnlRight, BorderLayout.EAST);
+    this.btnAdd.setBounds(10, 20, 90, Util.BUTTON_HEIGHT);
     this.btnOk.setBounds(10, 55, 90, Util.BUTTON_HEIGHT);
     this.btnDelete.setBounds(10, 90, 90, Util.BUTTON_HEIGHT);
     this.btnSort.setBounds(10, 125, 90, Util.BUTTON_HEIGHT);
@@ -98,6 +104,7 @@ public class FavoriteManageDialog extends BaseDialog implements ActionListener, 
     this.btnMoveDown.setBounds(10, 195, 90, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(10, 240, 90, Util.BUTTON_HEIGHT);
     this.pnlRight.setPreferredSize(new Dimension(110, 275)); // 设置面板的最适尺寸
+    this.pnlRight.add(this.btnAdd);
     this.pnlRight.add(this.btnOk);
     this.pnlRight.add(this.btnDelete);
     this.pnlRight.add(this.btnSort);
@@ -152,12 +159,14 @@ public class FavoriteManageDialog extends BaseDialog implements ActionListener, 
    * 添加和初始化事件监听器
    */
   private void addListeners() {
+    this.btnAdd.addActionListener(this);
     this.btnOk.addActionListener(this);
     this.btnDelete.addActionListener(this);
     this.btnSort.addActionListener(this);
     this.btnMoveUp.addActionListener(this);
     this.btnMoveDown.addActionListener(this);
     this.btnCancel.addActionListener(this);
+    this.btnAdd.addKeyListener(this.buttonKeyAdapter);
     this.btnOk.addKeyListener(this.buttonKeyAdapter);
     this.btnDelete.addKeyListener(this.buttonKeyAdapter);
     this.btnSort.addKeyListener(this.buttonKeyAdapter);
@@ -174,7 +183,9 @@ public class FavoriteManageDialog extends BaseDialog implements ActionListener, 
   @Override
   public void actionPerformed(ActionEvent e) {
     Object source = e.getSource();
-    if (this.btnOk.equals(source)) {
+    if (this.btnAdd.equals(source)) {
+      this.addFiles();
+    } else if (this.btnOk.equals(source)) {
       this.onEnter();
     } else if (this.btnDelete.equals(source)) {
       this.deleteFiles();
@@ -187,6 +198,31 @@ public class FavoriteManageDialog extends BaseDialog implements ActionListener, 
     } else if (this.btnCancel.equals(source)) {
       this.onCancel();
     }
+  }
+
+  /**
+   * "添加"的操作方法
+   */
+  private void addFiles() {
+    if (this.openFileChooser == null) {
+      this.openFileChooser = new OpenFileChooser();
+      this.openFileChooser.setFileFilter(this.openFileChooser.getAcceptAllFileFilter()); // 设置为默认过滤器
+      this.openFileChooser.setMultiSelectionEnabled(true);
+    }
+    this.openFileChooser.setSelectedFile(null);
+    if (JFileChooser.APPROVE_OPTION != this.openFileChooser.showOpenDialog(this)) {
+      return;
+    }
+    File[] files = this.openFileChooser.getSelectedFiles();
+    if (files == null || files.length <= 0) {
+      return;
+    }
+    LinkedList<String> paths = new LinkedList<String>();
+    for (File file : files) {
+      paths.add(file.getAbsolutePath());
+    }
+    ((SnowPadFrame) this.getOwner()).favoriteManageToAddFile(paths);
+    this.refresh();
   }
 
   /**

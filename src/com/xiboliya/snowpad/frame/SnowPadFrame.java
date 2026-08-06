@@ -3188,6 +3188,23 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   }
 
   /**
+   * "管理收藏夹"界面中"添加"的处理方法
+   * 
+   * @param addPaths 需要添加的文件路径列表
+   */
+  public void favoriteManageToAddFile(LinkedList<String> addPaths) {
+    if (addPaths == null || addPaths.isEmpty()) {
+      return;
+    }
+    for (String path : addPaths) {
+      if (!Util.setting.favoriteList.contains(path)) {
+        Util.setting.favoriteList.add(path);
+        this.addFavorite(path);
+      }
+    }
+  }
+
+  /**
    * "管理收藏夹"界面中"删除"的处理方法
    * 
    * @param deletePaths 需要删除的文件路径列表
@@ -3196,8 +3213,8 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (deletePaths == null || deletePaths.isEmpty()) {
       return;
     }
-    for (String deletePath : deletePaths) {
-      this.removeFavorite(deletePath);
+    for (String path : deletePaths) {
+      this.removeFavorite(path);
     }
   }
 
