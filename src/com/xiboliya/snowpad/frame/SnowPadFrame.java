@@ -4234,7 +4234,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
       return;
     }
     File file = new File(strFile);
-    if (file.exists()) {
+    if (file.isFile()) {
       boolean toCreateNew = this.checkToCreateNew(file);
       if (!toCreateNew && !this.saveFileBeforeAct()) {
         return;
@@ -4244,6 +4244,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
         this.setAfterOpenFile(index);
         this.setFileNameAndPath(file);
       }
+    } else if (file.isDirectory()) {
+      JOptionPane.showMessageDialog(this, Util.convertToMsg("路径：" + file + " 是一个目录，无法打开！"),
+          Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
     } else {
       JOptionPane.showMessageDialog(this, Util.convertToMsg("文件：" + file + " 不存在！"),
           Util.SOFTWARE, JOptionPane.ERROR_MESSAGE);
@@ -6230,7 +6233,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * @return 是否需要新建文本域，true表示打开成功，false则表示文件已打开并修改，需要保存
    */
   public boolean openFile(File file) {
-    if (file != null && file.exists()) {
+    if (file != null && file.isFile()) {
       boolean toCreateNew = this.checkToCreateNew(file);
       if (!toCreateNew && !this.saveFileBeforeAct()) {
         return false;
