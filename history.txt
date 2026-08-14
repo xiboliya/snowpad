@@ -2743,3 +2743,7 @@ src/com/xiboliya/snowpad/dialog/FavoriteManageDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2.切换外观时，添加"管理收藏夹"界面销毁的处理。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2026-08-14
+1.打开文件时，添加判断：如果是目录，则不继续打开。解决拖动目录到编辑区时会打开一个空文档的问题。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
