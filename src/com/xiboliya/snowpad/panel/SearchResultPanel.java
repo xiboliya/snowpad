@@ -20,6 +20,8 @@ package com.xiboliya.snowpad.panel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -59,10 +61,90 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private static final long serialVersionUID = 1L;
   private static final String prefixLine = "Line ";
   private static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // 关闭图标
+  private static final Color HEADER_COLOR_TITLE = new Color(0, 255, 0, 30); // 查找信息行的背景色
+  private static final Color HEADER_COLOR_PATH = new Color(255, 0, 0, 30); // 文件路径行的背景色
   private LinkedList<SearchResult> searchResults = new LinkedList<SearchResult>();
   private JLabel lblTitleText = new JLabel("查找结果");
   private BaseButton btnTitleClose = new BaseButton();
-  private BaseTextArea txaMain = new BaseTextArea();
+  private LinkedList<Integer> blockStartLines = new LinkedList<Integer>(); // 每个搜索结果块的起始行号列表
+  private BaseTextArea txaMain = new BaseTextArea() {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 绘制组件，在文本绘制前先绘制头部行（查找信息行、文件路径行）的背景色，
+     * 并在光标处于头部行时不绘制当前行背景，使头部行背景色保持不变。
+     */
+    @Override
+    protected void paintComponent(Graphics graphics) {
+      // 手动填充背景色（因为组件设为非不透明，JTextComponent不会自动填充）
+      graphics.setColor(getBackground());
+      graphics.fillRect(0, 0, getWidth(), getHeight());
+
+      // 绘制头部行背景
+      paintHeaderBackgrounds(graphics);
+
+      // 若当前光标不在头部行，则绘制当前行背景
+      if (!isCurrentLineHeader()) {
+        graphics.setColor(Util.setting.colorStyle.lineBackColor);
+        try {
+          Rectangle rect = modelToView(getCaretPosition());
+          if (rect != null) {
+            graphics.fillRect(0, (int) rect.getY(), getWidth(), getFont().getSize());
+          }
+        } catch (Exception x) {
+          // x.printStackTrace();
+        }
+      }
+
+      // 临时将当前行背景色设为透明，防止BaseTextArea.paintComponent在头部行上绘制当前行背景
+      Color savedColor = Util.setting.colorStyle.lineBackColor;
+      Util.setting.colorStyle.lineBackColor = new Color(0, 0, 0, 0);
+      super.paintComponent(graphics); // 绘制文本（因非不透明，不会填充背景），绘制透明当前行背景（无操作），释放graphics
+      Util.setting.colorStyle.lineBackColor = savedColor; // 恢复原始颜色
+    }
+
+    /**
+     * 绘制每个搜索结果块的前两行（查找信息行和文件路径行）的背景色
+     */
+    private void paintHeaderBackgrounds(Graphics g) {
+      int lineHeight = getFontMetrics(getFont()).getHeight();
+      for (int startLine : blockStartLines) {
+        try {
+          // 第一行：查找信息行
+          Rectangle rect1 = modelToView(getLineStartOffset(startLine));
+          if (rect1 != null) {
+            g.setColor(HEADER_COLOR_TITLE);
+            g.fillRect(0, rect1.y, getWidth(), lineHeight);
+          }
+          // 第二行：文件路径行
+          Rectangle rect2 = modelToView(getLineStartOffset(startLine + 1));
+          if (rect2 != null) {
+            g.setColor(HEADER_COLOR_PATH);
+            g.fillRect(0, rect2.y, getWidth(), lineHeight);
+          }
+        } catch (Exception x) {
+          // x.printStackTrace();
+        }
+      }
+    }
+
+    /**
+     * 判断当前光标所在行是否为头部行（查找信息行或文件路径行）
+     */
+    private boolean isCurrentLineHeader() {
+      try {
+        int caretLine = getLineOfOffset(getCaretPosition());
+        for (int startLine : blockStartLines) {
+          if (caretLine == startLine || caretLine == startLine + 1) {
+            return true;
+          }
+        }
+      } catch (Exception x) {
+        // x.printStackTrace();
+      }
+      return false;
+    }
+  };
   private JScrollPane srpMain = new JScrollPane(this.txaMain);
   private JPanel pnlTitle = new JPanel();
   private BorderLayout layoutTitle = new BorderLayout();
@@ -98,6 +180,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
     this.add(this.srpMain, BorderLayout.CENTER);
     this.txaMain.setSelectionColor(this.color);
     this.txaMain.setEditable(false);
+    this.txaMain.setOpaque(false); // 设为非不透明，使JTextComponent不会自动填充背景，从而保留自定义的头部行背景色
     this.addPopMenu();
   }
 
@@ -175,6 +258,13 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
         }
         stbMain.append(prefixLine + (lineNum + 1) + ":" + stbLine);
       }
+      // 更新已有块的起始行号（新块插入到最前面，已有块整体下移）
+      int newBlockLines = listIndex.size() + 2;
+      for (int i = 0; i < this.blockStartLines.size(); i++) {
+        this.blockStartLines.set(i, this.blockStartLines.get(i) + newBlockLines);
+      }
+      // 新块的起始行为0
+      this.blockStartLines.add(0, 0);
       this.txaMain.insert(stbMain.toString(), 0);
     } catch (Exception x) {
        // x.printStackTrace();
@@ -236,6 +326,7 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private void clear() {
     this.txaMain.setText("");
     this.searchResults.clear();
+    this.blockStartLines.clear();
   }
 
   /**
@@ -259,6 +350,12 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
           x.printStackTrace();
         }
         this.searchResults.remove(i);
+        // 更新块起始行号列表：移除当前块，后续块上移
+        int removedLines = searchResultTemp.getListIndex().size() + 2;
+        this.blockStartLines.remove(i);
+        for (int j = i; j < this.blockStartLines.size(); j++) {
+          this.blockStartLines.set(j, this.blockStartLines.get(j) - removedLines);
+        }
         break;
       }
     }
