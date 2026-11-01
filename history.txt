@@ -2753,3 +2753,5 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 res/help.res
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/view/LineNumberView.java
+2.查找结果面板中，设置查找信息行、文件路径行的背景色，以突出显示。
+src/com/xiboliya/snowpad/panel/SearchResultPanel.java
