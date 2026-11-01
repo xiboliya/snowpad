@@ -77,19 +77,22 @@ public class LineNumberView extends JComponent {
           return;
         }
         int y = e.getY();
-        int lineNumber = y / lineHeight; // 当前点击的行号
+        // 通过modelToView定位Y坐标对应的文档行号（从0开始）
+        int lineNumber = getLineNumberAtY(y);
+        if (lineNumber < 0) {
+          return;
+        }
         if (e.getButton() == MouseEvent.BUTTON3) { // 点击右键时，设置/取消书签
           txaSource.switchBookmark(lineNumber);
           repaint();
         } else { // 其他情况，选中当前行
           int lineCount = txaSource.getLineCount(); // 文本域总行数
-          lineNumber++;
-          if (lineNumber > lineCount) {
+          if (lineNumber >= lineCount) {
             return;
           }
           try {
-            int offsetStart = txaSource.getLineStartOffset(lineNumber - 1);
-            int offsetEnd = txaSource.getLineEndOffset(lineNumber - 1);
+            int offsetStart = txaSource.getLineStartOffset(lineNumber);
+            int offsetEnd = txaSource.getLineEndOffset(lineNumber);
             txaSource.select(offsetStart, offsetEnd); // 选中当前行号的文本
           } catch (BadLocationException x) {
             // x.printStackTrace();
@@ -98,6 +101,62 @@ public class LineNumberView extends JComponent {
       }
     };
     this.addMouseListener(this.mouseAdapter);
+  }
+
+  /**
+   * 根据Y坐标查找对应的文档行号（从0开始）
+   * 使用modelToView进行二分查找，支持自动换行模式下行号的正确定位
+   * 
+   * @param y Y坐标
+   * @return 文档行号（从0开始），如果找不到则返回-1
+   */
+  private int getLineNumberAtY(int y) {
+    if (this.txaSource == null || this.txaSource.getLineCount() <= 0) {
+      return -1;
+    }
+    int lineCount = this.txaSource.getLineCount();
+    int lineStart = 0;
+    int lineEnd = lineCount - 1;
+    int result = -1;
+    while (lineStart <= lineEnd) {
+      int mid = (lineStart + lineEnd) / 2;
+      try {
+        int startOffset = this.txaSource.getLineStartOffset(mid);
+        Rectangle lineRect = this.txaSource.modelToView(startOffset);
+        if (lineRect == null) {
+          lineEnd = mid - 1;
+          continue;
+        }
+        // 计算当前行的底部Y坐标：如果存在下一行，取下一行的起始Y；否则用当前行Y加行高
+        int lineBottom;
+        if (mid + 1 < lineCount) {
+          try {
+            int nextStartOffset = this.txaSource.getLineStartOffset(mid + 1);
+            Rectangle nextRect = this.txaSource.modelToView(nextStartOffset);
+            if (nextRect != null) {
+              lineBottom = nextRect.y;
+            } else {
+              lineBottom = lineRect.y + this.lineHeight;
+            }
+          } catch (Exception x) {
+            lineBottom = lineRect.y + this.lineHeight;
+          }
+        } else {
+          lineBottom = lineRect.y + this.lineHeight;
+        }
+        if (y >= lineRect.y && y < lineBottom) {
+          result = mid;
+          break;
+        } else if (y < lineRect.y) {
+          lineEnd = mid - 1;
+        } else {
+          lineStart = mid + 1;
+        }
+      } catch (Exception x) {
+        lineEnd = mid - 1;
+      }
+    }
+    return result;
   }
 
   /**
@@ -138,26 +197,72 @@ public class LineNumberView extends JComponent {
   /**
    * 绘制此组件
    * 
+   * 通过modelToView将每个文档行的起始偏移量映射到实际像素Y坐标，
+   * 从而在自动换行模式下也能正确显示行号。
+   * 
    * @param g Graphics类是所有图形上下文的抽象基类，允许应用程序在组件以及闭屏图像上进行绘制。
    */
   @Override
   protected synchronized void paintComponent(Graphics g) {
+    if (this.txaSource == null) {
+      return;
+    }
     Color color = g.getColor();
     g.setColor(Util.setting.colorStyle.lineNumberViewBackColor);
     g.fillRect(0, 0, this.getWidth(), this.getHeight());
     Rectangle rect = g.getClipBounds();
-    int startLineNum = (rect.y / this.lineHeight) + 1;
-    int endLineNum = startLineNum + (rect.height / this.lineHeight);
-    int start = (rect.y / this.lineHeight) * this.lineHeight + this.lineHeight - LINE_NUMBER_START_OFFSET;
-    this.setPreferredLine(endLineNum);
+    int totalLines = this.txaSource.getLineCount();
+    this.setPreferredLine(totalLines);
     g.setColor(Util.setting.colorStyle.lineNumberViewFontColor);
-    for (int i = startLineNum; i <= endLineNum; i++) {
-      String lineNum = String.valueOf(i);
-      int stringWidth = this.fontMetrics.stringWidth(lineNum);
-      // 绘制行号
-      g.drawString(lineNum, LINE_NUMBER_MARGIN + this.maxRowWidth - stringWidth, start);
-      start += this.lineHeight;
+
+    // 二分查找：找到可见区域内第一条文档行
+    // 找到最后一个起始Y坐标小于裁剪区域顶部的行
+    int startLine = 0;
+    int lineStart = 0;
+    int lineEnd = totalLines - 1;
+    while (lineStart <= lineEnd) {
+      int mid = (lineStart + lineEnd) / 2;
+      try {
+        int startOffset = this.txaSource.getLineStartOffset(mid);
+        Rectangle lineRect = this.txaSource.modelToView(startOffset);
+        if (lineRect == null) {
+          lineEnd = mid - 1;
+          continue;
+        }
+        if (lineRect.y < rect.y) {
+          startLine = mid;
+          lineStart = mid + 1;
+        } else {
+          lineEnd = mid - 1;
+        }
+      } catch (BadLocationException x) {
+        lineEnd = mid - 1;
+      }
     }
+
+    // 从起始行开始向后绘制行号，直到超出可见区域
+    for (int i = startLine; i < totalLines; i++) {
+      try {
+        int startOffset = this.txaSource.getLineStartOffset(i);
+        Rectangle lineRect = this.txaSource.modelToView(startOffset);
+        if (lineRect == null) {
+          continue;
+        }
+        int lineY = lineRect.y + this.lineHeight - LINE_NUMBER_START_OFFSET;
+        // 如果已超出可见区域底部，则停止绘制
+        if (lineY > rect.y + rect.height) {
+          break;
+        }
+        String lineNum = String.valueOf(i + 1);
+        int stringWidth = this.fontMetrics.stringWidth(lineNum);
+        // 绘制行号
+        g.drawString(lineNum, LINE_NUMBER_MARGIN + this.maxRowWidth - stringWidth, lineY);
+      } catch (BadLocationException x) {
+        // x.printStackTrace();
+      }
+    }
+
+    // 绘制书签
     LinkedList<Integer> bookmarks = this.txaSource.getBookmarks();
     int size = bookmarks.size();
     if (size <= 0) {
@@ -168,9 +273,19 @@ public class LineNumberView extends JComponent {
     int width = this.getWidth();
     int bookmarkWidth = LINE_NUMBER_MARGIN_RIGHT - 2;
     for (int i = 0; i < size; i++) {
-      int height = bookmarks.get(i) * this.lineHeight + (this.lineHeight - bookmarkWidth) / 2 + LINE_NUMBER_START_OFFSET;
-      // 绘制书签
-      g.fillOval(width - LINE_NUMBER_MARGIN_RIGHT, height, bookmarkWidth, bookmarkWidth);
+      int bookmark = bookmarks.get(i);
+      try {
+        int startOffset = this.txaSource.getLineStartOffset(bookmark);
+        Rectangle lineRect = this.txaSource.modelToView(startOffset);
+        if (lineRect == null) {
+          continue;
+        }
+        int height = lineRect.y + (this.lineHeight - bookmarkWidth) / 2 + LINE_NUMBER_START_OFFSET;
+        // 绘制书签
+        g.fillOval(width - LINE_NUMBER_MARGIN_RIGHT, height, bookmarkWidth, bookmarkWidth);
+      } catch (BadLocationException x) {
+        // x.printStackTrace();
+      }
     }
     g.setColor(color);
   }

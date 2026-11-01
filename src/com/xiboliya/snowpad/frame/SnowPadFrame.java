@@ -1616,7 +1616,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.itemTrimSelected.setEnabled(false);
     this.itemBack.setEnabled(false);
     this.itemForward.setEnabled(false);
-    this.itemLineNumber.setEnabled(false);
     this.itemAddition.setEnabled(false);
     this.itemAverage.setEnabled(false);
     this.itemMaximum.setEnabled(false);
@@ -3063,14 +3062,20 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    * @param enable 是否显示行号栏
    */
   private void setLineNumber(boolean enable) {
-    LineNumberView lineNumberView = null;
     JScrollPane srp = null;
     boolean menuEnabled = this.itemLineNumber.isEnabled();
     for (int i = 0; i < this.tpnMain.getTabCount(); i++) {
       srp = ((JScrollPane) this.tpnMain.getComponentAt(i));
       if (enable && menuEnabled) {
-        lineNumberView = new LineNumberView(this.textAreaList.get(i));
-        srp.setRowHeaderView(lineNumberView);
+        JViewport rowHeader = srp.getRowHeader();
+        if (rowHeader != null && rowHeader.getView() instanceof LineNumberView) {
+          // 行号组件已存在，只需重绘，避免重建导致行头视口位置重置
+          rowHeader.getView().repaint();
+        } else {
+          // 行号组件不存在，创建新的
+          LineNumberView lineNumberView = new LineNumberView(this.textAreaList.get(i));
+          srp.setRowHeaderView(lineNumberView);
+        }
       } else {
         srp.setRowHeaderView(null);
       }
@@ -4909,6 +4914,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.setTextPrefix();
     this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
     this.setMenuStateByTextArea();
+    this.repaintLineNumberView(); // 撤销/重做后刷新行号栏
   }
 
   /**
@@ -5587,7 +5593,6 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     for (BaseTextArea textArea : this.textAreaList) {
       textArea.setLineWrap(isLineWrap);
     }
-    this.itemLineNumber.setEnabled(!isLineWrap); // 如果开启了"自动换行"，则"行号栏"功能失效
     this.setLineNumber(Util.setting.viewLineNumber); // 设置行号栏是否显示
     Util.setting.isLineWrap = isLineWrap;
   }
@@ -7177,6 +7182,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.txaMain.setTextChanged(true);
     this.updateStateAll();
     this.setTextPrefix();
+    this.repaintLineNumberView(); // 文本变更后刷新行号栏
   }
 
   /**
