@@ -2747,3 +2747,9 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2026-08-14
 1.打开文件时，添加判断：如果是目录，则不继续打开。解决拖动目录到编辑区时会打开一个空文档的问题。
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2026-11-01
+1.解决自动换行时行号栏的行号显示不能识别折行的问题，因此自动换行时支持设置行号栏显示。
+res/help.res
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+src/com/xiboliya/snowpad/view/LineNumberView.java
