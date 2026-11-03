@@ -33,6 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
@@ -92,6 +93,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private String strSignIdentifier = ""; // 当前选中的符号或编号字符串
   private String strModifierSign = "."; // 符号的修饰字符
   private String strModifierIdentifier = ""; // 编号的修饰字符
+  private int lastSelectedIndexIdentifier = 0; // 编号面板中上次选中的选项索引
+  private int lastSelectedIndexSign = 0; // 符号面板中上次选中的选项索引
 
   /**
    * 构造方法
@@ -144,6 +147,26 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     this.tpnMain.setFocusable(false);
     this.btnOk.setFocusable(false);
     this.btnCancel.setFocusable(false);
+  }
+
+  /**
+   * 重写父类的方法：设置本窗口是否可见
+   */
+  @Override
+  public void setVisible(boolean visible) {
+    if (visible) {
+      // 重新显示对话框时，恢复用户上次在编号和符号面板中选中的选项焦点
+      SwingUtilities.invokeLater(new Runnable() {
+        @Override
+        public void run() {
+          int idx = tpnMain.getSelectedIndex();
+          JPanel pnlTemp = (JPanel) tpnMain.getComponentAt(idx);
+          int selIdx = (idx == 0) ? lastSelectedIndexIdentifier : lastSelectedIndexSign;
+          pnlTemp.getComponent(selIdx).requestFocus();
+        }
+      });
+    }
+    super.setVisible(visible);
   }
 
   /**
@@ -565,6 +588,19 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
     JLabel lblTemp = (JLabel) e.getSource();
     lblTemp.setBackground(Color.PINK);
     this.strSignIdentifier = lblTemp.getText();
+    // 记录当前选中标签在面板中的索引
+    JPanel pnlParent = (JPanel) lblTemp.getParent();
+    int tabIndex = this.tpnMain.getSelectedIndex();
+    for (int i = 0; i < pnlParent.getComponentCount(); i++) {
+      if (pnlParent.getComponent(i) == lblTemp) {
+        if (tabIndex == 0) {
+          this.lastSelectedIndexIdentifier = i;
+        } else if (tabIndex == 1) {
+          this.lastSelectedIndexSign = i;
+        }
+        break;
+      }
+    }
     this.signIdentifier(true); // 预览当前的列表符号或编号效果
   }
 
@@ -593,7 +629,8 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
       this.txtModifier.setText(this.strModifierIdentifier);
     }
     JPanel pnlTemp = (JPanel) this.tpnMain.getComponentAt(index);
-    pnlTemp.getComponent(0).requestFocus();
+    int selectIndex = (index == 0) ? this.lastSelectedIndexIdentifier : this.lastSelectedIndexSign;
+    pnlTemp.getComponent(selectIndex).requestFocus();
   }
 
   private void execDocumentEvent(DocumentEvent e) {
