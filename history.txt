@@ -2755,3 +2755,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/view/LineNumberView.java
 2.查找结果面板中，设置查找信息行、文件路径行的背景色，以突出显示。
 src/com/xiboliya/snowpad/panel/SearchResultPanel.java
+
+2026-11-03
+1.“列表符号与编号”界面的“符号”、“编号”面板中，分别记住用户最后一次选中的选项。
+src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
