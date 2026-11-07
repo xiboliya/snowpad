@@ -37,7 +37,6 @@ import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
@@ -92,8 +91,6 @@ public class UnitConvertDialog extends BaseDialog implements ActionListener, Doc
   private static final double[] UNIT_TYPE_ANGLE_RATE = new double[] {1, 60, 60, 180 / Math.PI};
 
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private JLabel lblUnitType = new JLabel("单位类型：");
   private JComboBox<String> cmbUnitType = new JComboBox<String>();
   private JLabel lblNumber = new JLabel("换算数值：");

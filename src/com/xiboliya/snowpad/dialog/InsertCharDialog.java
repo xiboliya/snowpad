@@ -36,7 +36,6 @@ import javax.swing.border.EtchedBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.util.Util;
 
@@ -66,7 +65,6 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
   private BaseButton btnOk = new BaseButton("插入");
   private BaseButton btnCancel = new BaseButton("关闭");
   private JLabel lblView = new JLabel();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
   private MouseAdapter mouseAdapter = null;
 

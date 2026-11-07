@@ -35,7 +35,6 @@ import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
@@ -54,8 +53,6 @@ public class TrigonometricDialog extends BaseDialog implements ActionListener, D
     "反正弦(asin)", "反余弦(acos)", "反正切(atan)", "反余切(acot)", "反正割(asec)", "反余割(acsc)",
     "双曲正弦(sinh)", "双曲余弦(cosh)", "双曲正切(tanh)", "双曲余切(coth)"};
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private JLabel lblAngle = new JLabel("角度/弧度：");
   private JComboBox<String> cmbUnit = new JComboBox<String>();
   private BaseTextField txtAngle = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字

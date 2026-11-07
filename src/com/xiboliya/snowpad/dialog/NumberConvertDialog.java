@@ -35,7 +35,6 @@ import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
@@ -49,8 +48,6 @@ import com.xiboliya.snowpad.util.Util;
 public class NumberConvertDialog extends BaseDialog implements ActionListener, DocumentListener, ItemListener {
   private static final long serialVersionUID = 1L;
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private JLabel lblNumber = new JLabel("转换数字：");
   private JComboBox<String> cmbNumber = new JComboBox<String>();
   private BaseTextField txtNumber = new BaseTextField();

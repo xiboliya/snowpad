@@ -36,7 +36,6 @@ import javax.swing.event.ListSelectionListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
 
@@ -65,8 +64,6 @@ public class FontDialog extends BaseDialog implements ActionListener,
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private BaseMouseAdapter baseMouseAdapter = new BaseMouseAdapter();
   private boolean isOk = false;
 

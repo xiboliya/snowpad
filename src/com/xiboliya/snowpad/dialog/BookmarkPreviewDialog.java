@@ -34,7 +34,6 @@ import javax.swing.text.BadLocationException;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.common.CurrentLine;
 import com.xiboliya.snowpad.common.CurrentLines;
@@ -56,8 +55,6 @@ public class BookmarkPreviewDialog extends BaseDialog implements ActionListener,
   private BaseButton btnOk = new BaseButton("跳转");
   private BaseButton btnCancel = new BaseButton("取消");
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Color color = new Color(0, 0, 0, 0);
   private LinkedList<Integer> bookmarks = null;
 

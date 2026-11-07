@@ -35,7 +35,6 @@ import javax.swing.SwingConstants;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.window.TipsWindow;
@@ -55,7 +54,6 @@ public class CalculatorDialog extends BaseDialog implements ActionListener {
   private JLabel lblView = new JLabel();
   private BaseTextField txtView = new BaseTextField();
   private JPanel pnlButton = new JPanel(new GridLayout(5, 4, 5, 5));
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private LinkedList<String> list = new LinkedList<String>();
 
   /**

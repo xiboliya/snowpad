@@ -39,7 +39,6 @@ import javax.swing.event.ListSelectionListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -72,8 +71,6 @@ public class InsertDateDialog extends BaseDialog implements ActionListener,
   private BaseButton btnOk = new BaseButton("插入");
   private BaseButton btnCancel = new BaseButton("关闭");
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private BaseMouseAdapter baseMouseAdapter = new BaseMouseAdapter();
   private ButtonGroup bgpStyle = new ButtonGroup();
   private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();

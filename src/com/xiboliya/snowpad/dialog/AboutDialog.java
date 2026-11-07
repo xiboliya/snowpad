@@ -33,7 +33,6 @@ import javax.swing.JPanel;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -55,7 +54,6 @@ public class AboutDialog extends BaseDialog implements ActionListener {
   private JLabel lblNorth = new JLabel();
   private JLabel lblEast = new JLabel(" ");
   private BaseButton btnOk = new BaseButton(" 确定 ");
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private LinkedList<JLabel> labelList = new LinkedList<JLabel>(); // 存放显示标签的链表
 
   public AboutDialog(JFrame owner, boolean modal) {

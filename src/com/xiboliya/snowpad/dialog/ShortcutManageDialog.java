@@ -36,7 +36,6 @@ import javax.swing.ListSelectionModel;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDefaultTableModel;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.dialog.KeyCheckDialog;
 import com.xiboliya.snowpad.dialog.ShortcutSetDialog;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
@@ -64,8 +63,6 @@ public class ShortcutManageDialog extends BaseDialog implements ActionListener {
   private BaseButton btnKeyCheck = new BaseButton("按键检测(K)");
   private BaseButton btnResetAll = new BaseButton("全部恢复默认(A)");
   private BaseButton btnCancel = new BaseButton("关闭");
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Vector<Vector<String>> cells = new Vector<Vector<String>>();
   private Vector<String> cellsTitle = new Vector<String>();
   private BaseDefaultTableModel baseDefaultTableModel = null;

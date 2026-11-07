@@ -38,7 +38,6 @@ import javax.swing.event.ListSelectionListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.ColorStyle;
 import com.xiboliya.snowpad.common.LineSeparator;
@@ -76,8 +75,6 @@ public class PreferencesDialog extends BaseDialog implements ActionListener, Ite
   private CharEncoding charEncoding = CharEncoding.GB18030; // 字符编码格式
   private LineSeparator lineSeparator = LineSeparator.DEFAULT; // 换行符格式
   private ColorStyle colorStyle = null; // 配色方案
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   // 新建
   private JPanel pnlNew = new JPanel();
   private JLabel lblEncoding = new JLabel("默认字符编码：");

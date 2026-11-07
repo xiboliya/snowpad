@@ -34,7 +34,6 @@ import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextAreaSpecial;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -66,8 +65,6 @@ public class TextConvertDialog extends BaseDialog implements ActionListener, Doc
   private static final String[] LINE_SEPARATOR_VALUES = new String[] {
       LineSeparator.WINDOWS.toString(), LineSeparator.UNIX.toString(), LineSeparator.MACINTOSH.toString() };
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private JLabel lblText = new JLabel("输入文本：");
   private BaseTextAreaSpecial txaText = new BaseTextAreaSpecial();
   private JScrollPane srpText = new JScrollPane(this.txaText);

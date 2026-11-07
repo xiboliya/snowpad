@@ -26,7 +26,6 @@ import javax.swing.JPanel;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.util.Util;
 
@@ -49,8 +48,6 @@ public class FileEncodingDialog extends BaseDialog implements ActionListener {
   private BaseButton btnCancel = new BaseButton("取消");
   private CharEncoding charEncoding = null;
   private boolean isOk = false;
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
   public FileEncodingDialog(JFrame owner, boolean modal) {
     super(owner, modal);

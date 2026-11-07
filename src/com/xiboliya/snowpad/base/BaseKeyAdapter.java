@@ -50,4 +50,12 @@ public class BaseKeyAdapter extends KeyAdapter {
       this.dialog.onEnter();
     }
   }
+
+  /**
+   * 回收资源
+   */
+  public void destroy() {
+    this.dialog = null;
+  }
+
 }

@@ -30,7 +30,6 @@ import javax.swing.text.BadLocationException;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.CurrentLine;
@@ -48,8 +47,6 @@ public class GotoDialog extends BaseDialog implements ActionListener, ChangeList
   private JTabbedPane tpnMain = new JTabbedPane();
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JPanel pnlBottom = new JPanel();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private boolean percentChanged = false; // 用于标识是否移动过百分比的滑块
   private BaseButton btnGoto = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");

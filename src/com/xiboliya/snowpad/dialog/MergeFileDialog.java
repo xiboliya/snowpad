@@ -46,7 +46,6 @@ import javax.swing.event.ListSelectionListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.chooser.SaveFileChooser;
@@ -78,8 +77,6 @@ public class MergeFileDialog extends BaseDialog implements ActionListener, ListS
   private BaseButton btnTargetPath = new BaseButton("...");
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
 
   public MergeFileDialog(JFrame owner, boolean modal) {

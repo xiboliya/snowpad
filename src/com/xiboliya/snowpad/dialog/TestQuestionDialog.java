@@ -32,7 +32,6 @@ import javax.swing.JTabbedPane;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
@@ -90,7 +89,6 @@ public class TestQuestionDialog extends BaseDialog implements ActionListener, It
   private BaseTextField txtCount = new BaseTextField(true, "\\d*");
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private LinkedList<String> testList = new LinkedList<String>(); // 存放题目的链表
   private int countInLine = 4; // 每行中题目数量
   private int spacingInLine = 2; // 每行中题目间距，即制表符tab的数量

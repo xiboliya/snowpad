@@ -29,30 +29,31 @@ import javax.swing.JFrame;
  */
 public abstract class BaseDialog extends JDialog {
   private static final long serialVersionUID = 1L;
-  private Window owner = null;
-  protected BaseTextArea txaSource = null; // protected成员可被同一包中的所有类以及不同包中的子类访问
+  // protected成员可被同一包中的所有类以及不同包中的子类访问
+  protected BaseTextArea txaSource = null;
+  protected BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
+  protected BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
   public BaseDialog(JFrame owner, boolean modal) {
     super(owner, modal);
-    this.init(owner);
+    this.init();
   }
 
   public BaseDialog(JDialog owner, boolean modal) {
     super(owner, modal);
-    this.init(owner);
+    this.init();
   }
 
   public BaseDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
     super(owner, modal);
-    this.init(owner);
+    this.init();
     this.setTextArea(txaSource);
   }
 
   /**
    * 初始化界面
    */
-  private void init(Window owner) {
-    this.owner = owner;
+  private void init() {
     this.setResizable(false);
     this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
   }
@@ -73,7 +74,7 @@ public abstract class BaseDialog extends JDialog {
   @Override
   public void setVisible(boolean visible) {
     if (!this.isVisible() && visible) {
-      this.setLocationRelativeTo(this.owner);
+      this.setLocationRelativeTo(this.getOwner());
     }
     super.setVisible(visible);
   }
@@ -88,4 +89,17 @@ public abstract class BaseDialog extends JDialog {
       this.txaSource = txaSource;
     }
   }
+
+  /**
+   * 回收资源
+   */
+  public void destroy() {
+    this.txaSource = null;
+    this.keyAdapter.destroy();
+    this.buttonKeyAdapter.destroy();
+    this.keyAdapter = null;
+    this.buttonKeyAdapter = null;
+    this.dispose();
+  }
+
 }

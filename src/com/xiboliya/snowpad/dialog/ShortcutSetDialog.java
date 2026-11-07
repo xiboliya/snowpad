@@ -31,7 +31,6 @@ import javax.swing.border.EtchedBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -70,8 +69,6 @@ public class ShortcutSetDialog extends BaseDialog implements ActionListener {
   private BaseButton btnCancel = new BaseButton("取消");
   private boolean isOk = false; // 用于标识是否点击了确定按钮
   private String keyName = ""; // 功能名称
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
   public ShortcutSetDialog(JDialog owner, boolean modal, String keyName) {
     super(owner, modal);

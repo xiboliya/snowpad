@@ -43,7 +43,6 @@ import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.common.CurrentLines;
@@ -87,7 +86,6 @@ public class SignIdentifierDialog extends BaseDialog implements ActionListener,
   private BaseTextField txtModifier = new BaseTextField(".", true, ".{0,2}"); // 限制用户输入的字符数量不能超过2个
   private JCheckBox chkSkipEmptyLine = new JCheckBox("跳过空行(S)", false);
   private JTextArea txaView = new JTextArea();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
   private EtchedBorder etchedBorder = new EtchedBorder();
   private MouseAdapter mouseAdapter = null;
   private String strSignIdentifier = ""; // 当前选中的符号或编号字符串

@@ -32,7 +32,6 @@ import javax.swing.border.TitledBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.util.Util;
 
@@ -61,7 +60,6 @@ public class InformationDialog extends BaseDialog implements ActionListener {
   private JTextArea txaFile = new JTextArea();
   private JTextArea txaDoc = new JTextArea();
   private BaseButton btnOk = new BaseButton(" 确定 ");
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
   public InformationDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {

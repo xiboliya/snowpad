@@ -37,7 +37,6 @@ import javax.swing.table.TableRowSorter;
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
 import com.xiboliya.snowpad.base.BaseDefaultTableModel;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
 import com.xiboliya.snowpad.util.Util;
@@ -63,8 +62,6 @@ public class FavoriteManageDialog extends BaseDialog implements ActionListener, 
   private BaseButton btnMoveUp = new BaseButton("上移");
   private BaseButton btnMoveDown = new BaseButton("下移");
   private BaseButton btnCancel = new BaseButton("取消");
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private Vector<Vector<String>> cells = new Vector<Vector<String>>();
   private Vector<String> cellsTitle = new Vector<String>();
   private BaseDefaultTableModel baseDefaultTableModel = null;

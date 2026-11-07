@@ -2889,147 +2889,147 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.openFileChooser = null;
     this.saveFileChooser = null;
     if (this.favoriteManageDialog != null) {
-      this.favoriteManageDialog.dispose();
+      this.favoriteManageDialog.destroy();
       this.favoriteManageDialog = null;
     }
     if (this.fontDialog != null) {
-      this.fontDialog.dispose();
+      this.fontDialog.destroy();
       this.fontDialog = null;
     }
     if (this.findReplaceDialog != null) {
-      this.findReplaceDialog.dispose();
+      this.findReplaceDialog.destroy();
       this.findReplaceDialog = null;
     }
     if (this.gotoDialog != null) {
-      this.gotoDialog.dispose();
+      this.gotoDialog.destroy();
       this.gotoDialog = null;
     }
     if (this.bookmarkPreviewDialog != null) {
-      this.bookmarkPreviewDialog.dispose();
+      this.bookmarkPreviewDialog.destroy();
       this.bookmarkPreviewDialog = null;
     }
     if (this.aboutDialog != null) {
-      this.aboutDialog.dispose();
+      this.aboutDialog.destroy();
       this.aboutDialog = null;
     }
     if (this.tabSetDialog != null) {
-      this.tabSetDialog.dispose();
+      this.tabSetDialog.destroy();
       this.tabSetDialog = null;
     }
     if (this.autoCompleteDialog != null) {
-      this.autoCompleteDialog.dispose();
+      this.autoCompleteDialog.destroy();
       this.autoCompleteDialog = null;
     }
     if (this.shortcutManageDialog != null) {
-      this.shortcutManageDialog.dispose();
+      this.shortcutManageDialog.destroy();
       this.shortcutManageDialog = null;
     }
     if (this.preferencesDialog != null) {
-      this.preferencesDialog.dispose();
+      this.preferencesDialog.destroy();
       this.preferencesDialog = null;
     }
     if (this.insertCharDialog != null) {
-      this.insertCharDialog.dispose();
+      this.insertCharDialog.destroy();
       this.insertCharDialog = null;
     }
     if (this.insertDateDialog != null) {
-      this.insertDateDialog.dispose();
+      this.insertDateDialog.destroy();
       this.insertDateDialog = null;
     }
     if (this.fileEncodingDialog != null) {
-      this.fileEncodingDialog.dispose();
+      this.fileEncodingDialog.destroy();
       this.fileEncodingDialog = null;
     }
     if (this.slicingFileDialog != null) {
-      this.slicingFileDialog.dispose();
+      this.slicingFileDialog.destroy();
       this.slicingFileDialog = null;
     }
     if (this.batchRemoveDialog != null) {
-      this.batchRemoveDialog.dispose();
+      this.batchRemoveDialog.destroy();
       this.batchRemoveDialog = null;
     }
     if (this.batchInsertDialog != null) {
-      this.batchInsertDialog.dispose();
+      this.batchInsertDialog.destroy();
       this.batchInsertDialog = null;
     }
     if (this.batchSeparateDialog != null) {
-      this.batchSeparateDialog.dispose();
+      this.batchSeparateDialog.destroy();
       this.batchSeparateDialog = null;
     }
     if (this.batchJoinDialog != null) {
-      this.batchJoinDialog.dispose();
+      this.batchJoinDialog.destroy();
       this.batchJoinDialog = null;
     }
     if (this.signIdentifierDialog != null) {
-      this.signIdentifierDialog.dispose();
+      this.signIdentifierDialog.destroy();
       this.signIdentifierDialog = null;
     }
     if (this.informationDialog != null) {
-      this.informationDialog.dispose();
+      this.informationDialog.destroy();
       this.informationDialog = null;
     }
     if (this.windowManageDialog != null) {
-      this.windowManageDialog.dispose();
+      this.windowManageDialog.destroy();
       this.windowManageDialog = null;
     }
     if (this.calculatorDialog != null) {
-      this.calculatorDialog.dispose();
+      this.calculatorDialog.destroy();
       this.calculatorDialog = null;
     }
     if (this.hashDialog != null) {
-      this.hashDialog.dispose();
+      this.hashDialog.destroy();
       this.hashDialog = null;
     }
     if (this.encryptDecryptDialog != null) {
-      this.encryptDecryptDialog.dispose();
+      this.encryptDecryptDialog.destroy();
       this.encryptDecryptDialog = null;
     }
     if (this.urlEncodeDecodeDialog != null) {
-      this.urlEncodeDecodeDialog.dispose();
+      this.urlEncodeDecodeDialog.destroy();
       this.urlEncodeDecodeDialog = null;
     }
     if (this.cuttingFileDialog != null) {
-      this.cuttingFileDialog.dispose();
+      this.cuttingFileDialog.destroy();
       this.cuttingFileDialog = null;
     }
     if (this.mergeFileDialog != null) {
-      this.mergeFileDialog.dispose();
+      this.mergeFileDialog.destroy();
       this.mergeFileDialog = null;
     }
     if (this.changeEncodingDialog != null) {
-      this.changeEncodingDialog.dispose();
+      this.changeEncodingDialog.destroy();
       this.changeEncodingDialog = null;
     }
     if (this.changeLineSeparatorDialog != null) {
-      this.changeLineSeparatorDialog.dispose();
+      this.changeLineSeparatorDialog.destroy();
       this.changeLineSeparatorDialog = null;
     }
     if (this.textConvertDialog != null) {
-      this.textConvertDialog.dispose();
+      this.textConvertDialog.destroy();
       this.textConvertDialog = null;
     }
     if (this.numberConvertDialog != null) {
-      this.numberConvertDialog.dispose();
+      this.numberConvertDialog.destroy();
       this.numberConvertDialog = null;
     }
     if (this.timeStampConvertDialog != null) {
-      this.timeStampConvertDialog.dispose();
+      this.timeStampConvertDialog.destroy();
       this.timeStampConvertDialog = null;
     }
     if (this.unitConvertDialog != null) {
-      this.unitConvertDialog.dispose();
+      this.unitConvertDialog.destroy();
       this.unitConvertDialog = null;
     }
     if (this.trigonometricDialog != null) {
-      this.trigonometricDialog.dispose();
+      this.trigonometricDialog.destroy();
       this.trigonometricDialog = null;
     }
     if (this.testQuestionDialog != null) {
-      this.testQuestionDialog.dispose();
+      this.testQuestionDialog.destroy();
       this.testQuestionDialog = null;
     }
     if (this.helpDialog != null) {
-      this.helpDialog.dispose();
+      this.helpDialog.destroy();
       this.helpDialog = null;
     }
   }
@@ -3259,7 +3259,7 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     for (int i = 1; i < count; i++) {
       JMenuItem item = this.menuFavorites.getItem(1);
       item.removeActionListener(this);
-      this.menuFavorites.remove(1);
+      this.menuFavorites.remove(item);
     }
     for (String path : sortedPaths) {
       this.addFavorite(path);

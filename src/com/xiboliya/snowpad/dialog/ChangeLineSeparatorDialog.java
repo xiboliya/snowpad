@@ -51,7 +51,6 @@ import javax.swing.event.ListSelectionListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
 import com.xiboliya.snowpad.common.CharEncoding;
 import com.xiboliya.snowpad.common.FileExt;
@@ -82,8 +81,6 @@ public class ChangeLineSeparatorDialog extends BaseDialog implements ActionListe
   private JCheckBox chkRetainSource = new JCheckBox("转换后保留源文件(R)", true);
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
   private LineSeparator lineSeparator = LineSeparator.DEFAULT;
 

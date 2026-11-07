@@ -35,7 +35,6 @@ import javax.swing.event.ChangeListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextAreaSpecial;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.common.LineSeparator;
@@ -53,8 +52,6 @@ public class EncryptDecryptDialog extends BaseDialog implements ActionListener, 
   private static final String[] DIGEST_TYPES = new String[] {"Base64"}; // 加密的类型
   private JPanel pnlMain = (JPanel) this.getContentPane();
   private JTabbedPane tpnMain = new JTabbedPane();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   // 加密
   private JPanel pnlEncrypt = new JPanel();
   private JLabel lblTextE = new JLabel("输入文本：");

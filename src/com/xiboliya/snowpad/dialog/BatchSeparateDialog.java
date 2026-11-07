@@ -28,7 +28,6 @@ import javax.swing.border.TitledBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -52,8 +51,6 @@ public class BatchSeparateDialog extends BaseDialog implements ActionListener {
   private BaseTextField txtOffset = new BaseTextField(true, "\\d*"); // 限制用户只能输入数字
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private ButtonGroup bgpLineStartEnd = new ButtonGroup();
 
   public BatchSeparateDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {

@@ -32,7 +32,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeSelectionModel;
 
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTreeNode;
 import com.xiboliya.snowpad.util.Util;
 
@@ -51,7 +50,6 @@ public class HelpDialog extends BaseDialog implements TreeSelectionListener {
   private BaseTreeNode treeNode = new BaseTreeNode(Util.SOFTWARE);
   private JTree treeMain = new JTree(treeNode);
   private JTextArea txaMain = new JTextArea();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
 
   public HelpDialog(JFrame owner, boolean modal) {
     super(owner, modal);

@@ -26,7 +26,6 @@ import javax.swing.JPanel;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.util.Util;
 import com.xiboliya.snowpad.window.TipsWindow;
@@ -45,8 +44,6 @@ public class TabSetDialog extends BaseDialog implements ActionListener {
   private JCheckBox chkReplaceBySpace = new JCheckBox("以空格代替Tab键(R)", false);
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private int tabSize = Util.DEFAULT_TABSIZE; // Tab键所占字符数
   private boolean isReplaceBySpace = false; // 以空格代替Tab键
 

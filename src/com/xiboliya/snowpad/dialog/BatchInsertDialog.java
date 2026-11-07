@@ -28,7 +28,6 @@ import javax.swing.border.TitledBorder;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -52,8 +51,6 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
   private JPanel pnlLineStartEnd = new JPanel(new GridLayout(2, 1));
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private ButtonGroup bgpLineStartEnd = new ButtonGroup();
 
   public BatchInsertDialog(JFrame owner, boolean modal, BaseTextArea txaSource) {
@@ -92,8 +89,8 @@ public class BatchInsertDialog extends BaseDialog implements ActionListener {
     this.pnlMain.add(this.pnlLineStartEnd);
     this.radLineStart.setMnemonic('S');
     this.radLineEnd.setMnemonic('E');
-    this.bgpLineStartEnd.add(radLineStart);
-    this.bgpLineStartEnd.add(radLineEnd);
+    this.bgpLineStartEnd.add(this.radLineStart);
+    this.bgpLineStartEnd.add(this.radLineEnd);
     this.radLineStart.setSelected(true);
     this.btnOk.setBounds(115, 50, 85, Util.BUTTON_HEIGHT);
     this.btnCancel.setBounds(115, 85, 85, Util.BUTTON_HEIGHT);

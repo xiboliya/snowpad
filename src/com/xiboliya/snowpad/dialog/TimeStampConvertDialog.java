@@ -39,7 +39,6 @@ import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
@@ -56,8 +55,6 @@ public class TimeStampConvertDialog extends BaseDialog implements ActionListener
   private static final String[] TIMESTAMP_UNIT_TYPES = new String[] {"毫秒(ms)", "秒(s)"};
   private static final String[] DATE_FORMATS = new String[] {"yyyy-MM-dd HH:mm:ss:SSS", "yyyy-MM-dd HH:mm:ss"};
   private JPanel pnlMain = (JPanel) this.getContentPane();
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private JTabbedPane tpnMain = new JTabbedPane();
   // 时间戳转时间
   private JPanel pnlStampToTime = new JPanel();

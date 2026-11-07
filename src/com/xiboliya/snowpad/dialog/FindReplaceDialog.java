@@ -44,7 +44,6 @@ import javax.swing.event.DocumentListener;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextArea;
 import com.xiboliya.snowpad.base.BaseTextField;
@@ -79,8 +78,6 @@ public class FindReplaceDialog extends BaseDialog implements ActionListener,
   private boolean addBookmark = false; // 标记时添加书签
   private boolean clearBookmark = false; // 标记时清除已有书签
   private boolean clearMark = false; // 标记时清除已有标记
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
   private String strFind = ""; // 查找的字符串
   private Matcher matcher = null; // 通过解释Pattern对指定文本执行匹配操作的引擎
   // 查找

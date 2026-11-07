@@ -43,7 +43,6 @@ import javax.swing.JTextArea;
 
 import com.xiboliya.snowpad.base.BaseButton;
 import com.xiboliya.snowpad.base.BaseDialog;
-import com.xiboliya.snowpad.base.BaseKeyAdapter;
 import com.xiboliya.snowpad.base.BaseRadioButton;
 import com.xiboliya.snowpad.base.BaseTextField;
 import com.xiboliya.snowpad.chooser.OpenFileChooser;
@@ -73,8 +72,6 @@ public class CuttingFileDialog extends BaseDialog implements ActionListener, Dro
   private ButtonGroup bgpCut = new ButtonGroup();
   private BaseButton btnOk = new BaseButton("确定");
   private BaseButton btnCancel = new BaseButton("取消");
-  private BaseKeyAdapter keyAdapter = new BaseKeyAdapter(this);
-  private BaseKeyAdapter buttonKeyAdapter = new BaseKeyAdapter(this, false);
 
   public CuttingFileDialog(JFrame owner, boolean modal) {
     super(owner, modal);
