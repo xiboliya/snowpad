@@ -2808,3 +2808,5 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2026-11-08
 1.优化文本域绘制当前行背景色的逻辑，行高更精确。
 src/com/xiboliya/snowpad/base/BaseTextArea.java
+2.查找结果面板中，调整查找信息行、文件路径行的背景色，并当光标处于此2行时背景色会与其他行的背景色叠加，便于分辨出当前行。
+src/com/xiboliya/snowpad/panel/SearchResultPanel.java
