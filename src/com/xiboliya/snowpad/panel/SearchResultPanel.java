@@ -61,18 +61,28 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
   private static final long serialVersionUID = 1L;
   private static final String prefixLine = "Line ";
   private static final ImageIcon CLOSE_ICON = new ImageIcon(ClassLoader.getSystemResource("res/close.png")); // 关闭图标
-  private static final Color HEADER_COLOR_TITLE = new Color(0, 255, 0, 30); // 查找信息行的背景色
-  private static final Color HEADER_COLOR_PATH = new Color(255, 0, 0, 30); // 文件路径行的背景色
+  private static final Color HEADER_COLOR_TITLE = new Color(255, 0, 0, 30); // 查找信息行的背景色
+  private static final Color HEADER_COLOR_PATH = new Color(0, 255, 0, 30); // 文件路径行的背景色
   private LinkedList<SearchResult> searchResults = new LinkedList<SearchResult>();
   private JLabel lblTitleText = new JLabel("查找结果");
   private BaseButton btnTitleClose = new BaseButton();
   private LinkedList<Integer> blockStartLines = new LinkedList<Integer>(); // 每个搜索结果块的起始行号列表
+  private JPanel pnlTitle = new JPanel();
+  private BorderLayout layoutTitle = new BorderLayout();
+  private BorderLayout layout = new BorderLayout();
+  private SnowPadFrame owner;
+  private Color color = new Color(0, 0, 0, 0);
+  private JPopupMenu popMenuMain = new JPopupMenu();
+  private JMenuItem itemPopCopyCurrentLine = new JMenuItem("复制当前行(C)", 'C');
+  private JMenuItem itemPopRemoveCurrent = new JMenuItem("移除当前结果(R)", 'R');
+  private JMenuItem itemPopClear = new JMenuItem("清空结果(L)", 'L');
   private BaseTextArea txaMain = new BaseTextArea() {
     private static final long serialVersionUID = 1L;
 
     /**
      * 绘制组件，在文本绘制前先绘制头部行（查找信息行、文件路径行）的背景色，
-     * 并在光标处于头部行时不绘制当前行背景，使头部行背景色保持不变。
+     * 再由父类绘制文本和当前行背景。当光标处于头部行时，
+     * 当前行背景会叠加在头部行背景之上，形成两者的叠加色。
      */
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -83,41 +93,25 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
       // 绘制头部行背景
       paintHeaderBackgrounds(graphics);
 
-      // 若当前光标不在头部行，则绘制当前行背景
-      if (!isCurrentLineHeader()) {
-        graphics.setColor(Util.setting.colorStyle.lineBackColor);
-        try {
-          Rectangle rect = modelToView(getCaretPosition());
-          if (rect != null) {
-            graphics.fillRect(0, (int) rect.getY(), getWidth(), getFont().getSize());
-          }
-        } catch (Exception x) {
-          // x.printStackTrace();
-        }
-      }
-
-      // 临时将当前行背景色设为透明，防止BaseTextArea.paintComponent在头部行上绘制当前行背景
-      Color savedColor = Util.setting.colorStyle.lineBackColor;
-      Util.setting.colorStyle.lineBackColor = new Color(0, 0, 0, 0);
-      super.paintComponent(graphics); // 绘制文本（因非不透明，不会填充背景），绘制透明当前行背景（无操作），释放graphics
-      Util.setting.colorStyle.lineBackColor = savedColor; // 恢复原始颜色
+      // 绘制文本及当前行背景；光标处于头部行时，当前行背景叠加在头部行背景之上
+      super.paintComponent(graphics);
     }
 
     /**
      * 绘制每个搜索结果块的前两行（查找信息行和文件路径行）的背景色
      */
     private void paintHeaderBackgrounds(Graphics g) {
-      int lineHeight = getFontMetrics(getFont()).getHeight();
+      int lineHeight = this.getFontMetrics(this.getFont()).getHeight();
       for (int startLine : blockStartLines) {
         try {
           // 第一行：查找信息行
-          Rectangle rect1 = modelToView(getLineStartOffset(startLine));
+          Rectangle rect1 = this.modelToView(getLineStartOffset(startLine));
           if (rect1 != null) {
             g.setColor(HEADER_COLOR_TITLE);
             g.fillRect(0, rect1.y, getWidth(), lineHeight);
           }
           // 第二行：文件路径行
-          Rectangle rect2 = modelToView(getLineStartOffset(startLine + 1));
+          Rectangle rect2 = this.modelToView(getLineStartOffset(startLine + 1));
           if (rect2 != null) {
             g.setColor(HEADER_COLOR_PATH);
             g.fillRect(0, rect2.y, getWidth(), lineHeight);
@@ -127,34 +121,8 @@ public class SearchResultPanel extends JPanel implements ActionListener, CaretLi
         }
       }
     }
-
-    /**
-     * 判断当前光标所在行是否为头部行（查找信息行或文件路径行）
-     */
-    private boolean isCurrentLineHeader() {
-      try {
-        int caretLine = getLineOfOffset(getCaretPosition());
-        for (int startLine : blockStartLines) {
-          if (caretLine == startLine || caretLine == startLine + 1) {
-            return true;
-          }
-        }
-      } catch (Exception x) {
-        // x.printStackTrace();
-      }
-      return false;
-    }
   };
   private JScrollPane srpMain = new JScrollPane(this.txaMain);
-  private JPanel pnlTitle = new JPanel();
-  private BorderLayout layoutTitle = new BorderLayout();
-  private BorderLayout layout = new BorderLayout();
-  private SnowPadFrame owner;
-  private Color color = new Color(0, 0, 0, 0);
-  private JPopupMenu popMenuMain = new JPopupMenu();
-  private JMenuItem itemPopCopyCurrentLine = new JMenuItem("复制当前行(C)", 'C');
-  private JMenuItem itemPopRemoveCurrent = new JMenuItem("移除当前结果(R)", 'R');
-  private JMenuItem itemPopClear = new JMenuItem("清空结果(L)", 'L');
 
   public SearchResultPanel(SnowPadFrame owner) {
     this.owner = owner;
