@@ -2804,3 +2804,7 @@ src/com/xiboliya/snowpad/dialog/UnitConvertDialog.java
 src/com/xiboliya/snowpad/dialog/UrlEncodeDecodeDialog.java
 src/com/xiboliya/snowpad/dialog/WindowManageDialog.java
 src/com/xiboliya/snowpad/frame/SnowPadFrame.java
+
+2026-11-08
+1.优化文本域绘制当前行背景色的逻辑，行高更精确。
+src/com/xiboliya/snowpad/base/BaseTextArea.java
