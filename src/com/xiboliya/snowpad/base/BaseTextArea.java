@@ -246,9 +246,8 @@ public class BaseTextArea extends JTextArea {
     try {
       Rectangle rectangle = this.modelToView(this.getCaretPosition());
       if (rectangle != null) {
-        double x = rectangle.getX();
-        double y = rectangle.getY();
-        graphics.fillRect(0, (int)y, this.getWidth(), this.getFont().getSize());
+        int lineHeight = this.getFontMetrics(this.getFont()).getHeight();
+        graphics.fillRect(0, rectangle.y, this.getWidth(), lineHeight);
       }
     } catch (Exception x) {
       // x.printStackTrace();
