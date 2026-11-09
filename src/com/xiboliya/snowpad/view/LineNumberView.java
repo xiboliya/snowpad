@@ -43,8 +43,8 @@ public class LineNumberView extends JComponent {
   private static final int LINE_NUMBER_HEIGHT = 2000000000; // 行号组件支持的最大高度
   private static final int LINE_NUMBER_MARGIN = 3; // 行号组件的左边距
   private static final int LINE_NUMBER_MARGIN_RIGHT = 12; // 行号组件的左边距
-  private static final int LINE_NUMBER_START_OFFSET = 2; // 行号组件的起始垂直偏移量，用于对齐文本域的各行
   private int lineHeight = 0; // 当前字体中文本行的标准高度。它是相邻文本行基线之间的距离，是leading、ascent和descent的总和。
+  private int ascent = 0; // 当前字体的ascent（基线以上的高度）。绘制行号时以基线定位，使行号与文本域中同行的文字垂直对齐。
   private int maxRowWidth = 0; // 组件显示区域中，最宽一行的字符串宽度
   private FontMetrics fontMetrics = null; // 定义字体规格的对象，该对象封装将在屏幕上显示的字体的有关信息
   private BaseTextArea txaSource = null; // 想要显示行号的文本域
@@ -187,6 +187,12 @@ public class LineNumberView extends JComponent {
     super.setFont(font);
     this.fontMetrics = this.getFontMetrics(this.getFont());
     this.lineHeight = this.fontMetrics.getHeight();
+    // 以文本域实际使用的字体计算ascent，保证行号基线与文本基线一致
+    if (this.txaSource != null) {
+      this.ascent = this.txaSource.getFontMetrics(this.txaSource.getFont()).getAscent();
+    } else {
+      this.ascent = this.fontMetrics.getAscent();
+    }
     if (this.txaSource != null) {
       this.setPreferredLine(this.txaSource.getLineCount());
     } else {
@@ -248,7 +254,7 @@ public class LineNumberView extends JComponent {
         if (lineRect == null) {
           continue;
         }
-        int lineY = lineRect.y + this.lineHeight - LINE_NUMBER_START_OFFSET;
+        int lineY = lineRect.y + this.ascent; // 按基线定位，与文本同行的文字垂直对齐
         // 如果已超出可见区域底部，则停止绘制
         if (lineY > rect.y + rect.height) {
           break;
@@ -280,7 +286,7 @@ public class LineNumberView extends JComponent {
         if (lineRect == null) {
           continue;
         }
-        int height = lineRect.y + (this.lineHeight - bookmarkWidth) / 2 + LINE_NUMBER_START_OFFSET;
+        int height = lineRect.y + (this.lineHeight - bookmarkWidth) / 2; // 在行高范围内垂直居中
         // 绘制书签
         g.fillOval(width - LINE_NUMBER_MARGIN_RIGHT, height, bookmarkWidth, bookmarkWidth);
       } catch (BadLocationException x) {
