@@ -2810,3 +2810,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 src/com/xiboliya/snowpad/base/BaseTextArea.java
 2.查找结果面板中，调整查找信息行、文件路径行的背景色，并当光标处于此2行时背景色会与其他行的背景色叠加，便于分辨出当前行。
 src/com/xiboliya/snowpad/panel/SearchResultPanel.java
+
+2026-11-09
+1.解决行号栏中显示的行号与文本域中对应行中的文字垂直方向有偏移的问题。
+src/com/xiboliya/snowpad/view/LineNumberView.java
