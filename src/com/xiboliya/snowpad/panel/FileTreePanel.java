@@ -21,7 +21,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
@@ -63,6 +62,7 @@ import com.xiboliya.snowpad.base.BaseTreeCellRenderer;
 import com.xiboliya.snowpad.base.BaseTreeNode;
 import com.xiboliya.snowpad.dialog.RenameDialog;
 import com.xiboliya.snowpad.frame.SnowPadFrame;
+import com.xiboliya.snowpad.manager.ListenerManager;
 import com.xiboliya.snowpad.util.Util;
 
 /**
@@ -373,8 +373,7 @@ public class FileTreePanel extends JPanel implements ActionListener, TreeExpansi
     File file = new File(node.getContent());
     String name = file.getName();
     if (!Util.isTextEmpty(name)) {
-      StringSelection ss = new StringSelection(name);
-      Util.clipboard.setContents(ss, ss);
+      ListenerManager.getInstance().postClipboardEvent(name);
     }
   }
 
