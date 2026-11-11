@@ -2814,3 +2814,7 @@ src/com/xiboliya/snowpad/panel/SearchResultPanel.java
 2026-11-09
 1.解决行号栏中显示的行号与文本域中对应行中的文字垂直方向有偏移的问题。
 src/com/xiboliya/snowpad/view/LineNumberView.java
+
+2026-11-11
+1.解决在“文件树”面板的右键快捷菜单中点击“复制文件名”菜单时，没有及时刷新“粘贴”菜单状态的问题。
+src/com/xiboliya/snowpad/panel/FileTreePanel.java
