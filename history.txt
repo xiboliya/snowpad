@@ -2818,3 +2818,7 @@ src/com/xiboliya/snowpad/view/LineNumberView.java
 2026-11-11
 1.解决在“文件树”面板的右键快捷菜单中点击“复制文件名”菜单时，没有及时刷新“粘贴”菜单状态的问题。
 src/com/xiboliya/snowpad/panel/FileTreePanel.java
+
+******************************
+git tag SnowPad-V6.1-20261111
+******************************
