@@ -48,7 +48,9 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
+import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoManager;
+import javax.swing.undo.UndoableEdit;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -563,6 +565,10 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
   private FileTreePanel pnlFileTree = new FileTreePanel(this); // 文件树面板
   private SearchResultPanel pnlSearchResult = new SearchResultPanel(this); // 查找结果面板
   private UndoManager undoManager = null; // 撤销管理器
+  private CompoundEdit pendingEdit = null; // 当前操作中累积的编辑，用于合并为一个撤销单元
+  private UndoManager pendingUndoManager = null; // 累积编辑所属的撤销管理器
+  private BaseTextArea pendingTextArea = null; // 累积编辑所属的文本域
+  private boolean isUndoRedoInProgress = false; // 是否正在执行撤销/重做，此时不再记录新的编辑
   private SettingAdapter settingAdapter = null; // 用于解析和保存软件配置文件的工具类
   private boolean checking = false; // 是否正在检测所有文件的状态
   private boolean isInTextAreaHistory = false; // 是否处于最近编辑的文本域的历史状态
@@ -4879,10 +4885,18 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (this.txaMain.getFrozen()) {
       return;
     }
-    if (this.undoManager.canUndo()) { // 判断是否可以撤销
-      this.undoManager.undo(); // 执行撤销操作
-      this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() - 1); // 撤销标识符递减
-      this.updateStateAll();
+    int caretPos = this.txaMain.getCaretPosition(); // 记录撤销前的光标位置
+    this.isUndoRedoInProgress = true; // 撤销过程中产生的文档变更不再记录为新的编辑
+    try {
+      if (this.undoManager.canUndo()) { // 判断是否可以撤销
+        this.undoManager.undo(); // 执行撤销操作
+        this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() - 1); // 撤销标识符递减
+        this.updateStateAll();
+        // 撤销时会重新插入被删除的整段文本，光标会被推到文本末尾，这里恢复为撤销前的位置
+        this.restoreCaretPosition(caretPos);
+      }
+    } finally {
+      this.isUndoRedoInProgress = false;
     }
     this.setAfterUndoRedo();
   }
@@ -4894,12 +4908,36 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (this.txaMain.getFrozen()) {
       return;
     }
-    if (this.undoManager.canRedo()) { // 判断是否可以重做
-      this.undoManager.redo(); // 执行重做操作
-      this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // 撤销标识符递增
-      this.updateStateAll();
+    int caretPos = this.txaMain.getCaretPosition(); // 记录重做前的光标位置
+    this.isUndoRedoInProgress = true; // 重做过程中产生的文档变更不再记录为新的编辑
+    try {
+      if (this.undoManager.canRedo()) { // 判断是否可以重做
+        this.undoManager.redo(); // 执行重做操作
+        this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // 撤销标识符递增
+        this.updateStateAll();
+        // 重做时会重新插入整段文本，光标会被推到文本末尾，这里恢复为重做前的位置
+        this.restoreCaretPosition(caretPos);
+      }
+    } finally {
+      this.isUndoRedoInProgress = false;
     }
     this.setAfterUndoRedo();
+  }
+
+  /**
+   * 将光标恢复到指定位置，如果超出文本长度则定位到文本末尾
+   * 
+   * @param caretPos 待恢复的光标位置
+   */
+  private void restoreCaretPosition(int caretPos) {
+    int length = this.txaMain.getText().length();
+    if (caretPos > length) {
+      caretPos = length;
+    }
+    if (caretPos < 0) {
+      caretPos = 0;
+    }
+    this.txaMain.setCaretPosition(caretPos);
   }
 
   /**
@@ -6201,6 +6239,9 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     this.txaMain.setStyleChanged(false);
     this.txaMain.setSaved(true);
     this.undoManager.discardAllEdits();
+    this.pendingEdit = null; // 丢弃打开文件过程中累积、尚未提交的编辑
+    this.pendingUndoManager = null;
+    this.pendingTextArea = null;
     this.txaMain.setUndoIndex(Util.DEFAULT_UNDO_INDEX); // 撤销标识符恢复默认值
     this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
     this.setMenuStateBackForward(); // 设置后退和前进菜单的状态
@@ -7175,14 +7216,60 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
    */
   @Override
   public void undoableEditHappened(UndoableEditEvent e) {
-    this.undoManager.addEdit(e.getEdit());
-    this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // 撤销标识符递增
+    // 正在执行撤销或重做时，文档的变更由撤销管理器自身负责，不再记录为新的编辑
+    if (this.isUndoRedoInProgress) {
+      return;
+    }
+    // 同一次操作可能产生多个文档编辑（例如替换文本等于"删除+插入"），合并为一个撤销单元
+    this.recordEdit(e.getEdit());
     this.setMenuStateUndoRedo(); // 设置撤销和重做菜单的状态
     this.setMenuStateByTextArea();
     this.txaMain.setTextChanged(true);
     this.updateStateAll();
     this.setTextPrefix();
     this.repaintLineNumberView(); // 文本变更后刷新行号栏
+  }
+
+  /**
+   * 累积一次操作中产生的文档编辑。
+   * 同一次Swing事件中产生的多个编辑会合并为一个撤销单元，并在该事件处理结束后统一提交，
+   * 从而解决"替换全部""排序"等操作第一次撤销只清空文本、需要按两次才能还原的问题。
+   * 
+   * @param edit 文档变更产生的编辑
+   */
+  private void recordEdit(UndoableEdit edit) {
+    if (this.pendingEdit == null) {
+      this.pendingEdit = new CompoundEdit();
+      this.pendingUndoManager = this.txaMain.getUndoManager();
+      this.pendingTextArea = this.txaMain;
+      SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+          commitEdit();
+        }
+      });
+    }
+    this.pendingEdit.addEdit(edit);
+  }
+
+  /**
+   * 提交已经累积的编辑，将其整体加入撤销管理器，作为一次撤销操作
+   */
+  private void commitEdit() {
+    CompoundEdit compound = this.pendingEdit;
+    UndoManager manager = this.pendingUndoManager;
+    BaseTextArea textArea = this.pendingTextArea;
+    if (compound == null || manager == null || textArea == null) {
+      return;
+    }
+    this.pendingEdit = null;
+    this.pendingUndoManager = null;
+    this.pendingTextArea = null;
+    compound.end();
+    if (compound.canUndo()) {
+      manager.addEdit(compound);
+      textArea.setUndoIndex(textArea.getUndoIndex() + 1); // 一次操作只递增一次撤销标识符
+      this.setMenuStateUndoRedo();
+    }
   }
 
   /**
