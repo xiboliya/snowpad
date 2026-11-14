@@ -20,12 +20,15 @@ package com.xiboliya.snowpad.dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -66,6 +69,27 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
   private BaseButton btnCancel = new BaseButton("关闭");
   private JLabel lblView = new JLabel();
   private EtchedBorder etchedBorder = new EtchedBorder();
+  private KeyAdapter arrowKeyAdapter = new KeyAdapter() {
+    public void keyPressed(KeyEvent e) {
+      JLabel lblSource = (JLabel) e.getSource();
+      switch (e.getKeyCode()) {
+      case KeyEvent.VK_LEFT:
+        moveFocus(lblSource, 0, -1);
+        break;
+      case KeyEvent.VK_RIGHT:
+        moveFocus(lblSource, 0, 1);
+        break;
+      case KeyEvent.VK_UP:
+        moveFocus(lblSource, -1, 0);
+        break;
+      case KeyEvent.VK_DOWN:
+        moveFocus(lblSource, 1, 0);
+        break;
+      default:
+        break;
+      }
+    }
+  };
   private MouseAdapter mouseAdapter = null;
 
   /**
@@ -158,6 +182,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
    */
   private JLabel createElement(String strElement) {
     JLabel lblElement = new JLabel(strElement);
+    lblElement.setFocusable(false); // 空白填充标签不允许获得焦点，避免焦点落在看不见的格子上
     if (!Util.isTextEmpty(strElement)) {
       lblElement.setHorizontalAlignment(SwingConstants.CENTER);
       lblElement.setFocusable(true); // 设置标签可以获得焦点
@@ -165,6 +190,7 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
       lblElement.setBorder(this.etchedBorder);
       lblElement.setBackground(Color.WHITE);
       lblElement.addKeyListener(this.keyAdapter);
+      lblElement.addKeyListener(this.arrowKeyAdapter); // 支持用方向键在标签之间切换
       lblElement.addFocusListener(this);
       lblElement.addMouseListener(this.mouseAdapter);
     }
@@ -238,5 +264,52 @@ public class InsertCharDialog extends BaseDialog implements ActionListener, Focu
   public void focusLost(FocusEvent e) {
     JLabel lblTemp = (JLabel) e.getSource();
     lblTemp.setBackground(Color.WHITE);
+  }
+
+  /**
+   * 沿指定方向把焦点移动到相邻的标签上，不可获得焦点的空标签会被跳过
+   * 
+   * @param lblSource 当前获得焦点的标签
+   * @param rowStep 行方向的步长，-1为向上，1为向下，0为不移动
+   * @param columnStep 列方向的步长，-1为向左，1为向右，0为不移动
+   */
+  private void moveFocus(JLabel lblSource, int rowStep, int columnStep) {
+    Container pnlParent = lblSource.getParent();
+    if (pnlParent == null || !(pnlParent.getLayout() instanceof GridLayout)) {
+      return;
+    }
+    int columnCount = ((GridLayout) pnlParent.getLayout()).getColumns();
+    int componentCount = pnlParent.getComponentCount();
+    int index = -1;
+    for (int i = 0; i < componentCount; i++) {
+      if (pnlParent.getComponent(i) == lblSource) {
+        index = i;
+        break;
+      }
+    }
+    if (index < 0 || columnCount <= 0) {
+      return;
+    }
+    int row = index / columnCount;
+    int column = index % columnCount;
+    while (true) {
+      row += rowStep;
+      column += columnStep;
+      if (row < 0 || column < 0 || column >= columnCount) {
+        return;
+      }
+      int target = row * columnCount + column;
+      if (target >= componentCount) {
+        return;
+      }
+      if (pnlParent.getComponent(target) instanceof JLabel) {
+        JLabel lblTarget = (JLabel) pnlParent.getComponent(target);
+        // 只有真正显示字符的格子才是有效的目标，空白填充格子一律跳过
+        if (lblTarget.isFocusable() && !Util.isTextEmpty(lblTarget.getText())) {
+          lblTarget.requestFocus();
+          return;
+        }
+      }
+    }
   }
 }
