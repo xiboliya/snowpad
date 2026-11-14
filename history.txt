@@ -2822,3 +2822,7 @@ src/com/xiboliya/snowpad/panel/FileTreePanel.java
 ******************************
 git tag SnowPad-V6.1-20261111
 ******************************
+
+2026-11-14
+1.解决文本域中进行全部替换、排序等全局文本变化的这种操作后，执行撤销/重做时会清空文本组件，执行第二次才会真正撤销/重做的问题。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
