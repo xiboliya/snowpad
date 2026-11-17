@@ -2829,3 +2829,7 @@ src/com/xiboliya/snowpad/frame/SnowPadFrame.java
 2.“插入字符”、“列表符号与编号”页面中支持使用方向键切换当前格子。
 src/com/xiboliya/snowpad/dialog/InsertCharDialog.java
 src/com/xiboliya/snowpad/dialog/SignIdentifierDialog.java
+
+2026-11-17
+1.解决文本域中撤销/重做时，焦点异常的问题。
+src/com/xiboliya/snowpad/frame/SnowPadFrame.java
