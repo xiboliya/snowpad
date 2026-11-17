@@ -4885,15 +4885,12 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (this.txaMain.getFrozen()) {
       return;
     }
-    int caretPos = this.txaMain.getCaretPosition(); // 记录撤销前的光标位置
     this.isUndoRedoInProgress = true; // 撤销过程中产生的文档变更不再记录为新的编辑
     try {
       if (this.undoManager.canUndo()) { // 判断是否可以撤销
         this.undoManager.undo(); // 执行撤销操作
         this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() - 1); // 撤销标识符递减
         this.updateStateAll();
-        // 撤销时会重新插入被删除的整段文本，光标会被推到文本末尾，这里恢复为撤销前的位置
-        this.restoreCaretPosition(caretPos);
       }
     } finally {
       this.isUndoRedoInProgress = false;
@@ -4908,15 +4905,12 @@ public class SnowPadFrame extends JFrame implements ActionListener, CaretListene
     if (this.txaMain.getFrozen()) {
       return;
     }
-    int caretPos = this.txaMain.getCaretPosition(); // 记录重做前的光标位置
     this.isUndoRedoInProgress = true; // 重做过程中产生的文档变更不再记录为新的编辑
     try {
       if (this.undoManager.canRedo()) { // 判断是否可以重做
         this.undoManager.redo(); // 执行重做操作
         this.txaMain.setUndoIndex(this.txaMain.getUndoIndex() + 1); // 撤销标识符递增
         this.updateStateAll();
-        // 重做时会重新插入整段文本，光标会被推到文本末尾，这里恢复为重做前的位置
-        this.restoreCaretPosition(caretPos);
       }
     } finally {
       this.isUndoRedoInProgress = false;
